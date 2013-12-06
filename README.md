@@ -1,7 +1,11 @@
 CFLint
 ======
 
+
 A statistical code analysis tool for Cold Fusion (in the spirit of FindBugs and Lint)
+
+<div><strong>Can you use it today? Functional? Yes</strong><br>
+<strong>Mature, flawless?  No, you can help.</strong></div>
 
 See the Jenkins/Hudson [plugin](https://github.com/ryaneberly/CFLint-plugin).
 

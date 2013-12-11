@@ -90,6 +90,7 @@ public class CFLint {
 				try {
 					process(src, file.getAbsolutePath());
 				} catch (final Exception e) {
+					e.printStackTrace();
 					bugs.add(new BugInfo.BugInfoBuilder().setMessageCode("FILE_ERROR")
 							.setFilename(file.getAbsolutePath()).setMessage(e.getMessage()).setSeverity("ERROR")
 							.build());

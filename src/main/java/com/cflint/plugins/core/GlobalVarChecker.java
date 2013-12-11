@@ -22,24 +22,27 @@ public class GlobalVarChecker implements CFLintScanner {
 
 	public void expression(final CFExpression expression, final Context context, final BugList bugs) {
 		if ((context.isInComponent() || context.isInFunction()) && expression instanceof cfFullVarExpression) {
-			CFExpression firstExpression = ((cfFullVarExpression) expression).getExpressions().get(0);
-			final String name = ((CFIdentifier)firstExpression).getName();
-			if (variables.contains(name.toUpperCase()) && !context.getCallStack().isVariable(name)
-					&& !context.getCallStack().isArgument(name)) {
-				Element elem = context.getElement();
-				final int line = elem.getSource().getRow(elem.getBegin());
-				final int column = elem.getSource().getColumn(elem.getBegin());
-				bugs.add(new BugInfo.BugInfoBuilder()
-						.setLine(line)
-						.setColumn(column + expression.getColumn())
-						.setMessageCode("GLOBAL_VAR")
-						.setSeverity("WARNING")
-						.setFilename(context.getFilename())
-						.setFunction(context.getFunctionName())
-						.setVariable(name)
-						.setMessage(
-								"Identifier " + name
-										+ " is global, referencing in a CFC or function should be avoided.").build());
+			final CFExpression firstExpression = ((cfFullVarExpression) expression).getExpressions().get(0);
+			if (firstExpression instanceof CFIdentifier) {
+				final String name = ((CFIdentifier) firstExpression).getName();
+				if (variables.contains(name.toUpperCase()) && !context.getCallStack().isVariable(name)
+						&& !context.getCallStack().isArgument(name)) {
+					final Element elem = context.getElement();
+					final int line = elem.getSource().getRow(elem.getBegin());
+					final int column = elem.getSource().getColumn(elem.getBegin());
+					bugs.add(new BugInfo.BugInfoBuilder()
+							.setLine(line)
+							.setColumn(column + expression.getColumn())
+							.setMessageCode("GLOBAL_VAR")
+							.setSeverity("WARNING")
+							.setFilename(context.getFilename())
+							.setFunction(context.getFunctionName())
+							.setVariable(name)
+							.setMessage(
+									"Identifier " + name
+											+ " is global, referencing in a CFC or function should be avoided.")
+							.build());
+				}
 			}
 		}
 	}

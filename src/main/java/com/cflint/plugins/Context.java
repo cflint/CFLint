@@ -10,6 +10,7 @@ public class Context {
 	final Element element;
 	final String functionName;
 	final boolean inAssignmentExpression;
+	boolean inComponent;
 	final StackHandler callStack;
 
 	public Context(final String filename, final Element element, final String functionName,
@@ -59,5 +60,13 @@ public class Context {
 			key.append(functionName.trim());
 		}
 		return key.toString();
+	}
+
+	public boolean isInComponent() {
+		return inComponent;
+	}
+
+	public void setInComponent(boolean inComponent) {
+		this.inComponent = inComponent;
 	}
 }

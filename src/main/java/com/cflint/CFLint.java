@@ -12,6 +12,7 @@ import com.cflint.plugins.CFLintScanner;
 import com.cflint.plugins.Context;
 import com.cflint.plugins.core.ArgDefChecker;
 import com.cflint.plugins.core.ArgVarChecker;
+import com.cflint.plugins.core.GlobalVarChecker;
 import com.cflint.plugins.core.NestedCFOutput;
 import com.cflint.plugins.core.OutputParmMissing;
 import com.cflint.plugins.core.TypedQueryNew;
@@ -46,6 +47,7 @@ public class CFLint {
 	StackHandler handler = new StackHandler();
 	boolean inFunction = false;
 	boolean inAssignment = false;
+	boolean inComponent = false;
 	BugList bugs;
 	List<CFLintScanner> extensions = new ArrayList<CFLintScanner>();
 
@@ -57,6 +59,8 @@ public class CFLint {
 		extensions.add(new ArgVarChecker());
 		extensions.add(new ArgDefChecker());
 		extensions.add(new OutputParmMissing());
+		extensions.add(new GlobalVarChecker());
+		
 		final CFLintFilter filter = CFLintFilter.createFilter();
 		bugs = new BugList(filter);
 	}
@@ -129,6 +133,8 @@ public class CFLint {
 	private void process(final Element elem, final String space, final String filename, final String functionName)
 			throws ParseException, IOException {
 		final Context context = new Context(filename, elem, functionName, inAssignment, handler);
+		context.setInComponent(inComponent);
+		
 		for (final CFLintScanner plugin : extensions) {
 			plugin.element(elem, context, bugs);
 		}
@@ -183,6 +189,12 @@ public class CFLint {
 			processStack(elem.getChildElements(), space + " ", filename, elem.getAttributeValue("name"));
 			inFunction = false;
 			handler.pop();
+		} else if (elem.getName().equals("cfcomponent")) {
+			inComponent = true;
+			handler.push("component");
+			processStack(elem.getChildElements(), space + " ", filename, elem.getAttributeValue("name"));
+			inComponent = false;
+			handler.pop();
 		} else {
 			processStack(elem.getChildElements(), space + " ", filename, functionName);
 		}
@@ -195,6 +207,8 @@ public class CFLint {
 	private void process(final CFScriptStatement expression, final String filename, final Element elem,
 			final String functionName) {
 		final Context context = new Context(filename, elem, functionName, inAssignment, handler);
+		context.setInComponent(inComponent);
+		
 		for (final CFLintScanner plugin : extensions) {
 			plugin.expression(expression, context, bugs);
 		}
@@ -206,7 +220,9 @@ public class CFLint {
 		} else if (expression instanceof CFExpressionStatement) {
 			process(((CFExpressionStatement) expression).getExpression(), filename, elem, functionName);
 		} else if (expression instanceof CFCompDeclStatement) {
+			inComponent = true;
 			process(((CFCompDeclStatement) expression).getBody(), filename, elem, functionName);
+			inComponent = false;
 		} else if (expression instanceof CFForStatement) {
 			process(((CFForStatement) expression).getInit(), filename, elem, functionName);
 			process(((CFForStatement) expression).getCond(), filename, elem, functionName);
@@ -244,6 +260,8 @@ public class CFLint {
 	private void process(final CFExpression expression, final String filename, final Element elem,
 			final String functionName) {
 		final Context context = new Context(filename, elem, functionName, inAssignment, handler);
+		context.setInComponent(inComponent);
+		
 		for (final CFLintScanner plugin : extensions) {
 			plugin.expression(expression, context, bugs);
 		}

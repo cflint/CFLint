@@ -94,6 +94,17 @@ public class StackHandler {
 		}
 		return false;
 	}
+
+	public boolean isArgument(final String name) {
+		final Iterator<Stack> iter = varStack.iterator();
+		while (iter.hasNext()) {
+			final Stack vars = iter.next();
+			if (vars.getArguments().contains(name.toUpperCase())) {
+				return true;
+			}
+		}
+		return false;
+	}
 	public boolean checkVariable(final String name) {
 		if (excludes.contains(name.toUpperCase())) {
 			return true;

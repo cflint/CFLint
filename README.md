@@ -1,4 +1,4 @@
-CFLint
+![CFLint](/src/main/resources/CFLint-logo.jpg)
 ======
 
 

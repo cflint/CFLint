@@ -196,6 +196,14 @@ public class CFLint {
 			processStack(elem.getChildElements(), space + " ", filename, elem.getAttributeValue("name"));
 			inComponent = false;
 			handler.pop();
+		} else if (elem.getName().equalsIgnoreCase("cfquery")) {
+			List<Element> list = elem.getAllElements();
+			processStack(list.subList(1, list.size()), space + " ", filename, functionName);
+		} else if (elem.getName().equalsIgnoreCase("cfqueryparam")) {
+			if(elem.getAttributeValue("value") != null){
+				final CFScriptStatement scriptStatement = new CFMLParser().parseScript(elem.getAttributeValue("value") +";");
+				process(scriptStatement, filename, elem, functionName);
+			}
 		} else {
 			processStack(elem.getChildElements(), space + " ", filename, functionName);
 		}

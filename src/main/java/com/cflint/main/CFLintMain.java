@@ -41,7 +41,9 @@ public class CFLintMain {
 	String htmlOutFile = "cflint-result.html";
 	String htmlStyle = "plain.xsl";
 	String textOutFile = "cflint-result.txt";
-
+	String [] includeCodes = null;
+	String [] excludeCodes = null;
+	
 	public static void main(final String[] args) throws ParseException, IOException, TransformerException {
 		final Options options = new Options();
 		// add t option
@@ -106,6 +108,12 @@ public class CFLintMain {
 		}
 		if (cmd.hasOption("textfile")) {
 			main.textOutFile = cmd.getOptionValue("textfile");
+		}
+		if (cmd.hasOption("includeRule")) {
+			main.includeRule = Arrays.asList(cmd.getOptionValue("includeRule").split(","));
+		}
+		if (cmd.hasOption("excludeRule")) {
+			main.excludeRule = Arrays.asList(cmd.getOptionValue("excludeRule").split(","));
 		}
 		for (final Option option : cmd.getOptions()) {
 			System.out.println("Option " + option.getOpt() + " => " + option.getValue());
@@ -195,6 +203,12 @@ public class CFLintMain {
 			} catch (final TransformerException e) {
 				throw new IOException(e);
 			}
+		}
+		if(includeCodes != null){
+			cflint.getBugs().getFilter().includeCode(includeCodes);
+		}
+		if(excludeCodes != null){
+			cflint.getBugs().getFilter().excludeCode(excludeCodes);
 		}
 	}
 

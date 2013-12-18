@@ -71,6 +71,20 @@ public class TestCFBugs_ArgsUse {
 		cfBugs.process(cfcSrc,"test");
 		assertEquals(0,cfBugs.getBugs().getBugList().size());
 	}
+	
+	
+	@Test
+	public void testVarAndArgs_Struct() throws ParseException, IOException{
+		final String cfcSrc = "<cfcomponent>\r\n" +
+				"<cffunction name=\"test\">\r\n" +
+				"	<cfargument name=\"page\" default=\"\">\r\n" +
+				"	<cfset variables.instance.page = arguments.page />\r\n" +
+				"</cffunction>\r\n" +
+				"</cfcomponent>";
+		CFLint cfBugs = new CFLint(new ArgVarChecker());
+		cfBugs.process(cfcSrc,"test");
+		assertEquals(0,cfBugs.getBugs().getBugList().size());
+	}
 
 	
 	@Test

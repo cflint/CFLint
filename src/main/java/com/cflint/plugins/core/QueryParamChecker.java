@@ -29,9 +29,10 @@ public class QueryParamChecker implements CFLintScanner {
 						CFExpression argsExpression = javaexpression.getArguments().get(0);
 						if(argsExpression instanceof CFBinaryExpression){
 							bugs.add(new BugInfo.BugInfoBuilder().setMessageCode("QUERYPARAM_REQ")
-							.setMessage("setSql() statement should use .addParam() instead of #'s for security.").setVariable(varName.toString())
+							.setMessage("setSql() statement should use .addParam() instead of #'s for security.")
+							.setVariable(varName.toString())
 							.setFunction(context.getFunctionName()).setSeverity("WARNING")
-							.setFilename(context.getFilename()).setExpression(expression.Decompile(0))
+							.setFilename(context.getFilename()).setExpression(argsExpression.Decompile(0))
 							.build(expression, context.getElement()));
 							
 						}

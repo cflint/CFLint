@@ -13,7 +13,6 @@ import com.cflint.plugins.Context;
 public class TypedQueryNew implements CFLintScanner {
 
 	public void expression(final CFExpression expression, final Context context, final BugList bugs) {
-		System.out.println("expr:" + expression.Decompile(0));
 		if (expression instanceof CFFunctionExpression) {
 			final CFFunctionExpression cfFunctionExpr = (CFFunctionExpression) expression;
 			if ("QueryNew".equalsIgnoreCase(cfFunctionExpr.getName()) && cfFunctionExpr.getArgs().size() == 1) {
@@ -32,7 +31,6 @@ public class TypedQueryNew implements CFLintScanner {
 	}
 
 	public void expression(final CFScriptStatement expression, final Context context, final BugList bugs) {
-		System.out.println("expr:" + expression.Decompile(0));
 		
 	}
 

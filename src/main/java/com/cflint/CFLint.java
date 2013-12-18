@@ -15,6 +15,7 @@ import com.cflint.plugins.core.ArgVarChecker;
 import com.cflint.plugins.core.GlobalVarChecker;
 import com.cflint.plugins.core.NestedCFOutput;
 import com.cflint.plugins.core.OutputParmMissing;
+import com.cflint.plugins.core.QueryParamChecker;
 import com.cflint.plugins.core.TypedQueryNew;
 import com.cflint.plugins.core.VarScoper;
 import com.cflint.tools.CFLintFilter;
@@ -60,6 +61,7 @@ public class CFLint {
 		extensions.add(new ArgDefChecker());
 		extensions.add(new OutputParmMissing());
 		extensions.add(new GlobalVarChecker());
+		extensions.add(new QueryParamChecker());
 		
 		final CFLintFilter filter = CFLintFilter.createFilter();
 		bugs = new BugList(filter);

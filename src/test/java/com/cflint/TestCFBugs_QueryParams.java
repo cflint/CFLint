@@ -92,6 +92,26 @@ public class TestCFBugs_QueryParams {
 		assertEquals("QUERYPARAM_REQ",result.get(1).getMessageCode());
 		assertEquals(3,result.get(1).getLine());
 	}
+	@Test
+	public void testCFScript_QueryParams_OutsideFunction() throws ParseException, IOException{
+		final String cfcSrc="<cfquery name=\"LOCAL.categories\">\r\n" + 
+				"SELECT * FROM product_categories p\r\n" + 
+				"WHERE p.id = #LOCAL.id#\r\n" + 
+				"and p.name = #LOCAL.abc#\r\n" + 
+				"</cfquery>"; 
+		CFLint cfBugs = new CFLint(new QueryParamChecker());
+		cfBugs.process(cfcSrc,"test");
+		List<BugInfo> result = cfBugs.getBugs().getBugList().values().iterator().next();
+		for(BugInfo bi: result){
+			System.out.println(bi);
+		}
+		assertEquals(2,result.size());
+		assertEquals("QUERYPARAM_REQ",result.get(0).getMessageCode());
+		assertEquals(1,result.get(0).getLine());
+		assertEquals("LOCAL.id",result.get(0).getVariable());
+		assertEquals("QUERYPARAM_REQ",result.get(1).getMessageCode());
+		assertEquals(1,result.get(1).getLine());
+	}
 	
 	@Test
 	public void testCFScript_QueryParams_Script_Hashes() throws ParseException, IOException{

@@ -79,3 +79,14 @@ Functions should specify @output="false"
         <cffunction name="function1" output="false">
         ..
         </cffunction>
+        
+### QUERYPARAM_REQ
+     
+        <cfquery name=\"LOCAL.categories\">
+           SELECT * FROM product_categories p
+           WHERE p.id = #LOCAL.id#
+        </cfquery>
+        
+        Should use
+        
+        <cfqueryparam value="#LOCAL.id#"/>

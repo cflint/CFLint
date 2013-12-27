@@ -68,13 +68,13 @@ public class VarScoper implements CFLintScanner {
 			}
 			if(name.equalsIgnoreCase("cfprocparam")){
 				final String typeVar = element.getAttributeValue("type");
-				if(typeVar.equalsIgnoreCase("out") || typeVar.equalsIgnoreCase("inout")){
+				if(typeVar != null && (typeVar.equalsIgnoreCase("out") || typeVar.equalsIgnoreCase("inout"))){
 					assertVariable(element, context, bugs, element.getAttributeValue("variable"));
 				}
 			}
 			if(name.equalsIgnoreCase("cffeed")){
 				final String typeVar = element.getAttributeValue("action");
-				if(typeVar.equalsIgnoreCase("read")){
+				if(typeVar != null && typeVar.equalsIgnoreCase("read")){
 					assertVariable(element, context, bugs, element.getAttributeValue("query"));
 				}
 			}

@@ -93,8 +93,8 @@ public class BugInfo {
 				elemLine = elem.getSource().getRow(elem.getBegin());
 				elemColumn = elem.getSource().getColumn(elem.getBegin());
 			}
-			bugInfo.setLine(elemLine + Math.max(expression.getLine()-1,0));
-			bugInfo.setColumn(elemColumn + Math.max(expression.getColumn()-1,0));
+			bugInfo.setLine(elemLine + Math.max(expression==null?0:expression.getLine()-1,0));
+			bugInfo.setColumn(elemColumn + Math.max(expression==null?0:expression.getColumn()-1,0));
 			return bugInfo;
 		}
 	}

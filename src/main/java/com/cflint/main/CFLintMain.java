@@ -25,6 +25,7 @@ import com.cflint.CFLint;
 import com.cflint.HTMLOutput;
 import com.cflint.TextOutput;
 import com.cflint.XMLOutput;
+import com.cflint.tools.CFLintFilter;
 
 public class CFLintMain {
 
@@ -41,9 +42,9 @@ public class CFLintMain {
 	String htmlOutFile = "cflint-result.html";
 	String htmlStyle = "plain.xsl";
 	String textOutFile = "cflint-result.txt";
-	String [] includeCodes = null;
-	String [] excludeCodes = null;
-	
+	String[] includeCodes = null;
+	String[] excludeCodes = null;
+
 	public static void main(final String[] args) throws ParseException, IOException, TransformerException {
 		final Options options = new Options();
 		// add t option
@@ -61,7 +62,7 @@ public class CFLintMain {
 		options.addOption("xmlstyle", true, "cflint,findbugs");
 		options.addOption("html", false, "output in html format (default)");
 		options.addOption("htmlfile", true, "specify the output html file (default: cflint-results.html)");
-		options.addOption("htmlstyle", true, "default,plain");//fancy,fancy-hist,summary
+		options.addOption("htmlstyle", true, "default,plain");// fancy,fancy-hist,summary
 		options.addOption("text", false, "output in plain text");
 		options.addOption("textfile", true, "specify the output text file (default: cflint-results.txt)");
 
@@ -77,7 +78,7 @@ public class CFLintMain {
 		main.verbose = (cmd.hasOption('v') || cmd.hasOption("verbose"));
 		main.xmlOutput = cmd.hasOption("xml");
 		main.textOutput = cmd.hasOption("text");
-		if(cmd.hasOption("ui")){
+		if (cmd.hasOption("ui")) {
 			main.ui();
 		}
 		// If an output is specified, htmlOutput is not defaulted to true.
@@ -119,13 +120,13 @@ public class CFLintMain {
 			System.out.println("Option " + option.getOpt() + " => " + option.getValue());
 		}
 		if (main.isValid()) {
-			System.out.println("htmloutput?"+main.htmlOutput);
-			System.out.println("xmlOutput?"+main.xmlOutput);
+			System.out.println("htmloutput?" + main.htmlOutput);
+			System.out.println("xmlOutput?" + main.xmlOutput);
 			main.execute();
-			if(cmd.hasOption("ui")){
+			if (cmd.hasOption("ui")) {
 				main.open();
 			}
-		}else{
+		} else {
 			final HelpFormatter formatter = new HelpFormatter();
 			formatter.printHelp("cflint", options);
 		}
@@ -147,35 +148,45 @@ public class CFLintMain {
 	}
 
 	private void ui() {
-		JFileChooser chooser = new JFileChooser();
+		final JFileChooser chooser = new JFileChooser();
 		chooser.setDialogTitle("Select target directory");
 		chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-		int returnVal = chooser.showOpenDialog(null);
-		if(returnVal == JFileChooser.APPROVE_OPTION) {
+		final int returnVal = chooser.showOpenDialog(null);
+		if (returnVal == JFileChooser.APPROVE_OPTION) {
 			folder.add(chooser.getSelectedFile().getAbsolutePath());
-		}else{
+		} else {
 			return;
 		}
-		
-		String[] slist = new String[] {"xml", "html", "text"};
-		JList list = new JList(slist);
-		JOptionPane.showMessageDialog(
-		  null, list, "Output Type", JOptionPane.PLAIN_MESSAGE);
-		
-		int[] indxs = list.getSelectedIndices();
-		//If selected set htmlOutput to false
-		for(int i=0; i<indxs.length; i++){
-			if(indxs[i]==0)
-				xmlOutput=true;
-			if(indxs[i]==1)
-				htmlOutput=true;
-			if(indxs[i]==2)
-				textOutput=true;
+
+		final String[] slist = new String[] { "xml", "html", "text" };
+		final JList list = new JList(slist);
+		JOptionPane.showMessageDialog(null, list, "Output Type", JOptionPane.PLAIN_MESSAGE);
+
+		final int[] indxs = list.getSelectedIndices();
+		// If selected set htmlOutput to false
+		for (final int indx : indxs) {
+			if (indx == 0) {
+				xmlOutput = true;
+			}
+			if (indx == 1) {
+				htmlOutput = true;
+			}
+			if (indx == 2) {
+				textOutput = true;
+			}
 		}
 	}
 
 	private void execute() throws IOException, TransformerException {
 		final CFLint cflint = new CFLint();
+		final CFLintFilter filter = filterFile != null ? CFLintFilter.createFilter(filterFile) : CFLintFilter
+				.createFilter();
+		if (excludeCodes != null && excludeCodes.length > 0) {
+			filter.excludeCode(excludeCodes);
+		}
+		if (includeCodes != null && includeCodes.length > 0) {
+			filter.includeCode(includeCodes);
+		}
 		for (final String scanfolder : folder) {
 			cflint.scan(scanfolder);
 			// for(BugInfo bi: cflint.getBugs()){
@@ -184,10 +195,10 @@ public class CFLintMain {
 		}
 		if (xmlOutput) {
 			System.out.println("Style:" + xmlstyle);
-			if("findbugs".equalsIgnoreCase(xmlstyle)){
+			if ("findbugs".equalsIgnoreCase(xmlstyle)) {
 				System.out.println("Writing findbugs style to " + xmlOutFile);
 				new XMLOutput().outputFindBugs(cflint.getBugs(), new FileWriter(xmlOutFile));
-			}else{
+			} else {
 				System.out.println("Writing " + xmlOutFile);
 				new XMLOutput().output(cflint.getBugs(), new FileWriter(xmlOutFile));
 			}
@@ -204,10 +215,10 @@ public class CFLintMain {
 				throw new IOException(e);
 			}
 		}
-		if(includeCodes != null){
+		if (includeCodes != null) {
 			cflint.getBugs().getFilter().includeCode(includeCodes);
 		}
-		if(excludeCodes != null){
+		if (excludeCodes != null) {
 			cflint.getBugs().getFilter().excludeCode(excludeCodes);
 		}
 	}

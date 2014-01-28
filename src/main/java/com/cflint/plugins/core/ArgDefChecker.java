@@ -34,7 +34,7 @@ public class ArgDefChecker implements CFLintScanner {
 							.setMessageCode("ARG_DEFAULT_MISSING").setSeverity("WARNING")
 							.setFilename(context.getFilename()).setFunction(context.getFunctionName())
 							.setVariable(name)
-							.setMessage("Argument " + name + " is not required and does not define a define value.")
+							.setMessage("Argument " + name + " is not required and does not define a default value.")
 							.build());
 				}
 			}
@@ -52,7 +52,7 @@ public class ArgDefChecker implements CFLintScanner {
 				bugs.add(new BugInfo.BugInfoBuilder().setLine(line).setColumn(column)
 						.setMessageCode("ARG_DEFAULT_MISSING").setSeverity("WARNING")
 						.setFilename(context.getFilename()).setFunction(context.getFunctionName()).setVariable(name)
-						.setMessage("Argument " + name + " is not required and does not define a define value.")
+						.setMessage("Argument " + name + " is not required and does not define a default value.")
 						.build());
 			}
 		}

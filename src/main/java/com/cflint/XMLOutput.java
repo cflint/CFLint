@@ -37,10 +37,10 @@ public class XMLOutput {
 					writer.append(" fileName=\"").append(filename(bugInfo.getFilename())).append("\"");
 					writer.append(" column=\"").append(Integer.valueOf(bugInfo.getColumn()).toString()).append("\"");
 					writer.append(" line=\"").append(Integer.valueOf(bugInfo.getLine()).toString()).append("\"");
-					writer.append(" message=\"").append(bugInfo.getMessage()).append("\"");
+					writer.append(" message=\"").append(xmlEscapeText(bugInfo.getMessage())).append("\"");
 					writer.append(" variable=\"").append(bugInfo.getVariable()).append("\"");
 					writer.append(">");
-					writer.append("<Expression><![CDATA[").append(bugInfo.getExpression()).append("]]></Expression>");
+					writer.append("<Expression><![CDATA[").append(bugInfo.getExpression().replace("<![CDATA[","").replace("]]>","")).append("]]></Expression>");
 					writer.append("</location>").append("\r\n");
 					prevbugInfo=bugInfo;
 					bugInfo = iterator.hasNext()?iterator.next():null;
@@ -119,4 +119,23 @@ public class XMLOutput {
 		}
 	}
 
+	String xmlEscapeText(String t) {
+		   StringBuilder sb = new StringBuilder();
+		   for(int i = 0; i < t.length(); i++){
+		      char c = t.charAt(i);
+		      switch(c){
+		      case '<': sb.append("&lt;"); break;
+		      case '>': sb.append("&gt;"); break;
+		      case '\"': sb.append("&quot;"); break;
+		      case '&': sb.append("&amp;"); break;
+		      case '\'': sb.append("&apos;"); break;
+		      default:
+		         if(c>0x7e) {
+		            sb.append("&#"+((int)c)+";");
+		         }else
+		            sb.append(c);
+		      }
+		   }
+		   return sb.toString();
+		}
 }

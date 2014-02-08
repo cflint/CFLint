@@ -81,7 +81,8 @@ public class VarScoper implements CFLintScanner {
 		}
 	}
 
-	protected void assertVariable(final Element element, final Context context, final BugList bugs, final String nameVar) {
+	protected void assertVariable(final Element element, final Context context, final BugList bugs, final String inameVar) {
+		final String nameVar = inameVar == null? null:inameVar.split("\\.")[0];
 		if(nameVar != null && !context.getCallStack().checkVariable(nameVar)) {
 			bugs.add(new BugInfo.BugInfoBuilder().setMessageCode("MISSING_VAR")
 					.setMessage("Variable " + nameVar + " is not declared with a var statement.").setVariable(nameVar)

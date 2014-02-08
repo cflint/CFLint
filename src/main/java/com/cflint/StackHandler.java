@@ -22,6 +22,7 @@ public class StackHandler {
 		excludes.add("SUPER");
 		excludes.add("SESSION");
 		excludes.add("APPLICATION");
+		excludes.add("THIS");
 		varStack.push(new Stack(""));
 	}
 

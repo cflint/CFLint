@@ -2,8 +2,10 @@ package com.cflint.main;
 
 import java.awt.Desktop;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -179,14 +181,24 @@ public class CFLintMain {
 
 	private void execute() throws IOException, TransformerException {
 		final CFLint cflint = new CFLint();
-		final CFLintFilter filter = filterFile != null ? CFLintFilter.createFilter(filterFile) : CFLintFilter
-				.createFilter();
+		CFLintFilter filter = CFLintFilter.createFilter();
+		if(filterFile != null){
+			File ffile = new File(filterFile);
+			if(ffile.exists()){
+				FileInputStream fis = new FileInputStream(ffile);
+				byte b[] = new byte[fis.available()];
+				fis.read(b);
+				filter = CFLintFilter.createFilter(new String(b));
+			}
+		}
+				
 		if (excludeCodes != null && excludeCodes.length > 0) {
 			filter.excludeCode(excludeCodes);
 		}
 		if (includeCodes != null && includeCodes.length > 0) {
 			filter.includeCode(includeCodes);
 		}
+		cflint.getBugs().setFilter(filter);
 		for (final String scanfolder : folder) {
 			cflint.scan(scanfolder);
 			// for(BugInfo bi: cflint.getBugs()){

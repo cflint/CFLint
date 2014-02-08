@@ -10,12 +10,15 @@
 	</path>
 
 	<target name="build" depends="requiredFolder,requiredOutfile">
+		<property name="excludefile" value=""/>
 		<java classname="com.cflint.main.CFLintMain">
 			<arg value="-folder" />
 			<arg value="${folder}" />
 			<arg value="--${outtype}" />
 			<arg value="--${outtype}file" />
 			<arg value="${outfile}" />
+			<arg value="--filterFile" />
+			<arg value="${excludefile}" />
 			<classpath refid="build.lib.path"/>
 		</java>
 	</target>

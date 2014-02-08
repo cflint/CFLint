@@ -40,7 +40,9 @@ public class XMLOutput {
 					writer.append(" message=\"").append(xmlEscapeText(bugInfo.getMessage())).append("\"");
 					writer.append(" variable=\"").append(bugInfo.getVariable()).append("\"");
 					writer.append(">");
-					writer.append("<Expression><![CDATA[").append(bugInfo.getExpression().replace("<![CDATA[","").replace("]]>","")).append("]]></Expression>");
+					writer.append("<Expression><![CDATA[")
+						.append(bugInfo.getExpression()==null?"":bugInfo.getExpression().replace("<![CDATA[","").replace("]]>",""))
+						.append("]]></Expression>");
 					writer.append("</location>").append("\r\n");
 					prevbugInfo=bugInfo;
 					bugInfo = iterator.hasNext()?iterator.next():null;

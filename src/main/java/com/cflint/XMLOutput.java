@@ -38,7 +38,7 @@ public class XMLOutput {
 					writer.append(" column=\"").append(Integer.valueOf(bugInfo.getColumn()).toString()).append("\"");
 					writer.append(" line=\"").append(Integer.valueOf(bugInfo.getLine()).toString()).append("\"");
 					writer.append(" message=\"").append(xmlEscapeText(bugInfo.getMessage())).append("\"");
-					writer.append(" variable=\"").append(bugInfo.getVariable()).append("\"");
+					writer.append(" variable=\"").append(xmlEscapeText(bugInfo.getVariable())).append("\"");
 					writer.append(">");
 					writer.append("<Expression><![CDATA[")
 							.append(bugInfo.getExpression() == null ? "" : bugInfo.getExpression()

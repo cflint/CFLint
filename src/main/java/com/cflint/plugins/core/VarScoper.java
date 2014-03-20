@@ -36,7 +36,7 @@ public class VarScoper implements CFLintScanner {
 	
 	public VarScoper() {
 		super();
-		CHECK_ELEMENT_ATTRIBUTES.put("cfloop", Arrays.asList("index","item"));
+		//CHECK_ELEMENT_ATTRIBUTES.put("cfloop", Arrays.asList("index","item"));
 		CHECK_ELEMENT_ATTRIBUTES.put("cfinvoke", Arrays.asList("returnvariable"));
 		CHECK_ELEMENT_ATTRIBUTES.put("cffile", Arrays.asList("variable"));
 		CHECK_ELEMENT_ATTRIBUTES.put("cfsavecontent", Arrays.asList("variable"));

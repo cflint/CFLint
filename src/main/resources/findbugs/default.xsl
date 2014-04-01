@@ -70,7 +70,7 @@
 <xsl:template match="/">
 	<html>
 	<head>
-		<title>FindBugs Report</title>
+		<title>CFLint Report</title>
 		<style type="text/css">
 		.tablerow0 {
 			background: #EEEEEE;
@@ -137,7 +137,7 @@
 
 	<body>
 
-		<h1><a href="http://findbugs.sourceforge.net">FindBugs</a> Report</h1>
+		<h1><a href="https://github.com/ryaneberly/CFLint">CFLint</a> Report</h1>
 
 	<h2>Project Information</h2>	
 	<xsl:apply-templates select="/BugCollection/Project"/>

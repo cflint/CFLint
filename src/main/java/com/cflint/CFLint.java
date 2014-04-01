@@ -4,7 +4,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.ResourceBundle;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -21,6 +23,8 @@ import com.cflint.plugins.core.VarScoper;
 import com.cflint.tools.CFLintFilter;
 
 import net.htmlparser.jericho.Element;
+import cfml.dictionary.DictionaryManager;
+import cfml.dictionary.preferences.DictionaryPreferences;
 import cfml.parsing.CFMLParser;
 import cfml.parsing.CFMLSource;
 import cfml.parsing.cfscript.CFAssignmentExpression;
@@ -32,7 +36,6 @@ import cfml.parsing.cfscript.CFLiteral;
 import cfml.parsing.cfscript.CFUnaryExpression;
 import cfml.parsing.cfscript.CFVarDeclExpression;
 import cfml.parsing.cfscript.ParseException;
-import cfml.parsing.cfscript.cfFullVarExpression;
 import cfml.parsing.cfscript.script.CFCompDeclStatement;
 import cfml.parsing.cfscript.script.CFCompoundStatement;
 import cfml.parsing.cfscript.script.CFExpressionStatement;
@@ -51,28 +54,32 @@ public class CFLint {
 	boolean inComponent = false;
 	BugList bugs;
 	List<CFLintScanner> extensions = new ArrayList<CFLintScanner>();
+	List<String> allowedExtensions = new ArrayList<String>();
 
 	public CFLint() {
-		super();
-		extensions.add(new NestedCFOutput());
-		extensions.add(new TypedQueryNew());
-		extensions.add(new VarScoper());
-		extensions.add(new ArgVarChecker());
-		extensions.add(new ArgDefChecker());
-		extensions.add(new OutputParmMissing());
-		extensions.add(new GlobalVarChecker());
-		extensions.add(new QueryParamChecker());
-		
-		final CFLintFilter filter = CFLintFilter.createFilter();
-		bugs = new BugList(filter);
+		this(new NestedCFOutput(), new TypedQueryNew(), new VarScoper(), new ArgVarChecker(), new ArgDefChecker(),
+				new OutputParmMissing(), new GlobalVarChecker(), new QueryParamChecker());
 	}
-	public CFLint(CFLintScanner ...bugsScanners) {
+
+	public CFLint(final CFLintScanner... bugsScanners) {
 		super();
-		for(CFLintScanner scanner: bugsScanners){
+		
+//		DictionaryPreferences dprefs = new DictionaryPreferences();
+//		dprefs.setDictionaryDir("C:\\projects\\cfml.dictionary-master\\dictionary");
+//		DictionaryManager.initDictionaries(dprefs);
+		
+		for (final CFLintScanner scanner : bugsScanners) {
 			extensions.add(scanner);
 		}
 		final CFLintFilter filter = CFLintFilter.createFilter();
 		bugs = new BugList(filter);
+		try {
+			allowedExtensions.addAll(Arrays.asList(ResourceBundle.getBundle("com.cflint.cflint")
+					.getString("allowedextensions").split(",")));
+		} catch (final Exception e) {
+			allowedExtensions.add(".cfc");
+			allowedExtensions.add(".cfm");
+		}
 	}
 
 	public void scan(final String folder) {
@@ -86,9 +93,9 @@ public class CFLint {
 				if (!file.isHidden()) {
 					scan(file);
 				}
-			} else {
+			} else if (checkExtension(file)) {
 				final String src = load(file);
-				//System.out.println("processing " + file);
+				// System.out.println("processing " + file);
 				try {
 					process(src, file.getAbsolutePath());
 				} catch (final Exception e) {
@@ -99,6 +106,15 @@ public class CFLint {
 				}
 			}
 		}
+	}
+
+	private boolean checkExtension(final File file) {
+		for (final String ext : allowedExtensions) {
+			if (file.getName().endsWith(ext)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	static String load(final File file) {
@@ -125,7 +141,6 @@ public class CFLint {
 		}
 	}
 
-
 	public void processStack(final List<Element> elements, final String space, final String filename,
 			final String functionName) throws ParseException, IOException {
 		for (final Element elem : elements) {
@@ -137,7 +152,7 @@ public class CFLint {
 			throws ParseException, IOException {
 		final Context context = new Context(filename, elem, functionName, inAssignment, handler);
 		context.setInComponent(inComponent);
-		
+
 		for (final CFLintScanner plugin : extensions) {
 			plugin.element(elem, context, bugs);
 		}
@@ -150,7 +165,7 @@ public class CFLint {
 			if (m.matches()) {
 				try {
 					final CFExpression expression = CFExpression.getCFExpression(m.group(1));
-					if(expression == null){
+					if (expression == null) {
 						throw new NullPointerException("expression is null, parsing error");
 					}
 					process(expression, filename, elem, functionName);
@@ -199,11 +214,12 @@ public class CFLint {
 			inComponent = false;
 			handler.pop();
 		} else if (elem.getName().equalsIgnoreCase("cfquery")) {
-			List<Element> list = elem.getAllElements();
+			final List<Element> list = elem.getAllElements();
 			processStack(list.subList(1, list.size()), space + " ", filename, functionName);
 		} else if (elem.getName().equalsIgnoreCase("cfqueryparam")) {
-			if(elem.getAttributeValue("value") != null){
-				final CFScriptStatement scriptStatement = new CFMLParser().parseScript(elem.getAttributeValue("value") +";");
+			if (elem.getAttributeValue("value") != null) {
+				final CFScriptStatement scriptStatement = new CFMLParser().parseScript(elem.getAttributeValue("value")
+						+ ";");
 				process(scriptStatement, filename, elem, functionName);
 			}
 		} else {
@@ -219,11 +235,11 @@ public class CFLint {
 			final String functionName) {
 		final Context context = new Context(filename, elem, functionName, inAssignment, handler);
 		context.setInComponent(inComponent);
-		
+
 		for (final CFLintScanner plugin : extensions) {
 			plugin.expression(expression, context, bugs);
 		}
-		
+
 		if (expression instanceof CFCompoundStatement) {
 			for (final CFScriptStatement statement : ((CFCompoundStatement) expression).getStatements()) {
 				process(statement, filename, elem, functionName);
@@ -272,7 +288,7 @@ public class CFLint {
 			final String functionName) {
 		final Context context = new Context(filename, elem, functionName, inAssignment, handler);
 		context.setInComponent(inComponent);
-		
+
 		for (final CFLintScanner plugin : extensions) {
 			plugin.expression(expression, context, bugs);
 		}
@@ -314,15 +330,26 @@ public class CFLint {
 			handler.addVariable(((CFVarDeclExpression) expression).getName());
 			process(((CFVarDeclExpression) expression).getInit(), filename, elem, functionName);
 		} else if (expression instanceof CFLiteral) {
-//		} else if (expression instanceof cfFullVarExpression) {
-//			if (((cfFullVarExpression) expression).getExpressions().size() == 1) {
-//				process(((cfFullVarExpression) expression).getExpressions().get(0), filename, elem, functionName);
-//			}
+			// } else if (expression instanceof cfFullVarExpression) {
+			// if (((cfFullVarExpression) expression).getExpressions().size() ==
+			// 1) {
+			// process(((cfFullVarExpression)
+			// expression).getExpressions().get(0), filename, elem,
+			// functionName);
+			// }
 		} else {
 		}
 	}
 
 	public BugList getBugs() {
 		return bugs;
+	}
+
+	public List<String> getAllowedExtensions() {
+		return allowedExtensions;
+	}
+
+	public void setAllowedExtensions(final List<String> allowedExtensions) {
+		this.allowedExtensions = allowedExtensions;
 	}
 }

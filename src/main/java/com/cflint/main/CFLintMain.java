@@ -9,6 +9,7 @@ import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.ResourceBundle;
 
 import javax.swing.JFileChooser;
 import javax.swing.JList;
@@ -46,6 +47,7 @@ public class CFLintMain {
 	String textOutFile = "cflint-result.txt";
 	String[] includeCodes = null;
 	String[] excludeCodes = null;
+	private String extensions;
 
 	public static void main(final String[] args) throws ParseException, IOException, TransformerException {
 		final Options options = new Options();
@@ -67,6 +69,7 @@ public class CFLintMain {
 		options.addOption("htmlstyle", true, "default,plain");// fancy,fancy-hist,summary
 		options.addOption("text", false, "output in plain text");
 		options.addOption("textfile", true, "specify the output text file (default: cflint-results.txt)");
+		options.addOption("extensions", true, "specify the extensions of the CF source files (default: .cfm,.cfc)");
 
 		final CommandLineParser parser = new GnuParser();
 		final CommandLine cmd = parser.parse(options, args);
@@ -112,6 +115,10 @@ public class CFLintMain {
 		if (cmd.hasOption("textfile")) {
 			main.textOutFile = cmd.getOptionValue("textfile");
 		}
+		if (cmd.hasOption("extensions")) {
+			main.extensions = cmd.getOptionValue("extensions");
+		}
+		
 		if (cmd.hasOption("includeRule")) {
 			main.includeRule = Arrays.asList(cmd.getOptionValue("includeRule").split(","));
 		}
@@ -181,6 +188,13 @@ public class CFLintMain {
 
 	private void execute() throws IOException, TransformerException {
 		final CFLint cflint = new CFLint();
+		if(extensions != null && extensions.trim().length() > 0){
+			try{
+				cflint.setAllowedExtensions(Arrays.asList(extensions.trim().split(",")));
+			}catch(Exception e){
+				System.out.println("Unable to use extensions (" + extensions + ") using default instead. " + e.getMessage());
+			}
+		}
 		CFLintFilter filter = CFLintFilter.createFilter();
 		if(filterFile != null){
 			File ffile = new File(filterFile);

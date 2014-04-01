@@ -10,7 +10,7 @@ xmlns:sets="http://exslt.org/sets">
 
 	<!-- timestamp="1385123483628" analysisTimestamp="1385123483675" -->
 	<xsl:template match="/">
-		<BugCollection version="2.0.2" sequence="0" release="">
+		<BugCollection version="0.1.6" sequence="0" release="">
 			<Project projectName="">
 			</Project>
 			<xsl:apply-templates select="/issues/issue" />

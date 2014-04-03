@@ -5,11 +5,15 @@
 A statistical code analysis tool for Cold Fusion (in the spirit of FindBugs and Lint)
 
 <div><strong>Can you use it today? Functional? Yes</strong><br>
-<strong>Mature, flawless?  No, you can help.</strong></div>
+<strong>Mature, flawless?  No, you can help:<br></strong></div>
+* <strong>Report an [issue](https://github.com/ryaneberly/CFLint/issues/new) </strong>
+* <strong>Email [me](ryaneberly@gmail.com) </strong>
 
 See the Jenkins/Hudson [plugin](https://github.com/ryaneberly/CFLint-plugin).
 
 Download at [releases](https://github.com/ryaneberly/CFLint/releases) page.
+
+
 
 ## Quick Start 
         cflint --folder <somefolder> 

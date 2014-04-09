@@ -81,14 +81,14 @@ public class CFLintMain {
 
 		final CFLintMain main = new CFLintMain();
 		main.verbose = (cmd.hasOption('v') || cmd.hasOption("verbose"));
-		main.xmlOutput = cmd.hasOption("xml");
-		main.textOutput = cmd.hasOption("text");
+		main.xmlOutput = cmd.hasOption("xml") || cmd.hasOption("xmlstyle") || cmd.hasOption("xmlfile");
+		main.textOutput = cmd.hasOption("text") || cmd.hasOption("textfile");
 		if (cmd.hasOption("ui")) {
 			main.ui();
 		}
 		// If an output is specified, htmlOutput is not defaulted to true.
 		if (main.xmlOutput || main.textOutput) {
-			main.htmlOutput = cmd.hasOption("html");
+			main.htmlOutput = cmd.hasOption("html") || cmd.hasOption("htmlstyle") || cmd.hasOption("htmlfile");
 		}
 
 		if (cmd.hasOption("folder")) {

@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintStream;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -23,6 +24,9 @@ import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
+import org.apache.log4j.Logger;
+import org.apache.log4j.PropertyConfigurator;
+import org.apache.log4j.xml.DOMConfigurator;
 
 import com.cflint.CFLint;
 import com.cflint.HTMLOutput;
@@ -37,6 +41,7 @@ public class CFLintMain {
 	List<String> folder = new ArrayList<String>();
 	String filterFile = null;
 	boolean verbose = false;
+	boolean quiet = false;
 	boolean xmlOutput = false;
 	boolean htmlOutput = true;
 	boolean textOutput = false;
@@ -50,15 +55,22 @@ public class CFLintMain {
 	private String extensions;
 
 	public static void main(final String[] args) throws ParseException, IOException, TransformerException {
+		//PropertyConfigurator.configure("/log4j.properties");
+		DOMConfigurator.configure(Thread.currentThread().getContextClassLoader().getResource("log4j.xml").getFile());
+		Logger.getLogger("net.htmlparser.jericho");
+		
 		final Options options = new Options();
 		// add t option
 		options.addOption("includeRule", true, "specify rules to include");
 		options.addOption("excludeRule", true, "specify rules to exclude");
 		options.addOption("folder", true, "folder(s) to scan");
+		options.addOption("file", true, "file(s) to scan");
 		options.addOption("filterFile", true, "filter file");
 		options.addOption("v", false, "verbose");
 		options.addOption("ui", false, "show UI");
 		options.addOption("verbose", false, "verbose");
+		options.addOption("q", false, "quiet");
+		options.addOption("quiet", false, "quiet");
 		options.addOption("h", false, "display this help");
 		options.addOption("help", false, "display this help");
 		options.addOption("xml", false, "output in xml format");
@@ -81,6 +93,7 @@ public class CFLintMain {
 
 		final CFLintMain main = new CFLintMain();
 		main.verbose = (cmd.hasOption('v') || cmd.hasOption("verbose"));
+		main.quiet = (cmd.hasOption('q') || cmd.hasOption("quiet"));
 		main.xmlOutput = cmd.hasOption("xml") || cmd.hasOption("xmlstyle") || cmd.hasOption("xmlfile");
 		main.textOutput = cmd.hasOption("text") || cmd.hasOption("textfile");
 		if (cmd.hasOption("ui")) {
@@ -93,6 +106,9 @@ public class CFLintMain {
 
 		if (cmd.hasOption("folder")) {
 			main.folder.addAll(Arrays.asList(cmd.getOptionValue("folder").split(",")));
+		}
+		if (cmd.hasOption("file")) {
+			main.folder.addAll(Arrays.asList(cmd.getOptionValue("file").split(",")));
 		}
 		if (cmd.hasOption("htmlstyle")) {
 			main.htmlStyle = cmd.getOptionValue("htmlstyle");
@@ -125,11 +141,11 @@ public class CFLintMain {
 		if (cmd.hasOption("excludeRule")) {
 			main.excludeRule = Arrays.asList(cmd.getOptionValue("excludeRule").split(","));
 		}
-		for (final Option option : cmd.getOptions()) {
-			if(main.verbose){
-				System.out.println("Option " + option.getOpt() + " => " + option.getValue());
-			}
-		}
+//		for (final Option option : cmd.getOptions()) {
+//			if(main.verbose){
+//				System.out.println("Option " + option.getOpt() + " => " + option.getValue());
+//			}
+//		}
 		if (main.isValid()) {
 			main.execute();
 			if (cmd.hasOption("ui")) {
@@ -188,6 +204,8 @@ public class CFLintMain {
 
 	private void execute() throws IOException, TransformerException {
 		final CFLint cflint = new CFLint();
+		cflint.setVerbose(verbose);
+		cflint.setQuiet(quiet);
 		if(extensions != null && extensions.trim().length() > 0){
 			try{
 				cflint.setAllowedExtensions(Arrays.asList(extensions.trim().split(",")));

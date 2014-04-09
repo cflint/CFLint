@@ -1,14 +1,20 @@
 package com.cflint;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import org.antlr.runtime.BitSet;
+import org.antlr.runtime.IntStream;
+import org.antlr.runtime.RecognitionException;
 
 import com.cflint.plugins.CFLintScanner;
 import com.cflint.plugins.Context;
@@ -23,6 +29,7 @@ import com.cflint.plugins.core.VarScoper;
 import com.cflint.tools.CFLintFilter;
 
 import net.htmlparser.jericho.Element;
+import net.htmlparser.jericho.Source;
 import cfml.dictionary.DictionaryManager;
 import cfml.dictionary.preferences.DictionaryPreferences;
 import cfml.parsing.CFMLParser;
@@ -35,6 +42,7 @@ import cfml.parsing.cfscript.CFIdentifier;
 import cfml.parsing.cfscript.CFLiteral;
 import cfml.parsing.cfscript.CFUnaryExpression;
 import cfml.parsing.cfscript.CFVarDeclExpression;
+import cfml.parsing.cfscript.IErrorReporter;
 import cfml.parsing.cfscript.ParseException;
 import cfml.parsing.cfscript.script.CFCompDeclStatement;
 import cfml.parsing.cfscript.script.CFCompoundStatement;
@@ -46,7 +54,7 @@ import cfml.parsing.cfscript.script.CFFunctionParameter;
 import cfml.parsing.cfscript.script.CFIfStatement;
 import cfml.parsing.cfscript.script.CFScriptStatement;
 
-public class CFLint {
+public class CFLint implements IErrorReporter {
 
 	StackHandler handler = new StackHandler();
 	boolean inFunction = false;
@@ -55,6 +63,8 @@ public class CFLint {
 	BugList bugs;
 	List<CFLintScanner> extensions = new ArrayList<CFLintScanner>();
 	List<String> allowedExtensions = new ArrayList<String>();
+	boolean verbose = false;
+	boolean quiet = false;
 
 	public CFLint() {
 		this(new NestedCFOutput(), new TypedQueryNew(), new VarScoper(), new ArgVarChecker(), new ArgDefChecker(),
@@ -87,23 +97,21 @@ public class CFLint {
 		scan(f);
 	}
 
-	public void scan(final File folder) {
-		for (final File file : folder.listFiles()) {
-			if (file.isDirectory()) {
-				if (!file.isHidden()) {
-					scan(file);
-				}
-			} else if (checkExtension(file)) {
-				final String src = load(file);
-				//System.out.println("processing " + file);
-				try {
-					process(src, file.getAbsolutePath());
-				} catch (final Exception e) {
-					e.printStackTrace();
-					bugs.add(new BugInfo.BugInfoBuilder().setMessageCode("FILE_ERROR")
-							.setFilename(file.getAbsolutePath()).setMessage(e.getMessage()).setSeverity("ERROR")
-							.build());
-				}
+	public void scan(final File folderOrFile) {
+		if (folderOrFile.isDirectory()) {
+			for (final File file : folderOrFile.listFiles()) {
+				scan(file);
+			}
+		} else if (!folderOrFile.isHidden() && checkExtension(folderOrFile)) {
+			final String src = load(folderOrFile);
+			//System.out.println("processing " + file);
+			try {
+				process(src, folderOrFile.getAbsolutePath());
+			} catch (final Exception e) {
+				e.printStackTrace();
+				bugs.add(new BugInfo.BugInfoBuilder().setMessageCode("FILE_ERROR")
+						.setFilename(folderOrFile.getAbsolutePath()).setMessage(e.getMessage()).setSeverity("ERROR")
+						.build());
 			}
 		}
 	}
@@ -134,7 +142,9 @@ public class CFLint {
 		final List<Element> elements = cfmlSource.getChildElements();
 		if (elements.size() == 0 && src.contains("component")) {
 			// Check if pure cfscript
-			final CFScriptStatement scriptStatement = new CFMLParser().parseScript(src);
+			CFMLParser cfmlParser = new CFMLParser();
+			cfmlParser.setErrorReporter(this);
+			final CFScriptStatement scriptStatement = cfmlParser.parseScript(src);
 			process(scriptStatement, filename, null, null);
 		} else {
 			processStack(elements, " ", filename, null);
@@ -164,15 +174,20 @@ public class CFLint {
 			final Matcher m = p.matcher(expr);
 			if (m.matches()) {
 				try {
-					final CFExpression expression = CFExpression.getCFExpression(m.group(1));
+					final CFExpression expression = CFExpression.getCFExpressionThrows(m.group(1));
 					if (expression == null) {
 						throw new NullPointerException("expression is null, parsing error");
 					}
 					process(expression, filename, elem, functionName);
-				} catch (final NullPointerException npe) {
+				} catch (final Exception npe) {
 					final int line = elem.getSource().getRow(elem.getBegin());
 					final int column = elem.getSource().getColumn(elem.getBegin());
-					System.err.println("Error in " + elem.getSource() + " @ " + line + ":");
+					if(!quiet){
+						System.err.println("Error in " + shortSource(elem.getSource(),line) + " @ " + line + ":");
+						if(verbose){
+							npe.printStackTrace(System.err);
+						}
+					}
 					bugs.add(new BugInfo.BugInfoBuilder().setLine(elemLine).setColumn(elemColumn + column)
 							.setMessageCode("PARSE_ERROR").setSeverity("ERROR").setExpression(m.group(1))
 							.setFilename(filename).setFunction(functionName).setMessage("Unable to parse").build());
@@ -185,7 +200,9 @@ public class CFLint {
 			}
 		} else if (elem.getName().equals("cfscript")) {
 			final String cfscript = elem.getContent().toString();
-			final CFScriptStatement scriptStatement = new CFMLParser().parseScript(cfscript);
+			CFMLParser cfmlParser = new CFMLParser();
+			cfmlParser.setErrorReporter(this);
+			final CFScriptStatement scriptStatement = cfmlParser.parseScript(cfscript);
 			process(scriptStatement, filename, elem, functionName);
 			// } else if (elem.getName().equals("cfoutput")) {
 			// final Element parent = CFTool.getNamedParent(elem, "cfoutput");
@@ -218,13 +235,34 @@ public class CFLint {
 			processStack(list.subList(1, list.size()), space + " ", filename, functionName);
 		} else if (elem.getName().equalsIgnoreCase("cfqueryparam")) {
 			if (elem.getAttributeValue("value") != null) {
-				final CFScriptStatement scriptStatement = new CFMLParser().parseScript(elem.getAttributeValue("value")
+				CFMLParser cfmlParser = new CFMLParser();
+				cfmlParser.setErrorReporter(this);
+				final CFScriptStatement scriptStatement = cfmlParser.parseScript(elem.getAttributeValue("value")
 						+ ";");
 				process(scriptStatement, filename, elem, functionName);
 			}
 		} else {
 			processStack(elem.getChildElements(), space + " ", filename, functionName);
 		}
+	}
+
+	private String shortSource(Source source, int line) {
+		final String retval = source == null?"":source.toString().trim();
+		if(retval.length()<300)
+			return retval;
+		try{
+			BufferedReader sr = new BufferedReader(new StringReader(source.toString()));
+			for(int i=1; i<line-2; i++){
+				sr.readLine();
+			}
+			StringBuilder lastLines = new StringBuilder();
+			
+			lastLines.append(sr.readLine()).append("\r\n");
+			lastLines.append(sr.readLine()).append("\r\n");
+			lastLines.append(sr.readLine()).append("\r\n");
+			return lastLines.toString();
+		}catch(Exception e){}
+		return retval.substring(0, 300);
 	}
 
 	public String stripLineComments(final String cfscript) {
@@ -351,5 +389,37 @@ public class CFLint {
 
 	public void setAllowedExtensions(final List<String> allowedExtensions) {
 		this.allowedExtensions = allowedExtensions;
+	}
+
+	public void reportError(String arg0) {
+		// TODO Auto-generated method stub
+		System.out.println("-------" + arg0);
+		
+	}
+
+	public void reportError(RecognitionException arg0) {
+		// TODO Auto-generated method stub
+		System.out.println("-------" + arg0);
+		
+	}
+
+	public void reportError(String[] arg0, RecognitionException arg1) {
+		// TODO Auto-generated method stub
+		
+		System.out.println("-------" + arg0);
+	}
+
+	public void reportError(IntStream arg0, RecognitionException arg1, BitSet arg2) {
+		// TODO Auto-generated method stub
+		System.out.println("-------" + arg0);
+		
+	}
+
+	public void setVerbose(boolean verbose) {
+		this.verbose = verbose;
+	}
+
+	public void setQuiet(boolean quiet) {
+		this.quiet = quiet;
 	}
 }

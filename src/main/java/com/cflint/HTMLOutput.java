@@ -21,7 +21,7 @@ public class HTMLOutput {
 		// 2. Use the TransformerFactory to process the stylesheet Source and
 		// generate a Transformer.
 		javax.xml.transform.Transformer transformer = null;
-		System.out.println("Using html style:" + htmlStyle);
+		//System.out.println("Using html style:" + htmlStyle);
 		try {
 			final InputStream is = getClass().getResourceAsStream("/findbugs/" + htmlStyle);
 			transformer = tFactory.newTransformer(new javax.xml.transform.stream.StreamSource(is));

@@ -95,7 +95,7 @@ public class CFLint {
 				}
 			} else if (checkExtension(file)) {
 				final String src = load(file);
-				// System.out.println("processing " + file);
+				//System.out.println("processing " + file);
 				try {
 					process(src, file.getAbsolutePath());
 				} catch (final Exception e) {

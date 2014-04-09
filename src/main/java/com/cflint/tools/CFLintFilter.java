@@ -60,7 +60,6 @@ public class CFLintFilter {
 		try {
 			final InputStream is = CFLintFilter.class.getResourceAsStream("/cflintexclude.json");
 			if(is == null){
-				//System.out.println("No filter cflintexclude.json found.");
 				return new CFLintFilter(null);
 			}
 			final byte b[] = new byte[is.available()];

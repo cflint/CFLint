@@ -93,9 +93,6 @@ public class XMLOutput {
 		// generate a Transformer.
 
 		final InputStream is = getClass().getResourceAsStream("/findbugs/cflint-to-findbugs.xsl");
-		System.out.println("-----------");
-		System.out.println("----------- " + is.available());
-		System.out.println("-----------");
 		final javax.xml.transform.Transformer transformer = tFactory
 				.newTransformer(new javax.xml.transform.stream.StreamSource(is));
 

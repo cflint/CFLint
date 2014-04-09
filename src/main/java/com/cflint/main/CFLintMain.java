@@ -126,11 +126,11 @@ public class CFLintMain {
 			main.excludeRule = Arrays.asList(cmd.getOptionValue("excludeRule").split(","));
 		}
 		for (final Option option : cmd.getOptions()) {
-			System.out.println("Option " + option.getOpt() + " => " + option.getValue());
+			if(main.verbose){
+				System.out.println("Option " + option.getOpt() + " => " + option.getValue());
+			}
 		}
 		if (main.isValid()) {
-			System.out.println("htmloutput?" + main.htmlOutput);
-			System.out.println("xmlOutput?" + main.xmlOutput);
 			main.execute();
 			if (cmd.hasOption("ui")) {
 				main.open();
@@ -220,22 +220,32 @@ public class CFLintMain {
 			// }
 		}
 		if (xmlOutput) {
-			System.out.println("Style:" + xmlstyle);
+			if(verbose){
+				System.out.println("Style:" + xmlstyle);
+			}
 			if ("findbugs".equalsIgnoreCase(xmlstyle)) {
-				System.out.println("Writing findbugs style to " + xmlOutFile);
+				if(verbose){
+					System.out.println("Writing findbugs style to " + xmlOutFile);
+				}
 				new XMLOutput().outputFindBugs(cflint.getBugs(), new FileWriter(xmlOutFile));
 			} else {
-				System.out.println("Writing " + xmlOutFile);
+				if(verbose){
+					System.out.println("Writing " + xmlOutFile);
+				}
 				new XMLOutput().output(cflint.getBugs(), new FileWriter(xmlOutFile));
 			}
 		}
 		if (textOutput) {
-			System.out.println("Writing " + textOutFile);
+			if(verbose){
+				System.out.println("Writing " + textOutFile);
+			}
 			new TextOutput().output(cflint.getBugs(), new FileWriter(textOutFile));
 		}
 		if (htmlOutput) {
 			try {
-				System.out.println("Writing " + htmlOutFile);
+				if(verbose){
+					System.out.println("Writing " + htmlOutFile);
+				}
 				new HTMLOutput(htmlStyle).output(cflint.getBugs(), new FileWriter(htmlOutFile));
 			} catch (final TransformerException e) {
 				throw new IOException(e);

@@ -88,22 +88,22 @@ public class CFLint {
 	}
 
 	public void scan(final File folder) {
-		for (final File file : folder.listFiles()) {
-			if (file.isDirectory()) {
+		if (folder.isDirectory()) {
+			for (final File file : folder.listFiles()) {
 				if (!file.isHidden()) {
 					scan(file);
 				}
-			} else if (checkExtension(file)) {
-				final String src = load(file);
-				// System.out.println("processing " + file);
-				try {
-					process(src, file.getAbsolutePath());
-				} catch (final Exception e) {
-					e.printStackTrace();
-					bugs.add(new BugInfo.BugInfoBuilder().setMessageCode("FILE_ERROR")
-							.setFilename(file.getAbsolutePath()).setMessage(e.getMessage()).setSeverity("ERROR")
-							.build());
-				}
+			}
+		} else if (checkExtension(folder)) {
+			final String src = load(folder);
+			// System.out.println("processing " + file);
+			try {
+				process(src, folder.getAbsolutePath());
+			} catch (final Exception e) {
+				e.printStackTrace();
+				bugs.add(new BugInfo.BugInfoBuilder().setMessageCode("FILE_ERROR")
+					.setFilename(folder.getAbsolutePath()).setMessage(e.getMessage()).setSeverity("ERROR")
+					.build());
 			}
 		}
 	}

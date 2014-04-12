@@ -183,7 +183,7 @@ public class CFLint implements IErrorReporter {
 					final int line = elem.getSource().getRow(elem.getBegin());
 					final int column = elem.getSource().getColumn(elem.getBegin());
 					if(!quiet){
-						System.err.println("Error in " + shortSource(elem.getSource(),line) + " @ " + line + ":");
+						System.err.println("Error in: " + shortSource(elem.getSource(),line) + " @ " + line + ":");
 						if(verbose){
 							npe.printStackTrace(System.err);
 						}
@@ -252,15 +252,10 @@ public class CFLint implements IErrorReporter {
 			return retval;
 		try{
 			BufferedReader sr = new BufferedReader(new StringReader(source.toString()));
-			for(int i=1; i<line-2; i++){
+			for(int i=1; i<line; i++){
 				sr.readLine();
 			}
-			StringBuilder lastLines = new StringBuilder();
-			
-			lastLines.append(sr.readLine()).append("\r\n");
-			lastLines.append(sr.readLine()).append("\r\n");
-			lastLines.append(sr.readLine()).append("\r\n");
-			return lastLines.toString();
+			return sr.readLine().replaceAll("\t", " ");
 		}catch(Exception e){}
 		return retval.substring(0, 300);
 	}

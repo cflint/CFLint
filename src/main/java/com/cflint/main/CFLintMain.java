@@ -56,7 +56,7 @@ public class CFLintMain {
 
 	public static void main(final String[] args) throws ParseException, IOException, TransformerException {
 		//PropertyConfigurator.configure("/log4j.properties");
-		DOMConfigurator.configure(Thread.currentThread().getContextClassLoader().getResource("log4j.xml").getFile());
+		DOMConfigurator.configure(CFLintFilter.class.getResource("/log4j.xml").getFile());
 		Logger.getLogger("net.htmlparser.jericho");
 		
 		final Options options = new Options();

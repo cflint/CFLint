@@ -38,14 +38,12 @@
 			<artifactId>jdom</artifactId>
 			<version>1.1.3</version>
 			<type>jar</type>
-			<scope>runtime</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.antlr</groupId>
 			<artifactId>antlr</artifactId>
 			<version>3.4</version>
 			<type>jar</type>
-			<scope>runtime</scope>
 		</dependency>
 		<dependency>
 			<groupId>commons-logging</groupId>
@@ -59,7 +57,6 @@
 			<artifactId>gunit</artifactId>
 			<version>3.3</version>
 			<type>jar</type>
-			<scope>runtime</scope>
 		</dependency>
 		<dependency>
 			<groupId>net.htmlparser.jericho</groupId>
@@ -80,7 +77,6 @@
 			<artifactId>log4j</artifactId>
 			<version>1.2.17</version>
 			<type>jar</type>
-			<scope>runtime</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.javolution</groupId>

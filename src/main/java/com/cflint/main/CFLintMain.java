@@ -5,8 +5,10 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.io.PrintStream;
 import java.io.StringReader;
+import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -49,7 +51,7 @@ public class CFLintMain {
 	String xmlstyle = "cflint";
 	String htmlOutFile = "cflint-result.html";
 	String htmlStyle = "plain.xsl";
-	String textOutFile = "cflint-result.txt";
+	String textOutFile = null;
 	String[] includeCodes = null;
 	String[] excludeCodes = null;
 	private String extensions;
@@ -162,7 +164,7 @@ public class CFLintMain {
 			Desktop.getDesktop().open(new File(xmlOutFile));
 			return;
 		}
-		if (textOutput) {
+		if (textOutput && textOutFile != null) {
 			Desktop.getDesktop().open(new File(textOutFile));
 			return;
 		}
@@ -254,10 +256,14 @@ public class CFLintMain {
 			}
 		}
 		if (textOutput) {
-			if(verbose){
-				System.out.println("Writing " + textOutFile);
+			if(textOutFile != null){
+				if(verbose){
+					System.out.println("Writing " + textOutFile);
+				}
 			}
-			new TextOutput().output(cflint.getBugs(), new FileWriter(textOutFile));
+			Writer textwriter = textOutFile != null?new FileWriter(textOutFile):new OutputStreamWriter(System.out);
+			new TextOutput().output(cflint.getBugs(), textwriter);
+			
 		}
 		if (htmlOutput) {
 			try {

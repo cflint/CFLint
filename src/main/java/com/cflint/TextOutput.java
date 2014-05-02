@@ -11,10 +11,9 @@ public class TextOutput {
 		int counter = 0;
 		for (final Entry<String, List<BugInfo>> bugEntry : bugList.getBugList().entrySet()) {
 			sb.append("Issue");
-			sb.append("\r\nSeverity:").append(bugEntry.getValue().get(0).getSeverity());
-//			sb.append("\r\nid:").append(bugEntry.getValue().get(0).getMessageCode());
-			sb.append("\r\nMessage code:").append(bugEntry.getValue().get(0).getMessageCode());
 			for (final BugInfo bugInfo : bugEntry.getValue()) {
+				sb.append("\r\nSeverity:").append(bugEntry.getValue().get(0).getSeverity());
+				sb.append("\r\nMessage code:").append(bugEntry.getValue().get(0).getMessageCode());
 				counter++;
 				sb.append("\r\n\tFile:").append(bugInfo.getFilename());
 				sb.append("\r\n\tColumn:").append(Integer.valueOf(bugInfo.getColumn()).toString());

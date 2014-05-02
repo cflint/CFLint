@@ -33,6 +33,7 @@ import org.apache.log4j.xml.DOMConfigurator;
 import com.cflint.CFLint;
 import com.cflint.HTMLOutput;
 import com.cflint.TextOutput;
+import com.cflint.Version;
 import com.cflint.XMLOutput;
 import com.cflint.tools.CFLintFilter;
 
@@ -69,6 +70,7 @@ public class CFLintMain {
 		options.addOption("file", true, "file(s) to scan");
 		options.addOption("filterFile", true, "filter file");
 		options.addOption("v", false, "verbose");
+		options.addOption("version", false, "show the version number");
 		options.addOption("ui", false, "show UI");
 		options.addOption("verbose", false, "verbose");
 		options.addOption("q", false, "quiet");
@@ -92,7 +94,10 @@ public class CFLintMain {
 			formatter.printHelp("cflint", options);
 			return;
 		}
-
+		if(cmd.hasOption("version")){
+			System.out.println("CFLint " + Version.getVersion());
+			return;
+		}
 		final CFLintMain main = new CFLintMain();
 		main.verbose = (cmd.hasOption('v') || cmd.hasOption("verbose"));
 		main.quiet = (cmd.hasOption('q') || cmd.hasOption("quiet"));

@@ -9,10 +9,11 @@ A statistical code analysis tool for Cold Fusion (in the spirit of FindBugs and 
 * <strong>Report an [issue](https://github.com/ryaneberly/CFLint/issues/new) </strong>
 * <strong>Email [me](ryaneberly@gmail.com) </strong>
 
-See the Jenkins/Hudson [plugin](https://github.com/ryaneberly/CFLint-plugin).
-
 Download at [releases](https://github.com/ryaneberly/CFLint/releases) page.
 
+See the [Jenkins](http://jenkins-ci.org/)/Hudson plugin [here](https://github.com/ryaneberly/CFLint-plugin).
+
+Someone has created a [SublimeLinter](http://www.sublimelinter.com) plugin [here](https://github.com/ckaznocha/SublimeLinter-contrib-CFLint).
 
 
 ## Quick Start 

@@ -20,6 +20,7 @@ import cfml.parsing.CFMLSource;
 import cfml.parsing.cfscript.ParseException;
 
 import static org.junit.Assert.*;
+import org.junit.Ignore;
 
 public class TestCFBugs {
 
@@ -73,6 +74,7 @@ public class TestCFBugs {
 		assertEquals("MISSING_VAR",result.get(1).getMessageCode());
 		assertEquals(10,result.get(1).getLine());
 	}
+
 	@Test
 	public void testSimpleCF_ReadVar() throws ParseException, IOException{
 		final String cfcSrc = "<cfcomponent>\r\n" +
@@ -88,6 +90,7 @@ public class TestCFBugs {
 		Collection<List<BugInfo>> result = cfBugs.getBugs().getBugList().values();
 		assertEquals(0,result.size());
 	}
+
 	@Test
 	public void testSimpleCFSET_Arg() throws ParseException, IOException{
 		final String cfcSrc = "<cfcomponent>\r\n" +
@@ -104,6 +107,7 @@ public class TestCFBugs {
 		Collection<List<BugInfo>> result = cfBugs.getBugs().getBugList().values();
 		assertEquals(0,result.size());
 	}	
+
 	@Test
 	public void testSimpleCFSET_NoParse() throws ParseException, IOException{
 		final String cfcSrc = "<cfcomponent>\r\n" +
@@ -119,6 +123,7 @@ public class TestCFBugs {
 		assertEquals("PARSE_ERROR",result.get(0).getMessageCode());
 		
 	}
+
 	@Test
 	public void testSimpleCFSCRIPT_CommentInScript() throws ParseException, IOException{
 		final String cfcSrc = "<cfcomponent>\r\n" +
@@ -155,6 +160,7 @@ public class TestCFBugs {
 		assertEquals("NESTED_CFOUTPUT",result.get(0).getMessageCode());
 		assertEquals(5,result.get(0).getLine());
 	}
+
 	@Test
 	public void testSimpleCFQUERY_nestedWithGroup() throws ParseException, IOException{
 		final String cfcSrc = "<cfcomponent>\r\n" +
@@ -210,6 +216,7 @@ public class TestCFBugs {
 		assertEquals(0,result.size());
 	}
 
+	@Ignore
 	@Test
 	public void testParse2() throws IOException{
 		CFMLSource cfmlSource = new CFMLSource(loadFile("C:\\source\\cfmx\\extensions\\components\\goodville\\process\\quote\\df\\dwellingFireManager.cfc"));
@@ -281,7 +288,6 @@ public class TestCFBugs {
 		assertEquals(2,result.size());
 	}
 	
-	
 	@Test
 	public void testCFScript_DOT() throws ParseException, IOException{
 		final String cfcSrc="<cfcomponent>\r\n" +
@@ -296,7 +302,6 @@ public class TestCFBugs {
 		Collection<List<BugInfo>> result = cfBugs.getBugs().getBugList().values();
 		assertEquals(0,result.size());
 	}
-	
 	
 	@Test
 	public void testCFScript_QueryNew() throws ParseException, IOException{
@@ -318,7 +323,6 @@ public class TestCFBugs {
 		assertEquals(4,result.get(0).getLine());
 	}
 	
-
 	@Test
 	public void testCFScript_ForDeclare() throws ParseException, IOException{
 		final String cfcSrc="<cfcomponent>\r\n" +
@@ -336,6 +340,7 @@ public class TestCFBugs {
 		cfBugs.process(cfcSrc,"test");
 		assertEquals(0,cfBugs.getBugs().size());
 	}
+
 	@Test
 	public void testCFScript_ForUnVarred() throws ParseException, IOException{
 		final String cfcSrc="<cfcomponent>\r\n" +
@@ -356,7 +361,6 @@ public class TestCFBugs {
 		assertEquals("MISSING_VAR",result.get(0).getMessageCode());
 		assertEquals(4,result.get(0).getLine());
 	}
-	
 
 	@Test
 	public void testCFScript_a_struct() throws ParseException, IOException{

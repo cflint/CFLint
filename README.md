@@ -2,7 +2,7 @@
 ======
 
 
-A statistical code analysis tool for Cold Fusion (in the spirit of FindBugs and Lint)
+A statistical code analysis tool for ColdFusion (in the spirit of FindBugs and Lint)
 
 <div><strong>Can you use it today? Functional? Yes</strong><br>
 <strong>Mature, flawless?  No, you can help:<br></strong></div>

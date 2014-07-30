@@ -65,6 +65,7 @@ public class CFLint implements IErrorReporter {
 	List<String> allowedExtensions = new ArrayList<String>();
 	boolean verbose = false;
 	boolean quiet = false;
+	private String currentFile;
 
 	public CFLint() {
 		this(new NestedCFOutput(), new TypedQueryNew(), new VarScoper(), new ArgVarChecker(), new ArgDefChecker(),
@@ -140,6 +141,7 @@ public class CFLint implements IErrorReporter {
 	public void process(final String src, final String filename) throws ParseException, IOException {
 		final CFMLSource cfmlSource = new CFMLSource(src);
 		final List<Element> elements = cfmlSource.getChildElements();
+		currentFile = filename;
 		if (elements.size() == 0 && src.contains("component")) {
 			// Check if pure cfscript
 			CFMLParser cfmlParser = new CFMLParser();
@@ -149,6 +151,7 @@ public class CFLint implements IErrorReporter {
 		} else {
 			processStack(elements, " ", filename, null);
 		}
+		currentFile=null;
 	}
 
 	public void processStack(final List<Element> elements, final String space, final String filename,
@@ -388,25 +391,28 @@ public class CFLint implements IErrorReporter {
 
 	public void reportError(String arg0) {
 		// TODO Auto-generated method stub
-		System.out.println("-------" + arg0);
+		final String file = currentFile==null?"":currentFile + "\r\n";
+		System.out.println(file +"------4-" + arg0);
 		
 	}
 
 	public void reportError(RecognitionException arg0) {
 		// TODO Auto-generated method stub
-		System.out.println("-------" + arg0);
+		final String file = currentFile==null?"":currentFile + "\r\n";
+		System.out.println(file +"-------" + arg0);
 		
 	}
 
 	public void reportError(String[] arg0, RecognitionException arg1) {
 		// TODO Auto-generated method stub
-		
-		System.out.println("-------" + arg0);
+		final String file = currentFile==null?"":currentFile + "\r\n";
+		System.out.println(file +"-------" + arg0);
 	}
 
 	public void reportError(IntStream arg0, RecognitionException arg1, BitSet arg2) {
 		// TODO Auto-generated method stub
-		System.out.println("-------" + arg0);
+		final String file = currentFile==null?"":currentFile + "\r\n";
+		System.out.println(file +"-------" + arg0);
 		
 	}
 

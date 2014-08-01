@@ -8,6 +8,8 @@ A statistical code analysis tool for ColdFusion (in the spirit of FindBugs and L
 <strong>Mature, flawless?  No, you can help:<br></strong></div>
 * <strong>Report an [issue](https://github.com/ryaneberly/CFLint/issues/new) </strong>
 * <strong>Email [me](ryaneberly@gmail.com) </strong>
+* 		<a id="nabblelink" href="http://cflint.2337369.n4.nabble.com/">CFLint</a>
+<script src="http://cflint.2337369.n4.nabble.com/embed/f1"></script>
 
 Download at [releases](https://github.com/ryaneberly/CFLint/releases) page.
 

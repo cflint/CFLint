@@ -7,7 +7,6 @@ A statistical code analysis tool for ColdFusion (in the spirit of FindBugs and L
 <div><strong>Can you use it today? Functional? Yes</strong><br>
 <strong>Mature, flawless?  No, you can help:<br></strong></div>
 * <strong>Report an [issue](https://github.com/ryaneberly/CFLint/issues/new) </strong>
-* <strong>Email [me](ryaneberly@gmail.com) </strong>
 * <strong>Join the mailing list on Nabble <a id="nabblelink" href="http://cflint.2337369.n4.nabble.com/">CFLint</a>
 <script src="http://cflint.2337369.n4.nabble.com/embed/f1"></script></strong>
 
@@ -16,6 +15,8 @@ Download at [releases](https://github.com/ryaneberly/CFLint/releases) page.
 See the [Jenkins](http://jenkins-ci.org/)/Hudson plugin [here](https://github.com/ryaneberly/CFLint-plugin).
 
 Someone has created a [SublimeLinter](http://www.sublimelinter.com) plugin [here](https://github.com/ckaznocha/SublimeLinter-contrib-CFLint).
+
+Ray Camden created a CFBuilder plugin [here](https://github.com/cfjedimaster/CFLint-Extension) and blogs about CFLint [here](http://www.raymondcamden.com/2014/7/31/Linting-your-ColdFusion-code#more).
 
 
 ## Quick Start 

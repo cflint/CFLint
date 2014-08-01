@@ -16,7 +16,7 @@ See the [Jenkins](http://jenkins-ci.org/)/Hudson plugin [here](https://github.co
 
 Someone has created a [SublimeLinter](http://www.sublimelinter.com) plugin [here](https://github.com/ckaznocha/SublimeLinter-contrib-CFLint).
 
-Ray Camden created a CFBuilder plugin [here](https://github.com/cfjedimaster/CFLint-Extension) and blogs about CFLint [here](http://www.raymondcamden.com/2014/7/31/Linting-your-ColdFusion-code#more).
+Ray Camden created a [CFBuilder](http://www.adobe.com/products/coldfusion-builder.html) plugin [here](https://github.com/cfjedimaster/CFLint-Extension) and blogs about CFLint [here](http://www.raymondcamden.com/2014/7/31/Linting-your-ColdFusion-code#more).
 
 
 ## Quick Start 

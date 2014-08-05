@@ -1,0 +1,15 @@
+First, you need Apache Maven to be installed 
+	http://maven.apache.org/guides/getting-started/maven-in-five-minutes.html
+
+After you have maven installed you need to install cfml.parsing and cfml.dictionary to the local Maven repository
+	1. Run the importlocalmaven.bat from the CFLint root.
+
+	!!!This is where it gets kind of funky, since CFLint is looking for specific versions of the libraries!!!
+
+	2. Open the .m2 folder for your computer user.
+	3. Browse to the cfml folder.
+	4. Inside here, copy the CFLint\lib jars to the corresponding subfolders.
+	5. Rename the jar files to "cfml.dictionary-0.0.1.jar" and "cfml.parsing-0.0.1.jar"
+	6. Open a command prompt, navigate to your CFLint root folder and build with:
+		mvn clean install
+	7. Hopefully you see a "BUILD SUCCESS"

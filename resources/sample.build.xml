@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project basedir=".." default="build" name="goodville-common">
+	
+	<path id="classpath">
+		<fileset dir="target/appassembler/lib" includes="*.jar" />
+	</path>
+	
+	<target name="UpToDateCheck">
+		<uptodate property="cflint.uptodate" targetfile="target/cflint.xml">
+			<srcfiles dir="c:/source/cfmx/extensions/components/goodville" includes="**/*.cfm,**/*.cfc" />
+		</uptodate>
+	</target>
+
+	<target name="clean">
+		<delete file="target/cflint.xml" />
+	</target>
+	
+	<target depends="UpToDateCheck,cflint" name="build" />
+
+	<target name="cflint" unless="cflint.uptodate" depends="UpToDateCheck">
+		<taskdef name="cflint" classname="com.cflint.ant.CFLintTask" classpathref="classpath"/>
+		<cflint xmlfile="target/cflint.xml" showProgress="true">
+			<fileset dir="c:/source/cfmx/extensions/components/goodville" includes="**/*.cfm,**/*.cfc"/>
+		</cflint>
+	</target>
+
+	
+</project>

@@ -216,14 +216,6 @@ public class TestCFBugs {
 		assertEquals(0,result.size());
 	}
 
-	@Ignore
-	@Test
-	public void testParse2() throws IOException{
-		CFMLSource cfmlSource = new CFMLSource(loadFile("C:\\source\\cfmx\\extensions\\components\\goodville\\process\\quote\\df\\dwellingFireManager.cfc"));
-		CFMLParser parser = new CFMLParser();
-		parser.parseElements(cfmlSource);
-	}
-
 	private String loadFile(String fileString) {
 		try {
 			FileInputStream fis = new FileInputStream(fileString);

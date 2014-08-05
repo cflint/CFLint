@@ -7,7 +7,7 @@
 	
 	<target name="UpToDateCheck">
 		<uptodate property="cflint.uptodate" targetfile="target/cflint.xml">
-			<srcfiles dir="c:/source/cfmx/extensions/components/goodville" includes="**/*.cfm,**/*.cfc" />
+			<srcfiles dir="c:/source/cfmx/extensions/components" includes="**/*.cfm,**/*.cfc" />
 		</uptodate>
 	</target>
 
@@ -20,7 +20,7 @@
 	<target name="cflint" unless="cflint.uptodate" depends="UpToDateCheck">
 		<taskdef name="cflint" classname="com.cflint.ant.CFLintTask" classpathref="classpath"/>
 		<cflint xmlfile="target/cflint.xml" showProgress="true">
-			<fileset dir="c:/source/cfmx/extensions/components/goodville" includes="**/*.cfm,**/*.cfc"/>
+			<fileset dir="c:/source/cfmx/extensions/components" includes="**/*.cfm,**/*.cfc"/>
 		</cflint>
 	</target>
 

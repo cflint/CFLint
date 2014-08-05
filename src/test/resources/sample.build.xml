@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project basedir=".." default="build" name="goodville-common">
+<project basedir="..\..\.." default="build" name="goodville-common">
 	
 	<property name="sourceRoot" value="c:/source/cfmx/extensions/components"/>
 	<property name="workfolder" location="temp"/>

@@ -1,14 +1,14 @@
 package com.cflint;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import com.cflint.tools.CFLintFilter;
 
-public class BugList {
+public class BugList implements Iterable<BugInfo> {
 
 	Map<String, List<BugInfo>> bugList = new HashMap<String, List<BugInfo>>();
 	/**
@@ -33,10 +33,10 @@ public class BugList {
 
 	public boolean add(final BugInfo bugInfo) {
 		if (filter == null || filter.include(bugInfo)) {
-			if(!bugList.containsKey(bugInfo.getMessageCode())){
-				bugList.put(bugInfo.getMessageCode(),new ArrayList<BugInfo>());
+			if (!bugList.containsKey(bugInfo.getMessageCode())) {
+				bugList.put(bugInfo.getMessageCode(), new ArrayList<BugInfo>());
 			}
-			List<BugInfo> curBugList = bugList.get(bugInfo.getMessageCode());
+			final List<BugInfo> curBugList = bugList.get(bugInfo.getMessageCode());
 			return curBugList.add(bugInfo);
 		} else {
 			return false;
@@ -46,13 +46,25 @@ public class BugList {
 	public Map<String, List<BugInfo>> getBugList() {
 		return bugList;
 	}
-	
-	public int size(){
+
+	public int size() {
 		int size = 0;
-		for(List<?> list: bugList.values()){
+		for (final List<?> list : bugList.values()) {
 			size += list.size();
 		}
 		return size;
 	}
 
+	public List<BugInfo> getFlatBugList() {
+		final List<BugInfo> retval = new ArrayList<BugInfo>();
+		for (final List<BugInfo> list : bugList.values()) {
+			retval.addAll(list);
+		}
+		return retval;
+
+	}
+
+	public Iterator<BugInfo> iterator() {
+		return getFlatBugList().iterator();
+	}
 }

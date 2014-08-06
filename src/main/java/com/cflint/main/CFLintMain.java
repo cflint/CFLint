@@ -56,6 +56,8 @@ public class CFLintMain {
 	String[] includeCodes = null;
 	String[] excludeCodes = null;
 	private String extensions;
+	boolean showprogress= false;
+	boolean progressUsesThread=true;
 
 	public static void main(final String[] args) throws ParseException, IOException, TransformerException {
 		//PropertyConfigurator.configure("/log4j.properties");
@@ -73,6 +75,9 @@ public class CFLintMain {
 		options.addOption("version", false, "show the version number");
 		options.addOption("ui", false, "show UI");
 		options.addOption("verbose", false, "verbose");
+		options.addOption("showprogress", false, "show progress bar");
+		options.addOption("singlethread", false, "show progress bar");
+		
 		options.addOption("q", false, "quiet");
 		options.addOption("quiet", false, "quiet");
 		options.addOption("h", false, "display this help");
@@ -148,6 +153,8 @@ public class CFLintMain {
 		if (cmd.hasOption("excludeRule")) {
 			main.excludeRule = Arrays.asList(cmd.getOptionValue("excludeRule").split(","));
 		}
+		main.showprogress=cmd.hasOption("showprogress");
+		main.progressUsesThread=!cmd.hasOption("singlethread");
 //		for (final Option option : cmd.getOptions()) {
 //			if(main.verbose){
 //				System.out.println("Option " + option.getOpt() + " => " + option.getValue());
@@ -213,6 +220,8 @@ public class CFLintMain {
 		final CFLint cflint = new CFLint();
 		cflint.setVerbose(verbose);
 		cflint.setQuiet(quiet);
+		cflint.setShowProgress(showprogress);
+		cflint.setProgressUsesThread(progressUsesThread);
 		if(extensions != null && extensions.trim().length() > 0){
 			try{
 				cflint.setAllowedExtensions(Arrays.asList(extensions.trim().split(",")));

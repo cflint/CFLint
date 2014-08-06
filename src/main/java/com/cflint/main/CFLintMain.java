@@ -153,7 +153,7 @@ public class CFLintMain {
 		if (cmd.hasOption("excludeRule")) {
 			main.excludeRule = Arrays.asList(cmd.getOptionValue("excludeRule").split(","));
 		}
-		main.showprogress=cmd.hasOption("showprogress");
+		main.showprogress=cmd.hasOption("showprogress") || (!cmd.hasOption("showprogress") && cmd.hasOption("ui"));
 		main.progressUsesThread=!cmd.hasOption("singlethread");
 //		for (final Option option : cmd.getOptions()) {
 //			if(main.verbose){

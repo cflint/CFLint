@@ -1,0 +1,114 @@
+<?xml version="1.0" ?>
+<!--
+	User Defined Custom tags. You can add your cfx and cf_ tags here.
+	Note:
+	this file will be over written when you upgrade the plugin, but the file
+	spec shouldn't change so you can just over write this file if you wish
+
+	Creator who made / supports the tag. Values are:
+    	MX          = 0x1;
+    	BlueDragon  = 0x2;
+    	W3C         = 0x4;
+    	UserDefined = 0x8;
+   	If support exists between two you can add them together. For example 3 means
+   	MX and BlueDragon. This file should only have 8s.
+
+    Single is if the tag lacks a closing tag
+    XMLStyle is: if a single tag, does it close thusly /&gt;
+
+    You can put cfx or cf_ tags in here - the tag name needs to be lowercase. 
+    Previous user.xml files suggested that you should miss the cf part of the tag
+    name off but in practice it only works if you include it.  The cfx_rohancrypt
+    example below illustrates the correct way to define custom tags.  You
+   	can also put functions in here, but that is only a hack - cfeclipse will be
+   	able to find your functions at a later date
+ -->
+<dictionary xmlns="http://www.cfeclipse.org/version1/dictionary"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.cfeclipse.org/version1/dictionary http://cfeclipse.tigris.org/version1/dictionary/dictionary.xsd"
+>
+	<tags>
+		<!--
+		<tag creator="8" name="cfx_rohancrypt" single="true" xmlstyle="false">
+			<help><![CDATA[
+				cfx_RohanCrypt is an encryption tag that supports 3des, des and
+				others. It will return the variable rohancrypt.response when
+				encrypting or decrypting a string, and operates directly on a
+				query's column if passed a query. The encrypted text is by default
+				base64 encoded using utf-8.
+			]]></help>
+			<parameter name="mode" type="String" required="true">
+				<help><![CDATA[
+					Sets the tags mode
+				]]></help>
+				<values>
+					<value option="genkey" />
+					<value option="encrypt" />
+					<value option="decrypt" />
+				</values>
+			</parameter>
+			<parameter name="keyfile" type="String" required="true">
+				<help><![CDATA[
+					Sets the key file to use (should be a generated rkey file)
+				]]></help>
+				<values />
+			</parameter>
+			<parameter name="string" type="String" required="false">
+				<help><![CDATA[
+					A string value to encrypt or decrypt
+				]]></help>
+				<values />
+			</parameter>
+			<parameter name="query" type="String" required="false">
+				<help><![CDATA[
+					The query to perform the action on. If you use this, you'll
+					need to use the column attribute too.
+				]]></help>
+				<values />
+			</parameter>
+			<parameter name="column" type="String" required="false">
+				<help><![CDATA[
+					The column that the action should be applied to.
+				]]></help>
+				<values />
+			</parameter>
+			<parameter name="type" type="String" required="false">
+				<help><![CDATA[
+					The encoding type the data should be save to or is comming
+					in as
+				]]></help>
+				<values>
+					<value option="hex" />
+					<value option="base64" />
+				</values>
+			</parameter>
+			<parameter name="iv" type="String" required="false">
+				<help><![CDATA[
+					The IV for this encryption session
+				]]></help>
+				<values />
+			</parameter>
+		</tag>
+		-->
+	</tags>
+
+	<functions>
+		<!--
+			<function creator="8" name="dostuff" returns="Object">
+			<help><![CDATA[
+				Does nothing this is an example
+			]]></help>
+			<parameter name="blarg" type="boolean" required="false">
+				<help><![CDATA[
+					Is it true?
+				]]></help>
+			</parameter>
+		</function>
+		-->
+	</functions>
+
+	<scopes>
+		<!-- <scope value="my.thing"></scope> -->
+	</scopes>
+
+</dictionary>

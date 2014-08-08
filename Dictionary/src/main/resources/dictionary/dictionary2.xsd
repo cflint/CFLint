@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+	targetNamespace="http://www.cfeclipse.org/version1/dictionary2"
+	xmlns="http://www.cfeclipse.org/version1/dictionary2"
+>
+	<!-- root element -->
+	<xs:element name="dictionary">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="tags" minOccurs="0" maxOccurs="1" />
+				<xs:element ref="functions" minOccurs="0" maxOccurs="1" />
+				<xs:element ref="scopes" minOccurs="0" maxOccurs="1" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<!-- second level elements (main groups) -->
+	<xs:element name="tags">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="tag" minOccurs="0" maxOccurs="unbounded" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	
+	<xs:element name="functions">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="function" minOccurs="0" maxOccurs="unbounded" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	
+	<xs:element name="scopes">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="scope" minOccurs="0" maxOccurs="unbounded" />	
+			</xs:sequence>		
+		</xs:complexType>
+	</xs:element>
+	
+	<xs:element name="types">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="type" minOccurs="0" maxOccurs="unbounded" />	
+			</xs:sequence>		
+		</xs:complexType>
+	</xs:element>
+	
+	<!-- single items (third level stuff) -->
+	<xs:element name="tag">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="help" />
+				<xs:element ref="return" minOccurs="0" maxOccurs="unbounded" />
+				<xs:element ref="parameter" minOccurs="0" maxOccurs="unbounded" />
+			</xs:sequence>
+			<xs:attribute name="creator" type="xs:string" />
+			<xs:attribute name="name" type="xs:string" use="required" />
+			<xs:attribute name="single" type="xs:boolean" use="required" />
+			<xs:attribute name="xmlstyle" type="xs:boolean" use="required" />
+			<xs:attribute name="hybrid" type="xs:boolean" use="optional" />
+			<xs:attribute name="allowanyattribute" type="xs:boolean" use="optional" />
+			<xs:attribute name="compatibility" type="compatibility" use="optional" />
+		</xs:complexType>
+	</xs:element>
+	
+	<xs:element name="function">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="help" />
+				<xs:element ref="parameter" minOccurs="0" maxOccurs="unbounded" />
+			</xs:sequence>
+			<xs:attribute name="creator" type="xs:string" />
+			<xs:attribute name="name" type="xs:string" use="required" />
+			<xs:attribute name="returns" type="cfbasetypes" use="required" />
+			<xs:attribute name="compatibility" type="compatibility" use="optional" />
+		</xs:complexType>
+	</xs:element>
+	
+	<xs:element name="scope">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="help" />
+			</xs:sequence>
+			<xs:attribute name="value" type="xs:string" use="required" />
+			<xs:attribute name="type" type="cfbasetypes" use="required" />
+			<xs:attribute name="compatibility" type="compatibility" use="optional" />
+		</xs:complexType>
+	</xs:element>
+	
+	<xs:element name="type">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="help" />
+				<xs:element ref="type" minOccurs="0" maxOccurs="unbounded" />
+			</xs:sequence>
+			<xs:attribute name="name" type="xs:string" use="required" />
+			<xs:attribute name="type" type="cfbasetypes" use="required" />
+			<xs:attribute name="mutable" type="xs:boolean" use="optional" />
+			<xs:attribute name="creation" use="optional">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="Auto" />
+						<xs:enumeration value="AutoOrAttribute" />
+						<xs:enumeration value="Attribute" />
+						<xs:enumeration value="Global" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="compatibility" type="compatibility" use="optional" />
+		</xs:complexType>
+	</xs:element>
+	
+	<xs:element name="return">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="help" />
+			</xs:sequence>
+			<xs:attribute name="type" type="cfbasetypes" use="required" />
+			<xs:attribute name="name" type="xs:string" use="optional" />
+			<xs:attribute name="parameter" type="xs:string" use="optional" />
+		</xs:complexType>
+	</xs:element>
+	
+	<!-- mostly arguements and modifiers for the third level items. these further
+		define the page level items -->
+	<xs:element name="parameter">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="help" />
+				<xs:element ref="values" minOccurs="0" />
+				<xs:element ref="triggers" minOccurs="0" maxOccurs="unbounded" />
+			</xs:sequence>
+			<xs:attribute name="name" type="xs:string" use="required" />
+			<xs:attribute name="default" type="xs:string" use="optional" />
+			<xs:attribute name="type" type="cfbasetypes" use="required" />
+			<xs:attribute name="returnType" type="cfbasetypes" use="optional" />
+			<xs:attribute name="required" type="xs:boolean" use="required" />
+			<xs:attribute name="compatibility" type="compatibility" use="optional" />
+		</xs:complexType>
+	</xs:element>
+	
+	<!-- values that a parameter may have (function or tag) -->	
+	<xs:element name="values">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="value" minOccurs="0" maxOccurs="unbounded" />
+			</xs:sequence>
+			<xs:attribute name="default" type="xs:string" use="optional" />
+		</xs:complexType>
+	</xs:element>
+	
+	<xs:element name="value">
+		<xs:complexType>
+			<xs:simpleContent>
+				<xs:extension base="xs:string">
+					<xs:attribute name="option" type="xs:string" use="required" />
+					<xs:attribute name="help" type="xs:string" use="optional" />
+					<xs:attribute name="compatibility" type="compatibility" use="optional" />
+				</xs:extension>
+			</xs:simpleContent>
+		</xs:complexType>
+	</xs:element>
+	
+	<!-- by default all parameters will show for a tag / function unless there are
+		triggers applied. Then the rules set using selectedValue will govern if 
+		a parameter will show -->
+	<xs:element name="triggers">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="selectedValue" minOccurs="1" maxOccurs="unbounded" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	
+	<xs:element name="selectedValue">
+		<xs:complexType>
+			<!-- this references an attribute in the parent tag and when... -->
+			<xs:attribute name="attributeName" use="required" />
+			<!-- its value is what is in here this trigger applies -->
+			<xs:attribute name="value" use="required" />
+			<!-- marks the parameter as required or optional -->
+			<xs:attribute name="required" type="xs:boolean" use="required" />
+			<xs:attribute name="index" type="xs:integer" use="optional" />
+		</xs:complexType>
+	</xs:element>
+	
+	
+	<!-- misc stuff -->
+	<xs:element name="help" type="xs:string" />
+	
+	<xs:simpleType name="compatibility">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="deprecated" />
+			<xs:enumeration value="obsolete" />
+			<xs:enumeration value="new" />
+			<xs:enumeration value="changed" />
+		</xs:restriction>
+	</xs:simpleType>
+	
+	<xs:simpleType name="cfbasetypes">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Any" />
+			<xs:enumeration value="Array" />
+			<xs:enumeration value="Binary" />
+			<xs:enumeration value="boolean" />
+			<xs:enumeration value="char" />
+			<xs:enumeration value="DateTime" />
+			<xs:enumeration value="Function" />
+			<xs:enumeration value="ISODateTime" />
+			<xs:enumeration value="Node" />
+			<xs:enumeration value="Numeric" />
+			<xs:enumeration value="Object" />
+			<xs:enumeration value="ODBCDate" />
+			<xs:enumeration value="ODBCDateTime" />
+			<xs:enumeration value="ODBCTime" />
+			<xs:enumeration value="Query" />
+			<xs:enumeration value="QueryColumn" />
+			<xs:enumeration value="Regex" />
+			<xs:enumeration value="String" />
+			<xs:enumeration value="Struct" />
+			<xs:enumeration value="Timespan" />
+			<xs:enumeration value="URL" />
+			<xs:enumeration value="UUID" />
+			<xs:enumeration value="void" />
+			<xs:enumeration value="xml" />
+			<xs:enumeration value="variableName" />
+			<!-- Special types -->
+			<xs:enumeration value="arrayOfStruct" />
+			<xs:enumeration value="application" />
+			<xs:enumeration value="session" />
+			<xs:enumeration value="client" />
+			<xs:enumeration value="cookie" />
+			<xs:enumeration value="request" />
+			<xs:enumeration value="cgi" />
+			<xs:enumeration value="cfcollection" />
+			<xs:enumeration value="cfdirectory" />
+			<xs:enumeration value="cffile" />
+			<xs:enumeration value="cfftp" />
+			<xs:enumeration value="cfftplist" />
+			<xs:enumeration value="cfhttp" />
+			<xs:enumeration value="cfntauthenticate" />
+			<xs:enumeration value="cfpop" />
+			<xs:enumeration value="cfquery" />
+			<xs:enumeration value="cfregistry" />
+			<xs:enumeration value="cfsearch" />
+			<xs:enumeration value="cfstoredproc" />
+		</xs:restriction>
+	</xs:simpleType>
+	
+</xs:schema>

@@ -1,0 +1,10 @@
+gunit XMLTree walks XML;
+
+@header{
+package com.parser.main.cfml.antlr;
+}
+
+//------------------- document
+document walks document:
+
+"<cftry/>" -> ""

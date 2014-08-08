@@ -1,0 +1,10 @@
+<parameter name="height" type="String" required="false" category="Size">
+	<help>** Deprecated. Use styles instead. **
+		Specifies the height of the table cell.</help>
+	<values/>
+</parameter>
+<parameter name="width" type="String" required="false" category="Size">
+	<help>** Deprecated. Use styles instead. **
+		Specifies the width of the table cell.</help>
+	<values/>
+</parameter>

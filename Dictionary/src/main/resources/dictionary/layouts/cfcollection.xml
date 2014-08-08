@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dialog>
+
+<tab name="General">
+	
+	<field name="collection"/>
+	
+	<field name="name"/>
+	
+	<field name="path"/>
+	
+	<field name="action"/>
+	
+</tab>
+
+<tab name="Create">
+	
+	<field name="language"/>
+	
+</tab>
+
+</dialog>

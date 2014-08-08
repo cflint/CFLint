@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dialog>
+
+<tab name="General">
+	
+	<field name="index"/>
+	
+</tab>
+
+<tab name="Index">
+	
+	<field name="from"/>
+	
+	<field name="to"/>
+	
+	<field name="step"/>
+	
+</tab>
+
+<tab name="Conditional">
+	
+	<field name="condition"/>
+	
+</tab>
+
+<tab name="Query">
+	
+	<field name="query"/>
+	
+	<field name="startrow"/>
+	
+	<field name="endrow"/>
+	
+</tab>
+
+<tab name="List">
+	
+	<field name="list"/>
+	
+	<field name="delimiters"/>
+	
+</tab>
+
+<tab name="Collection">
+	
+	<field name="collection"/>
+	
+	<field name="item"/>
+	
+</tab>
+
+</dialog>

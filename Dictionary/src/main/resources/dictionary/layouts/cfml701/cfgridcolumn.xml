@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dialog>
+
+<tab name="General">
+	
+	<field name="name"/>
+	
+	<field name="fontsize"/>
+	
+	<field name="textcolor"/>
+	
+	<field name="bgcolor"/>
+	
+	<field name="width"/>
+	
+	<field name="numberformat"/>
+	
+	<field name="href"/>
+	
+	<field name="hrefkey"/>
+	
+	<field name="target"/>
+	
+	<field name="bold"/>
+	
+	<field name="italic"/>
+	
+	<field name="select"/>
+	
+	<field name="display"/>
+	
+	<field name="dataalign"/>
+	
+	<field name="font"/>
+	
+	<field name="type"/>
+	
+</tab>
+
+<tab name="Header Options">
+	
+	<field name="header"/>
+	
+	<field name="headerfontsize"/>
+	
+	<field name="colheadertextcolor"/>
+	
+	<field name="headerbold"/>
+	
+	<field name="headeritalic"/>
+	
+	<field name="headeralign"/>
+	
+	<field name="headerfont"/>
+	
+</tab>
+
+<tab name="Values">
+	
+	<field name="values"/>
+	
+	<field name="valuesdisplay"/>
+	
+	<field name="valuesdelimiter"/>
+	
+</tab>
+
+</dialog>

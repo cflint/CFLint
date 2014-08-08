@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dialog>
+
+<tab name="Header">
+	
+	<field name="name"/>
+	
+	<field name="value"/>
+	
+</tab>
+
+<tab name="File">
+	
+	<field name="file"/>
+	
+	<field name="type"/>
+	
+</tab>
+
+</dialog>

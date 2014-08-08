@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dialog>
+
+<tab name="General">
+	
+	<field name="value"/>
+	
+	<field name="maxlength"/>
+	
+	<field name="scale"/>
+	
+	<field name="separator"/>
+	
+	<field name="null"/>
+	
+	<field name="list"/>
+	
+	<field name="cfsqltype"/>
+	
+</tab>
+
+</dialog>

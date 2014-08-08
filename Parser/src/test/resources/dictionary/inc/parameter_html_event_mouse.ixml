@@ -1,0 +1,30 @@
+<parameter name="onclick" type="Script" required="false" category="Event">
+	<help>Script to be run on a mouse click</help>
+	<values/>
+</parameter>
+<parameter name="ondblclick" type="Script" required="false" category="Event">
+	<help>Script to be run when a mouse is doubleclicked</help>
+	<values/>
+</parameter>
+<parameter name="onmousedown" type="Script" required="false" category="Event">
+	<help>Script to be run when a mouse button is pressed</help>
+	<values/>
+</parameter>
+<parameter name="onmousemove" type="Script" required="false" category="Event">
+	<help>Script to be run when a mouse pointer moves</help>
+	<values/>
+</parameter>
+<parameter name="onmouseover" type="Script" required="false" category="Event">
+	<help>Script to be run when a mouse pointer moves over an 
+		element</help>
+	<values/>
+</parameter>
+<parameter name="onmouseout" type="Script" required="false" category="Event">
+	<help>Script to be run when a mouse pointer moves out of an 
+		element</help>
+	<values/>
+</parameter>
+<parameter name="onmouseup" type="Script" required="false" category="Event">
+	<help>Script to be run when a mouse button is released</help>
+	<values/>
+</parameter>

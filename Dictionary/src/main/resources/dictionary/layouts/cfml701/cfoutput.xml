@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dialog>
+
+<tab name="General">
+	
+	<field name="query"/>
+	
+	<field name="group"/>
+	
+	<field name="startrow"/>
+	
+	<field name="maxrows"/>
+	
+	<field name="groupcasesensitive"/>
+	
+</tab>
+
+</dialog>

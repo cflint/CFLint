@@ -1,0 +1,611 @@
+<?xml version="1.0" ?>
+<!-- this file defines how the dictionary view is structured -->
+<root>
+	<categories label="Tags by Function" type="tag">
+		<cat label="Application framework tags" href="html/00000197.htm">
+		<item label="cfapplication" href="00000217.htm#1097308"/>
+		<item label="cfimport" href="00000276.htm#2693767"/>
+		<item label="cfscript" href="00000329.htm#1103056"/>
+		<item label="cfassociate" href="00000219.htm#3393273"/>
+		<item label="cflock" href="00000285.htm#1100787"/>
+		<item label="cferror" href="00000242.htm#2022557"/>
+		<item label="cfmodule" href="00000300.htm#1810047"/>
+		</cat>
+	<cat label="Database manipulation tags" href="html/00000198.htm">
+	<item label="cfinsert" href="00000280.htm#1100472"/>
+		<item label="cfprocresult" href="00000314.htm#1102246"/>
+		<item label="cfstoredproc" href="00000338.htm#2607555"/>
+		<item label="cfobjectcache" href="00000308.htm#2310692"/>
+		<item label="cfquery" href="00000316.htm#1102316"/>
+		<item label="cftransaction" href="00000346.htm#1104164"/>
+		<item label="cfprocparam" href="00000313.htm#1102102"/>
+		<item label="cfqueryparam" href="00000317.htm#1102474"/>
+		<item label="cfupdate" href="00000350.htm#1104662"/>
+		</cat>
+	<cat label="Data output tags" href="html/00000199.htm">
+	<item label="cfchart" href="00000226.htm#2619630"/>
+		<item label="cfdocumentitem" href="00000237.htm#3766460"/>
+		<item label="cfoutput" href="00000309.htm#1101659"/>
+		<item label="cfchartdata" href="00000227.htm#2748541"/>
+		<item label="cfdocumentsection" href="00000238.htm#3766659"/>
+		<item label="cfprocessingdirective" href="00000312.htm#1102085"/>
+		<item label="cfchartseries" href="00000228.htm#2741830"/>
+		<item label="cfflush" href="00000255.htm#2130748"/>
+		<item label="cfreport" href="00000323.htm#1102863"/>
+		<item label="cfcol" href="00000229.htm#1097607"/>
+		<item label="cfheader" href="00000270.htm#1355655"/>
+		<item label="cfreportparam" href="00000324.htm#2821951"/>
+		<item label="cfcontent" href="00000232.htm#2850760"/>
+		<item label="cflog" href="00000286.htm#1842314"/>
+		<item label="cfsilent" href="00000336.htm#1103549"/>
+		<item label="cfdocument" href="00000236.htm#3765835"/>
+		<item label="cfoutput" href="00000309.htm#1101659"/>
+		<item label="cftable" href="00000340.htm#1103885"/>
+		</cat>
+	<cat label="Debugging tags" href="html/00000200.htm">
+	<item label="cfdump" href="00000239.htm#3765824"/>
+		<item label="cftimer" href="00000344.htm#2765717"/>
+		<item label="cftrace" href="00000345.htm#2698629"/>
+		</cat>
+	<cat label="Exception handling tags" href="html/00000201.htm">
+	<item label="cfcatch" href="00000225.htm#3395038"/>
+		<item label="cfrethrow" href="00000325.htm#1102913"/>
+		<item label="cftry" href="00000349.htm#1104557"/>
+		<item label="cferror" href="00000242.htm#2022557"/>
+		<item label="cfthrow" href="00000343.htm#2773591"/>
+		</cat>
+	<cat label="Extensibility tags" href="html/00000202.htm">
+	<item label="cfchart" href="00000226.htm#2619630"/>
+		<item label="cffunction" href="00000263.htm#2852457"/>
+		<item label="cfreportparam" href="00000324.htm#2821951"/>
+		<item label="cfchartdata" href="00000227.htm#2748541"/>
+		<item label="cfindex" href="00000278.htm#1100286"/>
+		<item label="cfreturn" href="00000326.htm#2498057"/>
+		<item label="cfchartseries" href="00000228.htm#2741830"/>
+		<item label="cfinvoke" href="00000281.htm#2650065"/>
+		<item label="cfsearch" href="00000330.htm#1103106"/>
+		<item label="cfcollection" href="00000230.htm#1097667"/>
+		<item label="cfinvokeargument" href="00000282.htm#3014048"/>
+		<item label="cfwddx" href="00000351.htm#2682044"/>
+		<item label="cfcomponent" href="00000231.htm#3350776"/>
+		<item label="cfobject" href="00000302.htm#2820239"/>
+		<item label="cfxml" href="00000352.htm#2497244"/>
+		<item label="cfexecute" href="00000243.htm#1098198"/>
+		<item label="cfproperty" href="00000315.htm#2498235"/>
+		<item label="cfftp" href="00000259.htm#1800554"/>
+		<item label="cfreport" href="00000323.htm#1102863"/>
+		</cat>
+	<cat label="File management tags" href="html/00000203.htm">
+	<item label="cfdirectory" href="00000235.htm#1097918"/>
+		<item label="cffile" href="00000245.htm#1098395"/>
+		<item label="cfftp" href="00000259.htm#1800554"/>
+		</cat>
+	<cat label="Flow-control tags" href="html/00000204.htm">
+	<item label="cfabort" href="00000215.htm#3835579"/>
+		<item label="cfexecute" href="00000243.htm#1098198"/>
+		<item label="cfrethrow" href="00000325.htm#1102913"/>
+		<item label="cfbreak" href="00000221.htm#1097484"/>
+		<item label="cfexit" href="00000244.htm#1098252"/>
+		<item label="cfswitch" href="00000339.htm#1103819"/>
+		<item label="cfcase" href="00000224.htm#3798974"/>
+		<item label="cfif" href="00000274.htm#1100123"/>
+		<item label="cfthrow" href="00000343.htm#2773591"/>
+		<item label="cfdefaultcase" href="00000234.htm#2664493"/>
+		<item label="cfinclude" href="00000277.htm#1100248"/>
+		<item label="cftry" href="00000349.htm#1104557"/>
+		<item label="cfelse" href="00000240.htm#3138301"/>
+		<item label="cflocation" href="00000284.htm#1100753"/>
+		<item label="cfelseif" href="00000241.htm#2647667"/>
+		<item label="cfloop" href="00000290.htm#3301338"/>
+		</cat>
+	<cat label="Forms tags" href="html/00000205.htm">
+	<item label="cfapplet" href="00000216.htm#1097239"/>
+		<item label="cfgrid" href="00000266.htm#1836171"/>
+		<item label="cfselect" href="00000331.htm#2553073"/>
+		<item label="cfcalendar" href="00000223.htm#3798877"/>
+		<item label="cfgridcolumn" href="00000267.htm#3764697"/>
+		<item label="cfslider" href="00000337.htm#2612389"/>
+		<item label="cfform" href="00000256.htm#2433198"/>
+		<item label="cfgridrow" href="00000268.htm#3842572"/>
+		<item label="cftextarea" href="00000341.htm#2773598"/>
+		<item label="cfformgroup" href="00000257.htm#3833404"/>
+		<item label="cfgridupdate" href="00000269.htm#1099751"/>
+		<item label="cftree" href="00000347.htm#1104271"/>
+		<item label="cfformitem" href="00000258.htm#3768073"/>
+		<item label="cfinput" href="00000279.htm#1100379"/>
+		<item label="cftreeitem" href="00000348.htm#1104421"/>
+		</cat>
+	<cat label="Internet Protocol tags" href="html/00000206.htm">
+	<item label="cfftp" href="00000259.htm#1800554"/>
+		<item label="cfldap" href="00000283.htm#1100581"/>
+		<item label="cfmailpart" href="00000299.htm#2732354"/>
+		<item label="cfhttp" href="00000272.htm#1632966"/>
+		<item label="cfmail" href="00000297.htm#2355015"/>
+		<item label="cfpop" href="00000311.htm#1101854"/>
+		<item label="cfhttpparam" href="00000273.htm#1100049"/>
+		<item label="cfmailparam" href="00000298.htm#1101294"/>
+		</cat>
+	<cat label="Page processing tags" href="html/00000207.htm">
+	<item label="cfcache" href="00000222.htm#1097532"/>
+		<item label="cfheader" href="00000270.htm#1355655"/>
+		<item label="cfprocessingdirective" href="00000312.htm#1102085"/>
+		<item label="cfcontent" href="00000232.htm#2850760"/>
+		<item label="cfhtmlhead" href="00000271.htm#1099843"/>
+		<item label="cfsetting" href="00000335.htm#1103514"/>
+		<item label="cfflush" href="00000255.htm#2130748"/>
+		<item label="cfinclude" href="00000277.htm#1100248"/>
+		<item label="cfsilent" href="00000336.htm#1103549"/>
+		</cat>
+	<cat label="Security tags" href="html/00000208.htm">
+	<item label="cflogin" href="00000287.htm#2991147"/>
+		<item label="cflogout" href="00000289.htm#2871521"/>
+		<item label="cfloginuser" href="00000288.htm#2873089"/>
+		<item label="cfNTauthenticate" href="00000301.htm#2812370"/>
+		</cat>
+	<cat label="Variable manipulation tags" href="html/00000209.htm">
+		<item label="cfcookie" href="00000233.htm#3839604"/>
+		<item label="cfregistry" href="00000318.htm#1102654"/>
+		<item label="cfset" href="00000334.htm#1103445"/>
+		<item label="cfdump" href="00000239.htm#3765824"/>
+		<item label="cfsavecontent" href="00000327.htm#1844410"/>
+		<item label="cfsetting" href="00000335.htm#1103514"/>
+		<item label="cfparam" href="00000310.htm#1101730"/>
+		<item label="cfschedule" href="00000328.htm#1843993"/>
+	</cat>
+	<cat label="Other tags" href="html/00000210.htm">
+		<item label="cflog" href="00000286.htm#1842314"/>
+		<item label="cfregistry" href="00000318.htm#1102654"/>
+	</cat>
+	
+	
+	</categories>
+	<categories label="Functions by Category" type="function">
+		<cat label="Array functions" href="html/00000355.htm">
+	<item label="ArrayAppend" href="00000381.htm#1100231"/>
+		<item label="ArrayIsEmpty" href="00000386.htm#1100494"/>
+		<item label="ArrayPrepend" href="00000391.htm#1100739"/>
+		<item label="ArraySwap" href="00000396.htm#1100966"/>
+		<item label="ArrayAvg" href="00000382.htm#1100280"/>
+		<item label="ArrayLen" href="00000387.htm#1100537"/>
+		<item label="ArrayResize" href="00000392.htm#1100787"/>
+		<item label="ArrayToList" href="00000397.htm#1101000"/>
+		<item label="ArrayClear" href="00000383.htm#1100366"/>
+		<item label="ArrayMax" href="00000388.htm#1100583"/>
+		<item label="ArraySet" href="00000393.htm#1100826"/>
+		<item label="IsArray" href="00000512.htm#1106086"/>
+		<item label="ArrayDeleteAt" href="00000384.htm#1100409"/>
+		<item label="ArrayMin" href="00000389.htm#1100639"/>
+		<item label="ArraySort" href="00000394.htm#1100866"/>
+		<item label="ListToArray" href="00000564.htm#131626"/>
+		<item label="ArrayInsertAt" href="00000385.htm#1100451"/>
+		<item label="ArrayNew" href="00000390.htm#1100696"/>
+		<item label="ArraySum" href="00000395.htm#1100909"/>
+		</cat>
+	<cat label="Conversion functions" href="html/00000356.htm">
+	<item label="ArrayToList" href="00000397.htm#1101000"/>
+		<item label="Hash" href="00000503.htm#1105551"/>
+		<item label="ToScript" href="00000654.htm#188861"/>
+		<item label="XmlFormat" href="00000668.htm#139554"/>
+		<item label="BinaryDecode" href="00000403.htm#4989807"/>
+		<item label="LCase" href="00000544.htm#130124"/>
+		<item label="ToString" href="00000655.htm#138710"/>
+		<item label="XmlParse" href="00000671.htm#139864"/>
+		<item label="BinaryEncode" href="00000404.htm#4989676"/>
+		<item label="ListToArray" href="00000564.htm#131626"/>
+		<item label="URLDecode" href="00000658.htm#138899"/>
+		<item label="XmlTransform" href="00000673.htm#140093"/>
+		<item label="CharsetDecode" href="00000415.htm#4990140"/>
+		<item label="ToBase64" href="00000652.htm#138529"/>
+		<item label="URLEncodedFormat" href="00000659.htm#138993"/>
+		<item label="CharsetEncode" href="00000416.htm#4990268"/>
+		<item label="ToBinary" href="00000653.htm#138631"/>
+		<item label="Val" href="00000661.htm#139109"/>
+		</cat>
+	<cat label="Date and time functions" href="html/00000357.htm">
+	<item label="CreateDate" href="00000422.htm#4731550"/>
+		<item label="DateFormat" href="00000441.htm#1103264"/>
+		<item label="GetTimeZoneInfo" href="00000501.htm#1105446"/>
+		<item label="MonthAsString" href="00000589.htm#134018"/>
+		<item label="CreateDateTime" href="00000423.htm#1224498"/>
+		<item label="DatePart" href="00000442.htm#1103355"/>
+		<item label="Hour" href="00000504.htm#1105590"/>
+		<item label="Now" href="00000590.htm#134078"/>
+		<item label="CreateODBCDate" href="00000431.htm#1102341"/>
+		<item label="Day" href="00000443.htm#1103422"/>
+		<item label="IsDate" href="00000518.htm#4758075"/>
+		<item label="ParseDateTime" href="00000594.htm#134381"/>
+		<item label="CreateODBCDateTime" href="00000432.htm#1102463"/>
+		<item label="DayOfWeek" href="00000444.htm#1103491"/>
+		<item label="IsLeapYear" href="00000524.htm#4556368"/>
+		<item label="Quarter" href="00000597.htm#134562"/>
+		<item label="CreateODBCTime" href="00000433.htm#1102559"/>
+		<item label="DayOfWeekAsString" href="00000445.htm#1103560"/>
+		<item label="IsNumericDate" href="00000526.htm#1106623"/>
+		<item label="Second" href="00000621.htm#136193"/>
+		<item label="CreateTime" href="00000434.htm#1102639"/>
+		<item label="DayOfYear" href="00000446.htm#1103621"/>
+		<item label="LSDateFormat" href="00000571.htm#132367"/>
+		<item label="TimeFormat" href="00000651.htm#138423"/>
+		<item label="CreateTimeSpan" href="00000435.htm#1102715"/>
+		<item label="DaysInMonth" href="00000447.htm#1103690"/>
+		<item label="LSIsDate" href="00000575.htm#132884"/>
+		<item label="Week" href="00000663.htm#184136"/>
+		<item label="DateAdd" href="00000437.htm#1102869"/>
+		<item label="DaysInYear" href="00000448.htm#1103759"/>
+		<item label="LSParseDateTime" href="00000579.htm#133322"/>
+		<item label="Year" href="00000675.htm#140406"/>
+		<item label="DateCompare" href="00000438.htm#4762855"/>
+		<item label="FirstDayOfMonth" href="00000465.htm#1104605"/>
+		<item label="LSTimeFormat" href="00000582.htm#133585"/>
+		<item label="DateConvert" href="00000439.htm#1103075"/>
+		<item label="GetHttpTimeString" href="00000483.htm#1953353"/>
+		<item label="Minute" href="00000587.htm#133908"/>
+		<item label="DateDiff" href="00000440.htm#1103187"/>
+		<item label="GetTickCount" href="00000500.htm#1105415"/>
+		<item label="Month" href="00000588.htm#133954"/>
+		</cat>
+	<cat label="Decision functions" href="html/00000358.htm">
+	<item label="DirectoryExists" href="00000454.htm#1104060"/>
+		<item label="IsDefined" href="00000520.htm#1106482"/>
+		<item label="IsSimpleValue" href="00000530.htm#1106859"/>
+		<item label="IsXmlNode" href="00000540.htm#4979002"/>
+		<item label="FileExists" href="00000461.htm#1104406"/>
+		<item label="IsK2ServerABroker" href="00000521.htm#4016583"/>
+		<item label="IsStruct" href="00000532.htm#1106910"/>
+		<item label="IsXmlRoot" href="00000541.htm#4392056"/>
+		<item label="IIf" href="00000507.htm#1105815"/>
+		<item label="IsK2ServerDocCountExceeded" href="00000522.htm#3738185"/>
+		<item label="IsUserInRole" href="00000533.htm#4047189"/>
+		<item label="LSIsCurrency" href="00000574.htm#132806"/>
+		<item label="IsArray" href="00000512.htm#1106086"/>
+		<item label="IsK2ServerOnline" href="00000523.htm#4016500"/>
+		<item label="IsValid" href="00000534.htm#4996076"/>
+		<item label="LSIsDate" href="00000575.htm#132884"/>
+		<item label="IsBinary" href="00000515.htm#1106300"/>
+		<item label="IsLeapYear" href="00000524.htm#4556368"/>
+		<item label="IsWDDX" href="00000535.htm#3123485"/>
+		<item label="LSIsNumeric" href="00000576.htm#132961"/>
+		<item label="IsBoolean" href="00000516.htm#1106344"/>
+		<item label="IsNumeric" href="00000525.htm#1106573"/>
+		<item label="IsXML" href="00000536.htm#4979215"/>
+		<item label="StructIsEmpty" href="00000643.htm#137815"/>
+		<item label="IsCustomFunction" href="00000517.htm#2646249"/>
+		<item label="IsNumericDate" href="00000526.htm#1106623"/>
+		<item label="IsXmlAttribute" href="00000537.htm#4979140"/>
+		<item label="StructKeyExists" href="00000645.htm#137977"/>
+		<item label="IsDate" href="00000518.htm#4758075"/>
+		<item label="IsObject" href="00000527.htm#4078366"/>
+		<item label="IsXmlDoc" href="00000538.htm#4046340"/>
+		<item label="YesNoFormat" href="00000676.htm#140465"/>
+		<item label="IsDebugMode" href="00000519.htm#1106453"/>
+		<item label="IsQuery" href="00000529.htm#1106805"/>
+		<item label="IsXmlElem" href="00000539.htm#4979134"/>
+		</cat>
+	<cat label="Display and formatting functions" href="html/00000359.htm">
+	<item label="CJustify" href="00000418.htm#4749554"/>
+		<item label="HTMLCodeFormat" href="00000505.htm#1105634"/>
+		<item label="LSIsDate" href="00000575.htm#132884"/>
+		<item label="NumberFormat" href="00000591.htm#134113"/>
+		<item label="DateFormat" href="00000441.htm#1103264"/>
+		<item label="HTMLEditFormat" href="00000506.htm#4744272"/>
+		<item label="LSNumberFormat" href="00000577.htm#133027"/>
+		<item label="ParagraphFormat" href="00000592.htm#134319"/>
+		<item label="DecimalFormat" href="00000450.htm#1103887"/>
+		<item label="LJustify" href="00000567.htm#131850"/>
+		<item label="LSParseCurrency" href="00000578.htm#133236"/>
+		<item label="RJustify" href="00000618.htm#136036"/>
+		<item label="DollarFormat" href="00000455.htm#1104101"/>
+		<item label="LSCurrencyFormat" href="00000570.htm#132017"/>
+		<item label="LSParseDateTime" href="00000579.htm#133322"/>
+		<item label="StripCR" href="00000632.htm#136910"/>
+		<item label="FormatBaseN" href="00000467.htm#1104705"/>
+		<item label="LSDateFormat" href="00000571.htm#132367"/>
+		<item label="LSParseEuroCurrency" href="00000580.htm#133438"/>
+		<item label="TimeFormat" href="00000651.htm#138423"/>
+		<item label="GetLocale" href="00000486.htm#4552309"/>
+		<item label="LSEuroCurrencyFormat" href="00000572.htm#132471"/>
+		<item label="LSParseNumber" href="00000581.htm#133515"/>
+		<item label="YesNoFormat" href="00000676.htm#140465"/>
+		<item label="GetLocaleDisplayName" href="00000487.htm#5046249"/>
+		<item label="LSIsCurrency" href="00000574.htm#132806"/>
+		<item label="LSTimeFormat" href="00000582.htm#133585"/>
+		</cat>
+	<cat label="Dynamic evaluation functions" href="html/00000360.htm">
+	<item label="DE" href="00000449.htm#1103833"/>
+		<item label="Evaluate" href="00000458.htm#1104252"/>
+		<item label="IIf" href="00000507.htm#1105815"/>
+		<item label="SetVariable" href="00000626.htm#136570"/>
+		</cat>
+	<cat label="Extensibility functions" href="html/00000361.htm">
+	<item label="CreateObject" href="00000424.htm#1102241"/>
+		<item label="ReleaseComObject" href="00000608.htm#135363"/>
+		<item label="ToScript" href="00000654.htm#188861"/>
+		<item label="GetGatewayHelper" href="00000481.htm#4999113"/>
+		<item label="SendGatewayMessage" href="00000622.htm#153566"/>
+		</cat>
+	<cat label="Full-text search functions" href="html/00000362.htm">
+	<item label="GetK2ServerDocCount" href="00000484.htm#4950812"/>
+		<item label="IsK2ServerABroker" href="00000521.htm#4016583"/>
+		<item label="IsK2ServerOnline" href="00000523.htm#4016500"/>
+		<item label="GetK2ServerDocCountLimit" href="00000485.htm#3688443"/>
+		<item label="IsK2ServerDocCountExceeded" href="00000522.htm#3738185"/>
+		</cat>
+	<cat label="International functions" href="html/00000363.htm">
+	<item label="DateConvert" href="00000439.htm#1103075"/>
+		<item label="GetTimeZoneInfo" href="00000501.htm#1105446"/>
+		<item label="LSIsDate" href="00000575.htm#132884"/>
+		<item label="LSParseEuroCurrency" href="00000580.htm#133438"/>
+		<item label="GetEncoding" href="00000477.htm#4739516"/>
+		<item label="LSIsCurrency" href="00000574.htm#132806"/>
+		<item label="LSParseDateTime" href="00000579.htm#133322"/>
+		<item label="LSParseNumber" href="00000581.htm#133515"/>
+		<item label="GetHttpTimeString" href="00000483.htm#1953353"/>
+		<item label="LSCurrencyFormat" href="00000570.htm#132017"/>
+		<item label="LSIsNumeric" href="00000576.htm#132961"/>
+		<item label="LSTimeFormat" href="00000582.htm#133585"/>
+		<item label="GetLocale" href="00000486.htm#4552309"/>
+		<item label="LSDateFormat" href="00000571.htm#132367"/>
+		<item label="LSNumberFormat" href="00000577.htm#133027"/>
+		<item label="SetEncoding" href="00000623.htm#136247"/>
+		<item label="GetLocaleDisplayName" href="00000487.htm#5046249"/>
+		<item label="LSEuroCurrencyFormat" href="00000572.htm#132471"/>
+		<item label="LSParseCurrency" href="00000578.htm#133236"/>
+		<item label="SetLocale" href="00000624.htm#136340"/>
+		</cat>
+	<cat label="List functions" href="html/00000364.htm">
+	<item label="ArraySort" href="00000394.htm#1100866"/>
+		<item label="FindNoCase" href="00000463.htm#1104504"/>
+		<item label="ListContainsNoCase" href="00000550.htm#130539"/>
+		<item label="ListQualify" href="00000560.htm#131292"/>
+		<item label="ArrayToList" href="00000397.htm#1101000"/>
+		<item label="FindOneOf" href="00000464.htm#1104557"/>
+		<item label="ListDeleteAt" href="00000551.htm#130600"/>
+		<item label="ListRest" href="00000561.htm#131382"/>
+		<item label="Asc" href="00000398.htm#1101046"/>
+		<item label="FormatBaseN" href="00000467.htm#1104705"/>
+		<item label="ListFind" href="00000552.htm#130668"/>
+		<item label="ListSetAt" href="00000562.htm#131443"/>
+		<item label="Chr" href="00000417.htm#4749523"/>
+		<item label="GetClientVariablesList" href="00000473.htm#1104857"/>
+		<item label="ListFindNoCase" href="00000553.htm#130765"/>
+		<item label="ListSort" href="00000563.htm#131526"/>
+		<item label="CJustify" href="00000418.htm#4749554"/>
+		<item label="LCase" href="00000544.htm#130124"/>
+		<item label="ListFirst" href="00000554.htm#130862"/>
+		<item label="ListToArray" href="00000564.htm#131626"/>
+		<item label="Compare" href="00000419.htm#1101820"/>
+		<item label="Left" href="00000545.htm#130173"/>
+		<item label="ListGetAt" href="00000555.htm#130923"/>
+		<item label="ListValueCount" href="00000565.htm#131683"/>
+		<item label="CompareNoCase" href="00000420.htm#1101887"/>
+		<item label="Len" href="00000546.htm#130247"/>
+		<item label="ListInsertAt" href="00000556.htm#130994"/>
+		<item label="ListValueCountNoCase" href="00000566.htm#131767"/>
+		<item label="Decrypt" href="00000452.htm#1103962"/>
+		<item label="ListAppend" href="00000547.htm#130310"/>
+		<item label="ListLast" href="00000557.htm#131062"/>
+		<item label="ReplaceList" href="00000612.htm#135597"/>
+		<item label="Encrypt" href="00000457.htm#1104201"/>
+		<item label="ListChangeDelims" href="00000548.htm#130411"/>
+		<item label="ListLen" href="00000558.htm#131123"/>
+		<item label="Find" href="00000462.htm#1104451"/>
+		<item label="ListContains" href="00000549.htm#130469"/>
+		<item label="ListPrepend" href="00000559.htm#131224"/>
+		</cat>
+	<cat label="Mathematical functions" href="html/00000365.htm">
+	<item label="Abs" href="00000377.htm#1100121"/>
+		<item label="BitNot" href="00000409.htm#1101496"/>
+		<item label="FormatBaseN" href="00000467.htm#1104705"/>
+		<item label="Randomize" href="00000604.htm#149956"/>
+		<item label="ACos" href="00000378.htm#1100157"/>
+		<item label="BitOr" href="00000410.htm#1101535"/>
+		<item label="IncrementValue" href="00000508.htm#1105908"/>
+		<item label="RandRange" href="00000605.htm#149587"/>
+		<item label="ArrayAvg" href="00000382.htm#1100280"/>
+		<item label="BitSHLN" href="00000411.htm#1101574"/>
+		<item label="InputBaseN" href="00000509.htm#1224918"/>
+		<item label="Round" href="00000619.htm#136096"/>
+		<item label="ArraySum" href="00000395.htm#1100909"/>
+		<item label="BitSHRN" href="00000412.htm#1101612"/>
+		<item label="Int" href="00000511.htm#1106046"/>
+		<item label="Sgn" href="00000627.htm#136643"/>
+		<item label="ASin" href="00000399.htm#1101093"/>
+		<item label="BitXor" href="00000413.htm#1101649"/>
+		<item label="Log" href="00000568.htm#131912"/>
+		<item label="Sin" href="00000628.htm#136681"/>
+		<item label="Atn" href="00000400.htm#1101161"/>
+		<item label="Ceiling" href="00000414.htm#1101688"/>
+		<item label="Log10" href="00000569.htm#131965"/>
+		<item label="Sqr" href="00000631.htm#136870"/>
+		<item label="BitAnd" href="00000405.htm#4989670"/>
+		<item label="Cos" href="00000421.htm#1101937"/>
+		<item label="Max" href="00000584.htm#133748"/>
+		<item label="Tan" href="00000650.htm#138346"/>
+		<item label="BitMaskClear" href="00000406.htm#1101362"/>
+		<item label="DecrementValue" href="00000451.htm#1103928"/>
+		<item label="Min" href="00000586.htm#133857"/>
+		<item label="BitMaskRead" href="00000407.htm#1101407"/>
+		<item label="Exp" href="00000459.htm#1104297"/>
+		<item label="Pi" href="00000595.htm#134457"/>
+		<item label="BitMaskSet" href="00000408.htm#1101449"/>
+		<item label="Fix" href="00000466.htm#4738711"/>
+		<item label="Rand" href="00000603.htm#134961"/>
+		</cat>
+	<cat label="Other functions" href="html/00000366.htm">
+	<item label="CreateUUID" href="00000436.htm#1102827"/>
+		<item label="GetBaseTagList" href="00000471.htm#1104790"/>
+		<item label="PreserveSingleQuotes" href="00000596.htm#134493"/>
+		<item label="DeleteClientVariable" href="00000453.htm#4994925"/>
+		<item label="GetBaseTemplatePath" href="00000472.htm#1104820"/>
+		<item label="URLSessionFormat" href="00000660.htm#139074"/>
+		<item label="GetBaseTagData" href="00000470.htm#1104755"/>
+		<item label="GetClientVariablesList" href="00000473.htm#1104857"/>
+		<item label="WriteOutput" href="00000665.htm#139339"/>
+		</cat>
+	<cat label="Query functions" href="html/00000367.htm">
+	<item label="IsQuery" href="00000529.htm#1106805"/>
+		<item label="QueryAddRow" href="00000599.htm#134706"/>
+		<item label="QuerySetCell" href="00000601.htm#134832"/>
+		<item label="ValueList" href="00000662.htm#139169"/>
+		<item label="QueryAddColumn" href="00000598.htm#134610"/>
+		<item label="QueryNew" href="00000600.htm#134773"/>
+		<item label="QuotedValueList" href="00000602.htm#134904"/>
+		</cat>
+	<cat label="Security functions" href="html/00000368.htm">
+	<item label="Decrypt" href="00000452.htm#1103962"/>
+		<item label="GetAuthUser" href="00000469.htm#4046631"/>
+		<item label="GetTempDirectory" href="00000497.htm#1105302"/>
+		<item label="IsUserInRole" href="00000533.htm#4047189"/>
+		<item label="Encrypt" href="00000457.htm#1104201"/>
+		<item label="GenerateSecretKey" href="00000468.htm#4992278"/>
+		<item label="Hash" href="00000503.htm#1105551"/>
+		</cat>
+	<cat label="String functions" href="html/00000369.htm">
+	<item label="Asc" href="00000398.htm#1101046"/>
+		<item label="GetToken" href="00000502.htm#3732032"/>
+		<item label="LSParseDateTime" href="00000579.htm#133322"/>
+		<item label="Reverse" href="00000616.htm#135913"/>
+		<item label="BinaryDecode" href="00000403.htm#4989807"/>
+		<item label="Hash" href="00000503.htm#1105551"/>
+		<item label="LSParseEuroCurrency" href="00000580.htm#133438"/>
+		<item label="Right" href="00000617.htm#135972"/>
+		<item label="BinaryEncode" href="00000404.htm#4989676"/>
+		<item label="HTMLCodeFormat" href="00000505.htm#1105634"/>
+		<item label="LSParseNumber" href="00000581.htm#133515"/>
+		<item label="RJustify" href="00000618.htm#136036"/>
+		<item label="CharsetDecode" href="00000415.htm#4990140"/>
+		<item label="HTMLEditFormat" href="00000506.htm#4744272"/>
+		<item label="LTrim" href="00000583.htm#133693"/>
+		<item label="RTrim" href="00000620.htm#136141"/>
+		<item label="CharsetEncode" href="00000416.htm#4990268"/>
+		<item label="Insert" href="00000510.htm#1105995"/>
+		<item label="Mid" href="00000585.htm#133799"/>
+		<item label="SpanExcluding" href="00000629.htm#136759"/>
+		<item label="Chr" href="00000417.htm#4749523"/>
+		<item label="JavaCast" href="00000542.htm#1106957"/>
+		<item label="MonthAsString" href="00000589.htm#134018"/>
+		<item label="SpanIncluding" href="00000630.htm#136815"/>
+		<item label="CJustify" href="00000418.htm#4749554"/>
+		<item label="JSStringFormat" href="00000543.htm#1106993"/>
+		<item label="ParagraphFormat" href="00000592.htm#134319"/>
+		<item label="StripCR" href="00000632.htm#136910"/>
+		<item label="Compare" href="00000419.htm#1101820"/>
+		<item label="LCase" href="00000544.htm#130124"/>
+		<item label="ParseDateTime" href="00000594.htm#134381"/>
+		<item label="ToBase64" href="00000652.htm#138529"/>
+		<item label="CompareNoCase" href="00000420.htm#1101887"/>
+		<item label="Left" href="00000545.htm#130173"/>
+		<item label="REFind" href="00000606.htm#135102"/>
+		<item label="ToBinary" href="00000653.htm#138631"/>
+		<item label="DayOfWeekAsString" href="00000445.htm#1103560"/>
+		<item label="Len" href="00000546.htm#130247"/>
+		<item label="REFindNoCase" href="00000607.htm#135225"/>
+		<item label="ToString" href="00000655.htm#138710"/>
+		<item label="Decrypt" href="00000452.htm#1103962"/>
+		<item label="LJustify" href="00000567.htm#131850"/>
+		<item label="RemoveChars" href="00000609.htm#135418"/>
+		<item label="Trim" href="00000656.htm#138803"/>
+		<item label="Encrypt" href="00000457.htm#1104201"/>
+		<item label="ListValueCount" href="00000565.htm#131683"/>
+		<item label="RepeatString" href="00000610.htm#135476"/>
+		<item label="UCase" href="00000657.htm#138852"/>
+		<item label="Find" href="00000462.htm#1104451"/>
+		<item label="ListValueCountNoCase" href="00000566.htm#131767"/>
+		<item label="Replace" href="00000611.htm#135527"/>
+		<item label="URLDecode" href="00000658.htm#138899"/>
+		<item label="FindNoCase" href="00000463.htm#1104504"/>
+		<item label="LSIsDate" href="00000575.htm#132884"/>
+		<item label="ReplaceNoCase" href="00000613.htm#135675"/>
+		<item label="URLEncodedFormat" href="00000659.htm#138993"/>
+		<item label="FindOneOf" href="00000464.htm#1104557"/>
+		<item label="LSIsNumeric" href="00000576.htm#132961"/>
+		<item label="REReplace" href="00000614.htm#135742"/>
+		<item label="Val" href="00000661.htm#139109"/>
+		<item label="FormatBaseN" href="00000467.htm#1104705"/>
+		<item label="LSParseCurrency" href="00000578.htm#133236"/>
+		<item label="REReplaceNoCase" href="00000615.htm#135829"/>
+		<item label="Wrap" href="00000664.htm#139282"/>
+		<item label="GenerateSecretKey" href="00000468.htm#4992278"/>
+		<item label="LSIsCurrency" href="00000574.htm#132806"/>
+		<item label="ReplaceList" href="00000612.htm#135597"/>
+		<item label="XmlFormat" href="00000668.htm#139554"/>
+		</cat>
+	<cat label="Structure functions" href="html/00000370.htm">
+	<item label="Duplicate" href="00000456.htm#1104156"/>
+		<item label="StructCount" href="00000636.htm#137332"/>
+		<item label="StructGet" href="00000641.htm#137645"/>
+		<item label="StructKeyList" href="00000646.htm#138035"/>
+		<item label="IsStruct" href="00000532.htm#1106910"/>
+		<item label="StructDelete" href="00000637.htm#137396"/>
+		<item label="StructInsert" href="00000642.htm#137718"/>
+		<item label="StructNew" href="00000647.htm#138139"/>
+		<item label="StructAppend" href="00000633.htm#136968"/>
+		<item label="StructFind" href="00000638.htm#137488"/>
+		<item label="StructIsEmpty" href="00000643.htm#137815"/>
+		<item label="StructSort" href="00000648.htm#138189"/>
+		<item label="StructClear" href="00000634.htm#137053"/>
+		<item label="StructFindKey" href="00000639.htm#137550"/>
+		<item label="StructKeyArray" href="00000644.htm#137882"/>
+		<item label="StructUpdate" href="00000649.htm#138287"/>
+		<item label="StructCopy" href="00000635.htm#137121"/>
+		<item label="StructFindValue" href="00000640.htm#137597"/>
+		<item label="StructKeyExists" href="00000645.htm#137977"/>
+		</cat>
+	<cat label="System functions" href="html/00000371.htm">
+	<item label="DirectoryExists" href="00000454.htm#1104060"/>
+		<item label="GetFileFromPath" href="00000479.htm#1104998"/>
+		<item label="GetTempDirectory" href="00000497.htm#1105302"/>
+		<item label="Duplicate" href="00000456.htm#1104156"/>
+		<item label="GetFunctionList" href="00000480.htm#1105051"/>
+		<item label="GetTempFile" href="00000498.htm#1105336"/>
+		<item label="ExpandPath" href="00000460.htm#1104357"/>
+		<item label="GetHttpRequestData" href="00000482.htm#1955092"/>
+		<item label="GetTemplatePath" href="00000499.htm#1105374"/>
+		<item label="FileExists" href="00000461.htm#1104406"/>
+		<item label="GetLocale" href="00000486.htm#4552309"/>
+		<item label="GetTickCount" href="00000500.htm#1105415"/>
+		<item label="GetBaseTemplatePath" href="00000472.htm#1104820"/>
+		<item label="GetLocaleDisplayName" href="00000487.htm#5046249"/>
+		<item label="SetEncoding" href="00000623.htm#136247"/>
+		<item label="GetContextRoot" href="00000474.htm#5052101"/>
+		<item label="GetMetaData" href="00000488.htm#1105179"/>
+		<item label="SetLocale" href="00000624.htm#136340"/>
+		<item label="GetCurrentTemplatePath" href="00000475.htm#1104906"/>
+		<item label="GetMetricData" href="00000489.htm#4989422"/>
+		<item label="SetProfileString" href="00000625.htm#136464"/>
+		<item label="GetDirectoryFromPath" href="00000476.htm#1104945"/>
+		<item label="GetPageContext" href="00000490.htm#4209678"/>
+		<item label="WriteOutput" href="00000665.htm#139339"/>
+		<item label="GetEncoding" href="00000477.htm#4739516"/>
+		<item label="GetProfileSections" href="00000491.htm#4229331"/>
+		<item label="GetException" href="00000478.htm#3128141"/>
+		<item label="GetProfileString" href="00000492.htm#4755212"/>
+		</cat>
+	<cat label="XML functions" href="html/00000372.htm">
+	<item label="AddSOAPRequestHeader" href="00000379.htm#5050827"/>
+		<item label="IsSOAPRequest" href="00000531.htm#5052211"/>
+		<item label="IsXmlRoot" href="00000541.htm#4392056"/>
+		<item label="XmlGetNodeType" href="00000669.htm#139655"/>
+		<item label="AddSOAPResponseHeader" href="00000380.htm#5050841"/>
+		<item label="IsXML" href="00000536.htm#4979215"/>
+		<item label="IsWDDX" href="00000535.htm#3123485"/>
+		<item label="XmlNew" href="00000670.htm#139785"/>
+		<item label="GetSOAPRequest" href="00000493.htm#5054299"/>
+		<item label="IsXmlAttribute" href="00000537.htm#4979140"/>
+		<item label="ToString" href="00000655.htm#138710"/>
+		<item label="XmlParse" href="00000671.htm#139864"/>
+		<item label="GetSOAPRequestHeader" href="00000494.htm#5054295"/>
+		<item label="IsXmlDoc" href="00000538.htm#4046340"/>
+		<item label="XmlChildPos" href="00000666.htm#139381"/>
+		<item label="XmlSearch" href="00000672.htm#141075"/>
+		<item label="GetSOAPResponse" href="00000495.htm#5054378"/>
+		<item label="IsXmlElem" href="00000539.htm#4979134"/>
+		<item label="XmlElemNew" href="00000667.htm#139471"/>
+		<item label="XmlTransform" href="00000673.htm#140093"/>
+		<item label="GetSOAPResponseHeader" href="00000496.htm#5054369"/>
+		<item label="IsXmlNode" href="00000540.htm#4979002"/>
+		<item label="XmlFormat" href="00000668.htm#139554"/>
+		<item label="XmlValidate" href="00000674.htm#140217"/>
+		</cat>
+	</categories>
+</root>

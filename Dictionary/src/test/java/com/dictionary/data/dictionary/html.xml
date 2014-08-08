@@ -1,0 +1,2654 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	This file is no longer generated - please report bugs to
+	http://cfeclipse.tigris.org/ you can make changes to this file if
+	you like, but it will be overwritten on the next version if you
+	do not report the bug; since this file is not longer XSLT
+	generated you can, if you wish, edit this file and submit it as a
+	patch
+
+	changing the creator will change the color coding in the editor
+	possible values for creator are:
+
+	4  = w3c "normal" element
+	16 = form element
+	32 = table element
+-->
+<!DOCTYPE dictionary [
+
+	<!ENTITY value_boolean   SYSTEM "inc/value_boolean.ixml">
+	<!-- class, id, style, title -->
+	<!ENTITY core            SYSTEM "inc/parameter_html_core.ixml">
+	<!-- dir, lang -->
+	<!ENTITY lang            SYSTEM "inc/parameter_html_language.ixml">
+	<!-- accesskey, tabindex -->
+	<!ENTITY keyboard        SYSTEM "inc/parameter_html_keyboard.ixml">
+	<!-- onload, onunload -->
+	<!ENTITY event_window    SYSTEM "inc/parameter_html_event_window.ixml">
+	<!-- onchange, onsubmit, onreset, onselect -->
+	<!ENTITY event_form      SYSTEM "inc/parameter_html_event_form.ixml">
+	<!-- onfocus, onblur -->
+	<!ENTITY event_focus     SYSTEM "inc/parameter_html_event_focus.ixml">
+	<!-- onkeydown, onkeyup, onkeypress -->
+	<!ENTITY event_keyboard  SYSTEM "inc/parameter_html_event_keyboard.ixml">
+	<!-- onclick, onmousedown, etc -->
+	<!ENTITY event_mouse     SYSTEM "inc/parameter_html_event_mouse.ixml">
+	<!-- align -->
+	<!ENTITY align           SYSTEM "inc/parameter_html_align.ixml">
+	<!-- valign -->
+	<!ENTITY valign          SYSTEM "inc/parameter_html_valign.ixml">
+	<!-- height, width -->
+	<!ENTITY size            SYSTEM "inc/parameter_html_size.ixml">
+
+	<!-- you can use these to mark colors if you wish -->
+	<!ENTITY color_w3c   '4' >
+	<!ENTITY color_form  '16'>
+	<!ENTITY color_table '32'>
+]>
+<dictionary xmlns="http://www.cfeclipse.org/version1/dictionary"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.cfeclipse.org/version1/dictionary http://www.cfeclipse.org/version1/dictionary/dictionary.xsd"
+>
+   <tags>
+
+      <tag name="abbr" creator="&color_w3c;" single="false" xmlstyle="false">
+         <help><![CDATA[
+				Indicates an abbreviated form, like "Inc.", "etc."
+			]]></help>
+         &core;
+         &lang;
+         &event_mouse;
+         &event_keyboard;
+      </tag>
+
+      <tag name="acronym" creator="4" single="false" xmlstyle="false">
+         <help><![CDATA[
+				Defines an acronym
+			]]></help>
+         &core;
+         &lang;
+         &event_mouse;
+         &event_keyboard;
+      </tag>
+
+      <tag name="address" creator="4" single="false" xmlstyle="false">
+         <help><![CDATA[
+				Defines the start of an address. You should use it to define
+				addresses, signatures, or authorships of documents.
+			]]></help>
+         &core;
+         &lang;
+         &event_mouse;
+         &event_keyboard;
+      </tag>
+
+      <tag name="applet" creator="4"  single="false" xmlstyle="false">
+         <help><![CDATA[
+				Defines an embedded applet.
+				The applet element was deprecated in HTML 4.01; use object
+			]]></help>
+         <parameter name="alt" type="String" required="false">
+            <help><![CDATA[
+					An alternate text to be displayed if the browser support
+					applets but cannot run this applet
+				]]></help>
+            <values/>
+         </parameter>
+         <parameter name="archive" type="URL" required="false">
+            <help><![CDATA[
+					A URL to the applet when it is stored in a Java Archive or ZIP file
+				]]></help>
+            <values/>
+         </parameter>
+         <parameter name="code" type="URL" required="false">
+            <help><![CDATA[
+					A URL that points to the class of the applet
+				]]></help>
+            <values/>
+         </parameter>
+         <parameter name="codebase" type="URL" required="false">
+            <help><![CDATA[
+					Indicates the base URL of the applet if the code attribute is relative
+				]]></help>
+            <values/>
+         </parameter>
+         <parameter name="name" type="String" required="false">
+            <help><![CDATA[
+					Defines a unique name for the applet (to use in scripts)
+				]]></help>
+            <values/>
+         </parameter>
+         <parameter name="object" type="String" required="false">
+            <help><![CDATA[
+					Defines the name of the resource that contains a serialized
+					representation of the applet
+				]]></help>
+            <values/>
+         </parameter>
+         <parameter name="title" type="String" required="false">
+            <help><![CDATA[
+					Additional information to be displayed in tool tip
+				]]></help>
+            <values/>
+         </parameter>
+         <parameter name="hspace" type="Numeric" required="false">
+            <help><![CDATA[
+					Defines the horizontal spacing around the applet
+				]]></help>
+            <values/>
+         </parameter>
+         <parameter name="vspace" type="Numeric" required="false">
+            <help><![CDATA[
+					Defines the vertical spacing around the applet
+				]]></help>
+            <values/>
+		</parameter>
+		&size;
+		&align;
+		&core;
+		&lang;
+		&keyboard;
+		&event_focus;
+		&event_mouse;
+		&event_keyboard;
+		&event_form;
+		&event_window;
+      </tag>
+
+      <tag name="area" creator="4" single="true" xmlstyle="false">
+         <help><![CDATA[
+				Defines a region in an image map.
+			]]></help>
+         <parameter name="alt" type="String" required="true">
+            <help><![CDATA[
+					Specifies an alternate text for the area
+				]]></help>
+            <values/>
+         </parameter>
+         <parameter name="coords" type="String" required="false">
+            <help><![CDATA[
+					Specifies the coordinates for the clickable area
+				]]></help>
+            <values/>
+         </parameter>
+         <parameter name="href" type="String" required="false">
+            <help><![CDATA[
+					Specifies the target URL of the area
+				]]></help>
+            <values/>
+         </parameter>
+         <parameter name="nohref" type="boolean" required="false">
+            <help><![CDATA[
+					Excludes an area from the image map
+				]]></help>
+            <values>
+               &value_boolean;
+            </values>
+         </parameter>
+         <parameter name="shape" type="String" required="false">
+            <help><![CDATA[
+					Defines the shape of the area
+				]]></help>
+            <values/>
+         </parameter>
+         <parameter name="target" type="String" required="false">
+            <help><![CDATA[
+					Where to open the target URL.
+				]]></help>
+            <values/>
+         </parameter>
+         &core;
+         &lang;
+         &keyboard;
+         &event_mouse;
+         &event_keyboard;
+      </tag>
+
+      <tag name="base" creator="4" single="true" xmlstyle="false">
+         <help><![CDATA[
+				Specifies a base URL for all the links in a page.
+				* In HTML the tag has no end tag.
+				* In XHTML the tag must be properly closed.
+			]]></help>
+         <parameter name="href" type="URL" required="true">
+            <help><![CDATA[
+					Specifies the URL to use as the base URL for links
+					in the page
+				]]></help>
+            <values/>
+         </parameter>
+         <parameter name="target" type="String" required="true">
+            <help><![CDATA[
+					Where to open all the links on the page. This attribute can
+					be overridden by using the target attribute in each link.
+				]]></help>
+            <values/>
+         </parameter>
+      </tag>
+      <tag name="basefont" creator="4" single="false" xmlstyle="false">
+         <help><![CDATA[
+				Defines a base font.
+				Deprecated in HTML 4.01.
+			]]></help>
+         <parameter name="color" type="String" required="false">
+            <help><![CDATA[
+					Specifies the text color. Deprecated.
+					Use styles instead.
+				]]></help>
+            <values/>
+         </parameter>
+         <parameter name="face" type="String" required="false">
+            <help><![CDATA[
+					Specifies the font to use.
+					Deprecated. Use styles instead
+				]]></help>
+            <values/>
+         </parameter>
+         <parameter name="size" type="Numeric" required="false">
+            <help><![CDATA[
+					Font size for font elements.
+					Deprecated. Use styles instead.
+				]]></help>
+            <values/>
+         </parameter>
+         &core;
+         &lang;
+      </tag>
+
+      <tag name="bdo" creator="4" single="false" xmlstyle="false">
+         <help><![CDATA[
+				 Overrides the default text direction.
+			]]></help>
+         &core;
+         &lang;
+      </tag>
+
+      <tag name="blockquote" creator="4" single="false" xmlstyle="false">
+         <help><![CDATA[
+				Defines the start of a long quotation.
+			]]></help>
+         <parameter name="cite" type="URL" required="false">
+            <help><![CDATA[
+					URL of the quote, if it is taken from the web
+				]]></help>
+            <values/>
+         </parameter>
+         &core;
+         &lang;
+         &event_mouse;
+         &event_keyboard;
+      </tag>
+
+      <tag name="body" creator="4" single="false" xmlstyle="false">
+         <help><![CDATA[
+				The body element defines the documents' body.
+				All "presentation attributes" of the body element were
+				deprecated in HTML 4.01.
+			]]></help>
+         <parameter name="alink" type="String" required="false">
+            <help><![CDATA[
+					Specifies the color of the active links in the document.
+					Deprecated. Use styles instead.
+				]]></help>
+            <values/>
+         </parameter>
+         <parameter name="background" type="String" required="false">
+            <help><![CDATA[
+					An image to use as the background. Deprecated. Use styles instead.
+				]]></help>
+            <values/>
+         </parameter>
+         <parameter name="bgcolor" type="String" required="false">
+            <help><![CDATA[
+					The background color of the document.
+					Deprecated. Use styles instead.
+				]]></help>
+            <values/>
+         </parameter>
+         <parameter name="link" type="String" required="false">
+            <help><![CDATA[
+					Specifies the color of all the links in the document.
+					Deprecated. Use styles instead.
+				]]></help>
+            <values/>
+         </parameter>
+         <parameter name="text" type="String" required="false">
+            <help><![CDATA[
+					Specifies the color of the text in the document.
+					Deprecated. Use styles instead.
+				]]></help>
+            <values/>
+         </parameter>
+         <parameter name="vlink" type="String" required="false">
+            <help><![CDATA[
+					Specifies the color of the visited links in the document.
+					Deprecated. Use styles instead.
+				]]></help>
+            <values/>
+         </parameter>
+         &core;
+         &lang;
+         &event_mouse;
+         &event_keyboard;
+         &event_window;
+      </tag>
+
+      <tag  name="br" creator="4" single="true" xmlstyle="false">
+         <help><![CDATA[
+				Inserts a single line break.
+				* In HTML the tag has no end tag.
+				* In XHTML the tag must be properly closed
+			]]></help>
+         &core;
+      </tag>
+
+      <tag name="button" creator="16" single="false" xmlstyle="false">
+         <help><![CDATA[
+				Defines a push button form element.
+			]]></help>
+         <parameter name="disabled" type="boolean" required="false">
+            <help><![CDATA[
+					Disables the button
+				]]></help>
+            <values>
+               &value_boolean;
+            </values>
+         </parameter>
+         <parameter name="name" type="String" required="false">
+            <help><![CDATA[
+					Specifies a unique name for the button
+				]]></help>
+            <values/>
+         </parameter>
+         <parameter name="type" type="String" required="false">
+            <help><![CDATA[
+					Defines the type of button
+				]]></help>
+            <values>
+               <value option="button"/>
+               <value option="reset"/>
+               <value option="submit"/>
+            </values>
+         </parameter>
+         <parameter name="value" type="String" required="false">
+            <help><![CDATA[
+					Specifies an initial value for the button. The value
+					can be changed by a script
+				]]></help>
+            <values/>
+         </parameter>
+         &core;
+         &lang;
+         &keyboard;
+         &event_focus;
+         &event_mouse;
+         &event_keyboard;
+      </tag>
+
+      <tag name="fieldset" creator="16" single="false" xmlstyle="false">
+         <help><![CDATA[
+				The fieldset element draws a box around its containing elements.
+			]]></help>
+         &core;
+         &lang;
+      </tag>
+
+      <tag name="font" creator="4" single="false" xmlstyle="false">
+         <help><![CDATA[
+				Specifies the font face, font size, and font color of text.
+				The font element was deprecated in HTML 4.01.
+			]]></help>
+         <parameter name="color" type="String" required="false">
+            <help><![CDATA[
+					Defines the color of the text in the font element.
+					Deprecated. Use styles instead
+				]]></help>
+            <values/>
+         </parameter>
+         <parameter name="face" type="String" required="false">
+            <help><![CDATA[
+					Defines the font of the text in the font element.
+					Deprecated. Use styles instead
+				]]></help>
+            <values/>
+         </parameter>
+         <parameter name="size" type="Numeric" required="false">
+            <help><![CDATA[
+					Defines the size of the text in the font element.
+					Deprecated. Use styles instead
+				]]></help>
+            <values/>
+         </parameter>
+         &core;
+         &lang;
+      </tag>
+
+      <tag name="form" creator="16" single="false" xmlstyle="false">
+         <help><![CDATA[
+				Creates a form for client input
+			]]></help>
+         <parameter name="action" type="URL" required="true">
+            <help><![CDATA[
+					A URL that defines where to send the data when the submit
+					button is pushed
+				]]></help>
+            <values/>
+         </parameter>
+         <parameter name="accept" type="String" required="false">
+            <help><![CDATA[
+					A comma separated list of content types that the server
+					that process this form will handle correctly
+				]]></help>
+            <values/>
+         </parameter>
+         <parameter name="accept-charset" type="String" required="false">
+            <help><![CDATA[
+					A comma separated list of possible character sets for the
+					form data. The default value is "unknown"
+				]]></help>
+            <values/>
+         </parameter>
+         <parameter name="enctype" type="String" required="false">
+            <help><![CDATA[
+					The mime type used to encode the content of the form
+				]]></help>
+            <values>
+               <value option="application/x-www-form-urlencoded"/>
+               <value option="multipart/form-data"/>
+               <value option="text/plain"/>
+            </values>
+         </parameter>
+         <parameter name="method" type="String" required="false">
+            <help><![CDATA[
+					 The HTTP method for sending data to the action URL.
+					 Default is get.
+				]]></help>
+            <values>
+               <value option="get"/>
+               <value option="post"/>
+            </values>
+         </parameter>
+         <parameter name="name" type="String" required="false">
+            <help><![CDATA[
+					 Defines a unique name for the form
+				]]></help>
+            <values/>
+         </parameter>
+         <parameter name="target" type="String" required="false">
+            <help><![CDATA[
+					Where to open the target URL.
+				]]></help>
+            <values>
+               <value option="_blank"/>
+               <value option="_self"/>
+               <value option="_top"/>
+               <value option="_parent"/>
+            </values>
+         </parameter>
+         &core;
+         &lang;
+         &event_mouse;
+         &event_keyboard;
+         &event_form;
+      </tag>
+
+      <tag name="frame" creator="4" single="false" xmlstyle="false">
+         <help><![CDATA[
+				Defines a sub window (a frame).
+				* In HTML the tag has no end tag.
+				* In XHTML the tag must be properly closed.
+			]]></help>
+         <parameter name="frameborder" type="boolean" required="false">
+            <help><![CDATA[
+					Specifies whether or not to display a frame border
+				]]></help>
+            <values>
+               &value_boolean;
+            </values>
+         </parameter>
+         <parameter name="longdesc" type="URL" required="false">
+            <help><![CDATA[
+					A URL to a long description of the frame contents
+				]]></help>
+            <values/>
+         </parameter>
+         <parameter name="marginheight" type="Numeric" required="false">
+            <help><![CDATA[
+					Defines the top and bottom margins of the frame
+				]]></help>
+            <values/>
+         </parameter>
+         <parameter name="marginwidth" type="Numeric" required="false">
+            <help><![CDATA[
+					Defines the left and right margins of the iframe
+				]]></help>
+            <values/>
+         </parameter>
+         <parameter name="name" type="String" required="false">
+            <help><![CDATA[
+					Specifies a unique name of the iframe (to use in scripts)
+				]]></help>
+            <values/>
+         </parameter>
+         <parameter name="noresize" type="boolean" required="false">
+            <help><![CDATA[
+					When set to noresize the user cannot resize the frame
+				]]></help>
+            <values>
+               <value option="true"/>
+               <value option="false"/>
+            </values>
+         </parameter>
+         <parameter name="scrolling" type="String" required="false">
+            <help><![CDATA[
+					Define scroll bars
+				]]></help>
+            <values>
+               <value option="true"/>
+               <value option="no"/>
+               <value option="false"/>
+            </values>
+         </parameter>
+         <parameter name="src" type="URL" required="false">
+            <help><![CDATA[
+					The URL of the document to show in the frame
+				]]></help>
+            <values/>
+         </parameter>
+         &core;
+      </tag>
+
+      <tag name="frameset" creator="4" single="false" xmlstyle="false">
+         <help><![CDATA[
+				The frameset element defines a frameset. It is used to
+				organize multiple windows (frames)
+			]]></help>
+         <parameter name="cols" type="String" required="false">
+            <help><![CDATA[
+					Defines the number and size of columns in a frameset
+				]]></help>
+            <values/>
+         </parameter>
+         <parameter name="rows" type="String" required="false">
+            <help><![CDATA[
+					Defines the number and size of rows in a frameset
+				]]></help>
+            <values/>
+         </parameter>
+         &core;
+      </tag>
+
+      <tag name="h1" creator="4" single="false" xmlstyle="false">
+         <help><![CDATA[
+				Heading 1
+				The "align" attribute was deprecated in HTML 4.01.
+			]]></help>
+         &align;
+         &core;
+         &lang;
+         &event_mouse;
+         &event_keyboard;
+      </tag>
+
+      <tag name="h2" creator="4" single="false" xmlstyle="false">
+         <help><![CDATA[
+				Heading 2
+				The "align" attribute was deprecated in HTML 4.01.
+			]]></help>
+         &align;
+         &core;
+         &lang;
+         &event_mouse;
+         &event_keyboard;
+      </tag>
+
+      <tag name="h3" creator="4" single="false" xmlstyle="false">
+         <help><![CDATA[
+				Heading 3
+				The "align" attribute was deprecated in HTML 4.01.
+			]]></help>
+         &align;
+         &core;
+         &lang;
+         &event_mouse;
+         &event_keyboard;
+      </tag>
+
+      <tag name="h4" creator="4" single="false" xmlstyle="false">
+         <help><![CDATA[
+				Heading 4
+				The "align" attribute was deprecated in HTML 4.01.
+			]]></help>
+         &align;
+         &core;
+         &lang;
+         &event_mouse;
+         &event_keyboard;
+      </tag>
+
+      <tag name="h5" creator="4" single="false" xmlstyle="false">
+         <help><![CDATA[
+				Heading 5
+				The "align" attribute was deprecated in HTML 4.01.
+			]]></help>
+         &align;
+         &core;
+         &lang;
+         &event_mouse;
+         &event_keyboard;
+      </tag>
+
+      <tag name="h6" creator="4" single="false" xmlstyle="false">
+         <help><![CDATA[
+				Heading 6
+				The "align" attribute was deprecated in HTML 4.01.
+			]]></help>
+         &align;
+         &core;
+         &lang;
+         &event_mouse;
+         &event_keyboard;
+      </tag>
+
+      <tag name="head" creator="4" single="false" xmlstyle="false">
+         <help><![CDATA[
+				The head element can contain information about the document.
+			]]></help>
+         <parameter name="profile" type="URL" required="false">
+            <help><![CDATA[
+					A space separated list of URL's that contains meta data
+					information about the page
+				]]></help>
+            <values/>
+         </parameter>
+         &lang;
+      </tag>
+
+      <tag name="hr" creator="4" single="true" xmlstyle="false">
+         <help><![CDATA[
+				Inserts a horizontal rule.
+				* In HTML the tag has no end tag.
+				* In XHTML the tag must be properly closed.
+				All "presentation attributes" were deprecated in HTML 4.01.
+			]]></help>
+         <parameter name="noshade" type="boolean" required="false">
+            <help><![CDATA[
+					When set to true the rule should render in a solid color,
+					when set to false the rule should render in a two-color "groove".
+					Deprecated. Use styles instead
+				]]></help>
+            <values>
+               &value_boolean;
+            </values>
+         </parameter>
+         <parameter name="size" type="String" required="false">
+            <help><![CDATA[
+					Specifies the thickness (height) of the horizontal rule.
+					Deprecated. Use styles instead
+				]]></help>
+            <values/>
+         </parameter>
+         <parameter name="width" type="String" required="false">
+            <help><![CDATA[
+					Specifies the width of the horizontal rule
+					Deprecated. Use styles instead
+				]]></help>
+            <values/>
+         </parameter>
+		&align;
+		&core;
+		&lang;
+		&event_mouse;
+		&event_keyboard;
+      </tag>
+
+      <tag name="html" creator="4" single="false" xmlstyle="false">
+         <help><![CDATA[
+				This element tells a browser that this is an HTML document.
+				The xmlns attribute is required in XHTML but not in HTML.
+				(http://www.w3.org/1999/xhtml)
+			]]></help>
+         <parameter name="xmlns" type="String" required="true">
+            <help><![CDATA[
+					Defines the XML namespace attribute
+				]]></help>
+            <values>
+               <value option="http://www.w3.org/1999/xhtml"/>
+            </values>
+         </parameter>
+         &lang;
+      </tag>
+
+      <tag name="iframe" creator="4" single="false" xmlstyle="false">
+         <help><![CDATA[
+				 Creates an inline frame that contains another document.
+			]]></help>
+         <parameter name="frameborder" type="boolean" required="false">
+            <help><![CDATA[
+					Specifies whether or not to display a frame border
+				]]></help>
+            <values>
+               <value option="true"/>
+               <value option="false"/>
+            </values>
+         </parameter>
+         <parameter name="longdesc" type="URL" required="false">
+            <help><![CDATA[
+					A URL to a long description of the frame contents
+				]]></help>
+            <values/>
+         </parameter>
+         <parameter name="marginheight" type="Numeric" required="false">
+            <help><![CDATA[
+					Defines the top and bottom margins of the iframe
+				]]></help>
+            <values/>
+         </parameter>
+         <parameter name="marginwidth" type="Numeric" required="false">
+            <help><![CDATA[
+					Defines the left and right margins of the iframe
+				]]></help>
+            <values/>
+         </parameter>
+         <parameter name="name" type="String" required="false">
+            <help><![CDATA[
+					Specifies a unique name of the iframe (to use in scripts)
+				]]></help>
+            <values/>
+         </parameter>
+         <parameter name="scrolling" type="String" required="false">
+            <help><![CDATA[
+					Define scroll bars
+				]]></help>
+            <values>
+               <value option="true"/>
+               <value option="false"/>
+               <value option="auto"/>
+            </values>
+         </parameter>
+         <parameter name="src" type="URL" required="false">
+            <help><![CDATA[
+					The URL of the document to show in the iframe
+				]]></help>
+            <values/>
+         </parameter>
+         &align;
+         &size;
+         &core;
+         &lang;
+      </tag>
+
+      <tag name="img" creator="4" single="true" xmlstyle="false">
+         <help><![CDATA[
+				The img element defines an image.
+				* In HTML the tag has no end tag.
+				* In XHTML the tag must be properly closed.
+			]]></help>
+         <parameter name="alt" type="String" required="true">
+            <help><![CDATA[
+					Defines a short description of the image
+				]]></help>
+            <values/>
+         </parameter>
+         <parameter name="src" type="URL" required="true">
+            <help><![CDATA[
+					The URL of the image to display
+				]]></help>
+            <values/>
+         </parameter>
+         <parameter name="border" type="Numeric" required="false">
+            <help><![CDATA[
+					Defines a border around an image. Deprecated. Use styles
+					instead
+				]]></help>
+            <values/>
+         </parameter>
+         <parameter name="ismap" type="URL" required="false">
+            <help><![CDATA[
+					Defines the image as a server-side image map
+				]]></help>
+            <values/>
+         </parameter>
+         <parameter name="longdesc" type="URL" required="false">
+            <help><![CDATA[
+					A URL to a document that contains a long description
+					of the image
+				]]></help>
+            <values/>
+         </parameter>
+         <parameter name="usemap" type="URL" required="false">
+            <help><![CDATA[
+					Defines the image as a client-side image map.
+				]]></help>
+            <values/>
+         </parameter>
+         <parameter name="hspace" type="Numeric" required="false">
+            <help><![CDATA[
+					Defines white space on the left and right side of the image.
+					Deprecated. Use styles instead
+				]]></help>
+            <values/>
+         </parameter>
+         <parameter name="vspace" type="Numeric" required="false">
+            <help><![CDATA[
+					Defines white space on the top and bottom of the image.
+					Deprecated. Use styles instead
+				]]></help>
+            <values/>
+         </parameter>
+         &align;
+         &size;
+         &core;
+         &lang;
+         &event_mouse;
+         &event_keyboard;
+      </tag>
+
+      <tag name="input" creator="16" single="true" xmlstyle="false">
+         <help><![CDATA[
+				Defines the start of an input field where the client
+				can enter data.
+				* In HTML the input tag has no end tag.
+				* In XHTML the input tag must be properly closed.
+			]]></help>
+         <parameter name="accept" type="String" required="false">
+            <help><![CDATA[
+					A comma-separated list of MIME types that indicates
+					the MIME type of the file transfer.
+				]]></help>
+            <values/>
+         </parameter>
+         <parameter name="alt" type="String" required="false">
+            <help><![CDATA[
+					Defines an alternate text for the image.
+				]]></help>
+            <values/>
+         </parameter>
+         <parameter name="name" type="String" required="false">
+            <help><![CDATA[
+					Defines a unique name for the input element.
+				]]></help>
+            <values/>
+         </parameter>
+         <parameter name="checked" type="boolean" required="false">
+            <help><![CDATA[
+					 Indicates that the input element should be checked when
+					 it first loads.
+				]]></help>
+            <values>
+               &value_boolean;
+            </values>
+         </parameter>
+         <parameter name="disabled" type="boolean" required="false">
+            <help><![CDATA[
+					Disables the input element when it first loads so that the
+					user can not write text in it, or select it.
+				]]></help>
+            <values>
+               &value_boolean;
+            </values>
+         </parameter>
+         <parameter name="readonly" type="boolean" required="false">
+            <help><![CDATA[
+					Indicates that the value of this field cannot be
+					modified.
+				]]></help>
+            <values>
+               &value_boolean;
+            </values>
+         </parameter>
+         <parameter name="maxlength" type="Numeric" required="false">
+            <help><![CDATA[
+					Defines the maximum number of characters allowed in a text
+					field.
+				]]></help>
+            <values/>
+         </parameter>
+         <parameter name="size" type="Numeric" required="false">
+            <help><![CDATA[
+					Defines the size of the input element.
+				]]></help>
+            <values/>
+         </parameter>
+         <parameter name="src" type="URL" required="false">
+            <help><![CDATA[
+					Defines the URL of the image to display.
+				]]></help>
+            <values/>
+         </parameter>
+         <parameter name="type" type="String" required="false">
+            <help><![CDATA[
+					The class of the element
+				]]></help>
+            <values>
+               <value option="button"/>
+               <value option="checkbox"/>
+               <value option="file"/>
+               <value option="hidden"/>
+               <value option="image"/>
+               <value option="password"/>
+               <value option="radio"/>
+               <value option="reset"/>
+               <value option="submit"/>
+               <value option="text"/>
+            </values>
+         </parameter>
+         <parameter name="value" type="String" required="false">
+            <help><![CDATA[
+					The default value of the element.
+				]]></help>
+            <values/>
+         </parameter>
+         &align;
+         &core;
+         &lang;
+         &keyboard;
+         &event_focus;
+         &event_mouse;
+         &event_keyboard;
+      </tag>
+
+      <tag name="ins" creator="4" single="false" xmlstyle="false">
+         <help><![CDATA[
+				Defines inserted text.
+			]]></help>
+         <parameter name="cite" type="URL" required="false">
+            <help><![CDATA[
+					Defines a URL to another document which explains why
+					the text was deleted or inserted
+				]]></help>
+            <values/>
+         </parameter>
+         <parameter name="datetime" type="ISODateTime" required="false">
+            <help><![CDATA[
+					Defines the date and time the text was deleted
+				]]></help>
+            <values/>
+         </parameter>
+         &core;
+         &lang;
+         &event_mouse;
+         &event_keyboard;
+      </tag>
+
+      <tag name="label" creator="16" single="false" xmlstyle="false">
+         <help><![CDATA[
+				Defines a label to a control
+			]]></help>
+         <parameter name="for" type="String" required="false">
+            <help><![CDATA[
+					Defines which form element the label is for.
+					Set to an ID of a form element.
+				]]></help>
+            <values/>
+         </parameter>
+         &core;
+         &lang;
+         &keyboard;
+         &event_mouse;
+         &event_keyboard;
+      </tag>
+
+      <tag name="caption" creator="32" single="false" xmlstyle="false">
+         <help><![CDATA[
+				Defines a table caption
+			]]></help>
+         <parameter name="class" type="String" required="false">
+            <help><![CDATA[
+					The class of the element
+				]]></help>
+            <values/>
+         </parameter>
+         &core;
+         &lang;
+         &align;
+         &event_mouse;
+         &event_keyboard;
+      </tag>
+
+      <tag name="center" creator="4" single="false" xmlstyle="false">
+         <help><![CDATA[
+				Centers its enclosed text horizontally.
+				The center element was deprecated in HTML 4.01.
+			]]></help>
+         &core;
+         &lang;
+         &event_mouse;
+         &event_keyboard;
+      </tag>
+
+      <tag name="col" creator="32" single="false" xmlstyle="false">
+         <help><![CDATA[
+				Defines the attribute values for one or more columns in a table.
+			]]></help>
+         <parameter name="char" type="String" required="false">
+            <help><![CDATA[
+					Specifies which character to align text on.
+					Note: Only used if align="char"!
+				]]></help>
+            <values/>
+         </parameter>
+         <parameter name="charoff" type="String" required="false">
+            <help><![CDATA[
+					Specifies the alignment offset to the first character to
+					align on. Note: Only used if align="char"!
+				]]></help>
+            <values/>
+         </parameter>
+         <parameter name="span" type="Numeric" required="false">
+            <help><![CDATA[
+					Defines the number of columns the col should span
+				]]></help>
+            <values/>
+         </parameter>
+         <parameter name="width" type="String" required="false">
+            <help><![CDATA[
+					Defines the width of the column
+				]]></help>
+            <values/>
+         </parameter>
+         &align;
+         &valign;
+         &core;
+         &lang;
+         &event_mouse;
+         &event_keyboard;
+      </tag>
+
+      <tag name="colgroup" creator="32" single="false" xmlstyle="false">
+         <help><![CDATA[
+				Defines groups of table columns. With this element, you
+				can group columns for formatting. This element is only
+				valid inside the table tag.
+			]]></help>
+         <parameter name="char" type="String" required="false">
+            <help><![CDATA[
+					Specifies which character to align text on.
+					Note: Only used if align="char"!
+				]]></help>
+            <values/>
+         </parameter>
+         <parameter name="charoff" type="String" required="false">
+            <help><![CDATA[
+					Specifies the alignment offset to the first character to
+					align on. Note: Only used if align="char"!
+				]]></help>
+            <values/>
+         </parameter>
+         <parameter name="span" type="Numeric" required="false">
+            <help><![CDATA[
+					Defines the number of columns the colgroup should span
+				]]></help>
+            <values/>
+         </parameter>
+         <parameter name="width" type="String" required="false">
+            <help><![CDATA[
+					Defines the width of the column group.
+					Note: The width attribute can be overridden by
+					settings in col
+				]]></help>
+            <values/>
+         </parameter>
+         &align;
+         &valign;
+         &core;
+         &lang;
+         &event_mouse;
+         &event_keyboard;
+      </tag>
+
+      <tag name="dd" creator="4" single="false" xmlstyle="false">
+         <help><![CDATA[
+				Defines the description of a term in a definition list.
+			]]></help>
+         &core;
+         &lang;
+         &event_mouse;
+         &event_keyboard;
+      </tag>
+
+      <tag name="del" creator="4" single="false" xmlstyle="false">
+         <help><![CDATA[
+				Defines text that has been deleted in a document.
+			]]></help>
+         <parameter name="cite" type="URL" required="false">
+            <help><![CDATA[
+					Defines a URL to another document which explains why
+					the text was deleted or inserted
+				]]></help>
+            <values/>
+         </parameter>
+         <parameter name="datetime" type="ISODateTime" required="false">
+            <help><![CDATA[
+					Defines the date and time the text was deleted
+				]]></help>
+            <values/>
+         </parameter>
+         &core;
+         &lang;
+         &event_mouse;
+         &event_keyboard;
+      </tag>
+
+      <tag name="dir" creator="4" single="false" xmlstyle="false">
+         <help><![CDATA[
+				defines a directory list.
+				The dir element was deprecated in HTML 4.01.
+			]]></help>
+         <parameter name="compact" type="String" required="false">
+            <help><![CDATA[
+					Deprecated. Use styles instead
+				]]></help>
+            <values/>
+         </parameter>
+         &core;
+         &lang;
+         &event_mouse;
+         &event_keyboard;
+      </tag>
+
+      <tag name="div" creator="4" single="false" xmlstyle="false">
+         <help><![CDATA[
+				Defines a division/section in a document.
+				The "align" attribute of the div element was deprecated
+				in HTML 4.01.
+			]]></help>
+         &align;
+         &core;
+         &lang;
+         &event_mouse;
+         &event_keyboard;
+      </tag>
+
+      <tag  name="dl" creator="4" single="false" xmlstyle="false">
+         <help><![CDATA[
+				Defines a definition list.
+			]]></help>
+         &core;
+         &lang;
+         &event_mouse;
+         &event_keyboard;
+      </tag>
+
+      <tag name="dt" creator="4" single="false" xmlstyle="false">
+         <help><![CDATA[
+				Defines the start of a term in a definition list.
+			]]></help>
+         &core;
+         &lang;
+         &event_mouse;
+         &event_keyboard;
+      </tag>
+
+      <tag name="legend" creator="16" single="false" xmlstyle="false">
+         <help><![CDATA[
+				Defines a caption for a fieldset.
+			]]></help>
+         &align;
+         &core;
+         &lang;
+         &keyboard;
+         &event_mouse;
+         &event_keyboard;
+      </tag>
+
+      <tag name="li" creator="4" single="false" xmlstyle="false">
+         <help><![CDATA[
+				The tag defines the start of a list item.
+				It is used in both ordered and unordered lists.
+				The "type" and "value" attributes of the li element were
+				deprecated in HTML 4.01.
+			]]></help>
+         <parameter name="type" type="String" required="false">
+            <help><![CDATA[
+					Specifies the type of the list. Deprecated. Use styles
+					instead
+				]]></help>
+            <values/>
+         </parameter>
+         <parameter name="value" type="String" required="false">
+            <help><![CDATA[
+					Deprecated. Use styles instead
+				]]></help>
+            <values/>
+         </parameter>
+         &core;
+         &lang;
+         &event_mouse;
+         &event_keyboard;
+      </tag>
+
+      <tag name="link" creator="4" single="false" xmlstyle="false">
+         <help><![CDATA[
+				This element defines the relationship between two linked
+				documents.
+				* In HTML tag has no end tag.
+				* In XHTML tag must be properly closed.
+			]]></help>
+         <parameter name="charset" type="String" required="false">
+            <help><![CDATA[
+					Defines the character encoding of the target URL.
+					Default value is "ISO-8859-1"
+				]]></help>
+            <values/>
+         </parameter>
+         <parameter name="href" type="URL" required="false">
+            <help><![CDATA[
+					The target URL of the resource
+				]]></help>
+            <values/>
+         </parameter>
+         <parameter name="hreflang" type="String" required="false">
+            <help><![CDATA[
+					Defines the base language of the target URL
+				]]></help>
+            <values/>
+         </parameter>
+         <parameter name="media" type="String" required="false">
+            <help><![CDATA[
+					Specifies on what device the document will be displayed
+				]]></help>
+            <values>
+               <value option="all"/>
+               <value option="braille"/>
+               <value option="print"/>
+               <value option="projection"/>
+               <value option="screen"/>
+               <value option="speech"/>
+            </values>
+         </parameter>
+         <parameter name="rel" type="String" required="false">
+            <help><![CDATA[
+					Defines the relationship between the current document
+					and the targeted document
+				]]></help>
+            <values>
+               <value option="alternate"/>
+               <value option="appendix"/>
+               <value option="bookmark"/>
+               <value option="chapter"/>
+               <value option="contents"/>
+               <value option="copyright"/>
+               <value option="glossary"/>
+               <value option="help"/>
+               <value option="home"/>
+               <value option="index"/>
+               <value option="next"/>
+               <value option="prev"/>
+               <value option="section"/>
+               <value option="start"/>
+               <value option="stylesheet"/>
+               <value option="subsection"/>
+            </values>
+         </parameter>
+         <parameter name="rev" type="String" required="false">
+            <help><![CDATA[
+					Defines the relationship between the targeted document
+					and the current document
+				]]></help>
+            <values>
+               <value option="alternate"/>
+               <value option="appendix"/>
+               <value option="bookmark"/>
+               <value option="chapter"/>
+               <value option="contents"/>
+               <value option="copyright"/>
+               <value option="glossary"/>
+               <value option="help"/>
+               <value option="home"/>
+               <value option="index"/>
+               <value option="next"/>
+               <value option="prev"/>
+               <value option="section"/>
+               <value option="start"/>
+               <value option="stylesheet"/>
+               <value option="subsection"/>
+            </values>
+         </parameter>
+         <parameter name="target" type="String" required="false">
+            <help><![CDATA[
+					Where to open the target URL.
+				]]></help>
+            <values>
+               <value option="_blank"/>
+               <value option="_self"/>
+               <value option="_top"/>
+               <value option="_parent"/>
+            </values>
+         </parameter>
+         <parameter name="type" type="String" required="false">
+            <help><![CDATA[
+					Specifies the MIME type of the target URL
+				]]></help>
+            <values>
+               <value option="text/css"/>
+               <value option="text/javascript"/>
+               <value option="image/gif"/>
+            </values>
+         </parameter>
+         &core;
+         &lang;
+         &event_mouse;
+         &event_keyboard;
+      </tag>
+
+      <tag name="map" creator="4" single="false" xmlstyle="false">
+         <help><![CDATA[
+				Defines a client-side image-map. An image-map is an image
+				with clickable regions.
+			]]></help>
+         <parameter name="name" type="String" required="false">
+            <help><![CDATA[
+					Defines a unique name for the map tag (for backwards
+					compability).
+				]]></help>
+            <values/>
+         </parameter>
+         <parameter name="id" type="String" required="true">
+            <help><![CDATA[
+					Defines a unique name for the map tag
+				]]></help>
+            <values/>
+         </parameter>
+		&core;
+         &lang;
+         &keyboard;
+         &event_focus;
+         &event_mouse;
+         &event_keyboard;
+      </tag>
+
+      <tag name="menu" creator="4" single="false" xmlstyle="false">
+         <help><![CDATA[
+				Defines a menu list.
+				The menu element was deprecated in HTML 4.01.
+			]]></help>
+         <parameter name="compact" type="String" required="false">
+            <help><![CDATA[
+					Deprecated. Use styles instead
+				]]></help>
+            <values/>
+         </parameter>
+         &core;
+         &lang;
+         &event_mouse;
+         &event_keyboard;
+      </tag>
+
+      <tag name="meta" creator="4" single="true" xmlstyle="false">
+         <help><![CDATA[
+				The element provides meta-information about your page, such as
+				descriptions and keywords for search engines and refresh rates.
+			]]></help>
+         <parameter name="content" type="String" required="true">
+            <help><![CDATA[
+					Defines meta information to be associated with http-equiv
+					or name
+				]]></help>
+            <values/>
+         </parameter>
+         <parameter name="http-equiv" type="String" required="false">
+            <help><![CDATA[
+					Connects the content attribute to an HTTP header
+				]]></help>
+            <values>
+               <value option="content-type"/>
+               <value option="expires"/>
+               <value option="refresh"/>
+               <value option="set-cookie"/>
+            </values>
+         </parameter>
+         <parameter name="name" type="String" required="false">
+            <help><![CDATA[
+					Connects the content attribute to a name
+				]]></help>
+            <values>
+               <value option="author"/>
+               <value option="description"/>
+               <value option="keywords"/>
+               <value option="generator"/>
+               <value option="revised"/>
+            </values>
+         </parameter>
+         <parameter name="scheme" type="String" required="false">
+            <help><![CDATA[
+					Defines a format to be used to interpret the value of the
+					content attribute
+				]]></help>
+            <values>
+               <value option="author"/>
+               <value option="description"/>
+               <value option="keywords"/>
+               <value option="generator"/>
+               <value option="revised"/>
+            </values>
+         </parameter>
+         &lang;
+      </tag>
+
+      <tag name="noframes" creator="4" single="false" xmlstyle="false">
+         <help><![CDATA[
+				Displays text for browsers that do not handle frames.
+				The noframes element goes inside the frameset element.
+			]]></help>
+         &core;
+         &lang;
+      </tag>
+
+      <tag name="noscript" creator="4" single="false" xmlstyle="false">
+         <help><![CDATA[
+				Used to define an alternate content (text) if a script
+				is NOT executed.
+			]]></help>
+         <parameter name="class" type="String" required="false">
+            <help><![CDATA[
+					The class of the element
+				]]></help>
+            <values/>
+         </parameter>
+		&core;
+		&lang;
+      </tag>
+
+      <tag name="object" creator="4" single="false" xmlstyle="false">
+         <help><![CDATA[
+				Defines an embedded object. Use this element to add multimedia
+				to your XHTML page.
+			]]></help>
+         <parameter name="archive" type="URL" required="false">
+            <help><![CDATA[
+					A space separated list of URL's to archives. The archives contains
+					resources relevant to the object
+				]]></help>
+            <values/>
+         </parameter>
+         <parameter name="border" type="Numeric" required="false">
+            <help><![CDATA[
+					Defines a border around the object
+				]]></help>
+            <values/>
+         </parameter>
+         <parameter name="classid" type="String" required="false">
+            <help><![CDATA[
+					Defines a class ID value as set in the Windows Registry or a URL
+				]]></help>
+            <values/>
+         </parameter>
+         <parameter name="codebase" type="URL" required="false">
+            <help><![CDATA[
+					Defines where to find the code for the object
+				]]></help>
+            <values/>
+         </parameter>
+         <parameter name="codetype" type="String" required="false">
+            <help><![CDATA[
+					The internet media type of the code referred to by the
+					classid attribute
+				]]></help>
+            <values/>
+         </parameter>
+         <parameter name="data" type="URL" required="false">
+            <help><![CDATA[
+					Defines a URL that refers to the object's data
+				]]></help>
+            <values/>
+         </parameter>
+         <parameter name="declare" type="boolean" required="false">
+            <help><![CDATA[
+					Defines that the object should only be declared, not created
+					or instantiated until needed
+				]]></help>
+            <values>
+               &value_boolean;
+            </values>
+         </parameter>
+         <parameter name="hspace" type="Numeric" required="false">
+            <help><![CDATA[
+					Defines the horizontal spacing around the object
+				]]></help>
+            <values/>
+         </parameter>
+         <parameter name="vspace" type="Numeric" required="false">
+            <help><![CDATA[
+					Defines the vertical spacing around the object
+				]]></help>
+            <values/>
+         </parameter>
+         <parameter name="name" type="String" required="false">
+            <help><![CDATA[
+					Defines a unique name for the object (to use in scripts)
+				]]></help>
+            <values/>
+         </parameter>
+         <parameter name="standby" type="String" required="false">
+            <help><![CDATA[
+					Defines a text to display while the object is loading
+				]]></help>
+            <values/>
+         </parameter>
+         <parameter name="type" type="String" required="false">
+            <help><![CDATA[
+					Defines the MIME type of data specified in the data attribute
+				]]></help>
+            <values/>
+         </parameter>
+         <parameter name="usemap" type="URL" required="false">
+            <help><![CDATA[
+					Specifies a URL of a client-side image map to be used with the object
+				]]></help>
+            <values/>
+         </parameter>
+         &align;
+         &size;
+         &core;
+         &lang;
+         &keyboard;
+         &event_mouse;
+         &event_keyboard;
+      </tag>
+
+      <tag name="ol" creator="4" single="false" xmlstyle="false">
+         <help><![CDATA[
+				 Defines the start of an ordered list.
+				 The "compact", "start" and "type" attributes of the ol element
+				 were deprecated in HTML 4.01.
+			]]></help>
+         <parameter name="compact" type="String" required="false">
+            <help><![CDATA[
+					Deprecated. Use styles instead
+				]]></help>
+            <values/>
+         </parameter>
+         <parameter name="start" type="Numeric" required="false">
+            <help><![CDATA[
+					Specifies the number to start on. Deprecated. Use styles
+					instead
+				]]></help>
+            <values/>
+         </parameter>
+         <parameter name="type" type="String" required="false">
+            <help><![CDATA[
+					Specifies the type of the list. Deprecated. Use styles instead
+				]]></help>
+            <values>
+               <value option="A"/>
+               <value option="a"/>
+               <value option="I"/>
+               <value option="i"/>
+               <value option="1"/>
+            </values>
+         </parameter>
+         &core;
+         &lang;
+         &event_mouse;
+         &event_keyboard;
+      </tag>
+
+      <tag name="optgroup" creator="16" single="false" xmlstyle="false">
+         <help><![CDATA[
+				Defines an option group. This element allows you to group
+				choices. When you have a long list of options, groups of
+				related choices are easier to handle.
+			]]></help>
+         <parameter name="label" type="String" required="true">
+            <help><![CDATA[
+					Defines the label for the option group
+				]]></help>
+            <values/>
+         </parameter>
+         <parameter name="disabled" type="boolean" required="false">
+            <help><![CDATA[
+					Disables the option-group when it first loads
+				]]></help>
+            <values>
+               <value option="true"/>
+               <value option="false"/>
+            </values>
+         </parameter>
+         &core;
+         &lang;
+         &keyboard;
+         &event_mouse;
+         &event_keyboard;
+      </tag>
+
+      <tag name="option" creator="16" single="false" xmlstyle="false">
+         <help><![CDATA[
+				Defines an option in the drop-down list.
+				* In HTML the tag has no end tag.
+				* In XHTML the tag must be properly closed.
+			]]></help>
+         <parameter name="disabled" type="boolean" required="false">
+            <help><![CDATA[
+					Specifies that the option should be disabled when
+					it first loads
+				]]></help>
+            <values>
+               &value_boolean;
+            </values>
+         </parameter>
+         <parameter name="label" type="String" required="false">
+            <help><![CDATA[
+					Defines a label to use when using [optgroup]
+				]]></help>
+            <values/>
+         </parameter>
+         <parameter name="selected" type="boolean" required="false">
+            <help><![CDATA[
+					Specifies that the option should appear selected
+					(will be displayed first in the list)
+				]]></help>
+            <values>
+               <value option="true"/>
+               <value option="false"/>
+            </values>
+         </parameter>
+         <parameter name="value" type="String" required="false">
+            <help><![CDATA[
+					Defines the the value of the option to be sent to the server
+				]]></help>
+            <values/>
+         </parameter>
+         &core;
+         &lang;
+         &keyboard;
+         &event_mouse;
+         &event_keyboard;
+      </tag>
+
+      <tag name="p" creator="4" single="false" xmlstyle="false">
+         <help><![CDATA[
+				 Defines a paragraph.
+				 All "presentation attributes" of the p element were
+				 deprecated in HTML 4.01.
+			]]></help>
+         &align;
+         &core;
+         &lang;
+         &event_mouse;
+         &event_keyboard;
+      </tag>
+
+      <tag name="param" creator="4" single="true" xmlstyle="false">
+         <help><![CDATA[
+				The param element allows you to specify the run-time settings
+				for an object inserted into XHTML documents.
+			]]></help>
+         <parameter name="name" type="String" required="true">
+            <help><![CDATA[
+					Defines a unique name for the parameter
+				]]></help>
+            <values/>
+         </parameter>
+         <parameter name="id" type="String" required="false">
+            <help><![CDATA[
+					The id for this element
+				]]></help>
+            <values/>
+         </parameter>
+         <parameter name="type" type="String" required="false">
+            <help><![CDATA[
+					Specifies the internet media type for the parameter
+				]]></help>
+            <values/>
+         </parameter>
+         <parameter name="value" type="String" required="false">
+            <help><![CDATA[
+					Specifies the value of the parameter
+				]]></help>
+            <values/>
+         </parameter>
+         <parameter name="valuetype" type="String" required="false">
+            <help><![CDATA[
+					Specifies the MIME type of the value
+				]]></help>
+            <values>
+               <value option="data"/>
+               <value option="ref"/>
+               <value option="object"/>
+            </values>
+         </parameter>
+      </tag>
+      <tag name="pre" creator="4" single="false" xmlstyle="false">
+         <help><![CDATA[
+				The pre element defines preformatted text.
+				The "width" attribute of the pre element was deprecated in
+				HTML 4.01.
+			]]></help>
+         <parameter name="width" type="Numeric" required="false">
+            <help><![CDATA[
+					Defines the maximum number of characters per line
+					(usually 40, 80, or 132)
+				]]></help>
+            <values/>
+         </parameter>
+         &core;
+         &lang;
+         &event_mouse;
+         &event_keyboard;
+      </tag>
+
+      <tag name="q" creator="4" single="false" xmlstyle="false">
+         <help><![CDATA[
+				Defines the start of a short quotation.
+			]]></help>
+         <parameter name="cite" type="String" required="false">
+            <help><![CDATA[
+					Defines a citation for the quotation
+				]]></help>
+            <values/>
+         </parameter>
+         &core;
+         &lang;
+         &event_mouse;
+         &event_keyboard;
+      </tag>
+
+      <tag name="script" creator="4" single="false" xmlstyle="false">
+         <help><![CDATA[
+				Defines a script, such as a JavaScript.
+				The "language" attribute of the script element was deprecated
+				in HTML 4.01.
+			]]></help>
+         <parameter name="type" type="String" required="true">
+            <help><![CDATA[
+					Indicates the MIME type of the script
+				]]></help>
+            <values>
+               <value option="text/ecmascript"/>
+               <value option="text/javascript"/>
+               <value option="text/jscript"/>
+               <value option="text/vbscript"/>
+               <value option="text/vbs"/>
+               <value option="text/xml"/>
+            </values>
+         </parameter>
+         <parameter name="charset" type="String" required="false">
+            <help><![CDATA[
+					Defines the character encoding used in script
+				]]></help>
+            <values/>
+         </parameter>
+         <parameter name="defer" type="String" required="false">
+            <help><![CDATA[
+					Indicates that the script is not going to generate any
+					document content.
+				]]></help>
+            <values/>
+         </parameter>
+         <parameter name="language" type="String" required="false">
+            <help><![CDATA[
+					Specifies the scripting language. Deprecated. Use the type
+					attribute instead.
+				]]></help>
+            <values>
+               <value option="javascript"/>
+               <value option="livescript"/>
+               <value option="vbscript"/>
+               <value option="other"/>
+            </values>
+         </parameter>
+         <parameter name="src" type="URL" required="false">
+            <help><![CDATA[
+					Defines a URL to a file that contains the script
+				]]></help>
+            <values/>
+         </parameter>
+      </tag>
+
+      <tag name="select" creator="16" single="false" xmlstyle="false">
+         <help><![CDATA[
+				The select element creates a drop-down list.
+			]]></help>
+         <parameter name="name" type="String" required="false">
+            <help><![CDATA[
+					Defines a unique name for the drop-down list
+				]]></help>
+            <values/>
+         </parameter>
+         <parameter name="size" type="Numeric" required="false">
+            <help><![CDATA[
+					Definer the number of visible items in the drop-down
+					list
+				]]></help>
+            <values/>
+         </parameter>
+         <parameter name="disabled" type="boolean" required="false">
+            <help><![CDATA[
+					When set, it disables the drop-down list
+				]]></help>
+            <values>
+               <value option="true"/>
+               <value option="false"/>
+            </values>
+         </parameter>
+         <parameter name="multiple" type="boolean" required="false">
+            <help><![CDATA[
+					When set, it specifies that multiple items can be selected
+					at a time
+				]]></help>
+            <values>
+               <value option="true"/>
+               <value option="false"/>
+            </values>
+         </parameter>
+         &core;
+         &lang;
+         &keyboard;
+         &event_focus;
+         &event_mouse;
+         &event_keyboard;
+      </tag>
+
+      <tag name="span" creator="4" single="false" xmlstyle="false">
+         <help><![CDATA[
+				 Used to group inline-elements in a document.
+			]]></help>
+         &core;
+         &lang;
+         &event_mouse;
+         &event_keyboard;
+      </tag>
+
+      <tag name="strike" creator="4" single="false" xmlstyle="false">
+         <help><![CDATA[
+				** Deprecated in HTML 4.01. **
+				Defines strikethrough text
+			]]></help>
+         &core;
+         &lang;
+         &event_mouse;
+         &event_keyboard;
+      </tag>
+	  <!--
+      <tag name="s" creator="4" single="false" xmlstyle="false">
+         <help><![CDATA[
+				** Deprecated in HTML 4.01. **
+				Defines strikethrough text
+			]]></help>
+         &core;
+         &lang;
+         &event_mouse;
+         &event_keyboard;
+      </tag>
+	  -->
+      <tag name="cite" creator="4" single="false" xmlstyle="false">
+         <help><![CDATA[
+				Defines a citation
+			]]></help>
+         &core;
+         &lang;
+         &event_mouse;
+         &event_keyboard;
+      </tag>
+
+      <tag name="var" creator="4" single="false" xmlstyle="false">
+         <help><![CDATA[
+				Defines a variable
+			]]></help>
+		&core;
+         &lang;
+         &event_mouse;
+         &event_keyboard;
+      </tag>
+
+      <tag name="kbd" creator="4" single="false" xmlstyle="false">
+         <help><![CDATA[
+				Defines keyboard text
+			]]></help>
+         &core;
+         &lang;
+         &event_mouse;
+         &event_keyboard;
+      </tag>
+
+      <tag name="samp" creator="4" single="false" xmlstyle="false">
+         <help><![CDATA[
+				Defines sample computer code
+			]]></help>
+         &core;
+         &lang;
+         &event_mouse;
+         &event_keyboard;
+      </tag>
+
+      <tag name="code" creator="4" single="false" xmlstyle="false">
+         <help><![CDATA[
+				Defines computer code text
+			]]></help>
+         &core;
+         &lang;
+         &event_mouse;
+         &event_keyboard;
+      </tag>
+
+      <tag name="dfn" creator="4" single="false" xmlstyle="false">
+         <help><![CDATA[
+				Defines a definition term
+			]]></help>
+		&core;
+		&lang;
+		&event_mouse;
+		&event_keyboard;
+      </tag>
+
+      <tag name="strong" creator="4" single="false" xmlstyle="false">
+         <help><![CDATA[
+				Renders as strong emphasized text
+			]]></help>
+         &core;
+         &lang;
+         &event_mouse;
+         &event_keyboard;
+      </tag>
+
+      <tag name="em" creator="4" single="false" xmlstyle="false">
+         <help><![CDATA[
+				Renders as emphasized text
+			]]></help>
+         &core;
+         &lang;
+         &event_mouse;
+         &event_keyboard;
+      </tag>
+
+      <tag name="style" creator="4" single="false" xmlstyle="false">
+         <help><![CDATA[
+				Defines a style in a document.
+			]]></help>
+         <parameter name="title" type="String" required="false">
+            <help><![CDATA[
+					A text to display in a tool tip
+				]]></help>
+            <values/>
+         </parameter>
+         <parameter name="type" type="String" required="true">
+            <help><![CDATA[
+					Defines the content-type
+				]]></help>
+            <values>
+               <value option="text/css"/>
+            </values>
+         </parameter>
+         <parameter name="media" type="String" required="false">
+            <help><![CDATA[
+					The destination medium for the style information
+				]]></help>
+            <values>
+               <value option="screen"/>
+               <value option="tty"/>
+               <value option="tv"/>
+               <value option="projection"/>
+               <value option="handheld"/>
+               <value option="print"/>
+               <value option="braille"/>
+               <value option="aural"/>
+               <value option="all"/>
+            </values>
+         </parameter>
+         &lang;
+      </tag>
+
+      <tag name="sub" creator="4" single="false" xmlstyle="false">
+         <help><![CDATA[
+				Defines subscript text.
+			]]></help>
+         &core;
+         &lang;
+         &event_mouse;
+         &event_keyboard;
+      </tag>
+
+      <tag name="sup" creator="4" single="false" xmlstyle="false">
+         <help><![CDATA[
+				Defines superscript text.
+			]]></help>
+         &core;
+         &lang;
+         &event_mouse;
+         &event_keyboard;
+      </tag>
+
+      <tag name="table" creator="32" single="false" xmlstyle="false">
+         <help><![CDATA[
+				Defines a table. Inside a table tag you can put table headers,
+				table rows, table cells, and other tables.
+			]]></help>
+         <parameter name="border" type="Numeric" required="false">
+            <help><![CDATA[
+					Specifies the border width.
+				]]></help>
+            <values/>
+         </parameter>
+         <parameter name="cellpadding" type="String" required="false">
+            <help><![CDATA[
+					Specifies the space between the cell walls and contents
+				]]></help>
+            <values/>
+         </parameter>
+         <parameter name="cellspacing" type="String" required="false">
+            <help><![CDATA[
+					Specifies the space between cells
+				]]></help>
+            <values/>
+         </parameter>
+         <parameter name="summary" type="String" required="false">
+            <help><![CDATA[
+					Specifies a summary of the table for speech-synthesizing/
+					non-visual browsers
+				]]></help>
+            <values/>
+         </parameter>
+         <parameter name="frame" type="String" required="false">
+            <help><![CDATA[
+					Specifies how the outer borders should be displayed.
+					Note: Must be used in conjunction with the "border" attribute
+				]]></help>
+            <values>
+               <value option="void"/>
+               <value option="above"/>
+               <value option="below"/>
+               <value option="hsides"/>
+               <value option="lhs"/>
+               <value option="rhs"/>
+               <value option="vsides"/>
+               <value option="box"/>
+               <value option="border"/>
+            </values>
+         </parameter>
+         <parameter name="rules" type="String" required="false">
+            <help><![CDATA[
+					Specifies the horizontal/vertical divider lines.
+					Note: Must be used in conjunction with the "border" attribute
+				]]></help>
+            <values>
+               <value option="none"/>
+               <value option="groups"/>
+               <value option="rows"/>
+               <value option="cols"/>
+               <value option="all"/>
+            </values>
+         </parameter>
+         &size;
+         <parameter name="bgcolor" type="String" required="false">
+            <help>** Deprecated. Use styles instead. **
+			Specifies the elements background color.</help>
+            <values/>
+         </parameter>
+         &align;
+         &core;
+         &lang;
+         &event_mouse;
+         &event_keyboard;
+      </tag>
+
+      <tag name="tbody" creator="32" single="false" xmlstyle="false">
+         <help><![CDATA[
+				Defines a table body.
+			]]></help>
+         <parameter name="char" type="String" required="false">
+            <help><![CDATA[
+					Specifies which character to align text on.
+					Note: Only used if align="char"!
+				]]></help>
+            <values/>
+         </parameter>
+         <parameter name="charoff" type="String" required="false">
+            <help><![CDATA[
+					Specifies the alignment offset to the first character to
+					align on. Note: Only used if align="char"!
+				]]></help>
+            <values/>
+         </parameter>
+         &align;
+         &valign;
+         &core;
+         &lang;
+         &event_mouse;
+         &event_keyboard;
+      </tag>
+
+      <tag name="td" creator="32" single="false" xmlstyle="false">
+         <help><![CDATA[
+				Defines a cell in a table.
+			]]></help>
+         <parameter name="scope" type="Numeric" required="false">
+            <help><![CDATA[
+					Specifies if this cell provides header information
+					for the rest of the row that contains it
+				]]></help>
+            <values/>
+         </parameter>
+         <parameter name="rowspan" type="Numeric" required="false">
+            <help><![CDATA[
+					Indicates the number of rows this cell should span
+				]]></help>
+            <values/>
+         </parameter>
+         <parameter name="nowrap" type="boolean" required="false">
+            <help><![CDATA[
+					Whether to disable or enable automatic text wrapping in
+					this cell. Deprecated. Use styles instead.
+				]]></help>
+            <values>
+               &value_boolean;
+            </values>
+         </parameter>
+         <parameter name="headers" type="String" required="false">
+            <help><![CDATA[
+					A space-separated list of cell IDs that supply header
+					information for the cell. This attribute allows text-only
+					browsers to render the header information for a given cell
+				]]></help>
+            <values/>
+         </parameter>
+         <parameter name="colspan" type="Numeric" required="false">
+            <help><![CDATA[
+					Indicates the number of columns this cell should span
+				]]></help>
+            <values/>
+         </parameter>
+         <parameter name="abbr" type="String" required="false">
+            <help><![CDATA[
+					Specifies an abbreviated version of the content in
+					a cell
+				]]></help>
+            <values/>
+         </parameter>
+         <parameter name="axis" type="String" required="false">
+            <help><![CDATA[
+					Defines a name for a cell
+				]]></help>
+            <values/>
+         </parameter>
+         <parameter name="char" type="String" required="false">
+            <help><![CDATA[
+					Specifies which character to align text on.
+					Note: Only used if align="char"!
+				]]></help>
+            <values/>
+         </parameter>
+         <parameter name="charoff" type="String" required="false">
+            <help><![CDATA[
+					Specifies the alignment offset to the first character to
+					align on. Note: Only used if align="char"!
+				]]></help>
+            <values/>
+         </parameter>
+         &align;
+         &valign;
+         &size;
+         <parameter name="bgcolor" type="String" required="false">
+            <help>** Deprecated. Use styles instead. **
+			Specifies the elements background color.</help>
+            <values/>
+         </parameter>
+         &core;
+         &lang;
+         &event_mouse;
+         &event_keyboard;
+      </tag>
+
+      <tag name="textarea" creator="16" single="false" xmlstyle="false">
+         <help><![CDATA[
+				Defines a text-area (a multi-line text input control).
+			]]></help>
+         <parameter name="rows" type="Numeric" required="true">
+            <help><![CDATA[
+					Specifies the number of columns visible in the
+					text-area
+				]]></help>
+            <values/>
+         </parameter>
+         <parameter name="cols" type="Numeric" required="true">
+            <help><![CDATA[
+					Specifies the number of rows visible in the
+					text-area
+				]]></help>
+            <values/>
+         </parameter>
+         <parameter name="disabled" type="boolean" required="false">
+            <help><![CDATA[
+					Disables the text-area when it is first displayed
+				]]></help>
+            <values>
+               &value_boolean;
+            </values>
+         </parameter>
+         <parameter name="name" type="String" required="false">
+            <help><![CDATA[
+					Specifies a name for the text-area
+				]]></help>
+            <values/>
+         </parameter>
+         <parameter name="readonly" type="boolean" required="false">
+            <help><![CDATA[
+					Indicates that the user cannot modify the content in
+					the text-area
+				]]></help>
+            <values>
+               <value option="true"/>
+               <value option="false"/>
+            </values>
+         </parameter>
+         &core;
+         &lang;
+         &keyboard;
+         &event_focus;
+         &event_mouse;
+		&event_keyboard;
+      </tag>
+
+      <tag name="tfoot" creator="&color_table;" single="false" xmlstyle="false">
+         <help><![CDATA[
+				Defines a table footer.
+			]]></help>
+         <parameter name="char" type="String" required="false">
+            <help><![CDATA[
+					Specifies which character to align text on.
+					Note: Only used if align="char"!
+				]]></help>
+            <values/>
+         </parameter>
+         <parameter name="charoff" type="String" required="false">
+            <help><![CDATA[
+					Specifies the alignment offset to the first character to
+					align on. Note: Only used if align="char"!
+				]]></help>
+            <values/>
+         </parameter>
+         &valign;
+         &align;
+         &core;
+		 &lang;
+         &event_mouse;
+         &event_keyboard;
+      </tag>
+
+      <tag name="th" creator="&color_table;" single="false" xmlstyle="false">
+         <help><![CDATA[
+				Defines a table header cell in a table. The text within
+				the th element usually renders in bold.
+			]]></help>
+         <parameter name="scope" type="Numeric" required="false">
+            <help><![CDATA[
+					Specifies if this cell provides header information
+					for the rest of the row that contains it
+				]]></help>
+            <values/>
+         </parameter>
+         <parameter name="rowspan" type="Numeric" required="false">
+            <help><![CDATA[
+					Indicates the number of rows this cell should span
+				]]></help>
+            <values/>
+         </parameter>
+         <parameter name="nowrap" type="boolean" required="false">
+            <help><![CDATA[
+					Whether to disable or enable automatic text wrapping in
+					this cell. Deprecated. Use styles instead.
+				]]></help>
+            <values>
+               &value_boolean;
+            </values>
+         </parameter>
+         <parameter name="headers" type="String" required="false">
+            <help><![CDATA[
+					A space-separated list of cell IDs that supply header
+					information for the cell. This attribute allows text-only
+					browsers to render the header information for a given cell
+				]]></help>
+            <values/>
+         </parameter>
+         <parameter name="colspan" type="Numeric" required="false">
+            <help><![CDATA[
+					Indicates the number of columns this cell should span
+				]]></help>
+            <values/>
+         </parameter>
+         <parameter name="abbr" type="String" required="false">
+            <help><![CDATA[
+					Specifies an abbreviated version of the content in
+					a cell
+				]]></help>
+            <values/>
+         </parameter>
+         <parameter name="axis" type="String" required="false">
+            <help><![CDATA[
+					Defines a name for a cell
+				]]></help>
+            <values/>
+         </parameter>
+         <parameter name="bgcolor" type="String" required="false">
+            <help><![CDATA[
+					Specifies the background color of the table cell.
+					Deprecated. Use styles instead.
+				]]></help>
+            <values/>
+         </parameter>
+         <parameter name="char" type="String" required="false">
+            <help><![CDATA[
+					Specifies which character to align text on.
+					Note: Only used if align="char"!
+				]]></help>
+            <values/>
+         </parameter>
+         <parameter name="charoff" type="String" required="false">
+            <help><![CDATA[
+					Specifies the alignment offset to the first character to
+					align on. Note: Only used if align="char"!
+				]]></help>
+            <values/>
+         </parameter>
+         &align;
+         &valign;
+         &size;
+         &core;
+         &lang;
+         &event_mouse;
+         &event_keyboard;
+      </tag>
+
+      <tag name="thead" creator="&color_table;" single="false" xmlstyle="false">
+         <help><![CDATA[
+				Defines a table header.
+			]]></help>
+         <parameter name="char" type="String" required="false">
+            <help><![CDATA[
+					Specifies which character to align text on.
+					Note: Only used if align="char"!
+				]]></help>
+            <values/>
+         </parameter>
+         <parameter name="charoff" type="String" required="false">
+            <help><![CDATA[
+					Specifies the alignment offset to the first character to
+					align on. Note: Only used if align="char"!
+				]]></help>
+            <values/>
+         </parameter>
+         &align;
+         &valign;
+         &core;
+         &lang;
+         &event_mouse;
+         &event_keyboard;
+      </tag>
+
+      <tag name="title" creator="4" single="false" xmlstyle="false">
+         <help><![CDATA[
+				This element defines the title of the document.
+			]]></help>
+         <parameter name="class" type="String" required="false">
+            <help><![CDATA[
+					The class of the element
+				]]></help>
+            <values/>
+         </parameter>
+         <parameter name="id" type="String" required="false">
+            <help><![CDATA[
+					A unique id for the element
+				]]></help>
+            <values/>
+         </parameter>
+         <parameter name="style" type="String" required="false">
+            <help><![CDATA[
+					An inline style definition
+				]]></help>
+            <values/>
+         </parameter>
+         &core;
+         &lang;
+      </tag>
+
+      <tag name="tr" creator="&color_table;" single="false" xmlstyle="false">
+         <help><![CDATA[
+				Defines a row in a table.
+			]]></help>
+         <parameter name="bgcolor" type="String" required="false">
+            <help><![CDATA[
+					Specifies the background color of the table cell.
+					Deprecated. Use styles instead.
+				]]></help>
+            <values/>
+         </parameter>
+         <parameter name="char" type="String" required="false">
+            <help><![CDATA[
+					Specifies which character to align text on.
+					Note: Only used if align="char"!
+				]]></help>
+            <values/>
+         </parameter>
+         <parameter name="charoff" type="String" required="false">
+            <help><![CDATA[
+					Specifies the alignment offset to the first character to
+					align on. Note: Only used if align="char"!
+				]]></help>
+            <values/>
+         </parameter>
+         &align;
+         &valign;
+         &core;
+         &lang;
+         &event_mouse;
+         &event_keyboard;
+      </tag>
+
+      <tag name="small" creator="4" single="false" xmlstyle="false">
+         <help><![CDATA[
+				Renders as smaller text
+			]]></help>
+         &core;
+         &lang;
+         &event_mouse;
+         &event_keyboard;
+      </tag>
+
+      <tag name="big" creator="4" single="false" xmlstyle="false">
+         <help><![CDATA[
+				Renders as bigger text
+			]]></help>
+         &core;
+         &lang;
+         &event_mouse;
+         &event_keyboard;
+      </tag>
+
+      <tag name="b" creator="4" single="false" xmlstyle="false">
+         <help><![CDATA[
+				Renders as bold text
+			]]></help>
+         &core;
+         &lang;
+         &event_mouse;
+         &event_keyboard;
+      </tag>
+
+      <tag name="i" creator="4" single="false" xmlstyle="false">
+         <help><![CDATA[
+				Renders as italic text
+			]]></help>
+         &core;
+         &lang;
+         &event_mouse;
+         &event_keyboard;
+      </tag>
+
+      <tag name="tt" creator="4" single="false" xmlstyle="false">
+         <help><![CDATA[
+				Renders as teletype or mono spaced text
+			]]></help>
+         &core;
+         &lang;
+         &event_mouse;
+         &event_keyboard;
+      </tag>
+
+      <tag name="u" creator="4" single="false" xmlstyle="false">
+         <help><![CDATA[
+				** The u element was deprecated in HTML 4.01. **
+				This tag defines underlined text.
+			]]></help>
+         &core;
+         &lang;
+         &event_mouse;
+         &event_keyboard;
+      </tag>
+
+      <tag name="ul" creator="4" single="false" xmlstyle="false">
+         <help><![CDATA[
+				The &lt;ul&gt; tag defines an unordered list.
+			]]></help>
+         <parameter name="type" type="String" required="false">
+            <help><![CDATA[
+					Specifies the character encoding of the target URL
+				]]></help>
+            <values>
+               <value option="disc"/>
+               <value option="square"/>
+               <value option="circle"/>
+            </values>
+         </parameter>
+         &core;
+         &lang;
+         &event_mouse;
+         &event_keyboard;
+      </tag>
+
+      <tag name="a" creator="4" single="false" xmlstyle="false">
+         <help><![CDATA[
+				The a tag defines an anchor element. An anchor can be used
+				in two ways:
+
+				To create a link to another document by using the href
+				attribute To create a bookmark inside a document, by using the
+				name or id attribute
+			]]></help>
+         <parameter name="charset" type="String" required="false">
+            <help><![CDATA[
+					Specifies the character encoding of the target URL
+				]]></help>
+            <values/>
+         </parameter>
+         <parameter name="coords" type="String" required="false">
+            <help><![CDATA[
+					Specifies the coordinates appropriate to the shape
+					attribute to define a region of an image for image maps
+				]]></help>
+            <values/>
+         </parameter>
+         <parameter name="href" type="String" required="false">
+            <help><![CDATA[
+					The target URL of the link
+				]]></help>
+            <values/>
+         </parameter>
+         <parameter name="hreflang" type="String" required="false">
+            <help><![CDATA[
+					The target URL of the link
+				]]></help>
+            <values/>
+         </parameter>
+         <parameter name="name" type="String" required="false">
+            <help><![CDATA[
+					Names an anchor. Use this attribute to create a bookmark in
+					a document.
+					In future versions of XHTML the name attribute will be
+					replaced by the id attribute!!
+				]]></help>
+            <values/>
+         </parameter>
+         <parameter name="rel" type="String" required="false">
+            <help><![CDATA[
+					Specifies the relationship between the current document and
+					the target URL
+				]]></help>
+            <values>
+               <value option="alternate"/>
+               <value option="designates"/>
+               <value option="stylesheet"/>
+               <value option="start"/>
+               <value option="next"/>
+               <value option="prev"/>
+               <value option="contents"/>
+               <value option="index"/>
+               <value option="glossary"/>
+               <value option="copyright"/>
+               <value option="chapter"/>
+               <value option="section"/>
+               <value option="subsection"/>
+               <value option="appendix"/>
+               <value option="help"/>
+               <value option="bookmark"/>
+            </values>
+         </parameter>
+         <parameter name="rev" type="String" required="false">
+            <help><![CDATA[
+					Specifies the relationship between the target URL and the
+					current document
+				]]></help>
+            <values>
+               <value option="alternate"/>
+               <value option="designates"/>
+               <value option="stylesheet"/>
+               <value option="start"/>
+               <value option="next"/>
+               <value option="prev"/>
+               <value option="contents"/>
+               <value option="index"/>
+               <value option="glossary"/>
+               <value option="copyright"/>
+               <value option="chapter"/>
+               <value option="section"/>
+               <value option="subsection"/>
+               <value option="appendix"/>
+               <value option="help"/>
+               <value option="bookmark"/>
+            </values>
+         </parameter>
+         <parameter name="shape" type="String" required="false">
+            <help><![CDATA[
+					Defines the type of region to be defined for mapping in the
+					current area tag. Used with the coords attribute.
+				]]></help>
+            <values>
+               <value option="rect"/>
+               <value option="rectangle"/>
+               <value option="circ"/>
+               <value option="circle"/>
+               <value option="poly"/>
+               <value option="polygon"/>
+            </values>
+         </parameter>
+         <parameter name="target" type="String" required="false">
+            <help><![CDATA[
+					Defines the type of region to be defined for mapping in the
+					current area tag. Used with the coords attribute.
+				]]></help>
+            <values>
+               <value option="_blank"/>
+               <value option="_parent"/>
+               <value option="_self"/>
+               <value option="_top"/>
+            </values>
+         </parameter>
+         <parameter name="type" type="String" required="false">
+            <help><![CDATA[
+					Specifies the MIME (Multipurpose Internet Mail Extensions)
+					type of the target URL
+				]]></help>
+            <values>
+               <value option="text/plain"/>
+               <value option="text/html"/>
+            </values>
+         </parameter>
+         &core;
+         &lang;
+         &keyboard;
+         &event_focus;
+         &event_mouse;
+         &event_keyboard;
+      </tag>
+   </tags>
+   <functions/>
+</dictionary>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dialog>
+
+<tab name="General">
+	
+	<field name="name"/>
+	
+	<field name="value"/>
+	
+	<field name="passthrough"/>
+	
+	<field name="tabindex"/>
+	
+	<field name="notab"/>
+	
+	<field name="type"/>
+	
+</tab>
+
+<tab name="Text/Password">
+	
+	<field name="size"/>
+	
+	<field name="maxlength"/>
+	
+	<field name="range"/>
+	
+	<field name="message"/>
+	
+	<field name="required"/>
+	
+	<field name="validate"/>
+	
+</tab>
+
+<tab name="Radio/Checkbox">
+	
+	<field name="checked"/>
+	
+</tab>
+
+</dialog>

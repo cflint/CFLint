@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dialog>
+
+<tab name="General">
+	
+	<field name="method"/>
+	
+	<field name="returnvariable"/>
+	
+</tab>
+
+<tab name="Component">
+	
+	<field name="component"/>
+	
+	<field name="argumentcollection"/>
+	
+</tab>
+
+<tab name="Webservice">
+	
+	<field name="webservice"/>
+	
+	<field name="username"/>
+	
+	<field name="password"/>
+	
+</tab>
+
+</dialog>

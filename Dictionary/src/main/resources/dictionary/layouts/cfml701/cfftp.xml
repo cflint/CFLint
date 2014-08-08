@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dialog>
+
+<tab name="General">
+	
+	<field name="connection"/>
+	
+	<field name="directory"/>
+	
+	<field name="localfile"/>
+	
+	<field name="remotefile"/>
+	
+	<field name="item"/>
+	
+	<field name="action"/>
+	
+	<field name="transfermode"/>
+	
+</tab>
+
+<tab name="Listdir">
+	
+	<field name="name"/>
+	
+</tab>
+
+<tab name="GetPutfile">
+	
+	<field name="asciiextensionlist"/>
+	
+	<field name="attributes"/>
+	
+	<field name="failifexists"/>
+	
+</tab>
+
+<tab name="Rename">
+	
+	<field name="existing"/>
+	
+	<field name="new"/>
+	
+</tab>
+
+<tab name="Server Info">
+	
+	<field name="proxyserver"/>
+	
+	<field name="server"/>
+	
+	<field name="username"/>
+	
+	<field name="password"/>
+	
+	<field name="port"/>
+	
+	<field name="timeout"/>
+	
+	<field name="retrycount"/>
+	
+	<field name="stoponerror"/>
+	
+	<field name="passive"/>
+	
+</tab>
+
+</dialog>

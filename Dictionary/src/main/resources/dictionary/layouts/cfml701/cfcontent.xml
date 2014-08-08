@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dialog>
+
+<tab name="General">
+	
+	<field name="file"/>
+	
+	<field name="deletefile"/>
+	
+	<field name="type"/>
+	
+	<field name="reset"/>
+	
+</tab>
+
+</dialog>

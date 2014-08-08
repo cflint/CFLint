@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dialog>
+
+<tab name="General">
+	
+	<field name="name"/>
+	
+	<field name="class"/>
+	
+	<field name="action"/>
+	
+	<field name="type"/>
+	
+</tab>
+
+<tab name="Component">
+	
+	<field name="component"/>
+	
+</tab>
+
+<tab name="Com">
+	
+	<field name="server"/>
+	
+</tab>
+
+<tab name="Corba">
+	
+	<field name="locale"/>
+	
+	<field name="context"/>
+	
+</tab>
+
+</dialog>

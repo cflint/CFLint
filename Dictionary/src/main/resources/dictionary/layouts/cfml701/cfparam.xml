@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dialog>
+
+<tab name="General">
+	
+	<field name="name"/>
+	
+	<field name="default"/>
+	
+	<field name="type"/>
+	
+</tab>
+
+</dialog>

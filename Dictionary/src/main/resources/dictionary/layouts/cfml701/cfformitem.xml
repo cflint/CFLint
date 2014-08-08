@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+	cfformitem
+		type = "hrule, vrule, or spacer"
+		style = "style specification"
+		width = "pixels"
+		height = "pixels"
+		visible = "boolean"
+	or
+	cfformitem
+		type= "html or text or script"
+		style = "style specification"
+		width = "pixels"
+		height = "pixels"
+		visible = "boolean"
+		enabled = "boolean"
+		tooltip = "Tip text"
+		bind = "bind expresion"
+	...text
+	/cfformitem
+-->
+<tag xmlns="http://www.cfeclipse.org/version1/dictionary"
+	name="cfformitem" single="false" xmlstyle="true">
+	<help><![CDATA[
+		Inserts a horizontal line, a vertical line, a spacer,
+		or text in a Flash form. Used in the cfform or cfformgroup
+		tag body for Flash and XML forms. Ignored in HTML forms.
+	]]></help>
+	<parameter name="type" type="String" required="true">
+		<help><![CDATA[
+			Form item type. See docs for more details.
+		]]></help>
+		<values>
+			<value option="html" />
+			<value option="text" />
+			<value option="script" />
+			<value option="spacer" />
+			<value option="hrule" />
+			<value option="vrule" />
+		</values>
+	</parameter>
+	<parameter name="style" type="String" required="false">
+		<help><![CDATA[
+			Flash: Must be a style specification in CSS format.
+			Ignored if the type attribute is html or text.
+			XML: ColdFusion passes the style attribute to the XML.
+			ColdFusion skins include the style attribute to the
+			generated HTML.
+		]]></help>
+		<values />
+	</parameter>
+	<parameter name="width" type="Numeric" required="false">
+		<help><![CDATA[
+			Width of the item, in pixels. If you omit this attribute, Flash
+			automatically sizes the width. In ColdFusion XSL skins,
+			use the style attribute, instead.
+		]]></help>
+		<values />
+	</parameter>
+	<parameter name="height" type="Numeric" required="false">
+		<help><![CDATA[
+			Height of the item, in pixels. If you omit this attribute,
+			Flash automatically sizes the width. In ColdFusion XSL
+			skins, use the style attribute, instead.
+		]]></help>
+		<values />
+	</parameter>
+	<parameter name="enabled" type="boolean" required="false">
+		<help><![CDATA[
+			Boolean value specifying whether the control is enabled.
+			Disabled text appear in light gray. Has no effect on
+			spacers and rules.
+			Default: true
+		]]></help>
+		<values default="true">
+			<value option="true" />
+			<value option="false" />
+		</values>
+	</parameter>
+	<parameter name="visible" type="boolean" required="false">
+		<help><![CDATA[
+			Boolean value specifying whether to show the control.
+			Space that would be occupied by an invisible control is
+			blank. Has no effect on spacers.
+			Default: true
+		]]></help>
+		<values default="true">
+			<value option="true" />
+			<value option="false" />
+		</values>
+	</parameter>
+	<parameter name="tooltip" type="String" required="false">
+		<help><![CDATA[
+			Text to display when the mouse pointer hovers over the
+			control. Has no effect on spacers.
+		]]></help>
+		<values />
+	</parameter>
+	<parameter name="bind" type="String" required="false">
+		<help><![CDATA[
+			A Flash bind expression that populates the field with
+			information from other form fields. If you use this
+			attribute, ColdFusion MX ignores any text that you
+			specify in the body of the cftextitem tag. This attribute
+			can be useful if the cfformitem tag is in a cfformgroup
+			type="repeater" tag.
+		]]></help>
+		<values />
+	</parameter>
+</tag>

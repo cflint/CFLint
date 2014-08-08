@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dialog>
+
+<tab name="General">
+	
+	<field name="task"/>
+	
+	<field name="url"/>
+	
+	<field name="action"/>
+	
+</tab>
+
+<tab name="Update">
+	
+	<field name="startdate"/>
+	
+	<field name="enddate"/>
+	
+	<field name="starttime"/>
+	
+	<field name="endtime"/>
+	
+	<field name="username"/>
+	
+	<field name="password"/>
+	
+	<field name="interval"/>
+	
+	<field name="requesttimeout"/>
+	
+	<field name="file"/>
+	
+	<field name="path"/>
+	
+	<field name="proxyserver"/>
+	
+	<field name="proxyuser"/>
+	
+	<field name="proxypassword"/>
+	
+	<field name="port"/>
+	
+	<field name="proxyport"/>
+	
+	<field name="resolveurl"/>
+	
+	<field name="publish"/>
+	
+	<field name="operation"/>
+	
+</tab>
+
+</dialog>

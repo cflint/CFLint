@@ -1,0 +1,9 @@
+<parameter name="valign" type="String" required="false" category="VAlign">
+	<help>Specifies the vertical text alignment in cells</help>
+	<values>
+		<value option="top" />
+		<value option="middle" />
+		<value option="bottom" />
+		<value option="baseline" />
+	</values>
+</parameter>

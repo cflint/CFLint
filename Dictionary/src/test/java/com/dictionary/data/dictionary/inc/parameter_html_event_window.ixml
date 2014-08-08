@@ -1,0 +1,8 @@
+<parameter name="onload" type="Script" required="false" category="Event">
+	<help>Script to be run when a document loads</help>
+	<values/>
+</parameter>
+<parameter name="onunload" type="Script" required="false" category="Event">
+	<help>Script to be run when a document unloads</help>
+	<values/>
+</parameter>

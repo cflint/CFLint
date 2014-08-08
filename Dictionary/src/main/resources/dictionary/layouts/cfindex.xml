@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dialog>
+
+<tab name="General">
+	
+	<field name="collection"/>
+	
+	<field name="key"/>
+	
+	<field name="title"/>
+	
+	<field name="query"/>
+	
+	<field name="body"/>
+	
+	<field name="urlpath"/>
+	
+	<field name="extensions"/>
+	
+	<field name="custom1"/>
+	
+	<field name="custom2"/>
+	
+	<field name="recurse"/>
+	
+	<field name="external"/>
+	
+	<field name="action"/>
+	
+	<field name="type"/>
+	
+	<field name="language"/>
+	
+</tab>
+
+</dialog>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dialog>
+
+<tab name="General">
+	
+	<field name="code"/>
+	
+	<field name="proxy"/>
+	
+	<field name="timeout"/>
+	
+	<field name="writeoutput"/>
+	
+	<field name="debug"/>
+	
+</tab>
+
+</dialog>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dialog>
+
+<tab name="General">
+	
+	<field name="branch"/>
+	
+	<field name="name"/>
+	
+	<field name="sort"/>
+	
+	<field name="entry"/>
+	
+	<field name="variable"/>
+	
+	<field name="action"/>
+	
+	<field name="type"/>
+	
+</tab>
+
+</dialog>

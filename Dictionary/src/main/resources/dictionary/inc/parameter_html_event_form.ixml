@@ -1,0 +1,16 @@
+<parameter name="onchange" type="Script" required="false" category="Events">
+	<help>Script to be run when the element changes</help>
+	<values/>
+</parameter>
+<parameter name="onsubmit" type="Script" required="false" category="Events">
+	<help>Script to be run when the form is submitted</help>
+	<values/>
+</parameter>
+<parameter name="onreset" type="Script" required="false" category="Events">
+	<help>Script to be run when the form is reset</help>
+	<values/>
+</parameter>
+<parameter name="onselect" type="Script" required="false" category="Events">
+	<help>Script to be run when the element is selected</help>
+	<values/>
+</parameter>

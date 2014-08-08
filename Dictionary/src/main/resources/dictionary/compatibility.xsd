@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+	targetNamespace="http://www.cfeclipse.org/version1/dictionary"
+	xmlns="http://www.cfeclipse.org/version1/dictionary http://cfeclipse.tigris.org/version1/dictionary/compatibility.xsd"
+>
+	<!-- root element -->
+	<xs:element name="compatibilities">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="compatibility" minOccurs="1" maxOccurs="unbounded" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	
+	<xs:element name="compatibility">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="tags" minOccurs="0" maxOccurs="1" />
+				<xs:element ref="functions" minOccurs="0" maxOccurs="1" />
+				<xs:element ref="scopes" minOccurs="0" maxOccurs="1" />
+			</xs:sequence>
+			<xs:attribute name="name" type="xs:string" use="required" />
+			<xs:attribute name="version" type="xs:integer" use="required" />
+			<xs:attribute name="previous" type="xs:integer" use="optional" />
+		</xs:complexType>
+	</xs:element>
+	
+	<!-- second level elements (main groups) -->
+	<xs:element name="tags" type="change_type" />
+	<xs:element name="functions" type="change_type" />
+	<xs:element name="scopes" type="change_type" />
+	
+	<xs:complexType name="change_type">
+		<xs:sequence>
+			<xs:element ref="new" minOccurs="0" maxOccurs="unbounded" />
+			<xs:element ref="changed" minOccurs="0" maxOccurs="unbounded" />
+			<xs:element ref="deprecated" minOccurs="0" maxOccurs="unbounded" />
+			<xs:element ref="obsolete" minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:element name="new" type="compat_type" />
+	<xs:element name="changed" type="compat_type" />
+	<xs:element name="deprecated" type="compat_type" />
+	<xs:element name="obsolete" type="compat_type" />
+	
+	<xs:complexType name="compat_type">
+		<xs:sequence>
+			<xs:element ref="help" />
+		</xs:sequence>
+		<xs:attribute name="name" type="xs:string" use="required" />
+		<xs:attribute name="type" use="required">
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="all" />
+					<xs:enumeration value="parameter" />
+					<xs:enumeration value="value" />
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="parameter" type="xs:string" use="optional" />
+		<xs:attribute name="value" type="xs:string" use="optional" />
+		<xs:attribute name="index" type="xs:integer" use="optional" />
+	</xs:complexType>
+	
+	<xs:element name="help" type="xs:string" />
+	
+</xs:schema>

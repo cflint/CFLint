@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dialog>
+
+<tab name="General">
+	
+	<field name="appletsource"/>
+	
+	<field name="archive"/>
+	
+	<field name="name"/>
+	
+	<field name="height"/>
+	
+	<field name="width"/>
+	
+	<field name="vspace"/>
+	
+	<field name="hspace"/>
+	
+	<field name="align"/>
+	
+</tab>
+
+</dialog>

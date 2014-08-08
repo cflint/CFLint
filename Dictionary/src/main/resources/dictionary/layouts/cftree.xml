@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dialog>
+
+<tab name="General">
+	
+	<field name="name"/>
+	
+	<field name="message"/>
+	
+	<field name="delimiter"/>
+	
+	<field name="height"/>
+	
+	<field name="width"/>
+	
+	<field name="vspace"/>
+	
+	<field name="hspace"/>
+	
+	<field name="onvalidate"/>
+	
+	<field name="onerror"/>
+	
+	<field name="bold"/>
+	
+	<field name="italic"/>
+	
+	<field name="border"/>
+	
+	<field name="hscroll"/>
+	
+	<field name="vscroll"/>
+	
+	<field name="required"/>
+	
+	<field name="completepath"/>
+	
+	<field name="appendkey"/>
+	
+	<field name="highlighthref"/>
+	
+	<field name="align"/>
+	
+	<field name="font"/>
+	
+	<field name="lookandfeel"/>
+	
+</tab>
+
+</dialog>

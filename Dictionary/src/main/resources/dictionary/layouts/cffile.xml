@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dialog>
+<tab name="General">
+	<field name="action"/>
+	<field name="destination"/>
+	<field name="attributes"/>
+	<field name="mode"/>
+	<field name="source"/>
+	<field name="file"/>
+	<field name="addnewline"/>
+	<field name="variable"/>
+	<field name="charset"/>
+</tab>
+<tab name="Upload">
+	<field name="filefield"/>
+	<field name="accept"/>
+	<field name="nameconflict"/>
+</tab>
+<tab name="Append"> 
+     <field name="file" /> 
+     <field name="mode" /> 
+     <field name="output" /> 
+     <field name="addNewLine" /> 
+     <field name="attributes" /> 
+     <field name="charset" /> 
+     <field name="fixnewline" /> 
+</tab> 
+<tab name="Copy"> 
+     <field name="source" /> 
+     <field name="destination" /> 
+     <field name="mode" /> 
+     <field name="attributes" /> 
+</tab>
+</dialog>

@@ -1,0 +1,144 @@
+<?xml version="1.0" ?>
+<!--
+	Note:
+	this file will be over written when you upgrade the plugin, but the file 
+	spec shouldn't change without notice so you can just over write this file 
+	if you wish.
+-->
+<dictionary xmlns="http://www.cfeclipse.org/version1/dictionary"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.cfeclipse.org/version1/dictionary http://cfeclipse.tigris.org/version1/dictionary/dictionary.xsd"
+>
+	<functions>
+		<function name="eval" returns="Object">
+			<help><![CDATA[
+			]]></help>
+			<parameter name="codeString" type="String" required="true">
+				<help><![CDATA[
+				]]></help>
+			</parameter>
+		</function>
+
+		<function name="isFinite" returns="boolean">
+			<help><![CDATA[
+			]]></help>
+			<parameter name="testnumber" type="Numeric" required="true">
+				<help><![CDATA[
+				]]></help>
+			</parameter>
+		</function>
+
+		<function name="isNaN" returns="boolean">
+			<help><![CDATA[
+			]]></help>
+			<parameter name="testvalue" type="Object" required="true">
+				<help><![CDATA[
+				]]></help>
+			</parameter>
+		</function>
+	
+		<function name="Number" returns="Numeric">
+			<help><![CDATA[
+			]]></help>
+			<parameter name="obj" type="Object" required="true">
+				<help><![CDATA[
+				]]></help>
+			</parameter>
+		</function>
+	
+		<function name="parseFloat" returns="Numeric">
+			<help><![CDATA[
+			]]></help>
+			<parameter name="str" type="String" required="true">
+				<help><![CDATA[
+				]]></help>
+			</parameter>
+		</function>
+	
+		<function name="parseInt" returns="Numeric">
+			<help><![CDATA[
+				parses a string and returns a javascript integer
+			]]></help>
+			<parameter name="str" type="String" required="true">
+				<help><![CDATA[
+					String to parse
+				]]></help>
+			</parameter>
+			<parameter name="radix" type="Numeric" required="false">
+				<help><![CDATA[
+					The base to use. I.e. 16, 8, 10 default 10
+				]]></help>
+			</parameter>
+		</function>
+	
+		<function name="String" returns="boolean">
+			<help><![CDATA[
+			]]></help>
+			<parameter name="obj" type="Object" required="true">
+				<help><![CDATA[
+				]]></help>
+			</parameter>
+		</function>
+
+		<function name="alert" returns="void">
+			<help><![CDATA[
+				Alert box
+			]]></help>
+			<parameter name="str" type="String" required="true">
+				<help><![CDATA[
+					the dialog box text
+				]]></help>
+			</parameter>
+		</function>
+	
+		<function name="confirm" returns="boolean">
+			<help><![CDATA[
+				Confirm dialog box
+			]]></help>
+			<parameter name="str" type="String" required="true">
+				<help><![CDATA[
+					the dialog box text
+				]]></help>
+			</parameter>
+		</function>
+
+		<function name="unescape" returns="String">
+			<help><![CDATA[
+				Unescapes the passed string so that is can be passed in a url
+			]]></help>
+			<parameter name="encodedString" type="String" required="true">
+				<help><![CDATA[
+					The String to unescape
+				]]></help>
+			</parameter>
+		</function>
+
+		<function name="escape" returns="String">
+			<help><![CDATA[
+				Escapes the passed string so that is can be passed in a url
+			]]></help>
+			<parameter name="str" type="String" required="true">
+				<help><![CDATA[
+					The String to escape
+				]]></help>
+			</parameter>
+		</function>
+		
+		<function name="typeof" returns="String">
+			<help><![CDATA[
+				returns one of the following strings:
+				* number
+				* string
+				* boolean
+				* object
+				* function
+				* undefined
+			]]></help>
+			<parameter name="object" type="Object" required="true">
+				<help><![CDATA[
+					The object who's type is in question
+				]]></help>
+			</parameter>
+		</function>
+	</functions>
+</dictionary>

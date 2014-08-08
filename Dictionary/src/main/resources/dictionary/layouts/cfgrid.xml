@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dialog>
+
+<tab name="General">
+	
+	<field name="name"/>
+	
+	<field name="query"/>
+	
+	<field name="fontsize"/>
+	
+	<field name="height"/>
+	
+	<field name="width"/>
+	
+	<field name="bgcolor"/>
+	
+	<field name="textcolor"/>
+	
+	<field name="align"/>
+	
+	<field name="griddataalign"/>
+	
+	<field name="font"/>
+	
+	<field name="onvalidate"/>
+	
+	<field name="onerror"/>
+	
+	<field name="notsupported"/>
+	
+</tab>
+
+<tab name="Advanced Formatting">
+	
+	<field name="vspace"/>
+	
+	<field name="hspace"/>
+	
+	<field name="maxrows"/>
+	
+	<field name="selectcolor"/>
+	
+	<field name="bold"/>
+	
+	<field name="italic"/>
+	
+	<field name="autowidth"/>
+	
+	<field name="insert"/>
+	
+	<field name="delete"/>
+	
+	<field name="sort"/>
+	
+	<field name="gridlines"/>
+	
+	<field name="selectmode"/>
+	
+</tab>
+
+<tab name="HREF Options">
+	
+	<field name="href"/>
+	
+	<field name="hrefkey"/>
+	
+	<field name="target"/>
+	
+	<field name="appendkey"/>
+	
+	<field name="highlighthref"/>
+	
+</tab>
+
+<tab name="Row Options">
+	
+	<field name="rowheaderfontsize"/>
+	
+	<field name="rowheadertextcolor"/>
+	
+	<field name="rowheight"/>
+	
+	<field name="rowheaderwidth"/>
+	
+	<field name="rowheaderbold"/>
+	
+	<field name="rowheaderitalic"/>
+	
+	<field name="rowheaders"/>
+	
+	<field name="rowheaderalign"/>
+	
+	<field name="rowheaderfont"/>
+	
+</tab>
+
+<tab name="Column Options">
+	
+	<field name="colheaderfontsize"/>
+	
+	<field name="colheadertextcolor"/>
+	
+	<field name="colheaderbold"/>
+	
+	<field name="colheaderitalic"/>
+	
+	<field name="colheaders"/>
+	
+	<field name="colheaderalign"/>
+	
+	<field name="colheaderfont"/>
+	
+</tab>
+
+<tab name="Button Bar Options">
+	
+	<field name="insertbutton"/>
+	
+	<field name="deletebutton"/>
+	
+	<field name="sortascendingbutton"/>
+	
+	<field name="sortdescendingbutton"/>
+	
+	<field name="picturebar"/>
+	
+</tab>
+
+</dialog>

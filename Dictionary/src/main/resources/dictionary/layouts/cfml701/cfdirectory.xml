@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dialog>
+
+<tab name="General">
+	
+	<field name="directory"/>
+	
+	<field name="action"/>
+	
+</tab>
+
+<tab name="List">
+	
+	<field name="name"/>
+	
+	<field name="filter"/>
+	
+	<field name="sort"/>
+	
+</tab>
+
+<tab name="Create">
+	
+	<field name="mode"/>
+	
+</tab>
+
+<tab name="Rename">
+	
+	<field name="newdirectory"/>
+	
+</tab>
+
+</dialog>

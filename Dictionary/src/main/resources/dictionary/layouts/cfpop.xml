@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dialog>
+
+<tab name="General">
+	
+	<field name="name"/>
+	
+	<field name="messagenumber"/>
+	
+	<field name="startrow"/>
+	
+	<field name="maxrows"/>
+	
+	<field name="action"/>
+	
+</tab>
+
+<tab name="Getall">
+	
+	<field name="attachmentpath"/>
+	
+	<field name="generateuniquefilenames"/>
+	
+</tab>
+
+<tab name="Server Info">
+	
+	<field name="server"/>
+	
+	<field name="username"/>
+	
+	<field name="password"/>
+	
+	<field name="port"/>
+	
+	<field name="timeout"/>
+	
+</tab>
+
+</dialog>

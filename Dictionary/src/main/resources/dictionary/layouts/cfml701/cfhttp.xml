@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dialog>
+
+<tab name="General">
+	
+	<field name="url"/>
+	
+	<field name="port"/>
+	
+	<field name="proxyserver"/>
+	
+	<field name="path"/>
+	
+	<field name="file"/>
+	
+	<field name="username"/>
+	
+	<field name="password"/>
+	
+	<field name="proxyport"/>
+	
+	<field name="timeout"/>
+	
+	<field name="useragent"/>
+	
+	<field name="resolveurl"/>
+	
+	<field name="throwonerror"/>
+	
+	<field name="redirect"/>
+	
+	<field name="method"/>
+	
+	<field name="charset"/>
+	
+	<field name="multipart"/>
+	
+	<field name="getasbinary"/>
+	
+	<field name="proxyuser"/>
+	
+	<field name="proxypassword"/>
+	
+</tab>
+
+<tab name="Create Query">
+	
+	<field name="name"/>
+	
+	<field name="columns"/>
+	
+	<field name="delimiter"/>
+	
+	<field name="textqualifier"/>
+	
+</tab>
+
+</dialog>

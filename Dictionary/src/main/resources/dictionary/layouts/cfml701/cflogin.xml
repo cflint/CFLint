@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dialog>
+
+<tab name="General">
+	
+	<field name="idletimeout"/>
+	
+	<field name="applicationtoken"/>
+	
+	<field name="cookiedomain"/>
+	
+</tab>
+
+</dialog>

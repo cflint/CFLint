@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dialog>
+
+<tab name="General">
+	
+	<field name="datasource"/>
+	
+	<field name="dbserver"/>
+	
+	<field name="dbname"/>
+	
+	<field name="username"/>
+	
+	<field name="password"/>
+	
+	<field name="provider"/>
+	
+	<field name="providerdsn"/>
+	
+	<field name="connectstring"/>
+	
+	<field name="tablename"/>
+	
+	<field name="tableowner"/>
+	
+	<field name="tablequalifier"/>
+	
+	<field name="dbtype"/>
+	
+</tab>
+
+</dialog>

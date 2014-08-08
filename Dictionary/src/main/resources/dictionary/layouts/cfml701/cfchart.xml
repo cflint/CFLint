@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dialog>
+
+<tab name="General">
+	
+	<field name="name"/>
+	
+	<field name="url"/>
+	
+	<field name="scalefrom"/>
+	
+	<field name="scaleto"/>
+	
+	<field name="foregroundcolor"/>
+	
+	<field name="databackgroundcolor"/>
+	
+	<field name="backgroundcolor"/>
+	
+	<field name="showborder"/>
+	
+	<field name="rotated"/>
+	
+	<field name="sortxaxis"/>
+	
+	<field name="format"/>
+	
+	<field name="pieslicestyle"/>
+	
+</tab>
+
+<tab name="Dimensions">
+	
+	<field name="chartheight"/>
+	
+	<field name="chartwidth"/>
+	
+</tab>
+
+<tab name="3D Appearance">
+	
+	<field name="xoffset"/>
+	
+	<field name="yoffset"/>
+	
+	<field name="show3d"/>
+	
+</tab>
+
+<tab name="Multiple Series">
+	
+	<field name="showlegend"/>
+	
+	<field name="seriesplacement"/>
+	
+</tab>
+
+<tab name="Tips">
+	
+	<field name="tipbgcolor"/>
+	
+	<field name="tipstyle"/>
+	
+</tab>
+
+<tab name="Markers">
+	
+	<field name="markersize"/>
+	
+	<field name="showmarkers"/>
+	
+</tab>
+
+<tab name="Labels">
+	
+	<field name="labelmask"/>
+	
+	<field name="xaxistitle"/>
+	
+	<field name="yaxistitle"/>
+	
+	<field name="labelformat"/>
+	
+</tab>
+
+<tab name="Grid Lines">
+	
+	<field name="gridlines"/>
+	
+	<field name="showxgridlines"/>
+	
+	<field name="showygridlines"/>
+	
+</tab>
+
+<tab name="Font">
+	
+	<field name="font"/>
+	
+	<field name="fontsize"/>
+	
+	<field name="fontbold"/>
+	
+	<field name="fontitalic"/>
+	
+</tab>
+
+</dialog>

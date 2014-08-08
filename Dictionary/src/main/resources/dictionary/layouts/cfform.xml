@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dialog>
+
+<tab name="General">
+	
+	<field name="action"/>
+	
+	<field name="target"/>
+	
+	<field name="name"/>
+	
+	<field name="enablecab"/>
+	
+	<field name="preservedata"/>
+	
+	<field name="method"/>
+	
+	<field name="enctype"/>
+	
+	<field name="onsubmit"/>
+	
+	<field name="passthrough"/>
+	
+	<field name="codebase"/>
+	
+	<field name="archive"/>
+	
+</tab>
+
+</dialog>

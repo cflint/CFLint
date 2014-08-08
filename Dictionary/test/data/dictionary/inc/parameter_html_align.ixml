@@ -1,0 +1,10 @@
+<parameter name="align" type="String" required="false" category="Align">
+	<help>Defines the text alignment in cells</help>
+	<values>
+		<value option="right" />
+		<value option="left" />
+		<value option="center" />
+		<value option="justify" />
+		<value option="char" />
+	</values>
+</parameter>

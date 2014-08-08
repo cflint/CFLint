@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dialog>
+
+<tab name="General">
+	
+	<field name="name"/>
+	
+	<field name="datasource"/>
+	
+	<field name="username"/>
+	
+	<field name="password"/>
+	
+</tab>
+
+<tab name="Connection">
+	
+	<field name="thedbserver"/>
+	
+	<field name="dbname"/>
+	
+	<field name="provider"/>
+	
+	<field name="providerdsn"/>
+	
+	<field name="connectstring"/>
+	
+	<field name="maxrows"/>
+	
+	<field name="timeout"/>
+	
+	<field name="blockfactor"/>
+	
+	<field name="debug"/>
+	
+	<field name="dbtype"/>
+	
+</tab>
+
+<tab name="Persistent Queries">
+	
+	<field name="cachedafter"/>
+	
+	<field name="cachedwithin"/>
+	
+</tab>
+
+</dialog>

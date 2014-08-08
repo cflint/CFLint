@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tabs>
+	<tab name="CFML Basic">
+			<button name="Server Variables" type="other" value="class" image="server.gif" /> 
+			<button name="CFQuery" type="cftag" value="cfquery" image="repository.gif"/>
+			<button name="CFOutput" type="cftag" value="cfoutput" image="output.gif"/>
+			<button name="CFInsert" type="cftag" value="cfinsert" image="addrepo_rep.gif" />
+			<button name="CFUpdate" type="cftag" value="cfupdate" image="update_rep.gif"/>
+			<button name="CFTable" type="cftag" value="cftable" image="table.gif" />
+			<button name="CFInclude" type="cftag" value="cfinclude" image="import.gif" />
+			<button name="CFLocation" type="cftag" value="cflocation" image="forward.gif" />
+			<button name="CFSet" type="cftag" value="cfset" image="set.gif" />
+			<button name="CFParam" type="cftag" value="cfparam"  image="param.gif" />
+			<button name="CFDump" type="cftag" value="cfdump" image="dump.gif" />
+			<button name="CFComment" type="custom" value="org.cfeclipse.cfml.editors.actions.CFCommentAction" image="comment.gif"/>
+			<button name="Surround with hash/pound signs" type="custom" value="org.cfeclipse.cfml.editors.actions.CFVariableAction" image="hash.gif" />
+	</tab>
+	<tab name="CF Flow">
+			<button name="CFTry" type="cftag" value="cftry" image="try.gif" />
+			<button name="CFCatch" type="cftag" value="cfcatch" image="catch.gif"/>
+			<button name="CFThrow" type="cftag" value="cthrow" image="throw.gif"/>
+			<button name="CFLock" type="cftag" value="cflock" image="lock.gif"/>
+			<button name="CFSwitch" type="cftag" value="cfswitch" image="switch.gif"/>
+			<button name="CFCase" type="cftag" value="cfcase" image="case.gif" />
+			<button name="CFDefaultCase" type="cftag" value="cfdefaultcase" image="defaultcase.gif"/>
+			<button name="CFScript" type="cftag" value="cfscript" image="script.gif"/>
+			<button name="CFIf" type="cftag" value="cfif" image="if.gif"/>
+			<button name="CFElse" type="cftag" value="cfelse" image="else.gif"/>
+			<button name="CFElseif" type="cftag" value="cfelseif" image="elseif.gif"/>
+			<button name="CFBreak" type="cftag" value="cfbreak" image="delete.gif"/>
+			<button name="CFAbort" type="cftag" value="cfabort" image="stop.gif" />
+			<button name="CFExit" type="cftag" value="cfexit" image="exit.gif"/>
+			<button name="CFLoop" type="cftag" value="cfloop" image="refresh.gif" />
+	</tab>
+	<!--
+	<tab name="CFForm">
+		 <button name="CFForm" type="cftag" value="cfform" />
+		 <button name="CFApplet" type="cftag" value="cfapplet" />
+		 <button name="CFText" type="cftag" value="cftext" />
+		 <button name="CFRadio" type="cftag" value="cfradio" />
+		 <button name="CFCheck" type="cftag" value="cfcheck" />
+		 <button name="CFSelect" type="cftag" value="cfselect" />
+		 <button name="CFTree" type="cftag" value="cftree" />
+		 <button name="CFTreeItem" type="cftag" value="cftreeitem" />
+		 <button name="CFGrid" type="cftag" value="cfgrid" image="table.gif" />
+		 <button name="CFGridColumn" type="cftag" value="cfgridcolumn" />
+		 <button name="CFGridRow" type="cftag" value="cfgridrow" />
+		 <button name="CFCFGridUpdate" type="cftag" value="cfgridupdate" />
+		 <button name="CFSlider" type="cftag" value="cfslider" />
+		
+	</tab>
+	-->
+	<tab name="CFC">
+		<button name="CFComponent" type="cftag" value="cfcomponent" image="class.gif"/>
+		<button name="CFProperty" type="cftag" value="cfproperty" image="param.gif"/>
+		<button name="CFFunction" type="cftag" value="cffunction" image="function.gif"/>
+		<button name="CFArgument" type="cftag" value="cfargument" image="attribute.gif"/>
+		<button name="CFReturn" type="cftag" value="cfreturn" image="back.gif" />
+	</tab>
+	<tab name="CFDocument">
+		<button name="CFDocument" type="cftag" value="cfdocument" image="document.gif" />
+		<button name="CFDocumentItem" type="cftag" value="cfdocumentitem" image="document_item.gif"/>
+		<button name="CFDocumentSection" type="cftag" value="cfdocumentsection" image="document_section.gif"/>
+	</tab>
+
+	<tab name="CFML Advanced">
+		<button name="CFCookie" type="cftag" value="cfcookie" image="cookie.gif"/>
+		<button name="CFContent" type="cftag" value="cfcontent" image="content.gif"/>
+		<button name="CFHeader" type="cftag" value="cfheader" image="header.gif"/>
+		<button name="CFApplication" type="cftag" value="cfapplication" image="application.gif"/>
+		<button name="CFError" type="cftag" value="cferror" image="error.gif"/>
+		<button name="CFDirectory" type="cftag" value="cfdirectory" image="dir.gif"/>
+		<button name="CFFile" type="cftag" value="cffile" image="cffile.gif"/>
+		<button name="CFMail" type="cftag" value="cfmail" image="mail.gif"/>
+		<button name="CFPOP" type="cftag" value="cfpop" image="pop.gif"/>
+		<button name="CFHTTP" type="cftag" value="cfhttp" image="globe.gif"/>
+		<button name="CFHTTP_Param" type="cftag" value="cfhttpparam" image="httpparam.gif"/>
+		<button name="CFLDAP" type="cftag" value="cfldap" image="ldap.gif"/>
+		<button name="CFFTP" type="cftag" value="cfftp" image="ftp.gif"/>
+		<button name="CFSearch" type="cftag" value="cfsearch" image="search.gif"/>
+		<button name="CFIndex" type="cftag" value="cfindex" image="index.gif"/>
+		<button name="CFModule" type="cftag" value="cfmodule" image="import.gif"/>
+		<button name="CFObject" type="cftag" value="cfobject" image="bean.gif"/>
+		<button name="CFReport" type="cftag" value="cfreport" image="report.gif"/>
+		<button name="CFSchedule" type="cftag" value="cfschedule" image="time.gif"/>
+	</tab>
+	<!--
+		Sample use of snippets
+	
+	<tab name="Snippets">
+		<button name="test" type="snippet" value="toolSnip"/>
+		<button name="testing2" type="snippet" value="toolSnip2"/>
+	</tab>
+	
+	<tab name="CFChart">
+		<button name="CFChart" type="cftag" value="cfchart"/>
+		<button name="CFChartData" type="cftag" value="cfchartdata"/>
+		<button name="CFChartSeries" type="cftag" value="cfchartseries"/>
+	</tab>
+	-->
+</tabs>

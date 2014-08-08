@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dialog>
+
+<tab name="General">
+	
+	<field name="name"/>
+	
+	<field name="dn"/>
+	
+	<field name="start"/>
+	
+	<field name="attributes"/>
+	
+	<field name="separator"/>
+	
+	<field name="delimiter"/>
+	
+	<field name="action"/>
+	
+	<field name="modifytype"/>
+	
+	<field name="scope"/>
+	
+</tab>
+
+<tab name="Query">
+	
+	<field name="filter"/>
+	
+	<field name="filterfile"/>
+	
+	<field name="startrow"/>
+	
+	<field name="maxrows"/>
+	
+	<field name="sort"/>
+	
+	<field name="sortcontrol"/>
+	
+	<field name="referral"/>
+	
+	<field name="secure"/>
+	
+	<field name="rebind"/>
+	
+</tab>
+
+<tab name="Connection">
+	
+	<field name="server"/>
+	
+	<field name="username"/>
+	
+	<field name="password"/>
+	
+	<field name="port"/>
+	
+	<field name="timeout"/>
+	
+</tab>
+
+</dialog>

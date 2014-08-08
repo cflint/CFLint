@@ -1,0 +1,16 @@
+<parameter name="class" type="String" required="false" category="Style">
+	<help>The class of the element</help>
+	<values/>
+	</parameter>
+<parameter name="id" type="String" required="false" category="Style">
+	<help>A unique id for the element</help>
+	<values/>
+</parameter>
+<parameter name="style" type="String" required="false" category="Style">
+	<help>An inline style definition</help>
+	<values/>
+</parameter>
+<parameter name="title" type="String" required="false" category="Style">
+	<help>A text to display in a tool tip</help>
+	<values/>
+</parameter>

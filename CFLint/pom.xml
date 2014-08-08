@@ -1,0 +1,41 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.cflint</groupId>
+	<artifactId>com.cflint.main</artifactId>
+	<version>0.1.8</version>
+
+	<dependencies>
+		<dependency>
+      		<groupId>${project.groupId}</groupId>
+            <artifactId>com.dictionary.main</artifactId>
+            <version>0.0.1</version>
+        </dependency>
+		<dependency>
+      		<groupId>${project.groupId}</groupId>
+            <artifactId>com.parser.main</artifactId>
+            <version>0.0.1</version>
+        </dependency>
+
+		<dependency>
+			<groupId>net.htmlparser.jericho</groupId>
+			<artifactId>jericho-html</artifactId>
+			<version>3.3</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.mod4j.org.apache.commons</groupId>
+		    <artifactId>cli</artifactId>
+		    <version>1.0.0</version>
+		</dependency>
+		<dependency>
+		    <groupId>ro.fortsoft.pf4j</groupId>
+		    <artifactId>pf4j</artifactId>
+		    <version>0.9.0</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.apache.clerezza.ext</groupId>
+		    <artifactId>org.json.simple</artifactId>
+		    <version>0.4</version>
+		</dependency>
+	</dependencies>
+</project>

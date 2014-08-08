@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dialog>
+
+<tab name="General">
+	
+	<field name="name"/>
+	
+	<field name="size"/>
+	
+	<field name="value"/>
+	
+	<field name="selected"/>
+	
+	<field name="message"/>
+	
+	<field name="query"/>
+	
+	<field name="display"/>
+	
+	<field name="onerror"/>
+	
+	<field name="passthrough"/>
+	
+	<field name="required"/>
+	
+	<field name="multiple"/>
+	
+</tab>
+
+</dialog>

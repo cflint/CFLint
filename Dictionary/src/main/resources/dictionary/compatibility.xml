@@ -1,0 +1,612 @@
+<?xml version="1.0" ?>
+<compatibilities xmlns="http://www.cfeclipse.org/version1/dictionary"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.cfeclipse.org/version1/dictionary http://cfeclipse.tigris.org/version1/dictionary/compatibility.xsd"
+>
+	<compatibility name="ColdFusion Server" version="7" previous="6.1">
+		<tags>
+			<new name="cfapplication" type="parameter" parameter="scriptprotect"><help><![CDATA[  ]]></help></new>
+			<new name="cfargument" type="value" parameter="type" value="xml"><help><![CDATA[  ]]></help></new>
+			<new name="cfcalendar" type="all"><help><![CDATA[  ]]></help></new>
+			<new name="cfchart" type="parameter" parameter="style"><help><![CDATA[  ]]></help></new>
+			<new name="cfchart" type="parameter" parameter="title"><help><![CDATA[  ]]></help></new>
+			<new name="cfchartseries" type="parameter" parameter="datalabelstyle"><help><![CDATA[  ]]></help></new>
+			<new name="cfchartseries" type="value" parameter="type" value="horizontalbar"><help><![CDATA[  ]]></help></new>
+			<new name="cfcollection" type="parameter" parameter="categories"><help><![CDATA[  ]]></help></new>
+			<new name="cfcollection" type="value" parameter="language" value="*"><help><![CDATA[  ]]></help></new>
+			<new name="cfcomponent" type="parameter" parameter="style"><help><![CDATA[  ]]></help></new>
+			<new name="cfcomponent" type="parameter" parameter="namespace"><help><![CDATA[  ]]></help></new>
+			<new name="cfcomponent" type="parameter" parameter="serviceportname"><help><![CDATA[  ]]></help></new>
+			<new name="cfcomponent" type="parameter" parameter="porttypename"><help><![CDATA[  ]]></help></new>
+			<new name="cfcomponent" type="parameter" parameter="wsdlfile"><help><![CDATA[  ]]></help></new>
+			<new name="cfcomponent" type="parameter" parameter="bindingname"><help><![CDATA[  ]]></help></new>
+			<new name="cfcontent" type="parameter" parameter="variable"><help><![CDATA[  ]]></help></new>
+			<new name="cfdirectory" type="parameter" parameter="recurse"><help><![CDATA[  ]]></help></new>
+			<new name="cfdocument" type="all"><help><![CDATA[  ]]></help></new>
+			<new name="cfdocumentitem" type="all"><help><![CDATA[  ]]></help></new>
+			<new name="cfdocumentsection" type="all"><help><![CDATA[  ]]></help></new>
+			<new name="cffile" type="parameter" parameter="result"><help><![CDATA[  ]]></help></new>
+			<new name="cffile" type="parameter" parameter="fixnewline"><help><![CDATA[  ]]></help></new>
+			<changed name="cfform" type="parameter" parameter="name"><help><![CDATA[  ]]></help></changed>
+			<changed name="cfform" type="parameter" parameter="action"><help><![CDATA[  ]]></help></changed>
+			<new name="cfform" type="parameter" parameter="accessible"><help><![CDATA[  ]]></help></new>
+			<new name="cfform" type="parameter" parameter="format"><help><![CDATA[  ]]></help></new>
+			<new name="cfform" type="parameter" parameter="height"><help><![CDATA[  ]]></help></new>
+			<new name="cfform" type="parameter" parameter="width"><help><![CDATA[  ]]></help></new>
+			<new name="cfform" type="parameter" parameter="method"><help><![CDATA[  ]]></help></new>
+			<new name="cfform" type="parameter" parameter="onerror"><help><![CDATA[  ]]></help></new>
+			<new name="cfform" type="parameter" parameter="preloader"><help><![CDATA[  ]]></help></new>
+			<new name="cfform" type="parameter" parameter="scriptsrc"><help><![CDATA[  ]]></help></new>
+			<new name="cfform" type="parameter" parameter="skin"><help><![CDATA[  ]]></help></new>
+			<new name="cfform" type="parameter" parameter="style"><help><![CDATA[  ]]></help></new>
+			<new name="cfform" type="parameter" parameter="timeout"><help><![CDATA[  ]]></help></new>
+			<new name="cfform" type="parameter" parameter="wmode"><help><![CDATA[  ]]></help></new>
+			<new name="cfform" type="parameter" parameter="onreset"><help><![CDATA[  ]]></help></new>
+			<new name="cfformgroup" type="all"><help><![CDATA[  ]]></help></new>
+			<new name="cfformitem" type="all"><help><![CDATA[  ]]></help></new>
+			<new name="cfftp" type="parameter" parameter="result"><help><![CDATA[  ]]></help></new>
+			<new name="cffunction" type="parameter" parameter="description"><help><![CDATA[  ]]></help></new>
+			<new name="cffunction" type="value" parameter="returntype" value="xml"><help><![CDATA[  ]]></help></new>
+			<new name="cfgrid" type="parameter" parameter="format"><help><![CDATA[  ]]></help></new>
+			<new name="cfgrid" type="parameter" parameter="enabled"><help><![CDATA[  ]]></help></new>
+			<new name="cfgrid" type="parameter" parameter="onchange"><help><![CDATA[  ]]></help></new>
+			<new name="cfgrid" type="parameter" parameter="style"><help><![CDATA[  ]]></help></new>
+			<new name="cfgrid" type="parameter" parameter="tooltip"><help><![CDATA[  ]]></help></new>
+			<new name="cfgrid" type="parameter" parameter="visible"><help><![CDATA[  ]]></help></new>
+			<new name="cfgridcolumn" type="parameter" parameter="mask"><help><![CDATA[  ]]></help></new>
+			<new name="cfgridcolumn" type="value" parameter="type" value="currency"><help><![CDATA[  ]]></help></new>
+			<new name="cfindex" type="parameter" parameter="custom2"><help><![CDATA[  ]]></help></new>
+			<new name="cfindex" type="parameter" parameter="custom3"><help><![CDATA[  ]]></help></new>
+			<new name="cfindex" type="parameter" parameter="category"><help><![CDATA[  ]]></help></new>
+			<new name="cfindex" type="parameter" parameter="categorytree"><help><![CDATA[  ]]></help></new>
+			<new name="cfindex" type="parameter" parameter="status"><help><![CDATA[  ]]></help></new>
+			<new name="cfindex" type="value" parameter="language" value="*"><help><![CDATA[  ]]></help></new>
+			<new name="cfinput" type="parameter" parameter="height"><help><![CDATA[  ]]></help></new>
+			<new name="cfinput" type="parameter" parameter="width"><help><![CDATA[  ]]></help></new>
+			<new name="cfinput" type="parameter" parameter="bind"><help><![CDATA[  ]]></help></new>
+			<new name="cfinput" type="parameter" parameter="label"><help><![CDATA[  ]]></help></new>
+			<new name="cfinput" type="parameter" parameter="mask"><help><![CDATA[  ]]></help></new>
+			<new name="cfinput" type="parameter" parameter="validateat"><help><![CDATA[  ]]></help></new>
+			<new name="cfinput" type="parameter" parameter="daynames"><help><![CDATA[  ]]></help></new>
+			<new name="cfinput" type="parameter" parameter="monthnames"><help><![CDATA[  ]]></help></new>
+			<new name="cfinput" type="parameter" parameter="tooltip"><help><![CDATA[  ]]></help></new>
+			<new name="cfinput" type="parameter" parameter="visible"><help><![CDATA[  ]]></help></new>
+			<new name="cfinput" type="parameter" parameter="enabled"><help><![CDATA[  ]]></help></new>
+			<new name="cfinput" type="parameter" parameter="src"><help><![CDATA[  ]]></help></new>
+			<new name="cfinput" type="value" parameter="type" value="datefield"><help><![CDATA[  ]]></help></new>
+			<new name="cfinput" type="value" parameter="type" value="button"><help><![CDATA[  ]]></help></new>
+			<new name="cfinput" type="value" parameter="type" value="file"><help><![CDATA[  ]]></help></new>
+			<new name="cfinput" type="value" parameter="type" value="hidden"><help><![CDATA[  ]]></help></new>
+			<new name="cfinput" type="value" parameter="type" value="image"><help><![CDATA[  ]]></help></new>
+			<new name="cfinput" type="value" parameter="type" value="reset"><help><![CDATA[  ]]></help></new>
+			<new name="cfinput" type="value" parameter="type" value="submit"><help><![CDATA[  ]]></help></new>
+			<new name="cfinput" type="value" parameter="validate" value="boolean"><help><![CDATA[  ]]></help></new>
+			<new name="cfinput" type="value" parameter="validate" value="email"><help><![CDATA[  ]]></help></new>
+			<new name="cfinput" type="value" parameter="validate" value="guid"><help><![CDATA[  ]]></help></new>
+			<new name="cfinput" type="value" parameter="validate" value="maxlength"><help><![CDATA[  ]]></help></new>
+			<new name="cfinput" type="value" parameter="validate" value="noblanks"><help><![CDATA[  ]]></help></new>
+			<new name="cfinput" type="value" parameter="validate" value="range"><help><![CDATA[  ]]></help></new>
+			<new name="cfinput" type="value" parameter="validate" value="submitonce"><help><![CDATA[  ]]></help></new>
+			<new name="cfinput" type="value" parameter="validate" value="url"><help><![CDATA[  ]]></help></new>
+			<new name="cfinput" type="value" parameter="validate" value="usdate"><help><![CDATA[  ]]></help></new>
+			<new name="cfinput" type="value" parameter="validate" value="uuid"><help><![CDATA[  ]]></help></new>
+			<new name="cfinvoke" type="parameter" parameter="serviceport"><help><![CDATA[  ]]></help></new>
+			<new name="cfinvokeargument" type="parameter" parameter="omit"><help><![CDATA[  ]]></help></new>
+			<new name="cfldap" type="parameter" parameter="returnasbinary"><help><![CDATA[  ]]></help></new>
+			<new name="cfmailparam" type="parameter" parameter="contentid"><help><![CDATA[  ]]></help></new>
+			<new name="cfmailparam" type="parameter" parameter="dispositionattributes"><help><![CDATA[  ]]></help></new>
+			<new name="cfntauthenticate" type="all"><help><![CDATA[  ]]></help></new>
+			<new name="cfparam" type="parameter" parameter="min"><help><![CDATA[  ]]></help></new>
+			<new name="cfparam" type="parameter" parameter="max"><help><![CDATA[  ]]></help></new>
+			<new name="cfparam" type="parameter" parameter="pattern"><help><![CDATA[  ]]></help></new>
+			<new name="cfparam" type="value" parameter="type" value="creditcard"><help><![CDATA[  ]]></help></new>
+			<new name="cfparam" type="value" parameter="type" value="email"><help><![CDATA[  ]]></help></new>
+			<new name="cfparam" type="value" parameter="type" value="eurodate"><help><![CDATA[  ]]></help></new>
+			<new name="cfparam" type="value" parameter="type" value="float"><help><![CDATA[  ]]></help></new>
+			<new name="cfparam" type="value" parameter="type" value="integer"><help><![CDATA[  ]]></help></new>
+			<new name="cfparam" type="value" parameter="type" value="range"><help><![CDATA[  ]]></help></new>
+			<new name="cfparam" type="value" parameter="type" value="regex"><help><![CDATA[  ]]></help></new>
+			<new name="cfparam" type="value" parameter="type" value="regular_expression"><help><![CDATA[  ]]></help></new>
+			<new name="cfparam" type="value" parameter="type" value="ssn"><help><![CDATA[  ]]></help></new>
+			<new name="cfparam" type="value" parameter="type" value="social_security_number"><help><![CDATA[  ]]></help></new>
+			<new name="cfparam" type="value" parameter="type" value="time"><help><![CDATA[  ]]></help></new>
+			<new name="cfparam" type="value" parameter="type" value="url"><help><![CDATA[  ]]></help></new>
+			<new name="cfparam" type="value" parameter="type" value="usdate"><help><![CDATA[  ]]></help></new>
+			<new name="cfparam" type="value" parameter="type" value="xml"><help><![CDATA[  ]]></help></new>
+			<new name="cfparam" type="value" parameter="type" value="zipcode"><help><![CDATA[  ]]></help></new>
+			<new name="cfquery" type="parameter" parameter="result"><help><![CDATA[  ]]></help></new>
+			<new name="cfreport" type="parameter" parameter="template"><help><![CDATA[  ]]></help></new>
+			<new name="cfreport" type="parameter" parameter="format"><help><![CDATA[  ]]></help></new>
+			<new name="cfreport" type="parameter" parameter="name"><help><![CDATA[  ]]></help></new>
+			<new name="cfreport" type="parameter" parameter="filename"><help><![CDATA[  ]]></help></new>
+			<new name="cfreport" type="parameter" parameter="query"><help><![CDATA[  ]]></help></new>
+			<new name="cfreport" type="parameter" parameter="overwrite"><help><![CDATA[  ]]></help></new>
+			<new name="cfreportparam" type="all"><help><![CDATA[  ]]></help></new>
+			<new name="cfsearch" type="parameter" parameter="category"><help><![CDATA[  ]]></help></new>
+			<new name="cfsearch" type="parameter" parameter="categorytree"><help><![CDATA[  ]]></help></new>
+			<new name="cfsearch" type="parameter" parameter="status"><help><![CDATA[  ]]></help></new>
+			<new name="cfsearch" type="parameter" parameter="suggestions"><help><![CDATA[  ]]></help></new>
+			<new name="cfsearch" type="parameter" parameter="contextpassages"><help><![CDATA[  ]]></help></new>
+			<new name="cfsearch" type="parameter" parameter="contextbytes"><help><![CDATA[  ]]></help></new>
+			<new name="cfsearch" type="parameter" parameter="contexthighlightbegin"><help><![CDATA[  ]]></help></new>
+			<new name="cfsearch" type="parameter" parameter="contexthighlightend"><help><![CDATA[  ]]></help></new>
+			<new name="cfsearch" type="parameter" parameter="previouscriteria"><help><![CDATA[  ]]></help></new>
+			<new name="cfsearch" type="value" parameter="type" value="natural"><help><![CDATA[  ]]></help></new>
+			<new name="cfsearch" type="value" parameter="type" value="internet"><help><![CDATA[  ]]></help></new>
+			<new name="cfsearch" type="value" parameter="type" value="internet_basic"><help><![CDATA[  ]]></help></new>
+			<new name="cfselect" type="value" parameter="list" value="selected"><help><![CDATA[  ]]></help></new>
+			<new name="cfselect" type="parameter" parameter="enabled"><help><![CDATA[  ]]></help></new>
+			<new name="cfselect" type="parameter" parameter="group"><help><![CDATA[  ]]></help></new>
+			<new name="cfselect" type="parameter" parameter="height"><help><![CDATA[  ]]></help></new>
+			<new name="cfselect" type="parameter" parameter="label"><help><![CDATA[  ]]></help></new>
+			<new name="cfselect" type="parameter" parameter="onkeyup"><help><![CDATA[  ]]></help></new>
+			<new name="cfselect" type="parameter" parameter="onkeydown"><help><![CDATA[  ]]></help></new>
+			<new name="cfselect" type="parameter" parameter="onmouseup"><help><![CDATA[  ]]></help></new>
+			<new name="cfselect" type="parameter" parameter="onmousedown"><help><![CDATA[  ]]></help></new>
+			<new name="cfselect" type="parameter" parameter="onchange"><help><![CDATA[  ]]></help></new>
+			<new name="cfselect" type="parameter" parameter="onclick"><help><![CDATA[  ]]></help></new>
+			<new name="cfselect" type="parameter" parameter="queryposition"><help><![CDATA[  ]]></help></new>
+			<new name="cfselect" type="parameter" parameter="tooltip"><help><![CDATA[  ]]></help></new>
+			<new name="cfselect" type="parameter" parameter="visible"><help><![CDATA[  ]]></help></new>
+			<new name="cfselect" type="parameter" parameter="width"><help><![CDATA[  ]]></help></new>
+			<new name="cfstoredproc" type="parameter" parameter="result"><help><![CDATA[  ]]></help></new>
+			<new name="cftextarea" type="all"><help><![CDATA[  ]]></help></new>
+			<new name="cftimer" type="all"><help><![CDATA[  ]]></help></new>
+			<new name="cftree" type="parameter" parameter="format"><help><![CDATA[  ]]></help></new>
+			<new name="cftree" type="parameter" parameter="onchange"><help><![CDATA[  ]]></help></new>
+			<new name="cftree" type="parameter" parameter="style"><help><![CDATA[  ]]></help></new>
+			<deprecated name="cfcollection" type="value" parameter="action" value="map"><help><![CDATA[  ]]></help></deprecated>
+			<deprecated name="cfcollection" type="value" parameter="action" value="repair"><help><![CDATA[  ]]></help></deprecated>
+			<deprecated name="cfform" type="parameter" parameter="passthrough"><help><![CDATA[  ]]></help></deprecated>
+			<deprecated name="cfinput" type="parameter" parameter="passthrough"><help><![CDATA[  ]]></help></deprecated>
+			<deprecated name="cfselect" type="parameter" parameter="passthrough"><help><![CDATA[  ]]></help></deprecated>
+			<deprecated name="cftextinput" type="all"><help><![CDATA[  ]]></help></deprecated>
+			<obsolete name="cfchart" type="parameter" parameter="rotated"><help><![CDATA[  ]]></help></obsolete>
+		</tags>
+		<functions>
+			<new name="binarydecode" type="all"><help><![CDATA[  ]]></help></new>
+			<new name="binaryencode" type="all"><help><![CDATA[  ]]></help></new>
+			<new name="charsetdecode" type="all"><help><![CDATA[  ]]></help></new>
+			<new name="charsetencode" type="all"><help><![CDATA[  ]]></help></new>
+			<new name="createobject" type="parameter" parameter="portname" index="4"><help><![CDATA[  ]]></help></new>
+			<new name="decrypt" type="parameter" parameter="algorithm" index="3"><help><![CDATA[  ]]></help></new>
+			<new name="decrypt" type="parameter" parameter="encoding" index="4"><help><![CDATA[  ]]></help></new>
+			<new name="decrypt" type="parameter" parameter="ivorsalt" index="5"><help><![CDATA[  ]]></help></new>
+			<new name="decrypt" type="parameter" parameter="iterations" index="6"><help><![CDATA[  ]]></help></new>
+			<new name="encrypt" type="parameter" parameter="algorithm" index="3"><help><![CDATA[  ]]></help></new>
+			<new name="encrypt" type="parameter" parameter="encoding" index="4"><help><![CDATA[  ]]></help></new>
+			<new name="encrypt" type="parameter" parameter="ivorsalt" index="5"><help><![CDATA[  ]]></help></new>
+			<new name="encrypt" type="parameter" parameter="iterations" index="6"><help><![CDATA[  ]]></help></new>
+			<new name="generatesecretkey" type="all"><help><![CDATA[  ]]></help></new>
+			<new name="getgatewayhelper" type="all"><help><![CDATA[  ]]></help></new>
+			<new name="getcontextroot" type="all"><help><![CDATA[  ]]></help></new>
+			<new name="getlocaledisplayname" type="all"><help><![CDATA[  ]]></help></new>
+			<new name="getsoaprequest" type="all"><help><![CDATA[  ]]></help></new>
+			<new name="getsoaprequestheader" type="all"><help><![CDATA[  ]]></help></new>
+			<new name="getsoapresponse" type="all"><help><![CDATA[  ]]></help></new>
+			<new name="getsoapresponseheader" type="all"><help><![CDATA[  ]]></help></new>
+			<new name="getsoaprequest" type="all"><help><![CDATA[  ]]></help></new>
+			<new name="hash" type="parameter" parameter="algorithm" index="3"><help><![CDATA[  ]]></help></new>
+			<new name="hash" type="parameter" parameter="encoding" index="4"><help><![CDATA[  ]]></help></new>
+			<new name="getsoaprequest" type="all"><help><![CDATA[  ]]></help></new>
+			<new name="issoaprequest" type="all"><help><![CDATA[  ]]></help></new>
+			<new name="isvalid" type="all"><help><![CDATA[  ]]></help></new>
+			<new name="isxml" type="all"><help><![CDATA[  ]]></help></new>
+			<new name="isxmlattribute" type="all"><help><![CDATA[  ]]></help></new>
+			<new name="isxmlnode" type="all"><help><![CDATA[  ]]></help></new>
+			<new name="queryaddcolumn" type="parameter" parameter="datatype" index="3"><help><![CDATA[  ]]></help></new>
+			<new name="querynew" type="parameter" parameter="columntypelist" index="2"><help><![CDATA[  ]]></help></new>
+			<new name="rand" type="parameter" parameter="algorithm" index="1"><help><![CDATA[  ]]></help></new>
+			<new name="randomize" type="parameter" parameter="algorithm" index="2"><help><![CDATA[  ]]></help></new>
+			<new name="randrange" type="parameter" parameter="algorithm" index="3"><help><![CDATA[  ]]></help></new>
+			<new name="sendgatewaymessage" type="all"><help><![CDATA[  ]]></help></new>
+			<new name="toscript" type="all"><help><![CDATA[  ]]></help></new>
+			<new name="xmlelemnew" type="parameter" parameter="namespace" index="2"><help><![CDATA[  ]]></help></new>
+			<new name="xmlgetnodetype" type="all"><help><![CDATA[  ]]></help></new>
+			<new name="xmlparse" type="parameter" parameter="validator" index="3"><help><![CDATA[  ]]></help></new>
+			<new name="xmltransform" type="parameter" parameter="parameters" index="3"><help><![CDATA[  ]]></help></new>
+			<new name="xmlvalidate" type="all"><help><![CDATA[  ]]></help></new>
+		</functions>
+		<scopes>
+			<new name="cfsearch" type="parameter" parameter="context"><help><![CDATA[ 
+				A context summary containing the search terms, highlighted in
+				bold (by default). This is enabled if you set the
+				contextpassages attribute to a number greater than zero.
+			]]></help></new>
+			<new name="cfsearch" type="parameter" parameter="custom3"><help><![CDATA[ 
+				Value of custom fields in cfindex tag used to populate a
+				collection.
+			]]></help></new>
+			<new name="cfsearch" type="parameter" parameter="custom4"><help><![CDATA[ 
+				Value of custom fields in cfindex tag used to populate a
+				collection.
+			]]></help></new>
+			<new name="cfsearch" type="parameter" parameter="size"><help><![CDATA[ 
+				The number of bytes in the index document.
+			]]></help></new>
+			<new name="cfsearch" type="parameter" parameter="rank"><help><![CDATA[ 
+				The rank of this document in the search results.
+			]]></help></new>
+			<new name="cfsearch" type="parameter" parameter="author"><help><![CDATA[ 
+				Extracted from the HTML, Office, and PDF documents when
+				available.
+			]]></help></new>
+			<new name="cfsearch" type="parameter" parameter="type"><help><![CDATA[ 
+				The MIME type of the document.
+				Example: text/html
+			]]></help></new>
+			<new name="cfsearch" type="parameter" parameter="category"><help><![CDATA[ 
+				A list of the categories that were specified for this
+				document when it was indexed.
+			]]></help></new>
+			<new name="cfsearch" type="parameter" parameter="categorytree"><help><![CDATA[ 
+				A hierarchical category tree, or serial list of categories,
+				that was specified for this document when it was indexed.
+				Only a single tree is returned.
+			]]></help></new>
+			<new name="cfsearch" type="parameter" parameter="recordssearched"><help><![CDATA[ 
+				Number of records searched. This is the same value for each
+				row in the record set. Corresponds to the searched key in the
+				status structure.
+			]]></help></new>		
+			<new name="cfpop" type="parameter" parameter="messageid"><help><![CDATA[ 
+				The mail header Message-ID field.
+			]]></help></new>
+			<new name="cfpop" type="parameter" parameter="cids"><help><![CDATA[ 
+				Structure that contains key-value pairs. The keys are the
+				names of image files that are embedded in the e-mail
+				message; the values are their cids. You can use the cid
+				to find the correct place of an image in an HTML e-mail
+				message that the cfpop tag retrieves. If the e-mail message
+				contains more than one embedded image, only the last
+				embedded image is available.
+			]]></help></new>
+			<new name="cfquery" type="all"><help><![CDATA[ 
+				Query data returned by the RESULT attribute.
+			]]></help></new>
+			<new name="cfquery" type="parameter" parameter="sql"><help><![CDATA[ 
+				The SQL statement that was executed.
+			]]></help></new>
+			<new name="cfquery" type="parameter" parameter="cached"><help><![CDATA[ 
+				If the query was cached.
+			]]></help></new>
+			<new name="cfquery" type="parameter" parameter="sqlparameters"><help><![CDATA[ 
+				An ordered Array of cfqueryparam values.
+			]]></help></new>
+			<new name="cfquery" type="parameter" parameter="recordcount"><help><![CDATA[ 
+				Total number of records in the query.
+			]]></help></new>
+			<new name="cfquery" type="parameter" parameter="columnlist"><help><![CDATA[ 
+				Column list, comma seperated.
+			]]></help></new>
+			<new name="cfquery" type="parameter" parameter="executiontime"><help><![CDATA[ 
+				Execution time for the SQL request.
+			]]></help></new>
+			<new name="cfquery" type="all"><help><![CDATA[ 
+				Authentication data set by RESULT attribute
+			]]></help></new>
+			<new name="cfntauthenticate" type="parameter" parameter="auth"><help><![CDATA[ 
+				Whether the user is authenticated
+			]]></help></new>
+			<new name="cfntauthenticate" type="parameter" parameter="groups"><help><![CDATA[ 
+				A comma-delimited list of the user's groups in the specified
+				domain. The structure includes this field only if the
+				listGroups attribute is Yes.
+			]]></help></new>
+			<new name="cfntauthenticate" type="parameter" parameter="name"><help><![CDATA[ 
+				The user name; equals the tag's name attribute.
+			]]></help></new>
+			<new name="cfntauthenticate" type="parameter" parameter="status"><help><![CDATA[ 
+				The authentication status. One of the following: 
+				- success
+				- UserNotInDirFailure: the user is not listed in the directory.
+				- AuthenticationFailure: the user is in the directory, but
+				  the password is not valid.
+			]]></help></new>
+			<new name="cfdirectory" type="parameter" parameter="directory"><help><![CDATA[ 
+				Directory containing the entry.
+			]]></help></new>
+		</scopes>
+	</compatibility>
+	<compatibility name="ColdFusion Server" version="6.1" previous="6">
+		<tags>
+			<new name="cfapplication" type="parameter" parameter="loginstorage"><help><![CDATA[  ]]></help></new>
+			<new name="cfchart" type="parameter" parameter="xaxistype"><help><![CDATA[  ]]></help></new>
+			<new name="cfchart" type="parameter" parameter="yaxistype"><help><![CDATA[  ]]></help></new>
+			<new name="cfexecute" type="parameter" parameter="variable"><help><![CDATA[  ]]></help></new>
+			<new name="cfhttp" type="value" parameter="method" value="head"><help><![CDATA[  ]]></help></new>
+			<new name="cfhttp" type="value" parameter="method" value="put"><help><![CDATA[  ]]></help></new>
+			<new name="cfhttp" type="value" parameter="method" value="delete"><help><![CDATA[  ]]></help></new>
+			<new name="cfhttp" type="value" parameter="method" value="options"><help><![CDATA[  ]]></help></new>
+			<new name="cfhttp" type="value" parameter="method" value="trace"><help><![CDATA[  ]]></help></new>
+			<new name="cfhttp" type="parameter" parameter="multipart"><help><![CDATA[  ]]></help></new>
+			<new name="cfhttp" type="parameter" parameter="getasbinary"><help><![CDATA[  ]]></help></new>
+			<new name="cfhttp" type="parameter" parameter="proxyuser"><help><![CDATA[  ]]></help></new>
+			<new name="cfhttp" type="parameter" parameter="proxypassword"><help><![CDATA[  ]]></help></new>
+			<new name="cfhttpparam" type="value" parameter="type" value="header"><help><![CDATA[  ]]></help></new>
+			<new name="cfhttpparam" type="value" parameter="type" value="body"><help><![CDATA[  ]]></help></new>
+			<new name="cfhttpparam" type="parameter" parameter="encoded"><help><![CDATA[  ]]></help></new>
+			<new name="cfhttpparam" type="parameter" parameter="mimetype"><help><![CDATA[  ]]></help></new>
+			<new name="cfmail" type="parameter" parameter="charset"><help><![CDATA[  ]]></help></new>
+			<new name="cfmail" type="parameter" parameter="failto"><help><![CDATA[  ]]></help></new>
+			<new name="cfmail" type="parameter" parameter="replyto"><help><![CDATA[  ]]></help></new>
+			<new name="cfmail" type="parameter" parameter="username"><help><![CDATA[  ]]></help></new>
+			<new name="cfmail" type="parameter" parameter="password"><help><![CDATA[  ]]></help></new>
+			<new name="cfmail" type="parameter" parameter="wraptext"><help><![CDATA[  ]]></help></new>
+			<new name="cfmailparam" type="parameter" parameter="type"><help><![CDATA[  ]]></help></new>
+			<new name="cfmailpart" type="all"><help><![CDATA[  ]]></help></new>
+		</tags>
+		<functions>
+			<changed name="dateadd" type="parameter" parameter="datepart" index="1"><help><![CDATA[ 
+				Added "l" mask for Millisecond
+			]]></help></changed>
+			<changed name="datepart" type="parameter" parameter="datepart" index="1"><help><![CDATA[ 
+				Added "l" mask for Millisecond
+			]]></help></changed>
+			<changed name="lstimeformat" type="parameter" parameter="mask" index="2"><help><![CDATA[ 
+				Added "l" mask for Millisecond
+			]]></help></changed>
+			<changed name="timeformat" type="parameter" parameter="mask" index="2"><help><![CDATA[ 
+				Added "l" mask for Millisecond
+			]]></help></changed>
+			<new name="releasecomobject" type="all"><help><![CDATA[ 
+				Releases a COM Object and frees up resources that it used.
+			]]></help></new>
+			<new name="wrap" type="all"><help><![CDATA[ 
+				Wraps text so that each line has a specified maximum number of characters.
+			]]></help></new>
+			<deprecated name="getk2serverdoccount" type="all"><help><![CDATA[
+				This function is used primarily by the ColdFusion Verity
+				and K2Server Administrator pages, and requires significant
+				processing time. Avoid using it in production applications.
+				This function uses Verity K2Server Release K2.2.0.
+			]]></help></deprecated>
+			<deprecated name="getk2serverdoccountlimit" type="all"><help><![CDATA[
+				This function is used primarily by the ColdFusion Verity
+				and K2Server Administrator pages, and requires significant
+				processing time. Avoid using it in production applications.
+				This function uses Verity K2Server Release K2.2.0.
+			]]></help></deprecated>
+			<deprecated name="isk2serverabroker" type="all"><help><![CDATA[
+				This function is used primarily by the ColdFusion Verity
+				and K2Server Administrator pages, and requires significant
+				processing time. Avoid using it in production applications.
+				This function uses Verity K2Server Release K2.2.0.
+			]]></help></deprecated>
+			<deprecated name="isk2serverdoccountexceeded" type="all"><help><![CDATA[
+				This function is used primarily by the ColdFusion Verity
+				and K2Server Administrator pages, and requires significant
+				processing time. Avoid using it in production applications.
+				This function uses Verity K2Server Release K2.2.0.
+			]]></help></deprecated>
+			<deprecated name="isk2serveronline" type="all"><help><![CDATA[
+				This function is used primarily by the ColdFusion Verity
+				and K2Server Administrator pages, and requires significant
+				processing time. Avoid using it in production applications.
+				This function uses Verity K2Server Release K2.2.0.
+			]]></help></deprecated>
+		</functions>
+		<scopes>
+			<deprecated name="cfdirectory" type="parameter" parameter="mode"><help><![CDATA[ 
+				Used to give mode for ColdFusion 5 on Unix.
+			]]></help></deprecated>
+			<changed name="cfdirectory" type="parameter" parameter="name"><help><![CDATA[ 
+				"." and ".." aren't returned
+			]]></help></changed>
+			<new name="cfpop" type="parameter" parameter="textbody"><help><![CDATA[ 
+				Text Body of message. (only when action="getall")
+			]]></help></new>
+			<new name="cfpop" type="parameter" parameter="htmlbody"><help><![CDATA[ 
+				HTML Body of message. (only when action="getall")
+			]]></help></new>
+			<new name="cfpop" type="parameter" parameter="uid"><help><![CDATA[ 
+				Unique identifier for the e-mail message file. (mail header X-UID field)
+			]]></help></new>
+			<new name="cfhttp" type="parameter" parameter="charset"><help><![CDATA[ 
+				Response character character set (character encoding)
+				specified by the response Content-Type header.
+			]]></help></new>
+			<new name="cfhttp" type="parameter" parameter="errordetail"><help><![CDATA[ 
+				If the connection to the HTTP server fails, contains details
+				about the failure. For instance: "Unknown host: my.co.com";
+				otherwise, the empty string. Macromedia recommends that you
+				check this variable for an error condition before checking
+				other variables.
+			]]></help></new>
+			<new name="cfhttp" type="parameter" parameter="text"><help><![CDATA[ 
+				Boolean; True if the response body content type is text.
+				ColdFusion recognizes the response body as text if: The
+				header does not specify a content type, or it starts with
+				"text" or "message" or the full content
+				type="application/octet-stream".
+			]]></help></new>
+			<new name="cfcatch" type="parameter" parameter="sql"><help><![CDATA[ 
+				The SQL statement sent to the data source.
+				Available for database exceptions.
+			]]></help></new>
+			<new name="cfcatch" type="parameter" parameter="queryerror"><help><![CDATA[ 
+				The error message as reported by the database driver.
+				Available for database exceptions.
+			]]></help></new>
+			<new name="cfcatch" type="parameter" parameter="where"><help><![CDATA[ 
+				If the query uses the cfqueryparam tag, query parameter
+				name-value pairs.
+				Available for database exceptions.
+			]]></help></new>
+			<new name="cfcatch" type="value" parameter="type" value="searchengine"><help><![CDATA[
+				Errors from the K2 search engine.
+			]]></help></new>
+			<new name="cfcatch.tagcontext[x]" type="parameter" parameter="raw_trace"><help><![CDATA[ 
+				The raw Java stack trace for the error.
+			]]></help></new>
+			<changed name="cfcatch.tagcontext[x]" type="parameter" parameter="column"><help><![CDATA[ 
+				Obsolete. Always 0.
+			]]></help></changed>
+			<new name="cferror" type="parameter" parameter="rootcause"><help><![CDATA[ 
+				Java servlet exception reported by the JVM as the cause of
+				the "root cause" of the exception.
+				Available for Exception type errors.
+			]]></help></new>
+			<new name="cferror" type="value" parameter="type" value="searchengine"><help><![CDATA[
+				Errors from the K2 search engine.
+			]]></help></new>
+			<new name="cferror.tagcontext[x]" type="parameter" parameter="raw_trace"><help><![CDATA[ 
+				The raw Java stack trace for the error.
+			]]></help></new>
+			<changed name="cferror.tagcontext[x]" type="parameter" parameter="column"><help><![CDATA[ 
+				Obsolete. Always 0.
+			]]></help></changed>
+			<new name="error" type="parameter" parameter="rootcause"><help><![CDATA[ 
+				Java servlet exception reported by the JVM as the cause of
+				the "root cause" of the exception.
+				Available for Exception type errors.
+			]]></help></new>
+			<new name="error" type="value" parameter="type" value="searchengine"><help><![CDATA[
+				Errors from the K2 search engine.
+			]]></help></new>
+			<new name="error.tagcontext[x]" type="parameter" parameter="raw_trace"><help><![CDATA[ 
+				The raw Java stack trace for the error.
+			]]></help></new>
+			<changed name="error.tagcontext[x]" type="parameter" parameter="column"><help><![CDATA[ 
+				Obsolete. Always 0.
+			]]></help></changed>
+		</scopes>
+	</compatibility>
+	<compatibility name="ColdFusion Server" version="6">
+		<tags>
+			<new name="cfargument" type="all"><help><![CDATA[  ]]></help></new>
+			<new name="cfcache" type="parameter" parameter="cachedirectory"><help><![CDATA[  ]]></help></new>
+			<new name="cfcache" type="parameter" parameter="timespan"><help><![CDATA[  ]]></help></new>
+			<new name="cfchart" type="all"><help><![CDATA[  ]]></help></new>
+			<new name="cfchartdata" type="all"><help><![CDATA[  ]]></help></new>
+			<new name="cfchartseries" type="all"><help><![CDATA[  ]]></help></new>
+			<new name="cfcollection" type="parameter" parameter="name"><help><![CDATA[  ]]></help></new>
+			<new name="cfcomponent" type="all"><help><![CDATA[  ]]></help></new>
+			<new name="cffunction" type="all"><help><![CDATA[  ]]></help></new>
+			<new name="cfhttp" type="parameter" parameter="charset"><help><![CDATA[  ]]></help></new>
+			<new name="cfhttp" type="parameter" parameter="firstrowasheaders"><help><![CDATA[  ]]></help></new>
+			<new name="cfimport" type="all"><help><![CDATA[  ]]></help></new>
+			<new name="cfinvoke" type="all"><help><![CDATA[  ]]></help></new>
+			<new name="cfinvokeargument" type="all"><help><![CDATA[  ]]></help></new>
+			<new name="cflogin" type="all"><help><![CDATA[  ]]></help></new>
+			<new name="cfloginuser" type="all"><help><![CDATA[  ]]></help></new>
+			<new name="cflogout" type="all"><help><![CDATA[  ]]></help></new>
+			<new name="cfmail" type="parameter" parameter="spoolenable"><help><![CDATA[  ]]></help></new>
+			<new name="cfobject" type="all"><help><![CDATA[  ]]></help></new>
+			<new name="cfobjectcache" type="all"><help><![CDATA[  ]]></help></new>
+			<new name="cfprocessingdirective" type="parameter" parameter="cfprocessingdirective"><help><![CDATA[  ]]></help></new>
+			<new name="cfproperty" type="all"><help><![CDATA[  ]]></help></new>
+			<new name="cfreturn" type="all"><help><![CDATA[  ]]></help></new>
+			<new name="cfsetting" type="parameter" parameter="requesttimeout"><help><![CDATA[  ]]></help></new>
+			<new name="cfthrow" type="parameter" parameter="object"><help><![CDATA[  ]]></help></new>
+			<new name="cftrace" type="all"><help><![CDATA[  ]]></help></new>
+			<new name="cfxml" type="all"><help><![CDATA[  ]]></help></new>		
+			<deprecated name="cfcache" type="parameter" parameter="cachedirectory"><help><![CDATA[  ]]></help></deprecated>
+			<deprecated name="cfcache" type="parameter" parameter="timeout"><help><![CDATA[  ]]></help></deprecated>
+			<deprecated name="cferror" type="value" parameter="exception" value="monitor"><help><![CDATA[  ]]></help></deprecated>
+			<deprecated name="cffile" type="value" parameter="attributes" value="system"><help><![CDATA[  ]]></help></deprecated>
+			<deprecated name="cffile" type="value" parameter="attributes" value="temporary"><help><![CDATA[  ]]></help></deprecated>
+			<deprecated name="cfform" type="parameter" parameter="enablecab"><help><![CDATA[  ]]></help></deprecated>
+			<deprecated name="cfftp" type="parameter" parameter="agentname"><help><![CDATA[  ]]></help></deprecated>
+			<deprecated name="cfgraph" type="all"><help><![CDATA[  ]]></help></deprecated>
+			<deprecated name="cfgraphdata" type="all"><help><![CDATA[  ]]></help></deprecated>
+			<deprecated name="cfgridupdate" type="parameter" parameter="connectstring"><help><![CDATA[  ]]></help></deprecated>
+			<deprecated name="cfgridupdate" type="parameter" parameter="dbname"><help><![CDATA[  ]]></help></deprecated>
+			<deprecated name="cfgridupdate" type="parameter" parameter="dbserver"><help><![CDATA[  ]]></help></deprecated>
+			<deprecated name="cfgridupdate" type="parameter" parameter="dbtype"><help><![CDATA[  ]]></help></deprecated>
+			<deprecated name="cfgridupdate" type="parameter" parameter="provider"><help><![CDATA[  ]]></help></deprecated>
+			<deprecated name="cfgridupdate" type="parameter" parameter="providerdsn"><help><![CDATA[  ]]></help></deprecated>
+			<deprecated name="cfinsert" type="parameter" parameter="connectstring"><help><![CDATA[  ]]></help></deprecated>
+			<deprecated name="cfinsert" type="parameter" parameter="dbname"><help><![CDATA[  ]]></help></deprecated>
+			<deprecated name="cfinsert" type="parameter" parameter="dbserver"><help><![CDATA[  ]]></help></deprecated>
+			<deprecated name="cfinsert" type="parameter" parameter="dbtype"><help><![CDATA[  ]]></help></deprecated>
+			<deprecated name="cfinsert" type="parameter" parameter="provider"><help><![CDATA[  ]]></help></deprecated>
+			<deprecated name="cfinsert" type="parameter" parameter="providerdsn"><help><![CDATA[  ]]></help></deprecated>
+			<deprecated name="cfldap" type="parameter" parameter="filterfile"><help><![CDATA[  ]]></help></deprecated>
+			<deprecated name="cflog" type="parameter" parameter="date"><help><![CDATA[  ]]></help></deprecated>
+			<deprecated name="cflog" type="parameter" parameter="thread"><help><![CDATA[  ]]></help></deprecated>
+			<deprecated name="cflog" type="parameter" parameter="time"><help><![CDATA[  ]]></help></deprecated>
+			<deprecated name="cfquery" type="parameter" parameter="connectstring"><help><![CDATA[  ]]></help></deprecated>
+			<deprecated name="cfquery" type="parameter" parameter="dbname"><help><![CDATA[  ]]></help></deprecated>
+			<deprecated name="cfquery" type="parameter" parameter="dbserver"><help><![CDATA[  ]]></help></deprecated>
+			<deprecated name="cfquery" type="parameter" parameter="provider"><help><![CDATA[  ]]></help></deprecated>
+			<deprecated name="cfquery" type="parameter" parameter="providerdsn"><help><![CDATA[  ]]></help></deprecated>
+			<deprecated name="cfquery" type="parameter" parameter="sql"><help><![CDATA[  ]]></help></deprecated>
+			<deprecated name="cfquery" type="value" parameter="dbtype" value="dynamic"><help><![CDATA[  ]]></help></deprecated>
+			<deprecated name="cfquery" type="value" parameter="dbtype" value="odbc"><help><![CDATA[  ]]></help></deprecated>
+			<deprecated name="cfquery" type="value" parameter="dbtype" value="oracle73"><help><![CDATA[  ]]></help></deprecated>
+			<deprecated name="cfquery" type="value" parameter="dbtype" value="oracle80"><help><![CDATA[  ]]></help></deprecated>
+			<deprecated name="cfquery" type="value" parameter="dbtype" value="sybase11"><help><![CDATA[  ]]></help></deprecated>
+			<deprecated name="cfquery" type="value" parameter="dbtype" value="oledb"><help><![CDATA[  ]]></help></deprecated>
+			<deprecated name="cfquery" type="value" parameter="dbtype" value="db2"><help><![CDATA[  ]]></help></deprecated>
+			<deprecated name="cfregistry" type="all"><help><![CDATA[  ]]></help></deprecated>
+			<deprecated name="cfsearch" type="parameter" parameter="external"><help><![CDATA[  ]]></help></deprecated>
+			<deprecated name="cfsearch" type="parameter" parameter="language"><help><![CDATA[  ]]></help></deprecated>
+			<deprecated name="cfservlet" type="all"><help><![CDATA[  ]]></help></deprecated>
+			<deprecated name="cfservletparam" type="all"><help><![CDATA[  ]]></help></deprecated>
+			<deprecated name="cfslider" type="parameter" parameter="img"><help><![CDATA[  ]]></help></deprecated>
+			<deprecated name="cfslider" type="parameter" parameter="imgstyle"><help><![CDATA[  ]]></help></deprecated>
+			<deprecated name="cfslider" type="parameter" parameter="groovecolor"><help><![CDATA[  ]]></help></deprecated>
+			<deprecated name="cfslider" type="parameter" parameter="refreshlabel"><help><![CDATA[  ]]></help></deprecated>
+			<deprecated name="cfslider" type="parameter" parameter="tickmarkimages"><help><![CDATA[  ]]></help></deprecated>
+			<deprecated name="cfslider" type="parameter" parameter="tickmarklabels"><help><![CDATA[  ]]></help></deprecated>
+			<deprecated name="cfslider" type="parameter" parameter="tickmarkmajor"><help><![CDATA[  ]]></help></deprecated>
+			<deprecated name="cfslider" type="parameter" parameter="tickmarkminor"><help><![CDATA[  ]]></help></deprecated>
+			<deprecated name="cfstoredproc" type="parameter" parameter="connectstring"><help><![CDATA[  ]]></help></deprecated>
+			<deprecated name="cfstoredproc" type="parameter" parameter="dbname"><help><![CDATA[  ]]></help></deprecated>
+			<deprecated name="cfstoredproc" type="parameter" parameter="dbserver"><help><![CDATA[  ]]></help></deprecated>
+			<deprecated name="cfstoredproc" type="parameter" parameter="dbtype"><help><![CDATA[  ]]></help></deprecated>
+			<deprecated name="cfstoredproc" type="parameter" parameter="provider"><help><![CDATA[  ]]></help></deprecated>
+			<deprecated name="cfstoredproc" type="parameter" parameter="providerdsn"><help><![CDATA[  ]]></help></deprecated>
+			<deprecated name="cfupdate" type="parameter" parameter="connectstring"><help><![CDATA[  ]]></help></deprecated>
+			<deprecated name="cfupdate" type="parameter" parameter="dbname"><help><![CDATA[  ]]></help></deprecated>
+			<deprecated name="cfupdate" type="parameter" parameter="dbserver"><help><![CDATA[  ]]></help></deprecated>
+			<deprecated name="cfupdate" type="parameter" parameter="dbtype"><help><![CDATA[  ]]></help></deprecated>
+			<deprecated name="cfupdate" type="parameter" parameter="provider"><help><![CDATA[  ]]></help></deprecated>
+			<deprecated name="cfupdate" type="parameter" parameter="providerdsn"><help><![CDATA[  ]]></help></deprecated>
+			<obsolete name="cfauthenticate" type="all"><help><![CDATA[  ]]></help></obsolete>
+			<obsolete name="cfchart" type="parameter" parameter="rotated"><help><![CDATA[  ]]></help></obsolete>
+			<obsolete name="cffile" type="value" value="attributes"><help><![CDATA[  ]]></help></obsolete>
+			<obsolete name="cfimpersonate" type="all"><help><![CDATA[  ]]></help></obsolete>
+			<obsolete name="cfindex" type="value" parameter="action" value="optimize"><help><![CDATA[  ]]></help></obsolete>
+			<obsolete name="cfindex" type="parameter" parameter="external"><help><![CDATA[  ]]></help></obsolete>
+			<obsolete name="cfinternaladminsecurity" type="all"><help><![CDATA[  ]]></help></obsolete>
+			<obsolete name="cfsetting" type="parametere" parameter="catchexceptionsbypattern"><help><![CDATA[  ]]></help></obsolete>
+			<obsolete name="cfnewinternaladminsecurity" type="all"><help><![CDATA[  ]]></help></obsolete>
+		</tags>
+		<functions>
+			<new name="createobject" type="all"><help><![CDATA[  ]]></help></new>
+			<new name="getauthuser" type="all"><help><![CDATA[  ]]></help></new>
+			<new name="getencoding" type="all"><help><![CDATA[  ]]></help></new>
+			<new name="getmetadata" type="all"><help><![CDATA[  ]]></help></new>
+			<new name="getpagecontext" type="all"><help><![CDATA[  ]]></help></new>
+			<new name="getprofilesections" type="all"><help><![CDATA[  ]]></help></new>
+			<new name="isobject" type="all"><help><![CDATA[  ]]></help></new>
+			<new name="isuserinrole" type="all"><help><![CDATA[  ]]></help></new>
+			<new name="isxmldoc" type="all"><help><![CDATA[  ]]></help></new>
+			<new name="isxmlelem" type="all"><help><![CDATA[  ]]></help></new>
+			<new name="isxmlroot" type="all"><help><![CDATA[  ]]></help></new>
+			<new name="setencoding" type="all"><help><![CDATA[  ]]></help></new>
+			<new name="urldecode" type="parameter" parameter="charset" index="2"><help><![CDATA[  ]]></help></new>
+			<new name="urlencodedformat" type="parameter" parameter="charset" index="2"><help><![CDATA[  ]]></help></new>
+			<new name="urlsessionformat" type="all"><help><![CDATA[  ]]></help></new>
+			<new name="xmlchildpos" type="all"><help><![CDATA[  ]]></help></new>
+			<new name="xmlelemnew" type="all"><help><![CDATA[  ]]></help></new>
+			<new name="xmlnew" type="all"><help><![CDATA[  ]]></help></new>
+			<new name="xmlparse" type="all"><help><![CDATA[  ]]></help></new>
+			<new name="xmlsearch" type="all"><help><![CDATA[  ]]></help></new>
+			<new name="xmltransform" type="all"><help><![CDATA[  ]]></help></new>
+			<deprecated name="getmetriCDATA" type="parameter" parameter="cachepops"><help><![CDATA[  ]]></help></deprecated>
+			<deprecated name="gettemplatepath" type="all"><help><![CDATA[  ]]></help></deprecated>
+			<deprecated name="parameterexists" type="all"><help><![CDATA[ use: isdefined() ]]></help></deprecated>
+			<deprecated name="setlocale" type="value" parameter="locale" value="spanish (mexican)"><help><![CDATA[ use: spanish (standard) ]]></help></deprecated>
+			<obsolete name="authenticatedcontext" type="all"><help><![CDATA[  ]]></help></obsolete>
+			<obsolete name="authenticateduser" type="all"><help><![CDATA[  ]]></help></obsolete>
+			<obsolete name="isauthenticated" type="all"><help><![CDATA[  ]]></help></obsolete>
+			<obsolete name="isauthorized" type="all"><help><![CDATA[  ]]></help></obsolete>
+			<obsolete name="isprotected" type="all"><help><![CDATA[  ]]></help></obsolete>
+		</functions>
+		<scopes>
+		</scopes>
+	</compatibility>
+</compatibilities>

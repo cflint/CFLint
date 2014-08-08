@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dialog>
+
+<tab name="General">
+	
+	<field name="collection"/>
+	
+	<field name="name"/>
+	
+	<field name="criteria"/>
+	
+	<field name="startrow"/>
+	
+	<field name="maxrows"/>
+	
+	<field name="external"/>
+	
+	<field name="type"/>
+	
+	<field name="language"/>
+	
+</tab>
+
+</dialog>

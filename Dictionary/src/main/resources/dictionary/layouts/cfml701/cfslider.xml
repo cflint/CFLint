@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dialog>
+
+<tab name="General">
+	
+	<field name="name"/>
+	
+	<field name="value"/>
+	
+	<field name="label"/>
+	
+	<field name="range"/>
+	
+	<field name="message"/>
+	
+	<field name="img"/>
+	
+	<field name="scale"/>
+	
+	<field name="height"/>
+	
+	<field name="width"/>
+	
+	<field name="vspace"/>
+	
+	<field name="hspace"/>
+	
+	<field name="align"/>
+	
+</tab>
+
+<tab name="Advanced">
+	
+	<field name="fontsize"/>
+	
+	<field name="backcolor"/>
+	
+	<field name="textcolor"/>
+	
+	<field name="onvalidate"/>
+	
+	<field name="onerror"/>
+	
+	<field name="notsupported"/>
+	
+	<field name="bold"/>
+	
+	<field name="italic"/>
+	
+	<field name="refreshlabel"/>
+	
+	<field name="vertical"/>
+	
+	<field name="lookandfeel"/>
+	
+	<field name="font"/>
+	
+</tab>
+
+<tab name="Tick Marks">
+	
+	<field name="tickmarkimages"/>
+	
+	<field name="tickmarklabels"/>
+	
+	<field name="tickmarkmajor"/>
+	
+	<field name="tickmarkminor"/>
+	
+</tab>
+
+</dialog>

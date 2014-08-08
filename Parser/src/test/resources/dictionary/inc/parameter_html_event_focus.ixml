@@ -1,0 +1,8 @@
+<parameter name="onblur" type="Script" required="false" category="Event">
+	<help>Script to be run when the element loses focus</help>
+	<values/>
+</parameter>
+<parameter name="onfocus" type="Script" required="false" category="Event">
+	<help>Script to be run when the element gets focus</help>
+	<values/>
+</parameter>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dialog>
+
+<tab name="General">
+	
+	<field name="value"/>
+	
+	<field name="display"/>
+	
+	<field name="parent"/>
+	
+	<field name="query"/>
+	
+	<field name="img"/>
+	
+	<field name="imgopen"/>
+	
+	<field name="href"/>
+	
+	<field name="target"/>
+	
+	<field name="queryasroot"/>
+	
+	<field name="expand"/>
+	
+</tab>
+
+</dialog>

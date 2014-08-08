@@ -1,0 +1,8 @@
+<parameter name="accesskey" type="Character" required="false" category="Keyboard">
+	<help>Sets a keyboard shortcut to access an element</help>
+	<values/>
+</parameter>
+<parameter name="tabindex" type="Numeric" required="false" category="Keyboard">
+	<help>Sets the tab order of an element</help>
+	<values/>
+</parameter>

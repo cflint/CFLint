@@ -1,0 +1,12 @@
+<parameter name="onkeydown" type="Script" required="false" category="Event">
+	<help>Script to be run when key is pressed</help>
+	<values/>
+</parameter>
+<parameter name="onkeypress" type="Script" required="false" category="Event">
+	<help>Script to be run when a key is pressed and released</help>
+	<values/>
+</parameter>
+<parameter name="onkeyup" type="Script" required="false" category="Event">
+	<help>Script to be run when a key is released</help>
+	<values/>
+</parameter>

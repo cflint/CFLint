@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dialog>
+
+<tab name="General">
+	
+	<field name="requesttimeout"/>
+	
+	<field name="enablecfoutputonly"/>
+	
+	<field name="showdebugoutput"/>
+	
+	<field name="catchexceptionsbypattern"/>
+	
+</tab>
+
+</dialog>

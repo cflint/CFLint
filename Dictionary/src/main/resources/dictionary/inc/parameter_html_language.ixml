@@ -1,0 +1,11 @@
+<parameter name="dir" type="String" required="false" category="Language">
+	<help>Sets the text direction</help>
+	<values>
+		<value option="ltr" />
+		<value option="rtl" />
+	</values>
+</parameter>
+<parameter name="lang" type="String" required="false" category="Language">
+	<help>Sets the language code</help>
+	<values/>
+</parameter>

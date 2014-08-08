@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dialog>
+
+<tab name="General">
+	
+	<field name="message"/>
+	
+	<field name="type"/>
+	
+	<field name="detail"/>
+	
+	<field name="errorcode"/>
+	
+	<field name="extendedinfo"/>
+	
+	<field name="object"/>
+	
+</tab>
+
+</dialog>

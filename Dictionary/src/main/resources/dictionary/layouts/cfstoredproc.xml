@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dialog>
+
+<tab name="General">
+	
+	<field name="procedure"/>
+	
+	<field name="datasource"/>
+	
+	<field name="username"/>
+	
+	<field name="password"/>
+	
+	<field name="dbserver"/>
+	
+	<field name="dbname"/>
+	
+	<field name="provider"/>
+	
+	<field name="providerdsn"/>
+	
+	<field name="connectstring"/>
+	
+	<field name="blockfactor"/>
+	
+	<field name="debug"/>
+	
+	<field name="returncode"/>
+	
+</tab>
+
+</dialog>

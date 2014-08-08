@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dialog>
+
+<tab name="General">
+	
+	<field name="name"/>
+	
+	<field name="value"/>
+	
+	<field name="range"/>
+	
+	<field name="message"/>
+	
+	<field name="size"/>
+	
+	<field name="maxlength"/>
+	
+	<field name="height"/>
+	
+	<field name="width"/>
+	
+	<field name="vspace"/>
+	
+	<field name="hspace"/>
+	
+	<field name="validate"/>
+	
+	<field name="align"/>
+	
+</tab>
+
+<tab name="Advanced">
+	
+	<field name="fontsize"/>
+	
+	<field name="bgcolor"/>
+	
+	<field name="textcolor"/>
+	
+	<field name="bold"/>
+	
+	<field name="italic"/>
+	
+	<field name="required"/>
+	
+	<field name="font"/>
+	
+	<field name="pattern"/>
+	
+	<field name="notsupported"/>
+	
+	<field name="onerror"/>
+	
+	<field name="onvalidate"/>
+	
+</tab>
+
+</dialog>

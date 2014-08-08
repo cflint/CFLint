@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dialog>
+
+<tab name="General">
+	
+	<field name="input"/>
+	
+	<field name="output"/>
+	
+	<field name="toplevelvariable"/>
+	
+	<field name="action"/>
+	
+	<field name="validate"/>
+	
+</tab>
+
+<tab name="Cfml2wddx">
+	
+	<field name="usetimezoneinfo"/>
+	
+</tab>
+
+</dialog>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dialog>
+
+<tab name="General">
+	
+	<field name="securitycontext"/>
+	
+	<field name="username"/>
+	
+	<field name="password"/>
+	
+	<field name="setcookie"/>
+	
+	<field name="throwonfailure"/>
+	
+	<field name="authtype"/>
+	
+</tab>
+
+</dialog>

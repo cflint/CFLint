@@ -1,9 +1,0 @@
-gunit CFML;
-
-
-//------------------- tag
-tag:
-
-"<cfargument name=\"fred\" test=\"test\"/>" OK
-
-"<cfset foo=2>" OK

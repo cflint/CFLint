@@ -2,7 +2,7 @@
 ======
 
 
-A statistical code analysis tool for ColdFusion (in the spirit of FindBugs and Lint)
+A static code analysis tool for ColdFusion (in the spirit of FindBugs and Lint)
 
 <div><strong>Can you use it today? Functional? Yes</strong><br>
 <strong>Mature, flawless?  No, you can help:<br></strong></div>
@@ -18,6 +18,8 @@ Someone has created a [SublimeLinter](http://www.sublimelinter.com) plugin [here
 
 Ray Camden created a [CFBuilder](http://www.adobe.com/products/coldfusion-builder.html) plugin [here](https://github.com/cfjedimaster/CFLint-Extension) and blogs about CFLint [here](http://www.raymondcamden.com/2014/7/31/Linting-your-ColdFusion-code#more).
 
+
+Please look at the setup-instructions.txt for installation. Easier installation should be coming soon.
 
 ## Quick Start 
         cflint --folder <somefolder> 

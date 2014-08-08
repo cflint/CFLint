@@ -1,4 +1,0 @@
-<tr>
-	<td <cfoutput>style="<cfoutput>#somethinghere#</cfoutput>"</cfoutput>>asdfasdf</td>
-	<td style="fred"></td>
-</td>

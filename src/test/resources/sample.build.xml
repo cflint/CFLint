@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project basedir="..\..\.." default="build" name="goodville-common">
+	<!--
+		Demonstrates the use of the and CFLintTask
+	-->
+	
+	<property name="sourceRoot" value="c:/source/cfmx/extensions/components"/>
+	<property name="workfolder" location="temp"/>
+			
+	<path id="classpath">
+		<fileset dir="target/appassembler/lib" includes="*.jar" />
+	</path>
+	<taskdef name="cflint" classname="com.cflint.ant.CFLintTask" classpathref="classpath"/>
+	
+	<target name="UpToDateCheck">
+		<uptodate property="cflint.uptodate" targetfile="target/cflint.xml">
+			<srcfiles dir="${sourceRoot}" includes="**/*.cfm,**/*.cfc" />
+		</uptodate>
+	</target>
+
+	<target name="clean">
+		<delete file="target/cflint.xml" />
+	</target>
+	
+	<target depends="UpToDateCheck,cflint" name="build" />
+
+	<target name="cflint" unless="cflint.uptodate" depends="UpToDateCheck">
+		<cflint xmlfile="target/cflint.xml" showProgress="true">
+			<fileset dir="${sourceRoot}" includes="**/*.cfm,**/*.cfc"/>
+		</cflint>
+	</target>
+	
+	<target name="cflint-smart">
+		<mkdir dir="${workfolder}"/>
+		<!-- use a temporary copy of the mod cache, build failures midstream do not affect the checksum cache -->
+		<copy failonerror="false" file="${workfolder}/updatecache.properties" overwrite="true" tofile="${workfolder}/temp.updatecache.properties"/>
+		<cflint xmlfile="target/cflint.xml" showProgress="true">
+			<!-- identify source files changes since last execution of this task-->
+			<fileset dir="${sourceRoot}">
+				<include name="**/*.cfm"/>
+				<include name="**/*.cfc"/>
+				<!-- cache a checksum of each file, only include files in the fileset whose checksum has changed -->
+	            <modified update="true" seldirs="false"
+	                      cache="propertyfile" algorithm="digest" comparator="equal">
+	                <param name="cache.cachefile" value="${workfolder}/temp.updatecache.properties"/>
+	                <param name="algorithm.algorithm" value="MD5"/>
+	            </modified>
+			</fileset>
+		</cflint>
+		<!-- Note the cflint.xml output will contain a partial list of the total issues since it is running over a subset of the source-->
+		<move file="${workfolder}/temp.updatecache.properties" tofile="${workfolder}/updatecache.properties"/>
+	</target>
+
+	
+</project>

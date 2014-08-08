@@ -17,7 +17,7 @@ public class XMLOutput {
 
 	public void output(final BugList bugList, final Writer writer) throws IOException {
 		// final StringBuilder sb = new StringBuilder();
-		writer.append("<issues>").append("\r\n");
+		writer.append("<issues>").append(System.getProperty("line.separator"));
 		for (final Entry<String, List<BugInfo>> bugEntry : bugList.getBugList().entrySet()) {
 			final Iterator<BugInfo> iterator = bugEntry.getValue().iterator();
 			BugInfo bugInfo = iterator.hasNext() ? iterator.next() : null;
@@ -43,12 +43,12 @@ public class XMLOutput {
 					writer.append("<Expression><![CDATA[")
 							.append(bugInfo.getExpression() == null ? "" : bugInfo.getExpression()
 									.replace("<![CDATA[", "").replace("]]>", "")).append("]]></Expression>");
-					writer.append("</location>").append("\r\n");
+					writer.append("</location>").append(System.getProperty("line.separator"));
 					prevbugInfo = bugInfo;
 					bugInfo = iterator.hasNext() ? iterator.next() : null;
 				} while (isGrouped(prevbugInfo, bugInfo));
 				// writer.append(" function=\"").append(bugInfo.getFunction()).append("\"");
-				writer.append("</issue>").append("\r\n");
+				writer.append("</issue>").append(System.getProperty("line.separator"));
 			}
 		}
 		writer.append("</issues>");

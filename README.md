@@ -19,7 +19,7 @@ Someone has created a [SublimeLinter](http://www.sublimelinter.com) plugin [here
 Ray Camden created a [CFBuilder](http://www.adobe.com/products/coldfusion-builder.html) plugin [here](https://github.com/cfjedimaster/CFLint-Extension) and blogs about CFLint [here](http://www.raymondcamden.com/2014/7/31/Linting-your-ColdFusion-code#more).
 
 
-Please look at the setup-instructions.txt for installation. Easier installation should be coming soon.
+Please look at the build-instructions.txt for installation. Easier installation should be coming soon.
 
 ## Quick Start 
         cflint --folder <somefolder> 

@@ -4,6 +4,16 @@
 	<groupId>com.cflint</groupId>
 	<artifactId>CFLint</artifactId>
 	<version>0.1.8</version>
+	<repositories>
+	    <repository>
+	        <id>cfparser</id>
+	        <url>https://raw.github.com/cfparser/cfparser/mvn-repo/</url>
+	        <snapshots>
+	            <enabled>true</enabled>
+	            <updatePolicy>always</updatePolicy>
+	        </snapshots>
+	    </repository>
+	</repositories>
 	<dependencies>
 		<dependency>
 			<groupId>junit</groupId>
@@ -13,16 +23,16 @@
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
-			<groupId>cfml.parsing</groupId>
+			<groupId>com.cfparser</groupId>
 			<artifactId>cfml.parsing</artifactId>
-			<version>0.0.1</version>
+			<version>1.0.0</version>
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
-			<groupId>cfml.dictionary</groupId>
+			<groupId>com.cfparser</groupId>
 			<artifactId>cfml.dictionary</artifactId>
-			<version>0.0.1</version>
+			<version>1.0.0</version>
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
@@ -102,6 +112,12 @@
 			<artifactId>slf4j-log4j12</artifactId>
 			<version>1.7.5</version>
 			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>ant</groupId>
+			<artifactId>ant</artifactId>
+			<version>1.7.0</version>
 			<scope>compile</scope>
 		</dependency>
 	</dependencies>
@@ -203,4 +219,8 @@
 			</plugin>
 		</plugins>
 	</build>
+	<dependencyManagement>
+		<dependencies>
+		</dependencies>
+	</dependencyManagement>
 </project>

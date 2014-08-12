@@ -11,6 +11,7 @@ import org.junit.Test;
 import com.cflint.BugInfo;
 import com.cflint.CFLint;
 import com.cflint.StackHandler;
+import com.cflint.plugins.core.GlobalVarChecker;
 import com.cflint.plugins.core.NestedCFOutput;
 import com.cflint.plugins.core.TypedQueryNew;
 import com.cflint.plugins.core.VarScoper;
@@ -194,7 +195,7 @@ public class TestCFBugs {
 		List<BugInfo> result = cfBugs.getBugs().getBugList().values().iterator().next();
 		assertEquals(1,result.size());
 		assertEquals("MISSING_VAR",result.get(0).getMessageCode());
-		assertEquals(8,result.get(0).getLine());
+		assertEquals(9,result.get(0).getLine());
 	}
 	
 	@Test
@@ -369,4 +370,33 @@ public class TestCFBugs {
 		assertEquals(0,cfBugs.getBugs().size());
 	}
 	
+	@Test
+	public void testGlobalVarCheckerNPE() throws ParseException, IOException{
+		CFLint cfBugs = new CFLint(new GlobalVarChecker());
+		cfBugs.process("component {\r\n" +
+				"public any function process(){\r\n" +
+				"url.x=123;\r\n" +
+				"}\r\n"+
+				"}","test");
+		List<BugInfo> list = cfBugs.getBugs().getFlatBugList();
+		assertEquals(1,list.size());
+		assertEquals("test",list.get(0).getFilename());
+		assertEquals("process",list.get(0).getFunction());
+		assertEquals(3,list.get(0).getLine());
+	}
+	
+	@Test
+	public void testVarScoper() throws ParseException, IOException{
+		CFLint cfBugs = new CFLint(new VarScoper());
+		cfBugs.process("component {\r\n" +
+				"public any function process(){\r\n" +
+				"x=123;\r\n" +
+				"}\r\n"+
+				"}","test");
+		List<BugInfo> list = cfBugs.getBugs().getFlatBugList();
+		assertEquals(1,list.size());
+		assertEquals("test",list.get(0).getFilename());
+		assertEquals("process",list.get(0).getFunction());
+		assertEquals(3,list.get(0).getLine());
+	}
 }

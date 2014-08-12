@@ -87,8 +87,8 @@ public class BugInfo {
 		}
 		public BugInfo build(){return bugInfo;}
 		public BugInfo build(CFParsedStatement expression,final Element elem) {
-			int elemLine = 0;
-			int elemColumn = 0;
+			int elemLine = 1;
+			int elemColumn = 1;
 			if(elem != null){
 				elemLine = elem.getSource().getRow(elem.getBegin());
 				elemColumn = elem.getSource().getColumn(elem.getBegin());

@@ -46,7 +46,7 @@ public class TestCFBugsTagless {
 		List<BugInfo> result = cfBugs.getBugs().getBugList().values().iterator().next();
 		assertEquals(1,result.size());
 		assertEquals("MISSING_VAR",result.get(0).getMessageCode());
-		assertEquals(6,result.get(0).getLine());
+		assertEquals(7,result.get(0).getLine());
 		assertEquals("myvar",result.get(0).getVariable());
 	}
 	}

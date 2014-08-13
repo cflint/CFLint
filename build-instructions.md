@@ -1,10 +1,21 @@
-First, you need Apache Maven to be installed 
-	http://maven.apache.org/guides/getting-started/maven-in-five-minutes.html
+#### Dependencies
+CFLint is built with: 
+* [Apache Maven](http://maven.apache.org/guides/getting-started/maven-in-five-minutes.html).
+           
 
-Ryan was nice enough to make the build easier from here.
-	1. 	Clone https://github.com/cfparser/cfparser (run "mvn clean install" from your command line. 
-		Make note to run it inside the root folder of the cfparser project).
-	2.	Clone this repository (run "mvn clean install" from your command line. 
-		Make note to run it inside the root folder of the CFLint project).
-		
+#### Building CFLint
+```
+git clone https://github.com/cflint/CFLint.git
+cd CFLint
+mvn clean install
+```
+	
+#### Building CFParser *(optional)*
+Maven will pull the CFParser from the cfparser maven repository on github.  However if you want to build cfparser as well:
+```
+git clone https://github.com/cfparser/cfparser
+cd cfparser
+mvn clean install
+```
+
 If you have issues, please let us know.		

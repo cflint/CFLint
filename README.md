@@ -1,6 +1,8 @@
 ![CFLint](/src/main/resources/CFLint-logo.jpg)
 ======
 
+Check out the new [wiki!](https://github.com/cflint/CFLint/wiki)
+
 
 A statistical code analysis tool for ColdFusion (in the spirit of FindBugs and Lint)
 

@@ -10,7 +10,7 @@ cd CFLint
 mvn clean install
 ```
 	
-#### Building CFParser *(optional)*
+#### Building CFParser *(required at the moment. Do this first.)*
 Maven will pull the [CFParser](https://github.com/cfparser/cfparser) from the cfparser maven repository on github.  However if you want to build cfparser as well:
 ```
 git clone https://github.com/cfparser/cfparser.git

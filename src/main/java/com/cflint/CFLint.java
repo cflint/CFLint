@@ -68,6 +68,13 @@ public class CFLint implements IErrorReporter {
 	boolean showProgress = false;
 	boolean progressUsesThread = true;
 
+	// constants
+	final String cfcExtension = ".cfc";
+	final String cfmExtenstion = ".cfm";
+	final String resourceBundleName = "com.cflint.cflint";
+	final String allowedExtensionsName = "allowedextensions";
+	final String progressMonitorName = "CFLint";
+
 	private String currentFile;
 	List<ScanProgressListener> scanProgressListeners = new ArrayList<ScanProgressListener>();
 
@@ -89,18 +96,18 @@ public class CFLint implements IErrorReporter {
 		final CFLintFilter filter = CFLintFilter.createFilter();
 		bugs = new BugList(filter);
 		try {
-			allowedExtensions.addAll(Arrays.asList(ResourceBundle.getBundle("com.cflint.cflint")
-					.getString("allowedextensions").split(",")));
+			allowedExtensions.addAll(Arrays.asList(ResourceBundle.getBundle(resourceBundleName)
+					.getString(allowedExtensionsName).split(",")));
 		} catch (final Exception e) {
-			allowedExtensions.add(".cfc");
-			allowedExtensions.add(".cfm");
+			allowedExtensions.add(cfcExtension);
+			allowedExtensions.add(cfmExtenstion);
 		}
 	}
 
 	public void scan(final String folder) {
 		final File f = new File(folder);
 		if (showProgress) {
-			final ProgressMonitorListener progressMonitorListener = new ProgressMonitorListener("CFLint");
+			final ProgressMonitorListener progressMonitorListener = new ProgressMonitorListener(progressMonitorName);
 			addScanProgressListener(progressMonitorListener);
 			if (progressUsesThread) {
 				new Thread(new Runnable() {

@@ -305,24 +305,29 @@
 						</configuration>
 					</execution>
 				</executions>
-			</plugin>
+			</plugin> 
 			<plugin>
-				<artifactId>maven-assembly-plugin</artifactId>
-				<version>2.4</version>
-				<executions>
-					<execution>
-						<phase>integration-test</phase>
-						<goals>
-							<goal>single</goal>
-						</goals>
-						<configuration>
-							<descriptors>
-								<descriptor>src/main/assembly/archive.xml</descriptor>
-							</descriptors>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>1.4</version>
+                <executions>
+                      <execution>
+                        <phase>package</phase>
+                        <goals>
+                          <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <transformers>
+                                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                    <mainClass>com.cflint.main.CFLintMain</mainClass>
+                                </transformer>
+                            </transformers>
+                          <shadedArtifactAttached>true</shadedArtifactAttached>
+                          <shadedClassifierName>all</shadedClassifierName>
+                        </configuration>
+                      </execution>
+                </executions>
+            </plugin>
 		</plugins>
 	</build>
 

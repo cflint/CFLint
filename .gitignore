@@ -1,3 +1,6 @@
 /cfbugs
 /bin
 /target
+/.classpath
+/.project
+/.settings/

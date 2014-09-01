@@ -87,7 +87,7 @@ public class CFLint implements IErrorReporter {
 	public CFLint() {
 		this(new NestedCFOutput(), new TypedQueryNew(), new VarScoper(), new ArgVarChecker(), new ArgDefChecker(),
 				new OutputParmMissing(), new GlobalVarChecker(), new QueryParamChecker());
-		addExceptionListener(new DefaultCFLintExceptionListener());
+		
 	}
 
 	public CFLint(final CFLintScanner... bugsScanners) {
@@ -102,6 +102,9 @@ public class CFLint implements IErrorReporter {
 		}
 		final CFLintFilter filter = CFLintFilter.createFilter();
 		bugs = new BugList(filter);
+		if(exceptionListeners.size() == 0){
+			addExceptionListener(new DefaultCFLintExceptionListener(bugs));
+		}
 		try {
 			allowedExtensions.addAll(Arrays.asList(ResourceBundle.getBundle(resourceBundleName)
 					.getString(allowedExtensionsName).split(",")));

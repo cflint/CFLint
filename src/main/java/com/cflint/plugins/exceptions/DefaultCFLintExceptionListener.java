@@ -13,6 +13,11 @@ public class DefaultCFLintExceptionListener implements CFLintExceptionListener {
 
 	BugList bugs;
 
+	public DefaultCFLintExceptionListener(BugList bugs) {
+		super();
+		this.bugs = bugs;
+	}
+
 	public void exceptionOccurred(final Exception exception, final String messageCode, final String filename,
 			final Integer line, final Integer column, final String functionName, final String expression) {
 		final BugInfoBuilder bugInfoBuilder = new BugInfo.BugInfoBuilder();

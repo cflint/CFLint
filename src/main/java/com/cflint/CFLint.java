@@ -28,6 +28,8 @@ import com.cflint.plugins.core.OutputParmMissing;
 import com.cflint.plugins.core.QueryParamChecker;
 import com.cflint.plugins.core.TypedQueryNew;
 import com.cflint.plugins.core.VarScoper;
+import com.cflint.plugins.exceptions.CFLintExceptionListener;
+import com.cflint.plugins.exceptions.DefaultCFLintExceptionListener;
 import com.cflint.tools.CFLintFilter;
 
 import net.htmlparser.jericho.Element;
@@ -56,6 +58,9 @@ import cfml.parsing.cfscript.script.CFScriptStatement;
 
 public class CFLint implements IErrorReporter {
 
+	private static final String FILE_ERROR = "FILE_ERROR";
+	private static final String PARSE_ERROR = "PARSE_ERROR";
+	
 	StackHandler handler = new StackHandler();
 	boolean inFunction = false;
 	boolean inAssignment = false;
@@ -77,10 +82,12 @@ public class CFLint implements IErrorReporter {
 
 	private String currentFile;
 	List<ScanProgressListener> scanProgressListeners = new ArrayList<ScanProgressListener>();
+	List<CFLintExceptionListener> exceptionListeners = new ArrayList<CFLintExceptionListener>();
 
 	public CFLint() {
 		this(new NestedCFOutput(), new TypedQueryNew(), new VarScoper(), new ArgVarChecker(), new ArgDefChecker(),
 				new OutputParmMissing(), new GlobalVarChecker(), new QueryParamChecker());
+		addExceptionListener(new DefaultCFLintExceptionListener());
 	}
 
 	public CFLint(final CFLintScanner... bugsScanners) {
@@ -151,10 +158,17 @@ public class CFLint implements IErrorReporter {
 			try {
 				process(src, folderOrFile.getAbsolutePath());
 			} catch (final Exception e) {
-				e.printStackTrace();
-				bugs.add(new BugInfo.BugInfoBuilder().setMessageCode("FILE_ERROR")
+				if (!quiet) {
+					if (verbose) {
+						e.printStackTrace(System.err);
+					}else{
+						System.err.println(e.getMessage());
+					}
+				}
+				/*bugs.add(new BugInfo.BugInfoBuilder().setMessageCode("FILE_ERROR")
 						.setFilename(folderOrFile.getAbsolutePath()).setMessage(e.getMessage()).setSeverity("ERROR")
-						.build());
+						.build());*/
+				fireCFLintException(e,FILE_ERROR,folderOrFile.getAbsolutePath(),null,null,null,null);
 			}
 		}
 	}
@@ -235,9 +249,10 @@ public class CFLint implements IErrorReporter {
 							npe.printStackTrace(System.err);
 						}
 					}
-					bugs.add(new BugInfo.BugInfoBuilder().setLine(elemLine).setColumn(elemColumn + column)
+					/*bugs.add(new BugInfo.BugInfoBuilder().setLine(elemLine).setColumn(elemColumn + column)
 							.setMessageCode("PARSE_ERROR").setSeverity("ERROR").setExpression(m.group(1))
-							.setFilename(filename).setFunction(functionName).setMessage("Unable to parse").build());
+							.setFilename(filename).setFunction(functionName).setMessage("Unable to parse").build());*/
+					fireCFLintException(npe,PARSE_ERROR,filename,elemLine,elemColumn + column,functionName,m.group(1));
 				}
 			}
 		} else if (elem.getName().equals("cfargument")) {
@@ -487,6 +502,17 @@ public class CFLint implements IErrorReporter {
 	protected void fireClose() {
 		for (final ScanProgressListener p : scanProgressListeners) {
 			p.close();
+		}
+	}
+
+	public void addExceptionListener(final CFLintExceptionListener exceptionListener) {
+		exceptionListeners.add(exceptionListener);
+	}
+
+	protected void fireCFLintException(final Exception e, final String messageCode, final String filename,
+			final Integer line, final Integer column,final String functionName, final String expression) {
+		for (final CFLintExceptionListener p : exceptionListeners) {
+			p.exceptionOccurred(e, messageCode, filename, line, column, functionName, expression);
 		}
 	}
 

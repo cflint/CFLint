@@ -21,6 +21,7 @@ import com.cflint.CFLint;
 import com.cflint.HTMLOutput;
 import com.cflint.TextOutput;
 import com.cflint.XMLOutput;
+import com.cflint.plugins.exceptions.DefaultCFLintExceptionListener;
 import com.cflint.tools.CFLintFilter;
 
 public class CFLintTask extends Task {

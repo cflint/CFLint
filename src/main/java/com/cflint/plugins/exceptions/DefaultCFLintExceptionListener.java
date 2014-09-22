@@ -30,8 +30,6 @@ public class DefaultCFLintExceptionListener implements CFLintExceptionListener {
 		}
 		bugInfoBuilder.setExpression(expression);
 		bugInfoBuilder.setFunction(functionName);
-		bugInfoBuilder.setLine(line);
-		bugInfoBuilder.setColumn(column);
 		bugs.add(bugInfoBuilder.build());
 	}
 

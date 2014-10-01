@@ -1,7 +1,5 @@
 package com.cflint.listeners;
 
-import java.io.File;
-
 import javax.swing.ProgressMonitor;
 
 public class ProgressMonitorListener implements ScanProgressListener {

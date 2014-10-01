@@ -1,31 +1,41 @@
 package com.cflint;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+import static org.junit.Assert.assertEquals;
+
 import java.io.IOException;
-import java.util.Collection;
 import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import com.cflint.BugInfo;
-import com.cflint.CFLint;
-import com.cflint.StackHandler;
-import com.cflint.plugins.core.ArgVarChecker;
-
-import cfml.parsing.CFMLParser;
-import cfml.parsing.CFMLSource;
 import cfml.parsing.cfscript.ParseException;
 
-import static org.junit.Assert.*;
+import com.cflint.config.CFLintPluginInfo.PluginInfoRule;
+import com.cflint.config.CFLintPluginInfo.PluginInfoRule.PluginMessage;
+import com.cflint.config.ConfigRuntime;
+import com.cflint.plugins.core.ArgVarChecker;
 
 public class TestCFBugs_ArgsUse {
 
 	StackHandler handler = null;
-	
+	private CFLint cfBugs;
+
 	@Before
-	public void setUp(){
+	public void setUp() {
 		handler = new StackHandler();
+		final ConfigRuntime conf = new ConfigRuntime();
+		final PluginInfoRule pluginRule = new PluginInfoRule();
+		pluginRule.setName("ArgVarChecker");
+		conf.getRules().add(pluginRule);
+		final PluginMessage pluginMessage = new PluginMessage("ARG_VAR_CONFLICT");
+		pluginMessage.setSeverity("ERROR");
+		pluginMessage.setMessageText("Variable ${variable} should not be declared in both var and argument scopes.");
+		pluginRule.getMessages().add(pluginMessage);
+		final PluginMessage pluginMessage2 = new PluginMessage("ARG_VAR_MIXED");
+		pluginMessage2.setSeverity("INFO");
+		pluginMessage2.setMessageText("Argument ${variable} should not be referenced in local and argument scope.");
+		pluginRule.getMessages().add(pluginMessage2);
+		
+		cfBugs = new CFLint(conf, new ArgVarChecker());
 	}
 	
 	@Test
@@ -36,7 +46,6 @@ public class TestCFBugs_ArgsUse {
 				"	<cfset var xyz=123/>\r\n" +
 				"</cffunction>\r\n" +
 				"</cfcomponent>";
-		CFLint cfBugs = new CFLint(new ArgVarChecker());
 		cfBugs.process(cfcSrc,"test");
 		List<BugInfo> result = cfBugs.getBugs().getBugList().values().iterator().next();
 		assertEquals(1,result.size());
@@ -51,7 +60,6 @@ public class TestCFBugs_ArgsUse {
 				"var arg1=123; \r\n" + 
 				"} \r\n" + 
 				"}";
-		CFLint cfBugs = new CFLint(new ArgVarChecker());
 		cfBugs.process(cfcSrc,"test");
 		List<BugInfo> result = cfBugs.getBugs().getBugList().values().iterator().next();
 		assertEquals(1,result.size());
@@ -67,7 +75,6 @@ public class TestCFBugs_ArgsUse {
 				"	<cfset xyz=123/>\r\n" +
 				"</cffunction>\r\n" +
 				"</cfcomponent>";
-		CFLint cfBugs = new CFLint(new ArgVarChecker());
 		cfBugs.process(cfcSrc,"test");
 		assertEquals(0,cfBugs.getBugs().getBugList().size());
 	}
@@ -81,7 +88,6 @@ public class TestCFBugs_ArgsUse {
 				"	<cfset variables.instance.page = arguments.page />\r\n" +
 				"</cffunction>\r\n" +
 				"</cfcomponent>";
-		CFLint cfBugs = new CFLint(new ArgVarChecker());
 		cfBugs.process(cfcSrc,"test");
 		assertEquals(0,cfBugs.getBugs().getBugList().size());
 	}
@@ -94,7 +100,6 @@ public class TestCFBugs_ArgsUse {
 				"arg1=123; \r\n" + 
 				"} \r\n" + 
 				"}";
-		CFLint cfBugs = new CFLint(new ArgVarChecker());
 		cfBugs.process(cfcSrc,"test");
 		assertEquals(0,cfBugs.getBugs().getBugList().size());
 	}
@@ -108,7 +113,6 @@ public class TestCFBugs_ArgsUse {
 				"	<cfset y=arguments.xyz/>\r\n" +
 				"</cffunction>\r\n" +
 				"</cfcomponent>";
-		CFLint cfBugs = new CFLint(new ArgVarChecker());
 		cfBugs.process(cfcSrc,"test");
 		List<BugInfo> result = cfBugs.getBugs().getBugList().values().iterator().next();
 		assertEquals(1,result.size());
@@ -126,7 +130,6 @@ public class TestCFBugs_ArgsUse {
 				"	<cfset z=arguments.xyz/>\r\n" +
 				"</cffunction>\r\n" +
 				"</cfcomponent>";
-		CFLint cfBugs = new CFLint(new ArgVarChecker());
 		cfBugs.process(cfcSrc,"test");
 		List<BugInfo> result = cfBugs.getBugs().getBugList().values().iterator().next();
 		assertEquals(1,result.size());

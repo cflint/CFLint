@@ -1,8 +1,11 @@
 package com.cflint.plugins;
 
-import com.cflint.StackHandler;
+import java.util.ArrayList;
+import java.util.List;
 
 import net.htmlparser.jericho.Element;
+
+import com.cflint.StackHandler;
 
 public class Context {
 
@@ -12,6 +15,8 @@ public class Context {
 	final boolean inAssignmentExpression;
 	boolean inComponent;
 	final StackHandler callStack;
+	final List<ContextMessage> messages = new ArrayList<ContextMessage>();
+
 
 	public Context(final String filename, final Element element, final String functionName,
 			final boolean inAssignmentExpression, final StackHandler handler) {
@@ -68,5 +73,30 @@ public class Context {
 
 	public void setInComponent(boolean inComponent) {
 		this.inComponent = inComponent;
+	}
+
+	public List<ContextMessage> getMessages() {
+		return messages;
+	}
+
+	public void addMessage(String messageCode, String variable) {
+		messages.add(new ContextMessage(messageCode,variable));
+	}
+	
+	public static class ContextMessage{
+		String messageCode;
+		String variable;
+		
+		public ContextMessage(String messageCode, String variable) {
+			super();
+			this.messageCode = messageCode;
+			this.variable = variable;
+		}
+		public String getMessageCode() {
+			return messageCode;
+		}
+		public String getVariable() {
+			return variable;
+		}
 	}
 }

@@ -1,8 +1,8 @@
 package com.cflint.plugins.exceptions;
 
 import com.cflint.BugInfo;
-import com.cflint.BugList;
 import com.cflint.BugInfo.BugInfoBuilder;
+import com.cflint.BugList;
 
 /**
  * Default listener which treats Linter errors (file reading, and parsing) as bugs.

@@ -1,33 +1,35 @@
 package com.cflint;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+import static org.junit.Assert.assertEquals;
+
 import java.io.IOException;
-import java.util.Collection;
 import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import com.cflint.BugInfo;
-import com.cflint.CFLint;
-import com.cflint.StackHandler;
-import com.cflint.plugins.core.NestedCFOutput;
-import com.cflint.plugins.core.TypedQueryNew;
-import com.cflint.plugins.core.VarScoper;
-
-import cfml.parsing.CFMLParser;
-import cfml.parsing.CFMLSource;
 import cfml.parsing.cfscript.ParseException;
 
-import static org.junit.Assert.*;
+import com.cflint.config.CFLintPluginInfo.PluginInfoRule;
+import com.cflint.config.CFLintPluginInfo.PluginInfoRule.PluginMessage;
+import com.cflint.config.ConfigRuntime;
+import com.cflint.plugins.core.VarScoper;
 
 public class TestCFBugsTagless {
 
-	StackHandler handler = null;
+	private CFLint cfBugs;
 	
 	@Before
 	public void setUp(){
-		handler = new StackHandler();
+		ConfigRuntime conf = new ConfigRuntime();
+		PluginInfoRule pluginRule = new PluginInfoRule();
+		pluginRule.setName("VarScoper");
+		conf.getRules().add(pluginRule);
+		PluginMessage pluginMessage = new PluginMessage("MISSING_VAR");
+		pluginMessage.setSeverity("ERROR");
+		pluginMessage.setMessageText("Variable ${variable} is not declared with a var statement.");
+		pluginRule.getMessages().add(pluginMessage);
+		
+		cfBugs = new CFLint(conf,new VarScoper());
 	}
 	
 	@Test
@@ -41,7 +43,6 @@ public class TestCFBugsTagless {
 				"myvar = \"test\";\r\n" + 
 				"}\r\n" + 
 				"}";
-		CFLint cfBugs = new CFLint(new VarScoper());
 		cfBugs.process(cfcSrc,"test");
 		List<BugInfo> result = cfBugs.getBugs().getBugList().values().iterator().next();
 		assertEquals(1,result.size());

@@ -1,7 +1,13 @@
 package com.cflint;
 
+import java.util.List;
+
 import net.htmlparser.jericho.Element;
-import cfml.parsing.cfscript.CFParsedStatement;
+import cfml.parsing.cfscript.CFExpression;
+import cfml.parsing.cfscript.script.CFParsedStatement;
+
+import com.cflint.config.CFLintPluginInfo.PluginInfoRule.PluginMessage;
+import com.cflint.config.CFLintPluginInfo.PluginInfoRule.PluginParameter;
 
 public class BugInfo {
 
@@ -42,6 +48,12 @@ public class BugInfo {
 	
 	public static class BugInfoBuilder{
 		BugInfo bugInfo = new BugInfo();
+		List<PluginParameter> parameters = null;
+
+		public void setRuleParameters(List<PluginParameter> parameters) {
+			this.parameters = parameters;
+		}
+		
 		public BugInfoBuilder setLine(int line) {
 			bugInfo.line = line;
 			return this;
@@ -56,6 +68,12 @@ public class BugInfo {
 		}
 		public BugInfoBuilder setMessageCode(String messageCode) {
 			bugInfo.messageCode = messageCode;
+			return this;
+		}
+		public BugInfoBuilder setMessageInfo(PluginMessage messageInfo){
+			setMessageCode(messageInfo.getCode());
+			setSeverity(messageInfo.getSeverity());
+			setMessage(messageInfo.getMessageText());
 			return this;
 		}
 		public BugInfoBuilder setFilename(String filename) {
@@ -85,7 +103,10 @@ public class BugInfo {
 			}
 			return this;
 		}
-		public BugInfo build(){return bugInfo;}
+		public BugInfo build(){
+			doMessageText(null);
+			return bugInfo;
+		}
 		public BugInfo build(CFParsedStatement expression,final Element elem) {
 			int elemLine = 1;
 			int elemColumn = 1;
@@ -95,7 +116,35 @@ public class BugInfo {
 			}
 			bugInfo.setLine(elemLine + Math.max(expression==null?0:expression.getLine()-1,0));
 			bugInfo.setColumn(elemColumn + Math.max(expression==null?0:expression.getColumn()-1,0));
+			doMessageText(elem);
 			return bugInfo;
+		}
+		public BugInfo build(CFExpression expression,final Element elem) {
+			int elemLine = 1;
+			int elemColumn = 1;
+			if(elem != null){
+				elemLine = elem.getSource().getRow(elem.getBegin());
+				elemColumn = elem.getSource().getColumn(elem.getBegin());
+			}
+			bugInfo.setLine(elemLine + Math.max(expression==null?0:expression.getLine()-1,0));
+			bugInfo.setColumn(elemColumn + Math.max(expression==null?0:expression.getColumn()-1,0));
+			doMessageText(elem);
+			return bugInfo;
+		}
+		
+		private void doMessageText(final Element elem) {
+			String message = bugInfo.getMessage()!=null?bugInfo.getMessage():"";
+			message = message.replaceAll("\\$\\{variable\\}",bugInfo.getVariable());
+			if(message.contains("{tag}") && elem != null){
+				message = message.replaceAll("\\$\\{tag\\}",elem.getName());
+			}
+			
+			if(parameters != null){
+				for(PluginParameter param: parameters){
+					message = message.replaceAll("\\$\\{"+param.getName()+"\\}",param.getValue());
+				}
+			}
+			setMessage(message);
 		}
 	}
 

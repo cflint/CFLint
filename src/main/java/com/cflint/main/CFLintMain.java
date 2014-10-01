@@ -6,36 +6,31 @@ import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
-import java.io.PrintStream;
-import java.io.StringReader;
 import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.ResourceBundle;
 
 import javax.swing.JFileChooser;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
+import javax.xml.bind.JAXBException;
 import javax.xml.transform.TransformerException;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.GnuParser;
 import org.apache.commons.cli.HelpFormatter;
-import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
-import org.apache.log4j.Logger;
-import org.apache.log4j.PropertyConfigurator;
-import org.apache.log4j.xml.DOMConfigurator;
 
 import com.cflint.CFLint;
 import com.cflint.HTMLOutput;
 import com.cflint.TextOutput;
 import com.cflint.Version;
 import com.cflint.XMLOutput;
-import com.cflint.plugins.exceptions.DefaultCFLintExceptionListener;
+import com.cflint.config.CFLintConfig;
+import com.cflint.config.ConfigUtils;
 import com.cflint.tools.CFLintFilter;
 
 public class CFLintMain {
@@ -59,8 +54,9 @@ public class CFLintMain {
 	private String extensions;
 	boolean showprogress= false;
 	boolean progressUsesThread=true;
+	private String configfile = null;
 
-	public static void main(final String[] args) throws ParseException, IOException, TransformerException {
+	public static void main(final String[] args) throws ParseException, IOException, TransformerException, JAXBException {
 		//PropertyConfigurator.configure("/log4j.properties");
 		//DOMConfigurator.configure(CFLintFilter.class.getResource("/log4j.xml").getFile());
 		//Logger.getLogger("net.htmlparser.jericho");
@@ -92,6 +88,8 @@ public class CFLintMain {
 		options.addOption("text", false, "output in plain text");
 		options.addOption("textfile", true, "specify the output text file (default: cflint-results.txt)");
 		options.addOption("extensions", true, "specify the extensions of the CF source files (default: .cfm,.cfc)");
+		options.addOption("configfile", true, "specify the location of the config file");
+		
 
 		final CommandLineParser parser = new GnuParser();
 		final CommandLine cmd = parser.parse(options, args);
@@ -137,6 +135,9 @@ public class CFLintMain {
 		}
 		if (cmd.hasOption("xmlfile")) {
 			main.xmlOutFile = cmd.getOptionValue("xmlfile");
+		}
+		if (cmd.hasOption("configfile")) {
+			main.configfile  = cmd.getOptionValue("configfile");
 		}
 		if (cmd.hasOption("htmlfile")) {
 			main.htmlOutFile = cmd.getOptionValue("htmlfile");
@@ -217,8 +218,12 @@ public class CFLintMain {
 		}
 	}
 
-	private void execute() throws IOException, TransformerException {
-		final CFLint cflint = new CFLint();
+	private void execute() throws IOException, TransformerException, JAXBException {
+		CFLintConfig config = null;
+		if(configfile != null){
+			config = ConfigUtils.unmarshal(new FileInputStream(configfile), CFLintConfig.class);
+		}
+		final CFLint cflint = new CFLint(config);
 		cflint.setVerbose(verbose);
 		cflint.setQuiet(quiet);
 		cflint.setShowProgress(showprogress);

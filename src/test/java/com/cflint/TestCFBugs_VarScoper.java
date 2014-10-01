@@ -4,35 +4,37 @@ package com.cflint;
  * https://github.com/mschierberl/varscoper/blob/master/varScoper.cfc
  * 
  */
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+import static org.junit.Assert.assertEquals;
+
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runners.Parameterized;
-
-import com.cflint.BugInfo;
-import com.cflint.CFLint;
-import com.cflint.StackHandler;
-import com.cflint.plugins.core.VarScoper;
 
 import cfml.parsing.cfscript.ParseException;
 
-import static org.junit.Assert.*;
+import com.cflint.config.CFLintPluginInfo.PluginInfoRule;
+import com.cflint.config.CFLintPluginInfo.PluginInfoRule.PluginMessage;
+import com.cflint.config.ConfigRuntime;
+import com.cflint.plugins.core.VarScoper;
 
 public class TestCFBugs_VarScoper {
 
-	StackHandler handler = null;
-
+	private CFLint cfBugs;
 	
 	@Before
 	public void setUp(){
-		handler = new StackHandler();
+		ConfigRuntime conf = new ConfigRuntime();
+		PluginInfoRule pluginRule = new PluginInfoRule();
+		pluginRule.setName("VarScoper");
+		conf.getRules().add(pluginRule);
+		PluginMessage pluginMessage = new PluginMessage("MISSING_VAR");
+		pluginMessage.setSeverity("ERROR");
+		pluginMessage.setMessageText("Variable ${variable} is not declared with a var statement.");
+		pluginRule.getMessages().add(pluginMessage);
+		
+		cfBugs = new CFLint(conf,new VarScoper());
 	}
 	
 	@Test
@@ -45,7 +47,6 @@ public class TestCFBugs_VarScoper {
 				"	</cfstoredproc>\r\n" +
 				"</cffunction>\r\n" +
 				"</cfcomponent>";
-		CFLint cfBugs = new CFLint(new VarScoper());
 		cfBugs.process(cfcSrc,"test");
 		assertEquals(1,cfBugs.getBugs().getBugList().size());
 		List<BugInfo> result = cfBugs.getBugs().getBugList().values().iterator().next();
@@ -65,7 +66,6 @@ public class TestCFBugs_VarScoper {
 				"	</cfstoredproc>\r\n" +
 				"</cffunction>\r\n" +
 				"</cfcomponent>";
-		CFLint cfBugs = new CFLint(new VarScoper());
 		cfBugs.process(cfcSrc,"test");
 		assertEquals(1,cfBugs.getBugs().getBugList().size());
 		List<BugInfo> result = cfBugs.getBugs().getBugList().values().iterator().next();
@@ -85,7 +85,6 @@ public class TestCFBugs_VarScoper {
 				"	</cfstoredproc>\r\n" +
 				"</cffunction>\r\n" +
 				"</cfcomponent>";
-		CFLint cfBugs = new CFLint(new VarScoper());
 		cfBugs.process(cfcSrc,"test");
 		assertEquals(0,cfBugs.getBugs().getBugList().size());
 	}	
@@ -99,7 +98,6 @@ public class TestCFBugs_VarScoper {
 				"	</cffeed>\r\n" +
 				"</cffunction>\r\n" +
 				"</cfcomponent>";
-		CFLint cfBugs = new CFLint(new VarScoper());
 		cfBugs.process(cfcSrc,"test");
 		assertEquals(0,cfBugs.getBugs().getBugList().size());
 	}
@@ -112,7 +110,6 @@ public class TestCFBugs_VarScoper {
 				"	</cffeed>\r\n" +
 				"</cffunction>\r\n" +
 				"</cfcomponent>";
-		CFLint cfBugs = new CFLint(new VarScoper());
 		cfBugs.process(cfcSrc,"test");
 		assertEquals(1,cfBugs.getBugs().getBugList().size());
 		List<BugInfo> result = cfBugs.getBugs().getBugList().values().iterator().next();
@@ -120,6 +117,26 @@ public class TestCFBugs_VarScoper {
 		assertEquals("MISSING_VAR",result.get(0).getMessageCode());
 		assertEquals("yy",result.get(0).getVariable());
 		assertEquals(3,result.get(0).getLine());
+	}
+	
+	@Test
+	public void testScript_UnVard() throws ParseException, IOException{
+		final String cfcSrc = "<cfcomponent>\r\n" +
+				"<cffunction name=\"test\">\r\n" +
+				"	<cfscript>\r\n" +
+				"   yy = 123;\r\n" +
+				"	</cfscript>\r\n" +
+				"</cffunction>\r\n" +
+				"</cfcomponent>";
+		cfBugs.process(cfcSrc,"test");
+		assertEquals(1,cfBugs.getBugs().getFlatBugList().size());
+		List<BugInfo> result = cfBugs.getBugs().getFlatBugList();
+		assertEquals(1,result.size());
+		assertEquals("MISSING_VAR",result.get(0).getMessageCode());
+		assertEquals("yy",result.get(0).getVariable());
+		assertEquals(4,result.get(0).getLine());
+		assertEquals("ERROR",result.get(0).getSeverity());
+		assertEquals("Variable yy is not declared with a var statement.",result.get(0).getMessage());
 	}
 	
 }

@@ -1,6 +1,6 @@
 package com.cflint;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+import static org.junit.Assert.assertEquals;
+
 import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
@@ -8,27 +8,34 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.cflint.BugInfo;
-import com.cflint.CFLint;
-import com.cflint.StackHandler;
-import com.cflint.plugins.core.CFSwitchDefaultChecker;
-
-import cfml.parsing.CFMLParser;
-import cfml.parsing.CFMLSource;
 import cfml.parsing.cfscript.ParseException;
-import static org.junit.Assert.*;
+
+import com.cflint.config.CFLintPluginInfo.PluginInfoRule;
+import com.cflint.config.CFLintPluginInfo.PluginInfoRule.PluginMessage;
+import com.cflint.config.ConfigRuntime;
+import com.cflint.plugins.core.CFSwitchDefaultChecker;
 
 public class Test_Switch_Default_Checker {
 
-	StackHandler handler = null;
-	
+	private CFLint cfBugs;
+
 	@Before
-	public void setUp(){
-		handler = new StackHandler();
+	public void setUp() {
+		final ConfigRuntime conf = new ConfigRuntime();
+		final PluginInfoRule pluginRule = new PluginInfoRule();
+		pluginRule.setName("CFSwitchDefaultChecker");
+		conf.getRules().add(pluginRule);
+		final PluginMessage pluginMessage = new PluginMessage("NO_DEFAULT_INSIDE_SWITCH");
+		pluginMessage.setSeverity("WARNING");
+		pluginMessage.setMessageText("Not having a Default statement defined for a switch could pose potential issues");
+		pluginRule.getMessages().add(pluginMessage);
+
+		cfBugs = new CFLint(conf, new CFSwitchDefaultChecker());
 	}
 	
 	@Test
 	public void goodCFML() throws ParseException, IOException {
+		
 		final String cfcSrc = 	"<cfswitch expression=\"#Trim(Department)#\">/n" +
     							"	<cfcase value=\"Sales\">/n" +
         						"		#FirstName# #LastName# is in <b>sales</b><br><br>" +
@@ -43,7 +50,6 @@ public class Test_Switch_Default_Checker {
 								"        	Administration.<br><br>" +
 								"	</cfdefaultcase>" +
 								"</cfswitch> ";
-		CFLint cfBugs = new CFLint(new CFSwitchDefaultChecker());
 		cfBugs.process(cfcSrc,"test");
 		Collection<List<BugInfo>> result = cfBugs.getBugs().getBugList().values();
 		assertEquals(0, result.size());
@@ -61,7 +67,6 @@ public class Test_Switch_Default_Checker {
 								"    	#FirstName# #LastName# is in <b>administration</b><br><br>" +
 								"	</cfcase>" +
 								"</cfswitch> ";
-		CFLint cfBugs = new CFLint(new CFSwitchDefaultChecker());
 		cfBugs.process(cfcSrc,"test");
 		Collection<List<BugInfo>> result = cfBugs.getBugs().getBugList().values();
 		assertEquals(1, result.size());
@@ -79,7 +84,6 @@ public class Test_Switch_Default_Checker {
 			    				"	default: " +
 			        			"		WriteOutput(\"Rejected with invalid reason code.<br>\"); " +
 			        			"}";
-		CFLint cfBugs = new CFLint(new CFSwitchDefaultChecker());
 		cfBugs.process(cfcSrc,"test");
 		Collection<List<BugInfo>> result = cfBugs.getBugs().getBugList().values();
 		assertEquals(0, result.size());

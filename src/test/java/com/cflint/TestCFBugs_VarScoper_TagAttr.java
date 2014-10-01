@@ -19,20 +19,33 @@ import org.junit.runners.Parameterized;
 
 import cfml.parsing.cfscript.ParseException;
 
+import com.cflint.config.CFLintPluginInfo.PluginInfoRule;
+import com.cflint.config.CFLintPluginInfo.PluginInfoRule.PluginMessage;
+import com.cflint.config.ConfigRuntime;
 import com.cflint.plugins.core.VarScoper;
 
 @RunWith(Parameterized.class)
 public class TestCFBugs_VarScoper_TagAttr {
 
-	StackHandler handler = null;
 	final String tagName;
 	final String attribute;
 
+	private CFLint cfBugs;
+	
 	@Before
-	public void setUp() {
-		handler = new StackHandler();
+	public void setUp(){
+		ConfigRuntime conf = new ConfigRuntime();
+		PluginInfoRule pluginRule = new PluginInfoRule();
+		pluginRule.setName("VarScoper");
+		conf.getRules().add(pluginRule);
+		PluginMessage pluginMessage = new PluginMessage("MISSING_VAR");
+		pluginMessage.setSeverity("ERROR");
+		pluginMessage.setMessageText("Variable ${variable} is not declared with a var statement.");
+		pluginRule.getMessages().add(pluginMessage);
+		
+		cfBugs = new CFLint(conf,new VarScoper());
 	}
-
+	
 	@Parameterized.Parameters(name = "{0}")
 	public static Collection<String[]> primeNumbers() {
 		List<String[]> retval = new ArrayList<String[]>();
@@ -61,18 +74,22 @@ public class TestCFBugs_VarScoper_TagAttr {
 	@Test
 	public void testUnvarrd() throws ParseException, IOException {
 		runTagAttrTest(tagName.toLowerCase(), attribute.toLowerCase(), "xx");
+		setUp();
 		runTagAttrTest(tagName, attribute, "xx");
 	}
 	@Test
 	public void testVarrd() throws ParseException, IOException {
 		runTagAttrTestVard(tagName.toLowerCase(), attribute.toLowerCase(), "xx");
+		setUp();
 		runTagAttrTestVard(tagName, attribute, "xx");
 	}
 	
 	@Test
 	public void testDotVarrd() throws ParseException, IOException {
 		runTagAttrDotVarTest(tagName.toLowerCase(), attribute.toLowerCase(), "zz.xx","zz");
+		setUp();
 		runTagAttrDotVarTest(tagName, attribute, "zz.xx", "zz");
+		setUp();
 		runTagAttrDotVarTest(tagName, attribute, "this.xx", "zz");
 	}
 
@@ -80,7 +97,6 @@ public class TestCFBugs_VarScoper_TagAttr {
 			IOException {
 		final String cfcSrc = "<cfcomponent>\r\n" + "<cffunction name=\"test\">\r\n" + "   <" + tag + " " + attr
 				+ "=\"" + variable + "\">\r\n" + "	</" + tag + ">\r\n" + "</cffunction>\r\n" + "</cfcomponent>";
-		CFLint cfBugs = new CFLint(new VarScoper());
 		cfBugs.process(cfcSrc, "test");
 		assertEquals(1, cfBugs.getBugs().getBugList().size());
 		List<BugInfo> result = cfBugs.getBugs().getBugList().values().iterator().next();
@@ -92,13 +108,11 @@ public class TestCFBugs_VarScoper_TagAttr {
 	
 	public void runTagAttrDotVarTest(final String tag, final String attr, final String variable, final String initVar) throws ParseException,
 		IOException {
-		System.out.println("test tag: " +tag);
 		final String cfcSrc = "<cfcomponent>\r\n" + "<cffunction name=\"test\">\r\n" + "   <cfset var " + initVar
 				+ "=123/>\r\n" + "   <" + tag + " " + attr + "=\"" + variable + "\">\r\n" + "   </" + tag + ">\r\n"
 				+ "</cffunction>\r\n" + "</cfcomponent>";
-		CFLint cfBugs = new CFLint(new VarScoper());
-	cfBugs.process(cfcSrc, "test");
-	assertEquals(0, cfBugs.getBugs().getBugList().size());
+		cfBugs.process(cfcSrc, "test");
+		assertEquals(0, cfBugs.getBugs().getBugList().size());
 	}
 
 	public void runTagAttrTestVard(final String tag, final String attr, final String variable) throws ParseException,
@@ -106,7 +120,6 @@ public class TestCFBugs_VarScoper_TagAttr {
 		final String cfcSrc = "<cfcomponent>\r\n" + "<cffunction name=\"test\">\r\n" + "   <cfset var " + variable
 				+ "=123/>\r\n" + "   <" + tag + " " + attr + "=\"" + variable + "\">\r\n" + "   </" + tag + ">\r\n"
 				+ "</cffunction>\r\n" + "</cfcomponent>";
-		CFLint cfBugs = new CFLint(new VarScoper());
 		cfBugs.process(cfcSrc, "test");
 		assertEquals(0, cfBugs.getBugs().getBugList().size());
 	}

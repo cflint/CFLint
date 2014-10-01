@@ -1,4 +1,6 @@
 package com.cflint;
+import static org.junit.Assert.assertEquals;
+
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -8,28 +10,59 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.cflint.BugInfo;
-import com.cflint.CFLint;
-import com.cflint.StackHandler;
+import cfml.parsing.cfscript.ParseException;
+
+import com.cflint.config.CFLintPluginInfo.PluginInfoRule;
+import com.cflint.config.CFLintPluginInfo.PluginInfoRule.PluginMessage;
+import com.cflint.config.ConfigRuntime;
 import com.cflint.plugins.core.GlobalVarChecker;
 import com.cflint.plugins.core.NestedCFOutput;
 import com.cflint.plugins.core.TypedQueryNew;
 import com.cflint.plugins.core.VarScoper;
 
-import cfml.parsing.CFMLParser;
-import cfml.parsing.CFMLSource;
-import cfml.parsing.cfscript.ParseException;
-
-import static org.junit.Assert.*;
-import org.junit.Ignore;
-
 public class TestCFBugs {
 
-	StackHandler handler = null;
+	private CFLint cfBugs;
 	
 	@Before
 	public void setUp(){
-		handler = new StackHandler();
+		ConfigRuntime conf = new ConfigRuntime();
+		PluginInfoRule pluginRule = new PluginInfoRule();
+		pluginRule.setName("VarScoper");
+		conf.getRules().add(pluginRule);
+		PluginMessage pluginMessage = new PluginMessage("MISSING_VAR");
+		pluginMessage.setSeverity("ERROR");
+		pluginMessage.setMessageText("Variable ${variable} is not declared with a var statement.");
+		pluginRule.getMessages().add(pluginMessage);
+		
+		pluginRule = new PluginInfoRule();
+		pluginRule.setName("GlobalVarChecker");
+		conf.getRules().add(pluginRule);
+		pluginMessage = new PluginMessage("GLOBAL_VAR");
+		pluginMessage.setSeverity("WARNING");
+		pluginMessage
+				.setMessageText("Identifier ${variable} is global, referencing in a CFC or function should be avoided.");
+		pluginRule.getMessages().add(pluginMessage);
+
+		pluginRule = new PluginInfoRule();
+		pluginRule.setName("NestedCFOutput");
+		conf.getRules().add(pluginRule);
+		pluginMessage = new PluginMessage("NESTED_CFOUTPUT");
+		pluginMessage.setSeverity("ERROR");
+		pluginMessage
+				.setMessageText("Nested CFOutput, outer CFOutput has @query.");
+		pluginRule.getMessages().add(pluginMessage);
+		
+		pluginRule = new PluginInfoRule();
+		pluginRule.setName("TypedQueryNew");
+		conf.getRules().add(pluginRule);
+		pluginMessage = new PluginMessage("QUERYNEW_DATATYPE");
+		pluginMessage.setSeverity("WARNING");
+		pluginMessage
+				.setMessageText("QueryNew statement should specify datatypes.");
+		pluginRule.getMessages().add(pluginMessage);
+		
+		cfBugs = new CFLint(conf,new VarScoper(),new GlobalVarChecker(), new NestedCFOutput(), new TypedQueryNew());
 	}
 	
 	@Test
@@ -42,7 +75,6 @@ public class TestCFBugs {
 				"	</cfif>\r\n" +
 				"</cffunction>\r\n" +
 				"</cfcomponent>";
-		CFLint cfBugs = new CFLint(new VarScoper());
 		cfBugs.process(cfcSrc,"test");
 		List<BugInfo> result = cfBugs.getBugs().getBugList().values().iterator().next();
 		assertEquals(1,result.size());
@@ -66,7 +98,6 @@ public class TestCFBugs {
 				"	</cfif>\r\n" +
 				"</cffunction>\r\n" +
 				"</cfcomponent>";
-		CFLint cfBugs = new CFLint(new VarScoper());
 		cfBugs.process(cfcSrc,"test");
 		List<BugInfo> result = cfBugs.getBugs().getBugList().values().iterator().next();
 		assertEquals(2,result.size());
@@ -86,7 +117,6 @@ public class TestCFBugs {
 				"	</cfif>" +
 				"</cffunction>" +
 				"</cfcomponent>";
-		CFLint cfBugs = new CFLint(new VarScoper());
 		cfBugs.process(cfcSrc,"test");
 		Collection<List<BugInfo>> result = cfBugs.getBugs().getBugList().values();
 		assertEquals(0,result.size());
@@ -103,7 +133,6 @@ public class TestCFBugs {
 				"	</cfif>\r\n" +
 				"</cffunction>\r\n" +
 				"</cfcomponent>";
-		CFLint cfBugs = new CFLint(new VarScoper());
 		cfBugs.process(cfcSrc,"test");
 		Collection<List<BugInfo>> result = cfBugs.getBugs().getBugList().values();
 		assertEquals(0,result.size());
@@ -117,7 +146,6 @@ public class TestCFBugs {
 				"	<cfset var y=123/>\r\n" +
 				"</cffunction>\r\n" +
 				"</cfcomponent>";
-		CFLint cfBugs = new CFLint(new VarScoper());
 		cfBugs.process(cfcSrc,"test");
 		List<BugInfo> result = cfBugs.getBugs().getBugList().values().iterator().next();
 		assertEquals(1,result.size());
@@ -138,7 +166,6 @@ public class TestCFBugs {
 				"	</cfscript>\r\n" +
 				"</cffunction>\r\n" +
 				"</cfcomponent>";
-		CFLint cfBugs = new CFLint(new VarScoper());
 		cfBugs.process(cfcSrc,"test");
 		Collection<List<BugInfo>> result = cfBugs.getBugs().getBugList().values();
 		assertEquals("" + result,0,result.size());
@@ -154,7 +181,6 @@ public class TestCFBugs {
 				"	</cfoutput>\r\n" +
 				"</cffunction>\r\n" +
 				"/<cfcomponent>";
-		CFLint cfBugs = new CFLint(new VarScoper(), new NestedCFOutput());
 		cfBugs.process(cfcSrc,"test");
 		List<BugInfo> result = cfBugs.getBugs().getBugList().values().iterator().next();
 		assertEquals(1,result.size());
@@ -172,7 +198,6 @@ public class TestCFBugs {
 				"	</cfoutput>\r\n" +
 				"</cffunction>\r\n" +
 				"/<cfcomponent>";
-		CFLint cfBugs = new CFLint(new VarScoper(), new NestedCFOutput());
 		cfBugs.process(cfcSrc,"test");
 		assertEquals(0,cfBugs.getBugs().size());
 	}
@@ -190,7 +215,6 @@ public class TestCFBugs {
 				"xx=123; \r\n" + 
 				"} \r\n" + 
 				"}";
-		CFLint cfBugs = new CFLint(new VarScoper());
 		cfBugs.process(cfcSrc,"test");
 		List<BugInfo> result = cfBugs.getBugs().getBugList().values().iterator().next();
 		assertEquals(1,result.size());
@@ -211,7 +235,6 @@ public class TestCFBugs {
 				"arg1=123; \r\n" + 
 				"} \r\n" + 
 				"}";
-		CFLint cfBugs = new CFLint(new VarScoper());
 		cfBugs.process(cfcSrc,"test");
 		Collection<List<BugInfo>> result = cfBugs.getBugs().getBugList().values();
 		assertEquals(0,result.size());
@@ -249,7 +272,6 @@ public class TestCFBugs {
 				"</cfscript>\r\n" + 
 				"</cffunction>" +
 				"</cfcomponent>";
-		CFLint cfBugs = new CFLint(new VarScoper());
 		cfBugs.process(cfcSrc,"test");
 		List<BugInfo> result = cfBugs.getBugs().getBugList().values().iterator().next();
 		for(BugInfo bi: result){
@@ -272,7 +294,6 @@ public class TestCFBugs {
 				"</cfscript>\r\n" + 
 				"</cffunction>" +
 				"</cfcomponent>";
-		CFLint cfBugs = new CFLint(new VarScoper());
 		cfBugs.process(cfcSrc,"test");
 		List<BugInfo> result = cfBugs.getBugs().getBugList().values().iterator().next();
 		for(BugInfo bi: result){
@@ -290,22 +311,23 @@ public class TestCFBugs {
 				"</cfscript>\r\n" + 
 				"</cffunction>" +
 				"</cfcomponent>";
-		CFLint cfBugs = new CFLint(new VarScoper());
 		cfBugs.process(cfcSrc,"test");
-		Collection<List<BugInfo>> result = cfBugs.getBugs().getBugList().values();
-		assertEquals(0,result.size());
+		List<BugInfo> result = cfBugs.getBugs().getFlatBugList();
+		assertEquals(1,result.size());
+		assertEquals("GLOBAL_VAR",result.get(0).getMessageCode());
 	}
 	
 	@Test
 	public void testCFScript_QueryNew() throws ParseException, IOException{
 		final String cfcSrc="<cfcomponent>\r\n" +
+				"<cffunction name=\"test\" >\r\n" + 
+				"</cffunction>\r\n" +
 				"<cffunction name=\"rateBop\" >\r\n" + 
 				"<cfscript>\r\n" + 
 				"var qry = QueryNew('A,B');\r\n" + 
 				"</cfscript>\r\n" + 
 				"</cffunction>" +
 				"</cfcomponent>";
-		CFLint cfBugs = new CFLint(new VarScoper(), new TypedQueryNew());
 		cfBugs.process(cfcSrc,"test");
 		List<BugInfo> result = cfBugs.getBugs().getBugList().values().iterator().next();
 		for(BugInfo bi: result){
@@ -313,7 +335,7 @@ public class TestCFBugs {
 		}
 		assertEquals(1,result.size());
 		assertEquals("QUERYNEW_DATATYPE",result.get(0).getMessageCode());
-		assertEquals(4,result.get(0).getLine());
+		assertEquals(6,result.get(0).getLine());
 	}
 	
 	@Test
@@ -329,7 +351,6 @@ public class TestCFBugs {
 				"	</cfscript>\r\n" + 
 				"</cffunction>" +
 				"</cfcomponent>";
-		CFLint cfBugs = new CFLint(new VarScoper());
 		cfBugs.process(cfcSrc,"test");
 		assertEquals(0,cfBugs.getBugs().size());
 	}
@@ -347,7 +368,6 @@ public class TestCFBugs {
 				"	</cfscript>\r\n" + 
 				"</cffunction>" +
 				"</cfcomponent>";
-		CFLint cfBugs = new CFLint(new VarScoper());
 		cfBugs.process(cfcSrc,"test");
 		List<BugInfo> result = cfBugs.getBugs().getBugList().values().iterator().next();
 		assertEquals(1,result.size());
@@ -365,14 +385,12 @@ public class TestCFBugs {
 				"	</cfscript>\r\n" + 
 				"</cffunction>" +
 				"</cfcomponent>";
-		CFLint cfBugs = new CFLint(new VarScoper());
 		cfBugs.process(cfcSrc,"test");
 		assertEquals(0,cfBugs.getBugs().size());
 	}
 	
 	@Test
 	public void testGlobalVarCheckerNPE() throws ParseException, IOException{
-		CFLint cfBugs = new CFLint(new GlobalVarChecker());
 		cfBugs.process("component {\r\n" +
 				"public any function process(){\r\n" +
 				"url.x=123;\r\n" +
@@ -387,7 +405,6 @@ public class TestCFBugs {
 	
 	@Test
 	public void testVarScoper() throws ParseException, IOException{
-		CFLint cfBugs = new CFLint(new VarScoper());
 		cfBugs.process("component {\r\n" +
 				"public any function process(){\r\n" +
 				"x=123;\r\n" +

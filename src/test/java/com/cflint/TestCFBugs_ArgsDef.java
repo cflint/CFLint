@@ -1,112 +1,93 @@
 package com.cflint;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+
+import static org.junit.Assert.assertEquals;
+
 import java.io.IOException;
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import com.cflint.BugInfo;
-import com.cflint.CFLint;
-import com.cflint.StackHandler;
-import com.cflint.plugins.core.ArgDefChecker;
-
-import cfml.parsing.CFMLParser;
-import cfml.parsing.CFMLSource;
 import cfml.parsing.cfscript.ParseException;
 
-import static org.junit.Assert.*;
+import com.cflint.config.CFLintPluginInfo.PluginInfoRule;
+import com.cflint.config.CFLintPluginInfo.PluginInfoRule.PluginMessage;
+import com.cflint.config.ConfigRuntime;
+import com.cflint.plugins.core.ArgDefChecker;
 
 public class TestCFBugs_ArgsDef {
 
-	StackHandler handler = null;
-	
+	private CFLint cfBugs;
+
 	@Before
-	public void setUp(){
-		handler = new StackHandler();
-	}
-	
-	@Test
-	public void testVarAndArgs() throws ParseException, IOException{
-		final String cfcSrc = "<cfcomponent>\r\n" +
-				"<cffunction name=\"test\">\r\n" +
-				"	<cfargument name=\"xyz\">\r\n" +
-				"</cffunction>\r\n" +
-				"</cfcomponent>";
-		CFLint cfBugs = new CFLint(new ArgDefChecker());
-		cfBugs.process(cfcSrc,"test");
-		List<BugInfo> result = cfBugs.getBugs().getBugList().values().iterator().next();
-		assertEquals(1,result.size());
-		assertEquals("ARG_DEFAULT_MISSING",result.get(0).getMessageCode());
-		assertEquals(3,result.get(0).getLine());
-	}
-	
-	@Test
-	public void testVarAndArgs_Cfscript() throws ParseException, IOException{
-		final String cfcSrc="component { \r\n" + 
-				"public void function foo(any arg1) { \r\n" + 
-				"} \r\n" + 
-				"}";
-		CFLint cfBugs = new CFLint(new ArgDefChecker());
-		cfBugs.process(cfcSrc,"test");
-		List<BugInfo> result = cfBugs.getBugs().getBugList().values().iterator().next();
-		assertEquals(1,result.size());
-		assertEquals("ARG_DEFAULT_MISSING",result.get(0).getMessageCode());
-		assertEquals(2,result.get(0).getLine());
-	}
+	public void setUp() {
+		final ConfigRuntime conf = new ConfigRuntime();
+		final PluginInfoRule pluginRule = new PluginInfoRule();
+		pluginRule.setName("ArgDefChecker");
+		conf.getRules().add(pluginRule);
+		final PluginMessage pluginMessage = new PluginMessage("ARG_DEFAULT_MISSING");
+		pluginMessage.setSeverity("WARNING");
+		pluginMessage.setMessageText("Argument ${variable} is not required and does not define a default value.");
+		pluginRule.getMessages().add(pluginMessage);
 
-	
-	@Test
-	public void testVarAndArgs_OK1() throws ParseException, IOException{
-		final String cfcSrc = "<cfcomponent>\r\n" +
-				"<cffunction name=\"test\">\r\n" +
-				"	<cfargument name=\"xyz\" default=\"123\">\r\n" +
-				"</cffunction>\r\n" +
-				"</cfcomponent>";
-		CFLint cfBugs = new CFLint(new ArgDefChecker());
-		cfBugs.process(cfcSrc,"test");
-		Map<String, List<BugInfo>> result = cfBugs.getBugs().getBugList();
-		assertEquals(0,result.size());
-	}
-	@Test
-	public void testVarAndArgs_OK2() throws ParseException, IOException{
-		final String cfcSrc = "<cfcomponent>\r\n" +
-				"<cffunction name=\"test\">\r\n" +
-				"	<cfargument name=\"xyz\" required=\"true\">\r\n" +
-				"</cffunction>\r\n" +
-				"</cfcomponent>";
-		CFLint cfBugs = new CFLint(new ArgDefChecker());
-		cfBugs.process(cfcSrc,"test");
-		Map<String, List<BugInfo>> result = cfBugs.getBugs().getBugList();
-		assertEquals(0,result.size());
-	}
-	
-	@Test
-	public void testVarAndArgs_Cfscript_OK() throws ParseException, IOException{
-		final String cfcSrc="component { \r\n" + 
-				"public void function foo(required any arg1) { \r\n" + 
-				"} \r\n" + 
-				"}";
-		CFLint cfBugs = new CFLint(new ArgDefChecker());
-		cfBugs.process(cfcSrc,"test");
-		Map<String, List<BugInfo>> result = cfBugs.getBugs().getBugList();
-		assertEquals(0,result.size());
+		cfBugs = new CFLint(conf, new ArgDefChecker());
 	}
 
 	@Test
-	public void testVarAndArgs_Cfscript_OK2() throws ParseException, IOException{
-		final String cfcSrc="component { \r\n" + 
-				"public void function foo(any arg1=\"123\") { \r\n" + 
-				"} \r\n" + 
-				"}";
-		CFLint cfBugs = new CFLint(new ArgDefChecker());
-		cfBugs.process(cfcSrc,"test");
-		Map<String, List<BugInfo>> result = cfBugs.getBugs().getBugList();
-		assertEquals(0,result.size());
+	public void testVarAndArgs() throws ParseException, IOException {
+		final String cfcSrc = "<cfcomponent>\r\n" + "<cffunction name=\"test\">\r\n" + "	<cfargument name=\"xyz\">\r\n"
+				+ "</cffunction>\r\n" + "</cfcomponent>";
+		cfBugs.process(cfcSrc, "test");
+		final List<BugInfo> result = cfBugs.getBugs().getBugList().values().iterator().next();
+		assertEquals(1, result.size());
+		assertEquals("ARG_DEFAULT_MISSING", result.get(0).getMessageCode());
+		assertEquals(3, result.get(0).getLine());
 	}
 
+	@Test
+	public void testVarAndArgs_Cfscript() throws ParseException, IOException {
+		final String cfcSrc = "component { \r\n" + "public void function foo(any arg1) { \r\n" + "} \r\n" + "}";
+		cfBugs.process(cfcSrc, "test");
+		final List<BugInfo> result = cfBugs.getBugs().getBugList().values().iterator().next();
+		assertEquals(1, result.size());
+		assertEquals("ARG_DEFAULT_MISSING", result.get(0).getMessageCode());
+		assertEquals(2, result.get(0).getLine());
+	}
+
+	@Test
+	public void testVarAndArgs_OK1() throws ParseException, IOException {
+		final String cfcSrc = "<cfcomponent>\r\n" + "<cffunction name=\"test\">\r\n"
+				+ "	<cfargument name=\"xyz\" default=\"123\">\r\n" + "</cffunction>\r\n" + "</cfcomponent>";
+		cfBugs.process(cfcSrc, "test");
+		final Map<String, List<BugInfo>> result = cfBugs.getBugs().getBugList();
+		assertEquals(0, result.size());
+	}
+
+	@Test
+	public void testVarAndArgs_OK2() throws ParseException, IOException {
+		final String cfcSrc = "<cfcomponent>\r\n" + "<cffunction name=\"test\">\r\n"
+				+ "	<cfargument name=\"xyz\" required=\"true\">\r\n" + "</cffunction>\r\n" + "</cfcomponent>";
+		cfBugs.process(cfcSrc, "test");
+		final Map<String, List<BugInfo>> result = cfBugs.getBugs().getBugList();
+		assertEquals(0, result.size());
+	}
+
+	@Test
+	public void testVarAndArgs_Cfscript_OK() throws ParseException, IOException {
+		final String cfcSrc = "component { \r\n" + "public void function foo(required any arg1) { \r\n" + "} \r\n"
+				+ "}";
+		cfBugs.process(cfcSrc, "test");
+		final Map<String, List<BugInfo>> result = cfBugs.getBugs().getBugList();
+		assertEquals(0, result.size());
+	}
+
+	@Test
+	public void testVarAndArgs_Cfscript_OK2() throws ParseException, IOException {
+		final String cfcSrc = "component { \r\n" + "public void function foo(any arg1=\"123\") { \r\n" + "} \r\n" + "}";
+		cfBugs.process(cfcSrc, "test");
+		final Map<String, List<BugInfo>> result = cfBugs.getBugs().getBugList();
+		assertEquals(0, result.size());
+	}
 
 }

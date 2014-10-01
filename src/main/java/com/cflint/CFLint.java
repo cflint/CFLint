@@ -12,28 +12,13 @@ import java.util.ResourceBundle;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import net.htmlparser.jericho.Element;
+import net.htmlparser.jericho.Source;
+
 import org.antlr.runtime.BitSet;
 import org.antlr.runtime.IntStream;
 import org.antlr.runtime.RecognitionException;
 
-import com.cflint.listeners.ProgressMonitorListener;
-import com.cflint.listeners.ScanProgressListener;
-import com.cflint.plugins.CFLintScanner;
-import com.cflint.plugins.Context;
-import com.cflint.plugins.core.ArgDefChecker;
-import com.cflint.plugins.core.ArgVarChecker;
-import com.cflint.plugins.core.GlobalVarChecker;
-import com.cflint.plugins.core.NestedCFOutput;
-import com.cflint.plugins.core.OutputParmMissing;
-import com.cflint.plugins.core.QueryParamChecker;
-import com.cflint.plugins.core.TypedQueryNew;
-import com.cflint.plugins.core.VarScoper;
-import com.cflint.plugins.exceptions.CFLintExceptionListener;
-import com.cflint.plugins.exceptions.DefaultCFLintExceptionListener;
-import com.cflint.tools.CFLintFilter;
-
-import net.htmlparser.jericho.Element;
-import net.htmlparser.jericho.Source;
 import cfml.parsing.CFMLParser;
 import cfml.parsing.CFMLSource;
 import cfml.parsing.cfscript.CFAssignmentExpression;
@@ -54,7 +39,24 @@ import cfml.parsing.cfscript.script.CFForStatement;
 import cfml.parsing.cfscript.script.CFFuncDeclStatement;
 import cfml.parsing.cfscript.script.CFFunctionParameter;
 import cfml.parsing.cfscript.script.CFIfStatement;
+import cfml.parsing.cfscript.script.CFParsedStatement;
 import cfml.parsing.cfscript.script.CFScriptStatement;
+
+import com.cflint.BugInfo.BugInfoBuilder;
+import com.cflint.config.CFLintConfig;
+import com.cflint.config.CFLintPluginInfo;
+import com.cflint.config.CFLintPluginInfo.PluginInfoRule;
+import com.cflint.config.CFLintPluginInfo.PluginInfoRule.PluginMessage;
+import com.cflint.config.ConfigRuntime;
+import com.cflint.config.ConfigUtils;
+import com.cflint.listeners.ProgressMonitorListener;
+import com.cflint.listeners.ScanProgressListener;
+import com.cflint.plugins.CFLintScanner;
+import com.cflint.plugins.Context;
+import com.cflint.plugins.Context.ContextMessage;
+import com.cflint.plugins.exceptions.CFLintExceptionListener;
+import com.cflint.plugins.exceptions.DefaultCFLintExceptionListener;
+import com.cflint.tools.CFLintFilter;
 
 public class CFLint implements IErrorReporter {
 
@@ -83,22 +85,48 @@ public class CFLint implements IErrorReporter {
 	private String currentFile;
 	List<ScanProgressListener> scanProgressListeners = new ArrayList<ScanProgressListener>();
 	List<CFLintExceptionListener> exceptionListeners = new ArrayList<CFLintExceptionListener>();
+	
+	ConfigRuntime configuration;
 
 	public CFLint() {
-		this(new NestedCFOutput(), new TypedQueryNew(), new VarScoper(), new ArgVarChecker(), new ArgDefChecker(),
-				new OutputParmMissing(), new GlobalVarChecker(), new QueryParamChecker());
-		
+		this((CFLintConfig)null);
 	}
-
+	public CFLint(CFLintConfig configFile) {
+		final CFLintPluginInfo pluginInfo = ConfigUtils.loadDefaultPluginInfo();
+		configuration = new ConfigRuntime(configFile,pluginInfo);
+		for(PluginInfoRule ruleInfo:configuration.getRules()){
+			extensions.add(ConfigUtils.loadPlugin(ruleInfo));
+		}
+		final CFLintFilter filter = CFLintFilter.createFilter();
+		bugs = new BugList(filter);
+		if(exceptionListeners.size() == 0){
+			addExceptionListener(new DefaultCFLintExceptionListener(bugs));
+		}
+		try {
+			allowedExtensions.addAll(Arrays.asList(ResourceBundle.getBundle(resourceBundleName)
+					.getString(allowedExtensionsName).split(",")));
+		} catch (final Exception e) {
+			allowedExtensions.add(cfcExtension);
+			allowedExtensions.add(cfmExtenstion);
+		}
+	}
 	public CFLint(final CFLintScanner... bugsScanners) {
+		this(null,bugsScanners);
+	}
+	@Deprecated
+	public CFLint(ConfigRuntime configuration,final CFLintScanner... bugsScanners) {
 		super();
-
+		this.configuration=configuration;
 		// DictionaryPreferences dprefs = new DictionaryPreferences();
 		// dprefs.setDictionaryDir("C:\\projects\\cfml.dictionary-master\\dictionary");
 		// DictionaryManager.initDictionaries(dprefs);
 
 		for (final CFLintScanner scanner : bugsScanners) {
 			extensions.add(scanner);
+			PluginInfoRule ruleInfo = configuration.getRuleByClass(scanner.getClass());
+			if(ruleInfo != null){
+				ruleInfo.setPluginInstance(scanner);
+			}
 		}
 		final CFLintFilter filter = CFLintFilter.createFilter();
 		bugs = new BugList(filter);
@@ -228,7 +256,15 @@ public class CFLint implements IErrorReporter {
 		context.setInComponent(inComponent);
 
 		for (final CFLintScanner plugin : extensions) {
-			plugin.element(elem, context, bugs);
+			try{
+				plugin.element(elem, context, bugs);
+				for(final ContextMessage message : context.getMessages()){
+					reportRule(elem, null, context, plugin, message);
+				}
+				context.getMessages().clear();
+			}catch(Exception e){
+				reportRule(elem, null, context, plugin, e.getMessage());
+			}
 		}
 		if (elem.getName().equals("cfset") || elem.getName().equals("cfif")) {
 			final int elemLine = elem.getSource().getRow(elem.getBegin());
@@ -336,7 +372,15 @@ public class CFLint implements IErrorReporter {
 		context.setInComponent(inComponent);
 
 		for (final CFLintScanner plugin : extensions) {
-			plugin.expression(expression, context, bugs);
+			try{
+				plugin.expression(expression, context, bugs);
+				for(final ContextMessage message : context.getMessages()){
+					reportRule(elem, expression, context, plugin, message);
+				}
+				context.getMessages().clear();
+			}catch(Exception e){
+				reportRule(elem, expression, context, plugin, e.getMessage());
+			}
 		}
 
 		if (expression instanceof CFCompoundStatement) {
@@ -389,7 +433,15 @@ public class CFLint implements IErrorReporter {
 		context.setInComponent(inComponent);
 
 		for (final CFLintScanner plugin : extensions) {
-			plugin.expression(expression, context, bugs);
+			try{
+				plugin.expression(expression, context, bugs);
+				for(final ContextMessage message : context.getMessages()){
+					reportRule(elem, expression, context, plugin, message);
+				}
+				context.getMessages().clear();
+			}catch(Exception e){
+				reportRule(elem, expression, context, plugin, e.getMessage());
+			}
 		}
 		if (expression instanceof CFUnaryExpression) {
 			process(((CFUnaryExpression) expression).getSub(), filename, elem, functionName);
@@ -437,6 +489,47 @@ public class CFLint implements IErrorReporter {
 			// functionName);
 			// }
 		} else {
+		}
+	}
+	protected void reportRule(final Element elem, final Object expression, final Context context, final CFLintScanner plugin, String msg) {
+		final String[] exceptionmsg = (msg!=null?msg:"").split(":");
+		final String msgcode = exceptionmsg[0].trim();
+		final String nameVar = exceptionmsg.length>1?exceptionmsg[1].trim():null;
+		reportRule(elem, expression,context,plugin,new ContextMessage(msgcode, nameVar));
+	}
+	protected void reportRule(final Element elem, final Object expression, final Context context, final CFLintScanner plugin, ContextMessage msg) {
+		final String msgcode = msg.getMessageCode();
+		final String nameVar = msg.getVariable();
+		if(configuration == null){
+			throw new NullPointerException("Configuration is null");
+		}
+		final PluginInfoRule ruleInfo = configuration.getRuleForPlugin(plugin);
+		if(ruleInfo == null){
+			throw new NullPointerException("Rule not found for " + plugin.getClass().getSimpleName());
+		}
+		final PluginMessage msgInfo = ruleInfo.getMessageByCode(msgcode);
+		if(configuration == null){
+			throw new NullPointerException("Message definition not found for [" + msgcode + "] in " + plugin.getClass().getSimpleName());
+		}
+		BugInfoBuilder bldr = new BugInfo.BugInfoBuilder().setMessageCode(msgcode).setVariable(nameVar)
+				.setFunction(context.getFunctionName())
+				.setFilename(context.getFilename());
+		if(msgInfo != null){
+			bldr.setSeverity(msgInfo.getSeverity());
+			bldr.setMessage(msgInfo.getMessageText());
+		}else{
+			System.err.println("Message code: " + msgcode + " is not configured correctly.");
+			bldr.setSeverity("WARNING");
+			bldr.setMessage(msgcode);
+		}
+		if(elem != null){
+			bldr.setExpression(elem.toString());
+		}
+		bldr.setRuleParameters(ruleInfo.getParameters());
+		if (expression instanceof CFExpression){
+			bugs.add(bldr.build((CFExpression)expression, elem));
+		}else{
+			bugs.add(bldr.build((CFParsedStatement)expression, elem));
 		}
 	}
 

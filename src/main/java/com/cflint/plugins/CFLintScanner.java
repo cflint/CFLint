@@ -1,19 +1,19 @@
 package com.cflint.plugins;
 
 import net.htmlparser.jericho.Element;
+import cfml.parsing.cfscript.CFExpression;
+import cfml.parsing.cfscript.script.CFScriptStatement;
 
 import com.cflint.BugList;
 
-import cfml.parsing.cfscript.CFExpression;
-import cfml.parsing.cfscript.script.CFScriptStatement;
-import ro.fortsoft.pf4j.ExtensionPoint;
+public interface CFLintScanner {
 
-public interface CFLintScanner extends ExtensionPoint {
+	void expression(CFExpression expression, Context context, BugList bugs);
 
-	public void expression(CFExpression expression, Context context, BugList bugs);
+	void element(Element element, Context context, BugList bugs);
 
-	public void element(Element element, Context context, BugList bugs);
-
-	public void expression(CFScriptStatement expression, Context context, BugList bugs);
-
+	void expression(CFScriptStatement expression, Context context, BugList bugs);
+	
+	void setParameter(String name, String value);
+	
 }

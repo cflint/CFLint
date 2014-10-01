@@ -1,31 +1,25 @@
 package com.cflint;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+import static org.junit.Assert.assertEquals;
+
 import java.io.IOException;
-import java.util.Collection;
 import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import com.cflint.BugInfo;
-import com.cflint.CFLint;
-import com.cflint.StackHandler;
-import com.cflint.plugins.core.VarScoper;
-
-import cfml.parsing.CFMLParser;
-import cfml.parsing.CFMLSource;
 import cfml.parsing.cfscript.ParseException;
 
-import static org.junit.Assert.*;
+import com.cflint.config.ConfigRuntime;
+import com.cflint.plugins.core.VarScoper;
 
 public class TestCFBugs_ParseError {
 
-	StackHandler handler = null;
-	
+	private CFLint cfBugs;
+
 	@Before
-	public void setUp(){
-		handler = new StackHandler();
+	public void setUp() {
+		final ConfigRuntime conf = new ConfigRuntime();
+		cfBugs = new CFLint(conf, new VarScoper());
 	}
 	
 	@Test
@@ -36,7 +30,6 @@ public class TestCFBugs_ParseError {
 				"	<cfset var x.y=123/>\r\n" +
 				"</cffunction>\r\n" +
 				"</cfcomponent>";
-		CFLint cfBugs = new CFLint(new VarScoper());
 		cfBugs.process(cfcSrc,"test");
 		List<BugInfo> result = cfBugs.getBugs().getBugList().values().iterator().next();
 		assertEquals(1,result.size());

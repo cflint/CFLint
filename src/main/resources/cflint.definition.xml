@@ -1,0 +1,93 @@
+<?xml version="1.0"?>
+<CFLint-Plugin package="com.cflint.plugins.core"> 
+	<ruleImpl name="ArgDefChecker">
+		<message code="ARG_DEFAULT_MISSING"><!-- checked -->
+			<severity>WARNING</severity>
+			<messageText>Argument ${variable} is not required and does not define a default value.</messageText>
+		</message>
+	</ruleImpl>
+	<ruleImpl name="ArgVarChecker"><!-- checked -->
+		<message code="ARG_VAR_CONFLICT">
+			<severity>ERROR</severity>
+			<messageText>Variable ${variable} should not be declared in both var and argument scopes.</messageText>
+		</message>
+		<message code="ARG_VAR_MIXED">
+			<severity>INFO</severity>
+			<messageText>Variable ${variable} should not be referenced in local and argument scope.</messageText>
+		</message>
+	</ruleImpl>
+	<ruleImpl name="CFSwitchDefaultChecker"><!-- checked -->
+		<message code="NO_DEFAULT_INSIDE_SWITCH">
+			<severity>WARNING</severity>
+			<messageText>Not having a Default statement defined for a switch could pose potential issues.</messageText>
+		</message>
+	</ruleImpl>
+	<ruleImpl name="GlobalVarChecker"><!-- checked -->
+		<message code="GLOBAL_VAR">
+			<severity>WARNING</severity>
+			<messageText>Identifier ${variable} is global, referencing in a CFC or function should be avoided.</messageText>
+		</message>
+	</ruleImpl>
+	<ruleImpl name="NestedCFOutput"><!-- checked -->
+		<message code="NESTED_CFOUTPUT">
+			<severity>ERROR</severity>
+			<messageText>Nested CFOutput, outer CFOutput has @query.</messageText>
+		</message>
+	</ruleImpl>
+	<ruleImpl name="OutputParmMissing"><!-- checked -->
+		<message code="OUTPUT_ATTR">
+			<severity>INFO</severity>
+			<messageText>&lt;${tag} name="${variable}"&gt; should have @output='false'</messageText>
+		</message>
+	</ruleImpl>
+	<ruleImpl name="QueryParamChecker"><!-- checked -->
+		<message code="QUERYPARAM_REQ">
+			<severity>WARNING</severity>
+			<messageText>setSql() statement should use .addParam() instead of #'s for security.</messageText>
+		</message>
+		<message code="CFQUERYPARAM_REQ">
+			<severity>WARNING</severity>
+			<messageText>&lt;${tag} name="${variable}"&gt; should use &lt;cfqueryparam/&gt; for security reasons.</messageText>
+		</message>
+	</ruleImpl>
+	<ruleImpl name="TypedQueryNew"><!-- checked -->
+		<message code="QUERYNEW_DATATYPE">
+			<severity>WARNING</severity>
+			<messageText>QueryNew statement should specify datatypes.</messageText>
+		</message>
+	</ruleImpl>
+	<ruleImpl name="VarScoper"><!-- checked -->
+		<message code="MISSING_VAR">
+			<severity>ERROR</severity>
+			<messageText>Variable ${variable} is not declared with a var statement.</messageText>
+		</message>
+	</ruleImpl>
+	<ruleImpl name="CFDumpChecker" className="CFXTagChecker">
+		<message code="AVOID_USING_CFDUMP_TAG">
+			<messageText>Avoid Leaving &lt;${tagName}&gt; tags in committed code. Debug information should be omitted from release code</messageText>
+			<severity>WARNING</severity>
+		</message>
+		<parameter name="tagName" value="cfdump"/>
+	</ruleImpl>
+	<ruleImpl name="CFInsertChecker" className="CFXTagChecker">
+		<message code="AVOID_USING_CFINSERT_TAG">
+			<messageText>Avoid using &lt;${tagName}&gt; tags. Use cfquery and cfstoredproc instead.</messageText>
+			<severity>WARNING</severity>
+		</message>
+		<parameter name="tagName" value="cfinsert"/>
+	</ruleImpl>
+	<ruleImpl name="CFModuleChecker" className="CFXTagChecker">
+		<message code="AVOID_USING_CFMODULE_TAG">
+			<messageText>Avoid using &lt;${tagName}&gt; tags.</messageText>
+			<severity>WARNING</severity>
+		</message>
+		<parameter name="tagName" value="cfmodule"/>
+	</ruleImpl>
+	<ruleImpl name="CFUpdateChecker" className="CFXTagChecker">
+		<message code="AVOID_USING_CFUPDATE_TAG">
+			<messageText>Avoid using &lt;${tagName}&gt; tags. Use cfquery and cfstoredproc instead.</messageText>
+			<severity>WARNING</severity>
+		</message>
+		<parameter name="tagName" value="cfupdate"/>
+	</ruleImpl>
+</CFLint-Plugin>

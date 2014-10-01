@@ -3,19 +3,16 @@ package com.cflint.plugins.core;
 import java.util.HashSet;
 import java.util.Set;
 
-import net.htmlparser.jericho.Element;
 import cfml.parsing.cfscript.CFExpression;
 import cfml.parsing.cfscript.CFIdentifier;
 import cfml.parsing.cfscript.CFVarDeclExpression;
 import cfml.parsing.cfscript.cfFullVarExpression;
-import cfml.parsing.cfscript.script.CFScriptStatement;
 
-import com.cflint.BugInfo;
 import com.cflint.BugList;
-import com.cflint.plugins.CFLintScanner;
+import com.cflint.plugins.CFLintScannerAdapter;
 import com.cflint.plugins.Context;
 
-public class ArgVarChecker implements CFLintScanner {
+public class ArgVarChecker extends CFLintScannerAdapter {
 
 	/**
 	 * Report each occurrence once per file/function
@@ -23,6 +20,7 @@ public class ArgVarChecker implements CFLintScanner {
 	Set<String> alreadyReported1 = new HashSet<String>();
 	Set<String> alreadyReported2 = new HashSet<String>();
 
+	@Override
 	public void expression(final CFExpression expression, final Context context, final BugList bugs) {
 		if (expression instanceof CFVarDeclExpression) {
 			final String name = ((CFVarDeclExpression) expression).getName();
@@ -33,11 +31,7 @@ public class ArgVarChecker implements CFLintScanner {
 				} else {
 					alreadyReported1.add(fileKey);
 				}
-				bugs.add(new BugInfo.BugInfoBuilder().setMessageCode("ARG_VAR_CONFLICT")
-						.setMessage("Variable " + name + " should not be declared in both var and argument scopes.")
-						.setVariable(name).setFunction(context.getFunctionName()).setSeverity("ERROR")
-						.setFilename(context.getFilename()).setExpression(expression.Decompile(0))
-						.build(expression, context.getElement()));
+				context.addMessage("ARG_VAR_CONFLICT", name);
 			}
 		} else if (expression instanceof cfFullVarExpression) {
 			final cfFullVarExpression fullVarExpr = (cfFullVarExpression) expression;
@@ -54,26 +48,12 @@ public class ArgVarChecker implements CFLintScanner {
 						} else {
 							alreadyReported2.add(fileKey);
 						}
-						bugs.add(new BugInfo.BugInfoBuilder()
-								.setMessageCode("ARG_VAR_MIXED")
-								.setMessage(
-										"Variable " + name + " should not be referenced in local and argument scope.")
-								.setVariable(name).setFunction(context.getFunctionName()).setSeverity("INFO")
-								.setFilename(context.getFilename()).setExpression(expression.Decompile(0))
-								.build(expression, context.getElement()));
-
+						context.addMessage("ARG_VAR_MIXED", name);
 					}
 				}
 			}
 			expression(fullVarExpr.getExpressions().get(0), context, bugs);
 		}
-	}
-
-	public void element(final Element element, final Context context, final BugList bugs) {
-
-	}
-
-	public void expression(final CFScriptStatement expression, final Context context, final BugList bugs) {
 	}
 
 }

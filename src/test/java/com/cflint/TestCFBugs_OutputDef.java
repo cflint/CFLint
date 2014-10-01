@@ -1,28 +1,38 @@
 package com.cflint;
 
+import static org.junit.Assert.assertEquals;
+
 import java.io.IOException;
 import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import com.cflint.BugInfo;
-import com.cflint.CFLint;
-import com.cflint.StackHandler;
-import com.cflint.plugins.core.OutputParmMissing;
-
 import cfml.parsing.cfscript.ParseException;
 
-import static org.junit.Assert.*;
+import com.cflint.config.CFLintPluginInfo.PluginInfoRule;
+import com.cflint.config.CFLintPluginInfo.PluginInfoRule.PluginMessage;
+import com.cflint.config.ConfigRuntime;
+import com.cflint.plugins.core.OutputParmMissing;
 
 public class TestCFBugs_OutputDef {
 
-	StackHandler handler = null;
+	private CFLint cfBugs;
 
 	@Before
 	public void setUp() {
-		handler = new StackHandler();
+		final ConfigRuntime conf = new ConfigRuntime();
+		final PluginInfoRule pluginRule = new PluginInfoRule();
+		pluginRule.setName("OutputParmMissing");
+		conf.getRules().add(pluginRule);
+		final PluginMessage pluginMessage = new PluginMessage("OUTPUT_ATTR");
+		pluginMessage.setSeverity("INFO");
+		pluginMessage.setMessageText("<${tag} name=\"${variable}\"> should have @output='false' ");
+		pluginRule.getMessages().add(pluginMessage);
+
+		cfBugs = new CFLint(conf, new OutputParmMissing());
 	}
+
 
 //	@Test
 //	public void testCFCDef() throws ParseException, IOException {
@@ -42,12 +52,12 @@ public class TestCFBugs_OutputDef {
 		final String cfcSrc = "<cfcomponent output=\"false\">\r\n" + "<cffunction name=\"test\">\r\n"
 				+ "	<cfargument name=\"xyz\" default=\"\">\r\n" + "	<cfset var xyz=123/>\r\n" + "</cffunction>\r\n"
 				+ "</cfcomponent>";
-		final CFLint cfBugs = new CFLint(new OutputParmMissing());
 		cfBugs.process(cfcSrc, "test");
 		final List<BugInfo> result = cfBugs.getBugs().getBugList().values().iterator().next();
 		assertEquals(1, result.size());
 		assertEquals("OUTPUT_ATTR", result.get(0).getMessageCode());
 		assertEquals(2, result.get(0).getLine());
+		assertEquals("<cffunction name=\"test\"> should have @output='false' ", result.get(0).getMessage());
 	}
 
 	@Test
@@ -55,7 +65,6 @@ public class TestCFBugs_OutputDef {
 		final String cfcSrc = "<cfcomponent output=\"false\">\r\n" + "<cffunction name=\"test\" output=\"false\">\r\n"
 				+ "	<cfargument name=\"xyz\" default=\"\">\r\n" + "	<cfset var xyz=123/>\r\n" + "</cffunction>\r\n"
 				+ "</cfcomponent>";
-		final CFLint cfBugs = new CFLint(new OutputParmMissing());
 		cfBugs.process(cfcSrc, "test");
 		assertEquals(0, cfBugs.getBugs().getBugList().size());
 	}

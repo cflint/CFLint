@@ -21,7 +21,8 @@ import com.cflint.CFLint;
 import com.cflint.HTMLOutput;
 import com.cflint.TextOutput;
 import com.cflint.XMLOutput;
-import com.cflint.plugins.exceptions.DefaultCFLintExceptionListener;
+import com.cflint.config.CFLintConfig;
+import com.cflint.config.ConfigUtils;
 import com.cflint.tools.CFLintFilter;
 
 public class CFLintTask extends Task {
@@ -33,6 +34,7 @@ public class CFLintTask extends Task {
 	File xmlFile;
 	File htmlFile;
 	File textFile;
+	File configFile;
 	String xmlStyle = "cflint";
 	String htmlStyle = "plain.xsl";
 	String extensions;
@@ -43,7 +45,12 @@ public class CFLintTask extends Task {
 	@Override
 	public void execute() {
 		try {
-			final CFLint cflint = new CFLint();
+			CFLintConfig config = null;
+			if(configFile != null){
+				config = ConfigUtils.unmarshal(new FileInputStream(configFile), CFLintConfig.class);
+			}
+			
+			final CFLint cflint = new CFLint(config);
 			cflint.setVerbose(verbose);
 			cflint.setQuiet(quiet);
 			if (extensions != null && extensions.trim().length() > 0) {
@@ -179,5 +186,8 @@ public class CFLintTask extends Task {
 
 	public void setQuiet(final boolean quiet) {
 		this.quiet = quiet;
+	}
+	public void setConfigFile(File configFile) {
+		this.configFile = configFile;
 	}
 }

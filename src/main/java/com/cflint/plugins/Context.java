@@ -9,9 +9,9 @@ import com.cflint.StackHandler;
 
 public class Context {
 
-	final String filename;
+	String filename;
 	final Element element;
-	final String functionName;
+	String functionName;
 	final boolean inAssignmentExpression;
 	boolean inComponent;
 	final StackHandler callStack;
@@ -32,12 +32,20 @@ public class Context {
 		return filename;
 	}
 
+	public void setFilename(String filename) {
+		this.filename = filename;
+	}
+
 	public Element getElement() {
 		return element;
 	}
 
 	public String getFunctionName() {
 		return functionName;
+	}
+
+	public void setFunctionName(String functionName) {
+		this.functionName = functionName;
 	}
 
 	public boolean isInFunction() {
@@ -98,5 +106,11 @@ public class Context {
 		public String getVariable() {
 			return variable;
 		}
+	}
+	
+	public Context subContext(final Element elem){
+		Context context2 = new Context(getFilename(), elem, getFunctionName(),isInAssignmentExpression(), callStack);
+		context2.setInComponent(isInComponent());
+		return context2;
 	}
 }

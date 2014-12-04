@@ -132,16 +132,23 @@ public class BugInfo {
 			return bugInfo;
 		}
 		
+		private final String notNull(String in){
+			if(in == null){
+				return "";
+			}
+			return in.trim();
+		}
+		
 		private void doMessageText(final Element elem) {
-			String message = bugInfo.getMessage()!=null?bugInfo.getMessage():"";
-			message = message.replaceAll("\\$\\{variable\\}",bugInfo.getVariable());
+			String message = notNull(bugInfo.getMessage());
+			message = message.replaceAll("\\$\\{variable\\}",notNull(bugInfo.getVariable()));
 			if(message.contains("{tag}") && elem != null){
-				message = message.replaceAll("\\$\\{tag\\}",elem.getName());
+				message = message.replaceAll("\\$\\{tag\\}",notNull(elem.getName()));
 			}
 			
 			if(parameters != null){
 				for(PluginParameter param: parameters){
-					message = message.replaceAll("\\$\\{"+param.getName()+"\\}",param.getValue());
+					message = message.replaceAll("\\$\\{"+param.getName()+"\\}",notNull(param.getValue()));
 				}
 			}
 			setMessage(message);

@@ -155,7 +155,7 @@
 
 	<build>
 		<plugins>
-			<plugin>
+	<!-- 		<plugin>
 		  <groupId>org.apache.maven.plugins</groupId>
 		  <artifactId>maven-source-plugin</artifactId>
 		  <executions>
@@ -178,7 +178,7 @@
 		      </goals>
 		    </execution>
 		  </executions>
-		</plugin>
+		</plugin> -->
 		<plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>license-maven-plugin</artifactId>
@@ -210,7 +210,7 @@
           </execution>
         </executions>
       </plugin>
-      <plugin>
+  <!--     <plugin>
       <groupId>org.apache.maven.plugins</groupId>
       <artifactId>maven-gpg-plugin</artifactId>
       <version>1.5</version>
@@ -223,7 +223,7 @@
           </goals>
         </execution>
       </executions>
-    </plugin>
+    </plugin> -->
 		    <plugin>
 			  <groupId>org.sonatype.plugins</groupId>
 			  <artifactId>nexus-staging-maven-plugin</artifactId>

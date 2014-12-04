@@ -108,6 +108,18 @@ public class CFLintFilter {
 						continue;
 					}
 				}
+				if (jsonObj.containsKey("expression")) {
+					if (bugInfo.getExpression() == null
+							|| !bugInfo.getExpression().matches(jsonObj.get("expression").toString())) {
+						continue;
+					}
+				}
+				if (jsonObj.containsKey("filename")) {
+					if (bugInfo.getFilename() == null
+							|| !bugInfo.getFilename().matches(jsonObj.get("filename").toString())) {
+						continue;
+					}
+				}
 				return false;
 			}
 		}

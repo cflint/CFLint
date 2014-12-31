@@ -57,7 +57,7 @@ public class TestCFBugs_OutputDef {
 		assertEquals(1, result.size());
 		assertEquals("OUTPUT_ATTR", result.get(0).getMessageCode());
 		assertEquals(2, result.get(0).getLine());
-		assertEquals("<cffunction name=\"test\"> should have @output='false' ", result.get(0).getMessage());
+		assertEquals("<cffunction name=\"test\"> should have @output='false'", result.get(0).getMessage());
 	}
 
 	@Test

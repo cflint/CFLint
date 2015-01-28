@@ -187,6 +187,59 @@ public class TestCFBugs {
 		assertEquals("NESTED_CFOUTPUT",result.get(0).getMessageCode());
 		assertEquals(5,result.get(0).getLine());
 	}
+	
+	@Test
+	public void testSimpleCFQUERY_Issue30() throws ParseException, IOException{
+		final String cfcSrc = "<cfcomponent>\r\n" +
+				"<cffunction name=\"test\">\r\n" +
+				"	<cfoutput query=\"qryPopups\" group=\"id\">\n" + 
+				"            <cfif message NEQ \"\" and not(ListFind(arraytoList( arguments.quote.getErrorHandler().getShownErrors()),id))>\n" + 
+				"                <cfoutput>#message####id#|</cfoutput>\n" + 
+				"                <cfset arrayappend(arguments.quote.getErrorHandler().getShownErrors(),id)>\n" + 
+				"            </cfif>\n" + 
+				"            <cflog file=\"Quote_#quote.getOnlineNumber()#\" text=\"Popup:#message#,#id#\" type=\"informational\">\n" + 
+				"        </cfoutput>\r\n" +
+				"</cffunction>\r\n" +
+				"/<cfcomponent>";
+		cfBugs.process(cfcSrc,"test");
+		assertEquals(0,cfBugs.getBugs().size());
+	}
+	
+	@Test
+	public void testSimpleCFQUERY_Issue30b_OK() throws ParseException, IOException{
+		final String cfcSrc = 
+				"	<cfoutput query=\"qryPopups\" group=\"id\">\n" + 
+				"	<cfoutput group=\"id2\">\n" + 
+				"            <cfif message NEQ \"\" and not(ListFind(arraytoList( arguments.quote.getErrorHandler().getShownErrors()),id))>\n" + 
+				"                <cfoutput>#message####id#|</cfoutput>\n" + 
+				"                <cfset arrayappend(arguments.quote.getErrorHandler().getShownErrors(),id)>\n" + 
+				"            </cfif>\n" + 
+				"            <cflog file=\"Quote_#quote.getOnlineNumber()#\" text=\"Popup:#message#,#id#\" type=\"informational\">\n" + 
+				"        </cfoutput>\r\n" +
+				"        </cfoutput>\r\n" ;
+		cfBugs.process(cfcSrc,"test");
+		assertEquals(0,cfBugs.getBugs().size());
+	}
+	@Test
+	public void testSimpleCFQUERY_Issue30b_NotOK() throws ParseException, IOException{
+		final String cfcSrc = 
+				"	<cfoutput query=\"qryPopups\" group=\"id\">\n" + 
+				"	<cfoutput>\n" + 
+				"            <cfif message NEQ \"\" and not(ListFind(arraytoList( arguments.quote.getErrorHandler().getShownErrors()),id))>\n" + 
+				"                <cfoutput>#message####id#|</cfoutput>\n" + 
+				"                <cfset arrayappend(arguments.quote.getErrorHandler().getShownErrors(),id)>\n" + 
+				"            </cfif>\n" + 
+				"            <cflog file=\"Quote_#quote.getOnlineNumber()#\" text=\"Popup:#message#,#id#\" type=\"informational\">\n" + 
+				"        </cfoutput>\r\n" +
+				"        </cfoutput>\r\n" ;
+		cfBugs.process(cfcSrc,"test");
+		List<BugInfo> result = cfBugs.getBugs().getBugList().values().iterator().next();
+		assertEquals(1,result.size());
+		assertEquals("NESTED_CFOUTPUT",result.get(0).getMessageCode());
+		assertEquals(4,result.get(0).getLine());
+
+	}
+
 
 	@Test
 	public void testSimpleCFQUERY_nestedWithGroup() throws ParseException, IOException{

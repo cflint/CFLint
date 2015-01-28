@@ -81,10 +81,10 @@ public class TestCFBugs_QueryParams {
 			System.out.println(bi);
 		}
 		assertEquals(2, result.size());
-		assertEquals("QUERYPARAM_REQ", result.get(0).getMessageCode());
+		assertEquals("CFQUERYPARAM_REQ", result.get(0).getMessageCode());
 		assertEquals(3, result.get(0).getLine());
 		assertEquals("LOCAL.id", result.get(0).getVariable());
-		assertEquals("QUERYPARAM_REQ", result.get(1).getMessageCode());
+		assertEquals("CFQUERYPARAM_REQ", result.get(1).getMessageCode());
 		assertEquals(3, result.get(1).getLine());
 	}
 
@@ -98,11 +98,22 @@ public class TestCFBugs_QueryParams {
 			System.out.println(bi);
 		}
 		assertEquals(2, result.size());
-		assertEquals("QUERYPARAM_REQ", result.get(0).getMessageCode());
+		assertEquals("CFQUERYPARAM_REQ", result.get(0).getMessageCode());
 		assertEquals(1, result.get(0).getLine());
 		assertEquals("LOCAL.id", result.get(0).getVariable());
-		assertEquals("QUERYPARAM_REQ", result.get(1).getMessageCode());
+		assertEquals("CFQUERYPARAM_REQ", result.get(1).getMessageCode());
 		assertEquals(1, result.get(1).getLine());
+	}
+	
+	@Test
+	public void testCFScript_QueryParams_Qoq() throws ParseException, IOException {
+		final String cfcSrc = "<cfquery name=\"outDocs\" dbtype=\"query\"> Select * From arguments.documents WHERE DocumentType = 'COLD' and TransactionType IN ('1','6') #orderBy# </cfquery> ";
+		cfBugs.process(cfcSrc, "test");
+		final List<BugInfo> result = cfBugs.getBugs().getFlatBugList();
+		for (final BugInfo bi : result) {
+			System.out.println(bi);
+		}
+		assertEquals(0, result.size());
 	}
 
 	@Test

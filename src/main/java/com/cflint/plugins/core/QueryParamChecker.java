@@ -43,7 +43,7 @@ public class QueryParamChecker extends CFLintScannerAdapter {
 	@Override
 	public void element(final Element element, final Context context, final BugList bugs) {
 		if (// element.getName().equals("cfcomponent") ||
-		element.getName().equals("cfquery")) {
+		element.getName().equals("cfquery") && ! "query".equalsIgnoreCase(element.getAttributeValue("dbtype"))) {
 			final String content = element.getTextExtractor().toString();
 			if (content.indexOf("#") > 0) {
 				final Pattern pattern = Pattern.compile("#(.+?)#");
@@ -51,7 +51,7 @@ public class QueryParamChecker extends CFLintScannerAdapter {
 				while (matcher.find()) {
 					if (matcher.groupCount() >= 1) {
 						final String variableName = matcher.group(1);
-						context.addMessage("QUERYPARAM_REQ", variableName);
+						context.addMessage("CFQUERYPARAM_REQ", variableName);
 					}
 				}
 			}

@@ -35,8 +35,6 @@ import com.cflint.tools.CFLintFilter;
 
 public class CFLintMain {
 
-	List<String> includeRule = new ArrayList<String>();
-	List<String> excludeRule = new ArrayList<String>();
 	List<String> folder = new ArrayList<String>();
 	String filterFile = null;
 	boolean verbose = false;
@@ -150,10 +148,10 @@ public class CFLintMain {
 		}
 		
 		if (cmd.hasOption("includeRule")) {
-			main.includeRule = Arrays.asList(cmd.getOptionValue("includeRule").split(","));
+			main.includeCodes = cmd.getOptionValue("includeRule").split(",");
 		}
 		if (cmd.hasOption("excludeRule")) {
-			main.excludeRule = Arrays.asList(cmd.getOptionValue("excludeRule").split(","));
+			main.excludeCodes = cmd.getOptionValue("excludeRule").split(",");
 		}
 		main.showprogress=cmd.hasOption("showprogress") || (!cmd.hasOption("showprogress") && cmd.hasOption("ui"));
 		main.progressUsesThread=!cmd.hasOption("singlethread");

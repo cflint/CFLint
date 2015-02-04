@@ -1,4 +1,8 @@
 <?xml version="1.0"?>
+
+<!-- Available severity tags: FATAL, CRITICAL, ERROR, WARNING, CAUTION, INFO, COSMETIC -->
+
+
 <CFLint-Plugin package="com.cflint.plugins.core"> 
 	<ruleImpl name="ArgDefChecker">
 		<message code="ARG_DEFAULT_MISSING"><!-- checked -->

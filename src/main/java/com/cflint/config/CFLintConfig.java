@@ -21,7 +21,7 @@ public class CFLintConfig {
 		return output;
 	}
 
-	@XmlElement(name = "ruleImpl")
+	@XmlElement(name = "output")
 	public void setOutput(final List<ConfigOutput> output) {
 		this.output = output;
 	}

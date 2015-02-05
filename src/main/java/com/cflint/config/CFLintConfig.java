@@ -30,7 +30,7 @@ public class CFLintConfig {
 		return rules;
 	}
 
-	@XmlElement(name="rules")
+	@XmlElement(name="rule")
 	public void setRules(List<CFLintPluginInfo.PluginInfoRule> rules) {
 		this.rules = rules;
 	}

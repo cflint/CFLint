@@ -71,6 +71,7 @@ public class CFLint implements IErrorReporter {
 	List<CFLintScanner> extensions = new ArrayList<CFLintScanner>();
 	List<String> allowedExtensions = new ArrayList<String>();
 	boolean verbose = false;
+	boolean logError = false;
 	boolean quiet = false;
 	boolean showProgress = false;
 	boolean progressUsesThread = true;
@@ -201,7 +202,10 @@ public class CFLint implements IErrorReporter {
 				/*bugs.add(new BugInfo.BugInfoBuilder().setMessageCode("FILE_ERROR")
 						.setFilename(folderOrFile.getAbsolutePath()).setMessage(e.getMessage()).setSeverity("ERROR")
 						.build());*/
-				fireCFLintException(e,FILE_ERROR,folderOrFile.getAbsolutePath(),null,null,null,null);
+				if (logError) {
+					System.out.println("Logging Error: " + FILE_ERROR);
+					fireCFLintException(e,FILE_ERROR,folderOrFile.getAbsolutePath(),null,null,null,null);
+				}
 			}
 		}
 	}
@@ -298,7 +302,10 @@ public class CFLint implements IErrorReporter {
 					/*bugs.add(new BugInfo.BugInfoBuilder().setLine(elemLine).setColumn(elemColumn + column)
 							.setMessageCode("PARSE_ERROR").setSeverity("ERROR").setExpression(m.group(1))
 							.setFilename(filename).setFunction(functionName).setMessage("Unable to parse").build());*/
-					fireCFLintException(npe,PARSE_ERROR,context.getFilename(),elemLine,elemColumn + column,context.getFunctionName(),m.group(1));
+					if (logError) {
+						System.out.println("Logging Error: " + PARSE_ERROR);
+						fireCFLintException(npe,PARSE_ERROR,context.getFilename(),elemLine,elemColumn + column,context.getFunctionName(),m.group(1));
+					}
 				}
 			}
 		} else if (elem.getName().equals("cfargument")) {
@@ -583,6 +590,10 @@ public class CFLint implements IErrorReporter {
 
 	public void setVerbose(final boolean verbose) {
 		this.verbose = verbose;
+	}
+
+	public void setLogError(final boolean logError) {
+		this.logError = logError;
 	}
 
 	public void setQuiet(final boolean quiet) {

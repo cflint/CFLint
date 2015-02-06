@@ -33,7 +33,6 @@
 		<connection>scm:git:git@github.com:cflint/CFLint.git</connection>
 		<developerConnection>scm:git:git@github.com:cflint/CFLint.git</developerConnection>
 		<url>git@github.com:cflint/CFLint.git</url>
-		<tag>-SNAPSHOT</tag>
 	</scm>
 
 	<licenses>

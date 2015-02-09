@@ -63,6 +63,7 @@ public class TestCFBugs {
 		pluginRule.getMessages().add(pluginMessage);
 		
 		cfBugs = new CFLint(conf,new VarScoper(),new GlobalVarChecker(), new NestedCFOutput(), new TypedQueryNew());
+		cfBugs.setLogError(true);
 	}
 	
 	@Test

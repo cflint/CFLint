@@ -20,6 +20,7 @@ public class TestCFBugs_ParseError {
 	public void setUp() {
 		final ConfigRuntime conf = new ConfigRuntime();
 		cfBugs = new CFLint(conf, new VarScoper());
+		cfBugs.setLogError(true);
 	}
 	
 	@Test

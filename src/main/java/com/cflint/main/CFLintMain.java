@@ -38,6 +38,7 @@ public class CFLintMain {
 	List<String> folder = new ArrayList<String>();
 	String filterFile = null;
 	boolean verbose = false;
+	boolean logerror = false;
 	boolean quiet = false;
 	boolean xmlOutput = false;
 	boolean htmlOutput = true;
@@ -73,6 +74,8 @@ public class CFLintMain {
 		options.addOption("showprogress", false, "show progress bar");
 		options.addOption("singlethread", false, "show progress bar");
 		
+		options.addOption("logerror", false, "log parsing errors as bugs");
+		options.addOption("e", false, "log parsing errors as bugs");
 		options.addOption("q", false, "quiet");
 		options.addOption("quiet", false, "quiet");
 		options.addOption("h", false, "display this help");
@@ -103,6 +106,7 @@ public class CFLintMain {
 		final CFLintMain main = new CFLintMain();
 		main.verbose = (cmd.hasOption('v') || cmd.hasOption("verbose"));
 		main.quiet = (cmd.hasOption('q') || cmd.hasOption("quiet"));
+		main.logerror = (cmd.hasOption('e') || cmd.hasOption("logerror"));
 		main.xmlOutput = cmd.hasOption("xml") || cmd.hasOption("xmlstyle") || cmd.hasOption("xmlfile");
 		main.textOutput = cmd.hasOption("text") || cmd.hasOption("textfile");
 		if (cmd.hasOption("ui")) {
@@ -223,6 +227,7 @@ public class CFLintMain {
 		}
 		final CFLint cflint = new CFLint(config);
 		cflint.setVerbose(verbose);
+		cflint.setLogError(logerror);
 		cflint.setQuiet(quiet);
 		cflint.setShowProgress(showprogress);
 		cflint.setProgressUsesThread(progressUsesThread);

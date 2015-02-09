@@ -44,4 +44,11 @@ public class TestCFInsertTagChecker {
 		assertEquals(1, cfBugs.getBugs().getBugList().size());
 	}
 
+	@Test
+	public void test_GOOD() throws ParseException, IOException {
+		final String cfcSrc = "<cfmodule template=\"tagsExchRateCalculator.cfm\">";
+		cfBugs.process(cfcSrc, "test");
+		assertEquals(0, cfBugs.getBugs().getBugList().size());
+	}
+
 }

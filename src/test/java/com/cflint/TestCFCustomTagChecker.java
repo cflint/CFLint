@@ -23,7 +23,7 @@ public class TestCFCustomTagChecker {
 		final ConfigRuntime conf = new ConfigRuntime();
 		final PluginInfoRule pluginRuleX = new PluginInfoRule();
 		pluginRuleX.setName("CFXTagChecker");
-		pluginRuleX.addParameter("tagName", ".*:cfcustomtag");
+		pluginRuleX.addParameter("tagName", "cfcustomtag");
 		conf.getRules().add(pluginRuleX);
 		final PluginMessage pluginMessageX = new PluginMessage("AVOID_USING_CFUPDATE_TAG");
 		pluginMessageX.setSeverity("WARNING");
@@ -42,4 +42,10 @@ public class TestCFCustomTagChecker {
 		assertEquals(1, cfBugs.getBugs().getBugList().size());
 	}
 
+	@Test
+	public void test_GOOD() throws ParseException, IOException {
+		final String cfcSrc = "<customtag>";
+		cfBugs.process(cfcSrc, "test");
+		assertEquals(0, cfBugs.getBugs().getBugList().size());
+	}
 }

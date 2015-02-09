@@ -45,4 +45,13 @@ public class TestCFUpdateTagChecker {
 		assertEquals(1, cfBugs.getBugs().getBugList().size());
 	}
 
+	@Test
+	public void test_GOOD() throws ParseException, IOException {
+		final String cfcSrc = "<cfinsert " + "dataSource = \"data source name\" " + "tableName = \"table name\" "
+				+ "formFields = \"formfield1, formfield2, ...\" " + "password = \"password\" "
+				+ "tableOwner = \"owner\" " + "tableQualifier = \"table qualifier\" " + "username = \"user name\">";
+		cfBugs.process(cfcSrc, "test");
+		assertEquals(0, cfBugs.getBugs().getBugList().size());
+	}
+
 }

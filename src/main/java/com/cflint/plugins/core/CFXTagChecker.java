@@ -13,8 +13,6 @@ public class CFXTagChecker extends CFLintScannerAdapter {
 		final String tagName = element.getName();
 		final String cfmlTagCheck = getParameter("tagName");
 		if (tagName.matches(cfmlTagCheck)) {
-			// final int begLine =
-			// element.getSource().getRow(element.getBegin());
 			context.addMessage("AVOID_USING_" + tagName.toUpperCase() + "_TAG", tagName);
 		}
 	}

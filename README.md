@@ -19,12 +19,3 @@ Someone has created a [SublimeLinter](http://www.sublimelinter.com) plugin [here
 
 Ray Camden created a [CFBuilder](http://www.adobe.com/products/coldfusion-builder.html) plugin [here](https://github.com/cfjedimaster/CFLint-Extension) and blogs about CFLint [here](http://www.raymondcamden.com/2014/7/31/Linting-your-ColdFusion-code#more).
 
-
-
-### Maven Include (or get from search.maven.org)
-
-`   <dependency>
-       <groupId>com.github.cflint</groupId>
-       <artifactId>CFLint</artifactId>
-       <version>0.4</version>
-    </dependency>`

@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.github.cflint</groupId>
 	<artifactId>CFLint</artifactId>
-	<version>0.3.1-SNAPSHOT</version>
+	<version>0.4</version>
 
 	<name>CFLint</name>
 	<description>
@@ -154,9 +154,10 @@
 
 	<build>
 		<plugins>
-			<!--<plugin>
+		<!--	<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-source-plugin</artifactId>
+				<version>2.4</version>
 				<executions>
 					<execution>
 						<id>attach-sources</id>
@@ -169,6 +170,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>2.10.1</version>
 				<executions>
 					<execution>
 						<id>attach-javadocs</id>
@@ -191,7 +193,7 @@
 						</goals>
 					</execution>
 				</executions>
-			</plugin>-->
+			</plugin>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>license-maven-plugin</artifactId>
@@ -233,7 +235,7 @@
 					<nexusUrl>https://oss.sonatype.org/</nexusUrl>
 					<autoReleaseAfterClose>false</autoReleaseAfterClose>
 				</configuration>
-			</plugin>
+			</plugin>-->
 			<plugin>
 				<artifactId>maven-dependency-plugin</artifactId>
 				<executions>
@@ -336,8 +338,10 @@
 	</build>
 
 
-	<!-- Sonatype: mvn perform:clean perform:prepare -->
-	<!-- Sonatype: mvn perform:release -->
+	<!-- Sonatype: mvn clean package -->
+	<!-- Sonatype: mvn verify gpg:sign -->
+	<!-- Sonatype: mvn deploy -->
+	<!-- Sonatype: mvn nexus-staging:release -->
 	<distributionManagement>
 		<snapshotRepository>
 			<id>ossrh</id>

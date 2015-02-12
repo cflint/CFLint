@@ -6,7 +6,7 @@ A static code analysis tool for ColdFusion
 Check out the new [wiki!](https://github.com/cflint/CFLint/wiki) where you can:
 
   * [Learn how to install CFLint locally](https://github.com/cflint/CFLint/wiki/How-Do-I-Install-This-Tool%3F)
-  * [Built in Standards](https://github.com/cflint/CFLint/wiki/Built-In-Coding-Standards)
+  * [Built in Rules](https://github.com/cflint/CFLint/wiki/Built-In-Rules)
   * [Learn how to include/exclude rules](https://github.com/cflint/CFLint/wiki/Include-Exlude-Rules-Using-Exteral-XML-File)
   * [Learn CFLint from the command line](https://github.com/cflint/CFLint/wiki/How-Do-I-Use-This-Tool%3F)
   * [Get the library from Maven](https://github.com/cflint/CFLint/wiki/Get-the-library-from-Maven)

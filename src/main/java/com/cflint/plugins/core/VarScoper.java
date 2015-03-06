@@ -8,7 +8,7 @@ import java.util.Map;
 import net.htmlparser.jericho.Element;
 import cfml.parsing.cfscript.CFExpression;
 import cfml.parsing.cfscript.CFIdentifier;
-import cfml.parsing.cfscript.cfFullVarExpression;
+import cfml.parsing.cfscript.CFFullVarExpression;
 
 import com.cflint.BugList;
 import com.cflint.plugins.CFLintScannerAdapter;
@@ -23,8 +23,8 @@ public class VarScoper extends CFLintScannerAdapter {
 			if (context.isInFunction() && context.isInAssignmentExpression()
 					&& !context.getCallStack().checkVariable(name)) {
 				context.addMessage("MISSING_VAR", name);
-			} else if (expression instanceof cfFullVarExpression) {
-				final cfFullVarExpression fullVarExpr = (cfFullVarExpression) expression;
+			} else if (expression instanceof CFFullVarExpression) {
+				final CFFullVarExpression fullVarExpr = (CFFullVarExpression) expression;
 				expression(fullVarExpr.getExpressions().get(0), context, bugs);
 			}
 		}

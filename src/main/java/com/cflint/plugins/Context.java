@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.htmlparser.jericho.Element;
+import cfml.parsing.cfscript.CFIdentifier;
 
 import com.cflint.StackHandler;
 
@@ -18,12 +19,21 @@ public class Context {
 	final List<ContextMessage> messages = new ArrayList<ContextMessage>();
 
 
+	public Context(final String filename, final Element element, final CFIdentifier functionName,
+			final boolean inAssignmentExpression, final StackHandler handler) {
+		super();
+		this.filename = filename;
+		this.element = element;
+		this.functionName = functionName == null ? "" : functionName.Decompile(0);
+		this.inAssignmentExpression = inAssignmentExpression;
+		this.callStack = handler;
+	}
 	public Context(final String filename, final Element element, final String functionName,
 			final boolean inAssignmentExpression, final StackHandler handler) {
 		super();
 		this.filename = filename;
 		this.element = element;
-		this.functionName = functionName == null ? "" : functionName.trim();
+		this.functionName = functionName == null ? "" : functionName;
 		this.inAssignmentExpression = inAssignmentExpression;
 		this.callStack = handler;
 	}
@@ -44,12 +54,15 @@ public class Context {
 		return functionName;
 	}
 
+	public void setFunctionIdentifier(CFIdentifier functionName) {
+		this.functionName = functionName==null?"":functionName.Decompile(0);
+	}
 	public void setFunctionName(String functionName) {
 		this.functionName = functionName;
 	}
 
 	public boolean isInFunction() {
-		return functionName != null && functionName.length() > 0;
+		return functionName != null && getFunctionName().length() > 0;
 	}
 
 	public boolean isInAssignmentExpression() {
@@ -70,7 +83,7 @@ public class Context {
 		}
 		key.append(":");
 		if(functionName != null){
-			key.append(functionName.trim());
+			key.append(functionName);
 		}
 		return key.toString();
 	}

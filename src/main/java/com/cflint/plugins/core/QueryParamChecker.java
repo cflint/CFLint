@@ -7,7 +7,7 @@ import net.htmlparser.jericho.Element;
 import cfml.parsing.cfscript.CFBinaryExpression;
 import cfml.parsing.cfscript.CFExpression;
 import cfml.parsing.cfscript.CFJavaMethodExpression;
-import cfml.parsing.cfscript.cfFullVarExpression;
+import cfml.parsing.cfscript.CFFullVarExpression;
 
 import com.cflint.BugList;
 import com.cflint.plugins.CFLintScannerAdapter;
@@ -17,8 +17,8 @@ public class QueryParamChecker extends CFLintScannerAdapter {
 
 	@Override
 	public void expression(final CFExpression expression, final Context context, final BugList bugs) {
-		if (expression instanceof cfFullVarExpression) {
-			final cfFullVarExpression cfFunctionExpr = (cfFullVarExpression) expression;
+		if (expression instanceof CFFullVarExpression) {
+			final CFFullVarExpression cfFunctionExpr = (CFFullVarExpression) expression;
 			final StringBuilder varName = new StringBuilder();
 			for (final CFExpression expression2 : cfFunctionExpr.getExpressions()) {
 				if (expression2 instanceof CFJavaMethodExpression) {

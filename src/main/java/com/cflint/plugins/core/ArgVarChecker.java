@@ -6,7 +6,7 @@ import java.util.Set;
 import cfml.parsing.cfscript.CFExpression;
 import cfml.parsing.cfscript.CFIdentifier;
 import cfml.parsing.cfscript.CFVarDeclExpression;
-import cfml.parsing.cfscript.cfFullVarExpression;
+import cfml.parsing.cfscript.CFFullVarExpression;
 
 import com.cflint.BugList;
 import com.cflint.plugins.CFLintScannerAdapter;
@@ -33,8 +33,8 @@ public class ArgVarChecker extends CFLintScannerAdapter {
 				}
 				context.addMessage("ARG_VAR_CONFLICT", name);
 			}
-		} else if (expression instanceof cfFullVarExpression) {
-			final cfFullVarExpression fullVarExpr = (cfFullVarExpression) expression;
+		} else if (expression instanceof CFFullVarExpression) {
+			final CFFullVarExpression fullVarExpr = (CFFullVarExpression) expression;
 			if (fullVarExpr.getExpressions().size() > 1 && fullVarExpr.getExpressions().get(0) instanceof CFIdentifier) {
 				final CFIdentifier cfIdentifier1 = (CFIdentifier) fullVarExpr.getExpressions().get(0);
 				if (cfIdentifier1.getName().equalsIgnoreCase("arguments")

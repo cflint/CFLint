@@ -5,7 +5,7 @@ import java.util.Collection;
 
 import cfml.parsing.cfscript.CFExpression;
 import cfml.parsing.cfscript.CFIdentifier;
-import cfml.parsing.cfscript.cfFullVarExpression;
+import cfml.parsing.cfscript.CFFullVarExpression;
 
 import com.cflint.BugList;
 import com.cflint.plugins.CFLintScannerAdapter;
@@ -18,8 +18,8 @@ public class GlobalVarChecker extends CFLintScannerAdapter {
 
 	@Override
 	public void expression(final CFExpression expression, final Context context, final BugList bugs) {
-		if ((context.isInComponent() || context.isInFunction()) && expression instanceof cfFullVarExpression) {
-			final CFExpression firstExpression = ((cfFullVarExpression) expression).getExpressions().get(0);
+		if ((context.isInComponent() || context.isInFunction()) && expression instanceof CFFullVarExpression) {
+			final CFExpression firstExpression = ((CFFullVarExpression) expression).getExpressions().get(0);
 			if (firstExpression instanceof CFIdentifier) {
 				doIdentifier((CFIdentifier) firstExpression, context, bugs);
 			}

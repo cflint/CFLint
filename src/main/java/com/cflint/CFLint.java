@@ -18,6 +18,10 @@ import net.htmlparser.jericho.Source;
 import org.antlr.runtime.BitSet;
 import org.antlr.runtime.IntStream;
 import org.antlr.runtime.RecognitionException;
+import org.antlr.v4.runtime.Parser;
+import org.antlr.v4.runtime.Recognizer;
+import org.antlr.v4.runtime.atn.ATNConfigSet;
+import org.antlr.v4.runtime.dfa.DFA;
 
 import cfml.parsing.CFMLParser;
 import cfml.parsing.CFMLSource;
@@ -29,8 +33,6 @@ import cfml.parsing.cfscript.CFIdentifier;
 import cfml.parsing.cfscript.CFLiteral;
 import cfml.parsing.cfscript.CFUnaryExpression;
 import cfml.parsing.cfscript.CFVarDeclExpression;
-import cfml.parsing.cfscript.IErrorReporter;
-import cfml.parsing.cfscript.ParseException;
 import cfml.parsing.cfscript.script.CFCompDeclStatement;
 import cfml.parsing.cfscript.script.CFCompoundStatement;
 import cfml.parsing.cfscript.script.CFExpressionStatement;
@@ -41,6 +43,8 @@ import cfml.parsing.cfscript.script.CFFunctionParameter;
 import cfml.parsing.cfscript.script.CFIfStatement;
 import cfml.parsing.cfscript.script.CFParsedStatement;
 import cfml.parsing.cfscript.script.CFScriptStatement;
+import cfml.parsing.reporting.IErrorReporter;
+import cfml.parsing.reporting.ParseException;
 
 import com.cflint.BugInfo.BugInfoBuilder;
 import com.cflint.config.CFLintConfig;
@@ -235,22 +239,20 @@ public class CFLint implements IErrorReporter {
 		fireStartedProcessing(filename);
 		final CFMLSource cfmlSource = new CFMLSource(src);
 		final List<Element> elements = cfmlSource.getChildElements();
-		currentFile = filename;
 		if (elements.size() == 0 && src.contains("component")) {
 			// Check if pure cfscript
 			final CFMLParser cfmlParser = new CFMLParser();
 			cfmlParser.setErrorReporter(this);
 			final CFScriptStatement scriptStatement = cfmlParser.parseScript(src);
-			process(scriptStatement, filename, null, null);
+			process(scriptStatement, filename, null, (String)null);
 		} else {
 			processStack(elements, " ", filename, null);
 		}
-		currentFile = null;
 		fireFinishedProcessing(filename);
 	}
 
 	public void processStack(final List<Element> elements, final String space, final String filename,
-			final String functionName) throws ParseException, IOException {
+			final CFIdentifier functionName) throws ParseException, IOException {
 		for (final Element elem : elements) {
 			final Context context = new Context(filename, elem, functionName, inAssignment, handler);
 			process(elem,space,context);
@@ -383,6 +385,10 @@ public class CFLint implements IErrorReporter {
 	}
 
 	private void process(final CFScriptStatement expression, final String filename, final Element elem,
+			final CFIdentifier functionName) {
+		process(expression,filename,elem,functionName.Decompile(0));
+	}
+	private void process(final CFScriptStatement expression, final String filename, final Element elem,
 			final String functionName) {
 		final Context context = new Context(filename, elem, functionName, inAssignment, handler);
 		context.setInComponent(inComponent);
@@ -497,10 +503,10 @@ public class CFLint implements IErrorReporter {
 			handler.addVariable(((CFVarDeclExpression) expression).getName());
 			process(((CFVarDeclExpression) expression).getInit(), filename, elem, functionName);
 		} else if (expression instanceof CFLiteral) {
-			// } else if (expression instanceof cfFullVarExpression) {
-			// if (((cfFullVarExpression) expression).getExpressions().size() ==
+			// } else if (expression instanceof CFFullVarExpression) {
+			// if (((CFFullVarExpression) expression).getExpressions().size() ==
 			// 1) {
-			// process(((cfFullVarExpression)
+			// process(((CFFullVarExpression)
 			// expression).getExpressions().get(0), filename, elem,
 			// functionName);
 			// }
@@ -605,6 +611,7 @@ public class CFLint implements IErrorReporter {
 	}
 
 	protected void fireStartedProcessing(final String srcidentifier) {
+		currentFile = srcidentifier;
 		for (final ScanProgressListener p : scanProgressListeners) {
 			p.startedProcessing(srcidentifier);
 		}
@@ -614,6 +621,7 @@ public class CFLint implements IErrorReporter {
 		for (final ScanProgressListener p : scanProgressListeners) {
 			p.finishedProcessing(srcidentifier);
 		}
+		currentFile = null;
 	}
 	protected void fireClose() {
 		for (final ScanProgressListener p : scanProgressListeners) {
@@ -638,5 +646,44 @@ public class CFLint implements IErrorReporter {
 
 	public void setProgressUsesThread(final boolean progressUsesThread) {
 		this.progressUsesThread = progressUsesThread;
+	}
+	public void syntaxError(Recognizer<?, ?> recognizer,
+			Object offendingSymbol, int line, int charPositionInLine,
+			String msg, org.antlr.v4.runtime.RecognitionException e) {
+		final String file = currentFile == null ? "" : currentFile + "\r\n";
+		System.out.println(file + "----syntax error ---" + line + " : " + charPositionInLine);
+	}
+	public void reportAmbiguity(Parser recognizer, DFA dfa, int startIndex,
+			int stopIndex, boolean exact, java.util.BitSet ambigAlts,
+			ATNConfigSet configs) {
+		final String file = currentFile == null ? "" : currentFile + "\r\n";
+		System.out.println(file + "----reportAmbiguity ---");
+	}
+	public void reportAttemptingFullContext(Parser recognizer, DFA dfa,
+			int startIndex, int stopIndex, java.util.BitSet conflictingAlts,
+			ATNConfigSet configs) {
+		final String file = currentFile == null ? "" : currentFile + "\r\n";
+		System.out.println(file + "----reportAttemptingFullContext ---");
+	}
+	public void reportContextSensitivity(Parser recognizer, DFA dfa,
+			int startIndex, int stopIndex, int prediction, ATNConfigSet configs) {
+		final String file = currentFile == null ? "" : currentFile + "\r\n";
+		System.out.println(file + "----reportContextSensitivity ---");
+	}
+	public void reportError(org.antlr.v4.runtime.RecognitionException re) {
+		final String file = currentFile == null ? "" : currentFile + "\r\n";
+		System.out.println(file + "----RecognitionException ---" + re.getCtx().getSourceInterval().a + " : " + 
+				re.getCtx().getSourceInterval().b);
+	}
+	public void reportError(String[] tokenNames,
+			org.antlr.v4.runtime.RecognitionException re) {
+		final String file = currentFile == null ? "" : currentFile + "\r\n";
+		System.out.println(file + "----reportError ---" + re.getCtx().getSourceInterval().a + " : " + 
+				re.getCtx().getSourceInterval().b);
+	}
+	public void reportError(org.antlr.v4.runtime.IntStream input,
+			org.antlr.v4.runtime.RecognitionException re, BitSet follow) {
+		final String file = currentFile == null ? "" : currentFile + "\r\n";
+		System.out.println(file + "----reportError ---" );
 	}
 }

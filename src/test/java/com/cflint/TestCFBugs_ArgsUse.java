@@ -64,7 +64,7 @@ public class TestCFBugs_ArgsUse {
 		List<BugInfo> result = cfBugs.getBugs().getBugList().values().iterator().next();
 		assertEquals(1,result.size());
 		assertEquals("ARG_VAR_CONFLICT",result.get(0).getMessageCode());
-		assertEquals(1,result.get(0).getLine());
+		assertEquals(3,result.get(0).getLine());
 	}
 
 	@Test

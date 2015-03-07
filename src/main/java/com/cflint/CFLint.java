@@ -287,7 +287,7 @@ public class CFLint implements IErrorReporter {
 			final Matcher m = p.matcher(expr);
 			if (m.matches()) {
 				try {
-					final CFExpression expression = CFExpression.getCFExpressionThrows(m.group(1));
+					final CFExpression expression = CFExpression.getCFExpression(m.group(1),this);
 					if (expression == null) {
 						throw new NullPointerException("expression is null, parsing error");
 					}
@@ -392,7 +392,7 @@ public class CFLint implements IErrorReporter {
 			final String functionName) {
 		final Context context = new Context(filename, elem, functionName, inAssignment, handler);
 		context.setInComponent(inComponent);
-
+		
 		for (final CFLintScanner plugin : extensions) {
 			try{
 				plugin.expression(expression, context, bugs);
@@ -453,6 +453,7 @@ public class CFLint implements IErrorReporter {
 			final String functionName) {
 		final Context context = new Context(filename, elem, functionName, inAssignment, handler);
 		context.setInComponent(inComponent);
+
 
 		for (final CFLintScanner plugin : extensions) {
 			try{
@@ -656,19 +657,19 @@ public class CFLint implements IErrorReporter {
 	public void reportAmbiguity(Parser recognizer, DFA dfa, int startIndex,
 			int stopIndex, boolean exact, java.util.BitSet ambigAlts,
 			ATNConfigSet configs) {
-		final String file = currentFile == null ? "" : currentFile + "\r\n";
-		System.out.println(file + "----reportAmbiguity ---");
+//		final String file = currentFile == null ? "" : currentFile + "\r\n";
+//		System.out.println(file + "----reportAmbiguity ---");
 	}
 	public void reportAttemptingFullContext(Parser recognizer, DFA dfa,
 			int startIndex, int stopIndex, java.util.BitSet conflictingAlts,
 			ATNConfigSet configs) {
-		final String file = currentFile == null ? "" : currentFile + "\r\n";
-		System.out.println(file + "----reportAttemptingFullContext ---");
+//		final String file = currentFile == null ? "" : currentFile + "\r\n";
+//		System.out.println(file + "----reportAttemptingFullContext ---");
 	}
 	public void reportContextSensitivity(Parser recognizer, DFA dfa,
 			int startIndex, int stopIndex, int prediction, ATNConfigSet configs) {
-		final String file = currentFile == null ? "" : currentFile + "\r\n";
-		System.out.println(file + "----reportContextSensitivity ---");
+//		final String file = currentFile == null ? "" : currentFile + "\r\n";
+//		System.out.println(file + "----reportContextSensitivity ---");
 	}
 	public void reportError(org.antlr.v4.runtime.RecognitionException re) {
 		final String file = currentFile == null ? "" : currentFile + "\r\n";

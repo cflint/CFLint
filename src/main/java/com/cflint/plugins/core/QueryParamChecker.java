@@ -6,6 +6,7 @@ import java.util.regex.Pattern;
 import net.htmlparser.jericho.Element;
 import cfml.parsing.cfscript.CFBinaryExpression;
 import cfml.parsing.cfscript.CFExpression;
+import cfml.parsing.cfscript.CFFunctionExpression;
 import cfml.parsing.cfscript.CFJavaMethodExpression;
 import cfml.parsing.cfscript.CFFullVarExpression;
 
@@ -17,24 +18,14 @@ public class QueryParamChecker extends CFLintScannerAdapter {
 
 	@Override
 	public void expression(final CFExpression expression, final Context context, final BugList bugs) {
-		if (expression instanceof CFFullVarExpression) {
-			final CFFullVarExpression cfFunctionExpr = (CFFullVarExpression) expression;
-			final StringBuilder varName = new StringBuilder();
-			for (final CFExpression expression2 : cfFunctionExpr.getExpressions()) {
-				if (expression2 instanceof CFJavaMethodExpression) {
-					final CFJavaMethodExpression javaexpression = (CFJavaMethodExpression) expression2;
-					if (javaexpression.getFunctionName().equalsIgnoreCase("setSql")
-							&& javaexpression.getArguments().size() > 0) {
-						final CFExpression argsExpression = javaexpression.getArguments().get(0);
-						if (argsExpression instanceof CFBinaryExpression) {
-							context.addMessage("QUERYPARAM_REQ", varName.toString());
-						}
-					}
-				} else {
-					if (varName.length() > 0) {
-						varName.append(".");
-					}
-					varName.append(expression2.Decompile(0));
+		if (expression instanceof CFFunctionExpression) {
+			final CFFunctionExpression functionExpression = (CFFunctionExpression) expression;
+			if (functionExpression.getFunctionName().equalsIgnoreCase("setSql")
+					&& functionExpression.getArgs().size() > 0) {
+				final CFExpression argsExpression = functionExpression.getArgs().get(0);
+				Pattern p = Pattern.compile(".*#[^#].*",Pattern.DOTALL);
+				if (p.matcher(argsExpression.Decompile(0)).matches()) {
+					context.addMessage("QUERYPARAM_REQ", functionExpression.getName());
 				}
 			}
 		}

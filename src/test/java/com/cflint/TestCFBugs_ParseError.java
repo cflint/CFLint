@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.List;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import cfml.parsing.reporting.ParseException;
@@ -39,6 +40,8 @@ public class TestCFBugs_ParseError {
 	}
 	
 	@Test
+	@Ignore
+	//Parsing error fixed!
 	public void testLookBackError() throws ParseException, IOException{
 		final String cfcSrc = "<cfcomponent>\r\n" +
 				"<cffunction name=\"test\">\r\n" +

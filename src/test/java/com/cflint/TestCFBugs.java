@@ -150,7 +150,7 @@ public class TestCFBugs {
 		cfBugs.process(cfcSrc,"test");
 		List<BugInfo> result = cfBugs.getBugs().getBugList().values().iterator().next();
 		assertEquals(1,result.size());
-		assertEquals("PARSE_ERROR",result.get(0).getMessageCode());
+		assertEquals("MISSING_VAR",result.get(0).getMessageCode());//Note parsing error fixed
 		
 	}
 

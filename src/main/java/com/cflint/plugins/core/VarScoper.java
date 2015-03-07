@@ -1,6 +1,7 @@
 package com.cflint.plugins.core;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,7 +22,7 @@ public class VarScoper extends CFLintScannerAdapter {
 		if (expression instanceof CFIdentifier) {
 			final String name = ((CFIdentifier) expression).getName();
 			if (context.isInFunction() && context.isInAssignmentExpression()
-					&& !context.getCallStack().checkVariable(name)) {
+					&& !context.getCallStack().checkVariable(name) && !isGlobal(name)) {
 				context.addMessage("MISSING_VAR", name);
 			} else if (expression instanceof CFFullVarExpression) {
 				final CFFullVarExpression fullVarExpr = (CFFullVarExpression) expression;
@@ -82,9 +83,16 @@ public class VarScoper extends CFLintScannerAdapter {
 	protected void assertVariable(final Element element, final Context context, final BugList bugs,
 			final String inameVar) {
 		final String nameVar = inameVar == null ? null : inameVar.split("\\.")[0];
-		if (nameVar != null && !context.getCallStack().checkVariable(nameVar)) {
+		if (nameVar != null && !context.getCallStack().checkVariable(nameVar) && !isGlobal(nameVar)) {
 			context.addMessage("MISSING_VAR", inameVar);
 		}
+	}
+
+	final static Collection<String> variables = Arrays.asList("APPLICATION", "CGI", "COOKIE", "FORM", "REQUEST",
+			"SERVER", "SESSION", "URL");
+	
+	private boolean isGlobal(String nameVar) {
+		return nameVar != null && variables.contains(nameVar.toUpperCase().trim());
 	}
 
 }

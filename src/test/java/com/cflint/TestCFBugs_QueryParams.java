@@ -130,7 +130,7 @@ public class TestCFBugs_QueryParams {
 		assertEquals(1, result.size());
 		assertEquals("QUERYPARAM_REQ", result.get(0).getMessageCode());
 		assertEquals(4, result.get(0).getLine());
-		assertEquals("local.query", result.get(0).getVariable());
+		assertEquals("local.query.setSql", result.get(0).getVariable());
 	}
 
 	@Test

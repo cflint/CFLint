@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.Stack;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -25,6 +26,8 @@ import org.antlr.v4.runtime.dfa.DFA;
 
 import cfml.parsing.CFMLParser;
 import cfml.parsing.CFMLSource;
+import cfml.parsing.cfml.ErrorEvent;
+import cfml.parsing.cfml.IErrorObserver;
 import cfml.parsing.cfscript.CFAssignmentExpression;
 import cfml.parsing.cfscript.CFBinaryExpression;
 import cfml.parsing.cfscript.CFExpression;
@@ -66,6 +69,8 @@ public class CFLint implements IErrorReporter {
 
 	private static final String FILE_ERROR = "FILE_ERROR";
 	private static final String PARSE_ERROR = "PARSE_ERROR";
+	final CFMLParser cfmlParser = new CFMLParser();
+	
 	
 	StackHandler handler = new StackHandler();
 	boolean inFunction = false;
@@ -92,6 +97,7 @@ public class CFLint implements IErrorReporter {
 	List<CFLintExceptionListener> exceptionListeners = new ArrayList<CFLintExceptionListener>();
 	
 	ConfigRuntime configuration;
+	private Stack<Element> currentElement = new Stack<Element>();
 
 	public CFLint() {
 		this((CFLintConfig)null);
@@ -114,6 +120,7 @@ public class CFLint implements IErrorReporter {
 			allowedExtensions.add(cfcExtension);
 			allowedExtensions.add(cfmExtenstion);
 		}
+		cfmlParser.setErrorReporter(this);
 	}
 	public CFLint(final CFLintScanner... bugsScanners) {
 		this(null,bugsScanners);
@@ -175,6 +182,7 @@ public class CFLint implements IErrorReporter {
 				counter=prescan(file,counter,progressMonitorListener);
 			}
 			if(counter>10){
+				
 				progressMonitorListener.setTotalToProcess(counter);
 			}
 			return counter;
@@ -241,8 +249,7 @@ public class CFLint implements IErrorReporter {
 		final List<Element> elements = cfmlSource.getChildElements();
 		if (elements.size() == 0 && src.contains("component")) {
 			// Check if pure cfscript
-			final CFMLParser cfmlParser = new CFMLParser();
-			cfmlParser.setErrorReporter(this);
+			
 			final CFScriptStatement scriptStatement = cfmlParser.parseScript(src);
 			process(scriptStatement, filename, null, (String)null);
 		} else {
@@ -267,7 +274,8 @@ public class CFLint implements IErrorReporter {
 	private void process(final Element elem, final String space, Context context)
 			throws ParseException, IOException {
 		context.setInComponent(inComponent);
-
+		currentElement.push(elem);
+		try{
 		for (final CFLintScanner plugin : extensions) {
 			try{
 				plugin.element(elem, context, bugs);
@@ -286,12 +294,20 @@ public class CFLint implements IErrorReporter {
 			final String expr = elem.getFirstStartTag().toString();
 			final Matcher m = p.matcher(expr);
 			if (m.matches()) {
+				final String cfscript = m.group(1);
 				try {
-					final CFExpression expression = CFExpression.getCFExpression(m.group(1),this);
-					if (expression == null) {
-						throw new NullPointerException("expression is null, parsing error");
-					}
-					process(expression, context.getFilename(), elem, context.getFunctionName());
+//					if(elem.getName().equals("cfset")){
+//						System.out.println("parse: " + cfscript + ";");
+//						final CFScriptStatement scriptStatement = cfmlParser.parseScript(cfscript + ";");
+//						process(scriptStatement, context.getFilename(), elem, context.getFunctionName());
+//					}else{
+						final CFExpression expression = cfmlParser.parseCFExpression(cfscript,this);
+						
+						if (expression == null) {
+							throw new NullPointerException("expression is null, parsing error");
+						}
+						process(expression, context.getFilename(), elem, context.getFunctionName());
+//					}
 				} catch (final Exception npe) {
 					final int line = elem.getSource().getRow(elem.getBegin());
 					final int column = elem.getSource().getColumn(elem.getBegin());
@@ -304,10 +320,10 @@ public class CFLint implements IErrorReporter {
 					/*bugs.add(new BugInfo.BugInfoBuilder().setLine(elemLine).setColumn(elemColumn + column)
 							.setMessageCode("PARSE_ERROR").setSeverity("ERROR").setExpression(m.group(1))
 							.setFilename(filename).setFunction(functionName).setMessage("Unable to parse").build());*/
-					if (logError) {
-						System.out.println("Logging Error: " + PARSE_ERROR);
-						fireCFLintException(npe,PARSE_ERROR,context.getFilename(),elemLine,elemColumn + column,context.getFunctionName(),m.group(1));
-					}
+//					if (logError) {
+//						System.out.println("Logging Error: " + PARSE_ERROR);
+//						fireCFLintException(npe,PARSE_ERROR,context.getFilename(),elemLine,elemColumn + column,context.getFunctionName(),m.group(1));
+//					}
 				}
 			}
 		} else if (elem.getName().equals("cfargument")) {
@@ -317,8 +333,6 @@ public class CFLint implements IErrorReporter {
 			}
 		} else if (elem.getName().equals("cfscript")) {
 			final String cfscript = elem.getContent().toString();
-			final CFMLParser cfmlParser = new CFMLParser();
-			cfmlParser.setErrorReporter(this);
 			final CFScriptStatement scriptStatement = cfmlParser.parseScript(cfscript);
 			process(scriptStatement, context.getFilename(), elem, context.getFunctionName());
 			// } else if (elem.getName().equals("cfoutput")) {
@@ -354,13 +368,15 @@ public class CFLint implements IErrorReporter {
 			processStack(list.subList(1, list.size()), space + " ", context);
 		} else if (elem.getName().equalsIgnoreCase("cfqueryparam")) {
 			if (elem.getAttributeValue("value") != null) {
-				final CFMLParser cfmlParser = new CFMLParser();
-				cfmlParser.setErrorReporter(this);
-				final CFScriptStatement scriptStatement = cfmlParser.parseScript(elem.getAttributeValue("value") + ";");
-				process(scriptStatement, context.getFilename(), elem, context.getFunctionName());
+				//final CFScriptStatement scriptStatement = cfmlParser.parseScript(elem.getAttributeValue("value") + ";");
+				//process(scriptStatement, context.getFilename(), elem, context.getFunctionName());
+				//TODO this could be 'parsed if the value has a # sign
 			}
 		} else {
 			processStack(elem.getChildElements(), space + " ", context);
+		}
+		}finally{
+			currentElement.pop();
 		}
 	}
 
@@ -652,7 +668,17 @@ public class CFLint implements IErrorReporter {
 			Object offendingSymbol, int line, int charPositionInLine,
 			String msg, org.antlr.v4.runtime.RecognitionException e) {
 		final String file = currentFile == null ? "" : currentFile + "\r\n";
-		System.out.println(file + "----syntax error ---" + line + " : " + charPositionInLine);
+		//System.err.println(file + "----syntax error ---" + line + " : " + charPositionInLine);
+		if(!currentElement.isEmpty()){
+			Element elem = currentElement.peek();
+			if(line == 1){
+				line = elem.getSource().getRow(elem.getBegin());
+				charPositionInLine = charPositionInLine + elem.getSource().getColumn(elem.getBegin());
+			}else{
+				line = elem.getSource().getRow(elem.getBegin()) + line - 1;
+			}
+		}
+		fireCFLintException(e,PARSE_ERROR,currentFile,line,charPositionInLine,"",offendingSymbol==null?"":offendingSymbol.toString());
 	}
 	public void reportAmbiguity(Parser recognizer, DFA dfa, int startIndex,
 			int stopIndex, boolean exact, java.util.BitSet ambigAlts,

@@ -143,7 +143,7 @@ public class TestCFBugs {
 	public void testSimpleCFSET_NoParse() throws ParseException, IOException{
 		final String cfcSrc = "<cfcomponent>\r\n" +
 				"<cffunction name=\"test\">\r\n" +
-				"	<cfset x=123/" +
+				"	<cfset x=123/>" +
 				"	<cfset var y=123/>\r\n" +
 				"</cffunction>\r\n" +
 				"</cfcomponent>";

@@ -34,6 +34,7 @@ public class TestCFBugs_ParseError {
 				"</cfcomponent>";
 		cfBugs.process(cfcSrc,"test");
 		List<BugInfo> result = cfBugs.getBugs().getBugList().values().iterator().next();
+		System.out.println(result);
 		assertEquals(1,result.size());
 		assertEquals("PARSE_ERROR",result.get(0).getMessageCode());
 		assertEquals(4,result.get(0).getLine());

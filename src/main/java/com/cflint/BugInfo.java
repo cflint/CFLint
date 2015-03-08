@@ -19,6 +19,9 @@ public class BugInfo {
 	String expression;
 	String function;
 	String variable;
+	public BugInfo() {
+		super();
+	}
 	String severity;
 	
 	public int getLine() {

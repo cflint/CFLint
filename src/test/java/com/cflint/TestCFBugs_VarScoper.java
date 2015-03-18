@@ -139,4 +139,6 @@ public class TestCFBugs_VarScoper {
 		assertEquals("Variable yy is not declared with a var statement.",result.get(0).getMessage());
 	}
 	
+	
+	
 }

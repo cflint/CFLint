@@ -31,6 +31,7 @@ import cfml.parsing.cfml.IErrorObserver;
 import cfml.parsing.cfscript.CFAssignmentExpression;
 import cfml.parsing.cfscript.CFBinaryExpression;
 import cfml.parsing.cfscript.CFExpression;
+import cfml.parsing.cfscript.CFFullVarExpression;
 import cfml.parsing.cfscript.CFFunctionExpression;
 import cfml.parsing.cfscript.CFIdentifier;
 import cfml.parsing.cfscript.CFLiteral;
@@ -242,6 +243,8 @@ public class CFLint implements IErrorReporter {
 			return null;
 		}
 	}
+	
+	int parserCounter = 1;
 
 	public void process(final String src, final String filename) throws ParseException, IOException {
 		fireStartedProcessing(filename);
@@ -249,7 +252,6 @@ public class CFLint implements IErrorReporter {
 		final List<Element> elements = cfmlSource.getChildElements();
 		if (elements.size() == 0 && src.contains("component")) {
 			// Check if pure cfscript
-			
 			final CFScriptStatement scriptStatement = cfmlParser.parseScript(src);
 			process(scriptStatement, filename, null, (String)null);
 		} else {
@@ -326,6 +328,7 @@ public class CFLint implements IErrorReporter {
 //					}
 				}
 			}
+			
 		} else if (elem.getName().equals("cfargument")) {
 			final String name = elem.getAttributeValue("name");
 			if (name != null) {
@@ -334,6 +337,7 @@ public class CFLint implements IErrorReporter {
 		} else if (elem.getName().equals("cfscript")) {
 			final String cfscript = elem.getContent().toString();
 			final CFScriptStatement scriptStatement = cfmlParser.parseScript(cfscript);
+
 			process(scriptStatement, context.getFilename(), elem, context.getFunctionName());
 			// } else if (elem.getName().equals("cfoutput")) {
 			// final Element parent = CFTool.getNamedParent(elem, "cfoutput");
@@ -516,6 +520,14 @@ public class CFLint implements IErrorReporter {
 			// .setFunction(functionName).setSeverity("ERROR").setFilename(filename)
 			// .setExpression(expression.Decompile(0)).build(expression, elem));
 			// }
+			if(expression instanceof CFFullVarExpression){
+				CFFullVarExpression fullVarExpression = (CFFullVarExpression)expression;
+				for(CFExpression expr: fullVarExpression.getExpressions()){
+					if(expr instanceof CFFunctionExpression){
+						process(expr,filename,elem,functionName);
+					}
+				}
+			}
 		} else if (expression instanceof CFVarDeclExpression) {
 			handler.addVariable(((CFVarDeclExpression) expression).getName());
 			process(((CFVarDeclExpression) expression).getInit(), filename, elem, functionName);

@@ -61,5 +61,42 @@ public class TestCFBugs_GLobalVarChecker {
 		assertEquals("form", result.get(1).getVariable());
 		assertEquals(5, result.get(1).getLine());
 	}
+	
+	@Test
+	public void testCGI() throws ParseException, IOException {
+		final String cfcSrc = "<cfcomponent>\r\n" + "<cffunction name=\"test\">\r\n"
+				+ "	<cfset CGI.bf=\"123\">\r\n" + "</cffunction>\r\n" + "</cfcomponent>";
+		cfBugs.process(cfcSrc, "test");
+		final List<BugInfo> result = cfBugs.getBugs().getBugList().values().iterator().next();
+		assertEquals(1, result.size());
+		assertEquals("GLOBAL_VAR", result.get(0).getMessageCode());
+		assertEquals("CGI", result.get(0).getVariable());
+		assertEquals(3, result.get(0).getLine());
+	}
+	
+	@Test
+	public void testHashNestedCGI() throws ParseException, IOException {
+		final String cfcSrc = "<cfcomponent>\r\n" + "<cffunction name=\"test\">\r\n"
+				+ "	<cfset a.books = #CGI.user.books#>\r\n" + "</cffunction>\r\n" + "</cfcomponent>";
+		cfBugs.process(cfcSrc, "test");
+		final List<BugInfo> result = cfBugs.getBugs().getBugList().values().iterator().next();
+		assertEquals(1, result.size());
+		assertEquals("GLOBAL_VAR", result.get(0).getMessageCode());
+		assertEquals("CGI", result.get(0).getVariable());
+		assertEquals(3, result.get(0).getLine());
+	}
+	
+	@Test
+	public void testHashLiteralNestedCGI() throws ParseException, IOException {
+		final String cfcSrc = "<cfcomponent>\r\n" + "<cffunction name=\"test\">\r\n"
+				+ "	<cfset a.books = '#CGI.user.books#'>\r\n" + "</cffunction>\r\n" + "</cfcomponent>";
+		cfBugs.process(cfcSrc, "test");
+		final List<BugInfo> result = cfBugs.getBugs().getBugList().values().iterator().next();
+		assertEquals(1, result.size());
+		assertEquals("GLOBAL_VAR", result.get(0).getMessageCode());
+		assertEquals("CGI", result.get(0).getVariable());
+		assertEquals(3, result.get(0).getLine());
+	}
+	
 
 }

@@ -24,6 +24,7 @@ import org.antlr.v4.runtime.Recognizer;
 import org.antlr.v4.runtime.atn.ATNConfigSet;
 import org.antlr.v4.runtime.dfa.DFA;
 
+import cfml.CFSCRIPTLexer;
 import cfml.parsing.CFMLParser;
 import cfml.parsing.CFMLSource;
 import cfml.parsing.cfml.ErrorEvent;
@@ -35,6 +36,7 @@ import cfml.parsing.cfscript.CFFullVarExpression;
 import cfml.parsing.cfscript.CFFunctionExpression;
 import cfml.parsing.cfscript.CFIdentifier;
 import cfml.parsing.cfscript.CFLiteral;
+import cfml.parsing.cfscript.CFNestedExpression;
 import cfml.parsing.cfscript.CFUnaryExpression;
 import cfml.parsing.cfscript.CFVarDeclExpression;
 import cfml.parsing.cfscript.script.CFCompDeclStatement;
@@ -488,6 +490,8 @@ public class CFLint implements IErrorReporter {
 		}
 		if (expression instanceof CFUnaryExpression) {
 			process(((CFUnaryExpression) expression).getSub(), filename, elem, functionName);
+		}else if (expression instanceof CFNestedExpression) {
+				process(((CFNestedExpression) expression).getSub(), filename, elem, functionName);
 		} else if (expression instanceof CFAssignmentExpression) {
 			inAssignment = true;
 			process(((CFAssignmentExpression) expression).getLeft(), filename, elem, functionName);
@@ -532,6 +536,27 @@ public class CFLint implements IErrorReporter {
 			handler.addVariable(((CFVarDeclExpression) expression).getName());
 			process(((CFVarDeclExpression) expression).getInit(), filename, elem, functionName);
 		} else if (expression instanceof CFLiteral) {
+			if(expression.getToken().getType() == CFSCRIPTLexer.STRING_LITERAL){
+				for(String subExprStr : splitHash(expression.Decompile(0))){
+					try{
+						final CFExpression subExpression = cfmlParser.parseCFExpression(subExprStr,this);
+						if (expression == null) {
+							throw new NullPointerException("expression is null, parsing error");
+						}
+						process(subExpression, filename, elem,functionName);
+					} catch (final Exception npe) {
+						final int line = elem.getSource().getRow(elem.getBegin());
+						final int column = elem.getSource().getColumn(elem.getBegin());
+						if (!quiet) {
+							System.err.println("Error in: " + shortSource(elem.getSource(), line) + " @ " + line + ":");
+							if (verbose) {
+								npe.printStackTrace(System.err);
+							}
+						}
+					}
+				}
+					
+			}
 			// } else if (expression instanceof CFFullVarExpression) {
 			// if (((CFFullVarExpression) expression).getExpressions().size() ==
 			// 1) {
@@ -724,5 +749,34 @@ public class CFLint implements IErrorReporter {
 			org.antlr.v4.runtime.RecognitionException re, BitSet follow) {
 		final String file = currentFile == null ? "" : currentFile + "\r\n";
 		System.out.println(file + "----reportError ---" );
+	}
+	
+
+	List<String> splitHash(String input){
+		input = input + "   ";
+		List<String> retval = new ArrayList<String>();
+		
+		int start = 0;
+		int end= -1;
+		
+		while(start<input.length() && end < input.length()){
+			if(end>start){
+				retval.add(input.substring(start, end));
+				
+			}
+			start = end + 1;
+			while(start<input.length() && input.charAt(start)!='#'){
+				start++;
+			}
+			start++;
+			end=start;
+			while(end<input.length() && input.charAt(end)!='#'){
+				end++;
+				if(input.charAt(end)=='#'&&input.charAt(end+1)=='#'){
+					end +=2;
+				}
+			}
+		}
+		return retval;
 	}
 }

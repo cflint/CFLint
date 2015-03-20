@@ -20,6 +20,10 @@ public class VarScoper extends CFLintScannerAdapter {
 	@Override
 	public void expression(final CFExpression expression, final Context context, final BugList bugs) {
 		if (expression instanceof CFIdentifier) {
+			//No issue
+			if(expression instanceof CFFullVarExpression && ((CFFullVarExpression) expression).getExpressions().size()>1){
+				return;
+			}
 			final String name = ((CFIdentifier) expression).getName();
 			if (context.isInFunction() && context.isInAssignmentExpression()
 					&& !context.getCallStack().checkVariable(name) && !isGlobal(name)) {

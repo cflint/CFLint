@@ -140,5 +140,19 @@ public class TestCFBugs_VarScoper {
 	}
 	
 	
+	@Test
+	public void testScript_UnVard_Scoped() throws ParseException, IOException{
+		final String cfcSrc = "<cfcomponent>\r\n" +
+				"<cffunction name=\"test\">\r\n" +
+				"	<cfscript>\r\n" +
+				"   cfevent.yy = 123;\r\n" +
+				"	</cfscript>\r\n" +
+				"</cffunction>\r\n" +
+				"</cfcomponent>";
+		cfBugs.process(cfcSrc,"test");
+		assertEquals(0,cfBugs.getBugs().getFlatBugList().size());
+	}
+	
+	
 	
 }

@@ -275,7 +275,6 @@
 							<goal>assemble</goal>
 						</goals>
 						<configuration>
-							<extraJvmArguments>-Xmx4g</extraJvmArguments>
 							<programs>
 								<program>
 									<mainClass>com.cflint.main.CFLintMain</mainClass>

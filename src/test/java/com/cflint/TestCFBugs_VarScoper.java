@@ -153,6 +153,21 @@ public class TestCFBugs_VarScoper {
 		assertEquals(0,cfBugs.getBugs().getFlatBugList().size());
 	}
 	
+
+	
+	@Test
+	public void testScript_UnVard_ArrayFalsePositive() throws ParseException, IOException{
+		final String cfcSrc = "<cffunction name=\"x\"><cfset var myRet = [] />\n" + 
+				"\n" + 
+				"<cfstoredproc>\n" + 
+				"   <cfprocresult name=\"myRet[1]\" resultset=\"1\" />\n" + 
+				"   <cfprocresult name=\"myRet[2]\" resultset=\"2\" />\n" + 
+				"   <cfprocresult name=\"myRet[3]\" resultset=\"3\" />\n" + 
+				"</cfstoredproc></cffunction>";
+		cfBugs.process(cfcSrc,"test");
+		assertEquals(0,cfBugs.getBugs().getFlatBugList().size());
+	}
+	
 	
 	
 }

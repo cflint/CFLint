@@ -86,7 +86,7 @@ public class VarScoper extends CFLintScannerAdapter {
 
 	protected void assertVariable(final Element element, final Context context, final BugList bugs,
 			final String inameVar) {
-		final String nameVar = inameVar == null ? null : inameVar.split("\\.")[0];
+		final String nameVar = inameVar == null ? null : inameVar.split("\\.")[0].split("\\[")[0];
 		if (nameVar != null && !context.getCallStack().checkVariable(nameVar) && !isGlobal(nameVar)) {
 			context.addMessage("MISSING_VAR", inameVar);
 		}

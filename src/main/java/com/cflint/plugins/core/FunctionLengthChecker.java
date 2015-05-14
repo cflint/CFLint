@@ -31,10 +31,12 @@ public class FunctionLengthChecker extends CFLintScannerAdapter {
 			final int begLine = function.getLine();
 			String[] lines = decompile.split("\\n");
 			CFCompoundStatement body = (CFCompoundStatement) function.getBody();
-			bugs.add(new BugInfo.BugInfoBuilder().setLine(lines.length).setMessageCode("EXCESSIVE_FUNCTION_LENGTH")
-					.setSeverity(severity).setFilename(context.getFilename())
-					.setMessage("decompile: " + Arrays.toString(lines) +  "\n" +function.getBody().Decompile(1))
-					.build());
+			if (lines.length > LENGTH_THRESHOLD) {
+				bugs.add(new BugInfo.BugInfoBuilder().setLine(begLine).setMessageCode("EXCESSIVE_FUNCTION_LENGTH")
+						.setSeverity(severity).setFilename(context.getFilename())
+						.setMessage("Function is " + lines.length + " lines. Should be less than " + LENGTH_THRESHOLD + " lines.")
+						.build());
+			}
 		}
 	}
 

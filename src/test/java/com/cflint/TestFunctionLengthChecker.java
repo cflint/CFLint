@@ -13,7 +13,6 @@ import com.cflint.config.CFLintPluginInfo.PluginInfoRule;
 import com.cflint.config.CFLintPluginInfo.PluginInfoRule.PluginMessage;
 import com.cflint.plugins.core.FunctionLengthChecker;
 import com.cflint.config.ConfigRuntime;
-import com.cflint.plugins.core.Temp;
 import java.util.Map;
 import java.util.HashMap;
 

@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.github.cflint</groupId>
 	<artifactId>CFLint</artifactId>
-	<version>0.4.0</version>
+	<version>0.5.0-SNAPSHOT</version>
 
 	<name>CFLint</name>
 	<description>
@@ -37,10 +37,10 @@
 
 	<licenses>
 		<license>
-			<name>GNU General Lesser Public License (LGPL) version 3.0</name>
-			<url>http://www.gnu.org/licenses/lgpl.txt</url>
-			<distribution>repo</distribution>
-		</license>
+            <name>The New BSD License</name>
+            <url>http://www.opensource.org/licenses/bsd-license.html</url>
+            <distribution>repo</distribution>
+        </license>
 	</licenses>
 
 	<dependencies>
@@ -202,7 +202,7 @@
 					</execution>
 				</executions>
 			</plugin>
-			<plugin>
+	<!--		<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-gpg-plugin</artifactId>
 				<version>1.5</version>
@@ -215,7 +215,7 @@
 						</goals>
 					</execution>
 				</executions>
-			</plugin>
+			</plugin>-->
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>license-maven-plugin</artifactId>
@@ -232,7 +232,7 @@
 						</goals>
 						<phase>process-sources</phase>
 						<configuration>
-							<licenseName>lgpl_v3</licenseName>
+							<licenseName>bsd_2</licenseName>
 							<roots>
 								<root>src/main/java</root>
 								<root>src/test</root>
@@ -385,9 +385,9 @@
 	</profiles>
 
 	<!-- Sonatype: mvn clean package -->
-	<!-- Sonatype: mvn verify gpg:sign -->
-	<!-- Sonatype: mvn deploy -->
-	<!-- Sonatype: mvn nexus-staging:release -->
+	<!-- Sonatype: mvn verify gpg:sign -DskipTests -->
+	<!-- Sonatype: mvn deploy  -DskipTests -->
+	<!-- Sonatype: mvn nexus-staging:release  -DskipTests -->
 	<distributionManagement>
 		<snapshotRepository>
 			<id>ossrh</id>

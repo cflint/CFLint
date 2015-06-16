@@ -27,7 +27,7 @@ public class XMLOutput {
 				writer.append("<issue");
 				writer.append(" severity=\"").append(xmlEscapeText(bugEntry.getValue().get(0).getSeverity())).append("\"");
 				writer.append(" id=\"").append(xmlEscapeText(bugEntry.getValue().get(0).getMessageCode())).append("\"");
-				writer.append(" message=\"").append(xmlEscapeText(bugEntry.getValue().get(0).getMessageCode())).append("\"");
+				writer.append(" message=\"").append(xmlEscapeText(bugEntry.getValue().get(0).getMessage())).append("\"");
 				writer.append(" category=\"CFLint\"");
 				writer.append(" abbrev=\"").append(abbrev(bugEntry.getValue().get(0).getMessageCode())).append("\"");
 				writer.append(">");

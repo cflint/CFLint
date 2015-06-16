@@ -8,6 +8,8 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONValue;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -29,7 +31,7 @@ public class TestJSONOutput {
 		BugInfo bugInfo = new BugInfo.BugInfoBuilder().setFunction("testf").setMessageCode("PARSE_ERROR").setFilename("c:\\temp\\test.cfc").build();
 		bugList.add(bugInfo);
 		outputer.output(bugList, writer);
-		assertEquals("[{\"severity\":\"\",\"locations\":[{\"fileName\":\"test.cfc\",\"file\":\"c:\\\\temp\\\\test.cfc\",\"expression\":\"\",\"line\":\"0\",\"column\":\"0\",\"variable\":\"\",\"message\":\"\"}],\"id\":\"PARSE_ERROR\",\"abbrev\":\"PE\",\"message\":\"PARSE_ERROR\",\"category\":\"CFLINT\"}]",
-				writer.toString());
+		String expectedText = "[{\"severity\":\"\",\"locations\":[{\"fileName\":\"test.cfc\",\"file\":\"c:\\\\temp\\\\test.cfc\",\"expression\":\"\",\"line\":\"0\",\"column\":\"0\",\"variable\":\"\",\"message\":\"\"}],\"id\":\"PARSE_ERROR\",\"abbrev\":\"PE\",\"message\":\"PARSE_ERROR\",\"category\":\"CFLINT\"}]";
+		assertEquals(JSONValue.parse(expectedText),JSONValue.parse(writer.toString()));
 	}
 }

@@ -25,16 +25,16 @@ public class XMLOutput {
 
 			while (bugInfo != null) {
 				writer.append("<issue");
-				writer.append(" severity=\"").append(bugEntry.getValue().get(0).getSeverity()).append("\"");
-				writer.append(" id=\"").append(bugEntry.getValue().get(0).getMessageCode()).append("\"");
-				writer.append(" message=\"").append(bugEntry.getValue().get(0).getMessageCode()).append("\"");
+				writer.append(" severity=\"").append(xmlEscapeText(bugEntry.getValue().get(0).getSeverity())).append("\"");
+				writer.append(" id=\"").append(xmlEscapeText(bugEntry.getValue().get(0).getMessageCode())).append("\"");
+				writer.append(" message=\"").append(xmlEscapeText(bugEntry.getValue().get(0).getMessageCode())).append("\"");
 				writer.append(" category=\"CFLint\"");
 				writer.append(" abbrev=\"").append(abbrev(bugEntry.getValue().get(0).getMessageCode())).append("\"");
 				writer.append(">");
 				do {
 					writer.append("<location");
-					writer.append(" file=\"").append(bugInfo.getFilename()).append("\"");
-					writer.append(" fileName=\"").append(filename(bugInfo.getFilename())).append("\"");
+					writer.append(" file=\"").append(xmlEscapeText(bugInfo.getFilename())).append("\"");
+					writer.append(" fileName=\"").append(xmlEscapeText(filename(bugInfo.getFilename()))).append("\"");
 					writer.append(" column=\"").append(Integer.valueOf(bugInfo.getColumn()).toString()).append("\"");
 					writer.append(" line=\"").append(Integer.valueOf(bugInfo.getLine()).toString()).append("\"");
 					writer.append(" message=\"").append(xmlEscapeText(bugInfo.getMessage())).append("\"");
@@ -98,6 +98,7 @@ public class XMLOutput {
 
 		// 3. Use the Transformer to transform an XML Source and send the
 		// output to a Result object.
+		System.out.println(sw.toString());
 		transformer.transform(new StreamSource(new StringReader(sw.toString())),
 				new javax.xml.transform.stream.StreamResult(writer));
 		writer.close();
@@ -119,7 +120,7 @@ public class XMLOutput {
 		}
 	}
 
-	String xmlEscapeText(final String t) {
+	String xmlEscapeText(final CharSequence t) {
 		if (t == null) {
 			return "";
 		}

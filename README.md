@@ -1,6 +1,8 @@
 ![CFLint](/src/main/resources/CFLint-logo.jpg)
 ======
 
+Please Note: CFLint has changed it's license to BSD (http://www.opensource.org/licenses/bsd-license.html) as of v0.5.
+
 A static code analysis tool for ColdFusion
 
 Check out the new [wiki!](https://github.com/cflint/CFLint/wiki) where you can:

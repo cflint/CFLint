@@ -105,7 +105,10 @@ public class XMLOutput {
 	}
 
 	private CharSequence filename(final String filename) {
-		return filename.substring(Math.max(filename.lastIndexOf('/'), filename.lastIndexOf('\\')));
+		if(filename == null){
+			return "";
+		}
+		return filename.substring(Math.max(filename.lastIndexOf('/'), filename.lastIndexOf('\\'))+1);
 	}
 
 	private CharSequence abbrev(final String messageCode) {

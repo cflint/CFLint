@@ -29,6 +29,7 @@ public class TestJSONOutput {
 		BugInfo bugInfo = new BugInfo.BugInfoBuilder().setFunction("testf").setMessageCode("PARSE_ERROR").setFilename("c:\\temp\\test.cfc").build();
 		bugList.add(bugInfo);
 		outputer.output(bugList, writer);
-		assertEquals("[]",writer.toString());
+		assertEquals("[{\"severity\":\"\",\"locations\":[{\"fileName\":\"test.cfc\",\"file\":\"c:\\\\temp\\\\test.cfc\",\"expression\":\"\",\"line\":\"0\",\"column\":\"0\",\"variable\":\"\",\"message\":\"\"}],\"id\":\"PARSE_ERROR\",\"abbrev\":\"PE\",\"message\":\"PARSE_ERROR\",\"category\":\"CFLINT\"}]",
+				writer.toString());
 	}
 }

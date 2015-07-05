@@ -142,4 +142,20 @@ public class TestCFBugs_QueryParams {
 		final Map<String, List<BugInfo>> result = cfBugs.getBugs().getBugList();
 		assertEquals(0, result.size());
 	}
+	
+	@Test
+	public void testCFScript_QueryParams_DynamicTableName() throws ParseException, IOException {
+		final String cfcSrc = "<cfquery name=\"queryName\" datasource=\"#datasourceName#\">\n" + 
+				"    update #tableName#\n" + 
+				"    set fieldName = 'foo';\n" + 
+				"</cfquery>";
+		cfBugs.process(cfcSrc, "test");
+		final List<BugInfo> result = cfBugs.getBugs().getFlatBugList();
+		for (final BugInfo bi : result) {
+			System.out.println(bi);
+		}
+		assertEquals(1, result.size());
+		assertEquals("CFQUERYPARAM_REQ", result.get(0).getMessageCode());
+		assertEquals("queryName", result.get(0).getVariable());
+	}
 }

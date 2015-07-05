@@ -83,7 +83,7 @@ public class TestCFBugs_QueryParams {
 		assertEquals(2, result.size());
 		assertEquals("CFQUERYPARAM_REQ", result.get(0).getMessageCode());
 		assertEquals(3, result.get(0).getLine());
-		assertEquals("LOCAL.id", result.get(0).getVariable());
+		assertEquals("LOCAL.categories", result.get(0).getVariable());
 		assertEquals("CFQUERYPARAM_REQ", result.get(1).getMessageCode());
 		assertEquals(3, result.get(1).getLine());
 	}
@@ -100,7 +100,7 @@ public class TestCFBugs_QueryParams {
 		assertEquals(2, result.size());
 		assertEquals("CFQUERYPARAM_REQ", result.get(0).getMessageCode());
 		assertEquals(1, result.get(0).getLine());
-		assertEquals("LOCAL.id", result.get(0).getVariable());
+		assertEquals("LOCAL.categories", result.get(0).getVariable());
 		assertEquals("CFQUERYPARAM_REQ", result.get(1).getMessageCode());
 		assertEquals(1, result.get(1).getLine());
 	}
@@ -157,5 +157,6 @@ public class TestCFBugs_QueryParams {
 		assertEquals(1, result.size());
 		assertEquals("CFQUERYPARAM_REQ", result.get(0).getMessageCode());
 		assertEquals("queryName", result.get(0).getVariable());
+		System.out.println(result.get(0).getExpression());
 	}
 }

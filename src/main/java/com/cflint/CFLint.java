@@ -603,7 +603,7 @@ public class CFLint implements IErrorReporter {
 			Element prevSibling = getPreviousSibling(elem);
 			if (prevSibling != null && prevSibling.getName().equals("!---")) {
 				Pattern p = Pattern
-						.compile(".*---\\s*CFLINT-DISABLE\\s+(.*)\\s+---.*");
+						.compile(".*---\\s*CFLINT-DISABLE\\s+(.*)\\s*---.*");
 				Matcher m = p.matcher(prevSibling.toString().toUpperCase()
 						.trim());
 				if (m.matches()) {

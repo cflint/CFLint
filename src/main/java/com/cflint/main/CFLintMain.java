@@ -255,14 +255,14 @@ public class CFLintMain {
 				System.out.println("Unable to use extensions (" + extensions + ") using default instead. " + e.getMessage());
 			}
 		}
-		CFLintFilter filter = CFLintFilter.createFilter();
+		CFLintFilter filter = CFLintFilter.createFilter(verbose);
 		if(filterFile != null){
 			File ffile = new File(filterFile);
 			if(ffile.exists()){
 				FileInputStream fis = new FileInputStream(ffile);
 				byte b[] = new byte[fis.available()];
 				fis.read(b);
-				filter = CFLintFilter.createFilter(new String(b));
+				filter = CFLintFilter.createFilter(new String(b),verbose);
 			}
 		}
 				

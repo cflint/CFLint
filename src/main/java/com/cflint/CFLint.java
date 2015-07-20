@@ -111,7 +111,7 @@ public class CFLint implements IErrorReporter {
 		for(PluginInfoRule ruleInfo:configuration.getRules()){
 			extensions.add(ConfigUtils.loadPlugin(ruleInfo));
 		}
-		final CFLintFilter filter = CFLintFilter.createFilter();
+		final CFLintFilter filter = CFLintFilter.createFilter(verbose);
 		bugs = new BugList(filter);
 		if(exceptionListeners.size() == 0){
 			addExceptionListener(new DefaultCFLintExceptionListener(bugs));
@@ -145,7 +145,7 @@ public class CFLint implements IErrorReporter {
 				}
 			}
 		}
-		final CFLintFilter filter = CFLintFilter.createFilter();
+		final CFLintFilter filter = CFLintFilter.createFilter(verbose);
 		bugs = new BugList(filter);
 		if(exceptionListeners.size() == 0){
 			addExceptionListener(new DefaultCFLintExceptionListener(bugs));

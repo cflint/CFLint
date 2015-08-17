@@ -29,6 +29,7 @@ import com.cflint.HTMLOutput;
 import com.cflint.TextOutput;
 import com.cflint.Version;
 import com.cflint.XMLOutput;
+import com.cflint.JSONOutput;
 import com.cflint.config.CFLintConfig;
 import com.cflint.config.ConfigUtils;
 import com.cflint.tools.CFLintFilter;
@@ -43,10 +44,12 @@ public class CFLintMain {
 	boolean xmlOutput = false;
 	boolean htmlOutput = true;
 	boolean textOutput = false;
+	boolean jsonOutput = false;
 	String xmlOutFile = "cflint-result.xml";
 	String xmlstyle = "cflint";
 	String htmlOutFile = "cflint-result.html";
 	String htmlStyle = "plain.xsl";
+	String jsonOutFile = "cflint-result.json";
 	String textOutFile = null;
 	String[] includeCodes = null;
 	String[] excludeCodes = null;
@@ -109,6 +112,7 @@ public class CFLintMain {
 		main.logerror = (cmd.hasOption('e') || cmd.hasOption("logerror"));
 		main.xmlOutput = cmd.hasOption("xml") || cmd.hasOption("xmlstyle") || cmd.hasOption("xmlfile");
 		main.textOutput = cmd.hasOption("text") || cmd.hasOption("textfile");
+		main.jsonOutput = cmd.hasOption("json") || cmd.hasOption("jsonFile");
 		if (cmd.hasOption("ui")) {
 			main.ui();
 		}
@@ -146,6 +150,9 @@ public class CFLintMain {
 		}
 		if (cmd.hasOption("textfile")) {
 			main.textOutFile = cmd.getOptionValue("textfile");
+		}
+		if (cmd.hasOption("jsonfile")) {
+			main.jsonOutFile = cmd.getOptionValue("jsonfile");
 		}
 		if (cmd.hasOption("extensions")) {
 			main.extensions = cmd.getOptionValue("extensions");
@@ -188,6 +195,14 @@ public class CFLintMain {
 			Desktop.getDesktop().open(new File(htmlOutFile));
 			return;
 		}
+		if (htmlOutput) {
+			Desktop.getDesktop().open(new File(htmlOutFile));
+			return;
+		}
+		if (jsonOutput) {
+			Desktop.getDesktop().open(new File(jsonOutFile));
+			return;
+		}
 	}
 
 	private void ui() {
@@ -216,6 +231,9 @@ public class CFLintMain {
 			}
 			if (indx == 2) {
 				textOutput = true;
+			}
+			if (indx == 3) {
+				jsonOutput = true;
 			}
 		}
 	}
@@ -297,6 +315,12 @@ public class CFLintMain {
 			} catch (final TransformerException e) {
 				throw new IOException(e);
 			}
+		}
+		if (jsonOutput) {
+			if(verbose){
+				System.out.println("Writing " + jsonOutFile);
+			}
+			new JSONOutput().output(cflint.getBugs(), new FileWriter(jsonOutFile));
 		}
 		if (includeCodes != null) {
 			cflint.getBugs().getFilter().includeCode(includeCodes);

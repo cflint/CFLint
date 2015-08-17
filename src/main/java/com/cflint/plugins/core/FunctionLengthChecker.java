@@ -18,7 +18,7 @@ import com.cflint.plugins.Context;
 
 @Extension
 public class FunctionLengthChecker extends CFLintScannerAdapter {
-	final int LENGTH_THRESHOLD = 100;
+	final int LENGTH_THRESHOLD = 1;
 	final String severity = "INFO";
 
 	public void expression(final CFExpression expression, final Context context, final BugList bugs) {

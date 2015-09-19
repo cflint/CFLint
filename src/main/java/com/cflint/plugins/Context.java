@@ -11,6 +11,7 @@ import com.cflint.StackHandler;
 public class Context {
 
 	String filename;
+	String componentName;
 	final Element element;
 	String functionName;
 	final boolean inAssignmentExpression;
@@ -23,6 +24,7 @@ public class Context {
 			final boolean inAssignmentExpression, final StackHandler handler) {
 		super();
 		this.filename = filename;
+		this.componentName = componentFromFile(filename);
 		this.element = element;
 		this.functionName = functionName == null ? "" : functionName.Decompile(0);
 		this.inAssignmentExpression = inAssignmentExpression;
@@ -32,6 +34,7 @@ public class Context {
 			final boolean inAssignmentExpression, final StackHandler handler) {
 		super();
 		this.filename = filename;
+		this.componentName = componentFromFile(filename);
 		this.element = element;
 		this.functionName = functionName == null ? "" : functionName;
 		this.inAssignmentExpression = inAssignmentExpression;
@@ -52,6 +55,10 @@ public class Context {
 
 	public String getFunctionName() {
 		return functionName;
+	}
+
+	public String getComponentName() {
+		return componentName;
 	}
 
 	public void setFunctionIdentifier(CFIdentifier functionName) {
@@ -125,5 +132,17 @@ public class Context {
 		Context context2 = new Context(getFilename(), elem, getFunctionName(),isInAssignmentExpression(), callStack);
 		context2.setInComponent(isInComponent());
 		return context2;
+	}
+
+	protected String componentFromFile(String filename) {
+		int dotPosition = filename.lastIndexOf(".");
+		String separator = System.getProperty("file.separator");
+    	int seperatorPosition = filename.lastIndexOf(separator); 
+    	
+    	if (dotPosition == -1 || seperatorPosition == -1) {
+    		return null;
+    	}
+    	
+    	return filename.substring(seperatorPosition+1, dotPosition);
 	}
 }

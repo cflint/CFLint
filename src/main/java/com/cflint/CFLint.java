@@ -280,6 +280,11 @@ public class CFLint implements IErrorReporter {
 			throws ParseException, IOException {
 		context.setInComponent(inComponent);
 		currentElement.push(elem);
+
+		if (elem.getName().equals("cfcomponent")) {
+			context.setComponentName(elem.getAttributeValue("displayname"));
+		}
+
 		try{
 		for (final CFLintScanner plugin : extensions) {
 			try{

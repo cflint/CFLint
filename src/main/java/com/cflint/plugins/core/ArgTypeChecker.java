@@ -24,17 +24,13 @@ public class ArgTypeChecker extends CFLintScannerAdapter {
 				final String name = argument.getName();
 				final String variableType = argument.getType();
 
-				System.out.println("Function!");
-
 				if (variableType == null) {
-					System.out.println("Missing type");
 					bugs.add(new BugInfo.BugInfoBuilder().setLine(begLine).setMessageCode("ARG_TYPE_MISSING")
 						.setSeverity(severity).setFilename(context.getFilename())
 						.setMessage("Argument " + name + " is missing a type.")
 						.build());
 				}
 				else if (variableType.equals("any")) {
-					System.out.println("Type is any");
 					bugs.add(new BugInfo.BugInfoBuilder().setLine(begLine).setMessageCode("ARG_TYPE_ANY")
 						.setSeverity(severity).setFilename(context.getFilename())
 						.setMessage("Argument " + name + " is any. Please change to be the correct type.")

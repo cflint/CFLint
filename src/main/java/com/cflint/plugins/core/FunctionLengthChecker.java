@@ -18,7 +18,7 @@ import com.cflint.plugins.Context;
 
 @Extension
 public class FunctionLengthChecker extends CFLintScannerAdapter {
-	final int LENGTH_THRESHOLD = 50;
+	final int LENGTH_THRESHOLD = 100;
 	final String severity = "INFO";
 
 	public void expression(final CFExpression expression, final Context context, final BugList bugs) {
@@ -38,6 +38,7 @@ public class FunctionLengthChecker extends CFLintScannerAdapter {
 
 	public void element(final Element element, final Context context, final BugList bugs) {
 		String elementName = element.getName();
+
 		if (elementName.equals("cffunction")) {
 			//this includes whitespace-change it
 			int begLine = element.getSource().getRow(element.getBegin());
@@ -59,7 +60,7 @@ public class FunctionLengthChecker extends CFLintScannerAdapter {
 		if (linesLength > length) {
 			bugs.add(new BugInfo.BugInfoBuilder().setLine(atLine).setMessageCode("EXCESSIVE_FUNCTION_LENGTH")
 					.setSeverity(severity).setFilename(context.getFilename())
-					.setMessage("Function is " + linesLength + " lines. Should be less than " + LENGTH_THRESHOLD + " lines.")
+					.setMessage("Function is " + Integer.toString(linesLength) + " lines. Should be less than " + Integer.toString(length) + " lines.")
 					.build());
 		}
 	}

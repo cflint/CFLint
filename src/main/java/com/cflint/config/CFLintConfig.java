@@ -59,6 +59,7 @@ public class CFLintConfig {
 		OutputText text;
 		OutputXML html;
 		OutputXML xml;
+		OutputText json;
 		
 		public String getName() {
 			return name;
@@ -72,9 +73,16 @@ public class CFLintConfig {
 		public OutputText getText() {
 			return text;
 		}
+		public OutputText getJSON() {
+			return json;
+		}
 
 		@XmlElement(name="text")
 		public void setText(OutputText text) {
+			this.text = text;
+		}
+		@XmlElement(name="json")
+		public void setJSON(OutputText text) {
 			this.text = text;
 		}
 		

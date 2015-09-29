@@ -111,7 +111,7 @@ public class CFLint implements IErrorReporter {
 		for(PluginInfoRule ruleInfo:configuration.getRules()){
 			extensions.add(ConfigUtils.loadPlugin(ruleInfo));
 		}
-		final CFLintFilter filter = CFLintFilter.createFilter();
+		final CFLintFilter filter = CFLintFilter.createFilter(verbose);
 		bugs = new BugList(filter);
 		if(exceptionListeners.size() == 0){
 			addExceptionListener(new DefaultCFLintExceptionListener(bugs));
@@ -145,7 +145,7 @@ public class CFLint implements IErrorReporter {
 				}
 			}
 		}
-		final CFLintFilter filter = CFLintFilter.createFilter();
+		final CFLintFilter filter = CFLintFilter.createFilter(verbose);
 		bugs = new BugList(filter);
 		if(exceptionListeners.size() == 0){
 			addExceptionListener(new DefaultCFLintExceptionListener(bugs));
@@ -275,10 +275,16 @@ public class CFLint implements IErrorReporter {
 		}
 	}
 
+	
 	private void process(final Element elem, final String space, Context context)
 			throws ParseException, IOException {
 		context.setInComponent(inComponent);
 		currentElement.push(elem);
+
+		if (elem.getName().equals("cfcomponent")) {
+			context.setComponentName(elem.getAttributeValue("displayname"));
+		}
+
 		try{
 		for (final CFLintScanner plugin : extensions) {
 			try{
@@ -573,9 +579,71 @@ public class CFLint implements IErrorReporter {
 		final String nameVar = exceptionmsg.length>1?exceptionmsg[1].trim():null;
 		reportRule(elem, expression,context,plugin,new ContextMessage(msgcode, nameVar));
 	}
+	
+	public static Element getPreviousSibling(Element element){
+		
+		if(element.getParentElement() != null){
+			List<Element> parentElements = element.getParentElement().getChildElements();
+			int idx = parentElements.indexOf(element);
+			if(idx > 0){
+				return parentElements.get(idx-1);
+			}
+		}else if(element.getSource() != null){
+			List<Element> parentElements = element.getSource().getChildElements();
+			int idx = parentElements.indexOf(element);
+			if(idx > 0){
+				return parentElements.get(idx-1);
+			}
+		}
+		return null;
+	}
+	
+	/*
+	 * Check for <!--- CFLINT-DISABLE ---> in the tag hierarchy
+	 */
+	protected boolean checkForDisabled(final Element element,
+			final String msgcode) {
+		Element elem = element;
+		while (elem != null) {
+			Element prevSibling = getPreviousSibling(elem);
+			if (prevSibling != null && prevSibling.getName().equals("!---")) {
+				Pattern p = Pattern
+						.compile(".*---\\s*CFLINT-DISABLE\\s+(.*)\\s*---.*");
+				Matcher m = p.matcher(prevSibling.toString().toUpperCase()
+						.trim());
+				if (m.matches()) {
+					// No message codes in CFLINT-DISABLE
+					if (m.group(1).trim().length() == 0) {
+						if (verbose) {
+							System.out.println("Skipping disabled " + msgcode);
+						}
+						return true;
+					}
+					// check for matching message codes in CFLINT-DISABLE
+					for (String skipcode : m.group(1).split(",")) {
+						skipcode = skipcode.trim();
+						if (msgcode.equals(skipcode)) {
+							if (verbose) {
+								System.out.println("Skipping disabled "
+										+ msgcode);
+							}
+							return true;
+						}
+					}
+				}
+			}
+			elem = elem.getParentElement();
+		}
+		return false;
+	}
+
 	protected void reportRule(final Element elem, final Object expression, final Context context, final CFLintScanner plugin, ContextMessage msg) {
 		final String msgcode = msg.getMessageCode();
 		final String nameVar = msg.getVariable();
+		
+		if(checkForDisabled(elem,msgcode)){
+			return;
+		}
 		if(configuration == null){
 			throw new NullPointerException("Configuration is null");
 		}

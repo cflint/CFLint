@@ -26,10 +26,10 @@ import org.apache.commons.cli.ParseException;
 
 import com.cflint.CFLint;
 import com.cflint.HTMLOutput;
+import com.cflint.JSONOutput;
 import com.cflint.TextOutput;
 import com.cflint.Version;
 import com.cflint.XMLOutput;
-import com.cflint.JSONOutput;
 import com.cflint.config.CFLintConfig;
 import com.cflint.config.ConfigUtils;
 import com.cflint.tools.CFLintFilter;
@@ -42,9 +42,9 @@ public class CFLintMain {
 	boolean logerror = false;
 	boolean quiet = false;
 	boolean xmlOutput = false;
+	boolean jsonOutput = false;
 	boolean htmlOutput = true;
 	boolean textOutput = false;
-	boolean jsonOutput = false;
 	String xmlOutFile = "cflint-result.xml";
 	String xmlstyle = "cflint";
 	String htmlOutFile = "cflint-result.html";
@@ -89,6 +89,8 @@ public class CFLintMain {
 		options.addOption("html", false, "output in html format (default)");
 		options.addOption("htmlfile", true, "specify the output html file (default: cflint-results.html)");
 		options.addOption("htmlstyle", true, "default,plain");// fancy,fancy-hist,summary
+		options.addOption("json", false, "output in json format");
+		options.addOption("jsonfile", true, "specify the output json file (default: cflint-results.json)");
 		options.addOption("text", false, "output in plain text");
 		options.addOption("textfile", true, "specify the output text file (default: cflint-results.txt)");
 		options.addOption("extensions", true, "specify the extensions of the CF source files (default: .cfm,.cfc)");
@@ -111,6 +113,7 @@ public class CFLintMain {
 		main.quiet = (cmd.hasOption('q') || cmd.hasOption("quiet"));
 		main.logerror = (cmd.hasOption('e') || cmd.hasOption("logerror"));
 		main.xmlOutput = cmd.hasOption("xml") || cmd.hasOption("xmlstyle") || cmd.hasOption("xmlfile");
+		main.jsonOutput = cmd.hasOption("json") || cmd.hasOption("jsonfile");
 		main.textOutput = cmd.hasOption("text") || cmd.hasOption("textfile");
 		main.jsonOutput = cmd.hasOption("json") || cmd.hasOption("jsonFile");
 		if (cmd.hasOption("ui")) {
@@ -141,6 +144,9 @@ public class CFLintMain {
 		}
 		if (cmd.hasOption("xmlfile")) {
 			main.xmlOutFile = cmd.getOptionValue("xmlfile");
+		}
+		if (cmd.hasOption("jsonfile")) {
+			main.jsonOutFile = cmd.getOptionValue("jsonfile");
 		}
 		if (cmd.hasOption("configfile")) {
 			main.configfile  = cmd.getOptionValue("configfile");
@@ -195,6 +201,7 @@ public class CFLintMain {
 			Desktop.getDesktop().open(new File(htmlOutFile));
 			return;
 		}
+
 		if (htmlOutput) {
 			Desktop.getDesktop().open(new File(htmlOutFile));
 			return;
@@ -216,7 +223,7 @@ public class CFLintMain {
 			return;
 		}
 
-		final String[] slist = new String[] { "xml", "html", "text" };
+		final String[] slist = new String[] { "xml", "html", "text","txt","json" };
 		final JList list = new JList(slist);
 		JOptionPane.showMessageDialog(null, list, "Output Type", JOptionPane.PLAIN_MESSAGE);
 
@@ -229,10 +236,11 @@ public class CFLintMain {
 			if (indx == 1) {
 				htmlOutput = true;
 			}
-			if (indx == 2) {
+			if (indx == 2||indx == 3) {
 				textOutput = true;
 			}
-			if (indx == 3) {
+
+			if (indx == 4) {
 				jsonOutput = true;
 			}
 		}
@@ -256,14 +264,14 @@ public class CFLintMain {
 				System.out.println("Unable to use extensions (" + extensions + ") using default instead. " + e.getMessage());
 			}
 		}
-		CFLintFilter filter = CFLintFilter.createFilter();
+		CFLintFilter filter = CFLintFilter.createFilter(verbose);
 		if(filterFile != null){
 			File ffile = new File(filterFile);
 			if(ffile.exists()){
 				FileInputStream fis = new FileInputStream(ffile);
 				byte b[] = new byte[fis.available()];
 				fis.read(b);
-				filter = CFLintFilter.createFilter(new String(b));
+				filter = CFLintFilter.createFilter(new String(b),verbose);
 			}
 		}
 				

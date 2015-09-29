@@ -18,7 +18,7 @@ import com.cflint.plugins.Context;
 
 @Extension
 public class FunctionLengthChecker extends CFLintScannerAdapter {
-	final int LENGTH_THRESHOLD = 1;
+	final int LENGTH_THRESHOLD = 50;
 	final String severity = "INFO";
 
 	public void expression(final CFExpression expression, final Context context, final BugList bugs) {
@@ -31,12 +31,8 @@ public class FunctionLengthChecker extends CFLintScannerAdapter {
 			final int begLine = function.getLine();
 			String[] lines = decompile.split("\\n");
 			CFCompoundStatement body = (CFCompoundStatement) function.getBody();
-			if (lines.length > LENGTH_THRESHOLD) {
-				bugs.add(new BugInfo.BugInfoBuilder().setLine(begLine).setMessageCode("EXCESSIVE_FUNCTION_LENGTH")
-						.setSeverity(severity).setFilename(context.getFilename())
-						.setMessage("Function is " + lines.length + " lines. Should be less than " + LENGTH_THRESHOLD + " lines.")
-						.build());
-			}
+
+			checkSize(context, begLine, lines.length, bugs);
 		}
 	}
 
@@ -47,12 +43,24 @@ public class FunctionLengthChecker extends CFLintScannerAdapter {
 			int begLine = element.getSource().getRow(element.getBegin());
 			//int endLine = element.getSource().getRow(element.getEnd()); 
 			int total = element.getAllStartTags().size();
-			if (total > LENGTH_THRESHOLD) {
-				bugs.add(new BugInfo.BugInfoBuilder().setLine(begLine).setMessageCode("EXCESSIVE_FUNCTION_LENGTH")
-						.setSeverity(severity).setFilename(context.getFilename())
-						.setMessage("Function is " + total + " lines. Should be less than " + LENGTH_THRESHOLD + " lines.")
-						.build());
-			}
+
+			checkSize(context, begLine, total, bugs);
+		}
+	}
+
+	protected void checkSize(Context context, int atLine, int linesLength, BugList bugs) {
+		String lengthThreshold = getParameter("length");
+		int length = LENGTH_THRESHOLD;
+
+		if (lengthThreshold != null) {
+			length = Integer.parseInt(lengthThreshold);
+		}
+
+		if (linesLength > length) {
+			bugs.add(new BugInfo.BugInfoBuilder().setLine(atLine).setMessageCode("EXCESSIVE_FUNCTION_LENGTH")
+					.setSeverity(severity).setFilename(context.getFilename())
+					.setMessage("Function is " + linesLength + " lines. Should be less than " + LENGTH_THRESHOLD + " lines.")
+					.build());
 		}
 	}
 }

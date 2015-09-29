@@ -56,14 +56,14 @@ public class CFLintTask extends Task {
 			if (extensions != null && extensions.trim().length() > 0) {
 				cflint.setAllowedExtensions(Arrays.asList(extensions.trim().split(",")));
 			}
-			CFLintFilter filter = CFLintFilter.createFilter();
+			CFLintFilter filter = CFLintFilter.createFilter(verbose);
 			if (filterFile != null) {
 				final File ffile = filterFile;
 				if (ffile.exists()) {
 					final FileInputStream fis = new FileInputStream(ffile);
 					final byte b[] = new byte[fis.available()];
 					fis.read(b);
-					filter = CFLintFilter.createFilter(new String(b));
+					filter = CFLintFilter.createFilter(new String(b),verbose);
 				}
 			}
 			if (excludeRule != null && excludeRule.trim().length() > 0) {

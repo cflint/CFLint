@@ -94,4 +94,47 @@
 		</message>
 		<parameter name="tagName" value="cfupdate"/>
 	</ruleImpl>
+	<ruleImpl name="ComponentHintChecker" className="ComponentHintChecker">
+        <message code="COMPONENT_HINT_MISSING">
+        	<severity>WARNING</severity>
+        </message>
+	</ruleImpl>
+	<ruleImpl name="FunctionHintChecker" className="FunctionHintChecker">
+        <message code="FUNCTION_HINT_MISSING">
+        	<severity>INFO</severity>
+        </message>
+	</ruleImpl>
+	<ruleImpl name="ArgumentHintChecker" className="ArgHintChecker">
+        <message code="ARG_HINT_MISSING">
+         	<severity>INFO</severity>
+        </message>
+	</ruleImpl>
+	<ruleImpl name="ArgumentTypeChecker" className="ArgTypeChecker">
+        <message code="ARG_TYPE_MISSING">
+        	<severity>WARNING</severity>
+        </message>
+        <message code="ARG_TYPE_ANY">
+         	<severity>INFO</severity>
+        </message>
+	</ruleImpl>
+	<ruleImpl name="FunctionLengthChecker" className="FunctionLengthChecker">
+        <message code="EXCESSIVE_FUNCTION_LENGTH">
+                <severity>WARNING</severity>
+        </message>
+	    <parameter name="length" value="3"/>
+	</ruleImpl>
+    <ruleImpl name="ComponentLengthChecker" className="ComponentLengthChecker">
+        <message code="EXCESSIVE_COMPONENT_LENGTH">
+                <severity>WARNING</severity>
+        </message>
+        <parameter name="length" value="5"/>
+    </ruleImpl>
+    <ruleImpl name="FunctionTypeChecker" className="FunctionTypeChecker">
+        <message code="FUNCTION_TYPE_MISSING">
+                <severity>WARNING</severity>
+        </message>
+        <message code="FUNCTION_TYPE_ANY">
+                <severity>INFO</severity>
+        </message>
+    </ruleImpl>
 </CFLint-Plugin>

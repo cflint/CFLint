@@ -1,6 +1,7 @@
 package com.cflint.plugins.core;
 
 import net.htmlparser.jericho.Element;
+import cfml.parsing.cfscript.script.CFCompDeclStatement;
 import cfml.parsing.cfscript.script.CFFuncDeclStatement;
 import cfml.parsing.cfscript.script.CFFunctionParameter;
 import cfml.parsing.cfscript.script.CFScriptStatement;
@@ -20,26 +21,45 @@ public class TooManyFunctionsChecker extends CFLintScannerAdapter {
 
 	@Override
 	public void expression(final CFScriptStatement expression, final Context context, final BugList bugs) {
-		if (expression instanceof CFFuncDeclStatement) {
+		if (expression instanceof CFCompDeclStatement) {
+			functionCount = 0;
+			alreadyTooMany = false;
+		}
+		else if (expression instanceof CFFuncDeclStatement) {
 			final CFFuncDeclStatement function = (CFFuncDeclStatement) expression;
 
-			functionCount++;
+			if (!trivalFunction(context.getFunctionName())) {
+				functionCount++;
 
-			if (!alreadyTooMany) {
-				checkNumberFunctions(functionCount, 1, context, bugs);
+				if (!alreadyTooMany) {
+					checkNumberFunctions(functionCount, 1, context, bugs);
+				}
 			}
 		}
 	}
 
 	@Override
 	public void element(final Element element, final Context context, final BugList bugs) {
-		if (element.getName().equals("cffunction")) {
-			functionCount++;
+		if (element.getName().equals("cfcomponent")) {	
+			functionCount = 0;
+			alreadyTooMany = false;
 		}
+		else if (element.getName().equals("cffunction")) {
+			if (!trivalFunction(context.getFunctionName())) {
+				functionCount++;
 
-		if (!alreadyTooMany) {
-			checkNumberFunctions(functionCount, 1, context, bugs);
+				if (!alreadyTooMany) {
+					checkNumberFunctions(functionCount, 1, context, bugs);
+				}
+			}
 		}
+	}
+
+	protected boolean trivalFunction(String name) {
+		final int length = name.length();
+		return length >= 3 && name.substring(1,3) == "get"
+		 || length >= 3 && name.substring(1,3) == "set"
+		  || length >= 2 && name.substring(1,3) == "is";
 	}
 
 	protected void checkNumberFunctions(int functionCount, int atLine, Context context, BugList bugs) {
@@ -51,7 +71,6 @@ public class TooManyFunctionsChecker extends CFLintScannerAdapter {
 		}
 
 		if (functionCount > threshold) {
-			System.out.println("BUG!");
 			alreadyTooMany = true;
 			bugs.add(new BugInfo.BugInfoBuilder().setLine(atLine).setMessageCode("EXCESSIVE_FUNCTIONS")
 					.setSeverity(severity).setFilename(context.getFilename())

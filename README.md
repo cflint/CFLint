@@ -1,4 +1,6 @@
+
 ![CFLint](/src/main/resources/CFLint-logo.jpg)
+
 ======
 
 Please Note: CFLint has changed it's license to BSD (http://www.opensource.org/licenses/bsd-license.html) as of v0.5.
@@ -24,3 +26,4 @@ Ray Camden created a [CFBuilder](http://www.adobe.com/products/coldfusion-builde
 
 Vim [Syntastic](https://github.com/scrooloose/syntastic) support for CFML is available [here](https://github.com/cflint/cflint-syntastic).
 
+[![Build Status](https://travis-ci.org/cflint/CFLint.svg?branch=master)](https://travis-ci.org/cflint/CFLint)

@@ -59,7 +59,7 @@ public class TooManyFunctionsChecker extends CFLintScannerAdapter {
 		final int length = name.length();
 		return length >= 3 && name.substring(1,3) == "get"
 		 || length >= 3 && name.substring(1,3) == "set"
-		  || length >= 2 && name.substring(1,3) == "is";
+		  || length >= 2 && name.substring(1,2) == "is";
 	}
 
 	protected void checkNumberFunctions(int functionCount, int atLine, Context context, BugList bugs) {

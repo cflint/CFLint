@@ -27,7 +27,7 @@ public class TestCFBugs_TooManyFunctions {
 		final PluginInfoRule pluginRule = new PluginInfoRule();
 		pluginRule.setName("TooManyFunctionsChecker");
 		conf.getRules().add(pluginRule);
-		PluginMessage pluginMessage = new PluginMessage("EXCESSIVE_METHODS");
+		PluginMessage pluginMessage = new PluginMessage("EXCESSIVE_FUNCTIONS");
 		pluginMessage.setSeverity("WARNING");
 		pluginRule.getMessages().add(pluginMessage);
 

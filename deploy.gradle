@@ -13,12 +13,14 @@ task deploy() {
         def strippedSnapshotVersion = version.replaceFirst(/-SNAPSHOT/, '')
         ant.propertyfile(file: "gradle.properties") {
             entry( key: "version", value: "$strippedSnapshotVersion")
+            entry( key: "release", value: "false")
         }
     }
     else if (snapshot.toBoolean() == true) {
         def strippedSnapshotVersion = version.replaceFirst(/-SNAPSHOT/, '')
         ant.propertyfile(file: "gradle.properties") {
             entry( key: "version", value: "$strippedSnapshotVersion-SNAPSHOT")
+            entry( key: "snapshot", value: "false")
         }
     }
 }

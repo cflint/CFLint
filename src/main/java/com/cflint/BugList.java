@@ -46,7 +46,7 @@ public class BugList implements Iterable<BugInfo> {
 	/**
 	 * Returns a list of bugs as a map.
 	 *
-	 * @return      Map of bugs Map<String, List<BugInfo>>
+	 * @return      Map of bugs
 	 */
 	public Map<String, List<BugInfo>> getBugList() {
 		return bugList;

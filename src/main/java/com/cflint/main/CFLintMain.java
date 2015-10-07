@@ -10,6 +10,7 @@ import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Scanner;
 
 import javax.swing.JFileChooser;
 import javax.swing.JList;
@@ -57,7 +58,8 @@ public class CFLintMain {
 	boolean showprogress= false;
 	boolean progressUsesThread=true;
 	private String configfile = null;
-	boolean noOutput = false;
+	private Boolean stdIn = false;
+	private Boolean stdOut = false;
 
 	public static void main(final String[] args) throws ParseException, IOException, TransformerException, JAXBException {
 		//PropertyConfigurator.configure("/log4j.properties");
@@ -96,7 +98,8 @@ public class CFLintMain {
 		options.addOption("textfile", true, "specify the output text file (default: cflint-results.txt)");
 		options.addOption("extensions", true, "specify the extensions of the CF source files (default: .cfm,.cfc)");
 		options.addOption("configfile", true, "specify the location of the config file");
-		options.addOption("nooutput", false, "prevent file output");
+		options.addOption("stdin", false, "use stdin for file input");
+		options.addOption("stdout", false, "output to stdout only");
 
 
 		final CommandLineParser parser = new GnuParser();
@@ -170,12 +173,8 @@ public class CFLintMain {
 		}
 		main.showprogress=cmd.hasOption("showprogress") || (!cmd.hasOption("showprogress") && cmd.hasOption("ui"));
 		main.progressUsesThread=!cmd.hasOption("singlethread");
-		main.noOutput = cmd.hasOption("nooutput");
-//		for (final Option option : cmd.getOptions()) {
-//			if(main.verbose){
-//				System.out.println("Option " + option.getOpt() + " => " + option.getValue());
-//			}
-//		}
+		main.stdIn = cmd.hasOption("stdin");
+		main.stdOut = cmd.hasOption("stdout");
 		if (main.isValid()) {
 			main.execute();
 			if (cmd.hasOption("ui")) {
@@ -255,7 +254,7 @@ public class CFLintMain {
 			try{
 				cflint.setAllowedExtensions(Arrays.asList(extensions.trim().split(",")));
 			}catch(Exception e){
-				System.out.println("Unable to use extensions (" + extensions + ") using default instead. " + e.getMessage());
+				System.err.println("Unable to use extensions (" + extensions + ") using default instead. " + e.getMessage());
 			}
 		}
 		CFLintFilter filter = CFLintFilter.createFilter(verbose);
@@ -278,52 +277,59 @@ public class CFLintMain {
 		cflint.getBugs().setFilter(filter);
 		for (final String scanfolder : folder) {
 			cflint.scan(scanfolder);
-			// for(BugInfo bi: cflint.getBugs()){
-			// System.out.println(bi);
-			// }
+		}
+		if (stdIn) {
+			StringBuilder source = new StringBuilder();
+			Scanner scanner = new Scanner(System.in);
+			while (scanner.hasNextLine()) {
+				String nextLine = scanner.nextLine();
+				source.append(nextLine);
+				source.append(System.lineSeparator());
+			}
+			scanner.close();
+			cflint.process(source.toString(), "source.cfc");
 		}
 		if (xmlOutput) {
-			if(verbose){
-				System.out.println("Style:" + xmlstyle);
-			}
-			Writer xmlwriter = (!noOutput && xmlOutFile != null) ? new FileWriter(xmlOutFile) : new OutputStreamWriter(System.out);
+			Writer xmlwriter = stdOut ? new OutputStreamWriter(System.out) : new FileWriter(xmlOutFile);
 			if ("findbugs".equalsIgnoreCase(xmlstyle)) {
-				if(verbose && !noOutput){
-					System.out.println("Writing findbugs style to " + xmlOutFile);
+				if(verbose) {
+					display("Writing XML findbugs style" + (stdOut ? "." : " to " + xmlOutFile));
 				}
 				new XMLOutput().outputFindBugs(cflint.getBugs(), xmlwriter);
 			} else {
-				if(verbose){
-					System.out.println("Writing " + xmlOutFile);
+				if(verbose) {
+					display("Writing XML" + (stdOut ? "." : " to " + xmlOutFile));
 				}
 				new XMLOutput().output(cflint.getBugs(), xmlwriter);
 			}
 		}
 		if (textOutput) {
 			if(textOutFile != null){
-				if(verbose){
-					System.out.println("Writing " + textOutFile);
+				if(verbose) {
+					display("Writing text" + (stdOut ? "." : " to " + textOutFile));
 				}
 			}
-			Writer textwriter = textOutFile != null?new FileWriter(textOutFile):new OutputStreamWriter(System.out);
+			Writer textwriter = stdOut ? new OutputStreamWriter(System.out) : new FileWriter(textOutFile);
 			new TextOutput().output(cflint.getBugs(), textwriter);
 
 		}
 		if (htmlOutput) {
 			try {
-				if(verbose){
-					System.out.println("Writing " + htmlOutFile);
+				if(verbose) {
+					display("Writing HTML" + (stdOut ? "." : " to " + htmlOutFile));
 				}
-				new HTMLOutput(htmlStyle).output(cflint.getBugs(), new FileWriter(htmlOutFile));
+				Writer htmlwriter = stdOut ? new OutputStreamWriter(System.out) : new FileWriter(htmlOutFile);
+				new HTMLOutput(htmlStyle).output(cflint.getBugs(), htmlwriter);
 			} catch (final TransformerException e) {
 				throw new IOException(e);
 			}
 		}
 		if (jsonOutput) {
-			if(verbose){
-				System.out.println("Writing " + jsonOutFile);
+			if(verbose) {
+				display("Writing JSON" + (stdOut ? "." : " to " + jsonOutFile));
 			}
-			new JSONOutput().output(cflint.getBugs(), new FileWriter(jsonOutFile));
+			Writer jsonwriter = stdOut ? new OutputStreamWriter(System.out) : new FileWriter(jsonOutFile);
+			new JSONOutput().output(cflint.getBugs(), jsonwriter);
 		}
 		if (includeCodes != null) {
 			cflint.getBugs().getFilter().includeCode(includeCodes);
@@ -332,10 +338,16 @@ public class CFLintMain {
 			cflint.getBugs().getFilter().excludeCode(excludeCodes);
 		}
 	}
+	
+	private void display(String text) {
+		if (verbose) {
+			System.out.println(text);
+		}
+	}
 
 	private boolean isValid() {
-		if (folder.isEmpty()) {
-			System.err.println("Set -scanFolder");
+		if (folder.isEmpty() && !stdIn) {
+			System.err.println("Set -scanFolder or -stdin");
 			return false;
 		}
 		return true;

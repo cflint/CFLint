@@ -12,6 +12,27 @@ import org.junit.Test;
 import com.cflint.config.CFLintPluginInfo.PluginInfoRule;
 import com.cflint.config.CFLintPluginInfo.PluginInfoRule.PluginMessage;
 
+/*
+issues: {
+	issue: {
+		severity: "",
+		id: "",
+		message: "",
+		category: "",
+		abbrev: ""
+	},
+	location: {
+		file: "",
+		fileName: "",
+		column: "",
+		line: "",
+		message: "",
+		variable: ""
+	},
+	expression: ""
+}
+*/
+
 public class TestCFLintConfig {
 
 	final String expected = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n" + 

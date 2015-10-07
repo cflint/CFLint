@@ -9,17 +9,16 @@ nexus {
 }
 
 task deploy() {
-    def updatedVersion = version
-    if (project.hasProperty("version")) {
-        ant.propertyfile(
-            file: "gradle.properties") {
-            entry( key: "version", value: "$version")
+    if (release.toBoolean() == true) {
+        def strippedSnapshotVersion = version.replaceFirst(/-SNAPSHOT/, '')
+        ant.propertyfile(file: "gradle.properties") {
+            entry( key: "version", value: "$strippedSnapshotVersion")
         }
     }
-    if (project.hasProperty("snapshot")) {
-        ant.propertyfile(
-            file: "gradle.properties") {
-            entry( key: "version", value: "$version-SNAPSHOT")
+    else if (snapshot.toBoolean() == true) {
+        def strippedSnapshotVersion = version.replaceFirst(/-SNAPSHOT/, '')
+        ant.propertyfile(file: "gradle.properties") {
+            entry( key: "version", value: "$strippedSnapshotVersion-SNAPSHOT")
         }
     }
 }

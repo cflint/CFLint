@@ -78,7 +78,14 @@
 			<messageText>Avoid Leaving &lt;${tagName}&gt; tags in committed code. CFexecute can be use as an attack vector and is slow.</messageText>
 			<severity>WARNING</severity>
 		</message>
-		<parameter name="tagName" value="cfdump"/>
+		<parameter name="tagName" value="cfexecute"/>
+	</ruleImpl>
+	<ruleImpl name="CFAbortChecker" className="CFXTagChecker">
+		<message code="AVOID_USING_CFABORT_TAG">
+			<messageText>Avoid Leaving &lt;${tagName}&gt; tags in committed code. Did you accidently leave a cfabort in the code?</messageText>
+			<severity>INFO</severity>
+		</message>
+		<parameter name="tagName" value="cfabort"/>
 	</ruleImpl>
 	<ruleImpl name="CFInsertChecker" className="CFXTagChecker">
 		<message code="AVOID_USING_CFINSERT_TAG">

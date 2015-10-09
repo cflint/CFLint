@@ -1,0 +1,28 @@
+configurations {
+    jaxDoclet
+}
+
+nexus {
+    sign = true
+    repositoryUrl = 'https://oss.sonatype.org/service/local/staging/deploy/maven2/'
+    snapshotRepositoryUrl = 'https://oss.sonatype.org/content/repositories/snapshots/'
+}
+
+task deploy() {
+    if (release.toBoolean() == true) {
+        def strippedSnapshotVersion = version.replaceFirst(/-SNAPSHOT/, '')
+        ant.propertyfile(file: "gradle.properties") {
+            entry( key: "version", value: "$strippedSnapshotVersion")
+            entry( key: "release", value: "false")
+        }
+    }
+    else if (snapshot.toBoolean() == true) {
+        def strippedSnapshotVersion = version.replaceFirst(/-SNAPSHOT/, '')
+        ant.propertyfile(file: "gradle.properties") {
+            entry( key: "version", value: "$strippedSnapshotVersion-SNAPSHOT")
+            entry( key: "snapshot", value: "false")
+        }
+    }
+}
+
+uploadArchives.mustRunAfter deploy

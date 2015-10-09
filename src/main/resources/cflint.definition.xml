@@ -128,13 +128,13 @@
         <message code="EXCESSIVE_FUNCTION_LENGTH">
                 <severity>WARNING</severity>
         </message>
-	    <parameter name="length" value="3"/>
+	    <parameter name="length" value="100"/>
 	</ruleImpl>
     <ruleImpl name="ComponentLengthChecker" className="ComponentLengthChecker">
         <message code="EXCESSIVE_COMPONENT_LENGTH">
                 <severity>WARNING</severity>
         </message>
-        <parameter name="length" value="5"/>
+        <parameter name="length" value="500"/>
     </ruleImpl>
     <ruleImpl name="FunctionTypeChecker" className="FunctionTypeChecker">
         <message code="FUNCTION_TYPE_MISSING">

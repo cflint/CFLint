@@ -151,4 +151,16 @@
                 <severity>INFO</severity>
         </message>
     </ruleImpl>
+    <ruleImpl name="TooManyArgumentsChecker" className="TooManyArgumentsChecker">
+		<message code="EXCESSIVE_ARGUMENTS">
+			<severity>WARNING</severity>
+		</message>
+		<parameter name="maximum" />
+	</ruleImpl>
+	<ruleImpl name="TooManyFunctionsChecker" className="TooManyArgumentsChecker">
+		<message code="EXCESSIVE_FUNCTIONS">
+			<severity>WARNING</severity>
+		</message>
+		<parameter name="maximum" />
+	</ruleImpl>
 </CFLint-Plugin>

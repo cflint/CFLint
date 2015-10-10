@@ -145,7 +145,7 @@ public class TestCFBugs_SimpleComplexity {
 		final List<BugInfo> result = cfBugs.getBugs().getBugList().values().iterator().next();
 		assertEquals(1, result.size());
 		assertEquals("FUNCTION_TOO_COMPLEX", result.get(0).getMessageCode());
-		assertEquals(1, result.get(0).getLine());
+		assertEquals(2, result.get(0).getLine());
 	}
 
 	@Test

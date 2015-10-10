@@ -80,13 +80,13 @@ public class SimpleComplexityChecker extends CFLintScannerAdapter {
 		if (complexityThreshold != null) {
 			threshold = Integer.parseInt(complexityThreshold);
 		}
-		
+
 		if (!alreadyTooComplex && complexity > threshold) {
 			alreadyTooComplex = true;
 
 			bugs.add(new BugInfo.BugInfoBuilder().setLine(lineno).setMessageCode("FUNCTION_TOO_COMPLEX")
 				.setSeverity(severity).setFilename(context.getFilename())
-				.setMessage("Function " + name + " is has a name attribute perhaps you meant to use displayName?")
+				.setMessage("Function " + name + " is too complex. Consider breaking the function into smaller functions.")
 				.build());
 		}
 	}

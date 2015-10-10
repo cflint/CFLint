@@ -87,6 +87,11 @@
 		</message>
 		<parameter name="tagName" value="cfabort"/>
 	</ruleImpl>
+	<ruleImpl name="AbortChecker" className="AbortChecker">
+		<message code="AVOID_USING_ABORT">
+			<severity>INFO</severity>
+		</message>
+	</ruleImpl>
 	<ruleImpl name="CFInsertChecker" className="CFXTagChecker">
 		<message code="AVOID_USING_CFINSERT_TAG">
 			<messageText>Avoid using &lt;${tagName}&gt; tags. Use cfquery and cfstoredproc instead.</messageText>

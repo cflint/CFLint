@@ -155,12 +155,18 @@
 		<message code="EXCESSIVE_ARGUMENTS">
 			<severity>WARNING</severity>
 		</message>
-		<parameter name="maximum" />
+		<parameter name="maximum" value="10" />
 	</ruleImpl>
 	<ruleImpl name="TooManyFunctionsChecker" className="TooManyArgumentsChecker">
 		<message code="EXCESSIVE_FUNCTIONS">
 			<severity>WARNING</severity>
 		</message>
-		<parameter name="maximum" />
+		<parameter name="maximum" value="10" />
+	</ruleImpl>
+	<ruleImpl name="SimpleComplexityChecker" className="SimpleComplexityChecker">
+		<message code="FUNCTION_TOO_COMPLEX">
+			<severity>WARNING</severity>
+		</message>
+		<parameter name="maximum" value="10" />
 	</ruleImpl>
 </CFLint-Plugin>

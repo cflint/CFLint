@@ -26,15 +26,15 @@ public class SimpleComplexityChecker extends CFLintScannerAdapter {
 
 	protected int complexity = 0;
 	protected boolean alreadyTooComplex = false;
+	int functionLineNo = 1;
 
 	@Override
 	public void expression(final CFScriptStatement expression, final Context context, final BugList bugs) {
 		CFFuncDeclStatement function = null;
-		int begLine = 1;
 
 		if (expression instanceof CFFuncDeclStatement) {
 			function = (CFFuncDeclStatement) expression;
-			begLine = function.getLine();
+			functionLineNo = function.getLine();
 			complexity = 0;
 			alreadyTooComplex = false;
 		}
@@ -48,7 +48,7 @@ public class SimpleComplexityChecker extends CFLintScannerAdapter {
 			expression.getClass().equals(CFDoWhileStatement.class)) {
 			complexity++;
 			// TODO +1 for each case statment in a switch
-			checkComplexity(context.getFunctionName(), begLine, context, bugs);
+			checkComplexity(context.getFunctionName(), functionLineNo, context, bugs);
 		}
 	}
 

@@ -179,4 +179,9 @@
 			<severity>INFO</severity>
 		</message>
 	</ruleImpl>
+	<ruleImpl name="BooleanExpressionChecker" className="BooleanExpressionChecker">
+		<message code="EXPLICIT_BOOLEAN_CHECK">
+			<severity>INFO</severity>
+		</message>
+	</ruleImpl>
 </CFLint-Plugin>

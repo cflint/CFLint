@@ -18,7 +18,6 @@ public class WriteDumpChecker extends CFLintScannerAdapter {
 
 	@Override
 	public void expression(final CFScriptStatement expression, final Context context, final BugList bugs) {
-	
 		if (expression instanceof CFExpressionStatement) {
 			String code = ((CFExpressionStatement) expression).getExpression().Decompile(0);
 			int lineNo = ((CFExpressionStatement) expression).getLine() + context.startLine() - 1;

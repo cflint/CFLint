@@ -56,16 +56,16 @@ public class SimpleComplexityChecker extends CFLintScannerAdapter {
 	public void element(final Element element, final Context context, final BugList bugs) {
 		final String name = element.getName();
 
-		if (name.equals("cffunction")) {
+		if (name.equalsIgnoreCase("cffunction")) {
 			functionLineNo = element.getSource().getRow(element.getBegin());
 			complexity = 0;
 			alreadyTooComplex = false;
 		}
 		else {
-			if (name.equals("cfif") || name.equals("cfelse") || name.equals("cfelseif")
-				|| name.equals("cfloop")  || name.equals("cfwhile") || name.equals("cfoutput") // TODO could check for query=
-				|| name.equals("cfcase") || name.equals("cfdefaultcase")
-				|| name.equals("cftry") || name.equals("cfcatch")) {
+			if (name.equalsIgnoreCase("cfif") || name.equalsIgnoreCase("cfelse") || name.equalsIgnoreCase("cfelseif")
+				|| name.equalsIgnoreCase("cfloop")  || name.equalsIgnoreCase("cfwhile") || name.equalsIgnoreCase("cfoutput") // TODO could check for query=
+				|| name.equalsIgnoreCase("cfcase") || name.equalsIgnoreCase("cfdefaultcase")
+				|| name.equalsIgnoreCase("cftry") || name.equalsIgnoreCase("cfcatch")) {
 				complexity++;
 				checkComplexity(context.getFunctionName(), functionLineNo, context, bugs);
 			}

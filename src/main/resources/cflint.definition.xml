@@ -179,4 +179,9 @@
 			<severity>INFO</severity>
 		</message>
 	</ruleImpl>
+	<ruleImpl name="ArrayNewChecker" className="ArrayNewChecker">
+		<message code="AVOID_USING_ARRAYNEW">
+			<severity>INFO</severity>
+		</message>
+	</ruleImpl>
 </CFLint-Plugin>

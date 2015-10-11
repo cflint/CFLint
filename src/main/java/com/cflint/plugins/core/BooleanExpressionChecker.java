@@ -61,7 +61,7 @@ public class BooleanExpressionChecker extends CFLintScannerAdapter {
 	public void booleanExpression(final int lineNo, final Context context, final BugList bugs) {
 		bugs.add(new BugInfo.BugInfoBuilder().setLine(lineNo).setMessageCode("EXPLICIT_BOOLEAN_CHECK")
 			.setSeverity(severity).setFilename(context.getFilename())
-			.setMessage("Explict check of boolean expession at " + lineNo + " is not needed.")
+			.setMessage("Explicit check of boolean expession at " + lineNo + " is not needed.")
 			.build());
 	}
 

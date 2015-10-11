@@ -179,4 +179,9 @@
 			<severity>INFO</severity>
 		</message>
 	</ruleImpl>
+	<ruleImpl name="ComplexBooleanExpressionChecker" className="ComplexBooleanExpressionChecker">
+		<message code="COMPLEX_BOOLEAN_CHECK">
+			<severity>WARNING</severity>
+		</message>
+	</ruleImpl>
 </CFLint-Plugin>

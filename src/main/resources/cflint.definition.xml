@@ -168,4 +168,9 @@
 		</message>
 		<parameter name="maximum" />
 	</ruleImpl>
+	<ruleImpl name="WriteDumpChecker" className="WriteDumpChecker">
+		<message code="AVOID_USING_WRITEDUMP">
+			<severity>INFO</severity>
+		</message>
+	</ruleImpl>
 </CFLint-Plugin>

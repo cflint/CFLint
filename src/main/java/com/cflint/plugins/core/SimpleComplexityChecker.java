@@ -55,10 +55,9 @@ public class SimpleComplexityChecker extends CFLintScannerAdapter {
 	@Override
 	public void element(final Element element, final Context context, final BugList bugs) {
 		final String name = element.getName();
-		int begLine = 1;
 
 		if (name.equals("cffunction")) {
-			begLine = element.getSource().getRow(element.getBegin());
+			functionLineNo = element.getSource().getRow(element.getBegin());
 			complexity = 0;
 			alreadyTooComplex = false;
 		}
@@ -68,12 +67,12 @@ public class SimpleComplexityChecker extends CFLintScannerAdapter {
 				|| name.equals("cfcase") || name.equals("cfdefaultcase")
 				|| name.equals("cftry") || name.equals("cfcatch")) {
 				complexity++;
-				checkComplexity(context.getFunctionName(), begLine, context, bugs);
+				checkComplexity(context.getFunctionName(), functionLineNo, context, bugs);
 			}
 		}
 	}
 
-	protected void checkComplexity(String name, int lineno, Context context, BugList bugs) {
+	protected void checkComplexity(String name, int lineNo, Context context, BugList bugs) {
 		String complexityThreshold = getParameter("maximum");
 		int threshold = COMPLEXITY_THRESHOLD;
 
@@ -84,7 +83,7 @@ public class SimpleComplexityChecker extends CFLintScannerAdapter {
 		if (!alreadyTooComplex && complexity > threshold) {
 			alreadyTooComplex = true;
 
-			bugs.add(new BugInfo.BugInfoBuilder().setLine(lineno).setMessageCode("FUNCTION_TOO_COMPLEX")
+			bugs.add(new BugInfo.BugInfoBuilder().setLine(lineNo).setMessageCode("FUNCTION_TOO_COMPLEX")
 				.setSeverity(severity).setFilename(context.getFilename())
 				.setMessage("Function " + name + " is too complex. Consider breaking the function into smaller functions.")
 				.build());

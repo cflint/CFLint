@@ -284,6 +284,9 @@ public class CFLint implements IErrorReporter {
 		if (elem.getName().equals("cfcomponent")) {
 			context.setComponentName(elem.getAttributeValue("displayname"));
 		}
+		else if (elem.getName().equals("cffunction")) {
+			context.setFunctionName(elem.getAttributeValue("name"));
+		}
 
 		try{
 		for (final CFLintScanner plugin : extensions) {
@@ -364,7 +367,6 @@ public class CFLint implements IErrorReporter {
 		if (elem.getName().equals("cffunction")) {
 			inFunction = true;
 			handler.push("function");
-			context.setFunctionName(elem.getAttributeValue("name"));
 			processStack(elem.getChildElements(), space + " ", context);
 			inFunction = false;
 			handler.pop();

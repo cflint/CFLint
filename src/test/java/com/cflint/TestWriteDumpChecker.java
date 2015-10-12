@@ -13,6 +13,7 @@ import cfml.parsing.reporting.ParseException;
 import com.cflint.config.CFLintPluginInfo.PluginInfoRule;
 import com.cflint.config.CFLintPluginInfo.PluginInfoRule.PluginMessage;
 import com.cflint.config.ConfigRuntime;
+import com.cflint.plugins.core.FunctionXChecker;
 import com.cflint.plugins.core.WriteDumpChecker;
 
 public class TestWriteDumpChecker {
@@ -24,10 +25,18 @@ public class TestWriteDumpChecker {
 		final ConfigRuntime conf = new ConfigRuntime();
 		final PluginInfoRule pluginRule = new PluginInfoRule();
 		pluginRule.setName("WriteDumpChecker");
+		pluginRule.setClassName("FunctionXChecker");
+		pluginRule.addParameter("functionName", "writedump");
 		conf.getRules().add(pluginRule);
 		final PluginMessage pluginMessage = new PluginMessage("AVOID_USING_WRITEDUMP");
 		pluginMessage.setSeverity("INFO");
-		cfBugs = new CFLint(conf, new WriteDumpChecker());
+		pluginMessage.setMessageText("Avoid using the ${functionName} function in production code.");
+		pluginRule.getMessages().add(pluginMessage);
+		
+		FunctionXChecker checker = new FunctionXChecker();
+		checker.setParameter("functionName", "writedump");
+		cfBugs = new CFLint(conf, checker);
+
 	}
 
 	@Test

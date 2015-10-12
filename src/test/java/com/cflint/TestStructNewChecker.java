@@ -13,7 +13,7 @@ import cfml.parsing.reporting.ParseException;
 import com.cflint.config.CFLintPluginInfo.PluginInfoRule;
 import com.cflint.config.CFLintPluginInfo.PluginInfoRule.PluginMessage;
 import com.cflint.config.ConfigRuntime;
-import com.cflint.plugins.core.StructNewChecker;
+import com.cflint.plugins.core.FunctionXChecker;
 
 public class TestStructNewChecker {
 
@@ -24,10 +24,17 @@ public class TestStructNewChecker {
 		final ConfigRuntime conf = new ConfigRuntime();
 		final PluginInfoRule pluginRule = new PluginInfoRule();
 		pluginRule.setName("StructNewChecker");
+		pluginRule.setClassName("FunctionXChecker");
+		pluginRule.addParameter("functionName", "structnew");
 		conf.getRules().add(pluginRule);
 		final PluginMessage pluginMessage = new PluginMessage("AVOID_USING_STRUCTNEW");
 		pluginMessage.setSeverity("INFO");
-		cfBugs = new CFLint(conf, new StructNewChecker());
+		pluginMessage
+				.setMessageText("Avoid using the ${functionName} function. Use implict structure construction instead (= {}).");
+		pluginRule.getMessages().add(pluginMessage);
+		FunctionXChecker checker = new FunctionXChecker();
+		checker.setParameter("functionName", "structnew");
+		cfBugs = new CFLint(conf, checker);
 	}
 
 	@Test

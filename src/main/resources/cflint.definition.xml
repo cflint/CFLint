@@ -174,10 +174,19 @@
 		</message>
 		<parameter name="maximum" value="10" />
 	</ruleImpl>
-	<ruleImpl name="WriteDumpChecker" className="WriteDumpChecker">
+	<ruleImpl name="WriteDumpChecker" className="FunctionXChecker">
 		<message code="AVOID_USING_WRITEDUMP">
+			<messageText>Avoid using the ${functionName} function in production code.</messageText>
 			<severity>INFO</severity>
 		</message>
+		<parameter name="functionName" value="writeDump"/>
+	</ruleImpl>
+	<ruleImpl name="StructNewChecker" className="FunctionXChecker">
+		<message code="AVOID_USING_STRUCTNEW">
+			<messageText>Avoid using the ${functionName} function.  Use implicit structure construction instead (= {}).</messageText>
+			<severity>INFO</severity>
+		</message>
+		<parameter name="functionName" value="structNew"/>
 	</ruleImpl>
 	<ruleImpl name="ArrayNewChecker" className="ArrayNewChecker">
 		<message code="AVOID_USING_ARRAYNEW">

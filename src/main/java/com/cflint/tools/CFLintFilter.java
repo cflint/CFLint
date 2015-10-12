@@ -9,31 +9,29 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.JSONValue;
-
 import com.cflint.BugInfo;
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class CFLintFilter {
 
-	private JSONArray data = null;
+	private ArrayList<Map<String,?>> data = null;
 	private List<String> includeCodes = null;
 	boolean verbose = false;
 
-	private CFLintFilter(final String data) {
+	@SuppressWarnings("unchecked")
+	private CFLintFilter(final String data) throws IOException {
 		if (data != null && data.trim().length() > 0) {
-			this.data = (JSONArray) JSONValue.parse(data);
+			ObjectMapper mapper = new ObjectMapper();
+			this.data = mapper.readValue(data, ArrayList.class);
 		}else{
-			this.data = new JSONArray();
+			this.data = new ArrayList<Map<String,?>>();
 		}
 	}
 	
 	public void addFilter(final Map<String,String> filter){
-		final JSONObject jsonObj = new JSONObject();
-//		for(Entry<String, String> entry: filter.entrySet()){
-			jsonObj.putAll(filter);
-//		}
+		data.add(filter);
 	}
 	
 	public void excludeCode(final String ... codes){
@@ -55,7 +53,7 @@ public class CFLintFilter {
 	}
 	
 
-	public static CFLintFilter createFilter(boolean verbose) {
+	public static CFLintFilter createFilter(boolean verbose) throws IOException {
 		String data = null;
 		try {
 			final InputStream is = CFLintFilter.class.getResourceAsStream("/cflintexclude.json");
@@ -84,12 +82,12 @@ public class CFLintFilter {
 		return filter;
 	}
 
-	public static CFLintFilter createFilter(final String excludeJSON,boolean verbose) {
+	public static CFLintFilter createFilter(final String excludeJSON,boolean verbose) throws IOException {
 		final CFLintFilter filter = new CFLintFilter(excludeJSON);
 		filter.setVerbose(verbose);
 		return filter;
 	}
-	public static CFLintFilter createFilter(final String excludeJSON) {
+	public static CFLintFilter createFilter(final String excludeJSON) throws IOException {
 		final CFLintFilter filter = new CFLintFilter(excludeJSON);
 		return filter;
 	}
@@ -99,49 +97,49 @@ public class CFLintFilter {
 			return false;
 		}
 		if (data != null) {
-			for (final Object item : data) {
-				final JSONObject jsonObj = (JSONObject) item;
-				if (jsonObj.containsKey("file")) {
-					if (!bugInfo.getFilename().matches(jsonObj.get("file").toString())) {
+			for (final Map<String,?> item : data) {
+				
+				if (item.containsKey("file")) {
+					if (!bugInfo.getFilename().matches(item.get("file").toString())) {
 						continue;
 					}else if (verbose){
 						System.out.println("Exclude matched file " + bugInfo.getFilename());
 					}
 				}
-				if (jsonObj.containsKey("code")) {
-					if (!bugInfo.getMessageCode().matches(jsonObj.get("code").toString())) {
+				if (item.containsKey("code")) {
+					if (!bugInfo.getMessageCode().matches(item.get("code").toString())) {
 						continue;
 					}else if (verbose){
 						System.out.println("Exclude matched message code " + bugInfo.getMessageCode());
 					}
 				}
-				if (jsonObj.containsKey("function")) {
+				if (item.containsKey("function")) {
 					if (bugInfo.getFunction() == null
-							|| !bugInfo.getFunction().matches(jsonObj.get("function").toString())) {
+							|| !bugInfo.getFunction().matches(item.get("function").toString())) {
 						continue;
 					}else if (verbose){
 						System.out.println("Exclude matched function name " + bugInfo.getFunction());
 					}
 				}
-				if (jsonObj.containsKey("variable")) {
+				if (item.containsKey("variable")) {
 					if (bugInfo.getVariable() == null
-							|| !bugInfo.getVariable().matches(jsonObj.get("variable").toString())) {
+							|| !bugInfo.getVariable().matches(item.get("variable").toString())) {
 						continue;
 					}else if (verbose){
 						System.out.println("Exclude matched variable name " + bugInfo.getVariable());
 					}
 				}
-				if (jsonObj.containsKey("line")) {
+				if (item.containsKey("line")) {
 					if (bugInfo.getLine() > 0
-							|| !new Integer(bugInfo.getLine()).toString().matches(jsonObj.get("line").toString())) {
+							|| !new Integer(bugInfo.getLine()).toString().matches(item.get("line").toString())) {
 						continue;
 					}else if (verbose){
 						System.out.println("Exclude matched line " + bugInfo.getLine());
 					}
 				}
-				if (jsonObj.containsKey("expression")) {
+				if (item.containsKey("expression")) {
 					if (bugInfo.getExpression() == null
-							|| !bugInfo.getExpression().matches(jsonObj.get("expression").toString())) {
+							|| !bugInfo.getExpression().matches(item.get("expression").toString())) {
 						continue;
 					}else if (verbose){
 						System.out.println("Exclude matched expression " + bugInfo.getExpression());

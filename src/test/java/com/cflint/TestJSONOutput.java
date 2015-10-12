@@ -1,19 +1,23 @@
 package com.cflint;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.StringWriter;
 import java.io.Writer;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
-import org.json.simple.JSONArray;
-import org.json.simple.JSONValue;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.cflint.tools.CFLintFilter;
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.type.TypeFactory;
 
 public class TestJSONOutput {
 
@@ -31,7 +35,21 @@ public class TestJSONOutput {
 		BugInfo bugInfo = new BugInfo.BugInfoBuilder().setFunction("testf").setMessageCode("PARSE_ERROR").setFilename("c:\\temp\\test.cfc").build();
 		bugList.add(bugInfo);
 		outputer.output(bugList, writer);
-		String expectedText = "[{\"severity\":\"\",\"locations\":[{\"fileName\":\"test.cfc\",\"file\":\"c:\\\\temp\\\\test.cfc\",\"expression\":\"\",\"line\":\"0\",\"column\":\"0\",\"variable\":\"\",\"message\":\"\"}],\"id\":\"PARSE_ERROR\",\"abbrev\":\"PE\",\"message\":\"PARSE_ERROR\",\"category\":\"CFLINT\"}]";
-		assertEquals(JSONValue.parse(expectedText),JSONValue.parse(writer.toString()));
+		String expectedText = "[{\"severity\":\"\",\"id\":\"PARSE_ERROR\",\"message\":\"PARSE_ERROR\",\"category\":\"CFLINT\",\"abbrev\":\"PE\",\"location\":{\"file\":\"c:\\\\temp\\\\test.cfc\",\"fileName\":\"test.cfc\",\"column\":\"0\",\"line\":\"0\",\"message\":\"\",\"variable\":\"\",\"expression\":\"\"}}]";
+//		assertEquals(JSONValue.parse(expectedText),JSONValue.parse(writer.toString()));
+		assertEquals(expectedText,writer.toString());
+	}
+	
+	@Test
+	public void testRead() throws JsonParseException, JsonMappingException, IOException{
+		InputStream is = new FileInputStream("src\\main\\config\\cflintexclude.json");
+		System.out.println(is);
+		//HashMap<String, Object> props = (HashMap<String,Object>) new ObjectMapper().readValue(this.getClass().getResourceAsStream("/config/cflintexcludes.json"), HashMap.class);
+		
+		ObjectMapper mapper = new ObjectMapper();
+
+		ArrayList list = mapper.readValue(is, ArrayList.class);
+		System.out.println(list);
+		System.out.println(((Map)list.get(0)).get("function"));
 	}
 }

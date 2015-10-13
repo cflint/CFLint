@@ -34,7 +34,7 @@ public class ComplexBooleanExpressionChecker extends CFLintScannerAdapter {
 	public void element(final Element element, final Context context, final BugList bugs) {
 		String tag = element.getName();
 
-		if (tag.equals("cfif")) { 
+		if (tag.equals("cfreturn")) { 
 			String content = element.getStartTag().getTagContent().toString();
 
 			if (isComplex(content, complexThreshold)) {
@@ -44,7 +44,7 @@ public class ComplexBooleanExpressionChecker extends CFLintScannerAdapter {
 			}
 		}
 	}
-
+	
 	protected boolean isComplex(final String code, final int complexThreshold) {
 		int noAnds = noSubstrings(code, " && ") + noSubstrings(code, " and ");
 		int noOrs = noSubstrings(code, " || ") + noSubstrings(code, " or ");

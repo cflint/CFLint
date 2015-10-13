@@ -38,7 +38,7 @@ public class BooleanExpressionChecker extends CFLintScannerAdapter {
 	public void element(final Element element, final Context context, final BugList bugs) {
 		String tag = element.getName();
 
-		if (tag.equals("cfif")) { 
+		if (tag.equals("cfreturn")) { 
 			String content = element.getStartTag().getTagContent().toString();
 
 			if (hasExplicitBooleanCheck(content)) {

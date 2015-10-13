@@ -62,4 +62,32 @@ public class TestComplexBooleanExpressionChecker {
 		assertEquals(2, result.get(0).getLine());
 	}
 
+	@Test
+	public void testBooleanReturnExpressionInTag() throws ParseException, IOException {
+		final String tagSrc = "<cffunction name=\"test\">\r\n"
+			+ "<cfreturn a and not b or c and d or not e and f>\r\n"
+			+ "</cffunction>";
+
+		cfBugs.process(tagSrc, "test");
+		final List<BugInfo> result = cfBugs.getBugs().getBugList().values().iterator().next();
+		assertEquals(1, result.size());
+		assertEquals("COMPLEX_BOOLEAN_CHECK", result.get(0).getMessageCode());
+		assertEquals(2, result.get(0).getLine());
+	}
+
+	// FIXME currently this test fails - not 100% sure why the return statement is not being parsed
+	private void testBooleanExpressionInReturnScript() throws ParseException, IOException {
+		final String scriptSrc = "component {\r\n"
+			+ "public function test() {\r\n"
+			+ "return a && !b || c && d || !e && f;\r\n"
+			+ "}\r\n"
+			+ "}\r\n";
+			
+		cfBugs.process(scriptSrc, "test");
+		final List<BugInfo> result = cfBugs.getBugs().getBugList().values().iterator().next();
+		assertEquals(1, result.size());
+		assertEquals("COMPLEX_BOOLEAN_CHECK", result.get(0).getMessageCode());
+		assertEquals(3, result.get(0).getLine());
+	}
+
 }

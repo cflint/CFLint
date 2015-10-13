@@ -17,8 +17,6 @@ import com.cflint.plugins.Context;
 @Extension
 public class WriteDumpChecker extends CFLintScannerAdapter {
 	final String severity = "INFO";
-
-	
 	
 	@Override
 	public void expression(final CFExpression expression, final Context context,

@@ -249,7 +249,12 @@ public class CFLintMain {
 	private void execute() throws IOException, TransformerException, JAXBException {
 		CFLintConfig config = null;
 		if(configfile != null){
-			config = ConfigUtils.unmarshal(new FileInputStream(configfile), CFLintConfig.class);
+			if(configfile.toLowerCase().endsWith(".xml")){
+				config = ConfigUtils.unmarshal(new FileInputStream(configfile), CFLintConfig.class);
+			}else{
+				config = ConfigUtils.unmarshalJson(new FileInputStream(configfile), CFLintConfig.class);
+			}
+			
 		}
 		final CFLint cflint = new CFLint(config);
 		cflint.setVerbose(verbose);

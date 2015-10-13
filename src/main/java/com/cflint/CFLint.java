@@ -102,10 +102,10 @@ public class CFLint implements IErrorReporter {
 	ConfigRuntime configuration;
 	private Stack<Element> currentElement = new Stack<Element>();
 
-	public CFLint() {
+	public CFLint() throws IOException {
 		this((CFLintConfig)null);
 	}
-	public CFLint(CFLintConfig configFile) {
+	public CFLint(CFLintConfig configFile) throws IOException {
 		final CFLintPluginInfo pluginInfo = ConfigUtils.loadDefaultPluginInfo();
 		configuration = new ConfigRuntime(configFile,pluginInfo);
 		for(PluginInfoRule ruleInfo:configuration.getRules()){
@@ -145,8 +145,14 @@ public class CFLint implements IErrorReporter {
 				}
 			}
 		}
-		final CFLintFilter filter = CFLintFilter.createFilter(verbose);
-		bugs = new BugList(filter);
+		CFLintFilter filter;
+		try {
+			filter = CFLintFilter.createFilter(verbose);
+			bugs = new BugList(filter);
+		} catch (IOException e1) {
+			e1.printStackTrace();
+			bugs = new BugList(null);
+		}
 		if(exceptionListeners.size() == 0){
 			addExceptionListener(new DefaultCFLintExceptionListener(bugs));
 		}

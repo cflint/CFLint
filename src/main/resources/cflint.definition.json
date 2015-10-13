@@ -1,0 +1,412 @@
+{
+  "ruleImpl": [
+    {
+      "name": "ArgDefChecker",
+      "message": [
+        {
+          "code": "ARG_DEFAULT_MISSING",
+          "messageText": "Argument ${variable} is not required and does not define a default value.",
+          "severity": "WARNING"
+        }
+      ],
+      "parameter": [
+        
+      ]
+    },
+    {
+      "name": "ArgVarChecker",
+      "message": [
+        {
+          "code": "ARG_VAR_CONFLICT",
+          "messageText": "Variable ${variable} should not be declared in both var and argument scopes.",
+          "severity": "ERROR"
+        },
+        {
+          "code": "ARG_VAR_MIXED",
+          "messageText": "Variable ${variable} should not be referenced in local and argument scope.",
+          "severity": "INFO"
+        }
+      ],
+      "parameter": [
+        
+      ]
+    },
+    {
+      "name": "CFSwitchDefaultChecker",
+      "message": [
+        {
+          "code": "NO_DEFAULT_INSIDE_SWITCH",
+          "messageText": "Not having a Default statement defined for a switch could pose potential issues.",
+          "severity": "WARNING"
+        }
+      ],
+      "parameter": [
+        
+      ]
+    },
+    {
+      "name": "GlobalVarChecker",
+      "message": [
+        {
+          "code": "GLOBAL_VAR",
+          "messageText": "Identifier ${variable} is global, referencing in a CFC or function should be avoided.",
+          "severity": "WARNING"
+        }
+      ],
+      "parameter": [
+        
+      ]
+    },
+    {
+      "name": "NestedCFOutput",
+      "message": [
+        {
+          "code": "NESTED_CFOUTPUT",
+          "messageText": "Nested CFOutput, outer CFOutput has @query.",
+          "severity": "ERROR"
+        }
+      ],
+      "parameter": [
+        
+      ]
+    },
+    {
+      "name": "OutputParmMissing",
+      "message": [
+        {
+          "code": "OUTPUT_ATTR",
+          "messageText": "<${tag} name=\"${variable}\"> should have @output='false'",
+          "severity": "INFO"
+        }
+      ],
+      "parameter": [
+        
+      ]
+    },
+    {
+      "name": "QueryParamChecker",
+      "message": [
+        {
+          "code": "QUERYPARAM_REQ",
+          "messageText": "setSql() statement should use .addParam() instead of #'s for security.",
+          "severity": "WARNING"
+        },
+        {
+          "code": "CFQUERYPARAM_REQ",
+          "messageText": "<${tag} name=\"${variable}\"> should use <cfqueryparam\/> for security reasons.",
+          "severity": "WARNING"
+        }
+      ],
+      "parameter": [
+        
+      ]
+    },
+    {
+      "name": "TypedQueryNew",
+      "message": [
+        {
+          "code": "QUERYNEW_DATATYPE",
+          "messageText": "QueryNew statement should specify datatypes.",
+          "severity": "WARNING"
+        }
+      ],
+      "parameter": [
+        
+      ]
+    },
+    {
+      "name": "VarScoper",
+      "message": [
+        {
+          "code": "MISSING_VAR",
+          "messageText": "Variable ${variable} is not declared with a var statement.",
+          "severity": "ERROR"
+        }
+      ],
+      "parameter": [
+        
+      ]
+    },
+    {
+      "name": "CFDumpChecker",
+      "className": "CFXTagChecker",
+      "message": [
+        {
+          "code": "AVOID_USING_CFDUMP_TAG",
+          "messageText": "Avoid Leaving <${tagName}> tags in committed code. Debug information should be omitted from release code",
+          "severity": "WARNING"
+        }
+      ],
+      "parameter": [
+        {
+          "name": "tagName",
+          "value": "cfdump"
+        }
+      ]
+    },
+    {
+      "name": "CFExecuteChecker",
+      "className": "CFXTagChecker",
+      "message": [
+        {
+          "code": "AVOID_USING_CFEXECUTE_TAG",
+          "messageText": "Avoid Leaving <${tagName}> tags in committed code. CFexecute can be use as an attack vector and is slow.",
+          "severity": "WARNING"
+        }
+      ],
+      "parameter": [
+        {
+          "name": "tagName",
+          "value": "cfexecute"
+        }
+      ]
+    },
+    {
+      "name": "CFAbortChecker",
+      "className": "CFXTagChecker",
+      "message": [
+        {
+          "code": "AVOID_USING_CFABORT_TAG",
+          "messageText": "Avoid Leaving <${tagName}> tags in committed code. Did you accidently leave a cfabort in the code?",
+          "severity": "INFO"
+        }
+      ],
+      "parameter": [
+        {
+          "name": "tagName",
+          "value": "cfabort"
+        }
+      ]
+    },
+    {
+      "name": "AbortChecker",
+      "className": "AbortChecker",
+      "message": [
+        {
+          "code": "AVOID_USING_ABORT",
+          "severity": "INFO"
+        }
+      ],
+      "parameter": [
+        
+      ]
+    },
+    {
+      "name": "CFInsertChecker",
+      "className": "CFXTagChecker",
+      "message": [
+        {
+          "code": "AVOID_USING_CFINSERT_TAG",
+          "messageText": "Avoid using <${tagName}> tags. Use cfquery and cfstoredproc instead.",
+          "severity": "WARNING"
+        }
+      ],
+      "parameter": [
+        {
+          "name": "tagName",
+          "value": "cfinsert"
+        }
+      ]
+    },
+    {
+      "name": "CFModuleChecker",
+      "className": "CFXTagChecker",
+      "message": [
+        {
+          "code": "AVOID_USING_CFMODULE_TAG",
+          "messageText": "Avoid using <${tagName}> tags.",
+          "severity": "WARNING"
+        }
+      ],
+      "parameter": [
+        {
+          "name": "tagName",
+          "value": "cfmodule"
+        }
+      ]
+    },
+    {
+      "name": "CFUpdateChecker",
+      "className": "CFXTagChecker",
+      "message": [
+        {
+          "code": "AVOID_USING_CFUPDATE_TAG",
+          "messageText": "Avoid using <${tagName}> tags. Use cfquery and cfstoredproc instead.",
+          "severity": "WARNING"
+        }
+      ],
+      "parameter": [
+        {
+          "name": "tagName",
+          "value": "cfupdate"
+        }
+      ]
+    },
+    {
+      "name": "ComponentHintChecker",
+      "className": "ComponentHintChecker",
+      "message": [
+        {
+          "code": "COMPONENT_HINT_MISSING",
+          "severity": "WARNING"
+        }
+      ],
+      "parameter": [
+        
+      ]
+    },
+    {
+      "name": "FunctionHintChecker",
+      "className": "FunctionHintChecker",
+      "message": [
+        {
+          "code": "FUNCTION_HINT_MISSING",
+          "severity": "INFO"
+        }
+      ],
+      "parameter": [
+        
+      ]
+    },
+    {
+      "name": "ArgumentHintChecker",
+      "className": "ArgHintChecker",
+      "message": [
+        {
+          "code": "ARG_HINT_MISSING",
+          "severity": "INFO"
+        }
+      ],
+      "parameter": [
+        
+      ]
+    },
+    {
+      "name": "ArgumentTypeChecker",
+      "className": "ArgTypeChecker",
+      "message": [
+        {
+          "code": "ARG_TYPE_MISSING",
+          "severity": "WARNING"
+        },
+        {
+          "code": "ARG_TYPE_ANY",
+          "severity": "INFO"
+        }
+      ],
+      "parameter": [
+        
+      ]
+    },
+    {
+      "name": "FunctionLengthChecker",
+      "className": "FunctionLengthChecker",
+      "message": [
+        {
+          "code": "EXCESSIVE_FUNCTION_LENGTH",
+          "severity": "WARNING"
+        }
+      ],
+      "parameter": [
+        {
+          "name": "length",
+          "value": "100"
+        }
+      ]
+    },
+    {
+      "name": "ComponentLengthChecker",
+      "className": "ComponentLengthChecker",
+      "message": [
+        {
+          "code": "EXCESSIVE_COMPONENT_LENGTH",
+          "severity": "WARNING"
+        }
+      ],
+      "parameter": [
+        {
+          "name": "length",
+          "value": "500"
+        }
+      ]
+    },
+    {
+      "name": "FunctionTypeChecker",
+      "className": "FunctionTypeChecker",
+      "message": [
+        {
+          "code": "FUNCTION_TYPE_MISSING",
+          "severity": "WARNING"
+        },
+        {
+          "code": "FUNCTION_TYPE_ANY",
+          "severity": "INFO"
+        }
+      ],
+      "parameter": [
+        
+      ]
+    },
+    {
+      "name": "TooManyArgumentsChecker",
+      "className": "TooManyArgumentsChecker",
+      "message": [
+        {
+          "code": "EXCESSIVE_ARGUMENTS",
+          "severity": "WARNING"
+        }
+      ],
+      "parameter": [
+        {
+          "name": "maximum",
+          "value": "10"
+        }
+      ]
+    },
+    {
+      "name": "TooManyFunctionsChecker",
+      "className": "TooManyArgumentsChecker",
+      "message": [
+        {
+          "code": "EXCESSIVE_FUNCTIONS",
+          "severity": "WARNING"
+        }
+      ],
+      "parameter": [
+        {
+          "name": "maximum",
+          "value": "10"
+        }
+      ]
+    },
+    {
+      "name": "SimpleComplexityChecker",
+      "className": "SimpleComplexityChecker",
+      "message": [
+        {
+          "code": "FUNCTION_TOO_COMPLEX",
+          "severity": "WARNING"
+        }
+      ],
+      "parameter": [
+        {
+          "name": "maximum",
+          "value": "10"
+        }
+      ]
+    },
+    {
+      "name": "WriteDumpChecker",
+      "className": "WriteDumpChecker",
+      "message": [
+        {
+          "code": "AVOID_USING_WRITEDUMP",
+          "severity": "INFO"
+        }
+      ],
+      "parameter": [
+        
+      ]
+    }
+  ]
+}

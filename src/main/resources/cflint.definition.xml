@@ -180,7 +180,10 @@
 		</message>
 	</ruleImpl>
 	<ruleImpl name="LiteralChecker" className="LiteralChecker">
-		<message code="LITERAL_VALUE_USED_TOO_OFTEN">
+		<message code="LOCAL_LITERAL_VALUE_USED_TOO_OFTEN">
+			<severity>WARNING</severity>
+		</message>
+		<message code="GLOBAL_LITERAL_VALUE_USED_TOO_OFTEN">
 			<severity>WARNING</severity>
 		</message>
 	</ruleImpl>

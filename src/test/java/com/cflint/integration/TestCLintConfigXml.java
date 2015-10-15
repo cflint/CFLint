@@ -39,7 +39,7 @@ public class TestCLintConfigXml {
 	 * Confirm rule is overridden.
 	 */
 	public void test_CFINSERT() throws ParseException, IOException {
-		final String cfcSrc = "<cfcomponent>\r\n" 
+		final String cfcSrc = "<cfcomponent hint=\"hint\">\r\n" 
 				+ "<cfinsert dataSource = \"data source name\" "  
 				+ "tableName = \"table name\" "
 				+ "formFields = \"formfield1, formfield2, ...\" " + "password = \"password\" "
@@ -58,7 +58,7 @@ public class TestCLintConfigXml {
 	 * Confirm rule is still inherited from definition xml
 	 */
 	public void test_CFUPDATE() throws ParseException, IOException {
-		final String cfcSrc = "<cfcomponent>\r\n" 
+		final String cfcSrc = "<cfcomponent hint=\"hint\">\r\n" 
 				+ "<cfupdate dataSource = \"data source name\" "  
 				+ "tableName = \"table name\" "
 				+ "formFields = \"formfield1, formfield2, ...\" " + "password = \"password\" "
@@ -72,7 +72,7 @@ public class TestCLintConfigXml {
 	}
 	@Test
 	public void test_CFMODULE() throws ParseException, IOException {
-		final String cfcSrc = "<cfcomponent>\r\n" 
+		final String cfcSrc = "<cfcomponent hint=\"hint\">\r\n" 
 				+ "<cfmodule dataSource = \"data source name\" "  
 				+ "tableName = \"table name\" "
 				+ "formFields = \"formfield1, formfield2, ...\" " + "password = \"password\" "

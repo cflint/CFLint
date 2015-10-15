@@ -120,6 +120,7 @@ public class CFLintMain {
 		main.xmlOutput = cmd.hasOption("xml") || cmd.hasOption("xmlstyle") || cmd.hasOption("xmlfile");
 		main.jsonOutput = cmd.hasOption("json") || cmd.hasOption("jsonfile");
 		main.textOutput = cmd.hasOption("text") || cmd.hasOption("textfile");
+		main.jsonOutput = cmd.hasOption("json") || cmd.hasOption("jsonFile");
 		if (cmd.hasOption("ui")) {
 			main.ui();
 		}
@@ -161,6 +162,9 @@ public class CFLintMain {
 		if (cmd.hasOption("textfile")) {
 			main.textOutFile = cmd.getOptionValue("textfile");
 		}
+		if (cmd.hasOption("jsonfile")) {
+			main.jsonOutFile = cmd.getOptionValue("jsonfile");
+		}
 		if (cmd.hasOption("extensions")) {
 			main.extensions = cmd.getOptionValue("extensions");
 		}
@@ -199,10 +203,15 @@ public class CFLintMain {
 			Desktop.getDesktop().open(new File(htmlOutFile));
 			return;
 		}
-		if (jsonOutput) {
+
+		if (htmlOutput) {
 			Desktop.getDesktop().open(new File(htmlOutFile));
 			return;
 		}
+		if (jsonOutput) {
+			Desktop.getDesktop().open(new File(jsonOutFile));
+			return;
+	}
 	}
 
 	private void ui() {
@@ -232,10 +241,10 @@ public class CFLintMain {
 			if (indx == 2||indx == 3) {
 				textOutput = true;
 			}
+
 			if (indx == 4) {
 				jsonOutput = true;
 			}
-
 		}
 	}
 

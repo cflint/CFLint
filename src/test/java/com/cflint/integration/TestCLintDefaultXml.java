@@ -16,13 +16,15 @@ import com.cflint.CFLint;
 public class TestCLintDefaultXml {
 
 	private CFLint cflint;
+
 	@Before
 	public void setup(){
 		cflint = new CFLint();
 	}
+
 	@Test
 	public void test_CFINSERT() throws ParseException, IOException {
-		final String cfcSrc = "<cfcomponent>\r\n" 
+		final String cfcSrc = "<cfcomponent hint=\"hint\">\r\n" 
 				+ "<cfinsert dataSource = \"data source name\" "  
 				+ "tableName = \"table name\" "
 				+ "formFields = \"formfield1, formfield2, ...\" " + "password = \"password\" "
@@ -34,9 +36,10 @@ public class TestCLintDefaultXml {
 		assertEquals("AVOID_USING_CFINSERT_TAG", result.get(0).getMessageCode());
 		assertEquals("Avoid using <cfinsert> tags. Use cfquery and cfstoredproc instead.", result.get(0).getMessage());
 	}
+
 	@Test
 	public void test_CFUPDATE() throws ParseException, IOException {
-		final String cfcSrc = "<cfcomponent>\r\n" 
+		final String cfcSrc = "<cfcomponent hint=\"hint\">\r\n" 
 				+ "<cfupdate dataSource = \"data source name\" "  
 				+ "tableName = \"table name\" "
 				+ "formFields = \"formfield1, formfield2, ...\" " + "password = \"password\" "
@@ -48,9 +51,10 @@ public class TestCLintDefaultXml {
 		assertEquals("AVOID_USING_CFUPDATE_TAG", result.get(0).getMessageCode());
 		assertEquals("Avoid using <cfupdate> tags. Use cfquery and cfstoredproc instead.", result.get(0).getMessage());
 	}
+
 	@Test
 	public void test_CFMODULE() throws ParseException, IOException {
-		final String cfcSrc = "<cfcomponent>\r\n" 
+		final String cfcSrc = "<cfcomponent hint=\"hint\">\r\n" 
 				+ "<cfmodule dataSource = \"data source name\" "  
 				+ "tableName = \"table name\" "
 				+ "formFields = \"formfield1, formfield2, ...\" " + "password = \"password\" "

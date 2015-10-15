@@ -16,7 +16,7 @@ import com.cflint.config.CFLintPluginInfo.PluginInfoRule.PluginMessage;
 import com.cflint.config.ConfigRuntime;
 import com.cflint.plugins.core.LiteralChecker;
 
-public class TestLiteralChecker {
+public class TestLiteralLocalChecker {
 
 	private CFLint cfBugs;
 
@@ -26,9 +26,13 @@ public class TestLiteralChecker {
 		final PluginInfoRule pluginRule = new PluginInfoRule();
 		pluginRule.setName("LiteralChecker");
 		conf.getRules().add(pluginRule);
-		final PluginMessage pluginMessage = new PluginMessage("LITERAL_VALUE_USED_TOO_OFTEN");
+		final PluginMessage pluginMessage = new PluginMessage("LOCAL_LITERAL_VALUE_USED_TOO_OFTEN");
 		pluginMessage.setSeverity("WARNING");
-		cfBugs = new CFLint(conf, new LiteralChecker());
+		LiteralChecker checker = new LiteralChecker();
+		checker.setParameter("maximum", "3");
+		checker.setParameter("maxWarnings", "2");
+		checker.setParameter("warningScope", "local");
+		cfBugs = new CFLint(conf, checker);
 	}
 
 	@Test
@@ -58,7 +62,7 @@ public class TestLiteralChecker {
 		cfBugs.process(scriptSrc, "test");
 		final List<BugInfo> result = cfBugs.getBugs().getBugList().values().iterator().next();
 		assertEquals(1, result.size());
-		assertEquals("LITERAL_VALUE_USED_TOO_OFTEN", result.get(0).getMessageCode());
+		assertEquals("LOCAL_LITERAL_VALUE_USED_TOO_OFTEN", result.get(0).getMessageCode());
 		assertEquals(7, result.get(0).getLine());
 	}
 

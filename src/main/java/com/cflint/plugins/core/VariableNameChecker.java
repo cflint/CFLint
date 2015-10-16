@@ -56,10 +56,7 @@ public class VariableNameChecker extends CFLintScannerAdapter {
 	}
 
 	public void checkNameForBugs(String variable, String filename, int line, BugList bugs) {
-		System.out.println("Var:" + variable);
-
 		if (isInvalid(variable)) {
-			System.out.println("isInvalid : " + variable);
 			bugs.add(new BugInfo.BugInfoBuilder().setLine(line).setMessageCode("VAR_INVALID_NAME")
 				.setSeverity(severity).setFilename(filename)
 				.setMessage("Variable " + variable + " is not a valid name. Please use CamelCase or underscores.")
@@ -96,7 +93,6 @@ public class VariableNameChecker extends CFLintScannerAdapter {
 				.build());
 		}
 		if (hasPrefixOrPostfix(variable)) {
-			System.out.println("hasPrefixOrPostfix : " + variable);
 			bugs.add(new BugInfo.BugInfoBuilder().setLine(line).setMessageCode("VAR_HAS_PREFIX_OR_POSTFIX")
 				.setSeverity(severity).setFilename(filename)
 				.setMessage("Variable has prefix or postfix " + variable + " and could be named better.")

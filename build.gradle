@@ -49,9 +49,9 @@ dependencies {
     compile group: 'org.slf4j', name: 'slf4j-log4j12', version:'1.7.5'
     compile group: 'ant', name: 'ant', version:'1.7.0'
     compile group: 'com.sun.xml.bind', name: 'jaxb-impl', version:'2.1.8'
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-core', version:'2.6.3'
+    compile group: 'com.fasterxml.jackson.module', name: 'jackson-module-jaxb-annotations', version:'2.6.3'
     runtime group: 'commons-logging', name: 'commons-logging-api', version:'1.1'
     runtime group: 'org.slf4j', name: 'slf4j-api', version:'1.7.5'
     runtime group: 'org.javolution', name: 'javolution', version:'5.2.6'
-    runtime group: 'com.fasterxml.jackson.core', name: 'jackson-core', version:'2.6.3'
-    runtime group: 'com.fasterxml.jackson.module', name: 'jackson-module-jaxb-annotations', version:'2.6.3'
 }

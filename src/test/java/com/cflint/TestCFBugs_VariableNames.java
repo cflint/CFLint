@@ -113,7 +113,6 @@ public class TestCFBugs_VariableNames {
 		assertEquals(5, result.get(2).getLine());
 	}
 
-
 	@Test
 	public void nameEndsInNumberTag() throws ParseException, IOException {
 		final String tagSrc = "<cfcomponent>\r\n"
@@ -235,6 +234,207 @@ public class TestCFBugs_VariableNames {
 		 + "</cffunction>\r\n"
 		 + "</cfcomponent>";
 		cfBugs.process(tagSrc, "test");
+		final List<BugInfo> result = cfBugs.getBugs().getBugList().values().iterator().next();
+		assertEquals(7, result.size());
+		assertEquals("VAR_HAS_PREFIX_OR_POSTFIX", result.get(0).getMessageCode());
+		assertEquals(3, result.get(0).getLine());
+		assertEquals("VAR_HAS_PREFIX_OR_POSTFIX", result.get(1).getMessageCode());
+		assertEquals(4, result.get(1).getLine());
+		assertEquals("VAR_HAS_PREFIX_OR_POSTFIX", result.get(2).getMessageCode());
+		assertEquals(5, result.get(2).getLine());
+		assertEquals("VAR_HAS_PREFIX_OR_POSTFIX", result.get(3).getMessageCode());
+		assertEquals(6, result.get(3).getLine());
+		assertEquals("VAR_HAS_PREFIX_OR_POSTFIX", result.get(4).getMessageCode());
+		assertEquals(7, result.get(4).getLine());
+		assertEquals("VAR_HAS_PREFIX_OR_POSTFIX", result.get(5).getMessageCode());
+		assertEquals(8, result.get(5).getLine());
+		assertEquals("VAR_HAS_PREFIX_OR_POSTFIX", result.get(6).getMessageCode());
+		assertEquals(9, result.get(6).getLine());
+	}
+
+
+	@Test
+	public void testValidNamesScript() throws ParseException, IOException {
+		final String scriptSrc = "component {\r\n"
+		 + "function test() {\r\n"
+		 + "	var firstName = \"Fred\";\r\n"
+		 + "	first_name = \"Fred\";\r\n"
+		 + "	firstname = \"Fred\";\r\n"
+		 + "	name.first = \"Fred\";\r\n"
+		 + "	name.last = \"Smith\";\r\n"
+		 + "	names[1] = \"Smith\";\r\n"
+		 + "}\r\n"
+		 + "}";
+		cfBugs.process(scriptSrc, "test");
+		Collection<List<BugInfo>> result = cfBugs.getBugs().getBugList().values();
+		assertEquals(0, result.size());
+	}
+
+	@Test
+	public void testUpercaseNameScript() throws ParseException, IOException {
+		final String scriptSrc = "component {\r\n"
+		 + "function test() {\r\n"
+		 + "	var FIRSTNAME = \"Fred\";\r\n"
+		 + "	LAST_NAME = \"Smith\";\r\n"
+		 + "	names = {};\r\n"
+		 + "	name.FIRST = \"Fred\";\r\n"
+		 + "	NAMES[1] = \"Fred\";\r\n"
+		 + "}\r\n"
+		 + "}";
+		cfBugs.process(scriptSrc, "test");
+		final List<BugInfo> result = cfBugs.getBugs().getBugList().values().iterator().next();
+		assertEquals(4, result.size());
+		assertEquals("VAR_ALLCAPS_NAME", result.get(0).getMessageCode());
+		assertEquals(3, result.get(0).getLine());
+		assertEquals("VAR_ALLCAPS_NAME", result.get(1).getMessageCode());
+		assertEquals(4, result.get(1).getLine());
+		assertEquals("VAR_ALLCAPS_NAME", result.get(2).getMessageCode());
+		assertEquals(6, result.get(2).getLine());
+		assertEquals("VAR_ALLCAPS_NAME", result.get(3).getMessageCode());
+		assertEquals(7, result.get(3).getLine());
+	}
+
+	@Test
+	public void invalidCharsInNameScript() throws ParseException, IOException {
+		final String scriptSrc = "component {\r\n"
+		 + "function test() {\r\n"
+		 + "	var $name = \"Fred\";\r\n"
+		 + "	last$name = \"Smith\";\r\n"
+		 + "	last.$name = \"Smith\";\r\n"
+		 + "}\r\n"
+		 + "}";
+		cfBugs.process(scriptSrc, "test");
+		final List<BugInfo> result = cfBugs.getBugs().getBugList().values().iterator().next();
+		assertEquals(3, result.size());
+		assertEquals("VAR_INVALID_NAME", result.get(0).getMessageCode());
+		assertEquals(3, result.get(0).getLine());
+		assertEquals("VAR_INVALID_NAME", result.get(1).getMessageCode());
+		assertEquals(4, result.get(1).getLine());
+		assertEquals("VAR_INVALID_NAME", result.get(2).getMessageCode());
+		assertEquals(5, result.get(2).getLine());
+	}
+
+	@Test
+	public void nameEndsInNumberScript() throws ParseException, IOException {
+		final String scriptSrc = "component {\r\n"
+		 + "function test() {\r\n"
+		 + "	name_1 = \"Fred\";\r\n"
+		 + "	name2 = \"Smith\";\r\n"
+		 + "	last.name1 = \"Fred\";\r\n"
+		 + "}\r\n"
+		 + "}";
+		cfBugs.process(scriptSrc, "test");
+		final List<BugInfo> result = cfBugs.getBugs().getBugList().values().iterator().next();
+		assertEquals(3, result.size());
+		assertEquals("VAR_INVALID_NAME", result.get(0).getMessageCode());
+		assertEquals(3, result.get(0).getLine());
+		assertEquals("VAR_INVALID_NAME", result.get(1).getMessageCode());
+		assertEquals(4, result.get(1).getLine());
+		assertEquals("VAR_INVALID_NAME", result.get(2).getMessageCode());
+		assertEquals(5, result.get(2).getLine());
+	}
+
+	@Test
+	public void nameTooShortScript() throws ParseException, IOException {
+		final String scriptSrc = "component {\r\n"
+		 + "function test() {\r\n"
+		 + "	a = \"Fred\";\r\n"
+		 + "	b = \"Smith\";\r\n"
+		 + "	last.a = \"Fred\";\r\n"
+		 + "}\r\n"
+		 + "}";
+		cfBugs.process(scriptSrc, "test");
+		final List<BugInfo> result = cfBugs.getBugs().getBugList().values().iterator().next();
+		assertEquals(3, result.size());
+		assertEquals("VAR_TOO_SHORT", result.get(0).getMessageCode());
+		assertEquals(3, result.get(0).getLine());
+		assertEquals("VAR_TOO_SHORT", result.get(1).getMessageCode());
+		assertEquals(4, result.get(1).getLine());
+		assertEquals("VAR_TOO_SHORT", result.get(2).getMessageCode());
+		assertEquals(5, result.get(2).getLine());
+	}
+
+	@Test
+	public void nameTooLongScript() throws ParseException, IOException {
+		final String scriptSrc = "component {\r\n"
+		 + "function test() {\r\n"
+		 + "	isaveryveryverylongvariablename = \"Fred\";\r\n"
+		 + "	isa.veryveryverylongvariablename = \"Fred\";\r\n"
+		 + "}\r\n"
+		 + "}";
+		cfBugs.process(scriptSrc, "test");
+		final List<BugInfo> result = cfBugs.getBugs().getBugList().values().iterator().next();
+		assertEquals(2, result.size());
+		assertEquals("VAR_TOO_LONG", result.get(0).getMessageCode());
+		assertEquals(3, result.get(0).getLine());
+		assertEquals("VAR_TOO_LONG", result.get(1).getMessageCode());
+		assertEquals(4, result.get(1).getLine());
+	}
+
+	@Test
+	public void nameTooWordyScript() throws ParseException, IOException {
+		final String scriptSrc = "component {\r\n"
+		 + "function test() {\r\n"
+		 + "	nameIsFarTooWordy = \"Fred\";\r\n"
+		 + "	nameIsOK = \"Fred\";\r\n"
+		 + "	name.isAlsoFarTooWordy = \"Fred\";\r\n"
+		 + "}\r\n"
+		 + "}";
+		cfBugs.process(scriptSrc, "test");
+		final List<BugInfo> result = cfBugs.getBugs().getBugList().values().iterator().next();
+		assertEquals(2, result.size());
+		assertEquals("VAR_TOO_WORDY", result.get(0).getMessageCode());
+		assertEquals(3, result.get(0).getLine());
+		assertEquals("VAR_TOO_WORDY", result.get(1).getMessageCode());
+		assertEquals(5, result.get(1).getLine());
+	}
+
+	@Test
+	public void nameIsTemporyScript() throws ParseException, IOException {
+		final String scriptSrc = "component {\r\n"
+		 + "function test() {\r\n"
+		 + "	temp = \"Fred\";\r\n"
+		 + "	name.temp = \"Fred\";\r\n"
+		 + "	obj = \"Fred\";\r\n"
+		 + "	struct = \"Fred\";\r\n"
+		 + "	tempName = \"Fred\";\r\n"
+		 + "	nameObj = \"Fred\";\r\n"
+		 + "	nameString = \"Fred\";\r\n"
+		 + "}\r\n"
+		 + "}";
+		cfBugs.process(scriptSrc, "test");
+		final List<BugInfo> result = cfBugs.getBugs().getBugList().values().iterator().next();
+		assertEquals(7, result.size());
+		assertEquals("VAR_IS_TEMPORARY", result.get(0).getMessageCode());
+		assertEquals(3, result.get(0).getLine());
+		assertEquals("VAR_IS_TEMPORARY", result.get(1).getMessageCode());
+		assertEquals(4, result.get(1).getLine());
+		assertEquals("VAR_IS_TEMPORARY", result.get(2).getMessageCode());
+		assertEquals(5, result.get(2).getLine());
+		assertEquals("VAR_IS_TEMPORARY", result.get(3).getMessageCode());
+		assertEquals(6, result.get(3).getLine());
+		assertEquals("VAR_IS_TEMPORARY", result.get(4).getMessageCode());
+		assertEquals(7, result.get(4).getLine());
+		assertEquals("VAR_IS_TEMPORARY", result.get(5).getMessageCode());
+		assertEquals(8, result.get(5).getLine());
+		assertEquals("VAR_IS_TEMPORARY", result.get(6).getMessageCode());
+		assertEquals(9, result.get(6).getLine());
+	}
+
+	@Test
+	public void nameHasPrefixOrPostfixScript() throws ParseException, IOException {
+		final String scriptSrc = "component {\r\n"
+		 + "function test() {\r\n"
+		 + "	sName = \"Fred\";\r\n"
+		 + "	nameSt = {first:\"Fred\"};\r\n"
+		 + "	oName = {first:\"Fred\"};\r\n"
+		 + "	bOff = true;\r\n"
+		 + "	arrNames = [\"Fred\"];\r\n"
+		 + "	thisName = \"Fred\";\r\n"
+		 + "	myName = \"Fred\";\r\n"
+		 + "}\r\n"
+		 + "}";
+		cfBugs.process(scriptSrc, "test");
 		final List<BugInfo> result = cfBugs.getBugs().getBugList().values().iterator().next();
 		assertEquals(7, result.size());
 		assertEquals("VAR_HAS_PREFIX_OR_POSTFIX", result.get(0).getMessageCode());

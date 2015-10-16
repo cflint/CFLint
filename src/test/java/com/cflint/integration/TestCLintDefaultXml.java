@@ -18,7 +18,7 @@ public class TestCLintDefaultXml {
 	private CFLint cflint;
 
 	@Before
-	public void setup(){
+	public void setup() throws IOException{
 		cflint = new CFLint();
 	}
 

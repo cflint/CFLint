@@ -20,7 +20,7 @@ public class TestCLintConfigXml {
 
 	private CFLint cflint;
 	@Before
-	public void setup(){
+	public void setup() throws IOException{
 		CFLintConfig config = new CFLintConfig();
 		PluginInfoRule pluginRule = new PluginInfoRule();
 		pluginRule.setName("CFInsertChecker");

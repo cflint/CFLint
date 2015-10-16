@@ -4,7 +4,9 @@ import ro.fortsoft.pf4j.Extension;
 import net.htmlparser.jericho.Element;
 import net.htmlparser.jericho.Attributes;
 import cfml.parsing.cfscript.CFExpression;
-import cfml.parsing.cfscript.script.CFScriptStatement;
+import cfml.parsing.cfscript.CFFullVarExpression;
+import cfml.parsing.cfscript.CFIdentifier;
+import cfml.parsing.cfscript.CFVarDeclExpression;
 
 import com.cflint.BugInfo;
 import com.cflint.BugList;
@@ -23,96 +25,87 @@ public class VariableNameChecker extends CFLintScannerAdapter {
 	final int MAX_VAR_WORDS = 4;
 		
 	public void expression(final CFExpression expression, final Context context, final BugList bugs) {
-		// TODO	
-	}
+		if (expression instanceof CFVarDeclExpression) {
+			String content = ((CFVarDeclExpression) expression).Decompile(0);
+			String parts[] = content.split(" ");
+			String varName = parts[1]; // var name = expression
+			int lineNo = ((CFVarDeclExpression) expression).getLine() + context.startLine() - 1;
 
-	public void expression(final CFScriptStatement expression, final Context context, final BugList bugs) {
-		// TODO
-	}
-	
-	public void element(final Element element, final Context context, final BugList bugs) {
-		String tag = element.getName();
-		if (tag.equals("cfset")) { 
-			// TODO is there a better way to do this?
-			String content = element.getStartTag().getTagContent().toString();
-			String parts[] = content.split("=");
-			String allVariables = parts[0];
-			String filename = context.getFilename();
-			int line = element.getSource().getRow(element.getBegin());
+			checkNameForBugs(varName, context.getFilename(), lineNo, bugs);
+		}
+		else if (expression instanceof CFFullVarExpression) {
+			String content = ((CFFullVarExpression) expression).Decompile(0);
+			content = content.replace(".", " ");
+			content = content.replace("[", " ");
+			content = content.replace("]", " ");
+			String parts[] = content.split(" ");
+			int lineNo = ((CFFullVarExpression) expression).getLine() + context.startLine() - 1;
 
-			allVariables = allVariables.replace("var ","");
-			allVariables = allVariables.replace("["," ");
-			allVariables = allVariables.replace("]"," ");
-			allVariables = allVariables.replace("."," ");
-
-			String[] subVariables = allVariables.split(" ");
-
-			System.out.println(allVariables);
-		
-			for (String variable : subVariables) {
-				if (Integer.parseInt(variable) == 0) {
-					checkNameForBugs(variable, filename, line, bugs);
+			for (int i = 0; i < parts.length; i++) {
+				if (!parts[i].matches("\\d+")) {
+					checkNameForBugs(parts[i], context.getFilename(), lineNo, bugs);
 				}
 			}
+		}
+		else if (expression instanceof CFIdentifier) {
+			String varName = ((CFIdentifier) expression).getName();
+			int lineNo = ((CFIdentifier) expression).getLine() + context.startLine() - 1;
+			
+			checkNameForBugs(varName, context.getFilename(), lineNo, bugs);
 		}
 	}
 
 	public void checkNameForBugs(String variable, String filename, int line, BugList bugs) {
 		System.out.println("Var:" + variable);
 
-		if (isValid(variable)) {
-			System.out.println("Not valid");
+		if (isInvalid(variable)) {
+			System.out.println("isInvalid : " + variable);
 			bugs.add(new BugInfo.BugInfoBuilder().setLine(line).setMessageCode("VAR_INVALID_NAME")
 				.setSeverity(severity).setFilename(filename)
 				.setMessage("Variable " + variable + " is not a valid name. Please use CamelCase or underscores.")
 				.build());
 		}
 		if (isUpperCase(variable)) {
-			System.out.println("all caps");
 			bugs.add(new BugInfo.BugInfoBuilder().setLine(line).setMessageCode("VAR_ALLCAPS_NAME")
 				.setSeverity(severity).setFilename(filename)
 				.setMessage("Variable " + variable + " should not be upper case.")
 				.build());
 		}
 		if (tooShort(variable)) {
-			System.out.println("tooshort");
 			bugs.add(new BugInfo.BugInfoBuilder().setLine(line).setMessageCode("VAR_TOO_SHORT")
 				.setSeverity(severity).setFilename(filename)
 				.setMessage("Variable " + variable + " should be longer than " + MIN_VAR_LENGTH + " characters.")
 				.build());
 		}
 		if (tooLong(variable)) {
-			System.out.println("toolong");
 			bugs.add(new BugInfo.BugInfoBuilder().setLine(line).setMessageCode("VAR_TOO_LONG")
 				.setSeverity(severity).setFilename(filename)
-				.setMessage("Variable " + variable + " should be short than " + MAX_VAR_LENGTH + " characters.")
+				.setMessage("Variable " + variable + " should be shorter than " + MAX_VAR_LENGTH + " characters.")
 				.build());
 		}
 		if (!isUpperCase(variable) && tooWordy(variable)) {
-			System.out.println("toowordy");
 			bugs.add(new BugInfo.BugInfoBuilder().setLine(line).setMessageCode("VAR_TOO_WORDY")
 				.setSeverity(severity).setFilename(filename)
-				.setMessage("Variable " + variable + " is too wordy.")
+				.setMessage("Variable " + variable + " is too wordy, can you think of a more concise name?")
 				.build());
 		}
 		if (isTemporary(variable)) {
-			System.out.println("istemporary");
 			bugs.add(new BugInfo.BugInfoBuilder().setLine(line).setMessageCode("VAR_IS_TEMPORARY")
 				.setSeverity(severity).setFilename(filename)
-				.setMessage("Variable sounds tempory " + variable + " and could be named better.")
+				.setMessage("Temporary variable " + variable + " could be named better.")
 				.build());
 		}
 		if (hasPrefixOrPostfix(variable)) {
-			System.out.println("hasprefix");
-			bugs.add(new BugInfo.BugInfoBuilder().setLine(line).setMessageCode("VAR_HAS_PREFIX")
+			System.out.println("hasPrefixOrPostfix : " + variable);
+			bugs.add(new BugInfo.BugInfoBuilder().setLine(line).setMessageCode("VAR_HAS_PREFIX_OR_POSTFIX")
 				.setSeverity(severity).setFilename(filename)
-				.setMessage("Variable has prefix " + variable + " and could be named better.")
+				.setMessage("Variable has prefix or postfix " + variable + " and could be named better.")
 				.build());
 		}
 	}
  
-	protected boolean isValid(String variable) {
-		return validChars(variable) && (isCamelCase(variable) || usesUnderscores(variable)) && !endsInNumber(variable);
+	protected boolean isInvalid(String variable) {
+		return !validChars(variable) || !(isSameCase(variable) || isCamelCase(variable) || usesUnderscores(variable)) || endsInNumber(variable);
 	}
 
 	protected boolean validChars(String variable) {
@@ -122,6 +115,10 @@ public class VariableNameChecker extends CFLintScannerAdapter {
 
 	protected boolean isUpperCase(String variable) {
 		return variable.toUpperCase().equals(variable);
+	}
+
+	protected boolean isSameCase(String variable) {
+		return variable.equals(variable.toLowerCase()) || variable.equals(variable.toUpperCase());
 	}
 
 	protected boolean isCamelCase(String variable) {
@@ -135,15 +132,9 @@ public class VariableNameChecker extends CFLintScannerAdapter {
 	}
 
 	protected boolean endsInNumber(String variable) {
-		String sentence = variable.replaceAll("_", " ");
-		sentence = sentence.replaceAll("(\\p{Ll})(\\p{Lu})","$1 $2");
-		String[] words = sentence.split(" ");
-		String lastWord = words[words.length-1];
+		char lastLetter = variable.charAt(variable.length() - 1);
 
-		System.out.println(words);
-		System.out.println(lastWord);
-
-		if (Integer.parseInt(lastWord) > 0) {
+		if (Character.isDigit(lastLetter)) {
 			return true;
 		}
 
@@ -164,7 +155,7 @@ public class VariableNameChecker extends CFLintScannerAdapter {
 	}
 
 	protected boolean isTemporary(String variable) {
-		String[] wordsToAvoid = {"temp", "tmp", "var", "func", "obj", "object", "str", "struct", "arr", "array"};
+		String[] wordsToAvoid = {"temp", "tmp", "var", "func", "obj", "object", "bool", "struct", "string", "array"};
 		String sentence = variable.replaceAll("_", " ");
 		sentence = sentence.replaceAll("(\\p{Ll})(\\p{Lu})","$1 $2");
 		String[] words = sentence.split(" ");
@@ -182,21 +173,23 @@ public class VariableNameChecker extends CFLintScannerAdapter {
 	}
 
 	protected boolean hasPrefixOrPostfix(String variable) {
-		String[] namesToAvoid = {"st", "str", "o", "obj", "b", "q", "arr", "a", "this", "my"};
+		String[] namesToAvoid = {"s", "st", "str", "o", "obj", "b", "q", "a", "arr", "this", "my"};
 		String sentence = variable.replaceAll("_", " ");
 		sentence = sentence.replaceAll("(\\p{Ll})(\\p{Lu})","$1 $2");
 		String[] words = sentence.split(" ");
 		String firstWord = words[0];
 		String lastWord = words[words.length-1];
 
-		for (String badName : namesToAvoid) {
-			if (firstWord.toLowerCase().equals(badName))
-			{
-				return true;
-			}
-			if (lastWord.toLowerCase().equals(badName))
-			{
-				return true;
+		if (words.length > 1) {
+			for (String badName : namesToAvoid) {
+				if (firstWord.toLowerCase().equals(badName))
+				{
+					return true;
+				}
+				if (lastWord.toLowerCase().equals(badName))
+				{
+					return true;
+				}
 			}
 		}
 

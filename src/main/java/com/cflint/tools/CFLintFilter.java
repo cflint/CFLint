@@ -19,6 +19,7 @@ public class CFLintFilter {
 
 	private JSONArray data = null;
 	private List<String> includeCodes = null;
+	private List<String> excludeCodes = null;
 	boolean verbose = false;
 
 	private CFLintFilter(final String data) {
@@ -29,6 +30,7 @@ public class CFLintFilter {
 		}
 	}
 	
+	@Deprecated
 	public void addFilter(final Map<String,String> filter){
 		final JSONObject jsonObj = new JSONObject();
 //		for(Entry<String, String> entry: filter.entrySet()){
@@ -39,12 +41,9 @@ public class CFLintFilter {
 	public void excludeCode(final String ... codes){
 		if(codes.length == 0)
 			return;
-		Map<String, String> filter = new HashMap<String, String>();
-		for(String code: codes){
-			filter.put("code",code);
-		}
-		addFilter(filter);
+		excludeCodes = Arrays.asList(codes);
 	}
+	
 	public void includeCode(final String ... codes){
 		if(codes.length == 0)
 			return;
@@ -96,6 +95,9 @@ public class CFLintFilter {
 	
 	public boolean include(final BugInfo bugInfo) {
 		if (includeCodes != null && !includeCodes.contains(bugInfo.getMessageCode())){
+			return false;
+		}
+		if (excludeCodes != null && excludeCodes.contains(bugInfo.getMessageCode())){
 			return false;
 		}
 		if (data != null) {

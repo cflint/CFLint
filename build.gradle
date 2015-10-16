@@ -1,21 +1,37 @@
+buildscript {
+     repositories {
+         mavenLocal()
+         jcenter {
+            url "http://jcenter.bintray.com/"
+        }
+        maven { url "http://oss.sonatype.org/content/repositories/snapshots/" }
+     }
+     dependencies {
+         classpath 'com.bmuschko:gradle-nexus-plugin:2.3'
+         classpath "io.codearte.gradle.nexus:gradle-nexus-staging-plugin:0.5.3"
+     }
+ }
+
+plugins {
+  id 'java'
+  id 'com.github.johnrengelman.shadow' version '1.2.2'
+}
+
+apply plugin: "base"
+apply plugin: "signing"
+apply plugin: "com.bmuschko.nexus"
+
 apply plugin: 'java'
 apply plugin: 'maven'
 apply from: 'cobertura.gradle'
-
-group = 'com.github.cflint'
-version = '0.5.0'
-
-description = """CFLint"""
+apply from: 'deploy.gradle'
 
 sourceCompatibility = 1.7
 targetCompatibility = 1.7
 
-
-
 repositories {
-        
-     maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
-     maven { url "http://repo.maven.apache.org/maven2" }
+    maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
+    maven { url "http://repo.maven.apache.org/maven2" }
 }
 dependencies {
     compile group: 'com.github.cfparser', name: 'cfparser', version:'2.0.0'

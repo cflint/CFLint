@@ -21,9 +21,11 @@ public class ComponentLengthChecker extends CFLintScannerAdapter {
 	final int LENGTH_THRESHOLD = 500;
 	final String severity = "INFO";
 
+	@Override
 	public void expression(final CFExpression expression, final Context context, final BugList bugs) {
 	}
 
+	@Override
 	public void expression(final CFScriptStatement expression, final Context context, final BugList bugs) {
 		if (expression instanceof CFCompoundStatement) {
 			CFCompoundStatement component = (CFCompoundStatement) expression;
@@ -34,6 +36,7 @@ public class ComponentLengthChecker extends CFLintScannerAdapter {
 		}
 	}
 
+	@Override
 	public void element(final Element element, final Context context, final BugList bugs) {
 		String elementName = element.getName();
 

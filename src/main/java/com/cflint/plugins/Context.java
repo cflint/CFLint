@@ -143,6 +143,10 @@ public class Context {
 		return context2;
 	}
 
+	public int startLine() {
+		return element.getSource().getRow(element.getBegin());
+	}
+
 	protected String componentFromFile(String filename) {
 		int dotPosition = filename.lastIndexOf(".");
 		String separator = System.getProperty("file.separator");

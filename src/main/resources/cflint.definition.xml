@@ -73,6 +73,25 @@
 		</message>
 		<parameter name="tagName" value="cfdump"/>
 	</ruleImpl>
+	<ruleImpl name="CFExecuteChecker" className="CFXTagChecker">
+		<message code="AVOID_USING_CFEXECUTE_TAG">
+			<messageText>Avoid Leaving &lt;${tagName}&gt; tags in committed code. CFexecute can be use as an attack vector and is slow.</messageText>
+			<severity>WARNING</severity>
+		</message>
+		<parameter name="tagName" value="cfexecute"/>
+	</ruleImpl>
+	<ruleImpl name="CFAbortChecker" className="CFXTagChecker">
+		<message code="AVOID_USING_CFABORT_TAG">
+			<messageText>Avoid Leaving &lt;${tagName}&gt; tags in committed code. Did you accidently leave a cfabort in the code?</messageText>
+			<severity>INFO</severity>
+		</message>
+		<parameter name="tagName" value="cfabort"/>
+	</ruleImpl>
+	<ruleImpl name="AbortChecker" className="AbortChecker">
+		<message code="AVOID_USING_ABORT">
+			<severity>INFO</severity>
+		</message>
+	</ruleImpl>
 	<ruleImpl name="CFInsertChecker" className="CFXTagChecker">
 		<message code="AVOID_USING_CFINSERT_TAG">
 			<messageText>Avoid using &lt;${tagName}&gt; tags. Use cfquery and cfstoredproc instead.</messageText>
@@ -93,5 +112,95 @@
 			<severity>WARNING</severity>
 		</message>
 		<parameter name="tagName" value="cfupdate"/>
+	</ruleImpl>
+	<ruleImpl name="ComponentHintChecker" className="ComponentHintChecker">
+        <message code="COMPONENT_HINT_MISSING">
+        	<severity>WARNING</severity>
+        </message>
+	</ruleImpl>
+	<ruleImpl name="FunctionHintChecker" className="FunctionHintChecker">
+        <message code="FUNCTION_HINT_MISSING">
+        	<severity>INFO</severity>
+        </message>
+	</ruleImpl>
+	<ruleImpl name="ArgumentHintChecker" className="ArgHintChecker">
+        <message code="ARG_HINT_MISSING">
+         	<severity>INFO</severity>
+        </message>
+	</ruleImpl>
+	<ruleImpl name="ArgumentTypeChecker" className="ArgTypeChecker">
+        <message code="ARG_TYPE_MISSING">
+        	<severity>WARNING</severity>
+        </message>
+        <message code="ARG_TYPE_ANY">
+         	<severity>INFO</severity>
+        </message>
+	</ruleImpl>
+	<ruleImpl name="FunctionLengthChecker" className="FunctionLengthChecker">
+        <message code="EXCESSIVE_FUNCTION_LENGTH">
+                <severity>WARNING</severity>
+        </message>
+	    <parameter name="length" value="100"/>
+	</ruleImpl>
+    <ruleImpl name="ComponentLengthChecker" className="ComponentLengthChecker">
+        <message code="EXCESSIVE_COMPONENT_LENGTH">
+                <severity>WARNING</severity>
+        </message>
+        <parameter name="length" value="500"/>
+    </ruleImpl>
+    <ruleImpl name="FunctionTypeChecker" className="FunctionTypeChecker">
+        <message code="FUNCTION_TYPE_MISSING">
+                <severity>WARNING</severity>
+        </message>
+        <message code="FUNCTION_TYPE_ANY">
+                <severity>INFO</severity>
+        </message>
+    </ruleImpl>
+    <ruleImpl name="TooManyArgumentsChecker" className="TooManyArgumentsChecker">
+		<message code="EXCESSIVE_ARGUMENTS">
+			<severity>WARNING</severity>
+		</message>
+		<parameter name="maximum" value="10" />
+	</ruleImpl>
+	<ruleImpl name="TooManyFunctionsChecker" className="TooManyArgumentsChecker">
+		<message code="EXCESSIVE_FUNCTIONS">
+			<severity>WARNING</severity>
+		</message>
+		<parameter name="maximum" value="10" />
+	</ruleImpl>
+	<ruleImpl name="SimpleComplexityChecker" className="SimpleComplexityChecker">
+		<message code="FUNCTION_TOO_COMPLEX">
+			<severity>WARNING</severity>
+		</message>
+		<parameter name="maximum" value="10" />
+	</ruleImpl>
+	<ruleImpl name="WriteDumpChecker" className="FunctionXChecker">
+		<message code="AVOID_USING_WRITEDUMP">
+			<messageText>Avoid using the ${functionName} function in production code.</messageText>
+			<severity>INFO</severity>
+		</message>
+		<parameter name="functionName" value="writeDump"/>
+	</ruleImpl>
+	<ruleImpl name="StructNewChecker" className="FunctionXChecker">
+		<message code="AVOID_USING_STRUCTNEW">
+			<messageText>Avoid using the ${functionName} function.  Use implicit structure construction instead (= {}).</messageText>
+			<severity>INFO</severity>
+		</message>
+		<parameter name="functionName" value="structNew"/>
+	</ruleImpl>
+	<ruleImpl name="ArrayNewChecker" className="ArrayNewChecker">
+		<message code="AVOID_USING_ARRAYNEW">
+			<severity>INFO</severity>
+		</message>
+	</ruleImpl>
+	<ruleImpl name="ComplexBooleanExpressionChecker" className="ComplexBooleanExpressionChecker">
+		<message code="COMPLEX_BOOLEAN_CHECK">
+			<severity>WARNING</severity>
+		</message>
+	</ruleImpl>
+	<ruleImpl name="BooleanExpressionChecker" className="BooleanExpressionChecker">
+		<message code="EXPLICIT_BOOLEAN_CHECK">
+			<severity>INFO</severity>
+		</message>
 	</ruleImpl>
 </CFLint-Plugin>

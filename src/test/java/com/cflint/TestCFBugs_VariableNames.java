@@ -45,7 +45,7 @@ public class TestCFBugs_VariableNames {
 		pluginMessage = new PluginMessage("VAR_IS_TEMPORARY");
 		pluginMessage.setSeverity("INFO");
 		pluginRule.getMessages().add(pluginMessage);
-		pluginMessage = new PluginMessage("VAR_HAS_PREFIX");
+		pluginMessage = new PluginMessage("VAR_HAS_PREFIX_OR_POSTFIX");
 		pluginMessage.setSeverity("INFO");
 		pluginRule.getMessages().add(pluginMessage);
 
@@ -53,72 +53,204 @@ public class TestCFBugs_VariableNames {
 	}
 
 	@Test
-	public void testValidNames() throws ParseException, IOException {
-		final String cfcSrc = "<cfcomponent>\r\n"
+	public void testValidNamesTag() throws ParseException, IOException {
+		final String tagSrc = "<cfcomponent>\r\n"
 		 + "<cffunction name=\"test\">\r\n"
-		 + "	<cfset var firstName = \"Justin\">\r\n"
-		 + "	<cfset first_name = \"Justin\">\r\n"
-		 + "	<cfset firstname = \"Justin\">\r\n"
-		 + "	<cfset name.first = \"Justin\">\r\n"
-		 + "	<cfset name.last = \"Mclean\">\r\n"
-		 + "	<cfset names[1] = \"Mclean\">\r\n"
+		 + "	<cfset var firstName = \"Fred\">\r\n"
+		 + "	<cfset first_name = \"Fred\">\r\n"
+		 + "	<cfset firstname = \"Fred\">\r\n"
+		 + "	<cfset name.first = \"Fred\">\r\n"
+		 + "	<cfset name.last = \"Smith\">\r\n"
+		 + "	<cfset names[1] = \"Smith\">\r\n"
 		 + "</cffunction>\r\n"
 		 + "</cfcomponent>";
-		cfBugs.process(cfcSrc, "test");
+		cfBugs.process(tagSrc, "test");
 		Collection<List<BugInfo>> result = cfBugs.getBugs().getBugList().values();
 		assertEquals(0, result.size());
 	}
 
 	@Test
-	public void testUpercaseName() throws ParseException, IOException {
-		final String cfcSrc = "<cfcomponent>\r\n"
+	public void testUpercaseNameTag() throws ParseException, IOException {
+		final String tagSrc = "<cfcomponent>\r\n"
 		 + "<cffunction name=\"test\">\r\n"
-		 + "	<cfset var FIRSTNAME = \"Justin\">\r\n"
-		 + "	<cfset LAST_NAME = \"Mclean\">\r\n"
+		 + "	<cfset var FIRSTNAME = \"Fred\">\r\n"
+		 + "	<cfset LAST_NAME = \"Smith\">\r\n"
+		 + "	<cfset names = {}>\r\n"
+		 + "	<cfset name.FIRST = \"Fred\">\r\n"
+		 + "	<cfset NAMES[1] = \"Fred\">\r\n"
 		 + "</cffunction>\r\n"
 		 + "</cfcomponent>";
-		cfBugs.process(cfcSrc, "test");
+		cfBugs.process(tagSrc, "test");
 		final List<BugInfo> result = cfBugs.getBugs().getBugList().values().iterator().next();
-		assertEquals(2, result.size());
+		assertEquals(4, result.size());
 		assertEquals("VAR_ALLCAPS_NAME", result.get(0).getMessageCode());
 		assertEquals(3, result.get(0).getLine());
 		assertEquals("VAR_ALLCAPS_NAME", result.get(1).getMessageCode());
 		assertEquals(4, result.get(1).getLine());
+		assertEquals("VAR_ALLCAPS_NAME", result.get(2).getMessageCode());
+		assertEquals(6, result.get(2).getLine());
+		assertEquals("VAR_ALLCAPS_NAME", result.get(3).getMessageCode());
+		assertEquals(7, result.get(3).getLine());
 	}
 
 	@Test
-	public void invalidCharsInName() throws ParseException, IOException {
-		final String cfcSrc = "<cfcomponent>\r\n"
+	public void invalidCharsInNameTag() throws ParseException, IOException {
+		final String tagSrc = "<cfcomponent>\r\n"
 		 + "<cffunction name=\"test\">\r\n"
-		 + "	<cfset var $name = \"Justin\">\r\n"
-		 + "	<cfset last$name = \"Mclean\">\r\n"
+		 + "	<cfset var $name = \"Fred\">\r\n"
+		 + "	<cfset last$name = \"Smith\">\r\n"
+		 + "	<cfset last.$name = \"Smith\">\r\n"
 		 + "</cffunction>\r\n"
 		 + "</cfcomponent>";
-		cfBugs.process(cfcSrc, "test");
+		cfBugs.process(tagSrc, "test");
 		final List<BugInfo> result = cfBugs.getBugs().getBugList().values().iterator().next();
-		assertEquals(2, result.size());
-		assertEquals("VAR_INVALID_NAME", result.get(0).getMessageCode());
-		assertEquals(3, result.get(0).getLine());
-		assertEquals("VAR_INVALID_NAME", result.get(0).getMessageCode());
-		assertEquals(4, result.get(0).getLine());
-	}
-
-
-	@Test
-	public void nameEndsINNumber() throws ParseException, IOException {
-		final String cfcSrc = "<cfcomponent>\r\n"
-		 + "<cffunction name=\"test\">\r\n"
-		 + "	<cfset name_1 = \"Justin\">\r\n"
-		 + "	<cfset name2 = \"Mclean\">\r\n"
-		 + "</cffunction>\r\n"
-		 + "</cfcomponent>";
-		cfBugs.process(cfcSrc, "test");
-		final List<BugInfo> result = cfBugs.getBugs().getBugList().values().iterator().next();
-		assertEquals(2, result.size());
+		assertEquals(3, result.size());
 		assertEquals("VAR_INVALID_NAME", result.get(0).getMessageCode());
 		assertEquals(3, result.get(0).getLine());
 		assertEquals("VAR_INVALID_NAME", result.get(1).getMessageCode());
 		assertEquals(4, result.get(1).getLine());
+		assertEquals("VAR_INVALID_NAME", result.get(2).getMessageCode());
+		assertEquals(5, result.get(2).getLine());
+	}
+
+
+	@Test
+	public void nameEndsInNumberTag() throws ParseException, IOException {
+		final String tagSrc = "<cfcomponent>\r\n"
+		 + "<cffunction name=\"test\">\r\n"
+		 + "	<cfset name_1 = \"Fred\">\r\n"
+		 + "	<cfset name2 = \"Smith\">\r\n"
+		 + "	<cfset last.name1 = \"Fred\">\r\n"
+		 + "</cffunction>\r\n"
+		 + "</cfcomponent>";
+		cfBugs.process(tagSrc, "test");
+		final List<BugInfo> result = cfBugs.getBugs().getBugList().values().iterator().next();
+		assertEquals(3, result.size());
+		assertEquals("VAR_INVALID_NAME", result.get(0).getMessageCode());
+		assertEquals(3, result.get(0).getLine());
+		assertEquals("VAR_INVALID_NAME", result.get(1).getMessageCode());
+		assertEquals(4, result.get(1).getLine());
+		assertEquals("VAR_INVALID_NAME", result.get(2).getMessageCode());
+		assertEquals(5, result.get(2).getLine());
+	}
+
+	@Test
+	public void nameTooShortTag() throws ParseException, IOException {
+		final String tagSrc = "<cfcomponent>\r\n"
+		 + "<cffunction name=\"test\">\r\n"
+		 + "	<cfset a = \"Fred\">\r\n"
+		 + "	<cfset b = \"Smith\">\r\n"
+		 + "	<cfset last.a = \"Fred\">\r\n"
+		 + "</cffunction>\r\n"
+		 + "</cfcomponent>";
+		cfBugs.process(tagSrc, "test");
+		final List<BugInfo> result = cfBugs.getBugs().getBugList().values().iterator().next();
+		assertEquals(3, result.size());
+		assertEquals("VAR_TOO_SHORT", result.get(0).getMessageCode());
+		assertEquals(3, result.get(0).getLine());
+		assertEquals("VAR_TOO_SHORT", result.get(1).getMessageCode());
+		assertEquals(4, result.get(1).getLine());
+		assertEquals("VAR_TOO_SHORT", result.get(2).getMessageCode());
+		assertEquals(5, result.get(2).getLine());
+	}
+
+	@Test
+	public void nameTooLongTag() throws ParseException, IOException {
+		final String tagSrc = "<cfcomponent>\r\n"
+		 + "<cffunction name=\"test\">\r\n"
+		 + "	<cfset isaveryveryverylongvariablename = \"Fred\">\r\n"
+		 + "	<cfset isa.veryveryverylongvariablename = \"Fred\">\r\n"
+		 + "</cffunction>\r\n"
+		 + "</cfcomponent>";
+		cfBugs.process(tagSrc, "test");
+		final List<BugInfo> result = cfBugs.getBugs().getBugList().values().iterator().next();
+		assertEquals(2, result.size());
+		assertEquals("VAR_TOO_LONG", result.get(0).getMessageCode());
+		assertEquals(3, result.get(0).getLine());
+		assertEquals("VAR_TOO_LONG", result.get(1).getMessageCode());
+		assertEquals(4, result.get(1).getLine());
+	}
+
+	@Test
+	public void nameTooWordyTag() throws ParseException, IOException {
+		final String tagSrc = "<cfcomponent>\r\n"
+		 + "<cffunction name=\"test\">\r\n"
+		 + "	<cfset nameIsFarTooWordy = \"Fred\">\r\n"
+		 + "	<cfset nameIsOK = \"Fred\">\r\n"
+		 + "	<cfset name.isAlsoFarTooWordy = \"Fred\">\r\n"
+		 + "</cffunction>\r\n"
+		 + "</cfcomponent>";
+		cfBugs.process(tagSrc, "test");
+		final List<BugInfo> result = cfBugs.getBugs().getBugList().values().iterator().next();
+		assertEquals(2, result.size());
+		assertEquals("VAR_TOO_WORDY", result.get(0).getMessageCode());
+		assertEquals(3, result.get(0).getLine());
+		assertEquals("VAR_TOO_WORDY", result.get(1).getMessageCode());
+		assertEquals(5, result.get(1).getLine());
+	}
+
+	@Test
+	public void nameIsTemporyTag() throws ParseException, IOException {
+		final String tagSrc = "<cfcomponent>\r\n"
+		 + "<cffunction name=\"test\">\r\n"
+		 + "	<cfset temp = \"Fred\">\r\n"
+		 + "	<cfset name.temp = \"Fred\">\r\n"
+		 + "	<cfset obj = \"Fred\">\r\n"
+		 + "	<cfset struct = \"Fred\">\r\n"
+		 + "	<cfset tempName = \"Fred\">\r\n"
+		 + "	<cfset nameObj = \"Fred\">\r\n"
+		 + "	<cfset nameString = \"Fred\">\r\n"
+		 + "</cffunction>\r\n"
+		 + "</cfcomponent>";
+		cfBugs.process(tagSrc, "test");
+		final List<BugInfo> result = cfBugs.getBugs().getBugList().values().iterator().next();
+		assertEquals(7, result.size());
+		assertEquals("VAR_IS_TEMPORARY", result.get(0).getMessageCode());
+		assertEquals(3, result.get(0).getLine());
+		assertEquals("VAR_IS_TEMPORARY", result.get(1).getMessageCode());
+		assertEquals(4, result.get(1).getLine());
+		assertEquals("VAR_IS_TEMPORARY", result.get(2).getMessageCode());
+		assertEquals(5, result.get(2).getLine());
+		assertEquals("VAR_IS_TEMPORARY", result.get(3).getMessageCode());
+		assertEquals(6, result.get(3).getLine());
+		assertEquals("VAR_IS_TEMPORARY", result.get(4).getMessageCode());
+		assertEquals(7, result.get(4).getLine());
+		assertEquals("VAR_IS_TEMPORARY", result.get(5).getMessageCode());
+		assertEquals(8, result.get(5).getLine());
+		assertEquals("VAR_IS_TEMPORARY", result.get(6).getMessageCode());
+		assertEquals(9, result.get(6).getLine());
+	}
+
+	@Test
+	public void nameHasPrefixOrPostfixTag() throws ParseException, IOException {
+		final String tagSrc = "<cfcomponent>\r\n"
+		 + "<cffunction name=\"test\">\r\n"
+		 + "	<cfset sName = \"Fred\">\r\n"
+		 + "	<cfset nameSt = {first:\"Fred\"}>\r\n"
+		 + "	<cfset oName = {first:\"Fred\"}>\r\n"
+		 + "	<cfset bOff = true>\r\n"
+		 + "	<cfset arrNames = [\"Fred\"]>\r\n"
+		 + "	<cfset thisName = \"Fred\">\r\n"
+		 + "	<cfset myName = \"Fred\">\r\n"
+		 + "</cffunction>\r\n"
+		 + "</cfcomponent>";
+		cfBugs.process(tagSrc, "test");
+		final List<BugInfo> result = cfBugs.getBugs().getBugList().values().iterator().next();
+		assertEquals(7, result.size());
+		assertEquals("VAR_HAS_PREFIX_OR_POSTFIX", result.get(0).getMessageCode());
+		assertEquals(3, result.get(0).getLine());
+		assertEquals("VAR_HAS_PREFIX_OR_POSTFIX", result.get(1).getMessageCode());
+		assertEquals(4, result.get(1).getLine());
+		assertEquals("VAR_HAS_PREFIX_OR_POSTFIX", result.get(2).getMessageCode());
+		assertEquals(5, result.get(2).getLine());
+		assertEquals("VAR_HAS_PREFIX_OR_POSTFIX", result.get(3).getMessageCode());
+		assertEquals(6, result.get(3).getLine());
+		assertEquals("VAR_HAS_PREFIX_OR_POSTFIX", result.get(4).getMessageCode());
+		assertEquals(7, result.get(4).getLine());
+		assertEquals("VAR_HAS_PREFIX_OR_POSTFIX", result.get(5).getMessageCode());
+		assertEquals(8, result.get(5).getLine());
+		assertEquals("VAR_HAS_PREFIX_OR_POSTFIX", result.get(6).getMessageCode());
+		assertEquals(9, result.get(6).getLine());
 	}
 
 }

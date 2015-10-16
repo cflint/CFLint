@@ -404,9 +404,51 @@
           "severity": "INFO"
         }
       ],
-      "parameter": [
-        
-      ]
+      "parameter": []
+    },
+    {
+      "name": "StructNewChecker",
+      "className": "FunctionXChecker",
+      "message": [
+        {
+          "code": "AVOID_USING_STRUCTNEW",
+          "severity": "INFO"
+        }
+      ],
+      "parameter": []
+    },
+    {
+      "name": "ArrayNewChecker",
+      "className": "ArrayNewChecker",
+      "message": [
+        {
+          "code": "AVOID_USING_ARRAYNEW",
+          "severity": "INFO"
+        }
+      ],
+      "parameter": []
+    },
+    {
+      "name": "ComplexBooleanExpressionChecker",
+      "className": "ComplexBooleanExpressionChecker",
+      "message": [
+        {
+          "code": "COMPLEX_BOOLEAN_CHECK",
+          "severity": "WARNING"
+        }
+      ],
+      "parameter": []
+    },
+    {
+      "name": "BooleanExpressionChecker",
+      "className": "BooleanExpressionChecker",
+      "message": [
+        {
+          "code": "EXPLICIT_BOOLEAN_CHECK",
+          "severity": "INFO"
+        }
+      ],
+      "parameter": []
     }
   ]
 }

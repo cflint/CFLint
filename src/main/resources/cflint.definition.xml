@@ -203,4 +203,27 @@
 			<severity>INFO</severity>
 		</message>
 	</ruleImpl>
+	<ruleImpl name="VariableNameChecker" className="VariableNameChecker">
+		<message code="VAR_INVALID_NAME">
+			<severity>INFO</severity>
+		</message>
+		<message code="VAR_ALLCAPS_NAME">
+			<severity>INFO</severity>
+		</message>
+		<message code="VAR_TOO_SHORT">
+			<severity>INFO</severity>
+		</message>
+		<message code="VAR_TOO_LONG">
+			<severity>INFO</severity>
+		</message>
+		<message code="VAR_TOO_WORDY">
+			<severity>INFO</severity>
+		</message>
+		<message code="VAR_IS_TEMPORARY">
+			<severity>INFO</severity>
+		</message>
+		<message code="VAR_HAS_PREFIX_OR_POSTFIX">
+			<severity>INFO</severity>
+		</message>				
+	</ruleImpl>
 </CFLint-Plugin>

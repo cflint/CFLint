@@ -40,16 +40,4 @@ public class TestJSONOutput {
 		assertEquals(expectedText,writer.toString());
 	}
 	
-	@Test
-	public void testRead() throws JsonParseException, JsonMappingException, IOException{
-		InputStream is = new FileInputStream("src\\main\\config\\cflintexclude.json");
-		System.out.println(is);
-		//HashMap<String, Object> props = (HashMap<String,Object>) new ObjectMapper().readValue(this.getClass().getResourceAsStream("/config/cflintexcludes.json"), HashMap.class);
-		
-		ObjectMapper mapper = new ObjectMapper();
-
-		ArrayList list = mapper.readValue(is, ArrayList.class);
-		System.out.println(list);
-		System.out.println(((Map)list.get(0)).get("function"));
-	}
 }

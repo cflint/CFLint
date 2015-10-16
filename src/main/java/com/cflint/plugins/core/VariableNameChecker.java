@@ -3,6 +3,7 @@ package com.cflint.plugins.core;
 import ro.fortsoft.pf4j.Extension;
 import net.htmlparser.jericho.Element;
 import net.htmlparser.jericho.Attributes;
+import cfml.parsing.cfscript.CFAssignmentExpression;
 import cfml.parsing.cfscript.CFExpression;
 import cfml.parsing.cfscript.CFFullVarExpression;
 import cfml.parsing.cfscript.CFIdentifier;
@@ -26,25 +27,14 @@ public class VariableNameChecker extends CFLintScannerAdapter {
 		
 	public void expression(final CFExpression expression, final Context context, final BugList bugs) {
 		if (expression instanceof CFVarDeclExpression) {
-			String content = ((CFVarDeclExpression) expression).Decompile(0);
-			String parts[] = content.split(" ");
-			String varName = parts[1]; // var name = expression
-			int lineNo = ((CFVarDeclExpression) expression).getLine() + context.startLine() - 1;
-
-			checkNameForBugs(varName, context.getFilename(), lineNo, bugs);
+			final CFVarDeclExpression cfVarDeclExpression = (CFVarDeclExpression)expression;
+			int lineNo = expression.getLine() + context.startLine() - 1;
+			checkNameForBugs(cfVarDeclExpression.getName(), context.getFilename(), lineNo, bugs);
 		}
 		else if (expression instanceof CFFullVarExpression) {
-			String content = ((CFFullVarExpression) expression).Decompile(0);
-			content = content.replace(".", " ");
-			content = content.replace("[", " ");
-			content = content.replace("]", " ");
-			String parts[] = content.split(" ");
-			int lineNo = ((CFFullVarExpression) expression).getLine() + context.startLine() - 1;
-
-			for (int i = 0; i < parts.length; i++) {
-				if (!parts[i].matches("\\d+")) {
-					checkNameForBugs(parts[i], context.getFilename(), lineNo, bugs);
-				}
+			final CFFullVarExpression cfFullVarExpression = (CFFullVarExpression)expression;
+			for(final CFExpression subexpression : cfFullVarExpression.getExpressions()){
+				expression(subexpression,context,bugs);
 			}
 		}
 		else if (expression instanceof CFIdentifier) {
@@ -138,7 +128,14 @@ public class VariableNameChecker extends CFLintScannerAdapter {
 	}
 
 	protected boolean tooShort(String variable) {
-		return variable.length() < MIN_VAR_LENGTH;
+		
+		int minVarLength = MIN_VAR_LENGTH;
+		if(getParameter("MinLength") !=null){
+			try {
+				minVarLength= Integer.parseInt(getParameter("MinLength"));
+			}catch(Exception e){}
+		}
+		return variable.length() < minVarLength;
 	}
 
 	protected boolean tooLong(String variable) {

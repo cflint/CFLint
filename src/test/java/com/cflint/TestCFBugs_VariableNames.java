@@ -36,6 +36,8 @@ public class TestCFBugs_VariableNames {
 		pluginMessage = new PluginMessage("VAR_TOO_SHORT");
 		pluginMessage.setSeverity("INFO");
 		pluginRule.getMessages().add(pluginMessage);
+		pluginRule.addParameter("MinLength", "3");
+		
 		pluginMessage = new PluginMessage("VAR_TOO_LONG");
 		pluginMessage.setSeverity("INFO");
 		pluginRule.getMessages().add(pluginMessage);
@@ -49,7 +51,9 @@ public class TestCFBugs_VariableNames {
 		pluginMessage.setSeverity("INFO");
 		pluginRule.getMessages().add(pluginMessage);
 
-		cfBugs = new CFLint(conf, new VariableNameChecker());
+		final VariableNameChecker checker = new VariableNameChecker();
+		checker.setParameter("MinLength", "3");
+		cfBugs = new CFLint(conf, checker);
 	}
 
 	@Test
@@ -202,7 +206,7 @@ public class TestCFBugs_VariableNames {
 		 + "</cffunction>\r\n"
 		 + "</cfcomponent>";
 		cfBugs.process(tagSrc, "test");
-		final List<BugInfo> result = cfBugs.getBugs().getBugList().values().iterator().next();
+		final List<BugInfo> result = cfBugs.getBugs().getBugList().get("VAR_IS_TEMPORARY");
 		assertEquals(7, result.size());
 		assertEquals("VAR_IS_TEMPORARY", result.get(0).getMessageCode());
 		assertEquals(3, result.get(0).getLine());
@@ -403,7 +407,7 @@ public class TestCFBugs_VariableNames {
 		 + "}\r\n"
 		 + "}";
 		cfBugs.process(scriptSrc, "test");
-		final List<BugInfo> result = cfBugs.getBugs().getBugList().values().iterator().next();
+		final List<BugInfo> result = cfBugs.getBugs().getBugList().get("VAR_IS_TEMPORARY");
 		assertEquals(7, result.size());
 		assertEquals("VAR_IS_TEMPORARY", result.get(0).getMessageCode());
 		assertEquals(3, result.get(0).getLine());

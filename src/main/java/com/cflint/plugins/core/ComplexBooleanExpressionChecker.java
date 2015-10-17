@@ -30,20 +30,20 @@ public class ComplexBooleanExpressionChecker extends CFLintScannerAdapter {
 		}
 	}
 
-	@Override
-	public void element(final Element element, final Context context, final BugList bugs) {
-		String tag = element.getName();
-
-		if (tag.equals("cfreturn")) { 
-			String content = element.getStartTag().getTagContent().toString();
-
-			if (isComplex(content, complexThreshold)) {
-				int lineNo = element.getSource().getRow(element.getBegin());
-
-				complexBooleanExpression(lineNo, context, bugs);
-			}
-		}
-	}
+//	@Override
+//	public void element(final Element element, final Context context, final BugList bugs) {
+//		String tag = element.getName();
+//
+//		if (tag.equals("cfreturn")) { 
+//			String content = element.getStartTag().getTagContent().toString();
+//
+//			if (isComplex(content, complexThreshold)) {
+//				int lineNo = element.getSource().getRow(element.getBegin());
+//
+//				complexBooleanExpression(lineNo, context, bugs);
+//			}
+//		}
+//	}
 	
 	protected boolean isComplex(final String code, final int complexThreshold) {
 		int noAnds = noSubstrings(code, " && ") + noSubstrings(code, " and ");

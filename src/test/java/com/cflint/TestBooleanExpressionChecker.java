@@ -63,7 +63,8 @@ public class TestBooleanExpressionChecker {
 	}
 
 	// FIXME currently this test fails - not 100% sure why the return statement is not being parsed
-	private void testBooleanExpressionInReturnScript() throws ParseException, IOException {
+	@Test
+	public void testBooleanExpressionInReturnScript() throws ParseException, IOException {
 		final String scriptSrc = "component {\r\n"
 			+ "public function test() {\r\n"
 			+ "return (x && y) == true;\r\n"
@@ -74,7 +75,7 @@ public class TestBooleanExpressionChecker {
 		final List<BugInfo> result = cfBugs.getBugs().getBugList().values().iterator().next();
 		assertEquals(1, result.size());
 		assertEquals("EXPLICIT_BOOLEAN_CHECK", result.get(0).getMessageCode());
-		assertEquals(2, result.get(0).getLine());
+		assertEquals(3, result.get(0).getLine());
 	}
 
 	@Test
@@ -86,6 +87,35 @@ public class TestBooleanExpressionChecker {
 		cfBugs.process(tagSrc, "test");
 		final List<BugInfo> result = cfBugs.getBugs().getBugList().values().iterator().next();
 		assertEquals(1, result.size());
+		assertEquals("EXPLICIT_BOOLEAN_CHECK", result.get(0).getMessageCode());
+		assertEquals(2, result.get(0).getLine());
+	}
+	
+	@Test
+	public void testBooleanExpressionInElseIfTag() throws ParseException, IOException {
+		final String tagSrc = "<cffunction name=\"test\">\r\n"
+				+ "<cfif false>\r\n"
+				+ "<cfelseif xx == false>\r\n"
+				+ "</cfif>\r\n"
+				+ "</cffunction>";
+			
+		cfBugs.process(tagSrc, "test");
+		final List<BugInfo> result = cfBugs.getBugs().getBugList().values().iterator().next();
+		assertEquals(1, result.size());
+		assertEquals("EXPLICIT_BOOLEAN_CHECK", result.get(0).getMessageCode());
+		assertEquals(3, result.get(0).getLine());
+	}
+	
+	
+	//TODO - the same error on the same line in subsequent files will not get reported
+	private void testBooleanExpression2Files() throws ParseException, IOException {
+		final String tagSrc = "<cfset a = 23>\r\n"
+			+ "<cfset a = not (b and c) is false>";
+			
+		cfBugs.process(tagSrc, "test");
+		cfBugs.process(tagSrc, "test2");
+		final List<BugInfo> result = cfBugs.getBugs().getBugList().values().iterator().next();
+		assertEquals(2, result.size());
 		assertEquals("EXPLICIT_BOOLEAN_CHECK", result.get(0).getMessageCode());
 		assertEquals(2, result.get(0).getLine());
 	}

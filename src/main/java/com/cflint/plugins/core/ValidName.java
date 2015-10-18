@@ -8,48 +8,52 @@ public class ValidName {
 	public static final int MAX_VAR_LENGTH = 20;
 	public static final int MAX_VAR_WORDS = 4;
 
-	protected int minVarLength = MIN_VAR_LENGTH;
-	protected int maxVarLength = MAX_VAR_LENGTH;
-	protected int maxVarWords = MAX_VAR_WORDS;
+	public static final int MIN_METHOD_LENGTH = 3;
+	public static final int MAX_METHOD_LENGTH = 25;
+	public static final int MAX_METHOD_WORDS = 5;
+
+	protected int minLength = MIN_VAR_LENGTH;
+	protected int maxLength = MAX_VAR_LENGTH;
+	protected int maxWords = MAX_VAR_WORDS;
 
 	public ValidName() {
 	}
 
-	public ValidName(int minVarLength, int maxVarLength, int maxVarWords) {
-		this.minVarLength = minVarLength;
-		this.maxVarLength = maxVarLength;
-		this.maxVarWords = maxVarWords;
+	public ValidName(int minLength, int maxLength, int maxWords) {
+		this.minLength = minLength;
+		this.maxLength = maxLength;
+		this.maxWords = maxWords;
 	}
 
-	public boolean isInvalid(String variable) {
-		return !validChars(variable) || !(isSameCase(variable) || isCamelCase(variable) || usesUnderscores(variable)) || endsInNumber(variable);
+	public boolean isInvalid(String name) {
+		return !validChars(name) || !(isSameCase(name) || isCamelCase(name) || usesUnderscores(name)) || endsInNumber(name);
 	}
 
-	public boolean validChars(String variable) {
+	public boolean validChars(String name) {
 		 Pattern valid = Pattern.compile("[A-Za-z0-9_]+");
-		 return valid.matcher(variable).matches();
+		 return valid.matcher(name).matches();
 	}
 
-	public boolean isUpperCase(String variable) {
-		return variable.toUpperCase().equals(variable);
+	public boolean isUpperCase(String name) {
+		return name.toUpperCase().equals(name);
 	}
 
-	public boolean isSameCase(String variable) {
-		return variable.equals(variable.toLowerCase()) || variable.equals(variable.toUpperCase());
+	public boolean isSameCase(String name) {
+		return name.equals(name.toLowerCase()) || name.equals(name.toUpperCase());
 	}
 
-	public boolean isCamelCase(String variable) {
+	public boolean isCamelCase(String name) {
 		Pattern valid = Pattern.compile("[a-z0-9]+([A-Z][a-z0-9]+)*");
-		return valid.matcher(variable).matches();
+		return valid.matcher(name).matches();
 	}
 
-	public boolean usesUnderscores(String variable) {
+	public boolean usesUnderscores(String name) {
 		Pattern valid = Pattern.compile("[a-z0-9]+[a-z0-9_]+");
-		return valid.matcher(variable).matches();
+		return valid.matcher(name).matches();
 	}
 
-	public boolean endsInNumber(String variable) {
-		char lastLetter = variable.charAt(variable.length() - 1);
+	public boolean endsInNumber(String name) {
+		char lastLetter = name.charAt(name.length() - 1);
 
 		if (Character.isDigit(lastLetter)) {
 			return true;
@@ -58,22 +62,22 @@ public class ValidName {
 		return false;
 	}
 
-	public boolean tooShort(String variable) {
-		return variable.length() < minVarLength;
+	public boolean tooShort(String name) {
+		return name.length() < minLength;
 	}
 
-	public boolean tooLong(String variable) {
-		return variable.length() > maxVarLength;
+	public boolean tooLong(String name) {
+		return name.length() > maxLength;
 	}
 
-	public boolean tooWordy(String variable) {
-		String[] words = variable.split("[A-Z_]");
-		return words.length > maxVarWords;
+	public boolean tooWordy(String name) {
+		String[] words = name.split("[A-Z_]");
+		return words.length > maxWords;
 	}
 
-	public boolean isTemporary(String variable) {
+	public boolean isTemporary(String name) {
 		String[] wordsToAvoid = {"temp", "tmp", "var", "func", "obj", "object", "bool", "struct", "string", "array"};
-		String sentence = variable.replaceAll("_", " ");
+		String sentence = name.replaceAll("_", " ");
 		sentence = sentence.replaceAll("(\\p{Ll})(\\p{Lu})","$1 $2");
 		String[] words = sentence.split(" ");
 		
@@ -89,9 +93,9 @@ public class ValidName {
 		return false;
 	}
 
-	public boolean hasPrefixOrPostfix(String variable) {
+	public boolean hasPrefixOrPostfix(String name) {
 		String[] namesToAvoid = {"s", "st", "str", "o", "obj", "b", "q", "a", "arr", "this", "my"};
-		String sentence = variable.replaceAll("_", " ");
+		String sentence = name.replaceAll("_", " ");
 		sentence = sentence.replaceAll("(\\p{Ll})(\\p{Lu})","$1 $2");
 		String[] words = sentence.split(" ");
 		String firstWord = words[0];

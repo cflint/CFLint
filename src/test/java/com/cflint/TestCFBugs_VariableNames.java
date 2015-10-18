@@ -53,7 +53,6 @@ public class TestCFBugs_VariableNames {
 		pluginRule.getMessages().add(pluginMessage);
 
 		final VariableNameChecker checker = new VariableNameChecker();
-		checker.setParameter("MinLength", "3");
 		cfBugs = new CFLint(conf, checker);
 	}
 

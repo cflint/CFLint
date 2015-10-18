@@ -144,7 +144,10 @@ public class Context {
 	}
 
 	public int startLine() {
-		return element.getSource().getRow(element.getBegin());
+		if(element != null && element.getSource() !=null)
+			return element.getSource().getRow(element.getBegin());
+		else 
+			return 1;
 	}
 
 	protected String componentFromFile(String filename) {

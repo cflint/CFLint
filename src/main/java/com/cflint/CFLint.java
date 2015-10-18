@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.StringReader;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -48,6 +49,7 @@ import cfml.parsing.cfscript.script.CFFuncDeclStatement;
 import cfml.parsing.cfscript.script.CFFunctionParameter;
 import cfml.parsing.cfscript.script.CFIfStatement;
 import cfml.parsing.cfscript.script.CFParsedStatement;
+import cfml.parsing.cfscript.script.CFReturnStatement;
 import cfml.parsing.cfscript.script.CFScriptStatement;
 import cfml.parsing.reporting.IErrorReporter;
 import cfml.parsing.reporting.ParseException;
@@ -287,10 +289,10 @@ public class CFLint implements IErrorReporter {
 		context.setInComponent(inComponent);
 		currentElement.push(elem);
 
-		if (elem.getName().equals("cfcomponent")) {
+		if (elem.getName().equalsIgnoreCase("cfcomponent")) {
 			context.setComponentName(elem.getAttributeValue("displayname"));
 		}
-		else if (elem.getName().equals("cffunction")) {
+		else if (elem.getName().equalsIgnoreCase("cffunction")) {
 			context.setFunctionName(elem.getAttributeValue("name"));
 		}
 
@@ -306,7 +308,8 @@ public class CFLint implements IErrorReporter {
 				reportRule(elem, null, context, plugin, e.getMessage());
 			}
 		}
-		if (elem.getName().equals("cfset") || elem.getName().equals("cfif")) {
+		if (elem.getName().equalsIgnoreCase("cfset") || elem.getName().equalsIgnoreCase("cfif")
+				|| elem.getName().equalsIgnoreCase("cfelseif")|| elem.getName().equalsIgnoreCase("cfreturn")) {
 			final int elemLine = elem.getSource().getRow(elem.getBegin());
 			final int elemColumn = elem.getSource().getColumn(elem.getBegin());
 			final Pattern p = Pattern.compile("<\\w+\\s(.*[^/])/?>",Pattern.MULTILINE|Pattern.DOTALL);
@@ -315,7 +318,7 @@ public class CFLint implements IErrorReporter {
 			if (m.matches()) {
 				final String cfscript = m.group(1);
 				try {
-//					if(elem.getName().equals("cfset")){
+//					if(elem.getName().equalsIgnoreCase("cfset")){
 //						System.out.println("parse: " + cfscript + ";");
 //						final CFScriptStatement scriptStatement = cfmlParser.parseScript(cfscript + ";");
 //						process(scriptStatement, context.getFilename(), elem, context.getFunctionName());
@@ -346,17 +349,17 @@ public class CFLint implements IErrorReporter {
 				}
 			}
 			
-		} else if (elem.getName().equals("cfargument")) {
+		} else if (elem.getName().equalsIgnoreCase("cfargument")) {
 			final String name = elem.getAttributeValue("name");
 			if (name != null) {
 				handler.addArgument(name);
 			}
-		} else if (elem.getName().equals("cfscript")) {
+		} else if (elem.getName().equalsIgnoreCase("cfscript")) {
 			final String cfscript = elem.getContent().toString();
 			final CFScriptStatement scriptStatement = cfmlParser.parseScript(cfscript);
 
 			process(scriptStatement, context.getFilename(), elem, context.getFunctionName());
-			// } else if (elem.getName().equals("cfoutput")) {
+			// } else if (elem.getName().equalsIgnoreCase("cfoutput")) {
 			// final Element parent = CFTool.getNamedParent(elem, "cfoutput");
 			// if (parent != null && parent.getAttributeValue("query") != null
 			// && parent.getAttributeValue("group") == null) {
@@ -370,13 +373,13 @@ public class CFLint implements IErrorReporter {
 		} else {
 		}
 
-		if (elem.getName().equals("cffunction")) {
+		if (elem.getName().equalsIgnoreCase("cffunction")) {
 			inFunction = true;
 			handler.push("function");
 			processStack(elem.getChildElements(), space + " ", context);
 			inFunction = false;
 			handler.pop();
-		} else if (elem.getName().equals("cfcomponent")) {
+		} else if (elem.getName().equalsIgnoreCase("cfcomponent")) {
 			inComponent = true;
 			handler.push("component");
 			context.setInComponent(true);
@@ -467,13 +470,28 @@ public class CFLint implements IErrorReporter {
 			if (cfif.getElseStatement() != null) {
 				process(cfif.getElseStatement(), filename, elem, functionName);
 			}
+		} else if (expression instanceof CFReturnStatement) {
+			final CFReturnStatement cfreturn = (CFReturnStatement) expression;
+			//TODO replace with cfreturn.getExpression() when next cfmlparser is released
+			Field f;
+			try {
+				f = CFReturnStatement.class.getDeclaredField("_ret");
+				f.setAccessible(true);
+				CFExpression subExpression = (CFExpression) f.get(cfreturn);
+				if(subExpression !=null){
+					process(subExpression, filename, elem, functionName);
+				}
+			} catch (Exception e) {
+			} //NoSuchFieldException
+			
+			 
 		} else if (expression instanceof CFFuncDeclStatement) {
 			final CFFuncDeclStatement function = (CFFuncDeclStatement) expression;
 			inFunction = true;
 			handler.push("function");
-			if ("init".equals(function.getName())) {
-				inFunction = false;
-			}
+//			if ("init".equalsIgnoreCase(function.getName())) {
+//				inFunction = false;
+//			}
 
 			for (final CFFunctionParameter param : function.getFormals()) {
 				handler.addArgument(param.getName());

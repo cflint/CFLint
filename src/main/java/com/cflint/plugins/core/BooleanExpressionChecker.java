@@ -23,7 +23,7 @@ public class BooleanExpressionChecker extends CFLintScannerAdapter {
 			String code = expression.Decompile(0).toLowerCase();
 
 			if (hasExplicitBooleanCheck(code)) {
-				int lineNo = ((CFBinaryExpression) expression).getLine() + context.startLine() - 1;
+				int lineNo = currentLine(expression, context);
 
 				// Only report issue once per line
 				if (lastLineNo != lineNo) {
@@ -34,25 +34,6 @@ public class BooleanExpressionChecker extends CFLintScannerAdapter {
 		}
 		
 	}
-
-//	@Override
-//	public void element(final Element element, final Context context, final BugList bugs) {
-//		String tag = element.getName();
-//
-//		if (tag.equals("cfreturn")) { 
-//			String content = element.getStartTag().getTagContent().toString();
-//
-//			if (hasExplicitBooleanCheck(content)) {
-//				int lineNo = element.getSource().getRow(element.getBegin());
-//
-//				// Only report issue once per line
-//				if (lastLineNo != lineNo) {
-//					booleanExpression(lineNo, context, bugs);
-//					lastLineNo = lineNo;
-//				}
-//			}
-//		}
-//	}
 
 	protected boolean hasExplicitBooleanCheck(final String code) {
 		return code.contains("== true") || code.contains("eq true") || code.contains("is true") || code.contains("!= true")

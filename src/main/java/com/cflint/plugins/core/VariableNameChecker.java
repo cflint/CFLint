@@ -18,11 +18,10 @@ import java.util.regex.Pattern;
 
 @Extension
 public class VariableNameChecker extends CFLintScannerAdapter {
-	final String severity = "WARNING";
+	final String severity = "INFO";
 
 	final int MIN_VAR_LENGTH = 3;
 	final int MAX_VAR_LENGTH = 20;
-	final int WORD_LENGTH = 10;
 	final int MAX_VAR_WORDS = 4;
 		
 	public void expression(final CFExpression expression, final Context context, final BugList bugs) {
@@ -46,6 +45,28 @@ public class VariableNameChecker extends CFLintScannerAdapter {
 	}
 
 	public void checkNameForBugs(String variable, String filename, int line, BugList bugs) {
+		int minVarLength = MIN_VAR_LENGTH;
+		int maxVarLength = MAX_VAR_LENGTH;
+		int maxVarWords = MAX_VAR_WORDS;
+
+		if (getParameter("MinLength") != null) {
+			try {
+				minVarLength = Integer.parseInt(getParameter("MinLength"));
+			} catch(Exception e) {}
+		}
+
+		if (getParameter("MaxLength") != null) {
+			try {
+				minVarLength = Integer.parseInt(getParameter("MaxLength"));
+			} catch(Exception e) {}
+		}
+
+		if (getParameter("MaxWords") != null) {
+			try {
+				minVarLength = Integer.parseInt(getParameter("MaxWords"));
+			} catch(Exception e) {}
+		}
+
 		if (isInvalid(variable)) {
 			bugs.add(new BugInfo.BugInfoBuilder().setLine(line).setMessageCode("VAR_INVALID_NAME")
 				.setSeverity(severity).setFilename(filename)
@@ -128,12 +149,12 @@ public class VariableNameChecker extends CFLintScannerAdapter {
 	}
 
 	protected boolean tooShort(String variable) {
-		
 		int minVarLength = MIN_VAR_LENGTH;
-		if(getParameter("MinLength") !=null){
+
+		if (getParameter("MinLength") != null) {
 			try {
-				minVarLength= Integer.parseInt(getParameter("MinLength"));
-			}catch(Exception e){}
+				minVarLength = Integer.parseInt(getParameter("MinLength"));
+			} catch(Exception e) {}
 		}
 		return variable.length() < minVarLength;
 	}

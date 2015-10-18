@@ -53,13 +53,13 @@ public class VariableNameChecker extends CFLintScannerAdapter {
 
 		if (getParameter("MaxLength") != null) {
 			try {
-				minVarLength = Integer.parseInt(getParameter("MaxLength"));
+				maxVarLength = Integer.parseInt(getParameter("MaxLength"));
 			} catch(Exception e) {}
 		}
 
 		if (getParameter("MaxWords") != null) {
 			try {
-				minVarLength = Integer.parseInt(getParameter("MaxWords"));
+				maxVarWords = Integer.parseInt(getParameter("MaxWords"));
 			} catch(Exception e) {}
 		}
 

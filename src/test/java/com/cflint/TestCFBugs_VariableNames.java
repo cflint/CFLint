@@ -37,13 +37,14 @@ public class TestCFBugs_VariableNames {
 		pluginMessage.setSeverity("INFO");
 		pluginRule.getMessages().add(pluginMessage);
 		pluginRule.addParameter("MinLength", "3");
-		
+		pluginRule.addParameter("MaxLength", "20");
 		pluginMessage = new PluginMessage("VAR_TOO_LONG");
 		pluginMessage.setSeverity("INFO");
 		pluginRule.getMessages().add(pluginMessage);
 		pluginMessage = new PluginMessage("VAR_TOO_WORDY");
 		pluginMessage.setSeverity("INFO");
 		pluginRule.getMessages().add(pluginMessage);
+		pluginRule.addParameter("MaxWords", "4");
 		pluginMessage = new PluginMessage("VAR_IS_TEMPORARY");
 		pluginMessage.setSeverity("INFO");
 		pluginRule.getMessages().add(pluginMessage);

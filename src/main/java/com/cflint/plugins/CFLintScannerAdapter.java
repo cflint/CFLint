@@ -42,6 +42,10 @@ public class CFLintScannerAdapter implements CFLintScanner {
 		return null;
 	}
 
+	public int currentLine(final CFExpression expression, final Context context) {
+		return expression.getLine() + context.startLine() - 1;
+	}
+
 	public Map<String, String> getParams() {
 		return params;
 	}

@@ -23,28 +23,13 @@ public class ComplexBooleanExpressionChecker extends CFLintScannerAdapter {
 			String code = expression.Decompile(0).toLowerCase();
 
 			if (isComplex(code, complexThreshold)) {
-				int lineNo = ((CFBinaryExpression) expression).getLine() + context.startLine() - 1;
+				int lineNo = currentLine(expression, context);
 
 				complexBooleanExpression(lineNo, context, bugs);
 			}
 		}
 	}
-
-	@Override
-	public void element(final Element element, final Context context, final BugList bugs) {
-		String tag = element.getName();
-
-		if (tag.equals("cfif")) { 
-			String content = element.getStartTag().getTagContent().toString();
-
-			if (isComplex(content, complexThreshold)) {
-				int lineNo = element.getSource().getRow(element.getBegin());
-
-				complexBooleanExpression(lineNo, context, bugs);
-			}
-		}
-	}
-
+	
 	protected boolean isComplex(final String code, final int complexThreshold) {
 		int noAnds = noSubstrings(code, " && ") + noSubstrings(code, " and ");
 		int noOrs = noSubstrings(code, " || ") + noSubstrings(code, " or ");

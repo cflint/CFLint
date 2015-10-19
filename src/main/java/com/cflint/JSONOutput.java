@@ -13,48 +13,48 @@ import java.util.Map.Entry;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.stream.StreamSource;
 
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.JSONValue;
+import com.fasterxml.jackson.core.JsonEncoding;
+import com.fasterxml.jackson.core.JsonFactory;
+import com.fasterxml.jackson.core.JsonGenerator;
 
 public class JSONOutput {
 
 	@SuppressWarnings("unchecked")
 	public void output(final BugList bugList, final Writer writer) throws IOException {
 		// final StringBuilder sb = new StringBuilder();
-		
-		JSONArray issues = new JSONArray();
+		JsonFactory jsonF = new JsonFactory();
+		JsonGenerator jg = jsonF.createGenerator(writer);
+		jg.writeStartArray();
 		for (final Entry<String, List<BugInfo>> bugEntry : bugList.getBugList().entrySet()) {
 			final Iterator<BugInfo> iterator = bugEntry.getValue().iterator();
 			BugInfo bugInfo = iterator.hasNext() ? iterator.next() : null;
 			BugInfo prevbugInfo = null;
 
 			while (bugInfo != null) {
-				JSONObject issue = new JSONObject();
-				issue.put("severity", notNull(bugEntry.getValue().get(0).getSeverity()));
-				issue.put("id", bugEntry.getValue().get(0).getMessageCode());
-				issue.put("message", bugEntry.getValue().get(0).getMessageCode());
-				issue.put("category", "CFLINT");
-				issue.put("abbrev", abbrev(bugEntry.getValue().get(0).getMessageCode()));
-				final JSONArray locations = new JSONArray();
-				issue.put("locations", locations);
+				jg.writeStartObject();
+				jg.writeStringField("severity", notNull(bugEntry.getValue().get(0).getSeverity()));
+				jg.writeStringField("id", bugEntry.getValue().get(0).getMessageCode());
+				jg.writeStringField("message", bugEntry.getValue().get(0).getMessageCode());
+				jg.writeStringField("category", "CFLINT");
+				jg.writeStringField("abbrev", abbrev(bugEntry.getValue().get(0).getMessageCode()));
 				do {
-					final JSONObject location = new JSONObject();
-					location.put("file",notNull(bugInfo.getFilename()));
-					location.put("fileName",filename(bugInfo.getFilename()));
-					location.put("column",Integer.valueOf(bugInfo.getColumn()).toString());
-					location.put("line",Integer.valueOf(bugInfo.getLine()).toString());
-					location.put("message",notNull(bugInfo.getMessage()));
-					location.put("variable",notNull(bugInfo.getVariable()));
-					location.put("expression",notNull(bugInfo.getExpression()));
-					locations.add(location);
+					jg.writeObjectFieldStart("location");
+					jg.writeStringField("file",notNull(bugInfo.getFilename()));
+					jg.writeStringField("fileName",filename(bugInfo.getFilename()));
+					jg.writeStringField("column",Integer.valueOf(bugInfo.getColumn()).toString());
+					jg.writeStringField("line",Integer.valueOf(bugInfo.getLine()).toString());
+					jg.writeStringField("message",notNull(bugInfo.getMessage()));
+					jg.writeStringField("variable",notNull(bugInfo.getVariable()));
+					jg.writeStringField("expression",notNull(bugInfo.getExpression()));
+					jg.writeEndObject();
 					prevbugInfo = bugInfo;
 					bugInfo = iterator.hasNext() ? iterator.next() : null;
 				} while (isGrouped(prevbugInfo, bugInfo));
-				issues.add(issue);
+				jg.writeEndObject();
 			}
 		}
-		issues.writeJSONString(writer);
+		jg.writeEndArray();
+		jg.close();
 		writer.close();
 	}
 
@@ -91,14 +91,14 @@ public class JSONOutput {
 		output(bugList, sw);
 	}
 
-	private CharSequence filename(final String filename) {
+	private String filename(final String filename) {
 		if(filename == null){
 			return "";
 		}
 		return filename.substring(Math.max(filename.lastIndexOf('/'), filename.lastIndexOf('\\'))+1);
 	}
 
-	private CharSequence abbrev(final String messageCode) {
+	private String abbrev(final String messageCode) {
 		if (messageCode.length() <= 2) {
 			return messageCode;
 		}

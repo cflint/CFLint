@@ -11,11 +11,12 @@ import com.cflint.BugList;
 
 /**
  * Lint Rule Plugins can extend this adapter instead of implementing all the methods of CFLintScanner
+ *  (and CFLintStructureListener)
  * 
  * @author eberlyrh
  *
  */
-public class CFLintScannerAdapter implements CFLintScanner {
+public class CFLintScannerAdapter implements CFLintScanner,CFLintStructureListener {
 
 	Map<String, String> params = new HashMap<String,String>();
 	public CFLintScannerAdapter() {
@@ -49,4 +50,40 @@ public class CFLintScannerAdapter implements CFLintScanner {
 	public Map<String, String> getParams() {
 		return params;
 	}
+
+	/**
+	 * Default implementation does nothing
+	 */
+	@Override
+	public void startFile(String fileName) {}
+
+	/**
+	 * Default implementation does nothing
+	 */
+	@Override
+	public void endFile(String fileName) {}
+
+	/**
+	 * Default implementation does nothing
+	 */
+	@Override
+	public void startComponent(Context context) {}
+
+	/**
+	 * Default implementation does nothing
+	 */
+	@Override
+	public void endComponent(Context context) {}
+
+	/**
+	 * Default implementation does nothing
+	 */
+	@Override
+	public void startFunction(Context context) {}
+
+	/**
+	 * Default implementation does nothing
+	 */
+	@Override
+	public void endFunction(Context context) {}
 }

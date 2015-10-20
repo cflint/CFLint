@@ -26,11 +26,11 @@ public class ValidName {
 	}
 
 	public boolean isInvalid(String name) {
-		return !validChars(name) || !(isSameCase(name) || isCamelCase(name) || usesUnderscores(name)) || endsInNumber(name);
+		return !validChars(name) || endsInNumber(name) || !(isSameCase(name) || isCamelCaseLower(name) || usesUnderscores(name));
 	}
 
 	public boolean validChars(String name) {
-		 Pattern valid = Pattern.compile("[A-Za-z0-9_]+");
+		 Pattern valid = Pattern.compile("^[A-Za-z0-9_]+$");
 		 return valid.matcher(name).matches();
 	}
 
@@ -42,14 +42,19 @@ public class ValidName {
 		return name.equals(name.toLowerCase()) || name.equals(name.toUpperCase());
 	}
 
-	public boolean isCamelCase(String name) {
-		Pattern valid = Pattern.compile("[a-z0-9]+([A-Z][a-z0-9]+)*");
+	public boolean isCamelCaseLower(String name) {
+		// [A-Z0-9]{2,5} catch names like productID, phone4G, requestURL etc etc
+		Pattern valid = Pattern.compile("^[a-z0-9]+([A-Z]{1,5}[a-z0-9]+)*([A-Z0-9]{2,5}){0,1}$");
+		return valid.matcher(name).matches();
+	}
+
+	public boolean isCamelCaseUpper(String name) {
+		Pattern valid = Pattern.compile("^([A-Z]{1,5}[a-z0-9]+)+([A-Z0-9]{2,5}){0,1}$");
 		return valid.matcher(name).matches();
 	}
 
 	public boolean usesUnderscores(String name) {
-		Pattern valid = Pattern.compile("[a-z0-9]+[a-z0-9_]+");
-		return valid.matcher(name).matches();
+		return name.indexOf('_') != -1;
 	}
 
 	public boolean endsInNumber(String name) {
@@ -71,12 +76,20 @@ public class ValidName {
 	}
 
 	public boolean tooWordy(String name) {
-		String[] words = name.split("[A-Z_]");
-		return words.length > maxWords;
+		String[] words = name.split("[A-Z_]+");
+		int count = 0;
+
+		for (int i = 0; i < words.length; i++) {
+			if (words[i] != null && !words[i].equals("")) {
+				count++;
+			}
+		}
+
+		return count > maxWords;
 	}
 
 	public boolean isTemporary(String name) {
-		String[] wordsToAvoid = {"temp", "tmp", "var", "func", "obj", "object", "bool", "struct", "string", "array"};
+		String[] wordsToAvoid = {"temp", "tmp", "var", "func", "obj", "object", "bool", "struct", "string", "array", "comp"};
 		String sentence = name.replaceAll("_", " ");
 		sentence = sentence.replaceAll("(\\p{Ll})(\\p{Lu})","$1 $2");
 		String[] words = sentence.split(" ");

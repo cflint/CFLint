@@ -203,4 +203,12 @@
 			<severity>INFO</severity>
 		</message>
 	</ruleImpl>
+	<ruleImpl name="LiteralChecker" className="LiteralChecker">
+		<message code="LOCAL_LITERAL_VALUE_USED_TOO_OFTEN">
+			<severity>WARNING</severity>
+		</message>
+		<message code="GLOBAL_LITERAL_VALUE_USED_TOO_OFTEN">
+			<severity>WARNING</severity>
+		</message>
+	</ruleImpl>
 </CFLint-Plugin>

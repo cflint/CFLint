@@ -156,6 +156,7 @@ public class CFLint implements IErrorReporter {
 			allowedExtensions.add(cfcExtension);
 			allowedExtensions.add(cfmExtenstion);
 		}
+		cfmlParser.setErrorReporter(this);
 	}
 
 	public void scan(final String folder) {
@@ -791,7 +792,7 @@ public class CFLint implements IErrorReporter {
 			}
 		}
 		if(recognizer instanceof Parser && ((Parser)recognizer).getExpectedTokens().contains(65)){
-			bugs.add(new BugInfo.BugInfoBuilder().setMessageCode("PARSE_ERROR")
+			bugs.add(new BugInfo.BugInfoBuilder().setMessageCode("MISSING_SEMI")
 			.setFilename(file).setMessage("End of statement(;) expected instead of " + expression).setSeverity("ERROR")
 			.setExpression(expression)
 			.setLine(line).setColumn(charPositionInLine)

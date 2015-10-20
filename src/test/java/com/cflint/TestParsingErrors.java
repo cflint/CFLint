@@ -40,18 +40,27 @@ public class TestParsingErrors {
 				"<cffunction name=\"test\">\r\n" +
 				"	<cfscript>\r\n" +
 				"   var xx = 123\r\n" +
-				"   yy = 123\r\n" +
+				"   yy = 123;\r\n" +
 				"	</cfscript>\r\n" +
 				"</cffunction>\r\n" +
 				"</cfcomponent>";
 		cfBugs.process(cfcSrc,"test");
-		assertEquals(1,cfBugs.getBugs().getFlatBugList().size());
-		List<BugInfo> result = cfBugs.getBugs().getFlatBugList();
+		
+		assertEquals(2,cfBugs.getBugs().getFlatBugList().size());
+		System.out.println(cfBugs.getBugs().getFlatBugList());
+		final List<BugInfo> result = cfBugs.getBugs().getBugList().get("MISSING_SEMI");
 		assertEquals(1,result.size());
-		assertEquals("MISSING_VAR",result.get(0).getMessageCode());
-		assertEquals("yy",result.get(0).getVariable());
+		assertEquals("MISSING_SEMI",result.get(0).getMessageCode());
 		assertEquals(5,result.get(0).getLine());
 		assertEquals("ERROR",result.get(0).getSeverity());
-		assertEquals("Variable yy is not declared with a var statement.",result.get(0).getMessage());
+		assertEquals("End of statement(;) expected instead of yy",result.get(0).getMessage());
+		
+		final List<BugInfo> result2 = cfBugs.getBugs().getBugList().get("MISSING_VAR");
+		assertEquals(1,result2.size());
+		assertEquals("MISSING_VAR",result2.get(0).getMessageCode());
+		assertEquals("yy",result2.get(0).getVariable());
+		assertEquals(5,result2.get(0).getLine());
+		assertEquals("ERROR",result2.get(0).getSeverity());
+		assertEquals("Variable yy is not declared with a var statement.",result2.get(0).getMessage());
 	}
 }

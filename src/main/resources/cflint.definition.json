@@ -449,6 +449,102 @@
         }
       ],
       "parameter": []
+    },
+    {
+      "name": "VariableNameChecker",
+      "className": "VariableNameChecker",
+      "message": [
+        {
+          "code": "VAR_INVALID_NAME",
+          "severity": "INFO"
+        },
+        {
+          "code": "VAR_ALLCAPS_NAME",
+          "severity": "INFO"
+        },
+        {
+          "code": "VAR_TOO_SHORT",
+          "severity": "INFO"
+        },
+        {
+          "code": "VAR_TOO_LONG",
+          "severity": "INFO"
+        },
+        {
+          "code": "VAR_TOO_WORDY",
+          "severity": "INFO"
+        },
+        {
+          "code": "VAR_IS_TEMPORARY",
+          "severity": "INFO"
+        },
+        {
+          "code": "VAR_HAS_PREFIX_OR_POSTFIX",
+          "severity": "INFO"
+        }
+      ],
+      "parameter": [
+        {
+          "name": "MinLength",
+          "value": "3"
+        },
+        {
+          "name": "MaxLength",
+          "value": "20"
+        },
+        {
+          "name": "MaxWords",
+          "value": "4"
+        }
+      ]
+    },
+    {
+      "name": "MethodNameChecker",
+      "className": "MethodNameChecker",
+      "message": [
+        {
+          "code": "METHOD_INVALID_NAME",
+          "severity": "INFO"
+        },
+        {
+          "code": "METHOD_ALLCAPS_NAME",
+          "severity": "INFO"
+        },
+        {
+          "code": "METHOD_TOO_SHORT",
+          "severity": "INFO"
+        },
+        {
+          "code": "METHOD_TOO_LONG",
+          "severity": "INFO"
+        },
+        {
+          "code": "METHOD_TOO_WORDY",
+          "severity": "INFO"
+        },
+        {
+          "code": "METHOD_IS_TEMPORARY",
+          "severity": "INFO"
+        },
+        {
+          "code": "METHOD_HAS_PREFIX_OR_POSTFIX",
+          "severity": "INFO"
+        }
+      ],
+      "parameter": [
+        {
+          "name": "MinLength",
+          "value": "3"
+        },
+        {
+          "name": "MaxLength",
+          "value": "25"
+        },
+        {
+          "name": "MaxWords",
+          "value": "5"
+        }
+      ]
     }
   ]
 }

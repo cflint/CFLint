@@ -425,12 +425,19 @@ public class CFLint implements IErrorReporter {
 
 	private void process(final CFScriptStatement expression, final String filename, final Element elem,
 			final CFIdentifier functionName) {
-		process(expression,filename,elem,functionName.Decompile(0));
+		process(expression,filename,elem,functionName.getName());
 	}
 	private void process(final CFScriptStatement expression, final String filename, final Element elem,
-			final String functionName) {
+			String functionName) {
 		final Context context = new Context(filename, elem, functionName, inAssignment, handler);
+		
 		context.setInComponent(inComponent);
+
+		if (expression instanceof CFFuncDeclStatement) {
+			final CFFuncDeclStatement function = (CFFuncDeclStatement) expression;
+			functionName = function.getName().getName();
+			context.setFunctionName(functionName);
+		}
 		
 		for (final CFLintScanner plugin : extensions) {
 			try{

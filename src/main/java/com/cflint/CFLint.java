@@ -22,14 +22,13 @@ import org.antlr.runtime.IntStream;
 import org.antlr.runtime.RecognitionException;
 import org.antlr.v4.runtime.Parser;
 import org.antlr.v4.runtime.Recognizer;
+import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.atn.ATNConfigSet;
 import org.antlr.v4.runtime.dfa.DFA;
 
 import cfml.CFSCRIPTLexer;
 import cfml.parsing.CFMLParser;
 import cfml.parsing.CFMLSource;
-import cfml.parsing.cfml.ErrorEvent;
-import cfml.parsing.cfml.IErrorObserver;
 import cfml.parsing.cfscript.CFAssignmentExpression;
 import cfml.parsing.cfscript.CFBinaryExpression;
 import cfml.parsing.cfscript.CFExpression;
@@ -165,6 +164,7 @@ public class CFLint implements IErrorReporter {
 			allowedExtensions.add(cfcExtension);
 			allowedExtensions.add(cfmExtenstion);
 		}
+		cfmlParser.setErrorReporter(this);
 	}
 
 	public void scan(final String folder) {
@@ -799,7 +799,13 @@ public class CFLint implements IErrorReporter {
 			Object offendingSymbol, int line, int charPositionInLine,
 			String msg, org.antlr.v4.runtime.RecognitionException e) {
 		final String file = currentFile == null ? "" : currentFile + "\r\n";
-		//System.err.println(file + "----syntax error ---" + line + " : " + charPositionInLine);
+		String expression=null;
+		if(offendingSymbol instanceof Token){
+			expression = ((Token) offendingSymbol).getText();
+			if(expression.length() > 50){
+				expression=expression.substring(1,40) + "...";
+			}
+		}
 		if(!currentElement.isEmpty()){
 			Element elem = currentElement.peek();
 			if(line == 1){
@@ -809,7 +815,17 @@ public class CFLint implements IErrorReporter {
 				line = elem.getSource().getRow(elem.getBegin()) + line - 1;
 			}
 		}
-		fireCFLintException(e,PARSE_ERROR,currentFile,line,charPositionInLine,"",offendingSymbol==null?"":offendingSymbol.toString());
+		if(recognizer instanceof Parser && ((Parser)recognizer).getExpectedTokens().contains(65)){
+			bugs.add(new BugInfo.BugInfoBuilder().setMessageCode("MISSING_SEMI")
+			.setFilename(file).setMessage("End of statement(;) expected instead of " + expression).setSeverity("ERROR")
+			.setExpression(expression)
+			.setLine(line).setColumn(charPositionInLine)
+			.build());
+
+		}else{
+			
+			fireCFLintException(e,PARSE_ERROR,file,line,charPositionInLine,"",msg);
+		}
 	}
 	public void reportAmbiguity(Parser recognizer, DFA dfa, int startIndex,
 			int stopIndex, boolean exact, java.util.BitSet ambigAlts,

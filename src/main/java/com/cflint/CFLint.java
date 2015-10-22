@@ -63,6 +63,7 @@ import com.cflint.config.ConfigUtils;
 import com.cflint.listeners.ProgressMonitorListener;
 import com.cflint.listeners.ScanProgressListener;
 import com.cflint.plugins.CFLintScanner;
+import com.cflint.plugins.CFLintStructureListener;
 import com.cflint.plugins.Context;
 import com.cflint.plugins.Context.ContextMessage;
 import com.cflint.plugins.exceptions.CFLintExceptionListener;
@@ -376,14 +377,36 @@ public class CFLint implements IErrorReporter {
 		if (elem.getName().equalsIgnoreCase("cffunction")) {
 			inFunction = true;
 			handler.push("function");
+			
+			for (final CFLintStructureListener structurePlugin : getStructureListeners(extensions)) {
+				try{
+					structurePlugin.startFunction(context);
+				}catch(Exception e){}
+			}
 			processStack(elem.getChildElements(), space + " ", context);
+			for (final CFLintStructureListener structurePlugin : getStructureListeners(extensions)) {
+				try{
+					structurePlugin.endFunction(context);
+				}catch(Exception e){}
+			}
 			inFunction = false;
 			handler.pop();
 		} else if (elem.getName().equalsIgnoreCase("cfcomponent")) {
 			inComponent = true;
 			handler.push("component");
+			for (final CFLintStructureListener structurePlugin : getStructureListeners(extensions)) {
+				try{
+					structurePlugin.startComponent(context);
+				}catch(Exception e){}
+			}
 			context.setInComponent(true);
 			processStack(elem.getChildElements(), space + " ", context);
+			for (final CFLintStructureListener structurePlugin : getStructureListeners(extensions)) {
+				try{
+					structurePlugin.endComponent(context);
+				}catch(Exception e){}
+			}
+			
 			inComponent = false;
 			handler.pop();
 		} else if (elem.getName().equalsIgnoreCase("cfquery")) {
@@ -403,6 +426,14 @@ public class CFLint implements IErrorReporter {
 		}
 	}
 
+	private List<CFLintStructureListener> getStructureListeners(final List<CFLintScanner> extensions) {
+		final List<CFLintStructureListener> retval = new ArrayList<CFLintStructureListener>();
+		for(CFLintScanner plugin: extensions)
+		if(plugin instanceof CFLintStructureListener){
+			retval.add((CFLintStructureListener) plugin);
+		}
+		return retval;
+	}
 	private String shortSource(final Source source, final int line) {
 		final String retval = source == null ? "" : source.toString().trim();
 		if (retval.length() < 300) {
@@ -459,7 +490,21 @@ public class CFLint implements IErrorReporter {
 			process(((CFExpressionStatement) expression).getExpression(), filename, elem, functionName);
 		} else if (expression instanceof CFCompDeclStatement) {
 			inComponent = true;
+			//do startComponent notifications
+			for (final CFLintStructureListener structurePlugin : getStructureListeners(extensions)) {
+				try{
+					structurePlugin.startComponent(context);
+				}catch(Exception e){}
+			}
+			//process the component declaration
 			process(((CFCompDeclStatement) expression).getBody(), filename, elem, functionName);
+			//do endComponent notifications
+			for (final CFLintStructureListener structurePlugin : getStructureListeners(extensions)) {
+				try{
+					structurePlugin.endComponent(context);
+				}catch(Exception e){}
+			}
+
 			inComponent = false;
 		} else if (expression instanceof CFForStatement) {
 			process(((CFForStatement) expression).getInit(), filename, elem, functionName);
@@ -503,7 +548,18 @@ public class CFLint implements IErrorReporter {
 			for (final CFFunctionParameter param : function.getFormals()) {
 				handler.addArgument(param.getName());
 			}
+			for (final CFLintStructureListener structurePlugin : getStructureListeners(extensions)) {
+				try{
+					structurePlugin.startFunction(context);
+				}catch(Exception e){}
+			}
+			
 			process(function.getBody(), filename, elem, function.getName());
+			for (final CFLintStructureListener structurePlugin : getStructureListeners(extensions)) {
+				try{
+					structurePlugin.endFunction(context);
+				}catch(Exception e){}
+			}
 			inFunction = false;
 			handler.pop();
 		} else {
@@ -767,12 +823,22 @@ public class CFLint implements IErrorReporter {
 
 	protected void fireStartedProcessing(final String srcidentifier) {
 		currentFile = srcidentifier;
+		for (final CFLintStructureListener structurePlugin : getStructureListeners(extensions)) {
+			try{
+				structurePlugin.startFile(srcidentifier);
+			}catch(Exception e){}
+		}
 		for (final ScanProgressListener p : scanProgressListeners) {
 			p.startedProcessing(srcidentifier);
 		}
 	}
 
 	protected void fireFinishedProcessing(final String srcidentifier) {
+		for (final CFLintStructureListener structurePlugin : getStructureListeners(extensions)) {
+			try{
+				structurePlugin.endFile(srcidentifier);
+			}catch(Exception e){}
+		}
 		for (final ScanProgressListener p : scanProgressListeners) {
 			p.finishedProcessing(srcidentifier);
 		}

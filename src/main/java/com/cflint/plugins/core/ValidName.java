@@ -12,6 +12,10 @@ public class ValidName {
 	public static final int MAX_METHOD_LENGTH = 25;
 	public static final int MAX_METHOD_WORDS = 5;
 
+	public static final int MIN_COMPONENT_LENGTH = 3;
+	public static final int MAX_COMPONENT_LENGTH = 15;
+	public static final int MAX_COMPONENT_WORDS = 3;
+
 	protected int minLength = MIN_VAR_LENGTH;
 	protected int maxLength = MAX_VAR_LENGTH;
 	protected int maxWords = MAX_VAR_WORDS;
@@ -27,6 +31,10 @@ public class ValidName {
 
 	public boolean isInvalid(String name) {
 		return !validChars(name) || endsInNumber(name) || !(isSameCase(name) || isCamelCaseLower(name) || usesUnderscores(name));
+	}
+
+	public boolean isInvalidComponent(String name) {
+		return !validChars(name) || endsInNumber(name) || !(isSameCase(name) || isCamelCaseUpper(name) || usesUnderscores(name));
 	}
 
 	public boolean validChars(String name) {

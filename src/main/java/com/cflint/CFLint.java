@@ -377,65 +377,34 @@ public class CFLint implements IErrorReporter {
 		if (elem.getName().equalsIgnoreCase("cffunction")) {
 			inFunction = true;
 			handler.push("function");
-			for (final CFLintScanner plugin : extensions) {
+			
+			for (final CFLintStructureListener structurePlugin : getStructureListeners(extensions)) {
 				try{
-					if(plugin instanceof CFLintStructureListener){
-						((CFLintStructureListener) plugin).startFunction(context);
-						for(final ContextMessage message : context.getMessages()){
-							reportRule(elem, "", context, plugin, message);
-						}
-						context.getMessages().clear();
-					}
-				}catch(Exception e){
-					reportRule(elem, "", context, plugin, e.getMessage());
-				}
+					structurePlugin.startFunction(context);
+				}catch(Exception e){}
 			}
 			processStack(elem.getChildElements(), space + " ", context);
-			for (final CFLintScanner plugin : extensions) {
+			for (final CFLintStructureListener structurePlugin : getStructureListeners(extensions)) {
 				try{
-					if(plugin instanceof CFLintStructureListener){
-						((CFLintStructureListener) plugin).endFunction(context);
-						for(final ContextMessage message : context.getMessages()){
-							reportRule(elem, "", context, plugin, message);
-						}
-						context.getMessages().clear();
-					}
-				}catch(Exception e){
-					reportRule(elem, "", context, plugin, e.getMessage());
-				}
+					structurePlugin.endFunction(context);
+				}catch(Exception e){}
 			}
 			inFunction = false;
 			handler.pop();
 		} else if (elem.getName().equalsIgnoreCase("cfcomponent")) {
 			inComponent = true;
 			handler.push("component");
-			for (final CFLintScanner plugin : extensions) {
+			for (final CFLintStructureListener structurePlugin : getStructureListeners(extensions)) {
 				try{
-					if(plugin instanceof CFLintStructureListener){
-						((CFLintStructureListener) plugin).startComponent(context);
-						for(final ContextMessage message : context.getMessages()){
-							reportRule(elem, "", context, plugin, message);
-						}
-						context.getMessages().clear();
-					}
-				}catch(Exception e){
-					reportRule(elem, "", context, plugin, e.getMessage());
-				}
+					structurePlugin.startComponent(context);
+				}catch(Exception e){}
 			}
 			context.setInComponent(true);
 			processStack(elem.getChildElements(), space + " ", context);
-			for (final CFLintScanner plugin : extensions) {
+			for (final CFLintStructureListener structurePlugin : getStructureListeners(extensions)) {
 				try{
-					if(plugin instanceof CFLintStructureListener){
-						((CFLintStructureListener) plugin).endComponent(context);
-						for(final ContextMessage message : context.getMessages()){
-							reportRule(elem, "", context, plugin, message);
-						}
-						context.getMessages().clear();
-					}
-				}catch(Exception e){
-					reportRule(elem, "", context, plugin, e.getMessage());
-				}
+					structurePlugin.endComponent(context);
+				}catch(Exception e){}
 			}
 			
 			inComponent = false;
@@ -457,6 +426,14 @@ public class CFLint implements IErrorReporter {
 		}
 	}
 
+	private List<CFLintStructureListener> getStructureListeners(final List<CFLintScanner> extensions) {
+		final List<CFLintStructureListener> retval = new ArrayList<CFLintStructureListener>();
+		for(CFLintScanner plugin: extensions)
+		if(plugin instanceof CFLintStructureListener){
+			retval.add((CFLintStructureListener) plugin);
+		}
+		return retval;
+	}
 	private String shortSource(final Source source, final int line) {
 		final String retval = source == null ? "" : source.toString().trim();
 		if (retval.length() < 300) {
@@ -507,35 +484,20 @@ public class CFLint implements IErrorReporter {
 		} else if (expression instanceof CFCompDeclStatement) {
 			inComponent = true;
 			//do startComponent notifications
-			for (final CFLintScanner plugin : extensions) {
+			for (final CFLintStructureListener structurePlugin : getStructureListeners(extensions)) {
 				try{
-					if(plugin instanceof CFLintStructureListener){
-						((CFLintStructureListener) plugin).startComponent(context);
-						for(final ContextMessage message : context.getMessages()){
-							reportRule(elem, expression, context, plugin, message);
-						}
-						context.getMessages().clear();
-					}
-				}catch(Exception e){
-					reportRule(elem, expression, context, plugin, e.getMessage());
-				}
+					structurePlugin.startComponent(context);
+				}catch(Exception e){}
 			}
 			//process the component declaration
 			process(((CFCompDeclStatement) expression).getBody(), filename, elem, functionName);
 			//do endComponent notifications
-			for (final CFLintScanner plugin : extensions) {
+			for (final CFLintStructureListener structurePlugin : getStructureListeners(extensions)) {
 				try{
-					if(plugin instanceof CFLintStructureListener){
-						((CFLintStructureListener) plugin).endComponent(context);
-						for(final ContextMessage message : context.getMessages()){
-							reportRule(elem, expression, context, plugin, message);
-						}
-						context.getMessages().clear();
-					}
-				}catch(Exception e){
-					reportRule(elem, expression, context, plugin, e.getMessage());
-				}
+					structurePlugin.endComponent(context);
+				}catch(Exception e){}
 			}
+
 			inComponent = false;
 		} else if (expression instanceof CFForStatement) {
 			process(((CFForStatement) expression).getInit(), filename, elem, functionName);
@@ -579,33 +541,17 @@ public class CFLint implements IErrorReporter {
 			for (final CFFunctionParameter param : function.getFormals()) {
 				handler.addArgument(param.getName());
 			}
-			for (final CFLintScanner plugin : extensions) {
+			for (final CFLintStructureListener structurePlugin : getStructureListeners(extensions)) {
 				try{
-					if(plugin instanceof CFLintStructureListener){
-						((CFLintStructureListener) plugin).startFunction(context);
-						for(final ContextMessage message : context.getMessages()){
-							reportRule(elem, expression, context, plugin, message);
-						}
-						context.getMessages().clear();
-					}
-				}catch(Exception e){
-					reportRule(elem, expression, context, plugin, e.getMessage());
-				}
+					structurePlugin.startFunction(context);
+				}catch(Exception e){}
 			}
 			
 			process(function.getBody(), filename, elem, function.getName());
-			for (final CFLintScanner plugin : extensions) {
+			for (final CFLintStructureListener structurePlugin : getStructureListeners(extensions)) {
 				try{
-					if(plugin instanceof CFLintStructureListener){
-						((CFLintStructureListener) plugin).endFunction(context);
-						for(final ContextMessage message : context.getMessages()){
-							reportRule(elem, expression, context, plugin, message);
-						}
-						context.getMessages().clear();
-					}
-				}catch(Exception e){
-					reportRule(elem, expression, context, plugin, e.getMessage());
-				}
+					structurePlugin.endFunction(context);
+				}catch(Exception e){}
 			}
 			inFunction = false;
 			handler.pop();
@@ -870,25 +816,20 @@ public class CFLint implements IErrorReporter {
 
 	protected void fireStartedProcessing(final String srcidentifier) {
 		currentFile = srcidentifier;
-		for (final CFLintScanner plugin : extensions) {
+		for (final CFLintStructureListener structurePlugin : getStructureListeners(extensions)) {
 			try{
-				if(plugin instanceof CFLintStructureListener){
-					((CFLintStructureListener) plugin).startFile(srcidentifier);
-				}
+				structurePlugin.startFile(srcidentifier);
 			}catch(Exception e){}
 		}
-		
 		for (final ScanProgressListener p : scanProgressListeners) {
 			p.startedProcessing(srcidentifier);
 		}
 	}
 
 	protected void fireFinishedProcessing(final String srcidentifier) {
-		for (final CFLintScanner plugin : extensions) {
+		for (final CFLintStructureListener structurePlugin : getStructureListeners(extensions)) {
 			try{
-				if(plugin instanceof CFLintStructureListener){
-					((CFLintStructureListener) plugin).endFile(currentFile);
-				}
+				structurePlugin.endFile(srcidentifier);
 			}catch(Exception e){}
 		}
 		for (final ScanProgressListener p : scanProgressListeners) {

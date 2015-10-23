@@ -54,6 +54,7 @@ public class TestCFBugs_ComponentNames {
 
 		final ComponentNameChecker checker = new ComponentNameChecker();
 		cfBugs = new CFLint(conf, checker);
+		cfBugs.setVerbose(true);
 	}
 
 	@Test

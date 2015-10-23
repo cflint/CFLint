@@ -305,7 +305,10 @@ public class CFLint implements IErrorReporter {
 				}
 				context.getMessages().clear();
 			}catch(Exception e){
-				reportRule(elem, null, context, plugin, e.getMessage());
+				if(verbose){
+					e.printStackTrace();
+				}
+				reportRule(elem, null, context, plugin, "PLUGIN_ERROR:" + exceptionText(e));
 			}
 		}
 		if (elem.getName().equalsIgnoreCase("cfset") || elem.getName().equalsIgnoreCase("cfif")
@@ -447,7 +450,10 @@ public class CFLint implements IErrorReporter {
 				}
 				context.getMessages().clear();
 			}catch(Exception e){
-				reportRule(elem, expression, context, plugin, e.getMessage());
+				if(verbose){
+					e.printStackTrace();
+				}
+				reportRule(elem, expression, context, plugin, "PLUGIN_ERROR:" + exceptionText(e));
 			}
 		}
 
@@ -510,6 +516,18 @@ public class CFLint implements IErrorReporter {
 		}
 	}
 
+	/**
+	 * Return the exception message, or its class name
+	 * @param e
+	 * @return
+	 */
+	private String exceptionText(Exception e) {
+		final String msg = e.getMessage();
+		if(msg == null || msg.trim().length()==0){
+			return e.getClass().toString();
+		}
+		return msg;
+	}
 	private void process(final CFExpression expression, final String filename, final Element elem,
 			final String functionName) {
 		final Context context = new Context(filename, elem, functionName, inAssignment, handler);
@@ -524,7 +542,10 @@ public class CFLint implements IErrorReporter {
 				}
 				context.getMessages().clear();
 			}catch(Exception e){
-				reportRule(elem, expression, context, plugin, e.getMessage());
+				if(verbose){
+					e.printStackTrace();
+				}
+				reportRule(elem, expression, context, plugin, "PLUGIN_ERROR:" + exceptionText(e));
 			}
 		}
 		if (expression instanceof CFUnaryExpression) {
@@ -680,7 +701,16 @@ public class CFLint implements IErrorReporter {
 		if(configuration == null){
 			throw new NullPointerException("Configuration is null");
 		}
-		final PluginInfoRule ruleInfo = configuration.getRuleForPlugin(plugin);
+		PluginInfoRule ruleInfo = null;
+		if("PLUGIN_ERROR".equals(msgcode)){
+			ruleInfo = new PluginInfoRule();
+			PluginMessage msgInfo = new PluginMessage("PLUGIN_ERROR");
+			msgInfo.setMessageText("Error in plugin: ${variable}");
+			msgInfo.setSeverity("ERROR");
+			ruleInfo.getMessages().add(msgInfo);
+		}else{
+			ruleInfo = configuration.getRuleForPlugin(plugin);
+		}
 		if(ruleInfo == null){
 			throw new NullPointerException("Rule not found for " + plugin.getClass().getSimpleName());
 		}

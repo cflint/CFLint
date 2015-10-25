@@ -545,6 +545,19 @@
           "value": "5"
         }
       ]
+    },
+    {
+      "name": "FileCaseChecker",
+      "className": "FileCaseChecker",
+      "message": [
+        {
+          "code": "FILE_SHOULD_START_WITH_LOWERCASE",
+          "severity": "INFO"
+        }
+      ],
+      "parameter": [
+        
+      ]
     }
   ]
 }

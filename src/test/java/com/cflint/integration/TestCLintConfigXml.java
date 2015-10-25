@@ -45,7 +45,7 @@ public class TestCLintConfigXml {
 				+ "formFields = \"formfield1, formfield2, ...\" " + "password = \"password\" "
 				+ "tableOwner = \"owner\" " + "tableQualifier = \"table qualifier\" " + "username = \"user name\">\r\n"
 				+ "</cfcomponent>";
-		cflint.process(cfcSrc, "test");
+		cflint.process(cfcSrc, "Test.cfc");
 		List<BugInfo> result = cflint.getBugs().getFlatBugList();
 		System.out.println(result);
 		assertEquals(1, result.size());
@@ -64,7 +64,7 @@ public class TestCLintConfigXml {
 				+ "formFields = \"formfield1, formfield2, ...\" " + "password = \"password\" "
 				+ "tableOwner = \"owner\" " + "tableQualifier = \"table qualifier\" " + "username = \"user name\">\r\n"
 				+ "</cfcomponent>";
-		cflint.process(cfcSrc, "test");
+		cflint.process(cfcSrc, "Test.cfc");
 		List<BugInfo> result = cflint.getBugs().getFlatBugList();
 		assertEquals(1, result.size());
 		assertEquals("AVOID_USING_CFUPDATE_TAG", result.get(0).getMessageCode());
@@ -78,7 +78,7 @@ public class TestCLintConfigXml {
 				+ "formFields = \"formfield1, formfield2, ...\" " + "password = \"password\" "
 				+ "tableOwner = \"owner\" " + "tableQualifier = \"table qualifier\" " + "username = \"user name\">\r\n"
 				+ "</cfcomponent>";
-		cflint.process(cfcSrc, "test");
+		cflint.process(cfcSrc, "Test.cfc");
 		List<BugInfo> result = cflint.getBugs().getFlatBugList();
 		assertEquals(1, result.size());
 		assertEquals("AVOID_USING_CFMODULE_TAG", result.get(0).getMessageCode());

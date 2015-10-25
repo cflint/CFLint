@@ -380,14 +380,20 @@ public class CFLint implements IErrorReporter {
 			
 			for (final CFLintStructureListener structurePlugin : getStructureListeners(extensions)) {
 				try{
-					structurePlugin.startFunction(context);
-				}catch(Exception e){}
+					structurePlugin.startFunction(context, bugs);
+				}catch(Exception e){
+					e.printStackTrace();
+					bugs = new BugList(null);
+				}
 			}
 			processStack(elem.getChildElements(), space + " ", context);
 			for (final CFLintStructureListener structurePlugin : getStructureListeners(extensions)) {
 				try{
-					structurePlugin.endFunction(context);
-				}catch(Exception e){}
+					structurePlugin.endFunction(context, bugs);
+				}catch(Exception e){
+					e.printStackTrace();
+					bugs = new BugList(null);
+				}
 			}
 			inFunction = false;
 			handler.pop();
@@ -396,15 +402,21 @@ public class CFLint implements IErrorReporter {
 			handler.push("component");
 			for (final CFLintStructureListener structurePlugin : getStructureListeners(extensions)) {
 				try{
-					structurePlugin.startComponent(context);
-				}catch(Exception e){}
+					structurePlugin.startComponent(context, bugs);
+				}catch(Exception e){
+					e.printStackTrace();
+					bugs = new BugList(null);
+				}
 			}
 			context.setInComponent(true);
 			processStack(elem.getChildElements(), space + " ", context);
 			for (final CFLintStructureListener structurePlugin : getStructureListeners(extensions)) {
 				try{
-					structurePlugin.endComponent(context);
-				}catch(Exception e){}
+					structurePlugin.endComponent(context, bugs);
+				}catch(Exception e){
+					e.printStackTrace();
+					bugs = new BugList(null);
+				}
 			}
 			
 			inComponent = false;
@@ -493,16 +505,22 @@ public class CFLint implements IErrorReporter {
 			//do startComponent notifications
 			for (final CFLintStructureListener structurePlugin : getStructureListeners(extensions)) {
 				try{
-					structurePlugin.startComponent(context);
-				}catch(Exception e){}
+					structurePlugin.startComponent(context, bugs);
+				}catch(Exception e){
+					e.printStackTrace();
+					bugs = new BugList(null);
+				}
 			}
 			//process the component declaration
 			process(((CFCompDeclStatement) expression).getBody(), filename, elem, functionName);
 			//do endComponent notifications
 			for (final CFLintStructureListener structurePlugin : getStructureListeners(extensions)) {
 				try{
-					structurePlugin.endComponent(context);
-				}catch(Exception e){}
+					structurePlugin.endComponent(context, bugs);
+				}catch(Exception e){
+					e.printStackTrace();
+					bugs = new BugList(null);
+				}
 			}
 
 			inComponent = false;
@@ -550,15 +568,21 @@ public class CFLint implements IErrorReporter {
 			}
 			for (final CFLintStructureListener structurePlugin : getStructureListeners(extensions)) {
 				try{
-					structurePlugin.startFunction(context);
-				}catch(Exception e){}
+					structurePlugin.startFunction(context, bugs);
+				}catch(Exception e){
+					e.printStackTrace();
+					bugs = new BugList(null);
+				}
 			}
 			
 			process(function.getBody(), filename, elem, function.getName());
 			for (final CFLintStructureListener structurePlugin : getStructureListeners(extensions)) {
 				try{
-					structurePlugin.endFunction(context);
-				}catch(Exception e){}
+					structurePlugin.endFunction(context, bugs);
+				}catch(Exception e){
+					e.printStackTrace();
+					bugs = new BugList(null);
+				}
 			}
 			inFunction = false;
 			handler.pop();
@@ -825,8 +849,11 @@ public class CFLint implements IErrorReporter {
 		currentFile = srcidentifier;
 		for (final CFLintStructureListener structurePlugin : getStructureListeners(extensions)) {
 			try{
-				structurePlugin.startFile(srcidentifier);
-			}catch(Exception e){}
+				structurePlugin.startFile(srcidentifier, bugs);
+			}catch(Exception e){
+				e.printStackTrace();
+				bugs = new BugList(null);
+			}
 		}
 		for (final ScanProgressListener p : scanProgressListeners) {
 			p.startedProcessing(srcidentifier);
@@ -836,8 +863,11 @@ public class CFLint implements IErrorReporter {
 	protected void fireFinishedProcessing(final String srcidentifier) {
 		for (final CFLintStructureListener structurePlugin : getStructureListeners(extensions)) {
 			try{
-				structurePlugin.endFile(srcidentifier);
-			}catch(Exception e){}
+				structurePlugin.endFile(srcidentifier, bugs);
+			}catch(Exception e){
+				e.printStackTrace();
+				bugs = new BugList(null);
+			}
 		}
 		for (final ScanProgressListener p : scanProgressListeners) {
 			p.finishedProcessing(srcidentifier);

@@ -21,14 +21,16 @@ public class ComponentNameChecker extends CFLintScannerAdapter {
 	@Override	
 	public void expression(final CFScriptStatement expression, final Context context, final BugList bugs) {
 		if (expression instanceof CFCompDeclStatement) {
-			checkNameForBugs(context.getComponentName(), context.getFilename(), bugs);
+			String name = context.getFilename().replace(".cfc","");
+			checkNameForBugs(name, context.getFilename(), bugs);
 		}
 	}
 
 	@Override
 	public void element(final Element element, final Context context, final BugList bugs) {
 		if (element.getName().equals("cfcomponent")) {
-			checkNameForBugs(context.getComponentName(), context.getFilename(), bugs);
+			String name = context.getFilename().replace(".cfc","");
+			checkNameForBugs(name, context.getFilename(), bugs);
 		}
 	}
 
@@ -60,7 +62,6 @@ public class ComponentNameChecker extends CFLintScannerAdapter {
 
 		// TODO check package name as well?
 
-		System.out.println("Valid? " + name.isInvalidComponent(component));
 		if (name.isInvalidComponent(component)) {
 			bugs.add(new BugInfo.BugInfoBuilder().setLine(line).setMessageCode("COMPONENT_INVALID_NAME")
 				.setSeverity(severity).setFilename(filename)

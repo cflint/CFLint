@@ -13,7 +13,7 @@ public class ValidName {
 	public static final int MAX_METHOD_WORDS = 5;
 
 	public static final int MIN_COMPONENT_LENGTH = 3;
-	public static final int MAX_COMPONENT_LENGTH = 15;
+	public static final int MAX_COMPONENT_LENGTH = 20;
 	public static final int MAX_COMPONENT_WORDS = 3;
 
 	protected int minLength = MIN_VAR_LENGTH;
@@ -34,12 +34,12 @@ public class ValidName {
 	}
 
 	public boolean isInvalidComponent(String name) {
-		return !validChars(name) || endsInNumber(name) || !(isSameCase(name) || isCamelCaseUpper(name) || usesUnderscores(name));
+		return !validChars(name) || endsInNumber(name) || !(isUpperCase(name) || isCamelCaseUpper(name) || usesUnderscores(name));
 	}
 
 	public boolean validChars(String name) {
-		 Pattern valid = Pattern.compile("^[A-Za-z0-9_]+$");
-		 return valid.matcher(name).matches();
+		Pattern valid = Pattern.compile("^[A-Za-z0-9_]+$");
+		return valid.matcher(name).matches();
 	}
 
 	public boolean isUpperCase(String name) {

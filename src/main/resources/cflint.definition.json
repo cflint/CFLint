@@ -520,6 +520,54 @@
       ]
     },
     {
+      "name": "ArgumentNameChecker",
+      "className": "ArgumentNameChecker",
+      "message": [
+        {
+          "code": "ARGUMENT_INVALID_NAME",
+          "severity": "INFO"
+        },
+        {
+          "code": "ARGUMENT_ALLCAPS_NAME",
+          "severity": "INFO"
+        },
+        {
+          "code": "ARGUMENT_TOO_SHORT",
+          "severity": "INFO"
+        },
+        {
+          "code": "ARGUMENT_TOO_LONG",
+          "severity": "INFO"
+        },
+        {
+          "code": "ARGUMENT_TOO_WORDY",
+          "severity": "INFO"
+        },
+        {
+          "code": "ARGUMENT_IS_TEMPORARY",
+          "severity": "INFO"
+        },
+        {
+          "code": "ARGUMENT_HAS_PREFIX_OR_POSTFIX",
+          "severity": "INFO"
+        }
+      ],
+      "parameter": [
+        {
+          "name": "MinLength",
+          "value": "3"
+        },
+        {
+          "name": "MaxLength",
+          "value": "20"
+        },
+        {
+          "name": "MaxWords",
+          "value": "4"
+        }
+      ]
+    },
+    {
       "name": "MethodNameChecker",
       "className": "MethodNameChecker",
       "message": [

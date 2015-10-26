@@ -8,6 +8,10 @@ public class ValidName {
 	public static final int MAX_VAR_LENGTH = 20;
 	public static final int MAX_VAR_WORDS = 4;
 
+	public static final int MIN_ARGUMENT_LENGTH = 3;
+	public static final int MAX_ARGUMENT_LENGTH = 20;
+	public static final int MAX_ARGUMENT_WORDS = 4;
+
 	public static final int MIN_METHOD_LENGTH = 3;
 	public static final int MAX_METHOD_LENGTH = 25;
 	public static final int MAX_METHOD_WORDS = 5;

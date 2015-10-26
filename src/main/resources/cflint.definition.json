@@ -545,6 +545,17 @@
           "value": "5"
         }
       ]
+    },
+    {
+      "name": "CreateObjectChecker",
+      "className": "CreateObjectChecker",
+      "message": [
+        {
+          "code": "AVOID_USING_CREATEOBJECT",
+          "severity": "INFO"
+        }
+      ],
+      "parameter": []
     }
   ]
 }

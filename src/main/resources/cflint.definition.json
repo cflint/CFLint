@@ -243,6 +243,27 @@
       ]
     },
     {
+      "name": "CFIncludeChecker",
+      "className": "CFXTagChecker",
+      "message": [
+        {
+          "code": "AVOID_USING_CFINCUDE_TAG",
+          "messageText": "Avoid using <${tagName}> tags. Use components instead.",
+          "severity": "WARNING"
+        }
+      ],
+      "parameter": [
+        {
+          "name": "tagName",
+          "value": "cfinclude"
+        },
+        {
+          "name": "scope",
+          "value": "component"
+        }
+      ]
+    },
+    {
       "name": "ComponentHintChecker",
       "className": "ComponentHintChecker",
       "message": [

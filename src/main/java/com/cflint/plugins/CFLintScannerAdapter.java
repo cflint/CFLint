@@ -55,35 +55,35 @@ public class CFLintScannerAdapter implements CFLintScanner,CFLintStructureListen
 	 * Default implementation does nothing
 	 */
 	@Override
-	public void startFile(String fileName) {}
+	public void startFile(String fileName, BugList bugs) {}
 
 	/**
 	 * Default implementation does nothing
 	 */
 	@Override
-	public void endFile(String fileName) {}
+	public void endFile(String fileName, BugList bugs) {}
 
 	/**
 	 * Default implementation does nothing
 	 */
 	@Override
-	public void startComponent(Context context) {}
+	public void startComponent(Context context, BugList bugs) {}
 
 	/**
 	 * Default implementation does nothing
 	 */
 	@Override
-	public void endComponent(Context context) {}
+	public void endComponent(Context context, BugList bugs) {}
 
 	/**
 	 * Default implementation does nothing
 	 */
 	@Override
-	public void startFunction(Context context) {}
+	public void startFunction(Context context, BugList bugs) {}
 
 	/**
 	 * Default implementation does nothing
 	 */
 	@Override
-	public void endFunction(Context context) {}
+	public void endFunction(Context context, BugList bugs) {}
 }

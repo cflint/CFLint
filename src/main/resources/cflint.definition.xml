@@ -288,4 +288,9 @@
 			<severity>INFO</severity>
 		</message>	
 	</ruleImpl>
+	<ruleImpl name="FileCaseChecker" className="FileCaseChecker">
+        <message code="FILE_SHOULD_START_WITH_LOWERCASE">
+        	<severity>INFO</severity>
+        </message>
+    </ruleImpl>
 </CFLint-Plugin>

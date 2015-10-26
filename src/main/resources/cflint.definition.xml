@@ -113,6 +113,14 @@
 		</message>
 		<parameter name="tagName" value="cfupdate"/>
 	</ruleImpl>
+	<ruleImpl name="CFIncludeChecker" className="CFXTagChecker">
+		<message code="AVOID_USING_CFINCLUDE_TAG">
+			<messageText>Avoid using &lt;${tagName}&gt; tags. Use components instead.</messageText>
+			<severity>WARNING</severity>
+		</message>
+		<parameter name="tagName" value="cfinclude"/>
+		<parameter name="scope" value="component"/>
+	</ruleImpl>
 	<ruleImpl name="ComponentHintChecker" className="ComponentHintChecker">
         <message code="COMPONENT_HINT_MISSING">
         	<severity>WARNING</severity>
@@ -257,6 +265,34 @@
 			<severity>INFO</severity>
 		</message>	
 	</ruleImpl>
+	<ruleImpl name="ComponentNameChecker" className="ComponentNameChecker">
+		<message code="COMPONENT_INVALID_NAME">
+			<severity>INFO</severity>
+		</message>
+		<message code="COMPONENT_ALLCAPS_NAME">
+			<severity>INFO</severity>
+		</message>
+		<message code="COMPONENT_TOO_SHORT">
+			<severity>INFO</severity>
+		</message>
+		<message code="COMPONENT_TOO_LONG">
+			<severity>INFO</severity>
+		</message>
+		<message code="COMPONENT_TOO_WORDY">
+			<severity>INFO</severity>
+		</message>
+		<message code="COMPONENT_IS_TEMPORARY">
+			<severity>INFO</severity>
+		</message>
+		<message code="COMPONENT_HAS_PREFIX_OR_POSTFIX">
+			<severity>INFO</severity>
+		</message>	
+	</ruleImpl>
+	<ruleImpl name="FileCaseChecker" className="FileCaseChecker">
+        <message code="FILE_SHOULD_START_WITH_LOWERCASE">
+        	<severity>INFO</severity>
+        </message>
+    </ruleImpl>
 	<ruleImpl name="CreateObjectChecker" className="CreateObjectChecker">
 		<message code="AVOID_USING_CREATEOBJECT">
 			<severity>INFO</severity>

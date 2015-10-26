@@ -243,6 +243,27 @@
       ]
     },
     {
+      "name": "CFIncludeChecker",
+      "className": "CFXTagChecker",
+      "message": [
+        {
+          "code": "AVOID_USING_CFINCUDE_TAG",
+          "messageText": "Avoid using <${tagName}> tags. Use components instead.",
+          "severity": "WARNING"
+        }
+      ],
+      "parameter": [
+        {
+          "name": "tagName",
+          "value": "cfinclude"
+        },
+        {
+          "name": "scope",
+          "value": "component"
+        }
+      ]
+    },
+    {
       "name": "ComponentHintChecker",
       "className": "ComponentHintChecker",
       "message": [
@@ -544,6 +565,67 @@
           "name": "MaxWords",
           "value": "5"
         }
+      ]
+    },
+    {
+      "name": "ComponentNameChecker",
+      "className": "ComponentNameChecker",
+      "message": [
+        {
+          "code": "COMPONENT_INVALID_NAME",
+          "severity": "INFO"
+        },
+        {
+          "code": "COMPONENT_ALLCAPS_NAME",
+          "severity": "INFO"
+        },
+        {
+          "code": "COMPONENT_TOO_SHORT",
+          "severity": "INFO"
+        },
+        {
+          "code": "COMPONENT_TOO_LONG",
+          "severity": "INFO"
+        },
+        {
+          "code": "COMPONENT_TOO_WORDY",
+          "severity": "INFO"
+        },
+        {
+          "code": "COMPONENT_IS_TEMPORARY",
+          "severity": "INFO"
+        },
+        {
+          "code": "COMPONENT_HAS_PREFIX_OR_POSTFIX",
+          "severity": "INFO"
+        }
+      ],
+      "parameter": [
+        {
+          "name": "MinLength",
+          "value": "3"
+        },
+        {
+          "name": "MaxLength",
+          "value": "15"
+        },
+        {
+          "name": "MaxWords",
+          "value": "3"
+        }
+      ]
+    },
+    {
+      "name": "FileCaseChecker",
+      "className": "FileCaseChecker",
+      "message": [
+        {
+          "code": "FILE_SHOULD_START_WITH_LOWERCASE",
+          "severity": "INFO"
+        }
+      ],
+      "parameter": [
+        
       ]
     },
     {

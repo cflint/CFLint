@@ -22,7 +22,7 @@ public class ComponentNameChecker extends CFLintScannerAdapter {
 	public void expression(final CFScriptStatement expression, final Context context, final BugList bugs) {
 		if (expression instanceof CFCompDeclStatement) {
 			String name = context.getFilename().replace(".cfc","");
-			checkNameForBugs(name, context.getFilename(), bugs);
+			checkNameForBugs(name, actualFileName(context.getFilename()), bugs);
 		}
 	}
 
@@ -30,8 +30,20 @@ public class ComponentNameChecker extends CFLintScannerAdapter {
 	public void element(final Element element, final Context context, final BugList bugs) {
 		if (element.getName().equals("cfcomponent")) {
 			String name = context.getFilename().replace(".cfc","");
-			checkNameForBugs(name, context.getFilename(), bugs);
+			checkNameForBugs(name, actualFileName(context.getFilename()), bugs);
 		}
+	}
+
+	private String actualFileName(final String fileName) {
+		String actualFileName = fileName;
+		String separator = System.getProperty("file.separator");
+    	int seperatorPosition = fileName.lastIndexOf(separator);
+
+    	if (seperatorPosition >= 0) {
+    		actualFileName = fileName.substring(seperatorPosition + 1);
+    	}
+
+    	return actualFileName;
 	}
 
 	public void checkNameForBugs(String component, String filename, BugList bugs) {

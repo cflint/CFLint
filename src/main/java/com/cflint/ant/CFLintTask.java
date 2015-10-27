@@ -47,7 +47,11 @@ public class CFLintTask extends Task {
 		try {
 			CFLintConfig config = null;
 			if(configFile != null){
-				config = ConfigUtils.unmarshal(new FileInputStream(configFile), CFLintConfig.class);
+				if(configFile.getName().toLowerCase().endsWith(".xml")){
+					config = ConfigUtils.unmarshal(new FileInputStream(configFile), CFLintConfig.class);
+				}else{
+					config = ConfigUtils.unmarshalJson(new FileInputStream(configFile), CFLintConfig.class);
+				}
 			}
 			
 			final CFLint cflint = new CFLint(config);

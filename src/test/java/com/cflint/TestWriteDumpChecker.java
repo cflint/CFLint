@@ -40,10 +40,24 @@ public class TestWriteDumpChecker {
 	}
 
 	@Test
-	public void testWriteDumpinScript() throws ParseException, IOException {
+	public void testWriteDumpInScript() throws ParseException, IOException {
 		final String scriptSrc = "<cfscript>\r\n"
 			+ "var a = 23;\r\n"
 			+ "writeDump(a);\r\n"
+			+ "</cfscript>";
+			
+		cfBugs.process(scriptSrc, "test");
+		final List<BugInfo> result = cfBugs.getBugs().getBugList().values().iterator().next();
+		assertEquals(1, result.size());
+		assertEquals("AVOID_USING_WRITEDUMP", result.get(0).getMessageCode());
+		assertEquals(3, result.get(0).getLine());
+	}
+
+	@Test
+	public void testWriteDumpMixedCaseScript() throws ParseException, IOException {
+		final String scriptSrc = "<cfscript>\r\n"
+			+ "var a = 23;\r\n"
+			+ "WriteDUMP(a);\r\n"
 			+ "</cfscript>";
 			
 		cfBugs.process(scriptSrc, "test");

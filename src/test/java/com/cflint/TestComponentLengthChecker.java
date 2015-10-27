@@ -671,7 +671,7 @@ public class TestComponentLengthChecker {
 									"}\r\n" +						
 								"}";
 		cfBugs.process(cfcSrc,"test");
-		final List<BugInfo> result = cfBugs.getBugs().getBugList().values().iterator().next();
+		final List<BugInfo> result = cfBugs.getBugs().getBugList().get("EXCESSIVE_COMPONENT_LENGTH");
 		assertEquals(1, result.size());
 		assertEquals("EXCESSIVE_COMPONENT_LENGTH", result.get(0).getMessageCode());
 	}

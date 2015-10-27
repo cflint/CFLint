@@ -147,7 +147,7 @@ public class Context {
 		if(element != null && element.getSource() !=null)
 			return element.getSource().getRow(element.getBegin());
 		else 
-			return 0;
+			return 1; // not zero
 	}
 
 	protected String componentFromFile(String filename) {

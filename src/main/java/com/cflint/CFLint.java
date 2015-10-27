@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.StringReader;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -21,14 +22,13 @@ import org.antlr.runtime.IntStream;
 import org.antlr.runtime.RecognitionException;
 import org.antlr.v4.runtime.Parser;
 import org.antlr.v4.runtime.Recognizer;
+import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.atn.ATNConfigSet;
 import org.antlr.v4.runtime.dfa.DFA;
 
 import cfml.CFSCRIPTLexer;
 import cfml.parsing.CFMLParser;
 import cfml.parsing.CFMLSource;
-import cfml.parsing.cfml.ErrorEvent;
-import cfml.parsing.cfml.IErrorObserver;
 import cfml.parsing.cfscript.CFAssignmentExpression;
 import cfml.parsing.cfscript.CFBinaryExpression;
 import cfml.parsing.cfscript.CFExpression;
@@ -48,6 +48,7 @@ import cfml.parsing.cfscript.script.CFFuncDeclStatement;
 import cfml.parsing.cfscript.script.CFFunctionParameter;
 import cfml.parsing.cfscript.script.CFIfStatement;
 import cfml.parsing.cfscript.script.CFParsedStatement;
+import cfml.parsing.cfscript.script.CFReturnStatement;
 import cfml.parsing.cfscript.script.CFScriptStatement;
 import cfml.parsing.reporting.IErrorReporter;
 import cfml.parsing.reporting.ParseException;
@@ -62,6 +63,7 @@ import com.cflint.config.ConfigUtils;
 import com.cflint.listeners.ProgressMonitorListener;
 import com.cflint.listeners.ScanProgressListener;
 import com.cflint.plugins.CFLintScanner;
+import com.cflint.plugins.CFLintStructureListener;
 import com.cflint.plugins.Context;
 import com.cflint.plugins.Context.ContextMessage;
 import com.cflint.plugins.exceptions.CFLintExceptionListener;
@@ -102,10 +104,10 @@ public class CFLint implements IErrorReporter {
 	ConfigRuntime configuration;
 	private Stack<Element> currentElement = new Stack<Element>();
 
-	public CFLint() {
+	public CFLint() throws IOException {
 		this((CFLintConfig)null);
 	}
-	public CFLint(CFLintConfig configFile) {
+	public CFLint(CFLintConfig configFile) throws IOException {
 		final CFLintPluginInfo pluginInfo = ConfigUtils.loadDefaultPluginInfo();
 		configuration = new ConfigRuntime(configFile,pluginInfo);
 		for(PluginInfoRule ruleInfo:configuration.getRules()){
@@ -145,8 +147,14 @@ public class CFLint implements IErrorReporter {
 				}
 			}
 		}
-		final CFLintFilter filter = CFLintFilter.createFilter(verbose);
-		bugs = new BugList(filter);
+		CFLintFilter filter;
+		try {
+			filter = CFLintFilter.createFilter(verbose);
+			bugs = new BugList(filter);
+		} catch (IOException e1) {
+			e1.printStackTrace();
+			bugs = new BugList(null);
+		}
 		if(exceptionListeners.size() == 0){
 			addExceptionListener(new DefaultCFLintExceptionListener(bugs));
 		}
@@ -157,6 +165,7 @@ public class CFLint implements IErrorReporter {
 			allowedExtensions.add(cfcExtension);
 			allowedExtensions.add(cfmExtenstion);
 		}
+		cfmlParser.setErrorReporter(this);
 	}
 
 	public void scan(final String folder) {
@@ -281,10 +290,10 @@ public class CFLint implements IErrorReporter {
 		context.setInComponent(inComponent);
 		currentElement.push(elem);
 
-		if (elem.getName().equals("cfcomponent")) {
+		if (elem.getName().equalsIgnoreCase("cfcomponent")) {
 			context.setComponentName(elem.getAttributeValue("displayname"));
 		}
-		else if (elem.getName().equals("cffunction")) {
+		else if (elem.getName().equalsIgnoreCase("cffunction")) {
 			context.setFunctionName(elem.getAttributeValue("name"));
 		}
 
@@ -297,10 +306,14 @@ public class CFLint implements IErrorReporter {
 				}
 				context.getMessages().clear();
 			}catch(Exception e){
-				reportRule(elem, null, context, plugin, e.getMessage());
+				if(verbose){
+					e.printStackTrace();
+				}
+				reportRule(elem, null, context, plugin, "PLUGIN_ERROR:" + exceptionText(e));
 			}
 		}
-		if (elem.getName().equals("cfset") || elem.getName().equals("cfif")) {
+		if (elem.getName().equalsIgnoreCase("cfset") || elem.getName().equalsIgnoreCase("cfif")
+				|| elem.getName().equalsIgnoreCase("cfelseif")|| elem.getName().equalsIgnoreCase("cfreturn")) {
 			final int elemLine = elem.getSource().getRow(elem.getBegin());
 			final int elemColumn = elem.getSource().getColumn(elem.getBegin());
 			final Pattern p = Pattern.compile("<\\w+\\s(.*[^/])/?>",Pattern.MULTILINE|Pattern.DOTALL);
@@ -309,7 +322,7 @@ public class CFLint implements IErrorReporter {
 			if (m.matches()) {
 				final String cfscript = m.group(1);
 				try {
-//					if(elem.getName().equals("cfset")){
+//					if(elem.getName().equalsIgnoreCase("cfset")){
 //						System.out.println("parse: " + cfscript + ";");
 //						final CFScriptStatement scriptStatement = cfmlParser.parseScript(cfscript + ";");
 //						process(scriptStatement, context.getFilename(), elem, context.getFunctionName());
@@ -340,17 +353,17 @@ public class CFLint implements IErrorReporter {
 				}
 			}
 			
-		} else if (elem.getName().equals("cfargument")) {
+		} else if (elem.getName().equalsIgnoreCase("cfargument")) {
 			final String name = elem.getAttributeValue("name");
 			if (name != null) {
 				handler.addArgument(name);
 			}
-		} else if (elem.getName().equals("cfscript")) {
+		} else if (elem.getName().equalsIgnoreCase("cfscript")) {
 			final String cfscript = elem.getContent().toString();
 			final CFScriptStatement scriptStatement = cfmlParser.parseScript(cfscript);
 
 			process(scriptStatement, context.getFilename(), elem, context.getFunctionName());
-			// } else if (elem.getName().equals("cfoutput")) {
+			// } else if (elem.getName().equalsIgnoreCase("cfoutput")) {
 			// final Element parent = CFTool.getNamedParent(elem, "cfoutput");
 			// if (parent != null && parent.getAttributeValue("query") != null
 			// && parent.getAttributeValue("group") == null) {
@@ -364,17 +377,51 @@ public class CFLint implements IErrorReporter {
 		} else {
 		}
 
-		if (elem.getName().equals("cffunction")) {
+		if (elem.getName().equalsIgnoreCase("cffunction")) {
 			inFunction = true;
 			handler.push("function");
+			
+			for (final CFLintStructureListener structurePlugin : getStructureListeners(extensions)) {
+				try{
+					structurePlugin.startFunction(context, bugs);
+				}catch(Exception e){
+					e.printStackTrace();
+					bugs = new BugList(null);
+				}
+			}
 			processStack(elem.getChildElements(), space + " ", context);
+			for (final CFLintStructureListener structurePlugin : getStructureListeners(extensions)) {
+				try{
+					structurePlugin.endFunction(context, bugs);
+				}catch(Exception e){
+					e.printStackTrace();
+					bugs = new BugList(null);
+				}
+			}
 			inFunction = false;
 			handler.pop();
-		} else if (elem.getName().equals("cfcomponent")) {
+		} else if (elem.getName().equalsIgnoreCase("cfcomponent")) {
 			inComponent = true;
 			handler.push("component");
+			for (final CFLintStructureListener structurePlugin : getStructureListeners(extensions)) {
+				try{
+					structurePlugin.startComponent(context, bugs);
+				}catch(Exception e){
+					e.printStackTrace();
+					bugs = new BugList(null);
+				}
+			}
 			context.setInComponent(true);
 			processStack(elem.getChildElements(), space + " ", context);
+			for (final CFLintStructureListener structurePlugin : getStructureListeners(extensions)) {
+				try{
+					structurePlugin.endComponent(context, bugs);
+				}catch(Exception e){
+					e.printStackTrace();
+					bugs = new BugList(null);
+				}
+			}
+			
 			inComponent = false;
 			handler.pop();
 		} else if (elem.getName().equalsIgnoreCase("cfquery")) {
@@ -394,6 +441,14 @@ public class CFLint implements IErrorReporter {
 		}
 	}
 
+	private List<CFLintStructureListener> getStructureListeners(final List<CFLintScanner> extensions) {
+		final List<CFLintStructureListener> retval = new ArrayList<CFLintStructureListener>();
+		for(CFLintScanner plugin: extensions)
+		if(plugin instanceof CFLintStructureListener){
+			retval.add((CFLintStructureListener) plugin);
+		}
+		return retval;
+	}
 	private String shortSource(final Source source, final int line) {
 		final String retval = source == null ? "" : source.toString().trim();
 		if (retval.length() < 300) {
@@ -416,12 +471,19 @@ public class CFLint implements IErrorReporter {
 
 	private void process(final CFScriptStatement expression, final String filename, final Element elem,
 			final CFIdentifier functionName) {
-		process(expression,filename,elem,functionName.Decompile(0));
+		process(expression,filename,elem,functionName.getName());
 	}
 	private void process(final CFScriptStatement expression, final String filename, final Element elem,
-			final String functionName) {
+			String functionName) {
 		final Context context = new Context(filename, elem, functionName, inAssignment, handler);
+		
 		context.setInComponent(inComponent);
+
+		if (expression instanceof CFFuncDeclStatement) {
+			final CFFuncDeclStatement function = (CFFuncDeclStatement) expression;
+			functionName = function.getName().getName();
+			context.setFunctionName(functionName);
+		}
 		
 		for (final CFLintScanner plugin : extensions) {
 			try{
@@ -431,7 +493,10 @@ public class CFLint implements IErrorReporter {
 				}
 				context.getMessages().clear();
 			}catch(Exception e){
-				reportRule(elem, expression, context, plugin, e.getMessage());
+				if(verbose){
+					e.printStackTrace();
+				}
+				reportRule(elem, expression, context, plugin, "PLUGIN_ERROR:" + exceptionText(e));
 			}
 		}
 
@@ -443,7 +508,27 @@ public class CFLint implements IErrorReporter {
 			process(((CFExpressionStatement) expression).getExpression(), filename, elem, functionName);
 		} else if (expression instanceof CFCompDeclStatement) {
 			inComponent = true;
+			//do startComponent notifications
+			for (final CFLintStructureListener structurePlugin : getStructureListeners(extensions)) {
+				try{
+					structurePlugin.startComponent(context, bugs);
+				}catch(Exception e){
+					e.printStackTrace();
+					bugs = new BugList(null);
+				}
+			}
+			//process the component declaration
 			process(((CFCompDeclStatement) expression).getBody(), filename, elem, functionName);
+			//do endComponent notifications
+			for (final CFLintStructureListener structurePlugin : getStructureListeners(extensions)) {
+				try{
+					structurePlugin.endComponent(context, bugs);
+				}catch(Exception e){
+					e.printStackTrace();
+					bugs = new BugList(null);
+				}
+			}
+
 			inComponent = false;
 		} else if (expression instanceof CFForStatement) {
 			process(((CFForStatement) expression).getInit(), filename, elem, functionName);
@@ -461,24 +546,68 @@ public class CFLint implements IErrorReporter {
 			if (cfif.getElseStatement() != null) {
 				process(cfif.getElseStatement(), filename, elem, functionName);
 			}
+		} else if (expression instanceof CFReturnStatement) {
+			final CFReturnStatement cfreturn = (CFReturnStatement) expression;
+			//TODO replace with cfreturn.getExpression() when next cfmlparser is released
+			Field f;
+			try {
+				f = CFReturnStatement.class.getDeclaredField("_ret");
+				f.setAccessible(true);
+				CFExpression subExpression = (CFExpression) f.get(cfreturn);
+				if(subExpression !=null){
+					process(subExpression, filename, elem, functionName);
+				}
+			} catch (Exception e) {
+			} //NoSuchFieldException
+			
+			 
 		} else if (expression instanceof CFFuncDeclStatement) {
 			final CFFuncDeclStatement function = (CFFuncDeclStatement) expression;
 			inFunction = true;
 			handler.push("function");
-			if ("init".equals(function.getName())) {
-				inFunction = false;
-			}
+//			if ("init".equalsIgnoreCase(function.getName())) {
+//				inFunction = false;
+//			}
 
 			for (final CFFunctionParameter param : function.getFormals()) {
 				handler.addArgument(param.getName());
 			}
+			for (final CFLintStructureListener structurePlugin : getStructureListeners(extensions)) {
+				try{
+					structurePlugin.startFunction(context, bugs);
+				}catch(Exception e){
+					e.printStackTrace();
+					bugs = new BugList(null);
+				}
+			}
+			
 			process(function.getBody(), filename, elem, function.getName());
+			for (final CFLintStructureListener structurePlugin : getStructureListeners(extensions)) {
+				try{
+					structurePlugin.endFunction(context, bugs);
+				}catch(Exception e){
+					e.printStackTrace();
+					bugs = new BugList(null);
+				}
+			}
 			inFunction = false;
 			handler.pop();
 		} else {
 		}
 	}
 
+	/**
+	 * Return the exception message, or its class name
+	 * @param e
+	 * @return
+	 */
+	private String exceptionText(Exception e) {
+		final String msg = e.getMessage();
+		if(msg == null || msg.trim().length()==0){
+			return e.getClass().toString();
+		}
+		return msg;
+	}
 	private void process(final CFExpression expression, final String filename, final Element elem,
 			final String functionName) {
 		final Context context = new Context(filename, elem, functionName, inAssignment, handler);
@@ -493,7 +622,10 @@ public class CFLint implements IErrorReporter {
 				}
 				context.getMessages().clear();
 			}catch(Exception e){
-				reportRule(elem, expression, context, plugin, e.getMessage());
+				if(verbose){
+					e.printStackTrace();
+				}
+				reportRule(elem, expression, context, plugin, "PLUGIN_ERROR:" + exceptionText(e));
 			}
 		}
 		if (expression instanceof CFUnaryExpression) {
@@ -649,7 +781,16 @@ public class CFLint implements IErrorReporter {
 		if(configuration == null){
 			throw new NullPointerException("Configuration is null");
 		}
-		final PluginInfoRule ruleInfo = configuration.getRuleForPlugin(plugin);
+		PluginInfoRule ruleInfo = null;
+		if("PLUGIN_ERROR".equals(msgcode)){
+			ruleInfo = new PluginInfoRule();
+			PluginMessage msgInfo = new PluginMessage("PLUGIN_ERROR");
+			msgInfo.setMessageText("Error in plugin: ${variable}");
+			msgInfo.setSeverity("ERROR");
+			ruleInfo.getMessages().add(msgInfo);
+		}else{
+			ruleInfo = configuration.getRuleForPlugin(plugin);
+		}
 		if(ruleInfo == null){
 			throw new NullPointerException("Rule not found for " + plugin.getClass().getSimpleName());
 		}
@@ -736,12 +877,28 @@ public class CFLint implements IErrorReporter {
 
 	protected void fireStartedProcessing(final String srcidentifier) {
 		currentFile = srcidentifier;
+		for (final CFLintStructureListener structurePlugin : getStructureListeners(extensions)) {
+			try{
+				structurePlugin.startFile(srcidentifier, bugs);
+			}catch(Exception e){
+				e.printStackTrace();
+				bugs = new BugList(null);
+			}
+		}
 		for (final ScanProgressListener p : scanProgressListeners) {
 			p.startedProcessing(srcidentifier);
 		}
 	}
 
 	protected void fireFinishedProcessing(final String srcidentifier) {
+		for (final CFLintStructureListener structurePlugin : getStructureListeners(extensions)) {
+			try{
+				structurePlugin.endFile(srcidentifier, bugs);
+			}catch(Exception e){
+				e.printStackTrace();
+				bugs = new BugList(null);
+			}
+		}
 		for (final ScanProgressListener p : scanProgressListeners) {
 			p.finishedProcessing(srcidentifier);
 		}
@@ -775,7 +932,13 @@ public class CFLint implements IErrorReporter {
 			Object offendingSymbol, int line, int charPositionInLine,
 			String msg, org.antlr.v4.runtime.RecognitionException e) {
 		final String file = currentFile == null ? "" : currentFile + "\r\n";
-		//System.err.println(file + "----syntax error ---" + line + " : " + charPositionInLine);
+		String expression=null;
+		if(offendingSymbol instanceof Token){
+			expression = ((Token) offendingSymbol).getText();
+			if(expression.length() > 50){
+				expression=expression.substring(1,40) + "...";
+			}
+		}
 		if(!currentElement.isEmpty()){
 			Element elem = currentElement.peek();
 			if(line == 1){
@@ -785,7 +948,17 @@ public class CFLint implements IErrorReporter {
 				line = elem.getSource().getRow(elem.getBegin()) + line - 1;
 			}
 		}
-		fireCFLintException(e,PARSE_ERROR,currentFile,line,charPositionInLine,"",offendingSymbol==null?"":offendingSymbol.toString());
+		if(recognizer instanceof Parser && ((Parser)recognizer).getExpectedTokens().contains(65)){
+			bugs.add(new BugInfo.BugInfoBuilder().setMessageCode("MISSING_SEMI")
+			.setFilename(file).setMessage("End of statement(;) expected instead of " + expression).setSeverity("ERROR")
+			.setExpression(expression)
+			.setLine(line).setColumn(charPositionInLine)
+			.build());
+
+		}else{
+			
+			fireCFLintException(e,PARSE_ERROR,file,line,charPositionInLine,"",msg);
+		}
 	}
 	public void reportAmbiguity(Parser recognizer, DFA dfa, int startIndex,
 			int stopIndex, boolean exact, java.util.BitSet ambigAlts,

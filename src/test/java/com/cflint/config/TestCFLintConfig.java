@@ -2,6 +2,7 @@ package com.cflint.config;
 
 import static org.junit.Assert.assertEquals;
 
+import java.io.IOException;
 import java.io.StringWriter;
 import java.util.ArrayList;
 
@@ -11,6 +12,8 @@ import org.junit.Test;
 
 import com.cflint.config.CFLintPluginInfo.PluginInfoRule;
 import com.cflint.config.CFLintPluginInfo.PluginInfoRule.PluginMessage;
+import com.fasterxml.jackson.core.JsonFactory;
+import com.fasterxml.jackson.core.JsonGenerator;
 
 /*
 issues: {
@@ -57,6 +60,8 @@ public class TestCFLintConfig {
 		message.setMessageText("messageText");
 		message.setSeverity("WARNING");
 
+		System.out.println(ConfigUtils.marshalJson(config));
+		
 		Marshaller jaxbMarshaller = ConfigUtils.createMarshaller();
 
 		// output pretty printed
@@ -67,4 +72,17 @@ public class TestCFLintConfig {
 		assertEquals(expected, sw.toString().trim());
 		System.out.println(sw);
 	}
+	
+	@Test
+	public void test2() throws IOException{
+		StringWriter writer = new StringWriter();
+	JsonFactory jsonF = new JsonFactory();
+	JsonGenerator jg = jsonF.createGenerator(writer);
+	jg.writeStartArray();
+
+	jg.writeEndArray();
+	jg.close();
+	writer.close();
+	System.out.println(writer);
+}
 }

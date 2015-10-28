@@ -323,7 +323,7 @@ public class CFLintMain {
 					display("Writing text" + (stdOut ? "." : " to " + textOutFile));
 				}
 			}
-			Writer textwriter = stdOut ? new OutputStreamWriter(System.out) : new FileWriter(textOutFile);
+			Writer textwriter = stdOut || textOutFile==null ? new OutputStreamWriter(System.out) : new FileWriter(textOutFile);
 			new TextOutput().output(cflint.getBugs(), textwriter);
 
 		}

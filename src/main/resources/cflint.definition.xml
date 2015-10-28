@@ -196,6 +196,13 @@
 		</message>
 		<parameter name="functionName" value="structNew"/>
 	</ruleImpl>
+	<ruleImpl name="IsDebugModeChecker" className="FunctionXChecker">
+		<message code="AVOID_USING_ISDEBUGMODE">
+			<messageText>Avoid using the ${functionName} function in production code.</messageText>
+			<severity>WARNING</severity>
+		</message>
+		<parameter name="functionName" value="IsDebugMode"/>
+	</ruleImpl>
 	<ruleImpl name="ArrayNewChecker" className="ArrayNewChecker">
 		<message code="AVOID_USING_ARRAYNEW">
 			<severity>INFO</severity>

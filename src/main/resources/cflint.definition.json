@@ -422,10 +422,16 @@
       "message": [
         {
           "code": "AVOID_USING_WRITEDUMP",
+          "messageText": "Avoid using the ${functionName} function in production code.",
           "severity": "INFO"
         }
       ],
-      "parameter": []
+      "parameter": [
+        {
+          "name": "functionName",
+          "value": "writeDump"
+        }
+      ]
     },
     {
       "name": "StructNewChecker",
@@ -433,10 +439,33 @@
       "message": [
         {
           "code": "AVOID_USING_STRUCTNEW",
+          "messageText": "Avoid using the ${functionName} function in production code.",
           "severity": "INFO"
         }
       ],
-      "parameter": []
+      "parameter": [
+        {
+          "name": "functionName",
+          "value": "structNew"
+        }
+      ]
+    },
+    {
+      "name": "IsDebugModeChecker",
+      "className": "FunctionXChecker",
+      "message": [
+        {
+          "code": "AVOID_USING_ISDEBUGMODE",
+          "messageText": "Avoid using the ${functionName} function in production code.",
+          "severity": "WARNING"
+        }
+      ],
+      "parameter": [
+        {
+          "name": "functionName",
+          "value": "IsDebugMode"
+        }
+      ]
     },
     {
       "name": "ArrayNewChecker",

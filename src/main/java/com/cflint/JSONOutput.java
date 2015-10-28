@@ -18,12 +18,24 @@ import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonGenerator;
 
 public class JSONOutput {
+	
+	boolean prettyPrint = true;
+
+	public boolean isPrettyPrint() {
+		return prettyPrint;
+	}
+
+	public void setPrettyPrint(boolean prettyPrint) {
+		this.prettyPrint = prettyPrint;
+	}
 
 	@SuppressWarnings("unchecked")
 	public void output(final BugList bugList, final Writer writer) throws IOException {
 		// final StringBuilder sb = new StringBuilder();
 		JsonFactory jsonF = new JsonFactory();
 		JsonGenerator jg = jsonF.createGenerator(writer);
+		if(prettyPrint)
+			jg.useDefaultPrettyPrinter();
 		jg.writeStartArray();
 		for (final Entry<String, List<BugInfo>> bugEntry : bugList.getBugList().entrySet()) {
 			final Iterator<BugInfo> iterator = bugEntry.getValue().iterator();

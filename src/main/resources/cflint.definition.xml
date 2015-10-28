@@ -328,4 +328,10 @@
 			<severity>INFO</severity>
 		</message>
 	</ruleImpl>
+	<ruleImpl name="CFDebugAttributeChecker" className="CFDebugAttributeChecker">
+		<message code="AVOID_USING_DEBUG_ATTR">
+			<severity>WARNING</severity>
+			<messageText>Avoid leaving debug attribute on tags.</messageText>
+		</message>
+	</ruleImpl>
 </CFLint-Plugin>

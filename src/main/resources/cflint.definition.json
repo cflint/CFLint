@@ -715,6 +715,18 @@
         }
       ],
       "parameter": []
+    },
+    {
+      "name": "CFDebugAttributeChecker",
+      "className": "CFDebugAttributeChecker",
+      "message": [
+        {
+          "code": "AVOID_USING_DEBUG_ATTR",
+           "messageText": "Avoid leaving debug attribute on tags.",
+          "severity": "WARNING"
+        }
+      ],
+      "parameter": []
     }
   ]
 }

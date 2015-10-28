@@ -24,6 +24,7 @@ public class JSONOutput {
 		// final StringBuilder sb = new StringBuilder();
 		JsonFactory jsonF = new JsonFactory();
 		JsonGenerator jg = jsonF.createGenerator(writer);
+		jg.useDefaultPrettyPrinter();
 		jg.writeStartArray();
 		for (final Entry<String, List<BugInfo>> bugEntry : bugList.getBugList().entrySet()) {
 			final Iterator<BugInfo> iterator = bugEntry.getValue().iterator();

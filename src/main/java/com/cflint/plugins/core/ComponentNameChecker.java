@@ -43,9 +43,6 @@ public class ComponentNameChecker extends CFLintScannerAdapter {
     		actualFileName = fileName.substring(seperatorPosition + 1);
     	}
 
-    	System.out.println(fileName);
-    	System.out.println(actualFileName);
-
     	return actualFileName;
 	}
 
@@ -54,8 +51,6 @@ public class ComponentNameChecker extends CFLintScannerAdapter {
 		int maxComponentLength = ValidName.MAX_COMPONENT_LENGTH;
 		int maxComponentWords = ValidName.MAX_COMPONENT_WORDS;
 		int line = 1;
-
-		System.out.println("COMP " + component);
 
 		if (getParameter("MinLength") != null) {
 			try {

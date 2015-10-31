@@ -66,6 +66,15 @@ public class TestCFDebugAttributeTagChecker {
 		cfBugs.process(cfcSrc, "test");
 		assertEquals(1, cfBugs.getBugs().getBugList().get("AVOID_USING_DEBUG_ATTR").size());
 	}
+
+	@Test
+	public void test_debugWithQuotedVal() throws ParseException, IOException {
+		final String cfcSrc = "<cfquery name=\"TestQuery\" datasource=\"cfdocexamples\" debug=\"false\"> \n" + 
+				"    SELECT * FROM TestTable \n" + 
+				"</cfquery>";
+		cfBugs.process(cfcSrc, "test");
+		assertEquals(1, cfBugs.getBugs().getBugList().get("AVOID_USING_DEBUG_ATTR").size());
+	}
 	
 
 	@Test
@@ -74,10 +83,19 @@ public class TestCFDebugAttributeTagChecker {
 		cfBugs.process(cfcSrc, "test");
 		assertEquals(0, cfBugs.getBugs().getBugList().size());
 	}
+
 	@Test
 	public void test_cfsetting_debug_yes() throws ParseException, IOException {
 		final String cfcSrc = "<cfsetting showDebugOutput=\"Yes\">";
 		cfBugs.process(cfcSrc, "test");
 		assertEquals(1, cfBugs.getBugs().getBugList().get("AVOID_USING_CFSETTING_DEBUG").size());
+	}
+
+
+	@Test
+	public void test_cfsetting_no_attributes() throws ParseException, IOException {
+		final String cfcSrc = "<cfset var a = 1>";
+		cfBugs.process(cfcSrc, "test");
+		assertEquals(0, cfBugs.getBugs().getBugList().size());
 	}
 }

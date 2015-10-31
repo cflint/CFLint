@@ -727,6 +727,17 @@
         }
       ],
       "parameter": []
+    },
+    {
+      "name": "UnusedLocalVarChecker",
+      "className": "UnusedLocalVarChecker",
+      "message": [
+        {
+          "code": "UNUSED_LOCAL_VARIABLE",
+          "severity": "WARNING"
+        }
+      ],
+      "parameter": []
     }
   ]
 }

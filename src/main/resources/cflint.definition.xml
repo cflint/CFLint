@@ -334,4 +334,9 @@
 			<messageText>Avoid leaving debug attribute on tags.</messageText>
 		</message>
 	</ruleImpl>
+	<ruleImpl name="UnusedLocalVarChecker" className="UnusedLocalVarChecker">
+		<message code="UNUSED_LOCAL_VARIABLE">
+			<severity>INFO</severity>
+		</message>
+	</ruleImpl>
 </CFLint-Plugin>

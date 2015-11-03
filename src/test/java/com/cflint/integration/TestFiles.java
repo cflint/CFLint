@@ -1,6 +1,7 @@
 package com.cflint.integration;
 
-import static org.junit.Assert.assertEquals;
+
+import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -18,6 +19,7 @@ import java.util.ResourceBundle;
 import javax.xml.bind.JAXBException;
 import javax.xml.transform.TransformerException;
 
+import org.hamcrest.text.IsEqualIgnoringCase;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -87,7 +89,8 @@ public class TestFiles {
 				expectedText = actualTree;
 				writeExpectFile(expectedFile, actualTree);
 			}
-			assertEquals("Results do not match", expectedText.replaceAll("\r\n", "\n"), actualTree.replaceAll("\r\n", "\n"));
+			//assertEquals("Results do not match", expectedText.replaceAll("\r\n", "\n"), actualTree.replaceAll("\r\n", "\n"));
+			assertThat(actualTree, IsEqualIgnoringCase.equalToIgnoringCase(expectedText));
 		}
 	}
 	

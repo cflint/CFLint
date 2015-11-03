@@ -37,7 +37,6 @@ public class CFCompareVsAssignChecker extends CFLintScannerAdapter {
 
 	@Override
 	public void expression(final CFScriptStatement expression, final Context context, final BugList bugs) {	
-		System.out.println(expression + " " + expression.getClass());
 		if(expression instanceof CFExpressionStatement){
 			final CFExpressionStatement exprStatement = (CFExpressionStatement)expression;
 			if(exprStatement.getExpression() instanceof CFBinaryExpression){

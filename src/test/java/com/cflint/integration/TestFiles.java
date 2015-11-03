@@ -69,13 +69,11 @@ public class TestFiles {
 		final String expectedFileText = expectedFile.exists() ? loadFile(expectedFile) : null;
 		String expectedText = expectedFileText ;
 	
-		System.out.println("Par:" + sourceFile.getParent());
 		final CFLintConfig config = loadPluginInfo(sourceFile.getParentFile());
 		CFLint cflint = new CFLint(config );
 		
 		cflint.process(inputString, sourceFile.getPath());
 		List<BugInfo> result = cflint.getBugs().getFlatBugList();
-		System.out.println(result);
 		StringWriter writer = new StringWriter();
 		new JSONOutput().output(cflint.getBugs(), writer);
 		
@@ -89,7 +87,7 @@ public class TestFiles {
 				expectedText = actualTree;
 				writeExpectFile(expectedFile, actualTree);
 			}
-			assertEquals("Results do not match", expectedText, actualTree);
+			assertEquals("Results do not match", expectedText.replaceAll("\r\n", "\n"), actualTree.replaceAll("\r\n", "\n"));
 		}
 	}
 	

@@ -90,7 +90,7 @@ public class TestFiles {
 				writeExpectFile(expectedFile, actualTree);
 			}
 			//assertEquals("Results do not match", expectedText.replaceAll("\r\n", "\n"), actualTree.replaceAll("\r\n", "\n"));
-			assertThat(actualTree, IsEqualIgnoringCase.equalToIgnoringCase(expectedText));
+			assertThat(actualTree.replaceAll("\\","/"), IsEqualIgnoringCase.equalToIgnoringCase(expectedText.replaceAll("\\","/")));
 		}
 	}
 	

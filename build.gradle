@@ -56,3 +56,9 @@ dependencies {
     runtime group: 'org.slf4j', name: 'slf4j-api', version:'1.7.5'
     runtime group: 'org.javolution', name: 'javolution', version:'5.2.6'
 }
+
+test {
+    testLogging {
+        exceptionFormat = 'full'
+    }
+}

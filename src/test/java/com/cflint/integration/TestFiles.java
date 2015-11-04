@@ -84,8 +84,8 @@ public class TestFiles {
 				expectedText = actualTree;
 				writeExpectFile(expectedFile, actualTree);
 			}
-			assertEquals(actualTree.replaceAll("\\\\","/").replaceAll("\r\n", "\n"), 
-					expectedText.replaceAll("\\\\","/").replaceAll("\r\n", "\n"));
+			assertEquals(actualTree.replaceAll("\\\\","//").replaceAll("\r\n", "\n"), 
+					expectedText.replaceAll("\\\\","//").replaceAll("\r\n", "\n"));
 		}
 	}
 	

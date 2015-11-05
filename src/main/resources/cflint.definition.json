@@ -727,6 +727,17 @@
         }
       ],
       "parameter": []
+    },
+    {
+      "name": "UnusedArgumentChecker",
+      "className": "UnusedArgumentChecker",
+      "message": [
+        {
+          "code": "UNUSED_METHOD_ARGUMENT",
+          "severity": "INFO"
+        }
+      ],
+      "parameter": []
     }
   ]
 }

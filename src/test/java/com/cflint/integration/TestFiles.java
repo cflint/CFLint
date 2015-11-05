@@ -40,6 +40,7 @@ import com.cflint.config.ConfigUtils;
 public class TestFiles {
 	
 	File sourceFile;
+	
 	boolean autoReplaceFailed = false;
 	static String singleTestName = null;
 	static {
@@ -49,7 +50,7 @@ public class TestFiles {
 		}
 	}
 	
-	public TestFiles(File sourceFile) {
+	public TestFiles(File sourceFile,String testName) {
 		super();
 		this.sourceFile = sourceFile;
 		try {
@@ -119,13 +120,14 @@ public class TestFiles {
 		return expectedFileText;
 	}
 	
-	@Parameterized.Parameters(name = "{index}{0}")
+	@Parameterized.Parameters(name = "{1}")
 	public static Collection<Object[]> primeNumbers() throws URISyntaxException, IOException {
 		final ArrayList<Object[]> retval = new ArrayList<Object[]>();
 		final List<File> listing = new ArrayList<File>();
-		fillResourceListing(new File("src/test/resources/com/cflint/tests"), listing);
+		final File baseFolder = new File("src/test/resources/com/cflint/tests");
+		fillResourceListing(baseFolder, listing);
 		for (File s : listing) {
-			retval.add(new Object[] { s });
+			retval.add(new Object[] { s, baseFolder.toPath().relativize(s.toPath() ).toString() });
 		}
 		return retval;
 	}

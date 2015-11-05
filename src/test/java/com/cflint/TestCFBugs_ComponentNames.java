@@ -159,7 +159,7 @@ public class TestCFBugs_ComponentNames {
 		final String tagSrc = "<cfcomponent>\r\n"
 		 + "</cfcomponent>";
 		cfBugs.process(tagSrc, "MyComp.cfc");
-		final List<BugInfo> result = cfBugs.getBugs().getBugList().values().iterator().next();
+		final List<BugInfo> result = cfBugs.getBugs().getBugList().get("COMPONENT_HAS_PREFIX_OR_POSTFIX");
 		assertEquals(1, result.size());
 		assertEquals("COMPONENT_HAS_PREFIX_OR_POSTFIX", result.get(0).getMessageCode());
 		assertEquals(1, result.get(0).getLine());

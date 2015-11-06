@@ -10,6 +10,7 @@ import javax.xml.bind.Marshaller;
 
 import org.junit.Test;
 
+import com.cflint.config.CFLintPluginInfo.PluginInfoGroup;
 import com.cflint.config.CFLintPluginInfo.PluginInfoRule;
 import com.cflint.config.CFLintPluginInfo.PluginInfoRule.PluginMessage;
 import com.fasterxml.jackson.core.JsonFactory;
@@ -40,19 +41,24 @@ public class TestCFLintConfig {
 
 	final String expected = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n" + 
 			"<CFLint-Plugin>\n" + 
-			"    <ruleImpl name=\"OPM\">\n" + 
-			"        <message code=\"code\">\n" + 
-			"            <messageText>messageText</messageText>\n" + 
-			"            <severity>WARNING</severity>\n" + 
-			"        </message>\n" + 
-			"    </ruleImpl>\n" + 
+			"    <group>\n" + 
+			"        <ruleImpl name=\"OPM\">\n" + 
+			"            <message code=\"code\">\n" + 
+			"                <messageText>messageText</messageText>\n" + 
+			"                <severity>WARNING</severity>\n" + 
+			"            </message>\n" + 
+			"        </ruleImpl>\n" + 
+			"    </group>\n" + 
 			"</CFLint-Plugin>";
 	@Test
 	public void test() throws Exception {
 		CFLintPluginInfo config = new CFLintPluginInfo();
-		config.setRules(new ArrayList<CFLintPluginInfo.PluginInfoRule>());
+		config.setGroups(new ArrayList<CFLintPluginInfo.PluginInfoGroup>());
+		PluginInfoGroup group = new PluginInfoGroup();
+		config.getGroups().add(group);
+		group.setRules(new ArrayList<CFLintPluginInfo.PluginInfoRule>());
 		PluginInfoRule rule = new CFLintPluginInfo.PluginInfoRule();
-		config.getRules().add(rule);
+		group.getRules().add(rule);
 		rule.setName("OPM");
 		PluginMessage message = new PluginMessage();
 		rule.getMessages().add(message);

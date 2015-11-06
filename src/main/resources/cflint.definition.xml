@@ -2,343 +2,364 @@
 
 <!-- Available severity tags: FATAL, CRITICAL, ERROR, WARNING, CAUTION, INFO, COSMETIC -->
 
-
-<CFLint-Plugin package="com.cflint.plugins.core"> 
-	<ruleImpl name="ArgDefChecker">
-		<message code="ARG_DEFAULT_MISSING"><!-- checked -->
-			<severity>WARNING</severity>
-			<messageText>Argument ${variable} is not required and does not define a default value.</messageText>
-		</message>
-	</ruleImpl>
-	<ruleImpl name="ArgVarChecker"><!-- checked -->
-		<message code="ARG_VAR_CONFLICT">
-			<severity>ERROR</severity>
-			<messageText>Variable ${variable} should not be declared in both var and argument scopes.</messageText>
-		</message>
-		<message code="ARG_VAR_MIXED">
-			<severity>INFO</severity>
-			<messageText>Variable ${variable} should not be referenced in local and argument scope.</messageText>
-		</message>
-	</ruleImpl>
-	<ruleImpl name="CFSwitchDefaultChecker"><!-- checked -->
-		<message code="NO_DEFAULT_INSIDE_SWITCH">
-			<severity>WARNING</severity>
-			<messageText>Not having a Default statement defined for a switch could pose potential issues.</messageText>
-		</message>
-	</ruleImpl>
-	<ruleImpl name="GlobalVarChecker"><!-- checked -->
-		<message code="GLOBAL_VAR">
-			<severity>WARNING</severity>
-			<messageText>Identifier ${variable} is global, referencing in a CFC or function should be avoided.</messageText>
-		</message>
-	</ruleImpl>
-	<ruleImpl name="NestedCFOutput"><!-- checked -->
-		<message code="NESTED_CFOUTPUT">
-			<severity>ERROR</severity>
-			<messageText>Nested CFOutput, outer CFOutput has @query.</messageText>
-		</message>
-	</ruleImpl>
-	<ruleImpl name="OutputParmMissing"><!-- checked -->
-		<message code="OUTPUT_ATTR">
-			<severity>INFO</severity>
-			<messageText>&lt;${tag} name="${variable}"&gt; should have @output='false'</messageText>
-		</message>
-	</ruleImpl>
-	<ruleImpl name="QueryParamChecker"><!-- checked -->
-		<message code="QUERYPARAM_REQ">
-			<severity>WARNING</severity>
-			<messageText>setSql() statement should use .addParam() instead of #'s for security.</messageText>
-		</message>
-		<message code="CFQUERYPARAM_REQ">
-			<severity>WARNING</severity>
-			<messageText>&lt;${tag} name="${variable}"&gt; should use &lt;cfqueryparam/&gt; for security reasons.</messageText>
-		</message>
-	</ruleImpl>
-	<ruleImpl name="TypedQueryNew"><!-- checked -->
-		<message code="QUERYNEW_DATATYPE">
-			<severity>WARNING</severity>
-			<messageText>QueryNew statement should specify datatypes.</messageText>
-		</message>
-	</ruleImpl>
-	<ruleImpl name="VarScoper"><!-- checked -->
-		<message code="MISSING_VAR">
-			<severity>ERROR</severity>
-			<messageText>Variable ${variable} is not declared with a var statement.</messageText>
-		</message>
-	</ruleImpl>
-	<ruleImpl name="CFDumpChecker" className="CFXTagChecker">
-		<message code="AVOID_USING_CFDUMP_TAG">
-			<messageText>Avoid Leaving &lt;${tagName}&gt; tags in committed code. Debug information should be omitted from release code</messageText>
-			<severity>WARNING</severity>
-		</message>
-		<parameter name="tagName" value="cfdump"/>
-	</ruleImpl>
-	<ruleImpl name="CFExecuteChecker" className="CFXTagChecker">
-		<message code="AVOID_USING_CFEXECUTE_TAG">
-			<messageText>Avoid Leaving &lt;${tagName}&gt; tags in committed code. CFexecute can be use as an attack vector and is slow.</messageText>
-			<severity>WARNING</severity>
-		</message>
-		<parameter name="tagName" value="cfexecute"/>
-	</ruleImpl>
-	<ruleImpl name="CFAbortChecker" className="CFXTagChecker">
-		<message code="AVOID_USING_CFABORT_TAG">
-			<messageText>Avoid Leaving &lt;${tagName}&gt; tags in committed code. Did you accidently leave a cfabort in the code?</messageText>
-			<severity>INFO</severity>
-		</message>
-		<parameter name="tagName" value="cfabort"/>
-	</ruleImpl>
-	<ruleImpl name="AbortChecker" className="AbortChecker">
-		<message code="AVOID_USING_ABORT">
-			<severity>INFO</severity>
-		</message>
-	</ruleImpl>
-	<ruleImpl name="CFInsertChecker" className="CFXTagChecker">
-		<message code="AVOID_USING_CFINSERT_TAG">
-			<messageText>Avoid using &lt;${tagName}&gt; tags. Use cfquery and cfstoredproc instead.</messageText>
-			<severity>WARNING</severity>
-		</message>
-		<parameter name="tagName" value="cfinsert"/>
-	</ruleImpl>
-	<ruleImpl name="CFModuleChecker" className="CFXTagChecker">
-		<message code="AVOID_USING_CFMODULE_TAG">
-			<messageText>Avoid using &lt;${tagName}&gt; tags.</messageText>
-			<severity>WARNING</severity>
-		</message>
-		<parameter name="tagName" value="cfmodule"/>
-	</ruleImpl>
-	<ruleImpl name="CFUpdateChecker" className="CFXTagChecker">
-		<message code="AVOID_USING_CFUPDATE_TAG">
-			<messageText>Avoid using &lt;${tagName}&gt; tags. Use cfquery and cfstoredproc instead.</messageText>
-			<severity>WARNING</severity>
-		</message>
-		<parameter name="tagName" value="cfupdate"/>
-	</ruleImpl>
-	<ruleImpl name="CFIncludeChecker" className="CFXTagChecker">
-		<message code="AVOID_USING_CFINCLUDE_TAG">
-			<messageText>Avoid using &lt;${tagName}&gt; tags. Use components instead.</messageText>
-			<severity>WARNING</severity>
-		</message>
-		<parameter name="tagName" value="cfinclude"/>
-		<parameter name="scope" value="component"/>
-	</ruleImpl>
-	<ruleImpl name="ComponentHintChecker" className="ComponentHintChecker">
-        <message code="COMPONENT_HINT_MISSING">
-        	<severity>WARNING</severity>
-        </message>
-	</ruleImpl>
-	<ruleImpl name="FunctionHintChecker" className="FunctionHintChecker">
-        <message code="FUNCTION_HINT_MISSING">
-        	<severity>INFO</severity>
-        </message>
-	</ruleImpl>
-	<ruleImpl name="ArgumentHintChecker" className="ArgHintChecker">
-        <message code="ARG_HINT_MISSING">
-         	<severity>INFO</severity>
-        </message>
-	</ruleImpl>
-	<ruleImpl name="ArgumentTypeChecker" className="ArgTypeChecker">
-        <message code="ARG_TYPE_MISSING">
-        	<severity>WARNING</severity>
-        </message>
-        <message code="ARG_TYPE_ANY">
-         	<severity>INFO</severity>
-        </message>
-	</ruleImpl>
-	<ruleImpl name="FunctionLengthChecker" className="FunctionLengthChecker">
-        <message code="EXCESSIVE_FUNCTION_LENGTH">
-                <severity>WARNING</severity>
-        </message>
-	    <parameter name="length" value="100"/>
-	</ruleImpl>
-    <ruleImpl name="ComponentLengthChecker" className="ComponentLengthChecker">
-        <message code="EXCESSIVE_COMPONENT_LENGTH">
-                <severity>WARNING</severity>
-        </message>
-        <parameter name="length" value="500"/>
-    </ruleImpl>
-    <ruleImpl name="FunctionTypeChecker" className="FunctionTypeChecker">
-        <message code="FUNCTION_TYPE_MISSING">
-                <severity>WARNING</severity>
-        </message>
-        <message code="FUNCTION_TYPE_ANY">
-                <severity>INFO</severity>
-        </message>
-    </ruleImpl>
-    <ruleImpl name="TooManyArgumentsChecker" className="TooManyArgumentsChecker">
-		<message code="EXCESSIVE_ARGUMENTS">
-			<severity>WARNING</severity>
-		</message>
-		<parameter name="maximum" value="10" />
-	</ruleImpl>
-	<ruleImpl name="TooManyFunctionsChecker" className="TooManyArgumentsChecker">
-		<message code="EXCESSIVE_FUNCTIONS">
-			<severity>WARNING</severity>
-		</message>
-		<parameter name="maximum" value="10" />
-	</ruleImpl>
-	<ruleImpl name="SimpleComplexityChecker" className="SimpleComplexityChecker">
-		<message code="FUNCTION_TOO_COMPLEX">
-			<severity>WARNING</severity>
-		</message>
-		<parameter name="maximum" value="10" />
-	</ruleImpl>
-	<ruleImpl name="WriteDumpChecker" className="FunctionXChecker">
-		<message code="AVOID_USING_WRITEDUMP">
-			<messageText>Avoid using the ${functionName} function in production code.</messageText>
-			<severity>INFO</severity>
-		</message>
-		<parameter name="functionName" value="writeDump"/>
-	</ruleImpl>
-	<ruleImpl name="StructNewChecker" className="FunctionXChecker">
-		<message code="AVOID_USING_STRUCTNEW">
-			<messageText>Avoid using the ${functionName} function.  Use implicit structure construction instead (= {}).</messageText>
-			<severity>INFO</severity>
-		</message>
-		<parameter name="functionName" value="structNew"/>
-	</ruleImpl>
-	<ruleImpl name="IsDebugModeChecker" className="FunctionXChecker">
-		<message code="AVOID_USING_ISDEBUGMODE">
-			<messageText>Avoid using the ${functionName} function in production code.</messageText>
-			<severity>WARNING</severity>
-		</message>
-		<parameter name="functionName" value="IsDebugMode"/>
-	</ruleImpl>
-	<ruleImpl name="ArrayNewChecker" className="ArrayNewChecker">
-		<message code="AVOID_USING_ARRAYNEW">
-			<severity>INFO</severity>
-		</message>
-	</ruleImpl>
-	<ruleImpl name="ComplexBooleanExpressionChecker" className="ComplexBooleanExpressionChecker">
-		<message code="COMPLEX_BOOLEAN_CHECK">
-			<severity>WARNING</severity>
-		</message>
-	</ruleImpl>
-	<ruleImpl name="BooleanExpressionChecker" className="BooleanExpressionChecker">
-		<message code="EXPLICIT_BOOLEAN_CHECK">
-			<severity>INFO</severity>
-		</message>
-	</ruleImpl>
-	<ruleImpl name="LiteralChecker" className="LiteralChecker">
-		<message code="LOCAL_LITERAL_VALUE_USED_TOO_OFTEN">
-			<severity>WARNING</severity>
-		</message>
-		<message code="GLOBAL_LITERAL_VALUE_USED_TOO_OFTEN">
-			<severity>WARNING</severity>
-		</message>
-	</ruleImpl>
-	<ruleImpl name="VariableNameChecker" className="VariableNameChecker">
-		<message code="VAR_INVALID_NAME">
-			<severity>INFO</severity>
-		</message>
-		<message code="VAR_ALLCAPS_NAME">
-			<severity>INFO</severity>
-		</message>
-		<message code="VAR_TOO_SHORT">
-			<severity>INFO</severity>
-		</message>
-		<message code="VAR_TOO_LONG">
-			<severity>INFO</severity>
-		</message>
-		<message code="VAR_TOO_WORDY">
-			<severity>INFO</severity>
-		</message>
-		<message code="VAR_IS_TEMPORARY">
-			<severity>INFO</severity>
-		</message>
-		<message code="VAR_HAS_PREFIX_OR_POSTFIX">
-			<severity>INFO</severity>
-		</message>				
-	</ruleImpl>
-	<ruleImpl name="ArgumentNameChecker" className="ArgumentNameChecker">
-		<message code="ARGUMENT_INVALID_NAME">
-			<severity>INFO</severity>
-		</message>
-		<message code="ARGUMENT_ALLCAPS_NAME">
-			<severity>INFO</severity>
-		</message>
-		<message code="ARGUMENT_TOO_SHORT">
-			<severity>INFO</severity>
-		</message>
-		<message code="ARGUMENT_TOO_LONG">
-			<severity>INFO</severity>
-		</message>
-		<message code="ARGUMENT_TOO_WORDY">
-			<severity>INFO</severity>
-		</message>
-		<message code="ARGUMENT_IS_TEMPORARY">
-			<severity>INFO</severity>
-		</message>
-		<message code="ARGUMENT_HAS_PREFIX_OR_POSTFIX">
-			<severity>INFO</severity>
-		</message>				
-	</ruleImpl>	
-	<ruleImpl name="MethodNameChecker" className="MethodNameChecker">
-		<message code="METHOD_INVALID_NAME">
-			<severity>INFO</severity>
-		</message>
-		<message code="METHOD_ALLCAPS_NAME">
-			<severity>INFO</severity>
-		</message>
-		<message code="METHOD_TOO_SHORT">
-			<severity>INFO</severity>
-		</message>
-		<message code="METHOD_TOO_LONG">
-			<severity>INFO</severity>
-		</message>
-		<message code="METHOD_TOO_WORDY">
-			<severity>INFO</severity>
-		</message>
-		<message code="METHOD_IS_TEMPORARY">
-			<severity>INFO</severity>
-		</message>
-		<message code="METHOD_HAS_PREFIX_OR_POSTFIX">
-			<severity>INFO</severity>
-		</message>	
-	</ruleImpl>
-	<ruleImpl name="ComponentNameChecker" className="ComponentNameChecker">
-		<message code="COMPONENT_INVALID_NAME">
-			<severity>INFO</severity>
-		</message>
-		<message code="COMPONENT_ALLCAPS_NAME">
-			<severity>INFO</severity>
-		</message>
-		<message code="COMPONENT_TOO_SHORT">
-			<severity>INFO</severity>
-		</message>
-		<message code="COMPONENT_TOO_LONG">
-			<severity>INFO</severity>
-		</message>
-		<message code="COMPONENT_TOO_WORDY">
-			<severity>INFO</severity>
-		</message>
-		<message code="COMPONENT_IS_TEMPORARY">
-			<severity>INFO</severity>
-		</message>
-		<message code="COMPONENT_HAS_PREFIX_OR_POSTFIX">
-			<severity>INFO</severity>
-		</message>	
-	</ruleImpl>
-	<ruleImpl name="FileCaseChecker" className="FileCaseChecker">
-        <message code="FILE_SHOULD_START_WITH_LOWERCASE">
-        	<severity>INFO</severity>
-        </message>
-    </ruleImpl>
-	<ruleImpl name="CreateObjectChecker" className="CreateObjectChecker">
-		<message code="AVOID_USING_CREATEOBJECT">
-			<severity>INFO</severity>
-		</message>
-	</ruleImpl>
-	<ruleImpl name="CFDebugAttributeChecker" className="CFDebugAttributeChecker">
-		<message code="AVOID_USING_DEBUG_ATTR">
-			<severity>WARNING</severity>
-			<messageText>Avoid leaving debug attribute on tags.</messageText>
-		</message>
-	</ruleImpl>
-	<ruleImpl name="CFCompareVsAssignChecker" className="CFCompareVsAssignChecker">
-		<message code="COMPARE_INSTEAD_OF_ASSIGN">
-			<severity>WARNING</severity>
-			<messageText>CWE-482: Comparing instead of Assigning</messageText>
-		</message>
-	</ruleImpl>
-	
+<CFLint-Plugin package="com.cflint.plugins.core">
+	<group name="BUG_PRONE">
+		<!-- Identify code that may be a bug -->
+		<ruleImpl name="ArgVarChecker"><!-- checked -->
+			<message code="ARG_VAR_CONFLICT">
+				<severity>ERROR</severity>
+				<messageText>Variable ${variable} should not be declared in both var and argument scopes.</messageText>
+			</message>
+		</ruleImpl>
+		<ruleImpl name="CFSwitchDefaultChecker"><!-- checked -->
+			<message code="NO_DEFAULT_INSIDE_SWITCH">
+				<severity>WARNING</severity>
+				<messageText>Not having a Default statement defined for a switch could pose potential issues.</messageText>
+			</message>
+		</ruleImpl>
+		<ruleImpl name="NestedCFOutput"><!-- checked -->
+			<message code="NESTED_CFOUTPUT">
+				<severity>ERROR</severity>
+				<messageText>Nested CFOutput, outer CFOutput has @query.</messageText>
+			</message>
+		</ruleImpl>
+		<ruleImpl name="OutputParmMissing"><!-- checked -->
+			<message code="OUTPUT_ATTR">
+				<severity>INFO</severity>
+				<messageText>&lt;${tag} name="${variable}"&gt; should have @output='false'</messageText>
+			</message>
+		</ruleImpl>
+		<ruleImpl name="VarScoper"><!-- checked -->
+			<message code="MISSING_VAR">
+				<severity>ERROR</severity>
+				<messageText>Variable ${variable} is not declared with a var statement.</messageText>
+			</message>
+		</ruleImpl>
+		<ruleImpl name="CFCompareVsAssignChecker" className="CFCompareVsAssignChecker">
+			<message code="COMPARE_INSTEAD_OF_ASSIGN">
+				<severity>WARNING</severity>
+				<messageText>CWE-482: Comparing instead of Assigning</messageText>
+			</message>
+		</ruleImpl>
+	</group>
+	<group name="CORRECTNESS">
+		<!-- Correctness -->
+		<ruleImpl name="ArgDefChecker">
+			<message code="ARG_DEFAULT_MISSING"><!-- checked -->
+				<severity>WARNING</severity>
+				<messageText>Argument ${variable} is not required and does not define a default value.</messageText>
+			</message>
+		</ruleImpl>
+		<ruleImpl name="ArgVarChecker"><!-- checked -->
+			<message code="ARG_VAR_MIXED">
+				<severity>INFO</severity>
+				<messageText>Variable ${variable} should not be referenced in local and argument scope.</messageText>
+			</message>
+		</ruleImpl>
+		<ruleImpl name="TypedQueryNew"><!-- checked -->
+			<message code="QUERYNEW_DATATYPE">
+				<severity>WARNING</severity>
+				<messageText>QueryNew statement should specify datatypes.</messageText>
+			</message>
+		</ruleImpl>
+		<ruleImpl name="ArgumentTypeChecker" className="ArgTypeChecker">
+			<message code="ARG_TYPE_MISSING">
+				<severity>WARNING</severity>
+			</message>
+			<message code="ARG_TYPE_ANY">
+				<severity>INFO</severity>
+			</message>
+		</ruleImpl>
+	</group>
+	<group name="SECURITY">
+		<!-- Flag potential security flaws such as SQL injection -->
+		<ruleImpl name="QueryParamChecker"><!-- checked -->
+			<message code="QUERYPARAM_REQ">
+				<severity>WARNING</severity>
+				<messageText>setSql() statement should use .addParam() instead of #'s for security.</messageText>
+			</message>
+			<message code="CFQUERYPARAM_REQ">
+				<severity>WARNING</severity>
+				<messageText>&lt;${tag} name="${variable}"&gt; should use &lt;cfqueryparam/&gt; for security reasons.</messageText>
+			</message>
+		</ruleImpl>
+	</group>
+	<group name="BAD_PRACTICE">
+		<!-- Encourage good practice -->
+		<ruleImpl name="GlobalVarChecker"><!-- checked -->
+			<message code="GLOBAL_VAR">
+				<severity>WARNING</severity>
+				<messageText>Identifier ${variable} is global, referencing in a CFC or function should be avoided.</messageText>
+			</message>
+		</ruleImpl>
+		<ruleImpl name="CFDumpChecker" className="CFXTagChecker">
+			<message code="AVOID_USING_CFDUMP_TAG">
+				<messageText>Avoid Leaving &lt;${tagName}&gt; tags in committed code. Debug information should be omitted from release code</messageText>
+				<severity>WARNING</severity>
+			</message>
+			<parameter name="tagName" value="cfdump" />
+		</ruleImpl>
+		<ruleImpl name="CFExecuteChecker" className="CFXTagChecker">
+			<message code="AVOID_USING_CFEXECUTE_TAG">
+				<messageText>Avoid Leaving &lt;${tagName}&gt; tags in committed code. CFexecute can be use as an attack vector and is slow.</messageText>
+				<severity>WARNING</severity>
+			</message>
+			<parameter name="tagName" value="cfexecute" />
+		</ruleImpl>
+		<ruleImpl name="CFAbortChecker" className="CFXTagChecker">
+			<message code="AVOID_USING_CFABORT_TAG">
+				<messageText>Avoid Leaving &lt;${tagName}&gt; tags in committed code. Did you accidently leave a cfabort in the code?</messageText>
+				<severity>INFO</severity>
+			</message>
+			<parameter name="tagName" value="cfabort" />
+		</ruleImpl>
+		<ruleImpl name="AbortChecker" className="AbortChecker">
+			<message code="AVOID_USING_ABORT">
+				<severity>INFO</severity>
+			</message>
+		</ruleImpl>
+		<ruleImpl name="CFInsertChecker" className="CFXTagChecker">
+			<message code="AVOID_USING_CFINSERT_TAG">
+				<messageText>Avoid using &lt;${tagName}&gt; tags. Use cfquery and cfstoredproc instead.</messageText>
+				<severity>WARNING</severity>
+			</message>
+			<parameter name="tagName" value="cfinsert" />
+		</ruleImpl>
+		<ruleImpl name="CFModuleChecker" className="CFXTagChecker">
+			<message code="AVOID_USING_CFMODULE_TAG">
+				<messageText>Avoid using &lt;${tagName}&gt; tags.</messageText>
+				<severity>WARNING</severity>
+			</message>
+			<parameter name="tagName" value="cfmodule" />
+		</ruleImpl>
+		<ruleImpl name="CFUpdateChecker" className="CFXTagChecker">
+			<message code="AVOID_USING_CFUPDATE_TAG">
+				<messageText>Avoid using &lt;${tagName}&gt; tags. Use cfquery and cfstoredproc instead.</messageText>
+				<severity>WARNING</severity>
+			</message>
+			<parameter name="tagName" value="cfupdate" />
+		</ruleImpl>
+		<ruleImpl name="CFIncludeChecker" className="CFXTagChecker">
+			<message code="AVOID_USING_CFINCLUDE_TAG">
+				<messageText>Avoid using &lt;${tagName}&gt; tags. Use components instead.</messageText>
+				<severity>WARNING</severity>
+			</message>
+			<parameter name="tagName" value="cfinclude" />
+			<parameter name="scope" value="component" />
+		</ruleImpl>
+		<ruleImpl name="WriteDumpChecker" className="FunctionXChecker">
+			<message code="AVOID_USING_WRITEDUMP">
+				<messageText>Avoid using the ${functionName} function in production code.</messageText>
+				<severity>INFO</severity>
+			</message>
+			<parameter name="functionName" value="writeDump" />
+		</ruleImpl>
+		<ruleImpl name="IsDebugModeChecker" className="FunctionXChecker">
+			<message code="AVOID_USING_ISDEBUGMODE">
+				<messageText>Avoid using the ${functionName} function in production code.</messageText>
+				<severity>WARNING</severity>
+			</message>
+			<parameter name="functionName" value="IsDebugMode" />
+		</ruleImpl>
+		<ruleImpl name="CFDebugAttributeChecker" className="CFDebugAttributeChecker">
+			<message code="AVOID_USING_DEBUG_ATTR">
+				<severity>WARNING</severity>
+				<messageText>Avoid leaving debug attribute on tags.</messageText>
+			</message>
+		</ruleImpl>
+		<ruleImpl name="LiteralChecker" className="LiteralChecker">
+			<message code="LOCAL_LITERAL_VALUE_USED_TOO_OFTEN">
+				<severity>WARNING</severity>
+			</message>
+			<message code="GLOBAL_LITERAL_VALUE_USED_TOO_OFTEN">
+				<severity>WARNING</severity>
+			</message>
+		</ruleImpl>
+	</group>
+	<group name="CODE_STYLE">
+		<!-- Style/Preference related rules -->
+		<ruleImpl name="ComponentHintChecker" className="ComponentHintChecker">
+			<message code="COMPONENT_HINT_MISSING">
+				<severity>WARNING</severity>
+			</message>
+		</ruleImpl>
+		<ruleImpl name="FunctionHintChecker" className="FunctionHintChecker">
+			<message code="FUNCTION_HINT_MISSING">
+				<severity>INFO</severity>
+			</message>
+		</ruleImpl>
+		<ruleImpl name="ArgumentHintChecker" className="ArgHintChecker">
+			<message code="ARG_HINT_MISSING">
+				<severity>INFO</severity>
+			</message>
+		</ruleImpl>
+		<ruleImpl name="FunctionTypeChecker" className="FunctionTypeChecker">
+			<message code="FUNCTION_TYPE_MISSING">
+				<severity>WARNING</severity>
+			</message>
+			<message code="FUNCTION_TYPE_ANY">
+				<severity>INFO</severity>
+			</message>
+		</ruleImpl>
+		<ruleImpl name="FileCaseChecker" className="FileCaseChecker">
+			<message code="FILE_SHOULD_START_WITH_LOWERCASE">
+				<severity>INFO</severity>
+			</message>
+		</ruleImpl>
+		<ruleImpl name="VariableNameChecker" className="VariableNameChecker">
+			<message code="VAR_INVALID_NAME">
+				<severity>INFO</severity>
+			</message>
+			<message code="VAR_ALLCAPS_NAME">
+				<severity>INFO</severity>
+			</message>
+			<message code="VAR_TOO_SHORT">
+				<severity>INFO</severity>
+			</message>
+			<message code="VAR_TOO_LONG">
+				<severity>INFO</severity>
+			</message>
+			<message code="VAR_TOO_WORDY">
+				<severity>INFO</severity>
+			</message>
+			<message code="VAR_IS_TEMPORARY">
+				<severity>INFO</severity>
+			</message>
+			<message code="VAR_HAS_PREFIX_OR_POSTFIX">
+				<severity>INFO</severity>
+			</message>
+		</ruleImpl>
+		<ruleImpl name="ArgumentNameChecker" className="ArgumentNameChecker">
+			<message code="ARGUMENT_INVALID_NAME">
+				<severity>INFO</severity>
+			</message>
+			<message code="ARGUMENT_ALLCAPS_NAME">
+				<severity>INFO</severity>
+			</message>
+			<message code="ARGUMENT_TOO_SHORT">
+				<severity>INFO</severity>
+			</message>
+			<message code="ARGUMENT_TOO_LONG">
+				<severity>INFO</severity>
+			</message>
+			<message code="ARGUMENT_TOO_WORDY">
+				<severity>INFO</severity>
+			</message>
+			<message code="ARGUMENT_IS_TEMPORARY">
+				<severity>INFO</severity>
+			</message>
+			<message code="ARGUMENT_HAS_PREFIX_OR_POSTFIX">
+				<severity>INFO</severity>
+			</message>
+		</ruleImpl>
+		<ruleImpl name="MethodNameChecker" className="MethodNameChecker">
+			<message code="METHOD_INVALID_NAME">
+				<severity>INFO</severity>
+			</message>
+			<message code="METHOD_ALLCAPS_NAME">
+				<severity>INFO</severity>
+			</message>
+			<message code="METHOD_TOO_SHORT">
+				<severity>INFO</severity>
+			</message>
+			<message code="METHOD_TOO_LONG">
+				<severity>INFO</severity>
+			</message>
+			<message code="METHOD_TOO_WORDY">
+				<severity>INFO</severity>
+			</message>
+			<message code="METHOD_IS_TEMPORARY">
+				<severity>INFO</severity>
+			</message>
+			<message code="METHOD_HAS_PREFIX_OR_POSTFIX">
+				<severity>INFO</severity>
+			</message>
+		</ruleImpl>
+		<ruleImpl name="ComponentNameChecker" className="ComponentNameChecker">
+			<message code="COMPONENT_INVALID_NAME">
+				<severity>INFO</severity>
+			</message>
+			<message code="COMPONENT_ALLCAPS_NAME">
+				<severity>INFO</severity>
+			</message>
+			<message code="COMPONENT_TOO_SHORT">
+				<severity>INFO</severity>
+			</message>
+			<message code="COMPONENT_TOO_LONG">
+				<severity>INFO</severity>
+			</message>
+			<message code="COMPONENT_TOO_WORDY">
+				<severity>INFO</severity>
+			</message>
+			<message code="COMPONENT_IS_TEMPORARY">
+				<severity>INFO</severity>
+			</message>
+			<message code="COMPONENT_HAS_PREFIX_OR_POSTFIX">
+				<severity>INFO</severity>
+			</message>
+		</ruleImpl>
+	</group>
+	<group name="DEPRECATION">
+		<!-- Discourage syntax that has been replaced by more modern forms -->
+		<ruleImpl name="StructNewChecker" className="FunctionXChecker">
+			<message code="AVOID_USING_STRUCTNEW">
+				<messageText>Avoid using the ${functionName} function. Use implicit structure construction instead (= {}).</messageText>
+				<severity>INFO</severity>
+			</message>
+			<parameter name="functionName" value="structNew" />
+		</ruleImpl>
+		<ruleImpl name="ArrayNewChecker" className="ArrayNewChecker">
+			<message code="AVOID_USING_ARRAYNEW">
+				<severity>INFO</severity>
+			</message>
+		</ruleImpl>
+		<ruleImpl name="CreateObjectChecker" className="CreateObjectChecker">
+			<message code="AVOID_USING_CREATEOBJECT">
+				<severity>INFO</severity>
+			</message>
+		</ruleImpl>
+	</group>
+	<group name="COMPLEXITY">
+		<!-- Flag complexity, encourage simplicity -->
+		<ruleImpl name="FunctionLengthChecker" className="FunctionLengthChecker">
+			<message code="EXCESSIVE_FUNCTION_LENGTH">
+				<severity>WARNING</severity>
+			</message>
+			<parameter name="length" value="100" />
+		</ruleImpl>
+		<ruleImpl name="ComponentLengthChecker" className="ComponentLengthChecker">
+			<message code="EXCESSIVE_COMPONENT_LENGTH">
+				<severity>WARNING</severity>
+			</message>
+			<parameter name="length" value="500" />
+		</ruleImpl>
+		<ruleImpl name="TooManyArgumentsChecker" className="TooManyArgumentsChecker">
+			<message code="EXCESSIVE_ARGUMENTS">
+				<severity>WARNING</severity>
+			</message>
+			<parameter name="maximum" value="10" />
+		</ruleImpl>
+		<ruleImpl name="ComplexBooleanExpressionChecker" className="ComplexBooleanExpressionChecker">
+			<message code="COMPLEX_BOOLEAN_CHECK">
+				<severity>WARNING</severity>
+			</message>
+		</ruleImpl>
+		<ruleImpl name="BooleanExpressionChecker" className="BooleanExpressionChecker">
+			<message code="EXPLICIT_BOOLEAN_CHECK">
+				<severity>INFO</severity>
+			</message>
+		</ruleImpl>
+		<ruleImpl name="TooManyFunctionsChecker" className="TooManyArgumentsChecker">
+			<message code="EXCESSIVE_FUNCTIONS">
+				<severity>WARNING</severity>
+			</message>
+			<parameter name="maximum" value="10" />
+		</ruleImpl>
+		<ruleImpl name="SimpleComplexityChecker" className="SimpleComplexityChecker">
+			<message code="FUNCTION_TOO_COMPLEX">
+				<severity>WARNING</severity>
+			</message>
+			<parameter name="maximum" value="10" />
+		</ruleImpl>
+	</group>
 </CFLint-Plugin>

@@ -33,5 +33,7 @@ public class TestConfigUtilsJson {
 		StringWriter sw = new StringWriter();
 		jaxbMarshaller.marshal(config, sw);
 		System.out.println(sw);
+		
+		System.out.println(ConfigUtils.marshalJson(config));
 	}
 }

@@ -81,6 +81,25 @@
           "parameter": [
             
           ]
+        },
+        {
+          "name": "ArgumentTypeChecker",
+          "className": "ArgTypeChecker",
+          "message": [
+            {
+              "code": "ARG_TYPE_MISSING",
+              "messageText": null,
+              "severity": "WARNING"
+            },
+            {
+              "code": "ARG_TYPE_ANY",
+              "messageText": null,
+              "severity": "INFO"
+            }
+          ],
+          "parameter": [
+            
+          ]
         }
       ]
     },
@@ -120,25 +139,6 @@
               "code": "QUERYNEW_DATATYPE",
               "messageText": "QueryNew statement should specify datatypes.",
               "severity": "WARNING"
-            }
-          ],
-          "parameter": [
-            
-          ]
-        },
-        {
-          "name": "ArgumentTypeChecker",
-          "className": "ArgTypeChecker",
-          "message": [
-            {
-              "code": "ARG_TYPE_MISSING",
-              "messageText": null,
-              "severity": "WARNING"
-            },
-            {
-              "code": "ARG_TYPE_ANY",
-              "messageText": null,
-              "severity": "INFO"
             }
           ],
           "parameter": [

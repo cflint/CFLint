@@ -41,6 +41,14 @@
 				<messageText>CWE-482: Comparing instead of Assigning</messageText>
 			</message>
 		</ruleImpl>
+		<ruleImpl name="ArgumentTypeChecker" className="ArgTypeChecker">
+			<message code="ARG_TYPE_MISSING">
+				<severity>WARNING</severity>
+			</message>
+			<message code="ARG_TYPE_ANY">
+				<severity>INFO</severity>
+			</message>
+		</ruleImpl>
 	</group>
 	<group name="CORRECTNESS">
 		<!-- Correctness -->
@@ -60,14 +68,6 @@
 			<message code="QUERYNEW_DATATYPE">
 				<severity>WARNING</severity>
 				<messageText>QueryNew statement should specify datatypes.</messageText>
-			</message>
-		</ruleImpl>
-		<ruleImpl name="ArgumentTypeChecker" className="ArgTypeChecker">
-			<message code="ARG_TYPE_MISSING">
-				<severity>WARNING</severity>
-			</message>
-			<message code="ARG_TYPE_ANY">
-				<severity>INFO</severity>
 			</message>
 		</ruleImpl>
 	</group>

@@ -17,6 +17,7 @@ import com.cflint.plugins.Context;
 public class UnusedLocalVarChecker extends CFLintScannerAdapter {
 	final String severity = "INFO";
 
+	protected CFScopes scopes = new CFScopes();
 	protected Map<String, Boolean> localVariables = new HashMap<String, Boolean>();
 	protected Map<String, Integer> variableLineNo = new HashMap<String, Integer>();
 
@@ -26,7 +27,7 @@ public class UnusedLocalVarChecker extends CFLintScannerAdapter {
 			CFExpression variable = ((CFFullVarExpression) expression).getExpressions().get(0);
 			if (variable instanceof CFIdentifier) {
 				String name = ((CFIdentifier) variable).getName();
-				if (!isCommonScope(name)) {
+				if (!scopes.isCFScoped(name) || scopes.isLocalScoped(name)) {
 					localVariables.put(name, true);
 				}
 			}
@@ -39,14 +40,6 @@ public class UnusedLocalVarChecker extends CFLintScannerAdapter {
 		else if (expression instanceof CFIdentifier) {
 			localVariables.put(((CFIdentifier) expression).getName(), true);
 		}
-	}
-
-	protected boolean isCommonScope(final String variable) {
-		return variable.equalsIgnoreCase("url") || variable.equalsIgnoreCase("form")
-			|| variable.equalsIgnoreCase("cgi")  || variable.equalsIgnoreCase("server") || variable.equalsIgnoreCase("application")
-			|| variable.equalsIgnoreCase("session") || variable.equalsIgnoreCase("client") || variable.equalsIgnoreCase("request")
-			|| variable.equalsIgnoreCase("arguments") || variable.equalsIgnoreCase("variable") || variable.equalsIgnoreCase("this")
-			|| variable.equalsIgnoreCase("cfcatch");
 	}
 
 	protected void addLocalVariable(final String variable, final Integer lineNo) {

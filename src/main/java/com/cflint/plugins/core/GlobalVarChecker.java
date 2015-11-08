@@ -1,8 +1,5 @@
 package com.cflint.plugins.core;
 
-import java.util.Arrays;
-import java.util.Collection;
-
 import cfml.parsing.cfscript.CFExpression;
 import cfml.parsing.cfscript.CFIdentifier;
 import cfml.parsing.cfscript.CFFullVarExpression;
@@ -13,8 +10,7 @@ import com.cflint.plugins.Context;
 
 public class GlobalVarChecker extends CFLintScannerAdapter {
 
-	final static Collection<String> variables = Arrays.asList("APPLICATION", "CGI", "COOKIE", "FORM", "REQUEST",
-			"SERVER", "SESSION", "URL");
+	protected CFScopes scopes = new CFScopes();
 
 	@Override
 	public void expression(final CFExpression expression, final Context context, final BugList bugs) {
@@ -28,7 +24,7 @@ public class GlobalVarChecker extends CFLintScannerAdapter {
 
 	protected void doIdentifier(final CFIdentifier expression, final Context context, final BugList bugs) {
 		final String name = expression.getName();
-		if (variables.contains(name.toUpperCase()) && !context.getCallStack().isVariable(name)
+		if (scopes.isCFScoped(name) && !scopes.isFunctionScoped(name) && !context.getCallStack().isVariable(name)
 				&& !context.getCallStack().isArgument(name)
 				&& context.getCallStack().getPluginVar(GlobalVarChecker.class, name) == null) {
 			context.getCallStack().setPluginVar(GlobalVarChecker.class, name, true);

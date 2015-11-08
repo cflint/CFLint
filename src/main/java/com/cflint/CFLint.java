@@ -37,6 +37,7 @@ import cfml.parsing.cfscript.CFFunctionExpression;
 import cfml.parsing.cfscript.CFIdentifier;
 import cfml.parsing.cfscript.CFLiteral;
 import cfml.parsing.cfscript.CFNestedExpression;
+import cfml.parsing.cfscript.CFStatement;
 import cfml.parsing.cfscript.CFUnaryExpression;
 import cfml.parsing.cfscript.CFVarDeclExpression;
 import cfml.parsing.cfscript.script.CFCompDeclStatement;
@@ -798,7 +799,13 @@ public class CFLint implements IErrorReporter {
 			bldr.setSeverity("WARNING");
 			bldr.setMessage(msgcode);
 		}
-		if(elem != null){
+		if(expression instanceof CFStatement){
+			bldr.setExpression(((CFStatement) expression).Decompile(0));
+		}
+		else if(expression instanceof CFScriptStatement){
+			bldr.setExpression(((CFScriptStatement) expression).Decompile(0));
+		}
+		else if(elem != null){
 			bldr.setExpression(elem.toString());
 		}
 		bldr.setRuleParameters(ruleInfo.getParameters());

@@ -735,6 +735,18 @@
         {
           "code": "UNUSED_METHOD_ARGUMENT",
           "severity": "INFO"
+         }
+      ],
+      "parameter": []
+    },
+    {     
+      "name": "CFCompareVsAssignChecker",
+      "className": "CFCompareVsAssignChecker",
+      "message": [
+        {
+          "code": "COMPARE_INSTEAD_OF_ASSIGN",
+           "messageText": "CWE-482: Comparing instead of Assigning",
+          "severity": "WARNING"
         }
       ],
       "parameter": []

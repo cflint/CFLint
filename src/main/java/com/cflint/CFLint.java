@@ -153,7 +153,6 @@ public class CFLint implements IErrorReporter {
 			bugs = new BugList(filter);
 		} catch (IOException e1) {
 			e1.printStackTrace();
-			bugs = new BugList(null);
 		}
 		if(exceptionListeners.size() == 0){
 			addExceptionListener(new DefaultCFLintExceptionListener(bugs));
@@ -299,7 +298,6 @@ public class CFLint implements IErrorReporter {
 					structurePlugin.startComponent(context, bugs);
 				}catch(Exception e){
 					e.printStackTrace();
-					bugs = new BugList(null);
 				}
 			}
 
@@ -316,7 +314,6 @@ public class CFLint implements IErrorReporter {
 					structurePlugin.startFunction(context, bugs);
 				}catch(Exception e){
 					e.printStackTrace();
-					bugs = new BugList(null);
 				}
 			}
 		}
@@ -408,7 +405,6 @@ public class CFLint implements IErrorReporter {
 					structurePlugin.endFunction(context, bugs);
 				}catch(Exception e){
 					e.printStackTrace();
-					bugs = new BugList(null);
 				}
 			}
 			inFunction = false;
@@ -420,7 +416,6 @@ public class CFLint implements IErrorReporter {
 					structurePlugin.endComponent(context, bugs);
 				}catch(Exception e){
 					e.printStackTrace();
-					bugs = new BugList(null);
 				}
 			}
 			
@@ -488,7 +483,6 @@ public class CFLint implements IErrorReporter {
 					structurePlugin.startComponent(context, bugs);
 				}catch(Exception e){
 					e.printStackTrace();
-					bugs = new BugList(null);
 				}
 			}
 		}
@@ -506,7 +500,6 @@ public class CFLint implements IErrorReporter {
 					structurePlugin.startFunction(context, bugs);
 				}catch(Exception e){
 					e.printStackTrace();
-					bugs = new BugList(null);
 				}
 			}
 		}
@@ -541,7 +534,6 @@ public class CFLint implements IErrorReporter {
 					structurePlugin.endComponent(context, bugs);
 				}catch(Exception e){
 					e.printStackTrace();
-					bugs = new BugList(null);
 				}
 			}
 
@@ -585,7 +577,6 @@ public class CFLint implements IErrorReporter {
 					structurePlugin.endFunction(context, bugs);
 				}catch(Exception e){
 					e.printStackTrace();
-					bugs = new BugList(null);
 				}
 			}
 			inFunction = false;
@@ -880,7 +871,6 @@ public class CFLint implements IErrorReporter {
 				structurePlugin.startFile(srcidentifier, bugs);
 			}catch(Exception e){
 				e.printStackTrace();
-				bugs = new BugList(null);
 			}
 		}
 		for (final ScanProgressListener p : scanProgressListeners) {
@@ -894,7 +884,6 @@ public class CFLint implements IErrorReporter {
 				structurePlugin.endFile(srcidentifier, bugs);
 			}catch(Exception e){
 				e.printStackTrace();
-				bugs = new BugList(null);
 			}
 		}
 		for (final ScanProgressListener p : scanProgressListeners) {

@@ -17,8 +17,8 @@ import java.util.regex.Pattern;
 @Extension
 public class ComponentNameChecker extends CFLintScannerAdapter {
 	final String severity = "INFO";
-	
-	@Override	
+
+	@Override
 	public void expression(final CFScriptStatement expression, final Context context, final BugList bugs) {
 		if (expression instanceof CFCompDeclStatement) {
 			String name = context.getFilename().replace(".cfc","");

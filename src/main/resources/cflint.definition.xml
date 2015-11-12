@@ -196,6 +196,13 @@
 		</message>
 		<parameter name="functionName" value="structNew"/>
 	</ruleImpl>
+	<ruleImpl name="IsDebugModeChecker" className="FunctionXChecker">
+		<message code="AVOID_USING_ISDEBUGMODE">
+			<messageText>Avoid using the ${functionName} function in production code.</messageText>
+			<severity>WARNING</severity>
+		</message>
+		<parameter name="functionName" value="IsDebugMode"/>
+	</ruleImpl>
 	<ruleImpl name="ArrayNewChecker" className="ArrayNewChecker">
 		<message code="AVOID_USING_ARRAYNEW">
 			<severity>INFO</severity>
@@ -319,6 +326,28 @@
 	<ruleImpl name="CreateObjectChecker" className="CreateObjectChecker">
 		<message code="AVOID_USING_CREATEOBJECT">
 			<severity>INFO</severity>
+		</message>
+	</ruleImpl>
+	<ruleImpl name="CFDebugAttributeChecker" className="CFDebugAttributeChecker">
+		<message code="AVOID_USING_DEBUG_ATTR">
+			<severity>WARNING</severity>
+			<messageText>Avoid leaving debug attribute on tags.</messageText>
+		</message>
+	</ruleImpl>
+	<ruleImpl name="UnusedLocalVarChecker" className="UnusedLocalVarChecker">
+		<message code="UNUSED_LOCAL_VARIABLE">
+			<severity>INFO</severity>
+		</message>
+	</ruleImpl>
+	<ruleImpl name="UnusedArgumentChecker" className="UnusedArgumentChecker">
+		<message code="UNUSED_METHOD_ARGUMENT">
+			<severity>INFO</severity>
+		</message>
+	</ruleImpl>
+	<ruleImpl name="CFCompareVsAssignChecker" className="CFCompareVsAssignChecker">
+		<message code="COMPARE_INSTEAD_OF_ASSIGN">
+			<severity>WARNING</severity>
+			<messageText>CWE-482: Comparing instead of Assigning</messageText>
 		</message>
 	</ruleImpl>
 </CFLint-Plugin>

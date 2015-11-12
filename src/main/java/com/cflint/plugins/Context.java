@@ -144,7 +144,7 @@ public class Context {
 	}
 
 	public int startLine() {
-		if(element != null && element.getSource() !=null)
+		if(element != null && element.getSource() != null)
 			return element.getSource().getRow(element.getBegin());
 		else 
 			return 1; // not zero

@@ -422,10 +422,16 @@
       "message": [
         {
           "code": "AVOID_USING_WRITEDUMP",
+          "messageText": "Avoid using the ${functionName} function in production code.",
           "severity": "INFO"
         }
       ],
-      "parameter": []
+      "parameter": [
+        {
+          "name": "functionName",
+          "value": "writeDump"
+        }
+      ]
     },
     {
       "name": "StructNewChecker",
@@ -433,10 +439,33 @@
       "message": [
         {
           "code": "AVOID_USING_STRUCTNEW",
+          "messageText": "Avoid using the ${functionName} function in production code.",
           "severity": "INFO"
         }
       ],
-      "parameter": []
+      "parameter": [
+        {
+          "name": "functionName",
+          "value": "structNew"
+        }
+      ]
+    },
+    {
+      "name": "IsDebugModeChecker",
+      "className": "FunctionXChecker",
+      "message": [
+        {
+          "code": "AVOID_USING_ISDEBUGMODE",
+          "messageText": "Avoid using the ${functionName} function in production code.",
+          "severity": "WARNING"
+        }
+      ],
+      "parameter": [
+        {
+          "name": "functionName",
+          "value": "IsDebugMode"
+        }
+      ]
     },
     {
       "name": "ArrayNewChecker",
@@ -683,6 +712,52 @@
         {
           "code": "AVOID_USING_CREATEOBJECT",
           "severity": "INFO"
+        }
+      ],
+      "parameter": []
+    },
+    {
+      "name": "CFDebugAttributeChecker",
+      "className": "CFDebugAttributeChecker",
+      "message": [
+        {
+          "code": "AVOID_USING_DEBUG_ATTR",
+           "messageText": "Avoid leaving debug attribute on tags.",
+          "severity": "WARNING"
+        }
+      ],
+      "parameter": []
+    },
+    {
+      "name": "UnusedLocalVarChecker",
+      "className": "UnusedLocalVarChecker",
+      "message": [
+        {
+          "code": "UNUSED_LOCAL_VARIABLE",
+          "severity": "INFO"
+         }
+      ],
+      "parameter": []
+    },
+    {
+      "name": "UnusedArgumentChecker",
+      "className": "UnusedArgumentChecker",
+      "message": [
+        {
+          "code": "UNUSED_METHOD_ARGUMENT",
+          "severity": "INFO"
+         }
+      ],
+      "parameter": []
+    },
+    {     
+      "name": "CFCompareVsAssignChecker",
+      "className": "CFCompareVsAssignChecker",
+      "message": [
+        {
+          "code": "COMPARE_INSTEAD_OF_ASSIGN",
+          "messageText": "CWE-482: Comparing instead of Assigning",
+          "severity": "WARNING"
         }
       ],
       "parameter": []

@@ -17,7 +17,7 @@ public class XMLOutput {
 
 	public void output(final BugList bugList, final Writer writer) throws IOException {
 		// final StringBuilder sb = new StringBuilder();
-		writer.append("<issues>").append(System.getProperty("line.separator"));
+		writer.append("<issues version=\"" + Version.getVersion() + "\">").append(System.getProperty("line.separator"));
 		for (final Entry<String, List<BugInfo>> bugEntry : bugList.getBugList().entrySet()) {
 			final Iterator<BugInfo> iterator = bugEntry.getValue().iterator();
 			BugInfo bugInfo = iterator.hasNext() ? iterator.next() : null;

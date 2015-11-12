@@ -27,6 +27,7 @@ public class TestJSONOutput {
 	@Before
 	public void setUp(){
 		outputer = new JSONOutput();
+		outputer.setPrettyPrint(false);
 		bugList = new BugList(null);
 		writer = new StringWriter();
 	}

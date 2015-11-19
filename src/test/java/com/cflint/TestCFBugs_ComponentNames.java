@@ -1,7 +1,6 @@
 package com.cflint;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 
 import java.io.IOException;
 import java.util.Collection;
@@ -116,8 +115,8 @@ public class TestCFBugs_ComponentNames {
 		final String tagSrc = "<cfcomponent>\r\n"
 		 + "</cfcomponent>";
 		cfBugs.process(tagSrc, "A.cfc");
-		final List<BugInfo> result = cfBugs.getBugs().getBugList().get("COMPONENT_TOO_SHORT");
-		assertNotNull(result);
+		final List<BugInfo> result = cfBugs.getBugs().getBugList().values().iterator().next();
+		assertEquals(1, result.size());
 		assertEquals("COMPONENT_TOO_SHORT", result.get(0).getMessageCode());
 		assertEquals(1, result.get(0).getLine());
 	}
@@ -225,8 +224,8 @@ public class TestCFBugs_ComponentNames {
 		final String scriptSrc = "component {\r\n"
 		 + "}";
 		cfBugs.process(scriptSrc, "A.cfc");
-		final List<BugInfo> result = cfBugs.getBugs().getBugList().get("COMPONENT_TOO_SHORT");
-		assertNotNull(result);
+		final List<BugInfo> result = cfBugs.getBugs().getBugList().values().iterator().next();
+		assertEquals(1, result.size());
 		assertEquals("COMPONENT_TOO_SHORT", result.get(0).getMessageCode());
 		assertEquals(1, result.get(0).getLine());
 	}

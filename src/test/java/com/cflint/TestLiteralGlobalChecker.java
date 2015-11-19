@@ -81,6 +81,7 @@ public class TestLiteralGlobalChecker {
 		scriptSrc = "<cfscript>\r\n"
 			+ "area = 3.14 * radius * radius;\r\n"
 			+ "volume = 4/3 * 3.14 * radius * radius * radius;\r\n"
+			+"}\r\n"
 			+ "</cfscript>";
 
 		cfBugs.process(scriptSrc, "test");

@@ -1,7 +1,7 @@
 package com.cflint.plugins.core;
 
 import java.util.Map;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 import net.htmlparser.jericho.Element;
 
@@ -22,8 +22,8 @@ import com.cflint.plugins.Context;
 public class UnusedArgumentChecker extends CFLintScannerAdapter {
 	final String severity = "INFO";
 
-	protected Map<String, Boolean> methodArguments = new HashMap<String, Boolean>();
-	protected Map<String, Integer> argumentLineNo = new HashMap<String, Integer>();
+	protected Map<String, Boolean> methodArguments = new LinkedHashMap<String, Boolean>();
+	protected Map<String, Integer> argumentLineNo = new LinkedHashMap<String, Integer>();
 
 	@Override
 	public void element(final Element element, final Context context, final BugList bugs) {

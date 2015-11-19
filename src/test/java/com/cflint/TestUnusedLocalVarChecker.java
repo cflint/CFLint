@@ -144,11 +144,11 @@ public class TestUnusedLocalVarChecker {
 		final List<BugInfo> result = cfBugs.getBugs().getBugList().values().iterator().next();
 		assertEquals(3, result.size());
 		assertEquals("UNUSED_LOCAL_VARIABLE", result.get(0).getMessageCode());
-		assertEquals(6, result.get(0).getLine());
+		assertEquals(7, result.get(0).getLine());
 		assertEquals("UNUSED_LOCAL_VARIABLE", result.get(1).getMessageCode());
-		assertEquals(7, result.get(1).getLine());
+		assertEquals(8, result.get(1).getLine());
 		assertEquals("UNUSED_LOCAL_VARIABLE", result.get(2).getMessageCode());
-		assertEquals(8, result.get(2).getLine());
+		assertEquals(6, result.get(2).getLine());
 	}
 
 	public void testAllUsedInTags() throws ParseException, IOException {
@@ -251,11 +251,11 @@ public class TestUnusedLocalVarChecker {
 		final List<BugInfo> result = cfBugs.getBugs().getBugList().values().iterator().next();
 		assertEquals(3, result.size());
 		assertEquals("UNUSED_LOCAL_VARIABLE", result.get(0).getMessageCode());
-		assertEquals(5, result.get(0).getLine());
+		assertEquals(6, result.get(0).getLine());
 		assertEquals("UNUSED_LOCAL_VARIABLE", result.get(1).getMessageCode());
-		assertEquals(6, result.get(1).getLine());
+		assertEquals(7, result.get(1).getLine());
 		assertEquals("UNUSED_LOCAL_VARIABLE", result.get(2).getMessageCode());
-		assertEquals(7, result.get(2).getLine());
+		assertEquals(5, result.get(2).getLine());
 	}
 
 }

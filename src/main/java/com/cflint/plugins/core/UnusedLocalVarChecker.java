@@ -1,7 +1,7 @@
 package com.cflint.plugins.core;
 
 import java.util.Map;
-import java.util.LinkedHashMap;
+import java.util.HashMap;
 
 import cfml.parsing.cfscript.CFAssignmentExpression;
 import cfml.parsing.cfscript.CFExpression;
@@ -18,8 +18,8 @@ public class UnusedLocalVarChecker extends CFLintScannerAdapter {
 	final String severity = "INFO";
 
 	protected CFScopes scopes = new CFScopes();
-	protected Map<String, Boolean> localVariables = new LinkedHashMap<String, Boolean>();
-	protected Map<String, Integer> variableLineNo = new LinkedHashMap<String, Integer>();
+	protected Map<String, Boolean> localVariables = new HashMap<String, Boolean>();
+	protected Map<String, Integer> variableLineNo = new HashMap<String, Integer>();
 
 	@Override
 	public void expression(final CFExpression expression, final Context context, final BugList bugs) {

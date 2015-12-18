@@ -12,35 +12,41 @@ import com.cflint.BugList;
 public interface CFLintStructureListener {
 
 	/**
-	 * Called when processing of a new file has started 
-	 * @param context
+	 * Called when processing of a new file has started
+	 * @param fileName
+	 * @param bugs
 	 */
 	public void startFile(String fileName, BugList bugs);
 	/**
 	 * Called when processing of current file has ended 
-	 * @param context
+	 * @param fileName
+	 * @param bugs
 	 */
 	public void endFile(String fileName, BugList bugs);
 
 	/**
 	 * Called when processing a new component has started 
 	 * @param context
+	 * @param bugs
 	 */
 	public void startComponent(Context context, BugList bugs);
 	/**
-	 * Called when processing of current component has ended 
+	 * Called when processing of current component has ended
 	 * @param context
+	 * @param bugs
 	 */
 	public void endComponent(Context context, BugList bugs);
 
 	/**
 	 * Called when processing of a new function has started 
 	 * @param context
+	 * @param bugs
 	 */
 	public void startFunction(Context context, BugList bugs);
 	/**
 	 * Called when processing of current function has ended 
 	 * @param context
+	 * @param bugs
 	 */
 	public void endFunction(Context context, BugList bugs);
 	

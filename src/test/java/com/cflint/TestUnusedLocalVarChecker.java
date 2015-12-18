@@ -248,7 +248,7 @@ public class TestUnusedLocalVarChecker {
 			+ "</cfcomponent>";
 
 		cfBugs.process(tagSrc, "test");
-		final List<BugInfo> result = cfBugs.getBugs().getBugList().values().iterator().next();
+		final List<BugInfo> result = cfBugs.getBugs().getBugList().get("UNUSED_LOCAL_VARIABLE");
 		assertEquals(3, result.size());
 		assertEquals("UNUSED_LOCAL_VARIABLE", result.get(0).getMessageCode());
 		assertEquals(5, result.get(0).getLine());

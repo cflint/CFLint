@@ -73,7 +73,7 @@ public class UnusedLocalVarChecker extends CFLintScannerAdapter {
 	    	if (!used) {
 	    		final String name = variable.getKey();
 	    		final Integer lineNo = variableLineNo.get(name);
-				bugs.add(new BugInfo.BugInfoBuilder().setLine(lineNo).setMessageCode("UNUSED_LOCAL_VARIABLE")
+	    		presortbugs.add(new BugInfo.BugInfoBuilder().setLine(lineNo).setMessageCode("UNUSED_LOCAL_VARIABLE")
 					.setSeverity(severity).setFilename(context.getFilename())
 					.setMessage("Local variable " + name + " is not used in function " + context.getFunctionName() + ", consider removing it.")
 					.build());

@@ -144,7 +144,6 @@ public class TestUnusedLocalVarChecker {
 		cfBugs.process(scriptSrc, "test");
 		final List<BugInfo> result = cfBugs.getBugs().getBugList().get("UNUSED_LOCAL_VARIABLE");
 		assertEquals(3, result.size());
-		Collections.sort(result);
 		assertEquals("UNUSED_LOCAL_VARIABLE", result.get(0).getMessageCode());
 		assertEquals(6, result.get(0).getLine());
 		assertEquals("UNUSED_LOCAL_VARIABLE", result.get(1).getMessageCode());

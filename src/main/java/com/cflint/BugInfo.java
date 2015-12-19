@@ -9,7 +9,7 @@ import cfml.parsing.cfscript.script.CFParsedStatement;
 import com.cflint.config.CFLintPluginInfo.PluginInfoRule.PluginMessage;
 import com.cflint.config.CFLintPluginInfo.PluginInfoRule.PluginParameter;
 
-public class BugInfo {
+public class BugInfo implements Comparable<BugInfo>{
 
 	String filename;
 	int line;
@@ -192,5 +192,21 @@ public class BugInfo {
 	}
 	public void setSeverity(String severity) {
 		this.severity = severity;
+	}
+	/**
+	 * Makes BugInfo sortable by filename,line,col,messagecode
+	 */
+	@Override
+	public int compareTo(BugInfo o) {
+		if(filename.compareTo(o.filename) != 0){
+			return filename.compareTo(o.filename);
+		}
+		if(((Integer)line).compareTo(((Integer)o.line)) != 0){
+			return ((Integer)line).compareTo(((Integer)o.line));
+		}
+		if(((Integer)column).compareTo(((Integer)o.column)) != 0){
+			return ((Integer)column).compareTo(((Integer)o.column));
+		}
+		return messageCode.compareTo(o.messageCode);
 	}
 }

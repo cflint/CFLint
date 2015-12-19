@@ -1,7 +1,10 @@
 package com.cflint.plugins.core;
 
 import java.util.Map;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 
 import net.htmlparser.jericho.Element;
 
@@ -78,18 +81,24 @@ public class UnusedArgumentChecker extends CFLintScannerAdapter {
 
 	@Override	
 	public void endFunction(Context context, BugList bugs) {
-		// TODO perhaps sort by line number?
+		// sort by line number
+		final List<BugInfo> presortbugs = new ArrayList<BugInfo>();
 		for (Map.Entry<String, Boolean> method : methodArguments.entrySet()) {
 			Boolean used = method.getValue();
 	    	if (!used) {
 	    		final String name = method.getKey();
 	    		final Integer lineNo = argumentLineNo.get(name);
-				bugs.add(new BugInfo.BugInfoBuilder().setLine(lineNo).setMessageCode("UNUSED_METHOD_ARGUMENT")
+	    		presortbugs.add(new BugInfo.BugInfoBuilder().setLine(lineNo).setMessageCode("UNUSED_METHOD_ARGUMENT")
 					.setSeverity(severity).setFilename(context.getFilename())
 					.setMessage("Argument " + name + " is not used in function " + context.getFunctionName() + ", consider removing it.")
 					.build());
 	    	}
 	    }
+		// Sort the bugs by line/col before adding to the list of bugs.
+		Collections.sort(presortbugs);
+		for(BugInfo bugInfo : presortbugs ){
+			bugs.add(bugInfo);
+		}
 	}
 
 }

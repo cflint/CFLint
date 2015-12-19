@@ -1,7 +1,10 @@
 package com.cflint.plugins.core;
 
 import java.util.Map;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 
 import cfml.parsing.cfscript.CFAssignmentExpression;
 import cfml.parsing.cfscript.CFExpression;
@@ -63,7 +66,8 @@ public class UnusedLocalVarChecker extends CFLintScannerAdapter {
 
 	@Override	
 	public void endFunction(Context context, BugList bugs) {
-		// TODO perhaps sort by line number?
+		// sort by line number
+		final List<BugInfo> presortbugs = new ArrayList<BugInfo>();
 		for (Map.Entry<String, Boolean> variable : localVariables.entrySet()) {
 			Boolean used = variable.getValue();
 	    	if (!used) {
@@ -75,6 +79,11 @@ public class UnusedLocalVarChecker extends CFLintScannerAdapter {
 					.build());
 	    	}
 	    }
+		// Sort the bugs by line/col before adding to the list of bugs.
+		Collections.sort(presortbugs);
+		for(BugInfo bugInfo : presortbugs ){
+			bugs.add(bugInfo);
+		}
 	}
 
 }

@@ -59,6 +59,7 @@ public class CFLintMain {
 	boolean progressUsesThread=true;
 	private String configfile = null;
 	private Boolean stdIn = false;
+	private String stdInFile = "source.cfc";
 	private Boolean stdOut = false;
 
 	public static void main(final String[] args) throws ParseException, IOException, TransformerException, JAXBException {
@@ -98,7 +99,7 @@ public class CFLintMain {
 		options.addOption("textfile", true, "specify the output text file (default: cflint-results.txt)");
 		options.addOption("extensions", true, "specify the extensions of the CF source files (default: .cfm,.cfc)");
 		options.addOption("configfile", true, "specify the location of the config file");
-		options.addOption("stdin", false, "use stdin for file input");
+		options.addOption("stdin", true, "use stdin for file input (default: source.cfc)");
 		options.addOption("stdout", false, "output to stdout only");
 
 
@@ -178,6 +179,12 @@ public class CFLintMain {
 		main.showprogress=cmd.hasOption("showprogress") || (!cmd.hasOption("showprogress") && cmd.hasOption("ui"));
 		main.progressUsesThread=!cmd.hasOption("singlethread");
 		main.stdIn = cmd.hasOption("stdin");
+		if (main.stdIn) {
+			String stdInOptionValue = cmd.getOptionValue("stdin");
+			if (stdInOptionValue != null) {
+				main.stdInFile = stdInOptionValue;
+			}
+		}
 		main.stdOut = cmd.hasOption("stdout");
 		if (main.isValid()) {
 			main.execute();
@@ -256,7 +263,7 @@ public class CFLintMain {
 			}else{
 				config = ConfigUtils.unmarshalJson(new FileInputStream(configfile), CFLintConfig.class);
 			}
-			
+
 		}
 		final CFLint cflint = new CFLint(config);
 		cflint.setVerbose(verbose);
@@ -301,7 +308,7 @@ public class CFLintMain {
 				source.append(System.lineSeparator());
 			}
 			scanner.close();
-			cflint.process(source.toString(), "source.cfc");
+			cflint.process(source.toString(), stdInFile);
 		}
 		if (xmlOutput) {
 			Writer xmlwriter = stdOut ? new OutputStreamWriter(System.out) : new FileWriter(xmlOutFile);
@@ -352,7 +359,7 @@ public class CFLintMain {
 			cflint.getBugs().getFilter().excludeCode(excludeCodes);
 		}
 	}
-	
+
 	private void display(String text) {
 		if (verbose) {
 			System.out.println(text);

@@ -247,7 +247,7 @@
       "className": "CFXTagChecker",
       "message": [
         {
-          "code": "AVOID_USING_CFINCUDE_TAG",
+          "code": "AVOID_USING_CFINCLUDE_TAG",
           "messageText": "Avoid using <${tagName}> tags. Use components instead.",
           "severity": "WARNING"
         }

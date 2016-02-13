@@ -42,7 +42,7 @@ public class UnusedArgumentChecker extends CFLintScannerAdapter {
 		if (expression instanceof CFFuncDeclStatement) {
 			final CFFuncDeclStatement function = (CFFuncDeclStatement) expression;
 			for (final CFFunctionParameter argument : function.getFormals()) {
-				final String name = argument.getName();
+				final String name = argument.getName().toLowerCase(); // CF variable names are not case sensitive
 				methodArguments.put(name, false);
 				setArgumentLineNo(name, function.getLine()); // close enough?
 			}
@@ -55,22 +55,26 @@ public class UnusedArgumentChecker extends CFLintScannerAdapter {
 		}
 	}
 
+	protected void useIdentifier(CFIdentifier identifier) {
+		String name = identifier.getName().toLowerCase();
+		if (name.equals("arguments")) {
+			name = identifier.Decompile(0).toLowerCase().replace("arguments.", ""); // TODO better way of doing this?
+		}
+		if (methodArguments.get(name) != null) {
+			methodArguments.put(name, true);
+		}
+	}
+
 	@Override
 	public void expression(final CFExpression expression, final Context context, final BugList bugs) {
 		if (expression instanceof CFFullVarExpression) {
 			CFExpression variable = ((CFFullVarExpression) expression).getExpressions().get(0);
 			if (variable instanceof CFIdentifier) {
-				String name = ((CFIdentifier) variable).getName();
-				if (methodArguments.get(name) != null) {
-					methodArguments.put(name, true);
-				}
+				useIdentifier((CFIdentifier) expression);
 			}
 		}
 		else if (expression instanceof CFIdentifier) {
-			String name = ((CFIdentifier) expression).getName();
-			if (methodArguments.get(name) != null) {
-				methodArguments.put(name, true);
-			}
+			useIdentifier((CFIdentifier) expression);		
 		}
 	}
 

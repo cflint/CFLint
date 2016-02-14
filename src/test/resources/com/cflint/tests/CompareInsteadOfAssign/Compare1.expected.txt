@@ -7,6 +7,7 @@
   "location" : {
     "file" : "src\\test\\resources\\com\\cflint\\tests\\CompareInsteadOfAssign\\Compare1.cfm",
     "fileName" : "Compare1.cfm",
+    "function" : "",
     "column" : "5",
     "line" : "5",
     "message" : "CWE-482: Comparing instead of Assigning",
@@ -22,6 +23,7 @@
   "location" : {
     "file" : "src\\test\\resources\\com\\cflint\\tests\\CompareInsteadOfAssign\\Compare1.cfm",
     "fileName" : "Compare1.cfm",
+    "function" : "",
     "column" : "5",
     "line" : "9",
     "message" : "CWE-482: Comparing instead of Assigning",

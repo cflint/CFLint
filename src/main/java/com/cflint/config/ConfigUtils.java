@@ -1,5 +1,7 @@
 package com.cflint.config;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -11,6 +13,8 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
+
+import java.util.HashMap;
 
 import com.cflint.config.CFLintPluginInfo.PluginInfoRule;
 import com.cflint.config.CFLintPluginInfo.PluginInfoRule.PluginParameter;
@@ -130,6 +134,34 @@ public class ConfigUtils {
 			}
 		}
 		return new CFLintPluginInfo();
+	}
+
+	/**
+	 * Load the plugin description.
+	 * 
+	 * @return MapList<Sring,String> map of message codes to descriptions
+	 */
+	public static HashMap loadDescriptions() {
+		HashMap descriptions = new HashMap();
+		InputStream inputStream = ConfigUtils.class
+				.getResourceAsStream("/cflint.description.txt");
+
+		try {
+			BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+			String line;
+		    while ((line = reader.readLine()) != null) {
+		      	String[] parts = line.split(":");
+		      	System.out.println("Parts: " + parts);
+		      	if (parts.length == 2) {
+		      		System.out.println(parts);
+		      		descriptions.put(parts[0], parts[1]);
+		      	}
+		    }
+		} catch (Exception e) {
+			e.printStackTrace(System.err);
+		}
+		
+		return descriptions;
 	}
 
 	static final String PLUGIN_PACKAGE = "com.cflint.plugins.core";

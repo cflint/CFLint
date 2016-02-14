@@ -53,6 +53,7 @@ public class JSONOutput {
 					jg.writeObjectFieldStart("location");
 					jg.writeStringField("file",notNull(bugInfo.getFilename()));
 					jg.writeStringField("fileName",filename(bugInfo.getFilename()));
+					jg.writeStringField("function",filename(bugInfo.getFunction()));
 					jg.writeStringField("column",Integer.valueOf(bugInfo.getColumn()).toString());
 					jg.writeStringField("line",Integer.valueOf(bugInfo.getLine()).toString());
 					jg.writeStringField("message",notNull(bugInfo.getMessage()));

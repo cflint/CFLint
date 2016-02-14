@@ -35,6 +35,7 @@ public class XMLOutput {
 					writer.append("<location");
 					writer.append(" file=\"").append(xmlEscapeText(bugInfo.getFilename())).append("\"");
 					writer.append(" fileName=\"").append(xmlEscapeText(filename(bugInfo.getFilename()))).append("\"");
+					writer.append(" function=\"").append(xmlEscapeText(filename(bugInfo.getFunction()))).append("\"");
 					writer.append(" column=\"").append(Integer.valueOf(bugInfo.getColumn()).toString()).append("\"");
 					writer.append(" line=\"").append(Integer.valueOf(bugInfo.getLine()).toString()).append("\"");
 					writer.append(" message=\"").append(xmlEscapeText(bugInfo.getMessage())).append("\"");

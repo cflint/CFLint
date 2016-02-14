@@ -32,6 +32,10 @@ import com.cflint.TextOutput;
 import com.cflint.Version;
 import com.cflint.XMLOutput;
 import com.cflint.config.CFLintConfig;
+import com.cflint.config.CFLintPluginInfo;
+import com.cflint.config.CFLintPluginInfo.PluginInfoRule;
+import com.cflint.config.CFLintPluginInfo.PluginInfoRule.PluginMessage;
+import com.cflint.config.ConfigRuntime;
 import com.cflint.config.ConfigUtils;
 import com.cflint.tools.CFLintFilter;
 
@@ -57,10 +61,10 @@ public class CFLintMain {
 	private String extensions;
 	boolean showprogress= false;
 	boolean progressUsesThread=true;
-	private String configfile = null;
 	private Boolean stdIn = false;
 	private String stdInFile = "source.cfc";
 	private Boolean stdOut = false;
+	private String configfile = null;
 
 	public static void main(final String[] args) throws ParseException, IOException, TransformerException, JAXBException {
 		//PropertyConfigurator.configure("/log4j.properties");
@@ -68,7 +72,8 @@ public class CFLintMain {
 		//Logger.getLogger("net.htmlparser.jericho");
 
 		final Options options = new Options();
-		// add t option
+		options.addOption("rules", false, "list of all supported rules");
+		options.addOption("config", false, "list of rules in config file");
 		options.addOption("includeRule", true, "specify rules to include");
 		options.addOption("excludeRule", true, "specify rules to exclude");
 		options.addOption("folder", true, "folder(s) to scan");
@@ -105,6 +110,8 @@ public class CFLintMain {
 
 		final CommandLineParser parser = new GnuParser();
 		final CommandLine cmd = parser.parse(options, args);
+		final CFLintMain main = new CFLintMain();
+
 		if (cmd.hasOption('h') || cmd.hasOption("help")) {
 			final HelpFormatter formatter = new HelpFormatter();
 			formatter.printHelp("cflint", options);
@@ -114,7 +121,28 @@ public class CFLintMain {
 			System.out.println("CFLint " + Version.getVersion());
 			return;
 		}
-		final CFLintMain main = new CFLintMain();
+		if (cmd.hasOption("rules") || cmd.hasOption("config")) {
+			CFLintPluginInfo pluginInfo = new CFLintPluginInfo();
+
+			if (cmd.hasOption("configfile")) {
+				main.configfile  = cmd.getOptionValue("configfile");
+			}
+			if (cmd.hasOption("rules")) {
+				pluginInfo = ConfigUtils.loadDefaultPluginInfo();
+			}
+			ConfigRuntime config = new ConfigRuntime(loadConfig(main.configfile), pluginInfo);
+			
+			System.out.println("Supported rules");
+			for (PluginInfoRule rule:config.getRules()) {
+				System.out.println("  " + rule.getName());
+				for (PluginMessage message:rule.getMessages()) {
+					System.out.println("    " + message.getCode());
+				}
+			}
+
+			return;
+		}
+
 		main.verbose = (cmd.hasOption('v') || cmd.hasOption("verbose"));
 		main.quiet = (cmd.hasOption('q') || cmd.hasOption("quiet"));
 		main.logerror = (cmd.hasOption('e') || cmd.hasOption("logerror"));
@@ -255,17 +283,25 @@ public class CFLintMain {
 		}
 	}
 
-	private void execute() throws IOException, TransformerException, JAXBException {
-		CFLintConfig config = null;
-		if(configfile != null){
-			if(configfile.toLowerCase().endsWith(".xml")){
-				config = ConfigUtils.unmarshal(new FileInputStream(configfile), CFLintConfig.class);
-			}else{
-				config = ConfigUtils.unmarshalJson(new FileInputStream(configfile), CFLintConfig.class);
+	private static CFLintConfig loadConfig(String configfile) {
+		if (configfile != null) {
+			try {
+				if (configfile.toLowerCase().endsWith(".xml")) {
+					return ConfigUtils.unmarshal(new FileInputStream(configfile), CFLintConfig.class);
+				} else {
+					return ConfigUtils.unmarshalJson(new FileInputStream(configfile), CFLintConfig.class);
+				}
 			}
-
+			catch (Exception e) {
+				System.err.println("Unable to load config file. " + e.getMessage());
+			}
 		}
-		final CFLint cflint = new CFLint(config);
+
+		return null;
+	}
+
+	private void execute() throws IOException, TransformerException, JAXBException {
+		final CFLint cflint = new CFLint(loadConfig(configfile));
 		cflint.setVerbose(verbose);
 		cflint.setLogError(logerror);
 		cflint.setQuiet(quiet);

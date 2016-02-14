@@ -32,7 +32,7 @@ public class TestJSONOutput {
 		writer = new StringWriter();
 	}
 	@Test
-	public void testOutput1() throws IOException {
+	public void testOutput() throws IOException {
 		BugInfo bugInfo = new BugInfo.BugInfoBuilder().setFunction("testf").setMessageCode("PARSE_ERROR").setFilename("c:\\temp\\test.cfc").build();
 		bugList.add(bugInfo);
 		outputer.output(bugList, writer);

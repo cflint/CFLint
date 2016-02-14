@@ -7,4 +7,6 @@ if (x.x == 2){
   x=123;
 }
 x.x EQ 6;
+b1 = x == y;
+b2 = x EQ y;
 </cfscript>

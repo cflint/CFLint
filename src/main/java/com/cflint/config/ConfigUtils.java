@@ -151,9 +151,7 @@ public class ConfigUtils {
 			String line;
 		    while ((line = reader.readLine()) != null) {
 		      	String[] parts = line.split(":");
-		      	System.out.println("Parts: " + parts);
 		      	if (parts.length == 2) {
-		      		System.out.println(parts);
 		      		descriptions.put(parts[0], parts[1]);
 		      	}
 		    }

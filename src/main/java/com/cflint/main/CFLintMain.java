@@ -18,6 +18,8 @@ import javax.swing.JOptionPane;
 import javax.xml.bind.JAXBException;
 import javax.xml.transform.TransformerException;
 
+import java.util.HashMap;
+
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.GnuParser;
@@ -131,12 +133,12 @@ public class CFLintMain {
 				pluginInfo = ConfigUtils.loadDefaultPluginInfo();
 			}
 			ConfigRuntime config = new ConfigRuntime(loadConfig(main.configfile), pluginInfo);
-			
+			HashMap descriptions = ConfigUtils.loadDescriptions();
 			System.out.println("Supported rules");
 			for (PluginInfoRule rule:config.getRules()) {
 				System.out.println("  " + rule.getName());
 				for (PluginMessage message:rule.getMessages()) {
-					System.out.println("    " + message.getCode());
+					System.out.println("    " + message.getCode() + " - " + descriptions.get(message.getCode()));
 				}
 			}
 

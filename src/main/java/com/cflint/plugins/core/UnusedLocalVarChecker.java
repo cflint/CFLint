@@ -76,6 +76,7 @@ public class UnusedLocalVarChecker extends CFLintScannerAdapter {
 	    		presortbugs.add(new BugInfo.BugInfoBuilder().setLine(lineNo).setMessageCode("UNUSED_LOCAL_VARIABLE")
 					.setSeverity(severity).setFilename(context.getFilename()).setFunction(context.getFunctionName())
 					.setMessage("Local variable " + name + " is not used in function " + context.getFunctionName() + ", consider removing it.")
+					.setVariable(name)
 					.build());
 	    	}
 	    }

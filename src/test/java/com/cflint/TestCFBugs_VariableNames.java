@@ -82,11 +82,13 @@ public class TestCFBugs_VariableNames {
 		 + "	<cfset names = {}>\r\n"
 		 + "	<cfset name.FIRST = \"Fred\">\r\n"
 		 + "	<cfset NAMES[1] = \"Fred\">\r\n"
+		 + "	<cfset local.NAME = \"Fred\">\r\n"
+		 + "	<cfset variables.name = \"Fred\">\r\n"
 		 + "</cffunction>\r\n"
 		 + "</cfcomponent>";
 		cfBugs.process(tagSrc, "test");
 		final List<BugInfo> result = cfBugs.getBugs().getBugList().values().iterator().next();
-		assertEquals(4, result.size());
+		assertEquals(5, result.size());
 		assertEquals("VAR_ALLCAPS_NAME", result.get(0).getMessageCode());
 		assertEquals(3, result.get(0).getLine());
 		assertEquals("VAR_ALLCAPS_NAME", result.get(1).getMessageCode());
@@ -95,6 +97,24 @@ public class TestCFBugs_VariableNames {
 		assertEquals(6, result.get(2).getLine());
 		assertEquals("VAR_ALLCAPS_NAME", result.get(3).getMessageCode());
 		assertEquals(7, result.get(3).getLine());
+		assertEquals("VAR_ALLCAPS_NAME", result.get(4).getMessageCode());
+		assertEquals(8, result.get(4).getLine());
+	}
+
+	@Test
+	public void testUpercaseScopeTag() throws ParseException, IOException {
+		final String tagSrc = "<cfcomponent>\r\n"
+		 + "<cffunction name=\"test\">\r\n"
+		 + "	<cfset local.name = \"Fred\">\r\n"
+		 + "	<cfset THIS.name = \"Fred\">\r\n"
+		 + "	<cfset variables.name = \"Fred\">\r\n"
+		 + "</cffunction>\r\n"
+		 + "</cfcomponent>";
+		cfBugs.process(tagSrc, "test");
+		final List<BugInfo> result = cfBugs.getBugs().getBugList().values().iterator().next();
+		assertEquals(1, result.size());
+		assertEquals("SCOPE_ALLCAPS_NAME", result.get(0).getMessageCode());
+		assertEquals(4, result.get(0).getLine());
 	}
 
 	@Test
@@ -283,11 +303,12 @@ public class TestCFBugs_VariableNames {
 		 + "	names = {};\r\n"
 		 + "	name.FIRST = \"Fred\";\r\n"
 		 + "	NAMES[1] = \"Fred\";\r\n"
+		 + "	local.NAME = \"Fred\";\r\n"
 		 + "}\r\n"
 		 + "}";
 		cfBugs.process(scriptSrc, "test");
 		final List<BugInfo> result = cfBugs.getBugs().getBugList().values().iterator().next();
-		assertEquals(4, result.size());
+		assertEquals(5, result.size());
 		assertEquals("VAR_ALLCAPS_NAME", result.get(0).getMessageCode());
 		assertEquals(3, result.get(0).getLine());
 		assertEquals("VAR_ALLCAPS_NAME", result.get(1).getMessageCode());
@@ -296,6 +317,23 @@ public class TestCFBugs_VariableNames {
 		assertEquals(6, result.get(2).getLine());
 		assertEquals("VAR_ALLCAPS_NAME", result.get(3).getMessageCode());
 		assertEquals(7, result.get(3).getLine());
+		assertEquals("VAR_ALLCAPS_NAME", result.get(4).getMessageCode());
+		assertEquals(8, result.get(4).getLine());
+	}
+
+	@Test
+	public void testUpercaseScopeScript() throws ParseException, IOException {
+		final String scriptSrc = "component {\r\n"
+		 + "function test() {\r\n"
+		 + "	this.name = \"Fred\";\r\n"
+		 + "	LOCAL.name = \"Fred\";\r\n"
+		 + "}\r\n"
+		 + "}";
+		cfBugs.process(scriptSrc, "test");
+		final List<BugInfo> result = cfBugs.getBugs().getBugList().values().iterator().next();
+		assertEquals(1, result.size());
+		assertEquals("SCOPE_ALLCAPS_NAME", result.get(0).getMessageCode());
+		assertEquals(4, result.get(0).getLine());
 	}
 
 	@Test

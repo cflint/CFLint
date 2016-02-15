@@ -86,6 +86,7 @@ public class VariableNameChecker extends CFLintScannerAdapter {
 			bugs.add(new BugInfo.BugInfoBuilder().setLine(line).setMessageCode("SCOPE_ALLCAPS_NAME")
 				.setSeverity(severity).setFilename(filename)
 				.setMessage("Scope " + variable + " should not be upper case.")
+				.setFunction(functionName)
 				.setVariable(variable)
 				.build());
 		}

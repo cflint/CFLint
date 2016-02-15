@@ -70,48 +70,56 @@ public class VariableNameChecker extends CFLintScannerAdapter {
 			bugs.add(new BugInfo.BugInfoBuilder().setLine(line).setMessageCode("VAR_INVALID_NAME")
 				.setSeverity(severity).setFilename(filename)
 				.setMessage("Variable " + variable + " is not a valid name. Please use CamelCase or underscores.")
+				.setVariable(variable)
 				.build());
 		}
 		if (!scope.isCFScoped(variable) && name.isUpperCase(variable)) {
 			bugs.add(new BugInfo.BugInfoBuilder().setLine(line).setMessageCode("VAR_ALLCAPS_NAME")
 				.setSeverity(severity).setFilename(filename)
 				.setMessage("Variable " + variable + " should not be upper case.")
+				.setVariable(variable)
 				.build());
 		}
 		if (scope.isCFScoped(variable) &&  name.isUpperCase(variable)) {
 			bugs.add(new BugInfo.BugInfoBuilder().setLine(line).setMessageCode("SCOPE_ALLCAPS_NAME")
 				.setSeverity(severity).setFilename(filename)
 				.setMessage("Scope " + variable + " should not be upper case.")
+				.setVariable(variable)
 				.build());
 		}
 		if (name.tooShort(variable)) {
 			bugs.add(new BugInfo.BugInfoBuilder().setLine(line).setMessageCode("VAR_TOO_SHORT")
 				.setSeverity(severity).setFilename(filename)
 				.setMessage("Variable " + variable + " should be longer than " + minVarLength + " characters.")
+				.setVariable(variable)
 				.build());
 		}
 		if (name.tooLong(variable)) {
 			bugs.add(new BugInfo.BugInfoBuilder().setLine(line).setMessageCode("VAR_TOO_LONG")
 				.setSeverity(severity).setFilename(filename)
 				.setMessage("Variable " + variable + " should be shorter than " + maxVarLength + " characters.")
+				.setVariable(variable)
 				.build());
 		}
 		if (!name.isUpperCase(variable) && name.tooWordy(variable)) {
 			bugs.add(new BugInfo.BugInfoBuilder().setLine(line).setMessageCode("VAR_TOO_WORDY")
 				.setSeverity(severity).setFilename(filename)
 				.setMessage("Variable " + variable + " is too wordy, can you think of a more concise name?")
+				.setVariable(variable)
 				.build());
 		}
 		if (name.isTemporary(variable)) {
 			bugs.add(new BugInfo.BugInfoBuilder().setLine(line).setMessageCode("VAR_IS_TEMPORARY")
 				.setSeverity(severity).setFilename(filename)
 				.setMessage("Temporary variable " + variable + " could be named better.")
+				.setVariable(variable)
 				.build());
 		}
 		if (name.hasPrefixOrPostfix(variable)) {
 			bugs.add(new BugInfo.BugInfoBuilder().setLine(line).setMessageCode("VAR_HAS_PREFIX_OR_POSTFIX")
 				.setSeverity(severity).setFilename(filename)
 				.setMessage("Variable has prefix or postfix " + variable + " and could be named better.")
+				.setVariable(variable)
 				.build());
 		}
 	}

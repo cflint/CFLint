@@ -513,6 +513,10 @@
           "severity": "INFO"
         },
         {
+          "code": "SCOPE_ALLCAPS_NAME",
+          "severity": "INFO"
+        },
+        {
           "code": "VAR_TOO_SHORT",
           "severity": "INFO"
         },

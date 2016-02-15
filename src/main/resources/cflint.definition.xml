@@ -233,6 +233,9 @@
 		<message code="VAR_ALLCAPS_NAME">
 			<severity>INFO</severity>
 		</message>
+		<message code="SCOPE_ALLCAPS_NAME">
+			<severity>INFO</severity>
+		</message>
 		<message code="VAR_TOO_SHORT">
 			<severity>INFO</severity>
 		</message>

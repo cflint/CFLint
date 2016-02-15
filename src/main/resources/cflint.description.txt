@@ -37,6 +37,7 @@ COMPLEX_BOOLEAN_CHECK:Complex boolean expression.
 EXPLICIT_BOOLEAN_CHECK:Checking boolean expession explicitly.
 VAR_INVALID_NAME:Variable has invalid name.
 VAR_ALLCAPS_NAME:Variable name is allcaps.
+SCOPE_ALLCAPS_NAME:Variable scope name is allcaps.
 VAR_TOO_SHORT:Variable name is too short.
 VAR_TOO_LONG:Variable name is too long.
 VAR_TOO_WORDY:Variable name contain too many words.

@@ -84,7 +84,7 @@ public class SimpleComplexityChecker extends CFLintScannerAdapter {
 			alreadyTooComplex = true;
 
 			bugs.add(new BugInfo.BugInfoBuilder().setLine(lineNo).setMessageCode("FUNCTION_TOO_COMPLEX")
-				.setSeverity(severity).setFilename(context.getFilename())
+				.setSeverity(severity).setFilename(context.getFilename()).setFunction(context.getFunctionName())
 				.setMessage("Function " + name + " is too complex. Consider breaking the function into smaller functions.")
 				.build());
 		}

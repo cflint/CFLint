@@ -73,7 +73,7 @@ public class TooManyFunctionsChecker extends CFLintScannerAdapter {
 		if (functionCount > threshold) {
 			alreadyTooMany = true;
 			bugs.add(new BugInfo.BugInfoBuilder().setLine(atLine).setMessageCode("EXCESSIVE_FUNCTIONS")
-					.setSeverity(severity).setFilename(context.getFilename()).setFunction(context.getFilename())
+					.setSeverity(severity).setFilename(context.getFilename()).setFunction(context.getFunctionName())
 					.setMessage("Function " + context.getFunctionName() + " has too many functions. Should be less than " + Integer.toString(threshold) + ".")
 					.build());
 		}

@@ -69,42 +69,49 @@ public class ArgumentNameChecker extends CFLintScannerAdapter {
 			bugs.add(new BugInfo.BugInfoBuilder().setLine(line).setMessageCode("ARGUMENT_INVALID_NAME")
 				.setSeverity(severity).setFilename(filename).setFunction(functionName)
 				.setMessage("Argument " + argument + " is not a valid name. Please use CamelCase or underscores.")
+				.setVariable(argument)
 				.build());
 		}
 		if (name.isUpperCase(argument)) {
 			bugs.add(new BugInfo.BugInfoBuilder().setLine(line).setMessageCode("ARGUMENT_ALLCAPS_NAME")
 				.setSeverity(severity).setFilename(filename).setFunction(functionName)
 				.setMessage("Argument " + argument + " should not be upper case.")
+				.setVariable(argument)
 				.build());
 		}
 		if (name.tooShort(argument)) {
 			bugs.add(new BugInfo.BugInfoBuilder().setLine(line).setMessageCode("ARGUMENT_TOO_SHORT")
 				.setSeverity(severity).setFilename(filename).setFunction(functionName)
 				.setMessage("Argument " + argument + " should be longer than " + minArgLength + " characters.")
+				.setVariable(argument)
 				.build());
 		}
 		if (name.tooLong(argument)) {
 			bugs.add(new BugInfo.BugInfoBuilder().setLine(line).setMessageCode("ARGUMENT_TOO_LONG")
 				.setSeverity(severity).setFilename(filename).setFunction(functionName)
 				.setMessage("Argument " + argument + " should be shorter than " + maxArgLength + " characters.")
+				.setVariable(argument)
 				.build());
 		}
 		if (!name.isUpperCase(argument) && name.tooWordy(argument)) {
 			bugs.add(new BugInfo.BugInfoBuilder().setLine(line).setMessageCode("ARGUMENT_TOO_WORDY")
 				.setSeverity(severity).setFilename(filename).setFunction(functionName)
 				.setMessage("Argument " + argument + " is too wordy, can you think of a more concise name?")
+				.setVariable(argument)
 				.build());
 		}
 		if (name.isTemporary(argument)) {
 			bugs.add(new BugInfo.BugInfoBuilder().setLine(line).setMessageCode("ARGUMENT_IS_TEMPORARY")
 				.setSeverity(severity).setFilename(filename).setFunction(functionName)
 				.setMessage("Temporary argument " + argument + " could be named better.")
+				.setVariable(argument)
 				.build());
 		}
 		if (name.hasPrefixOrPostfix(argument)) {
 			bugs.add(new BugInfo.BugInfoBuilder().setLine(line).setMessageCode("ARGUMENT_HAS_PREFIX_OR_POSTFIX")
 				.setSeverity(severity).setFilename(filename).setFunction(functionName)
 				.setMessage("Argument has prefix or postfix " + argument + " and could be named better.")
+				.setVariable(argument)
 				.build());
 		}
 	}

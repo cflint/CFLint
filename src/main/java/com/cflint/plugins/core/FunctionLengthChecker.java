@@ -62,7 +62,7 @@ public class FunctionLengthChecker extends CFLintScannerAdapter {
 
 		if (linesLength > length) {
 			bugs.add(new BugInfo.BugInfoBuilder().setLine(atLine).setMessageCode("EXCESSIVE_FUNCTION_LENGTH")
-					.setSeverity(severity).setFilename(context.getFilename())
+					.setSeverity(severity).setFilename(context.getFilename()).setFunction(context.getFunctionName())
 					.setMessage("Function " + context.getFunctionName() + " is " + Integer.toString(linesLength) + " lines. Should be less than " + Integer.toString(length) + " lines.")
 					.build());
 		}

@@ -23,7 +23,7 @@ public class MethodNameChecker extends CFLintScannerAdapter {
 		if (expression instanceof CFFuncDeclStatement) {
 			final CFFuncDeclStatement method = (CFFuncDeclStatement) expression;
 			int lineNo = method.getLine() + context.startLine() - 1;
-			checkNameForBugs(context.getFunctionName(), context.getFilename(), lineNo, bugs);
+			checkNameForBugs(context.getFunctionName(), context.getFilename(), context.getFunctionName(), lineNo, bugs);
 		}
 	}
 
@@ -31,11 +31,11 @@ public class MethodNameChecker extends CFLintScannerAdapter {
 	public void element(final Element element, final Context context, final BugList bugs) {
 		if (element.getName().equals("cffunction")) {
 			int lineNo = element.getSource().getRow(element.getBegin());
-			checkNameForBugs(context.getFunctionName(), context.getFilename(), lineNo, bugs);
+			checkNameForBugs(context.getFunctionName(), context.getFilename(), context.getFunctionName(), lineNo, bugs);
 		}
 	}
 
-	public void checkNameForBugs(String method, String filename, int line, BugList bugs) {
+	public void checkNameForBugs(String method, String filename, String functionName, int line, BugList bugs) {
 		int minMethodLength = ValidName.MIN_METHOD_LENGTH;
 		int maxMethodLength = ValidName.MAX_METHOD_LENGTH;
 		int maxMethodWords = ValidName.MAX_METHOD_WORDS;
@@ -62,43 +62,43 @@ public class MethodNameChecker extends CFLintScannerAdapter {
 
 		if (name.isInvalid(method)) {
 			bugs.add(new BugInfo.BugInfoBuilder().setLine(line).setMessageCode("METHOD_INVALID_NAME")
-				.setSeverity(severity).setFilename(filename)
+				.setSeverity(severity).setFilename(filename).setFunction(functionName)
 				.setMessage("Method name " + method + " is not a valid name. Please use CamelCase or underscores.")
 				.build());
 		}
 		if (name.isUpperCase(method)) {
 			bugs.add(new BugInfo.BugInfoBuilder().setLine(line).setMessageCode("METHOD_ALLCAPS_NAME")
-				.setSeverity(severity).setFilename(filename)
+				.setSeverity(severity).setFilename(filename).setFunction(functionName)
 				.setMessage("Method name " + method + " should not be upper case.")
 				.build());
 		}
 		if (name.tooShort(method)) {
 			bugs.add(new BugInfo.BugInfoBuilder().setLine(line).setMessageCode("METHOD_TOO_SHORT")
-				.setSeverity(severity).setFilename(filename)
+				.setSeverity(severity).setFilename(filename).setFunction(functionName)
 				.setMessage("Method name " + method + " should be longer than " + minMethodLength + " characters.")
 				.build());
 		}
 		if (name.tooLong(method)) {
 			bugs.add(new BugInfo.BugInfoBuilder().setLine(line).setMessageCode("METHOD_TOO_LONG")
-				.setSeverity(severity).setFilename(filename)
+				.setSeverity(severity).setFilename(filename).setFunction(functionName)
 				.setMessage("Method name " + method + " should be shorter than " + maxMethodLength + " characters.")
 				.build());
 		}
 		if (!name.isUpperCase(method) && name.tooWordy(method)) {
 			bugs.add(new BugInfo.BugInfoBuilder().setLine(line).setMessageCode("METHOD_TOO_WORDY")
-				.setSeverity(severity).setFilename(filename)
+				.setSeverity(severity).setFilename(filename).setFunction(functionName)
 				.setMessage("Method name " + method + " is too wordy, can you think of a more concise name?")
 				.build());
 		}
 		if (name.isTemporary(method)) {
 			bugs.add(new BugInfo.BugInfoBuilder().setLine(line).setMessageCode("METHOD_IS_TEMPORARY")
-				.setSeverity(severity).setFilename(filename)
+				.setSeverity(severity).setFilename(filename).setFunction(functionName)
 				.setMessage("Method name " + method + " could be named better.")
 				.build());
 		}
 		if (name.hasPrefixOrPostfix(method)) {
 			bugs.add(new BugInfo.BugInfoBuilder().setLine(line).setMessageCode("METHOD_HAS_PREFIX_OR_POSTFIX")
-				.setSeverity(severity).setFilename(filename)
+				.setSeverity(severity).setFilename(filename).setFunction(functionName)
 				.setMessage("Method name has prefix or postfix " + method + " and could be named better.")
 				.build());
 		}

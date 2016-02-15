@@ -95,6 +95,8 @@ public class UnusedArgumentChecker extends CFLintScannerAdapter {
 	    		presortbugs.add(new BugInfo.BugInfoBuilder().setLine(lineNo).setMessageCode("UNUSED_METHOD_ARGUMENT")
 					.setSeverity(severity).setFilename(context.getFilename())
 					.setMessage("Argument " + name + " is not used in function " + context.getFunctionName() + ", consider removing it.")
+					.setFunction(context.getFunctionName())
+					.setVariable(name)
 					.build());
 	    	}
 	    }

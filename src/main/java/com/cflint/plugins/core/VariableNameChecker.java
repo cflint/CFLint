@@ -24,7 +24,7 @@ public class VariableNameChecker extends CFLintScannerAdapter {
 		if (expression instanceof CFVarDeclExpression) {
 			final CFVarDeclExpression cfVarDeclExpression = (CFVarDeclExpression)expression;
 			int lineNo = expression.getLine() + context.startLine() - 1;
-			checkNameForBugs(cfVarDeclExpression.getName(), context.getFilename(), lineNo, bugs);
+			checkNameForBugs(cfVarDeclExpression.getName(), context.getFilename(), context.getFunctionName(), lineNo, bugs);
 		}
 		else if (expression instanceof CFFullVarExpression) {
 			final CFFullVarExpression cfFullVarExpression = (CFFullVarExpression)expression;
@@ -36,11 +36,11 @@ public class VariableNameChecker extends CFLintScannerAdapter {
 			String varName = ((CFIdentifier) expression).getName();
 			int lineNo = ((CFIdentifier) expression).getLine() + context.startLine() - 1;
 			
-			checkNameForBugs(varName, context.getFilename(), lineNo, bugs);
+			checkNameForBugs(varName, context.getFilename(), context.getFunctionName(), lineNo, bugs);
 		}
 	}
 
-	public void checkNameForBugs(String variable, String filename, int line, BugList bugs) {
+	public void checkNameForBugs(String variable, String filename, String functionName, int line, BugList bugs) {
 		int minVarLength = ValidName.MIN_VAR_LENGTH;
 		int maxVarLength = ValidName.MAX_VAR_LENGTH;
 		int maxVarWords = ValidName.MAX_VAR_WORDS;
@@ -70,6 +70,7 @@ public class VariableNameChecker extends CFLintScannerAdapter {
 			bugs.add(new BugInfo.BugInfoBuilder().setLine(line).setMessageCode("VAR_INVALID_NAME")
 				.setSeverity(severity).setFilename(filename)
 				.setMessage("Variable " + variable + " is not a valid name. Please use CamelCase or underscores.")
+				.setFunction(functionName)
 				.setVariable(variable)
 				.build());
 		}
@@ -77,6 +78,7 @@ public class VariableNameChecker extends CFLintScannerAdapter {
 			bugs.add(new BugInfo.BugInfoBuilder().setLine(line).setMessageCode("VAR_ALLCAPS_NAME")
 				.setSeverity(severity).setFilename(filename)
 				.setMessage("Variable " + variable + " should not be upper case.")
+				.setFunction(functionName)
 				.setVariable(variable)
 				.build());
 		}
@@ -91,6 +93,7 @@ public class VariableNameChecker extends CFLintScannerAdapter {
 			bugs.add(new BugInfo.BugInfoBuilder().setLine(line).setMessageCode("VAR_TOO_SHORT")
 				.setSeverity(severity).setFilename(filename)
 				.setMessage("Variable " + variable + " should be longer than " + minVarLength + " characters.")
+				.setFunction(functionName)
 				.setVariable(variable)
 				.build());
 		}
@@ -98,6 +101,7 @@ public class VariableNameChecker extends CFLintScannerAdapter {
 			bugs.add(new BugInfo.BugInfoBuilder().setLine(line).setMessageCode("VAR_TOO_LONG")
 				.setSeverity(severity).setFilename(filename)
 				.setMessage("Variable " + variable + " should be shorter than " + maxVarLength + " characters.")
+				.setFunction(functionName)
 				.setVariable(variable)
 				.build());
 		}
@@ -105,6 +109,7 @@ public class VariableNameChecker extends CFLintScannerAdapter {
 			bugs.add(new BugInfo.BugInfoBuilder().setLine(line).setMessageCode("VAR_TOO_WORDY")
 				.setSeverity(severity).setFilename(filename)
 				.setMessage("Variable " + variable + " is too wordy, can you think of a more concise name?")
+				.setFunction(functionName)
 				.setVariable(variable)
 				.build());
 		}
@@ -112,6 +117,7 @@ public class VariableNameChecker extends CFLintScannerAdapter {
 			bugs.add(new BugInfo.BugInfoBuilder().setLine(line).setMessageCode("VAR_IS_TEMPORARY")
 				.setSeverity(severity).setFilename(filename)
 				.setMessage("Temporary variable " + variable + " could be named better.")
+				.setFunction(functionName)
 				.setVariable(variable)
 				.build());
 		}
@@ -119,6 +125,7 @@ public class VariableNameChecker extends CFLintScannerAdapter {
 			bugs.add(new BugInfo.BugInfoBuilder().setLine(line).setMessageCode("VAR_HAS_PREFIX_OR_POSTFIX")
 				.setSeverity(severity).setFilename(filename)
 				.setMessage("Variable has prefix or postfix " + variable + " and could be named better.")
+				.setFunction(functionName)
 				.setVariable(variable)
 				.build());
 		}

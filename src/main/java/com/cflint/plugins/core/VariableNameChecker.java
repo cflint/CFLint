@@ -63,6 +63,7 @@ public class VariableNameChecker extends CFLintScannerAdapter {
 			} catch(Exception e) {}
 		}
 
+		CFScopes scope = new CFScopes();
 		ValidName name = new ValidName(minVarLength, maxVarLength, maxVarWords);
 
 		if (name.isInvalid(variable)) {
@@ -71,8 +72,14 @@ public class VariableNameChecker extends CFLintScannerAdapter {
 				.setMessage("Variable " + variable + " is not a valid name. Please use CamelCase or underscores.")
 				.build());
 		}
-		if (name.isUpperCase(variable)) {
+		if (!scope.isCFScoped(variable) && name.isUpperCase(variable)) {
 			bugs.add(new BugInfo.BugInfoBuilder().setLine(line).setMessageCode("VAR_ALLCAPS_NAME")
+				.setSeverity(severity).setFilename(filename)
+				.setMessage("Variable " + variable + " should not be upper case.")
+				.build());
+		}
+		if (scope.isCFScoped(variable) &&  name.isUpperCase(variable)) {
+			bugs.add(new BugInfo.BugInfoBuilder().setLine(line).setMessageCode("SCOPE_ALLCAPS_NAME")
 				.setSeverity(severity).setFilename(filename)
 				.setMessage("Variable " + variable + " should not be upper case.")
 				.build());

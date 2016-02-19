@@ -39,7 +39,7 @@ public class TestXMLOutput {
 "<issue severity=\"\" id=\"PARSE_ERROR\" message=\"PARSE_ERROR\" category=\"CFLint\" abbrev=\"PE\"><location file=\"c:\\temp\\test.cfc\" fileName=\"test.cfc\" function=\"testf\" column=\"0\" line=\"0\" message=\"\" variable=\"\"><Expression><![CDATA[]]></Expression></location>\n" +
 "</issue>\n" +
 "</issues>";
-		assertEquals(expectedText,writer.toString().replace("\r\n", "\n"));
+		assertEquals(expectedText.replace("\n", "").replace("\r", ""),writer.toString().replace("\n", "").replace("\r", ""));
 	}
 	
 }

@@ -38,6 +38,7 @@ import cfml.parsing.cfscript.CFIdentifier;
 import cfml.parsing.cfscript.CFLiteral;
 import cfml.parsing.cfscript.CFNestedExpression;
 import cfml.parsing.cfscript.CFStatement;
+import cfml.parsing.cfscript.CFStringExpression;
 import cfml.parsing.cfscript.CFUnaryExpression;
 import cfml.parsing.cfscript.CFVarDeclExpression;
 import cfml.parsing.cfscript.script.CFCompDeclStatement;
@@ -665,28 +666,33 @@ public class CFLint implements IErrorReporter {
 		} else if (expression instanceof CFVarDeclExpression) {
 			handler.addVariable(((CFVarDeclExpression) expression).getName());
 			process(((CFVarDeclExpression) expression).getInit(), filename, elem, functionName);
-		} else if (expression instanceof CFLiteral) {
-			if(expression.getToken().getType() == CFSCRIPTLexer.STRING_LITERAL){
-				for(String subExprStr : splitHash(expression.Decompile(0))){
-					try{
-						final CFExpression subExpression = cfmlParser.parseCFExpression(subExprStr,this);
-						if (expression == null) {
-							throw new NullPointerException("expression is null, parsing error");
-						}
-						process(subExpression, filename, elem,functionName);
-					} catch (final Exception npe) {
-						final int line = elem.getSource().getRow(elem.getBegin());
-						final int column = elem.getSource().getColumn(elem.getBegin());
-						if (!quiet) {
-							System.err.println("Error in: " + shortSource(elem.getSource(), line) + " @ " + line + ":");
-							if (verbose) {
-								npe.printStackTrace(System.err);
-							}
-						}
-					}
-				}
-					
+		} else if (expression instanceof CFStringExpression) {
+			CFStringExpression stringExpression = (CFStringExpression) expression;
+			for(CFExpression expr: stringExpression.getSubExpressions()){
+				process(expr,filename,elem,functionName);
 			}
+		} else if (expression instanceof CFLiteral) {
+//			if(expression.getToken().getType() == CFSCRIPTLexer.STRING_LITERAL){
+//				for(String subExprStr : splitHash(expression.Decompile(0))){
+//					try{
+//						final CFExpression subExpression = cfmlParser.parseCFExpression(subExprStr,this);
+//						if (expression == null) {
+//							throw new NullPointerException("expression is null, parsing error");
+//						}
+//						process(subExpression, filename, elem,functionName);
+//					} catch (final Exception npe) {
+//						final int line = elem.getSource().getRow(elem.getBegin());
+//						final int column = elem.getSource().getColumn(elem.getBegin());
+//						if (!quiet) {
+//							System.err.println("Error in: " + shortSource(elem.getSource(), line) + " @ " + line + ":");
+//							if (verbose) {
+//								npe.printStackTrace(System.err);
+//							}
+//						}
+//					}
+//				}
+//					
+//			}
 			// } else if (expression instanceof CFFullVarExpression) {
 			// if (((CFFullVarExpression) expression).getExpressions().size() ==
 			// 1) {
@@ -942,7 +948,7 @@ public class CFLint implements IErrorReporter {
 				line = elem.getSource().getRow(elem.getBegin()) + line - 1;
 			}
 		}
-		if(recognizer instanceof Parser && ((Parser)recognizer).getExpectedTokens().contains(65)){
+		if(recognizer instanceof Parser && ((Parser)recognizer).getExpectedTokens().contains(CFSCRIPTLexer.SEMICOLON)){
 			bugs.add(new BugInfo.BugInfoBuilder().setMessageCode("MISSING_SEMI")
 			.setFilename(file).setMessage("End of statement(;) expected instead of " + expression).setSeverity("ERROR")
 			.setExpression(expression)

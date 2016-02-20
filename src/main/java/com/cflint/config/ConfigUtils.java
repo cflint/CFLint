@@ -139,7 +139,7 @@ public class ConfigUtils {
 	/**
 	 * Load the plugin description.
 	 * 
-	 * @return MapList<Sring,String> map of message codes to descriptions
+	 * @return MapList&lt;String,String&gt; map of message codes to descriptions
 	 */
 	public static HashMap loadDescriptions() {
 		HashMap descriptions = new HashMap();

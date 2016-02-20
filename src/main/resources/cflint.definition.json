@@ -728,6 +728,11 @@
           "code": "AVOID_USING_DEBUG_ATTR",
            "messageText": "Avoid leaving debug attribute on tags.",
           "severity": "WARNING"
+        },
+        {
+          "code": "AVOID_USING_CFSETTING_DEBUG",
+           "messageText": "Avoid using showDebugOutput attribute on cfsetting.",
+          "severity": "WARNING"
         }
       ],
       "parameter": []

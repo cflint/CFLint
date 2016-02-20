@@ -69,4 +69,5 @@ AVOID_USING_CREATEOBJECT:Avoid use of creatobject statements.
 AVOID_USING_DEBUG_ATTR:Avoid use of debug attribute.
 UNUSED_LOCAL_VARIABLE:Unused local variable.
 UNUSED_METHOD_ARGUMENT:Unused method argument.
+AVOID_USING_CFSETTING_DEBUG:Avoid using showDebugOutput attribute on cfsetting.
 COMPARE_INSTEAD_OF_ASSIGN:Using comparision where assignment was probably meant.

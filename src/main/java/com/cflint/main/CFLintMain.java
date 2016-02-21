@@ -93,6 +93,7 @@ public class CFLintMain {
 		options.addOption("e", false, "log parsing errors as bugs");
 		options.addOption("q", false, "quiet");
 		options.addOption("quiet", false, "quiet");
+		options.addOption("?", false, "display this help");
 		options.addOption("h", false, "display this help");
 		options.addOption("help", false, "display this help");
 		options.addOption("xml", false, "output in xml format");

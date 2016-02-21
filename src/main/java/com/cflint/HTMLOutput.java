@@ -13,7 +13,7 @@ public class HTMLOutput {
 
 	final String htmlStyle;
 
-	public void output(final BugList bugList, final Writer writer) throws IOException, TransformerException {
+	public void output(final BugList bugList, final Writer writer, final boolean showStats) throws IOException, TransformerException {
 
 		// 1. Instantiate a TransformerFactory.
 		final javax.xml.transform.TransformerFactory tFactory = javax.xml.transform.TransformerFactory.newInstance();
@@ -31,7 +31,7 @@ public class HTMLOutput {
 		}
 
 		final StringWriter sw = new StringWriter();
-		new XMLOutput().outputFindBugs(bugList, sw);
+		new XMLOutput().outputFindBugs(bugList, sw, showStats);
 
 		// 3. Use the Transformer to transform an XML Source and send the
 		// output to a Result object.

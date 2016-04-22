@@ -60,6 +60,7 @@ test {
     testLogging {
         exceptionFormat = 'full'
         showExceptions true
-        events "passed", "skipped", "failed", "standardError"
+        events "skipped", "failed", "standardError"
+        showStandardStreams = true
     }
 }

@@ -39,6 +39,7 @@ import cfml.parsing.cfscript.CFIdentifier;
 import cfml.parsing.cfscript.CFLiteral;
 import cfml.parsing.cfscript.CFNestedExpression;
 import cfml.parsing.cfscript.CFStatement;
+import cfml.parsing.cfscript.CFStringExpression;
 import cfml.parsing.cfscript.CFUnaryExpression;
 import cfml.parsing.cfscript.CFVarDeclExpression;
 import cfml.parsing.cfscript.script.CFCompDeclStatement;
@@ -695,7 +696,13 @@ public class CFLint implements IErrorReporter {
 			// expression).getExpressions().get(0), filename, elem,
 			// functionName);
 			// }
-		} else {
+		} 
+		else if (expression instanceof CFStringExpression){
+			for(CFExpression expr : ((CFStringExpression) expression).getSubExpressions()){
+				process(expr,filename,elem,functionName);
+			}
+		}
+		else {
 		}
 	}
 	protected void reportRule(final Element elem, final Object expression, final Context context, final CFLintScanner plugin, String msg) {

@@ -27,6 +27,7 @@ import org.antlr.v4.runtime.atn.ATNConfigSet;
 import org.antlr.v4.runtime.dfa.DFA;
 
 import cfml.CFSCRIPTLexer;
+import cfml.CFSCRIPTParser;
 import cfml.parsing.CFMLParser;
 import cfml.parsing.CFMLSource;
 import cfml.parsing.cfscript.CFAssignmentExpression;
@@ -942,7 +943,7 @@ public class CFLint implements IErrorReporter {
 				line = elem.getSource().getRow(elem.getBegin()) + line - 1;
 			}
 		}
-		if(recognizer instanceof Parser && ((Parser)recognizer).getExpectedTokens().contains(65)){
+		if(recognizer instanceof Parser && ((Parser)recognizer).isExpectedToken(CFSCRIPTParser.SEMICOLON)){
 			bugs.add(new BugInfo.BugInfoBuilder().setMessageCode("MISSING_SEMI")
 			.setFilename(file).setMessage("End of statement(;) expected instead of " + expression).setSeverity("ERROR")
 			.setExpression(expression)

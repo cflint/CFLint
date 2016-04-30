@@ -233,6 +233,9 @@
 		<message code="VAR_ALLCAPS_NAME">
 			<severity>INFO</severity>
 		</message>
+		<message code="SCOPE_ALLCAPS_NAME">
+			<severity>INFO</severity>
+		</message>
 		<message code="VAR_TOO_SHORT">
 			<severity>INFO</severity>
 		</message>
@@ -332,6 +335,10 @@
 		<message code="AVOID_USING_DEBUG_ATTR">
 			<severity>WARNING</severity>
 			<messageText>Avoid leaving debug attribute on tags.</messageText>
+		</message>
+		<message code="AVOID_USING_CFSETTING_DEBUG">
+			<severity>WARNING</severity>
+			<messageText>Avoid using showDebugOutput attribute on cfsetting.</messageText>
 		</message>
 	</ruleImpl>
 	<ruleImpl name="UnusedLocalVarChecker" className="UnusedLocalVarChecker">

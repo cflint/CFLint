@@ -73,7 +73,7 @@ public class TestFiles {
 		cflint.process(inputString, sourceFile.getPath());
 		List<BugInfo> result = cflint.getBugs().getFlatBugList();
 		StringWriter writer = new StringWriter();
-		new JSONOutput().output(cflint.getBugs(), writer);
+		new JSONOutput().output(cflint.getBugs(), writer, false);
 		
 		String actualTree=writer.toString();
 		if (expectedText == null || expectedText.trim().length() == 0) {

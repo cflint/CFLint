@@ -247,7 +247,7 @@
       "className": "CFXTagChecker",
       "message": [
         {
-          "code": "AVOID_USING_CFINCUDE_TAG",
+          "code": "AVOID_USING_CFINCLUDE_TAG",
           "messageText": "Avoid using <${tagName}> tags. Use components instead.",
           "severity": "WARNING"
         }
@@ -513,6 +513,10 @@
           "severity": "INFO"
         },
         {
+          "code": "SCOPE_ALLCAPS_NAME",
+          "severity": "INFO"
+        },
+        {
           "code": "VAR_TOO_SHORT",
           "severity": "INFO"
         },
@@ -723,6 +727,11 @@
         {
           "code": "AVOID_USING_DEBUG_ATTR",
            "messageText": "Avoid leaving debug attribute on tags.",
+          "severity": "WARNING"
+        },
+        {
+          "code": "AVOID_USING_CFSETTING_DEBUG",
+           "messageText": "Avoid using showDebugOutput attribute on cfsetting.",
           "severity": "WARNING"
         }
       ],

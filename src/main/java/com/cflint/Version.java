@@ -20,7 +20,9 @@ public class Version {
 			}
 		} catch (final Exception e) {
 			try {
-				is.close();
+				if (is != null) {
+					is.close();
+				}
 			} catch (final IOException e1) {
 				e1.printStackTrace();
 			}

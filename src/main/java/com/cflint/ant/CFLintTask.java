@@ -40,6 +40,7 @@ public class CFLintTask extends Task {
 	String extensions;
 	boolean verbose;
 	boolean quiet;
+	boolean showStats;
 	private final List<FileSet> filesets = new ArrayList<FileSet>();
 
 	@Override
@@ -91,19 +92,19 @@ public class CFLintTask extends Task {
 					System.out.println("Style:" + xmlStyle);
 				}
 				if ("findbugs".equalsIgnoreCase(xmlStyle)) {
-					new XMLOutput().outputFindBugs(cflint.getBugs(), new FileWriter(xmlFile));
+					new XMLOutput().outputFindBugs(cflint.getBugs(), new FileWriter(xmlFile), showStats);
 				} else {
-					new XMLOutput().output(cflint.getBugs(), new FileWriter(xmlFile));
+					new XMLOutput().output(cflint.getBugs(), new FileWriter(xmlFile), showStats);
 				}
 			}
 			if (textFile != null) {
 				final Writer textwriter = textFile != null ? new FileWriter(textFile) : new OutputStreamWriter(System.out);
-				new TextOutput().output(cflint.getBugs(), textwriter);
+				new TextOutput().output(cflint.getBugs(), textwriter, showStats);
 
 			}
 			if (htmlFile != null) {
 				try {
-					new HTMLOutput(htmlStyle).output(cflint.getBugs(), new FileWriter(htmlFile));
+					new HTMLOutput(htmlStyle).output(cflint.getBugs(), new FileWriter(htmlFile), showStats);
 				} catch (final TransformerException e) {
 					throw new IOException(e);
 				}
@@ -191,7 +192,12 @@ public class CFLintTask extends Task {
 	public void setQuiet(final boolean quiet) {
 		this.quiet = quiet;
 	}
+
 	public void setConfigFile(File configFile) {
 		this.configFile = configFile;
+	}
+
+	public void setShowStats(final boolean verbose) {
+		this.showStats = showStats;
 	}
 }

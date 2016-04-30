@@ -57,7 +57,7 @@ public class TooManyArgumentsChecker extends CFLintScannerAdapter {
 
 		if (argumentCount > threshold) {
 			bugs.add(new BugInfo.BugInfoBuilder().setLine(atLine).setMessageCode("EXCESSIVE_ARGUMENTS")
-					.setSeverity(severity).setFilename(context.getFilename())
+					.setSeverity(severity).setFilename(context.getFilename()).setFunction(context.getFunctionName())
 					.setMessage("Function " + context.getFunctionName() + " has too many arguments. Has" + Integer.toString(argumentCount) + " arguments, should be less than " + Integer.toString(threshold) + ".")
 					.build());
 		}

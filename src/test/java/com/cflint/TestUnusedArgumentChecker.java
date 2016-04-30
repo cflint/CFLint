@@ -130,6 +130,21 @@ public class TestUnusedArgumentChecker {
 	}
 
 	@Test
+	public void testArgumentsUsedInScriptWithArgumentsScope() throws ParseException, IOException {
+		final String scriptSrc = "<cfscript>\r\n"
+			+ "component {\r\n"
+			+ "function sum(a,b) {\r\n"
+			+ "return arguments.a + arguments.b;\r\n"
+			+ "}\r\n"
+			+ "}\r\n"
+			+ "</cfscript>";
+			
+		cfBugs.process(scriptSrc, "test");
+		final Map<String, List<BugInfo>> result = cfBugs.getBugs().getBugList();
+		assertEquals(0, result.size());
+	}
+
+	@Test
 	public void testNoArgumentsInTag() throws ParseException, IOException {
 		final String tagSrc = "<cfcomponent>\r\n"
 			+ "<cffunction name=\"dummyFunction\">\r\n"
@@ -225,6 +240,21 @@ public class TestUnusedArgumentChecker {
 		assertEquals(5, result.get(1).getLine());
 		assertEquals("UNUSED_METHOD_ARGUMENT", result.get(2).getMessageCode());
 		assertEquals(6, result.get(2).getLine());		
+	}
+
+	@Test
+	public void testArgumentsUsedInTagWithArgumentsScope() throws ParseException, IOException {
+		final String tagSrc = "<cfcomponent>\r\n"
+			+ "<cffunction name=\"sum\">\r\n"
+			+ "<cfargument name=\"a\">\r\n"
+			+ "<cfargument name=\"b\">\r\n"
+			+ "<cfreturn arguments.a + arguments.b>\r\n"
+			+ "</cffunction>\r\n"
+			+ "</cfcomponent>\r\n";
+			
+		cfBugs.process(tagSrc, "test");
+		final Map<String, List<BugInfo>> result = cfBugs.getBugs().getBugList();
+		assertEquals(0, result.size());
 	}
 
 }

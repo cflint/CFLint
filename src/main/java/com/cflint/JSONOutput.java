@@ -30,7 +30,8 @@ public class JSONOutput {
 	}
 
 	@SuppressWarnings("unchecked")
-	public void output(final BugList bugList, final Writer writer) throws IOException {
+	public void output(final BugList bugList, final Writer writer, final boolean showStats) throws IOException {
+		BugCounts counts = new BugCounts();
 		// final StringBuilder sb = new StringBuilder();
 		JsonFactory jsonF = new JsonFactory();
 		JsonGenerator jg = jsonF.createGenerator(writer);
@@ -43,16 +44,21 @@ public class JSONOutput {
 			BugInfo prevbugInfo = null;
 
 			while (bugInfo != null) {
+				String severity = bugEntry.getValue().get(0).getSeverity();
+				String code = bugEntry.getValue().get(0).getMessageCode();
+				counts.add(code, severity);
+
 				jg.writeStartObject();
-				jg.writeStringField("severity", notNull(bugEntry.getValue().get(0).getSeverity()));
-				jg.writeStringField("id", bugEntry.getValue().get(0).getMessageCode());
-				jg.writeStringField("message", bugEntry.getValue().get(0).getMessageCode());
+				jg.writeStringField("severity", notNull(severity));
+				jg.writeStringField("id", code);
+				jg.writeStringField("message", code);
 				jg.writeStringField("category", "CFLINT");
-				jg.writeStringField("abbrev", abbrev(bugEntry.getValue().get(0).getMessageCode()));
+				jg.writeStringField("abbrev", abbrev(code));
 				do {
 					jg.writeObjectFieldStart("location");
 					jg.writeStringField("file",notNull(bugInfo.getFilename()));
 					jg.writeStringField("fileName",filename(bugInfo.getFilename()));
+					jg.writeStringField("function",filename(bugInfo.getFunction()));
 					jg.writeStringField("column",Integer.valueOf(bugInfo.getColumn()).toString());
 					jg.writeStringField("line",Integer.valueOf(bugInfo.getLine()).toString());
 					jg.writeStringField("message",notNull(bugInfo.getMessage()));
@@ -65,6 +71,25 @@ public class JSONOutput {
 				jg.writeEndObject();
 			}
 		}
+		
+		if (showStats) {
+			for (String code : counts.bugTypes()) {
+				jg.writeStartObject();
+				jg.writeStringField("code", code);
+				jg.writeStringField("count", Integer.toString(counts.getCode(code)));
+				jg.writeEndObject();
+			}
+			for (String severity:BugCounts.levels)
+			{
+				if (counts.getSeverity(severity) > 0) {
+					jg.writeStartObject();
+					jg.writeStringField("severity", severity);
+					jg.writeStringField("count", Integer.toString(counts.getSeverity(severity)));
+					jg.writeEndObject();
+				}
+			}
+		}
+
 		jg.writeEndArray();
 		jg.close();
 		writer.close();
@@ -98,9 +123,9 @@ public class JSONOutput {
 		return a != null && b != null && a.equals(b);
 	}
 
-	public void outputFindBugs(final BugList bugList, final Writer writer) throws IOException, TransformerException {
+	public void outputFindBugs(final BugList bugList, final Writer writer, final boolean showStats) throws IOException, TransformerException {
 		final StringWriter sw = new StringWriter();
-		output(bugList, sw);
+		output(bugList, sw, showStats);
 	}
 
 	private String filename(final String filename) {

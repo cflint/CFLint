@@ -19,16 +19,15 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.TypeFactory;
 
-public class TestJSONOutput {
+public class TestXMLOutput {
 
-	private JSONOutput outputer;
+	private XMLOutput outputer;
 	private BugList bugList;
 	private Writer writer;
 
 	@Before
 	public void setUp(){
-		outputer = new JSONOutput();
-		outputer.setPrettyPrint(false);
+		outputer = new XMLOutput();
 		bugList = new BugList(null);
 		writer = new StringWriter();
 	}
@@ -38,9 +37,11 @@ public class TestJSONOutput {
 		BugInfo bugInfo = new BugInfo.BugInfoBuilder().setFunction("testf").setMessageCode("PARSE_ERROR").setFilename("c:\\temp\\test.cfc").build();
 		bugList.add(bugInfo);
 		outputer.output(bugList, writer, false);
-		String expectedText = "[{\"severity\":\"\",\"id\":\"PARSE_ERROR\",\"message\":\"PARSE_ERROR\",\"category\":\"CFLINT\",\"abbrev\":\"PE\",\"location\":{\"file\":\"c:\\\\temp\\\\test.cfc\",\"fileName\":\"test.cfc\",\"function\":\"testf\",\"column\":\"0\",\"line\":\"0\",\"message\":\"\",\"variable\":\"\",\"expression\":\"\"}}]";
-//		assertEquals(JSONValue.parse(expectedText),JSONValue.parse(writer.toString()));
-		assertEquals(expectedText,writer.toString());
+		String expectedText = "<issues version=\"\">\n" +
+"<issue severity=\"\" id=\"PARSE_ERROR\" message=\"PARSE_ERROR\" category=\"CFLint\" abbrev=\"PE\"><location file=\"c:\\temp\\test.cfc\" fileName=\"test.cfc\" function=\"testf\" column=\"0\" line=\"0\" message=\"\" variable=\"\"><Expression><![CDATA[]]></Expression></location>\n" +
+"</issue>\n" +
+"</issues>";
+		assertEquals(expectedText.replace("\n", "").replace("\r", ""),writer.toString().replace("\n", "").replace("\r", ""));
 	}
 
 	@Test
@@ -48,8 +49,14 @@ public class TestJSONOutput {
 		BugInfo bugInfo = new BugInfo.BugInfoBuilder().setFunction("testf").setMessageCode("PARSE_ERROR").setFilename("c:\\temp\\test.cfc").build();
 		bugList.add(bugInfo);
 		outputer.output(bugList, writer, true);
-		String expectedText = "[{\"severity\":\"\",\"id\":\"PARSE_ERROR\",\"message\":\"PARSE_ERROR\",\"category\":\"CFLINT\",\"abbrev\":\"PE\",\"location\":{\"file\":\"c:\\\\temp\\\\test.cfc\",\"fileName\":\"test.cfc\",\"function\":\"testf\",\"column\":\"0\",\"line\":\"0\",\"message\":\"\",\"variable\":\"\",\"expression\":\"\"}},{\"code\":\"PARSE_ERROR\",\"count\":\"1\"}]";
-		assertEquals(expectedText,writer.toString());
+		String expectedText = "<issues version=\"\">\n" +
+"<issue severity=\"\" id=\"PARSE_ERROR\" message=\"PARSE_ERROR\" category=\"CFLint\" abbrev=\"PE\"><location file=\"c:\\temp\\test.cfc\" fileName=\"test.cfc\" function=\"testf\" column=\"0\" line=\"0\" message=\"\" variable=\"\"><Expression><![CDATA[]]></Expression></location>\n" +
+"</issue>\n" +
+"<counts>\n" +
+"<count code=\"PARSE_ERROR\" count=\"1\" />\n" +
+"</counts>" +
+"</issues>";
+		assertEquals(expectedText.replace("\n", "").replace("\r", ""),writer.toString().replace("\n", "").replace("\r", ""));
 	}
 	
 }

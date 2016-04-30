@@ -15,7 +15,8 @@ import javax.xml.transform.stream.StreamSource;
 
 public class XMLOutput {
 
-	public void output(final BugList bugList, final Writer writer) throws IOException {
+	public void output(final BugList bugList, final Writer writer, final boolean showStats) throws IOException {
+		BugCounts counts = new BugCounts();
 		// final StringBuilder sb = new StringBuilder();
 		writer.append("<issues version=\"" + Version.getVersion() + "\">").append(System.getProperty("line.separator"));
 		for (final Entry<String, List<BugInfo>> bugEntry : bugList.getBugList().entrySet()) {
@@ -24,17 +25,21 @@ public class XMLOutput {
 			BugInfo prevbugInfo = null;
 
 			while (bugInfo != null) {
+				String severity = bugEntry.getValue().get(0).getSeverity();
+				String code = bugEntry.getValue().get(0).getMessageCode();
+				counts.add(code, severity);
 				writer.append("<issue");
-				writer.append(" severity=\"").append(xmlEscapeText(bugEntry.getValue().get(0).getSeverity())).append("\"");
-				writer.append(" id=\"").append(xmlEscapeText(bugEntry.getValue().get(0).getMessageCode())).append("\"");
-				writer.append(" message=\"").append(xmlEscapeText(bugEntry.getValue().get(0).getMessageCode())).append("\"");
+				writer.append(" severity=\"").append(xmlEscapeText(severity)).append("\"");
+				writer.append(" id=\"").append(xmlEscapeText(code)).append("\"");
+				writer.append(" message=\"").append(xmlEscapeText(code)).append("\"");
 				writer.append(" category=\"CFLint\"");
-				writer.append(" abbrev=\"").append(abbrev(bugEntry.getValue().get(0).getMessageCode())).append("\"");
+				writer.append(" abbrev=\"").append(abbrev(code)).append("\"");
 				writer.append(">");
 				do {
 					writer.append("<location");
 					writer.append(" file=\"").append(xmlEscapeText(bugInfo.getFilename())).append("\"");
 					writer.append(" fileName=\"").append(xmlEscapeText(filename(bugInfo.getFilename()))).append("\"");
+					writer.append(" function=\"").append(xmlEscapeText(filename(bugInfo.getFunction()))).append("\"");
 					writer.append(" column=\"").append(Integer.valueOf(bugInfo.getColumn()).toString()).append("\"");
 					writer.append(" line=\"").append(Integer.valueOf(bugInfo.getLine()).toString()).append("\"");
 					writer.append(" message=\"").append(xmlEscapeText(bugInfo.getMessage())).append("\"");
@@ -51,6 +56,30 @@ public class XMLOutput {
 				writer.append("</issue>").append(System.getProperty("line.separator"));
 			}
 		}
+		
+		if (showStats) {
+			writer.append("<counts>").append(System.getProperty("line.separator"));
+
+			for (String code : counts.bugTypes()) {
+				writer.append("<count");
+				writer.append(" code=\"").append(code).append("\"");
+				writer.append(" count=\"").append(Integer.toString(counts.getCode(code))).append("\" />");	
+				writer.append(System.getProperty("line.separator"));
+			}
+
+			for (String severity:BugCounts.levels)
+			{
+				if (counts.getSeverity(severity) > 0) {
+					writer.append("<count");
+					writer.append(" severity=\"").append(severity).append("\"");
+					writer.append(" count=\"").append(Integer.toString(counts.getSeverity(severity))).append("\" />");	
+					writer.append(System.getProperty("line.separator"));
+				}
+			}
+
+			writer.append("</counts>").append(System.getProperty("line.separator"));
+		}
+
 		writer.append("</issues>");
 		writer.close();
 	}
@@ -83,9 +112,9 @@ public class XMLOutput {
 		return a != null && b != null && a.equals(b);
 	}
 
-	public void outputFindBugs(final BugList bugList, final Writer writer) throws IOException, TransformerException {
+	public void outputFindBugs(final BugList bugList, final Writer writer, final boolean showStats) throws IOException, TransformerException {
 		final StringWriter sw = new StringWriter();
-		output(bugList, sw);
+		output(bugList, sw, showStats);
 		// 1. Instantiate a TransformerFactory.
 		final javax.xml.transform.TransformerFactory tFactory = javax.xml.transform.TransformerFactory.newInstance();
 

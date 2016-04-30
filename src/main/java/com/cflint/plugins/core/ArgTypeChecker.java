@@ -26,14 +26,16 @@ public class ArgTypeChecker extends CFLintScannerAdapter {
 
 				if (variableType == null) {
 					bugs.add(new BugInfo.BugInfoBuilder().setLine(begLine).setMessageCode("ARG_TYPE_MISSING")
-						.setSeverity(severity).setFilename(context.getFilename())
+						.setSeverity(severity).setFilename(context.getFilename()).setFunction(context.getFunctionName())
 						.setMessage("Argument " + name + " is missing a type.")
+						.setVariable(name)
 						.build());
 				}
 				else if (variableType.equals("any")) {
 					bugs.add(new BugInfo.BugInfoBuilder().setLine(begLine).setMessageCode("ARG_TYPE_ANY")
-						.setSeverity(severity).setFilename(context.getFilename())
+						.setSeverity(severity).setFilename(context.getFilename()).setFunction(context.getFunctionName())
 						.setMessage("Argument " + name + " is any. Please change to be the correct type.")
+						.setVariable(name)
 						.build());
 				}
 			}
@@ -49,14 +51,17 @@ public class ArgTypeChecker extends CFLintScannerAdapter {
 
 			if (variableType == null) {
 				bugs.add(new BugInfo.BugInfoBuilder().setLine(begLine).setMessageCode("ARG_TYPE_MISSING")
-					.setSeverity(severity).setFilename(context.getFilename())
+					.setSeverity(severity).setFilename(context.getFilename()).setFunction(context.getFunctionName())
 					.setMessage("Argument " + name + " is missing a type.")
+					.setVariable(name)
 					.build());
 			}
 			else if (variableType.equals("any")) {
 				bugs.add(new BugInfo.BugInfoBuilder().setLine(begLine).setMessageCode("ARG_TYPE_ANY")
 					.setSeverity(severity).setFilename(context.getFilename())
+					.setFunction(context.getFunctionName())
 					.setMessage("Argument " + name + " is any. Please change to be the correct type.")
+					.setVariable(name)
 					.build());
 			}
 		}

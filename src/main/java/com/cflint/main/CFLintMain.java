@@ -18,6 +18,8 @@ import javax.swing.JOptionPane;
 import javax.xml.bind.JAXBException;
 import javax.xml.transform.TransformerException;
 
+import java.util.HashMap;
+
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.GnuParser;
@@ -32,6 +34,10 @@ import com.cflint.TextOutput;
 import com.cflint.Version;
 import com.cflint.XMLOutput;
 import com.cflint.config.CFLintConfig;
+import com.cflint.config.CFLintPluginInfo;
+import com.cflint.config.CFLintPluginInfo.PluginInfoRule;
+import com.cflint.config.CFLintPluginInfo.PluginInfoRule.PluginMessage;
+import com.cflint.config.ConfigRuntime;
 import com.cflint.config.ConfigUtils;
 import com.cflint.tools.CFLintFilter;
 
@@ -57,10 +63,11 @@ public class CFLintMain {
 	private String extensions;
 	boolean showprogress= false;
 	boolean progressUsesThread=true;
-	private String configfile = null;
 	private Boolean stdIn = false;
 	private String stdInFile = "source.cfc";
 	private Boolean stdOut = false;
+	private String configfile = null;
+	boolean showStats = false;
 
 	public static void main(final String[] args) throws ParseException, IOException, TransformerException, JAXBException {
 		//PropertyConfigurator.configure("/log4j.properties");
@@ -68,7 +75,8 @@ public class CFLintMain {
 		//Logger.getLogger("net.htmlparser.jericho");
 
 		final Options options = new Options();
-		// add t option
+		options.addOption("rules", false, "list of all supported rules");
+		options.addOption("config", false, "list of rules in config file");
 		options.addOption("includeRule", true, "specify rules to include");
 		options.addOption("excludeRule", true, "specify rules to exclude");
 		options.addOption("folder", true, "folder(s) to scan");
@@ -85,6 +93,7 @@ public class CFLintMain {
 		options.addOption("e", false, "log parsing errors as bugs");
 		options.addOption("q", false, "quiet");
 		options.addOption("quiet", false, "quiet");
+		options.addOption("?", false, "display this help");
 		options.addOption("h", false, "display this help");
 		options.addOption("help", false, "display this help");
 		options.addOption("xml", false, "output in xml format");
@@ -97,6 +106,7 @@ public class CFLintMain {
 		options.addOption("jsonfile", true, "specify the output json file (default: cflint-results.json)");
 		options.addOption("text", false, "output in plain text");
 		options.addOption("textfile", true, "specify the output text file (default: cflint-results.txt)");
+		options.addOption("stats", false, "show bug count statstics");
 		options.addOption("extensions", true, "specify the extensions of the CF source files (default: .cfm,.cfc)");
 		options.addOption("configfile", true, "specify the location of the config file");
 		options.addOption("stdin", true, "use stdin for file input (default: source.cfc)");
@@ -105,7 +115,9 @@ public class CFLintMain {
 
 		final CommandLineParser parser = new GnuParser();
 		final CommandLine cmd = parser.parse(options, args);
-		if (cmd.hasOption('h') || cmd.hasOption("help")) {
+		final CFLintMain main = new CFLintMain();
+
+		if (cmd.hasOption('h') || cmd.hasOption("help") || cmd.hasOption("?")) {
 			final HelpFormatter formatter = new HelpFormatter();
 			formatter.printHelp("cflint", options);
 			return;
@@ -114,20 +126,49 @@ public class CFLintMain {
 			System.out.println("CFLint " + Version.getVersion());
 			return;
 		}
-		final CFLintMain main = new CFLintMain();
+		if (cmd.hasOption("rules") || cmd.hasOption("config")) {
+			CFLintPluginInfo pluginInfo = new CFLintPluginInfo();
+
+			if (cmd.hasOption("configfile")) {
+				main.configfile  = cmd.getOptionValue("configfile");
+			}
+			if (cmd.hasOption("rules")) {
+				pluginInfo = ConfigUtils.loadDefaultPluginInfo();
+			}
+			ConfigRuntime config = new ConfigRuntime(loadConfig(main.configfile), pluginInfo);
+			HashMap descriptions = ConfigUtils.loadDescriptions();
+			System.out.println("Supported rules");
+			for (PluginInfoRule rule:config.getRules()) {
+				System.out.println("  " + rule.getName());
+				for (PluginMessage message:rule.getMessages()) {
+					System.out.println("    " + message.getCode() + " - " + descriptions.get(message.getCode()));
+				}
+			}
+
+			return;
+		}
+
 		main.verbose = (cmd.hasOption('v') || cmd.hasOption("verbose"));
 		main.quiet = (cmd.hasOption('q') || cmd.hasOption("quiet"));
 		main.logerror = (cmd.hasOption('e') || cmd.hasOption("logerror"));
 		main.xmlOutput = cmd.hasOption("xml") || cmd.hasOption("xmlstyle") || cmd.hasOption("xmlfile");
-		main.jsonOutput = cmd.hasOption("json") || cmd.hasOption("jsonfile");
 		main.textOutput = cmd.hasOption("text") || cmd.hasOption("textfile");
 		main.jsonOutput = cmd.hasOption("json") || cmd.hasOption("jsonFile");
+		main.showStats = cmd.hasOption("stats");
+
 		if (cmd.hasOption("ui")) {
 			main.ui();
 		}
 		// If an output is specified, htmlOutput is not defaulted to true.
-		if (main.xmlOutput || main.textOutput) {
+		if (main.xmlOutput || main.textOutput || main.jsonOutput) {
 			main.htmlOutput = cmd.hasOption("html") || cmd.hasOption("htmlstyle") || cmd.hasOption("htmlfile");
+		}
+
+		if (main.verbose) {
+			System.out.println("XML Output " + main.xmlOutput);
+			System.out.println("Text Output " + main.textOutput);
+			System.out.println("JSON Output " + main.jsonOutput);
+			System.out.println("HTML Output " + main.htmlOutput);
 		}
 
 		if (cmd.hasOption("folder")) {
@@ -210,15 +251,10 @@ public class CFLintMain {
 			Desktop.getDesktop().open(new File(htmlOutFile));
 			return;
 		}
-
-		if (htmlOutput) {
-			Desktop.getDesktop().open(new File(htmlOutFile));
-			return;
-		}
 		if (jsonOutput) {
 			Desktop.getDesktop().open(new File(jsonOutFile));
 			return;
-	}
+		}
 	}
 
 	private void ui() {
@@ -248,24 +284,31 @@ public class CFLintMain {
 			if (indx == 2||indx == 3) {
 				textOutput = true;
 			}
-
 			if (indx == 4) {
 				jsonOutput = true;
 			}
 		}
 	}
 
-	private void execute() throws IOException, TransformerException, JAXBException {
-		CFLintConfig config = null;
-		if(configfile != null){
-			if(configfile.toLowerCase().endsWith(".xml")){
-				config = ConfigUtils.unmarshal(new FileInputStream(configfile), CFLintConfig.class);
-			}else{
-				config = ConfigUtils.unmarshalJson(new FileInputStream(configfile), CFLintConfig.class);
+	private static CFLintConfig loadConfig(String configfile) {
+		if (configfile != null) {
+			try {
+				if (configfile.toLowerCase().endsWith(".xml")) {
+					return ConfigUtils.unmarshal(new FileInputStream(configfile), CFLintConfig.class);
+				} else {
+					return ConfigUtils.unmarshalJson(new FileInputStream(configfile), CFLintConfig.class);
+				}
 			}
-
+			catch (Exception e) {
+				System.err.println("Unable to load config file. " + e.getMessage());
+			}
 		}
-		final CFLint cflint = new CFLint(config);
+
+		return null;
+	}
+
+	private void execute() throws IOException, TransformerException, JAXBException {
+		final CFLint cflint = new CFLint(loadConfig(configfile));
 		cflint.setVerbose(verbose);
 		cflint.setLogError(logerror);
 		cflint.setQuiet(quiet);
@@ -316,12 +359,12 @@ public class CFLintMain {
 				if(verbose) {
 					display("Writing XML findbugs style" + (stdOut ? "." : " to " + xmlOutFile));
 				}
-				new XMLOutput().outputFindBugs(cflint.getBugs(), xmlwriter);
+				new XMLOutput().outputFindBugs(cflint.getBugs(), xmlwriter, showStats);
 			} else {
 				if(verbose) {
 					display("Writing XML" + (stdOut ? "." : " to " + xmlOutFile));
 				}
-				new XMLOutput().output(cflint.getBugs(), xmlwriter);
+				new XMLOutput().output(cflint.getBugs(), xmlwriter, showStats);
 			}
 		}
 		if (textOutput) {
@@ -331,8 +374,7 @@ public class CFLintMain {
 				}
 			}
 			Writer textwriter = stdOut || textOutFile==null ? new OutputStreamWriter(System.out) : new FileWriter(textOutFile);
-			new TextOutput().output(cflint.getBugs(), textwriter);
-
+			new TextOutput().output(cflint.getBugs(), textwriter, showStats);
 		}
 		if (htmlOutput) {
 			try {
@@ -340,7 +382,7 @@ public class CFLintMain {
 					display("Writing HTML" + (stdOut ? "." : " to " + htmlOutFile));
 				}
 				Writer htmlwriter = stdOut ? new OutputStreamWriter(System.out) : new FileWriter(htmlOutFile);
-				new HTMLOutput(htmlStyle).output(cflint.getBugs(), htmlwriter);
+				new HTMLOutput(htmlStyle).output(cflint.getBugs(), htmlwriter, showStats);
 			} catch (final TransformerException e) {
 				throw new IOException(e);
 			}
@@ -350,7 +392,7 @@ public class CFLintMain {
 				display("Writing JSON" + (stdOut ? "." : " to " + jsonOutFile));
 			}
 			Writer jsonwriter = stdOut ? new OutputStreamWriter(System.out) : new FileWriter(jsonOutFile);
-			new JSONOutput().output(cflint.getBugs(), jsonwriter);
+			new JSONOutput().output(cflint.getBugs(), jsonwriter, showStats);
 		}
 		if (includeCodes != null) {
 			cflint.getBugs().getFilter().includeCode(includeCodes);

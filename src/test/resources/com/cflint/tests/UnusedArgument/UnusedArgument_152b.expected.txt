@@ -9,7 +9,7 @@
     "fileName" : "UnusedArgument_152b.cfc",
     "function" : "helloWorld",
     "column" : "0",
-    "line" : "4",
+    "line" : "6",
     "message" : "Argument xyzzy is not used in function helloWorld, consider removing it.",
     "variable" : "xyzzy",
     "expression" : ""

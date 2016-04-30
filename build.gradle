@@ -59,5 +59,8 @@ dependencies {
 test {
     testLogging {
         exceptionFormat = 'full'
+        showExceptions true
+        events "skipped", "failed", "standardError"
+        showStandardStreams = true
     }
 }

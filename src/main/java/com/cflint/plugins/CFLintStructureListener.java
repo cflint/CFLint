@@ -13,40 +13,40 @@ public interface CFLintStructureListener {
 
 	/**
 	 * Called when processing of a new file has started
-	 * @param fileName
-	 * @param bugs
+	 * @param fileName Name of the file that started
+	 * @param bugs List of errors reported
 	 */
 	public void startFile(String fileName, BugList bugs);
 	/**
 	 * Called when processing of current file has ended 
-	 * @param fileName
-	 * @param bugs
+	 * @param fileName Name of the file that finished
+	 * @param bugs List of errors reported
 	 */
 	public void endFile(String fileName, BugList bugs);
 
 	/**
 	 * Called when processing a new component has started 
-	 * @param context
-	 * @param bugs
+	 * @param context Current context 
+	 * @param bugs List of errors reported
 	 */
 	public void startComponent(Context context, BugList bugs);
 	/**
 	 * Called when processing of current component has ended
-	 * @param context
-	 * @param bugs
+	 * @param context Current context 
+	 * @param bugs List of errors reported
 	 */
 	public void endComponent(Context context, BugList bugs);
 
 	/**
 	 * Called when processing of a new function has started 
-	 * @param context
-	 * @param bugs
+	 * @param context Current context 
+	 * @param bugs List of errors reported
 	 */
 	public void startFunction(Context context, BugList bugs);
 	/**
 	 * Called when processing of current function has ended 
-	 * @param context
-	 * @param bugs
+	 * @param context Current context 
+	 * @param bugs List of errors reported
 	 */
 	public void endFunction(Context context, BugList bugs);
 	

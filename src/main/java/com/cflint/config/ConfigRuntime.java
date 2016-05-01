@@ -39,6 +39,12 @@ public class ConfigRuntime extends CFLintConfig {
 					// Include the rule if at least one of the messages is included.
 					for (PluginMessage msg : rule.getMessages()) {
 						if (config.getIncludes().contains(msg)) {
+							for(PluginMessage cfgMsg: config.getIncludes()){
+								if(cfgMsg.equals(msg)){
+									merge(cfgMsg,msg);
+								}
+							}
+							
 							getRules().add(rule);
 							break;
 						}
@@ -60,7 +66,21 @@ public class ConfigRuntime extends CFLintConfig {
 			getRules().addAll(rules);
 		}
 	}
-
+    /*
+     * Apply the configuration to the existing rule.
+     * Overlay it.
+     */
+	private void merge(PluginMessage cfgMsg, PluginMessage msg) {
+		if(!isEmpty(cfgMsg.getMessageText())){
+			msg.setMessageText(cfgMsg.getMessageText());
+		}
+		if(!isEmpty(cfgMsg.getSeverity())){
+			msg.setSeverity(cfgMsg.getSeverity());
+		}
+	}
+	private boolean isEmpty(String messageText) {
+		return messageText==null || messageText.trim().length()==0;
+	}
 	public boolean isIncludeMessage(final String messageCode) {
 		return isIncludeMessage(new PluginMessage(messageCode));
 	}

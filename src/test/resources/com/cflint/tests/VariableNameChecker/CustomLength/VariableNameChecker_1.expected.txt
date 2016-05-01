@@ -1,0 +1,33 @@
+[ {
+  "severity" : "ERROR",
+  "id" : "VAR_TOO_SHORT",
+  "message" : "VAR_TOO_SHORT",
+  "category" : "CFLINT",
+  "abbrev" : "VT",
+  "locations" : [ {
+    "file" : "src/test/resources/com/cflint/tests/VariableNameChecker/CustomLength/VariableNameChecker_1.cfc",
+    "fileName" : "VariableNameChecker_1.cfc",
+    "function" : "helloWorld",
+    "column" : "7",
+    "line" : "5",
+    "message" : "Variable x should be longer than 4 characters.",
+    "variable" : "x",
+    "expression" : "var x = 1"
+  } ]
+}, {
+  "severity" : "ERROR",
+  "id" : "VAR_TOO_SHORT",
+  "message" : "VAR_TOO_SHORT",
+  "category" : "CFLINT",
+  "abbrev" : "VT",
+  "locations" : [ {
+    "file" : "src/test/resources/com/cflint/tests/VariableNameChecker/CustomLength/VariableNameChecker_1.cfc",
+    "fileName" : "VariableNameChecker_1.cfc",
+    "function" : "helloWorld",
+    "column" : "7",
+    "line" : "6",
+    "message" : "Variable yyy should be longer than 4 characters.",
+    "variable" : "yyy",
+    "expression" : "var yyy = 1"
+  } ]
+} ]

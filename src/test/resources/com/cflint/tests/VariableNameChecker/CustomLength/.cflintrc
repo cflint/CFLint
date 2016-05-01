@@ -1,0 +1,62 @@
+{  "includes": [
+    {
+      "code": "VAR_TOO_SHORT",
+      "severity": "ERROR"
+    }
+  ],
+    "rule": [
+    {
+      "name": "VariableNameChecker",
+      "className": "VariableNameChecker",
+      "message": [
+        {
+          "code": "VAR_INVALID_NAME",
+          "severity": "INFO"
+        },
+        {
+          "code": "VAR_ALLCAPS_NAME",
+          "severity": "INFO"
+        },
+        {
+          "code": "SCOPE_ALLCAPS_NAME",
+          "severity": "INFO"
+        },
+        {
+          "code": "VAR_TOO_SHORT",
+          "severity": "INFO",
+          "messageText": "Variable ${variable} should be longer than ${MinLength} characters."
+        },
+        {
+          "code": "VAR_TOO_LONG",
+          "severity": "INFO"
+        },
+        {
+          "code": "VAR_TOO_WORDY",
+          "severity": "INFO"
+        },
+        {
+          "code": "VAR_IS_TEMPORARY",
+          "severity": "INFO"
+        },
+        {
+          "code": "VAR_HAS_PREFIX_OR_POSTFIX",
+          "severity": "INFO"
+        }
+      ],
+      "parameter": [
+        {
+          "name": "MinLength",
+          "value": "4"
+        },
+        {
+          "name": "MaxLength",
+          "value": "20"
+        },
+        {
+          "name": "MaxWords",
+          "value": "4"
+        }
+      ]
+    }
+  ]  
+}

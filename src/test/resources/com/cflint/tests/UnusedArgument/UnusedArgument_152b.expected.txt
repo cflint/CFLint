@@ -4,14 +4,14 @@
   "message" : "UNUSED_METHOD_ARGUMENT",
   "category" : "CFLINT",
   "abbrev" : "UM",
-  "location" : {
-    "file" : "src\\test\\resources\\com\\cflint\\tests\\UnusedArgument\\UnusedArgument_152b.cfc",
+  "locations" : [ {
+    "file" : "src/test/resources/com/cflint/tests/UnusedArgument/UnusedArgument_152b.cfc",
     "fileName" : "UnusedArgument_152b.cfc",
     "function" : "helloWorld",
     "column" : "0",
-    "line" : "4",
+    "line" : "6",
     "message" : "Argument xyzzy is not used in function helloWorld, consider removing it.",
     "variable" : "xyzzy",
     "expression" : ""
-  }
+  } ]
 } ]

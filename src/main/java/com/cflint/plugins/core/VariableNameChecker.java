@@ -66,7 +66,8 @@ public class VariableNameChecker extends CFLintScannerAdapter {
 		if (!scope.isCFScoped(variable) && name.isUpperCase(variable)) {
 			context.addMessage("VAR_ALLCAPS_NAME",variable);
 		}
-		if (scope.isCFScoped(variable) &&  name.isUpperCase(variable)) {
+		if (scope.isCFScoped(variable) &&  name.isUpperCase(variable)
+			&& !getParameter("IgnoreUpperCaseScopes").contains(variable)) {
 			context.addMessage("SCOPE_ALLCAPS_NAME",variable);
 		}
 		if (name.tooShort(variable)) {

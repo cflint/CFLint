@@ -557,6 +557,10 @@
         {
           "name": "MaxWords",
           "value": "4"
+        },
+        {
+          "name": "IgnoreUpperCaseScopes",
+          "value": "CGI,URL"
         }
       ]
     },

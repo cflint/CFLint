@@ -72,8 +72,9 @@ public class ConfigUtils {
 		return (E) createUnmarshaller().unmarshal(
 				new InputStreamReader(inputStream));
 	}
-	
-	public static String marshalJson(Object obj) throws JsonGenerationException, JsonMappingException, IOException {
+
+	public static String marshalJson(Object obj)
+			throws JsonGenerationException, JsonMappingException, IOException {
 		StringWriter sw = new StringWriter();
 		ObjectMapper objectMapper = new ObjectMapper();
 		JaxbAnnotationModule module = new JaxbAnnotationModule();
@@ -84,18 +85,20 @@ public class ConfigUtils {
 
 	@SuppressWarnings("unchecked")
 	public static <E> E unmarshalJson(InputStream inputStream,
-			Class<E> expectedClass) throws JsonParseException, JsonMappingException, IOException {
+			Class<E> expectedClass) throws JsonParseException,
+			JsonMappingException, IOException {
 		ObjectMapper objectMapper = new ObjectMapper();
 		JaxbAnnotationModule module = new JaxbAnnotationModule();
 		objectMapper.registerModule(module);
-//		AnnotationIntrospector introspector = new JaxbAnnotationIntrospector();
-//		mapper.setAnnotationIntrospector(introspector);
+		// AnnotationIntrospector introspector = new
+		// JaxbAnnotationIntrospector();
+		// mapper.setAnnotationIntrospector(introspector);
 		return objectMapper.readValue(inputStream, expectedClass);
 	}
-	
+
 	@SuppressWarnings("unchecked")
-	public static <E> E unmarshalJson(Reader reader,
-			Class<E> expectedClass) throws JsonParseException, JsonMappingException, IOException {
+	public static <E> E unmarshalJson(Reader reader, Class<E> expectedClass)
+			throws JsonParseException, JsonMappingException, IOException {
 		ObjectMapper objectMapper = new ObjectMapper();
 		JaxbAnnotationModule module = new JaxbAnnotationModule();
 		objectMapper.registerModule(module);
@@ -103,8 +106,8 @@ public class ConfigUtils {
 	}
 
 	/**
-	 * Load the plugin definitions.
-	 * If it is available use the json definition file first.
+	 * Load the plugin definitions. If it is available use the json definition
+	 * file first.
 	 * 
 	 * @return CFLintPluginInfo instance of plugin definitions
 	 */
@@ -118,7 +121,7 @@ public class ConfigUtils {
 				e.printStackTrace(System.err);
 			}
 		}
-		
+
 		final InputStream inputStream = ConfigUtils.class
 				.getResourceAsStream("/cflint.definition.xml");
 		if (inputStream != null) {
@@ -142,18 +145,19 @@ public class ConfigUtils {
 				.getResourceAsStream("/cflint.description.txt");
 
 		try {
-			BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+			BufferedReader reader = new BufferedReader(new InputStreamReader(
+					inputStream));
 			String line;
-		    while ((line = reader.readLine()) != null) {
-		      	String[] parts = line.split(":");
-		      	if (parts.length == 2) {
-		      		descriptions.put(parts[0], parts[1]);
-		      	}
-		    }
+			while ((line = reader.readLine()) != null) {
+				String[] parts = line.split(":");
+				if (parts.length == 2) {
+					descriptions.put(parts[0], parts[1]);
+				}
+			}
 		} catch (Exception e) {
 			e.printStackTrace(System.err);
 		}
-		
+
 		return descriptions;
 	}
 

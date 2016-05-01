@@ -14,9 +14,9 @@ public class CFLintConfig {
 
 	List<ConfigOutput> output = new ArrayList<CFLintConfig.ConfigOutput>();
 	List<CFLintPluginInfo.PluginInfoRule> rules = new ArrayList<CFLintPluginInfo.PluginInfoRule>();
-	List<PluginMessage> excludes= new ArrayList<PluginMessage>();
-	List<PluginMessage> includes= new ArrayList<PluginMessage>();
-	
+	List<PluginMessage> excludes = new ArrayList<PluginMessage>();
+	List<PluginMessage> includes = new ArrayList<PluginMessage>();
+
 	public List<ConfigOutput> getOutput() {
 		return output;
 	}
@@ -25,12 +25,12 @@ public class CFLintConfig {
 	public void setOutput(final List<ConfigOutput> output) {
 		this.output = output;
 	}
-	
+
 	public List<CFLintPluginInfo.PluginInfoRule> getRules() {
 		return rules;
 	}
 
-	@XmlElement(name="rule")
+	@XmlElement(name = "rule")
 	public void setRules(List<CFLintPluginInfo.PluginInfoRule> rules) {
 		this.rules = rules;
 	}
@@ -39,7 +39,7 @@ public class CFLintConfig {
 		return excludes;
 	}
 
-	@XmlElement(name="excludes")
+	@XmlElement(name = "excludes")
 	public void setExcludes(List<PluginMessage> excludes) {
 		this.excludes = excludes;
 	}
@@ -48,7 +48,7 @@ public class CFLintConfig {
 		return includes;
 	}
 
-	@XmlElement(name="includes")
+	@XmlElement(name = "includes")
 	public void setIncludes(List<PluginMessage> includes) {
 		this.includes = includes;
 	}
@@ -60,12 +60,12 @@ public class CFLintConfig {
 		OutputXML html;
 		OutputXML xml;
 		OutputText json;
-		
+
 		public String getName() {
 			return name;
 		}
 
-		@XmlAttribute(name="name")
+		@XmlAttribute(name = "name")
 		public void setName(String name) {
 			this.name = name;
 		}
@@ -73,24 +73,26 @@ public class CFLintConfig {
 		public OutputText getText() {
 			return text;
 		}
+
 		public OutputText getJSON() {
 			return json;
 		}
 
-		@XmlElement(name="text")
+		@XmlElement(name = "text")
 		public void setText(OutputText text) {
 			this.text = text;
 		}
-		@XmlElement(name="json")
+
+		@XmlElement(name = "json")
 		public void setJSON(OutputText text) {
 			this.text = text;
 		}
-		
+
 		public OutputXML getHtml() {
 			return html;
 		}
 
-		@XmlElement(name="html")
+		@XmlElement(name = "html")
 		public void setHtml(OutputXML html) {
 			this.html = html;
 		}
@@ -99,7 +101,7 @@ public class CFLintConfig {
 			return xml;
 		}
 
-		@XmlElement(name="xml")
+		@XmlElement(name = "xml")
 		public void setXml(OutputXML xml) {
 			this.xml = xml;
 		}
@@ -111,12 +113,12 @@ public class CFLintConfig {
 				return file;
 			}
 
-			@XmlAttribute(name="file")
+			@XmlAttribute(name = "file")
 			public void setFile(String file) {
 				this.file = file;
 			}
 		}
-		
+
 		public static class OutputXML extends OutputText {
 			String style;
 
@@ -124,7 +126,7 @@ public class CFLintConfig {
 				return style;
 			}
 
-			@XmlAttribute(name="style")
+			@XmlAttribute(name = "style")
 			public void setStyle(String style) {
 				this.style = style;
 			}

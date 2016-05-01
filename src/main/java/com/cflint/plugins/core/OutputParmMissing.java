@@ -9,12 +9,14 @@ import com.cflint.plugins.Context;
 public class OutputParmMissing extends CFLintScannerAdapter {
 
 	@Override
-	public void element(final Element element, final Context context, final BugList bugs) {
+	public void element(final Element element, final Context context,
+			final BugList bugs) {
 		if (// element.getName().equals("cfcomponent") ||
 		element.getName().equals("cffunction")) {
 			final String outputAttr = element.getAttributeValue("output");
 			if (outputAttr == null) {
-				context.addMessage("OUTPUT_ATTR", element.getAttributeValue("name"));
+				context.addMessage("OUTPUT_ATTR",
+						element.getAttributeValue("name"));
 			}
 		}
 	}

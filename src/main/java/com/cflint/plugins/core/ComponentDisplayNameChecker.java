@@ -11,7 +11,8 @@ public class ComponentDisplayNameChecker extends CFLintScannerAdapter {
 	final String severity = "INFO";
 
 	@Override
-	public void element(final Element element, final Context context, final BugList bugs) {
+	public void element(final Element element, final Context context,
+			final BugList bugs) {
 		if (element.getName().equals("cfcomponent")) {
 			final String name = context.getComponentName();
 			final String nameAttribute = element.getAttributeValue("name");
@@ -22,11 +23,18 @@ public class ComponentDisplayNameChecker extends CFLintScannerAdapter {
 		}
 	}
 
-	protected void didYouMeanDisplayName(String name, Context context, BugList bugs) {
-		bugs.add(new BugInfo.BugInfoBuilder().setLine(1).setMessageCode("USE_DISPLAY_NAME")
-			.setSeverity(severity).setFilename(context.getFilename())
-			.setMessage("Component " + name + " is has a name attribute perhaps you meant to use displayName?")
-			.build());
+	protected void didYouMeanDisplayName(String name, Context context,
+			BugList bugs) {
+		bugs.add(new BugInfo.BugInfoBuilder()
+				.setLine(1)
+				.setMessageCode("USE_DISPLAY_NAME")
+				.setSeverity(severity)
+				.setFilename(context.getFilename())
+				.setMessage(
+						"Component "
+								+ name
+								+ " is has a name attribute perhaps you meant to use displayName?")
+				.build());
 	}
 
 }

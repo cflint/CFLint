@@ -21,10 +21,12 @@ public class ArgVarChecker extends CFLintScannerAdapter {
 	Set<String> alreadyReported2 = new HashSet<String>();
 
 	@Override
-	public void expression(final CFExpression expression, final Context context, final BugList bugs) {
+	public void expression(final CFExpression expression,
+			final Context context, final BugList bugs) {
 		if (expression instanceof CFVarDeclExpression) {
 			final String name = ((CFVarDeclExpression) expression).getName();
-			if (context.isInFunction() && context.getCallStack().hasArgument(name)) {
+			if (context.isInFunction()
+					&& context.getCallStack().hasArgument(name)) {
 				final String fileKey = context.fileFunctionString();
 				if (alreadyReported1.contains(fileKey)) {
 					return;
@@ -35,11 +37,14 @@ public class ArgVarChecker extends CFLintScannerAdapter {
 			}
 		} else if (expression instanceof CFFullVarExpression) {
 			final CFFullVarExpression fullVarExpr = (CFFullVarExpression) expression;
-			if (fullVarExpr.getExpressions().size() > 1 && fullVarExpr.getExpressions().get(0) instanceof CFIdentifier) {
-				final CFIdentifier cfIdentifier1 = (CFIdentifier) fullVarExpr.getExpressions().get(0);
+			if (fullVarExpr.getExpressions().size() > 1
+					&& fullVarExpr.getExpressions().get(0) instanceof CFIdentifier) {
+				final CFIdentifier cfIdentifier1 = (CFIdentifier) fullVarExpr
+						.getExpressions().get(0);
 				if (cfIdentifier1.getName().equalsIgnoreCase("arguments")
 						&& fullVarExpr.getExpressions().get(1) instanceof CFIdentifier) {
-					final CFIdentifier cfIdentifier2 = (CFIdentifier) fullVarExpr.getExpressions().get(1);
+					final CFIdentifier cfIdentifier2 = (CFIdentifier) fullVarExpr
+							.getExpressions().get(1);
 					final String name = cfIdentifier2.getName();
 					if (context.getCallStack().isVariable(name)) {
 						final String fileKey = context.fileFunctionString();

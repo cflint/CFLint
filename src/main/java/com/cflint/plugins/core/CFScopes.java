@@ -5,12 +5,9 @@ import java.util.Collection;
 
 public class CFScopes {
 
-	final static Collection<String> scopes = Arrays.asList(
-			"url", "form", "cookie",
-			"cgi", "server", "application",
-			"session", "client", "request",
-			"arguments", "variables", "this", "local",
-			"cfcatch");	
+	final static Collection<String> scopes = Arrays.asList("url", "form",
+			"cookie", "cgi", "server", "application", "session", "client",
+			"request", "arguments", "variables", "this", "local", "cfcatch");
 
 	protected String[] parts(final String variable) {
 		return variable.toLowerCase().split("\\.|\\[|\\]");
@@ -31,7 +28,8 @@ public class CFScopes {
 	}
 
 	public boolean isFunctionScoped(final String variable) {
-		return isScoped(variable, "local") || isScoped(variable, "variables") || isScoped(variable, "arguments");
+		return isScoped(variable, "local") || isScoped(variable, "variables")
+				|| isScoped(variable, "arguments");
 	}
 
 }

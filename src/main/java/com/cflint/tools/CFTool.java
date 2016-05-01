@@ -8,18 +8,19 @@ import cfml.parsing.cfscript.CFUnaryExpression;
 
 public class CFTool {
 
-	public static CFExpression sub(CFUnaryExpression expression){
+	public static CFExpression sub(CFUnaryExpression expression) {
 		Field f;
 		try {
 			f = CFUnaryExpression.class.getDeclaredField("sub");
 			f.setAccessible(true);
-			return (CFExpression)(f.get(expression));
+			return (CFExpression) (f.get(expression));
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}return null;
+		}
+		return null;
 	}
-	
+
 	public static Element getNamedParent(Element elem, final String tagName) {
 		elem = elem.getParentElement();
 		while (elem != null && !elem.getName().equals(tagName)) {
@@ -27,11 +28,12 @@ public class CFTool {
 		}
 		return elem;
 	}
-	
+
 	public static boolean toBoolean(final String value) {
-		if(value == null){
+		if (value == null) {
 			return false;
 		}
-		return value.trim().equalsIgnoreCase("yes") || value.trim().equalsIgnoreCase("true");
+		return value.trim().equalsIgnoreCase("yes")
+				|| value.trim().equalsIgnoreCase("true");
 	}
 }

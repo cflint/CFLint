@@ -63,7 +63,8 @@ public class StackHandler {
 	}
 
 	@SuppressWarnings("unchecked")
-	public Collection<Object> getPluginAllVars(final Class<?> clazz, final String var) {
+	public Collection<Object> getPluginAllVars(final Class<?> clazz,
+			final String var) {
 		final List<Object> retval = new ArrayList<Object>();
 		final String key = clazz.getName() + "_" + var;
 		final Iterator<Stack> iter = varStack.iterator();
@@ -81,7 +82,8 @@ public class StackHandler {
 		return retval;
 	}
 
-	public void setPluginVar(final Class<?> clazz, final String var, final Object value) {
+	public void setPluginVar(final Class<?> clazz, final String var,
+			final Object value) {
 		final String key = clazz.getName() + "_" + var;
 		varStack.peek().getPluginvariables().put(key, value);
 	}
@@ -107,6 +109,7 @@ public class StackHandler {
 		}
 		return false;
 	}
+
 	public boolean checkVariable(final String name) {
 		if (excludes.contains(name.toUpperCase())) {
 			return true;
@@ -114,7 +117,7 @@ public class StackHandler {
 		final Iterator<Stack> iter = varStack.iterator();
 		while (iter.hasNext()) {
 			final Stack vars = iter.next();
-			//Report only once per scope level
+			// Report only once per scope level
 			if (vars.getReported().contains(name.toUpperCase())) {
 				return true;
 			}
@@ -122,7 +125,8 @@ public class StackHandler {
 				return true;
 			}
 			if (vars.getArguments().contains(name.toUpperCase())) {
-				//Dereference of an argument without the arguments scope copies to local scope
+				// Dereference of an argument without the arguments scope copies
+				// to local scope
 				vars.getVariables().add(name.toUpperCase());
 				return true;
 			}

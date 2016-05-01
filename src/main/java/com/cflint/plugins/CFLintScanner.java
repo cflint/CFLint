@@ -13,7 +13,7 @@ public interface CFLintScanner {
 	void element(Element element, Context context, BugList bugs);
 
 	void expression(CFScriptStatement expression, Context context, BugList bugs);
-	
+
 	void setParameter(String name, String value);
 
 	void startFile(String fileName, BugList bugs);
@@ -27,5 +27,5 @@ public interface CFLintScanner {
 	void startFunction(Context context, BugList bugs);
 
 	void endFunction(Context context, BugList bugs);
-	
+
 }

@@ -36,7 +36,8 @@ public class BugList implements Iterable<BugInfo> {
 			if (!bugList.containsKey(bugInfo.getMessageCode())) {
 				bugList.put(bugInfo.getMessageCode(), new ArrayList<BugInfo>());
 			}
-			final List<BugInfo> curBugList = bugList.get(bugInfo.getMessageCode());
+			final List<BugInfo> curBugList = bugList.get(bugInfo
+					.getMessageCode());
 			return curBugList.add(bugInfo);
 		} else {
 			return false;
@@ -46,7 +47,7 @@ public class BugList implements Iterable<BugInfo> {
 	/**
 	 * Returns a list of bugs as a map.
 	 *
-	 * @return      Map of bugs
+	 * @return Map of bugs
 	 */
 	public Map<String, List<BugInfo>> getBugList() {
 		return bugList;

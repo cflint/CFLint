@@ -19,19 +19,21 @@ public class Context {
 	final StackHandler callStack;
 	final List<ContextMessage> messages = new ArrayList<ContextMessage>();
 
-
-	public Context(final String filename, final Element element, final CFIdentifier functionName,
+	public Context(final String filename, final Element element,
+			final CFIdentifier functionName,
 			final boolean inAssignmentExpression, final StackHandler handler) {
 		super();
 		this.filename = filename;
 		this.element = element;
-		this.functionName = functionName == null ? "" : functionName.Decompile(0);
+		this.functionName = functionName == null ? "" : functionName
+				.Decompile(0);
 		this.inAssignmentExpression = inAssignmentExpression;
 		this.callStack = handler;
 	}
 
-	public Context(final String filename, final Element element, final String functionName,
-			final boolean inAssignmentExpression, final StackHandler handler) {
+	public Context(final String filename, final Element element,
+			final String functionName, final boolean inAssignmentExpression,
+			final StackHandler handler) {
 		super();
 		this.filename = filename;
 		this.element = element;
@@ -61,7 +63,8 @@ public class Context {
 	}
 
 	public void setFunctionIdentifier(CFIdentifier functionName) {
-		this.functionName = functionName==null?"":functionName.Decompile(0);
+		this.functionName = functionName == null ? "" : functionName
+				.Decompile(0);
 	}
 
 	public void setFunctionName(String functionName) {
@@ -71,8 +74,7 @@ public class Context {
 	public void setComponentName(String componentName) {
 		if (componentName == null) {
 			this.componentName = componentFromFile(this.filename);
-		}
-		else {
+		} else {
 			this.componentName = componentName;
 		}
 	}
@@ -89,16 +91,16 @@ public class Context {
 		return callStack;
 	}
 
-	public String fileFunctionString(){
-		if(functionName == null && filename == null){
+	public String fileFunctionString() {
+		if (functionName == null && filename == null) {
 			return null;
 		}
 		StringBuilder key = new StringBuilder();
-		if(filename != null){
+		if (filename != null) {
 			key.append(filename.trim());
 		}
 		key.append(":");
-		if(functionName != null){
+		if (functionName != null) {
 			key.append(functionName);
 		}
 		return key.toString();
@@ -117,48 +119,51 @@ public class Context {
 	}
 
 	public void addMessage(String messageCode, String variable) {
-		messages.add(new ContextMessage(messageCode,variable));
+		messages.add(new ContextMessage(messageCode, variable));
 	}
-	
-	public static class ContextMessage{
+
+	public static class ContextMessage {
 		String messageCode;
 		String variable;
-		
+
 		public ContextMessage(String messageCode, String variable) {
 			super();
 			this.messageCode = messageCode;
 			this.variable = variable;
 		}
+
 		public String getMessageCode() {
 			return messageCode;
 		}
+
 		public String getVariable() {
 			return variable;
 		}
 	}
-	
-	public Context subContext(final Element elem){
-		Context context2 = new Context(getFilename(), elem, getFunctionName(),isInAssignmentExpression(), callStack);
+
+	public Context subContext(final Element elem) {
+		Context context2 = new Context(getFilename(), elem, getFunctionName(),
+				isInAssignmentExpression(), callStack);
 		context2.setInComponent(isInComponent());
 		return context2;
 	}
 
 	public int startLine() {
-		if(element != null && element.getSource() != null)
+		if (element != null && element.getSource() != null)
 			return element.getSource().getRow(element.getBegin());
-		else 
+		else
 			return 1; // not zero
 	}
 
 	protected String componentFromFile(String filename) {
 		int dotPosition = filename.lastIndexOf(".");
 		String separator = System.getProperty("file.separator");
-    	int seperatorPosition = filename.lastIndexOf(separator);
+		int seperatorPosition = filename.lastIndexOf(separator);
 
-    	if (dotPosition == -1 || seperatorPosition == -1) {
-    		return null;
-    	}
-    	
-    	return filename.substring(seperatorPosition+1, dotPosition);
+		if (dotPosition == -1 || seperatorPosition == -1) {
+			return null;
+		}
+
+		return filename.substring(seperatorPosition + 1, dotPosition);
 	}
 }

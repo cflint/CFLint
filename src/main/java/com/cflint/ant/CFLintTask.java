@@ -47,19 +47,22 @@ public class CFLintTask extends Task {
 	public void execute() {
 		try {
 			CFLintConfig config = null;
-			if(configFile != null){
-				if(configFile.getName().toLowerCase().endsWith(".xml")){
-					config = ConfigUtils.unmarshal(new FileInputStream(configFile), CFLintConfig.class);
-				}else{
-					config = ConfigUtils.unmarshalJson(new FileInputStream(configFile), CFLintConfig.class);
+			if (configFile != null) {
+				if (configFile.getName().toLowerCase().endsWith(".xml")) {
+					config = ConfigUtils.unmarshal(new FileInputStream(
+							configFile), CFLintConfig.class);
+				} else {
+					config = ConfigUtils.unmarshalJson(new FileInputStream(
+							configFile), CFLintConfig.class);
 				}
 			}
-			
+
 			final CFLint cflint = new CFLint(config);
 			cflint.setVerbose(verbose);
 			cflint.setQuiet(quiet);
 			if (extensions != null && extensions.trim().length() > 0) {
-				cflint.setAllowedExtensions(Arrays.asList(extensions.trim().split(",")));
+				cflint.setAllowedExtensions(Arrays.asList(extensions.trim()
+						.split(",")));
 			}
 			CFLintFilter filter = CFLintFilter.createFilter(verbose);
 			if (filterFile != null) {
@@ -68,7 +71,7 @@ public class CFLintTask extends Task {
 					final FileInputStream fis = new FileInputStream(ffile);
 					final byte b[] = new byte[fis.available()];
 					fis.read(b);
-					filter = CFLintFilter.createFilter(new String(b),verbose);
+					filter = CFLintFilter.createFilter(new String(b), verbose);
 				}
 			}
 			if (excludeRule != null && excludeRule.trim().length() > 0) {
@@ -92,34 +95,42 @@ public class CFLintTask extends Task {
 					System.out.println("Style:" + xmlStyle);
 				}
 				if ("findbugs".equalsIgnoreCase(xmlStyle)) {
-					new XMLOutput().outputFindBugs(cflint.getBugs(), new FileWriter(xmlFile), showStats);
+					new XMLOutput().outputFindBugs(cflint.getBugs(),
+							new FileWriter(xmlFile), showStats);
 				} else {
-					new XMLOutput().output(cflint.getBugs(), new FileWriter(xmlFile), showStats);
+					new XMLOutput().output(cflint.getBugs(), new FileWriter(
+							xmlFile), showStats);
 				}
 			}
 			if (textFile != null) {
-				final Writer textwriter = textFile != null ? new FileWriter(textFile) : new OutputStreamWriter(System.out);
-				new TextOutput().output(cflint.getBugs(), textwriter, showStats);
+				final Writer textwriter = textFile != null ? new FileWriter(
+						textFile) : new OutputStreamWriter(System.out);
+				new TextOutput()
+						.output(cflint.getBugs(), textwriter, showStats);
 
 			}
 			if (htmlFile != null) {
 				try {
-					new HTMLOutput(htmlStyle).output(cflint.getBugs(), new FileWriter(htmlFile), showStats);
+					new HTMLOutput(htmlStyle).output(cflint.getBugs(),
+							new FileWriter(htmlFile), showStats);
 				} catch (final TransformerException e) {
 					throw new IOException(e);
 				}
 			}
 			for (final FileSet fileset : filesets) {
 				int progress = 1;
-				final DirectoryScanner ds = fileset.getDirectoryScanner(getProject()); // 3
-				final ProgressMonitor progressMonitor = showProgress && filesets.size() > 0 ? new ProgressMonitor(null,
+				final DirectoryScanner ds = fileset
+						.getDirectoryScanner(getProject()); // 3
+				final ProgressMonitor progressMonitor = showProgress
+						&& filesets.size() > 0 ? new ProgressMonitor(null,
 						"CFLint", "", 1, ds.getIncludedFilesCount()) : null;
 				final String[] includedFiles = ds.getIncludedFiles();
 				for (final String includedFile : includedFiles) {
-					if(progressMonitor.isCanceled()){
+					if (progressMonitor.isCanceled()) {
 						throw new RuntimeException("CFLint scan cancelled");
 					}
-					final String filename = ds.getBasedir()+File.separator+includedFile;
+					final String filename = ds.getBasedir() + File.separator
+							+ includedFile;
 					progressMonitor.setNote("scanning " + includedFile);
 					cflint.scan(filename);
 					progressMonitor.setProgress(progress++);

@@ -1,4 +1,3 @@
-
 package com.cflint.plugins.core;
 
 import java.util.regex.Pattern;
@@ -34,11 +33,15 @@ public class ValidName {
 	}
 
 	public boolean isInvalid(String name) {
-		return !validChars(name) || endsInNumber(name) || !(isSameCase(name) || isCamelCaseLower(name) || usesUnderscores(name));
+		return !validChars(name)
+				|| endsInNumber(name)
+				|| !(isSameCase(name) || isCamelCaseLower(name) || usesUnderscores(name));
 	}
 
 	public boolean isInvalidComponent(String name) {
-		return !validChars(name) || endsInNumber(name) || !(isUpperCase(name) || isCamelCaseUpper(name) || usesUnderscores(name));
+		return !validChars(name)
+				|| endsInNumber(name)
+				|| !(isUpperCase(name) || isCamelCaseUpper(name) || usesUnderscores(name));
 	}
 
 	public boolean validChars(String name) {
@@ -51,17 +54,20 @@ public class ValidName {
 	}
 
 	public boolean isSameCase(String name) {
-		return name.equals(name.toLowerCase()) || name.equals(name.toUpperCase());
+		return name.equals(name.toLowerCase())
+				|| name.equals(name.toUpperCase());
 	}
 
 	public boolean isCamelCaseLower(String name) {
 		// [A-Z0-9]{2,5} catch names like productID, phone4G, requestURL etc etc
-		Pattern valid = Pattern.compile("^[a-z0-9]+([A-Z]{1,5}[a-z0-9]+)*([A-Z0-9]{2,5}){0,1}$");
+		Pattern valid = Pattern
+				.compile("^[a-z0-9]+([A-Z]{1,5}[a-z0-9]+)*([A-Z0-9]{2,5}){0,1}$");
 		return valid.matcher(name).matches();
 	}
 
 	public boolean isCamelCaseUpper(String name) {
-		Pattern valid = Pattern.compile("^([A-Z]{1,5}[a-z0-9]+)+([A-Z0-9]{2,5}){0,1}$");
+		Pattern valid = Pattern
+				.compile("^([A-Z]{1,5}[a-z0-9]+)+([A-Z0-9]{2,5}){0,1}$");
 		return valid.matcher(name).matches();
 	}
 
@@ -101,15 +107,15 @@ public class ValidName {
 	}
 
 	public boolean isTemporary(String name) {
-		String[] wordsToAvoid = {"temp", "tmp", "var", "func", "obj", "object", "bool", "struct", "string", "array", "comp"};
+		String[] wordsToAvoid = { "temp", "tmp", "var", "func", "obj",
+				"object", "bool", "struct", "string", "array", "comp" };
 		String sentence = name.replaceAll("_", " ");
-		sentence = sentence.replaceAll("(\\p{Ll})(\\p{Lu})","$1 $2");
+		sentence = sentence.replaceAll("(\\p{Ll})(\\p{Lu})", "$1 $2");
 		String[] words = sentence.split(" ");
-		
+
 		for (String badWord : wordsToAvoid) {
 			for (String word : words) {
-				if (word.toLowerCase().equals(badWord))
-				{
+				if (word.toLowerCase().equals(badWord)) {
 					return true;
 				}
 			}
@@ -119,21 +125,20 @@ public class ValidName {
 	}
 
 	public boolean hasPrefixOrPostfix(String name) {
-		String[] namesToAvoid = {"s", "st", "str", "o", "obj", "b", "q", "a", "arr", "this", "my"};
+		String[] namesToAvoid = { "s", "st", "str", "o", "obj", "b", "q", "a",
+				"arr", "this", "my" };
 		String sentence = name.replaceAll("_", " ");
-		sentence = sentence.replaceAll("(\\p{Ll})(\\p{Lu})","$1 $2");
+		sentence = sentence.replaceAll("(\\p{Ll})(\\p{Lu})", "$1 $2");
 		String[] words = sentence.split(" ");
 		String firstWord = words[0];
-		String lastWord = words[words.length-1];
+		String lastWord = words[words.length - 1];
 
 		if (words.length > 1) {
 			for (String badName : namesToAvoid) {
-				if (firstWord.toLowerCase().equals(badName))
-				{
+				if (firstWord.toLowerCase().equals(badName)) {
 					return true;
 				}
-				if (lastWord.toLowerCase().equals(badName))
-				{
+				if (lastWord.toLowerCase().equals(badName)) {
 					return true;
 				}
 			}

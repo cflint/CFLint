@@ -15,10 +15,13 @@ public class ArrayNewChecker extends CFLintScannerAdapter {
 	final String severity = "INFO";
 
 	@Override
-	public void expression(final CFScriptStatement expression, final Context context, final BugList bugs) {	
+	public void expression(final CFScriptStatement expression,
+			final Context context, final BugList bugs) {
 		if (expression instanceof CFExpressionStatement) {
-			String code = ((CFExpressionStatement) expression).getExpression().Decompile(0);
-			int lineNo = ((CFExpressionStatement) expression).getLine() + context.startLine() - 1;
+			String code = ((CFExpressionStatement) expression).getExpression()
+					.Decompile(0);
+			int lineNo = ((CFExpressionStatement) expression).getLine()
+					+ context.startLine() - 1;
 
 			if (code.toLowerCase().contains("arraynew(1)")) {
 				arrayNew(lineNo, context, bugs);
@@ -27,7 +30,8 @@ public class ArrayNewChecker extends CFLintScannerAdapter {
 	}
 
 	@Override
-	public void element(final Element element, final Context context, final BugList bugs) {
+	public void element(final Element element, final Context context,
+			final BugList bugs) {
 		if (element.getName().equals("cfset")) {
 			String content = element.getStartTag().getTagContent().toString();
 			int lineNo = element.getSource().getRow(element.getBegin());
@@ -38,10 +42,17 @@ public class ArrayNewChecker extends CFLintScannerAdapter {
 		}
 	}
 
-	protected void arrayNew(final int lineNo, final Context context, final BugList bugs) {
-		bugs.add(new BugInfo.BugInfoBuilder().setLine(lineNo).setMessageCode("AVOID_USING_ARRAYNEW")
-			.setSeverity(severity).setFilename(context.getFilename())
-			.setMessage("ArrayNew statement at line " + lineNo + ". Use implict array construction instead (= []).")
-			.build());
+	protected void arrayNew(final int lineNo, final Context context,
+			final BugList bugs) {
+		bugs.add(new BugInfo.BugInfoBuilder()
+				.setLine(lineNo)
+				.setMessageCode("AVOID_USING_ARRAYNEW")
+				.setSeverity(severity)
+				.setFilename(context.getFilename())
+				.setMessage(
+						"ArrayNew statement at line "
+								+ lineNo
+								+ ". Use implict array construction instead (= []).")
+				.build());
 	}
 }

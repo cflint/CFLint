@@ -24,22 +24,22 @@ public class UnusedLocalVarChecker extends CFLintScannerAdapter {
 	protected Map<String, Integer> variableLineNo = new HashMap<String, Integer>();
 
 	@Override
-	public void expression(final CFExpression expression, final Context context, final BugList bugs) {
+	public void expression(final CFExpression expression,
+			final Context context, final BugList bugs) {
 		if (expression instanceof CFFullVarExpression) {
-			CFExpression variable = ((CFFullVarExpression) expression).getExpressions().get(0);
+			CFExpression variable = ((CFFullVarExpression) expression)
+					.getExpressions().get(0);
 			if (variable instanceof CFIdentifier) {
 				String name = ((CFIdentifier) variable).getName();
 				if (!scopes.isCFScoped(name) || scopes.isLocalScoped(name)) {
 					localVariables.put(name, true);
 				}
 			}
-		}
-		else if (expression instanceof CFVarDeclExpression) {
+		} else if (expression instanceof CFVarDeclExpression) {
 			final String name = ((CFVarDeclExpression) expression).getName();
 			final int lineNo = expression.getLine() + context.startLine() - 1;
 			addLocalVariable(name, lineNo);
-		}
-		else if (expression instanceof CFIdentifier) {
+		} else if (expression instanceof CFIdentifier) {
 			localVariables.put(((CFIdentifier) expression).getName(), true);
 		}
 	}
@@ -51,37 +51,45 @@ public class UnusedLocalVarChecker extends CFLintScannerAdapter {
 		}
 	}
 
-	protected void setLocalVariableLineNo(final String variable, final Integer lineNo) {
+	protected void setLocalVariableLineNo(final String variable,
+			final Integer lineNo) {
 		if (variableLineNo.get(variable) == null) {
 			variableLineNo.put(variable, lineNo);
 		}
 	}
 
-	@Override	
+	@Override
 	public void startFunction(Context context, BugList bugs) {
 		localVariables.clear();
 		variableLineNo.clear();
 	}
 
-	@Override	
+	@Override
 	public void endFunction(Context context, BugList bugs) {
 		// sort by line number
 		final List<BugInfo> presortbugs = new ArrayList<BugInfo>();
 		for (Map.Entry<String, Boolean> variable : localVariables.entrySet()) {
 			Boolean used = variable.getValue();
-	    	if (!used) {
-	    		final String name = variable.getKey();
-	    		final Integer lineNo = variableLineNo.get(name);
-	    		presortbugs.add(new BugInfo.BugInfoBuilder().setLine(lineNo).setMessageCode("UNUSED_LOCAL_VARIABLE")
-					.setSeverity(severity).setFilename(context.getFilename()).setFunction(context.getFunctionName())
-					.setMessage("Local variable " + name + " is not used in function " + context.getFunctionName() + ", consider removing it.")
-					.setVariable(name)
-					.build());
-	    	}
-	    }
+			if (!used) {
+				final String name = variable.getKey();
+				final Integer lineNo = variableLineNo.get(name);
+				presortbugs.add(new BugInfo.BugInfoBuilder()
+						.setLine(lineNo)
+						.setMessageCode("UNUSED_LOCAL_VARIABLE")
+						.setSeverity(severity)
+						.setFilename(context.getFilename())
+						.setFunction(context.getFunctionName())
+						.setMessage(
+								"Local variable " + name
+										+ " is not used in function "
+										+ context.getFunctionName()
+										+ ", consider removing it.")
+						.setVariable(name).build());
+			}
+		}
 		// Sort the bugs by line/col before adding to the list of bugs.
 		Collections.sort(presortbugs);
-		for(BugInfo bugInfo : presortbugs ){
+		for (BugInfo bugInfo : presortbugs) {
 			bugs.add(bugInfo);
 		}
 	}

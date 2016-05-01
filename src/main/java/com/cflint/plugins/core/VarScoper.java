@@ -18,15 +18,19 @@ import com.cflint.plugins.Context;
 public class VarScoper extends CFLintScannerAdapter {
 
 	@Override
-	public void expression(final CFExpression expression, final Context context, final BugList bugs) {
+	public void expression(final CFExpression expression,
+			final Context context, final BugList bugs) {
 		if (expression instanceof CFIdentifier) {
-			//No issue
-			if(expression instanceof CFFullVarExpression && ((CFFullVarExpression) expression).getExpressions().size()>1){
+			// No issue
+			if (expression instanceof CFFullVarExpression
+					&& ((CFFullVarExpression) expression).getExpressions()
+							.size() > 1) {
 				return;
 			}
 			final String name = ((CFIdentifier) expression).getName();
 			if (context.isInFunction() && context.isInAssignmentExpression()
-					&& !context.getCallStack().checkVariable(name) && !isGlobal(name)) {
+					&& !context.getCallStack().checkVariable(name)
+					&& !isGlobal(name)) {
 				context.addMessage("MISSING_VAR", name);
 			} else if (expression instanceof CFFullVarExpression) {
 				final CFFullVarExpression fullVarExpr = (CFFullVarExpression) expression;
@@ -38,65 +42,81 @@ public class VarScoper extends CFLintScannerAdapter {
 	public VarScoper() {
 		// CHECK_ELEMENT_ATTRIBUTES.put("cfloop",
 		// Arrays.asList("index","item"));
-		CHECK_ELEMENT_ATTRIBUTES.put("cfinvoke", Arrays.asList("returnvariable"));
+		CHECK_ELEMENT_ATTRIBUTES.put("cfinvoke",
+				Arrays.asList("returnvariable"));
 		CHECK_ELEMENT_ATTRIBUTES.put("cffile", Arrays.asList("variable"));
-		CHECK_ELEMENT_ATTRIBUTES.put("cfsavecontent", Arrays.asList("variable"));
+		CHECK_ELEMENT_ATTRIBUTES
+				.put("cfsavecontent", Arrays.asList("variable"));
 		CHECK_ELEMENT_ATTRIBUTES.put("cfhttp", Arrays.asList("result"));
 		CHECK_ELEMENT_ATTRIBUTES.put("cfquery", Arrays.asList("result"));
 		CHECK_ELEMENT_ATTRIBUTES.put("cfmail", Arrays.asList("query"));
 		CHECK_ELEMENT_ATTRIBUTES.put("cfftp", Arrays.asList("result"));
 		CHECK_ELEMENT_ATTRIBUTES.put("cfwddx", Arrays.asList("output"));
 		CHECK_ELEMENT_ATTRIBUTES.put("cfexecute", Arrays.asList("variable"));
-		CHECK_ELEMENT_ATTRIBUTES.put("cfntauthenticate", Arrays.asList("result"));
+		CHECK_ELEMENT_ATTRIBUTES.put("cfntauthenticate",
+				Arrays.asList("result"));
 		CHECK_ELEMENT_ATTRIBUTES.put("cfxml", Arrays.asList("variable"));
 
 	}
 
 	Map<String, List<String>> CHECK_ELEMENT_ATTRIBUTES = new HashMap<String, List<String>>();
-	List<String> CHECK_NAMES = Arrays.asList(new String[] { "cfquery", "cfstoredproc", "cffeed", "cfdirectory",
-			"cfform", "cfftp", "cfobject", "cfsearch", "cfprocresult", "cfpop", "cfregistry", "cfreport", "cfdbinfo",
-			"cfdocument", "cfcollection", "cfpdf", "cfzip", "cfldap" });
+	List<String> CHECK_NAMES = Arrays.asList(new String[] { "cfquery",
+			"cfstoredproc", "cffeed", "cfdirectory", "cfform", "cfftp",
+			"cfobject", "cfsearch", "cfprocresult", "cfpop", "cfregistry",
+			"cfreport", "cfdbinfo", "cfdocument", "cfcollection", "cfpdf",
+			"cfzip", "cfldap" });
 
 	@Override
-	public void element(final Element element, final Context context, final BugList bugs) {
+	public void element(final Element element, final Context context,
+			final BugList bugs) {
 		final String name = element.getName();
 		if (name != null && name.trim().length() > 0 && context.isInFunction()) {
 			if (CHECK_NAMES.contains(name.toLowerCase())) {
-				assertVariable(element, context, bugs, element.getAttributeValue("name"));
+				assertVariable(element, context, bugs,
+						element.getAttributeValue("name"));
 			}
 			if (CHECK_ELEMENT_ATTRIBUTES.containsKey(name.toLowerCase())) {
-				for (final String attrName : CHECK_ELEMENT_ATTRIBUTES.get(name.toLowerCase())) {
-					assertVariable(element, context, bugs, element.getAttributeValue(attrName));
+				for (final String attrName : CHECK_ELEMENT_ATTRIBUTES.get(name
+						.toLowerCase())) {
+					assertVariable(element, context, bugs,
+							element.getAttributeValue(attrName));
 				}
 			}
 			if (name.equalsIgnoreCase("cfprocparam")) {
 				final String typeVar = element.getAttributeValue("type");
-				if (typeVar != null && (typeVar.equalsIgnoreCase("out") || typeVar.equalsIgnoreCase("inout"))) {
-					assertVariable(element, context, bugs, element.getAttributeValue("variable"));
+				if (typeVar != null
+						&& (typeVar.equalsIgnoreCase("out") || typeVar
+								.equalsIgnoreCase("inout"))) {
+					assertVariable(element, context, bugs,
+							element.getAttributeValue("variable"));
 				}
 			}
 			if (name.equalsIgnoreCase("cffeed")) {
 				final String typeVar = element.getAttributeValue("action");
 				if (typeVar != null && typeVar.equalsIgnoreCase("read")) {
-					assertVariable(element, context, bugs, element.getAttributeValue("query"));
+					assertVariable(element, context, bugs,
+							element.getAttributeValue("query"));
 				}
 			}
 		}
 	}
 
-	protected void assertVariable(final Element element, final Context context, final BugList bugs,
-			final String inameVar) {
-		final String nameVar = inameVar == null ? null : inameVar.split("\\.")[0].split("\\[")[0];
-		if (nameVar != null && !context.getCallStack().checkVariable(nameVar) && !isGlobal(nameVar)) {
+	protected void assertVariable(final Element element, final Context context,
+			final BugList bugs, final String inameVar) {
+		final String nameVar = inameVar == null ? null
+				: inameVar.split("\\.")[0].split("\\[")[0];
+		if (nameVar != null && !context.getCallStack().checkVariable(nameVar)
+				&& !isGlobal(nameVar)) {
 			context.addMessage("MISSING_VAR", inameVar);
 		}
 	}
 
-	final static Collection<String> variables = Arrays.asList("APPLICATION", "CGI", "COOKIE", "FORM", "REQUEST",
-			"SERVER", "SESSION", "URL");
-	
+	final static Collection<String> variables = Arrays.asList("APPLICATION",
+			"CGI", "COOKIE", "FORM", "REQUEST", "SERVER", "SESSION", "URL");
+
 	private boolean isGlobal(String nameVar) {
-		return nameVar != null && variables.contains(nameVar.toUpperCase().trim());
+		return nameVar != null
+				&& variables.contains(nameVar.toUpperCase().trim());
 	}
 
 }

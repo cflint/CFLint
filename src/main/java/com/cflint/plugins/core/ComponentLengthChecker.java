@@ -17,11 +17,13 @@ public class ComponentLengthChecker extends CFLintScannerAdapter {
 	final String severity = "INFO";
 
 	@Override
-	public void expression(final CFExpression expression, final Context context, final BugList bugs) {
+	public void expression(final CFExpression expression,
+			final Context context, final BugList bugs) {
 	}
 
 	@Override
-	public void expression(final CFScriptStatement expression, final Context context, final BugList bugs) {
+	public void expression(final CFScriptStatement expression,
+			final Context context, final BugList bugs) {
 		if (expression instanceof CFCompoundStatement) {
 			CFCompoundStatement component = (CFCompoundStatement) expression;
 			String decompile = component.Decompile(1);
@@ -32,11 +34,12 @@ public class ComponentLengthChecker extends CFLintScannerAdapter {
 	}
 
 	@Override
-	public void element(final Element element, final Context context, final BugList bugs) {
+	public void element(final Element element, final Context context,
+			final BugList bugs) {
 		String elementName = element.getName();
 
 		if (elementName.equals("cfcomponent")) {
-			//this includes whitespace-change it
+			// this includes whitespace-change it
 			int total = element.getAllStartTags().size();
 
 			checkSize(context, total, bugs);
@@ -52,9 +55,16 @@ public class ComponentLengthChecker extends CFLintScannerAdapter {
 		}
 
 		if (linesLength > length) {
-			bugs.add(new BugInfo.BugInfoBuilder().setLine(1).setMessageCode("EXCESSIVE_COMPONENT_LENGTH")
-					.setSeverity(severity).setFilename(context.getFilename())
-					.setMessage("Component " + context.getComponentName() + " is " + Integer.toString(linesLength) + " lines. Should be less than " + Integer.toString(length) + " lines.")
+			bugs.add(new BugInfo.BugInfoBuilder()
+					.setLine(1)
+					.setMessageCode("EXCESSIVE_COMPONENT_LENGTH")
+					.setSeverity(severity)
+					.setFilename(context.getFilename())
+					.setMessage(
+							"Component " + context.getComponentName() + " is "
+									+ Integer.toString(linesLength)
+									+ " lines. Should be less than "
+									+ Integer.toString(length) + " lines.")
 					.build());
 		}
 	}

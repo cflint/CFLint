@@ -10,11 +10,14 @@ import com.cflint.plugins.Context;
 public class TypedQueryNew extends CFLintScannerAdapter {
 
 	@Override
-	public void expression(final CFExpression expression, final Context context, final BugList bugs) {
+	public void expression(final CFExpression expression,
+			final Context context, final BugList bugs) {
 		if (expression instanceof CFFunctionExpression) {
 			final CFFunctionExpression cfFunctionExpr = (CFFunctionExpression) expression;
-			if ("QueryNew".equalsIgnoreCase(cfFunctionExpr.getName()) && cfFunctionExpr.getArgs().size() == 1) {
-				context.addMessage("QUERYNEW_DATATYPE", cfFunctionExpr.getName());
+			if ("QueryNew".equalsIgnoreCase(cfFunctionExpr.getName())
+					&& cfFunctionExpr.getArgs().size() == 1) {
+				context.addMessage("QUERYNEW_DATATYPE",
+						cfFunctionExpr.getName());
 			}
 		}
 	}

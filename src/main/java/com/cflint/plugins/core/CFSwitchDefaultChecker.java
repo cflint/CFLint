@@ -17,11 +17,13 @@ public class CFSwitchDefaultChecker extends CFLintScannerAdapter {
 	final String MESSAGE = "Not having a Default statement defined for a switch could pose potential issues";
 
 	@Override
-	public void expression(final CFScriptStatement expression, final Context context, final BugList bugs) {
+	public void expression(final CFScriptStatement expression,
+			final Context context, final BugList bugs) {
 		// see if expression is cfSwithStatement
 		if (expression instanceof CFSwitchStatement) {
 			final CFSwitchStatement switchStatement = (CFSwitchStatement) expression;
-			final String statement = switchStatement.Decompile(0).replace(" ", "").toLowerCase();
+			final String statement = switchStatement.Decompile(0)
+					.replace(" ", "").toLowerCase();
 			if (!statement.contains(CFSCRIPT_STATEMENT_REQUIRED)) {
 				context.addMessage(MESSAGE_CODE, null);
 			}
@@ -32,7 +34,8 @@ public class CFSwitchDefaultChecker extends CFLintScannerAdapter {
 
 	// rule is: provide a default for switch statements to fall through
 	@Override
-	public void element(final Element element, final Context context, final BugList bugs) {
+	public void element(final Element element, final Context context,
+			final BugList bugs) {
 		final String tagName = element.getName();
 		if (tagName.equalsIgnoreCase(CFML_TAG_CHECK)) {
 			boolean isDefault = false;

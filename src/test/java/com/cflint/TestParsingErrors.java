@@ -10,9 +10,9 @@ import org.junit.Test;
 
 import cfml.parsing.reporting.ParseException;
 
-import com.cflint.config.ConfigRuntime;
 import com.cflint.config.CFLintPluginInfo.PluginInfoRule;
 import com.cflint.config.CFLintPluginInfo.PluginInfoRule.PluginMessage;
+import com.cflint.config.ConfigRuntime;
 import com.cflint.plugins.core.VarScoper;
 
 public class TestParsingErrors {

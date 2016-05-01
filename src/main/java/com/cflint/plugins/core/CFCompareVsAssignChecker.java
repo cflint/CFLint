@@ -4,10 +4,8 @@ import java.util.Arrays;
 import java.util.List;
 
 import ro.fortsoft.pf4j.Extension;
-import net.htmlparser.jericho.Element;
 import cfml.CFSCRIPTLexer;
 import cfml.parsing.cfscript.CFBinaryExpression;
-import cfml.parsing.cfscript.CFExpression;
 import cfml.parsing.cfscript.script.CFExpressionStatement;
 import cfml.parsing.cfscript.script.CFScriptStatement;
 

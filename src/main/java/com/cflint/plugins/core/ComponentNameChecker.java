@@ -1,18 +1,14 @@
 package com.cflint.plugins.core;
 
-import ro.fortsoft.pf4j.Extension;
 import net.htmlparser.jericho.Element;
-import net.htmlparser.jericho.Attributes;
-import cfml.parsing.cfscript.script.CFScriptStatement;
+import ro.fortsoft.pf4j.Extension;
 import cfml.parsing.cfscript.script.CFCompDeclStatement;
-
+import cfml.parsing.cfscript.script.CFScriptStatement;
 
 import com.cflint.BugInfo;
 import com.cflint.BugList;
 import com.cflint.plugins.CFLintScannerAdapter;
 import com.cflint.plugins.Context;
-
-import java.util.regex.Pattern;
 
 @Extension
 public class ComponentNameChecker extends CFLintScannerAdapter {

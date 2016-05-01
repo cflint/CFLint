@@ -1,8 +1,6 @@
 package com.cflint;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.StringReader;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.util.Arrays;
@@ -11,9 +9,7 @@ import java.util.List;
 import java.util.Map.Entry;
 
 import javax.xml.transform.TransformerException;
-import javax.xml.transform.stream.StreamSource;
 
-import com.fasterxml.jackson.core.JsonEncoding;
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonGenerator;
 

@@ -1,5 +1,6 @@
 package com.cflint.plugins.core;
 
+import net.htmlparser.jericho.Element;
 import ro.fortsoft.pf4j.Extension;
 import cfml.parsing.cfscript.script.CFFuncDeclStatement;
 import cfml.parsing.cfscript.script.CFFunctionParameter;
@@ -9,10 +10,6 @@ import com.cflint.BugInfo;
 import com.cflint.BugList;
 import com.cflint.plugins.CFLintScannerAdapter;
 import com.cflint.plugins.Context;
-
-import java.util.regex.Pattern;
-
-import net.htmlparser.jericho.Element;
 
 @Extension
 public class ArgumentNameChecker extends CFLintScannerAdapter {

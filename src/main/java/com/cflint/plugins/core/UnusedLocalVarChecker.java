@@ -1,15 +1,14 @@
 package com.cflint.plugins.core;
 
-import java.util.Map;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-import cfml.parsing.cfscript.CFAssignmentExpression;
 import cfml.parsing.cfscript.CFExpression;
-import cfml.parsing.cfscript.CFIdentifier;
 import cfml.parsing.cfscript.CFFullVarExpression;
+import cfml.parsing.cfscript.CFIdentifier;
 import cfml.parsing.cfscript.CFVarDeclExpression;
 
 import com.cflint.BugInfo;

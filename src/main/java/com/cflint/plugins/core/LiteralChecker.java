@@ -1,16 +1,13 @@
 package com.cflint.plugins.core;
 
-import java.util.Map;
 import java.util.HashMap;
+import java.util.Map;
 
 import ro.fortsoft.pf4j.Extension;
 import cfml.parsing.cfscript.CFExpression;
-import cfml.parsing.cfscript.CFFunctionExpression;
 import cfml.parsing.cfscript.CFLiteral;
 import cfml.parsing.cfscript.script.CFCompDeclStatement;
-import cfml.parsing.cfscript.script.CFExpressionStatement;
 import cfml.parsing.cfscript.script.CFScriptStatement;
-
 
 import com.cflint.BugInfo;
 import com.cflint.BugList;

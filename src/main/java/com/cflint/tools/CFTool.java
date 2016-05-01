@@ -3,7 +3,6 @@ package com.cflint.tools;
 import java.lang.reflect.Field;
 
 import net.htmlparser.jericho.Element;
-
 import cfml.parsing.cfscript.CFExpression;
 import cfml.parsing.cfscript.CFUnaryExpression;
 

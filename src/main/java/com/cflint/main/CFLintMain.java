@@ -9,6 +9,7 @@ import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 
@@ -17,8 +18,6 @@ import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.xml.bind.JAXBException;
 import javax.xml.transform.TransformerException;
-
-import java.util.HashMap;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;

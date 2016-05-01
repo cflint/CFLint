@@ -1,14 +1,8 @@
 package com.cflint.plugins.core;
-import java.util.*;
-import ro.fortsoft.pf4j.Extension;
 import net.htmlparser.jericho.Element;
+import ro.fortsoft.pf4j.Extension;
 import cfml.parsing.cfscript.CFExpression;
 import cfml.parsing.cfscript.script.CFScriptStatement;
-
-import net.htmlparser.jericho.Tag;
-import net.htmlparser.jericho.StartTag;
-import net.htmlparser.jericho.Segment;
-import net.htmlparser.jericho.Source;
 
 import com.cflint.BugInfo;
 import com.cflint.BugList;

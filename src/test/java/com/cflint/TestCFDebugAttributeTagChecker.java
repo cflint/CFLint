@@ -13,7 +13,6 @@ import com.cflint.config.CFLintPluginInfo.PluginInfoRule;
 import com.cflint.config.CFLintPluginInfo.PluginInfoRule.PluginMessage;
 import com.cflint.config.ConfigRuntime;
 import com.cflint.plugins.core.CFDebugAttributeChecker;
-import com.cflint.plugins.core.CFXTagChecker;
 
 public class TestCFDebugAttributeTagChecker {
 

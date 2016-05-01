@@ -1,11 +1,7 @@
 package com.cflint.plugins.core;
 
-import net.htmlparser.jericho.Element;
-import cfml.parsing.cfscript.CFExpression;
 import cfml.parsing.cfscript.CFBinaryExpression;
-import cfml.parsing.cfscript.script.CFScriptStatement;
-import cfml.parsing.cfscript.script.CFIfStatement;
-import cfml.parsing.cfscript.script.CFExpressionStatement;
+import cfml.parsing.cfscript.CFExpression;
 
 import com.cflint.BugInfo;
 import com.cflint.BugList;

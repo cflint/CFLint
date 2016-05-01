@@ -4,11 +4,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import net.htmlparser.jericho.Element;
-import cfml.parsing.cfscript.CFBinaryExpression;
 import cfml.parsing.cfscript.CFExpression;
 import cfml.parsing.cfscript.CFFunctionExpression;
-import cfml.parsing.cfscript.CFJavaMethodExpression;
-import cfml.parsing.cfscript.CFFullVarExpression;
 
 import com.cflint.BugList;
 import com.cflint.plugins.CFLintScannerAdapter;

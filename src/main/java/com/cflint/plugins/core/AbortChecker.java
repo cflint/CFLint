@@ -1,9 +1,7 @@
 package com.cflint.plugins.core;
 
 import ro.fortsoft.pf4j.Extension;
-import cfml.parsing.cfscript.CFFunctionExpression;
 import cfml.parsing.cfscript.script.CFAbortStatement;
-import cfml.parsing.cfscript.script.CFExpressionStatement;
 import cfml.parsing.cfscript.script.CFScriptStatement;
 
 import com.cflint.BugInfo;

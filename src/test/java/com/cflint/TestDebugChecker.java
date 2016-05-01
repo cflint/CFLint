@@ -14,7 +14,6 @@ import com.cflint.config.CFLintPluginInfo.PluginInfoRule;
 import com.cflint.config.CFLintPluginInfo.PluginInfoRule.PluginMessage;
 import com.cflint.config.ConfigRuntime;
 import com.cflint.plugins.core.FunctionXChecker;
-import com.cflint.plugins.core.WriteDumpChecker;
 
 public class TestDebugChecker {
 

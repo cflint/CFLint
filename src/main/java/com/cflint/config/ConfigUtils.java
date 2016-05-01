@@ -1,31 +1,26 @@
 package com.cflint.config;
 
 import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.StringReader;
 import java.io.StringWriter;
+import java.util.HashMap;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 
-import java.util.HashMap;
-
 import com.cflint.config.CFLintPluginInfo.PluginInfoRule;
 import com.cflint.config.CFLintPluginInfo.PluginInfoRule.PluginParameter;
 import com.cflint.plugins.CFLintScanner;
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.AnnotationIntrospector;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.introspect.JacksonAnnotationIntrospector;
-import com.fasterxml.jackson.module.jaxb.JaxbAnnotationIntrospector;
 import com.fasterxml.jackson.module.jaxb.JaxbAnnotationModule;
 
 public class ConfigUtils {

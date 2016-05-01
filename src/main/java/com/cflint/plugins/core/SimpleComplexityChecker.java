@@ -1,24 +1,20 @@
 package com.cflint.plugins.core;
 
 import net.htmlparser.jericho.Element;
-import cfml.parsing.cfscript.CFFunctionExpression;
-import cfml.parsing.cfscript.script.CFIfStatement;
-import cfml.parsing.cfscript.script.CFForStatement;
+import cfml.parsing.cfscript.script.CFDoWhileStatement;
 import cfml.parsing.cfscript.script.CFForInStatement;
+import cfml.parsing.cfscript.script.CFForStatement;
+import cfml.parsing.cfscript.script.CFFuncDeclStatement;
+import cfml.parsing.cfscript.script.CFIfStatement;
+import cfml.parsing.cfscript.script.CFScriptStatement;
 import cfml.parsing.cfscript.script.CFSwitchStatement;
 import cfml.parsing.cfscript.script.CFTryCatchStatement;
-import cfml.parsing.cfscript.script.CFCompDeclStatement;
-import cfml.parsing.cfscript.script.CFFuncDeclStatement;
-import cfml.parsing.cfscript.script.CFFunctionParameter;
-import cfml.parsing.cfscript.script.CFScriptStatement;
 import cfml.parsing.cfscript.script.CFWhileStatement;
-import cfml.parsing.cfscript.script.CFDoWhileStatement;
 
 import com.cflint.BugInfo;
 import com.cflint.BugList;
 import com.cflint.plugins.CFLintScannerAdapter;
 import com.cflint.plugins.Context;
-import com.cflint.tools.CFTool;
 
 public class SimpleComplexityChecker extends CFLintScannerAdapter {
 	final String severity = "WARNING";

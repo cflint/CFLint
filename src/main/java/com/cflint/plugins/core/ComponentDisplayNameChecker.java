@@ -7,11 +7,6 @@ import com.cflint.BugList;
 import com.cflint.plugins.CFLintScannerAdapter;
 import com.cflint.plugins.Context;
 
-import cfml.parsing.cfscript.script.CFCompDeclStatement;
-import cfml.parsing.cfscript.script.CFScriptStatement;
-
-import java.util.Vector;
-
 public class ComponentDisplayNameChecker extends CFLintScannerAdapter {
 	final String severity = "INFO";
 

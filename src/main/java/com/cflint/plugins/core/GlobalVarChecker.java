@@ -1,8 +1,8 @@
 package com.cflint.plugins.core;
 
 import cfml.parsing.cfscript.CFExpression;
-import cfml.parsing.cfscript.CFIdentifier;
 import cfml.parsing.cfscript.CFFullVarExpression;
+import cfml.parsing.cfscript.CFIdentifier;
 
 import com.cflint.BugList;
 import com.cflint.plugins.CFLintScannerAdapter;

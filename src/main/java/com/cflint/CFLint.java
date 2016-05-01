@@ -26,7 +26,6 @@ import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.atn.ATNConfigSet;
 import org.antlr.v4.runtime.dfa.DFA;
 
-import cfml.CFSCRIPTLexer;
 import cfml.CFSCRIPTParser;
 import cfml.parsing.CFMLParser;
 import cfml.parsing.CFMLSource;

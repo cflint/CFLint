@@ -1,12 +1,8 @@
 package com.cflint.plugins.core;
 
-import java.util.Arrays;
-import java.util.Map;
-
-import ro.fortsoft.pf4j.Extension;
 import net.htmlparser.jericho.Element;
+import ro.fortsoft.pf4j.Extension;
 import cfml.parsing.cfscript.CFExpression;
-import cfml.parsing.cfscript.CFFunctionExpression;
 import cfml.parsing.cfscript.script.CFCompoundStatement;
 import cfml.parsing.cfscript.script.CFFuncDeclStatement;
 import cfml.parsing.cfscript.script.CFScriptStatement;

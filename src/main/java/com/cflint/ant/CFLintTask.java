@@ -45,6 +45,7 @@ public class CFLintTask extends Task {
 
 	@Override
 	public void execute() {
+		FileInputStream fis = null;
 		try {
 			CFLintConfig config = null;
 			if(configFile != null){
@@ -65,7 +66,7 @@ public class CFLintTask extends Task {
 			if (filterFile != null) {
 				final File ffile = filterFile;
 				if (ffile.exists()) {
-					final FileInputStream fis = new FileInputStream(ffile);
+					fis = new FileInputStream(ffile);
 					final byte b[] = new byte[fis.available()];
 					fis.read(b);
 					filter = CFLintFilter.createFilter(new String(b),verbose);
@@ -127,6 +128,13 @@ public class CFLintTask extends Task {
 			}
 		} catch (final Exception e) {
 			throw new RuntimeException(e);
+		} finally {
+			try {
+				if (fis != null)
+					fis.close();
+			} catch (IOException e) {
+				
+			}
 		}
 	}
 

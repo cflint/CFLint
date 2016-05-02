@@ -22,7 +22,7 @@ public class XMLOutput {
 		for (final Entry<String, List<BugInfo>> bugEntry : bugList.getBugList().entrySet()) {
 			final Iterator<BugInfo> iterator = bugEntry.getValue().iterator();
 			BugInfo bugInfo = iterator.hasNext() ? iterator.next() : null;
-			BugInfo prevbugInfo = null;
+			BugInfo prevbugInfo;
 
 			while (bugInfo != null) {
 				String severity = bugEntry.getValue().get(0).getSeverity();

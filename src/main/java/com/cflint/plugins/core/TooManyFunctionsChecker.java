@@ -26,7 +26,6 @@ public class TooManyFunctionsChecker extends CFLintScannerAdapter {
 			alreadyTooMany = false;
 		}
 		else if (expression instanceof CFFuncDeclStatement) {
-			final CFFuncDeclStatement function = (CFFuncDeclStatement) expression;
 
 			if (!trivalFunction(context.getFunctionName())) {
 				functionCount++;

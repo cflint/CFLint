@@ -784,7 +784,7 @@ public class CFLint implements IErrorReporter {
 		if(configuration == null){
 			throw new NullPointerException("Configuration is null");
 		}
-		PluginInfoRule ruleInfo = null;
+		PluginInfoRule ruleInfo;
 		if("PLUGIN_ERROR".equals(msgcode)){
 			ruleInfo = new PluginInfoRule();
 			PluginMessage msgInfo = new PluginMessage("PLUGIN_ERROR");

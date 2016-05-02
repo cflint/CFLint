@@ -30,7 +30,7 @@ public class SimpleComplexityChecker extends CFLintScannerAdapter {
 
 	@Override
 	public void expression(final CFScriptStatement expression, final Context context, final BugList bugs) {
-		CFFuncDeclStatement function = null;
+		CFFuncDeclStatement function;
 
 		if (expression instanceof CFFuncDeclStatement) {
 			function = (CFFuncDeclStatement) expression;

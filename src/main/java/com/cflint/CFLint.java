@@ -246,7 +246,7 @@ public class CFLint implements IErrorReporter {
 	}
 
 	static String load(final File file) {
-		FileInputStream fis;
+		FileInputStream fis = null;
 		try {
 			fis = new FileInputStream(file);
 			final byte[] b = new byte[fis.available()];
@@ -254,6 +254,13 @@ public class CFLint implements IErrorReporter {
 			return new String(b);
 		} catch (final Exception e) {
 			return null;
+		} finally {
+			try {
+				if (fis != null)
+					fis.close();
+			} catch (IOException e) {
+				return null;
+			}
 		}
 	}
 	

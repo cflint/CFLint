@@ -32,7 +32,6 @@ public class FunctionLengthChecker extends CFLintScannerAdapter {
 			String decompile = function.Decompile(1);
 			final int begLine = function.getLine();
 			String[] lines = decompile.split("\\n");
-			CFCompoundStatement body = (CFCompoundStatement) function.getBody();
 
 			checkSize(context, begLine, lines.length, bugs);
 		}

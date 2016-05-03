@@ -62,7 +62,7 @@ test {
         exceptionFormat = 'full'
         showExceptions true
         stackTraceFilters "entryPoint"
-        //events "skipped", "failed", "standardError"
+        events "skipped", "failed", "standardError"
         //showStandardStreams = true
     }
 }

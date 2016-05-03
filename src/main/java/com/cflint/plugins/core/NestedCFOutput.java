@@ -9,10 +9,12 @@ import com.cflint.tools.CFTool;
 
 public class NestedCFOutput extends CFLintScannerAdapter {
 
+	public static final String CFOUTPUT = "cfoutput";
+
 	@Override
 	public void element(final Element element, final Context context, final BugList bugs) {
-		if (element.getName().equals("cfoutput")) {
-			final Element parent = CFTool.getNamedParent(element, "cfoutput");
+		if (element.getName().equals(CFOUTPUT)) {
+			final Element parent = CFTool.getNamedParent(element, CFOUTPUT);
 			if(parent != null){
 				if (parent.getAttributeValue("group") == null && anyContainingCFOutputHasQuery(parent)) {
 					element.getSource().getRow(element.getBegin());
@@ -30,7 +32,7 @@ public class NestedCFOutput extends CFLintScannerAdapter {
 		if(element.getAttributeValue("query") != null){
 			return true;
 		}
-		return anyContainingCFOutputHasQuery(CFTool.getNamedParent(element, "cfoutput"));
+		return anyContainingCFOutputHasQuery(CFTool.getNamedParent(element, CFOUTPUT));
 	}
 
 }

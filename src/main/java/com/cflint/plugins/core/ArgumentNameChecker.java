@@ -16,6 +16,7 @@ import net.htmlparser.jericho.Element;
 
 @Extension
 public class ArgumentNameChecker extends CFLintScannerAdapter {
+	public static final String ARGUMENT = "Argument ";
 	final String severity = "INFO";
 		
 	@Override
@@ -68,35 +69,35 @@ public class ArgumentNameChecker extends CFLintScannerAdapter {
 		if (name.isInvalid(argument)) {
 			bugs.add(new BugInfo.BugInfoBuilder().setLine(line).setMessageCode("ARGUMENT_INVALID_NAME")
 				.setSeverity(severity).setFilename(filename).setFunction(functionName)
-				.setMessage("Argument " + argument + " is not a valid name. Please use CamelCase or underscores.")
+				.setMessage(ARGUMENT + argument + " is not a valid name. Please use CamelCase or underscores.")
 				.setVariable(argument)
 				.build());
 		}
 		if (name.isUpperCase(argument)) {
 			bugs.add(new BugInfo.BugInfoBuilder().setLine(line).setMessageCode("ARGUMENT_ALLCAPS_NAME")
 				.setSeverity(severity).setFilename(filename).setFunction(functionName)
-				.setMessage("Argument " + argument + " should not be upper case.")
+				.setMessage(ARGUMENT + argument + " should not be upper case.")
 				.setVariable(argument)
 				.build());
 		}
 		if (name.tooShort(argument)) {
 			bugs.add(new BugInfo.BugInfoBuilder().setLine(line).setMessageCode("ARGUMENT_TOO_SHORT")
 				.setSeverity(severity).setFilename(filename).setFunction(functionName)
-				.setMessage("Argument " + argument + " should be longer than " + minArgLength + " characters.")
+				.setMessage(ARGUMENT + argument + " should be longer than " + minArgLength + " characters.")
 				.setVariable(argument)
 				.build());
 		}
 		if (name.tooLong(argument)) {
 			bugs.add(new BugInfo.BugInfoBuilder().setLine(line).setMessageCode("ARGUMENT_TOO_LONG")
 				.setSeverity(severity).setFilename(filename).setFunction(functionName)
-				.setMessage("Argument " + argument + " should be shorter than " + maxArgLength + " characters.")
+				.setMessage(ARGUMENT + argument + " should be shorter than " + maxArgLength + " characters.")
 				.setVariable(argument)
 				.build());
 		}
 		if (!name.isUpperCase(argument) && name.tooWordy(argument)) {
 			bugs.add(new BugInfo.BugInfoBuilder().setLine(line).setMessageCode("ARGUMENT_TOO_WORDY")
 				.setSeverity(severity).setFilename(filename).setFunction(functionName)
-				.setMessage("Argument " + argument + " is too wordy, can you think of a more concise name?")
+				.setMessage(ARGUMENT + argument + " is too wordy, can you think of a more concise name?")
 				.setVariable(argument)
 				.build());
 		}

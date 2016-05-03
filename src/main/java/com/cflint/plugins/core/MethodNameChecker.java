@@ -16,6 +16,7 @@ import java.util.regex.Pattern;
 
 @Extension
 public class MethodNameChecker extends CFLintScannerAdapter {
+	public static final String METHOD_NAME = "Method name ";
 	final String severity = "INFO";
 	
 	@Override	
@@ -63,37 +64,37 @@ public class MethodNameChecker extends CFLintScannerAdapter {
 		if (name.isInvalid(method)) {
 			bugs.add(new BugInfo.BugInfoBuilder().setLine(line).setMessageCode("METHOD_INVALID_NAME")
 				.setSeverity(severity).setFilename(filename).setFunction(functionName)
-				.setMessage("Method name " + method + " is not a valid name. Please use CamelCase or underscores.")
+				.setMessage(METHOD_NAME + method + " is not a valid name. Please use CamelCase or underscores.")
 				.build());
 		}
 		if (name.isUpperCase(method)) {
 			bugs.add(new BugInfo.BugInfoBuilder().setLine(line).setMessageCode("METHOD_ALLCAPS_NAME")
 				.setSeverity(severity).setFilename(filename).setFunction(functionName)
-				.setMessage("Method name " + method + " should not be upper case.")
+				.setMessage(METHOD_NAME + method + " should not be upper case.")
 				.build());
 		}
 		if (name.tooShort(method)) {
 			bugs.add(new BugInfo.BugInfoBuilder().setLine(line).setMessageCode("METHOD_TOO_SHORT")
 				.setSeverity(severity).setFilename(filename).setFunction(functionName)
-				.setMessage("Method name " + method + " should be longer than " + minMethodLength + " characters.")
+				.setMessage(METHOD_NAME + method + " should be longer than " + minMethodLength + " characters.")
 				.build());
 		}
 		if (name.tooLong(method)) {
 			bugs.add(new BugInfo.BugInfoBuilder().setLine(line).setMessageCode("METHOD_TOO_LONG")
 				.setSeverity(severity).setFilename(filename).setFunction(functionName)
-				.setMessage("Method name " + method + " should be shorter than " + maxMethodLength + " characters.")
+				.setMessage(METHOD_NAME + method + " should be shorter than " + maxMethodLength + " characters.")
 				.build());
 		}
 		if (!name.isUpperCase(method) && name.tooWordy(method)) {
 			bugs.add(new BugInfo.BugInfoBuilder().setLine(line).setMessageCode("METHOD_TOO_WORDY")
 				.setSeverity(severity).setFilename(filename).setFunction(functionName)
-				.setMessage("Method name " + method + " is too wordy, can you think of a more concise name?")
+				.setMessage(METHOD_NAME + method + " is too wordy, can you think of a more concise name?")
 				.build());
 		}
 		if (name.isTemporary(method)) {
 			bugs.add(new BugInfo.BugInfoBuilder().setLine(line).setMessageCode("METHOD_IS_TEMPORARY")
 				.setSeverity(severity).setFilename(filename).setFunction(functionName)
-				.setMessage("Method name " + method + " could be named better.")
+				.setMessage(METHOD_NAME + method + " could be named better.")
 				.build());
 		}
 		if (name.hasPrefixOrPostfix(method)) {

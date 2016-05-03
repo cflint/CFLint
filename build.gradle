@@ -64,5 +64,6 @@ test {
         stackTraceFilters "entryPoint"
         events "skipped", "failed", "standardError"
         //showStandardStreams = true
+        forkEvery 25
     }
 }

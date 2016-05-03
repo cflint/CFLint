@@ -113,7 +113,7 @@ public class CFLintTask extends Task {
 			for (final FileSet fileset : filesets) {
 				int progress = 1;
 				final DirectoryScanner ds = fileset.getDirectoryScanner(getProject()); // 3
-				final ProgressMonitor progressMonitor = showProgress && filesets.size() > 0 ? new ProgressMonitor(null,
+				final ProgressMonitor progressMonitor = showProgress && !filesets.isEmpty() ? new ProgressMonitor(null,
 						"CFLint", "", 1, ds.getIncludedFilesCount()) : null;
 				final String[] includedFiles = ds.getIncludedFiles();
 				for (final String includedFile : includedFiles) {

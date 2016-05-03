@@ -34,7 +34,7 @@ public class ConfigRuntime extends CFLintConfig {
 
 		if(config !=null){
 			// If includes is specified, load *only* those messages
-			if (config.getIncludes().size() > 0) {
+			if (!config.getIncludes().isEmpty()) {
 				for (final PluginInfoRule rule : rules) {
 					// Include the rule if at least one of the messages is included.
 					for (PluginMessage msg : rule.getMessages()) {
@@ -65,7 +65,7 @@ public class ConfigRuntime extends CFLintConfig {
 		return isIncludeMessage(new PluginMessage(messageCode));
 	}
 	public boolean isIncludeMessage(final PluginMessage message) {
-		if(includes.size()>0){
+		if(!includes.isEmpty()){
 			return includes.contains(message);
 		}else{
 			return !excludes.contains(message);

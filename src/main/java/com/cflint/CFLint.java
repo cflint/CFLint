@@ -119,7 +119,7 @@ public class CFLint implements IErrorReporter {
 		}
 		final CFLintFilter filter = CFLintFilter.createFilter(verbose);
 		bugs = new BugList(filter);
-		if(exceptionListeners.size() == 0){
+		if(exceptionListeners.isEmpty()){
 			addExceptionListener(new DefaultCFLintExceptionListener(bugs));
 		}
 		try {
@@ -158,7 +158,7 @@ public class CFLint implements IErrorReporter {
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
-		if(exceptionListeners.size() == 0){
+		if(exceptionListeners.isEmpty()){
 			addExceptionListener(new DefaultCFLintExceptionListener(bugs));
 		}
 		try {
@@ -271,7 +271,7 @@ public class CFLint implements IErrorReporter {
 		fireStartedProcessing(filename);
 		final CFMLSource cfmlSource = new CFMLSource(src);
 		final List<Element> elements = cfmlSource.getChildElements();
-		if (elements.size() == 0 && src.contains("component")) {
+		if (elements.isEmpty() && src.contains("component")) {
 			// Check if pure cfscript
 			final CFScriptStatement scriptStatement = cfmlParser.parseScript(src);
 			process(scriptStatement, filename, null, (String)null);

@@ -387,10 +387,8 @@ public class CFLintMain {
 			}
 		}
 		if (textOutput) {
-			if(textOutFile != null){
-				if(verbose) {
-					display("Writing text" + (stdOut ? "." : " to " + textOutFile));
-				}
+			if(textOutFile != null && verbose){
+				display("Writing text" + (stdOut ? "." : " to " + textOutFile));
 			}
 			Writer textwriter = stdOut || textOutFile==null ? new OutputStreamWriter(System.out) : new FileWriter(textOutFile);
 			new TextOutput().output(cflint.getBugs(), textwriter, showStats);

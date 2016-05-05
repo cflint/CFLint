@@ -43,13 +43,11 @@ public class TooManyFunctionsChecker extends CFLintScannerAdapter {
 			functionCount = 0;
 			alreadyTooMany = false;
 		}
-		else if (element.getName().equals("cffunction")) {
-			if (!trivalFunction(context.getFunctionName())) {
-				functionCount++;
+		else if (element.getName().equals("cffunction") && !trivalFunction(context.getFunctionName())) {
+			functionCount++;
 
-				if (!alreadyTooMany) {
-					checkNumberFunctions(functionCount, 1, context, bugs);
-				}
+			if (!alreadyTooMany) {
+				checkNumberFunctions(functionCount, 1, context, bugs);
 			}
 		}
 	}

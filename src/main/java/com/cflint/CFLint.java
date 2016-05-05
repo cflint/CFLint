@@ -77,6 +77,7 @@ public class CFLint implements IErrorReporter {
 
 	private static final String FILE_ERROR = "FILE_ERROR";
 	private static final String PARSE_ERROR = "PARSE_ERROR";
+	public static final String PLUGIN_ERROR = "PLUGIN_ERROR:";
 	final CFMLParser cfmlParser = new CFMLParser();
 	
 	
@@ -340,7 +341,7 @@ public class CFLint implements IErrorReporter {
 				if(verbose){
 					e.printStackTrace();
 				}
-				reportRule(elem, null, context, plugin, "PLUGIN_ERROR:" + exceptionText(e));
+				reportRule(elem, null, context, plugin, PLUGIN_ERROR + exceptionText(e));
 			}
 		}
 		if (elem.getName().equalsIgnoreCase("cfset") || elem.getName().equalsIgnoreCase("cfif")
@@ -525,7 +526,7 @@ public class CFLint implements IErrorReporter {
 				if(verbose){
 					e.printStackTrace();
 				}
-				reportRule(elem, expression, context, plugin, "PLUGIN_ERROR:" + exceptionText(e));
+				reportRule(elem, expression, context, plugin, PLUGIN_ERROR + exceptionText(e));
 			}
 		}
 
@@ -624,7 +625,7 @@ public class CFLint implements IErrorReporter {
 				if(verbose){
 					e.printStackTrace();
 				}
-				reportRule(elem, expression, context, plugin, "PLUGIN_ERROR:" + exceptionText(e));
+				reportRule(elem, expression, context, plugin, PLUGIN_ERROR + exceptionText(e));
 			}
 		}
 		if (expression instanceof CFUnaryExpression) {

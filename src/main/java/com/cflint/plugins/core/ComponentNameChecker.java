@@ -16,6 +16,7 @@ import java.util.regex.Pattern;
 
 @Extension
 public class ComponentNameChecker extends CFLintScannerAdapter {
+	public static final String COMPONENT_NAME = "Component name ";
 	final String severity = "INFO";
 	
 	@Override	
@@ -77,43 +78,43 @@ public class ComponentNameChecker extends CFLintScannerAdapter {
 		if (name.isInvalidComponent(component)) {
 			bugs.add(new BugInfo.BugInfoBuilder().setLine(line).setMessageCode("COMPONENT_INVALID_NAME")
 				.setSeverity(severity).setFilename(filename)
-				.setMessage("Component name " + component + " is not a valid name. Please use CamelCase and start with a capital letter.")
+				.setMessage(COMPONENT_NAME + component + " is not a valid name. Please use CamelCase and start with a capital letter.")
 				.build());
 		}
 		if (name.isUpperCase(component)) {
 			bugs.add(new BugInfo.BugInfoBuilder().setLine(line).setMessageCode("COMPONENT_ALLCAPS_NAME")
 				.setSeverity(severity).setFilename(filename)
-				.setMessage("Component name " + component + " should not be all upper case.")
+				.setMessage(COMPONENT_NAME + component + " should not be all upper case.")
 				.build());
 		}
 		if (name.tooShort(component)) {
 			bugs.add(new BugInfo.BugInfoBuilder().setLine(line).setMessageCode("COMPONENT_TOO_SHORT")
 				.setSeverity(severity).setFilename(filename)
-				.setMessage("Component name " + component + " should be longer than " + minComponentLength + " characters.")
+				.setMessage(COMPONENT_NAME + component + " should be longer than " + minComponentLength + " characters.")
 				.build());
 		}
 		if (name.tooLong(component)) {
 			bugs.add(new BugInfo.BugInfoBuilder().setLine(line).setMessageCode("COMPONENT_TOO_LONG")
 				.setSeverity(severity).setFilename(filename)
-				.setMessage("Component name " + component + " should be shorter than " + maxComponentLength + " characters.")
+				.setMessage(COMPONENT_NAME + component + " should be shorter than " + maxComponentLength + " characters.")
 				.build());
 		}
 		if (!name.isUpperCase(component) && name.tooWordy(component)) {
 			bugs.add(new BugInfo.BugInfoBuilder().setLine(line).setMessageCode("COMPONENT_TOO_WORDY")
 				.setSeverity(severity).setFilename(filename)
-				.setMessage("Component name " + component + " is too wordy, can you think of a more concise name?")
+				.setMessage(COMPONENT_NAME + component + " is too wordy, can you think of a more concise name?")
 				.build());
 		}
 		if (name.isTemporary(component)) {
 			bugs.add(new BugInfo.BugInfoBuilder().setLine(line).setMessageCode("COMPONENT_IS_TEMPORARY")
 				.setSeverity(severity).setFilename(filename)
-				.setMessage("Component name " + component + " could be named better.")
+				.setMessage(COMPONENT_NAME + component + " could be named better.")
 				.build());
 		}
 		if (name.hasPrefixOrPostfix(component)) {
 			bugs.add(new BugInfo.BugInfoBuilder().setLine(line).setMessageCode("COMPONENT_HAS_PREFIX_OR_POSTFIX")
 				.setSeverity(severity).setFilename(filename)
-				.setMessage("Component name " + component + " has prefix or postfix and could be named better.")
+				.setMessage(COMPONENT_NAME + component + " has prefix or postfix and could be named better.")
 				.build());
 		}
 	}

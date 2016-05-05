@@ -15,10 +15,12 @@ import javax.xml.transform.stream.StreamSource;
 
 public class XMLOutput {
 
+	public static final String LINE_SEPARATOR = "line.separator";
+
 	public void output(final BugList bugList, final Writer writer, final boolean showStats) throws IOException {
 		BugCounts counts = new BugCounts();
 		// final StringBuilder sb = new StringBuilder();
-		writer.append("<issues version=\"" + Version.getVersion() + "\">").append(System.getProperty("line.separator"));
+		writer.append("<issues version=\"" + Version.getVersion() + "\">").append(System.getProperty(LINE_SEPARATOR));
 		for (final Entry<String, List<BugInfo>> bugEntry : bugList.getBugList().entrySet()) {
 			final Iterator<BugInfo> iterator = bugEntry.getValue().iterator();
 			BugInfo bugInfo = iterator.hasNext() ? iterator.next() : null;
@@ -48,23 +50,23 @@ public class XMLOutput {
 					writer.append("<Expression><![CDATA[")
 							.append(bugInfo.getExpression() == null ? "" : bugInfo.getExpression()
 									.replace("<![CDATA[", "").replace("]]>", "")).append("]]></Expression>");
-					writer.append("</location>").append(System.getProperty("line.separator"));
+					writer.append("</location>").append(System.getProperty(LINE_SEPARATOR));
 					prevbugInfo = bugInfo;
 					bugInfo = iterator.hasNext() ? iterator.next() : null;
 				} while (isGrouped(prevbugInfo, bugInfo));
 				// writer.append(" function=\"").append(bugInfo.getFunction()).append("\"");
-				writer.append("</issue>").append(System.getProperty("line.separator"));
+				writer.append("</issue>").append(System.getProperty(LINE_SEPARATOR));
 			}
 		}
 		
 		if (showStats) {
-			writer.append("<counts>").append(System.getProperty("line.separator"));
+			writer.append("<counts>").append(System.getProperty(LINE_SEPARATOR));
 
 			for (String code : counts.bugTypes()) {
 				writer.append("<count");
 				writer.append(" code=\"").append(code).append("\"");
 				writer.append(" count=\"").append(Integer.toString(counts.getCode(code))).append("\" />");	
-				writer.append(System.getProperty("line.separator"));
+				writer.append(System.getProperty(LINE_SEPARATOR));
 			}
 
 			for (String severity:BugCounts.levels)
@@ -73,11 +75,11 @@ public class XMLOutput {
 					writer.append("<count");
 					writer.append(" severity=\"").append(severity).append("\"");
 					writer.append(" count=\"").append(Integer.toString(counts.getSeverity(severity))).append("\" />");	
-					writer.append(System.getProperty("line.separator"));
+					writer.append(System.getProperty(LINE_SEPARATOR));
 				}
 			}
 
-			writer.append("</counts>").append(System.getProperty("line.separator"));
+			writer.append("</counts>").append(System.getProperty(LINE_SEPARATOR));
 		}
 
 		writer.append("</issues>");

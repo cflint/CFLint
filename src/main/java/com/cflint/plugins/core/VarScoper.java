@@ -17,6 +17,9 @@ import com.cflint.plugins.Context;
 
 public class VarScoper extends CFLintScannerAdapter {
 
+	public static final String VARIABLE = "variable";
+	public static final String RESULT = "result";
+
 	@Override
 	public void expression(final CFExpression expression, final Context context, final BugList bugs) {
 		if (expression instanceof CFIdentifier) {
@@ -39,16 +42,16 @@ public class VarScoper extends CFLintScannerAdapter {
 		// CHECK_ELEMENT_ATTRIBUTES.put("cfloop",
 		// Arrays.asList("index","item"));
 		CHECK_ELEMENT_ATTRIBUTES.put("cfinvoke", Arrays.asList("returnvariable"));
-		CHECK_ELEMENT_ATTRIBUTES.put("cffile", Arrays.asList("variable"));
-		CHECK_ELEMENT_ATTRIBUTES.put("cfsavecontent", Arrays.asList("variable"));
-		CHECK_ELEMENT_ATTRIBUTES.put("cfhttp", Arrays.asList("result"));
-		CHECK_ELEMENT_ATTRIBUTES.put("cfquery", Arrays.asList("result"));
+		CHECK_ELEMENT_ATTRIBUTES.put("cffile", Arrays.asList(VARIABLE));
+		CHECK_ELEMENT_ATTRIBUTES.put("cfsavecontent", Arrays.asList(VARIABLE));
+		CHECK_ELEMENT_ATTRIBUTES.put("cfhttp", Arrays.asList(RESULT));
+		CHECK_ELEMENT_ATTRIBUTES.put("cfquery", Arrays.asList(RESULT));
 		CHECK_ELEMENT_ATTRIBUTES.put("cfmail", Arrays.asList("query"));
-		CHECK_ELEMENT_ATTRIBUTES.put("cfftp", Arrays.asList("result"));
+		CHECK_ELEMENT_ATTRIBUTES.put("cfftp", Arrays.asList(RESULT));
 		CHECK_ELEMENT_ATTRIBUTES.put("cfwddx", Arrays.asList("output"));
-		CHECK_ELEMENT_ATTRIBUTES.put("cfexecute", Arrays.asList("variable"));
-		CHECK_ELEMENT_ATTRIBUTES.put("cfntauthenticate", Arrays.asList("result"));
-		CHECK_ELEMENT_ATTRIBUTES.put("cfxml", Arrays.asList("variable"));
+		CHECK_ELEMENT_ATTRIBUTES.put("cfexecute", Arrays.asList(VARIABLE));
+		CHECK_ELEMENT_ATTRIBUTES.put("cfntauthenticate", Arrays.asList(RESULT));
+		CHECK_ELEMENT_ATTRIBUTES.put("cfxml", Arrays.asList(VARIABLE));
 
 	}
 
@@ -72,7 +75,7 @@ public class VarScoper extends CFLintScannerAdapter {
 			if (name.equalsIgnoreCase("cfprocparam")) {
 				final String typeVar = element.getAttributeValue("type");
 				if (typeVar != null && (typeVar.equalsIgnoreCase("out") || typeVar.equalsIgnoreCase("inout"))) {
-					assertVariable(element, context, bugs, element.getAttributeValue("variable"));
+					assertVariable(element, context, bugs, element.getAttributeValue(VARIABLE));
 				}
 			}
 			if (name.equalsIgnoreCase("cffeed")) {

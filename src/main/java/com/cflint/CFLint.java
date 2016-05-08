@@ -115,7 +115,7 @@ public class CFLint implements IErrorReporter {
 		final CFLintPluginInfo pluginInfo = ConfigUtils.loadDefaultPluginInfo();
 		configuration = new ConfigRuntime(configFile,pluginInfo);
 		for(PluginInfoRule ruleInfo:configuration.getRules()){
-			extensions.add(ConfigUtils.loadPlugin(ruleInfo));
+			addScanner(ConfigUtils.loadPlugin(ruleInfo));
 		}
 		final CFLintFilter filter = CFLintFilter.createFilter(verbose);
 		bugs = new BugList(filter);
@@ -265,6 +265,7 @@ public class CFLint implements IErrorReporter {
 		}
 	}
 	
+
 	int parserCounter = 1;
 
 	public void process(final String src, final String filename) throws ParseException, IOException {
@@ -718,6 +719,7 @@ public class CFLint implements IErrorReporter {
 		else {
 		}
 	}
+	
 	protected void reportRule(final Element elem, final Object expression, final Context context, final CFLintScanner plugin, String msg) {
 		final String[] exceptionmsg = (msg!=null?msg:"").split(":");
 		final String msgcode = exceptionmsg[0].trim();
@@ -925,6 +927,14 @@ public class CFLint implements IErrorReporter {
 		}
 	}
 
+	public void addScanner(CFLintScanner plugin) {
+		extensions.add(plugin);
+	}
+
+	public List<CFLintScanner> getScanners() {
+		return extensions;
+	}
+	
 	public void addExceptionListener(final CFLintExceptionListener exceptionListener) {
 		exceptionListeners.add(exceptionListener);
 	}

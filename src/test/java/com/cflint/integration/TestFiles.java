@@ -167,14 +167,11 @@ public class TestFiles {
 		}catch(FileNotFoundException fnfe){}
 		
 		final InputStream inputStream = new FileInputStream(folder.getPath() + "/.cflintrc.xml");
-		if (inputStream != null) {
-			try {
-				return ConfigUtils.unmarshal(inputStream, CFLintConfig.class);
-			} catch (JAXBException e) {
-				throw new IOException(e);
-			}
+		try {
+			return ConfigUtils.unmarshal(inputStream, CFLintConfig.class);
+		} catch (JAXBException e) {
+			throw new IOException(e);
 		}
-		return null;
 	}
 	
 }

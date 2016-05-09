@@ -2,19 +2,18 @@ package com.cflint;
 import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import cfml.parsing.reporting.ParseException;
-
 import com.cflint.config.CFLintPluginInfo.PluginInfoRule;
 import com.cflint.config.CFLintPluginInfo.PluginInfoRule.PluginMessage;
-import com.cflint.plugins.core.ComponentLengthChecker;
 import com.cflint.config.ConfigRuntime;
-import java.util.Map;
-import java.util.HashMap;
+import com.cflint.plugins.core.ComponentLengthChecker;
+
+import cfml.parsing.reporting.ParseException;
 
 public class TestComponentLengthChecker {
 

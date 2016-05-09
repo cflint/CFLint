@@ -1,12 +1,12 @@
 package com.cflint.plugins.core;
 
-import net.htmlparser.jericho.Element;
-import cfml.parsing.cfscript.script.CFScriptStatement;
-import cfml.parsing.cfscript.script.CFSwitchStatement;
-
 import com.cflint.BugList;
 import com.cflint.plugins.CFLintScannerAdapter;
 import com.cflint.plugins.Context;
+
+import cfml.parsing.cfscript.script.CFScriptStatement;
+import cfml.parsing.cfscript.script.CFSwitchStatement;
+import net.htmlparser.jericho.Element;
 
 public class CFSwitchDefaultChecker extends CFLintScannerAdapter {
 	final String CFML_TAG_CHECK = "cfswitch";

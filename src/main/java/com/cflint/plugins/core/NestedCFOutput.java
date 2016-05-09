@@ -1,11 +1,11 @@
 package com.cflint.plugins.core;
 
-import net.htmlparser.jericho.Element;
-
 import com.cflint.BugList;
 import com.cflint.plugins.CFLintScannerAdapter;
 import com.cflint.plugins.Context;
 import com.cflint.tools.CFTool;
+
+import net.htmlparser.jericho.Element;
 
 public class NestedCFOutput extends CFLintScannerAdapter {
 

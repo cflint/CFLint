@@ -1,21 +1,18 @@
 package com.cflint.plugins.core;
 
-import java.util.Map;
 import java.util.HashMap;
-
-import ro.fortsoft.pf4j.Extension;
-import cfml.parsing.cfscript.CFExpression;
-import cfml.parsing.cfscript.CFFunctionExpression;
-import cfml.parsing.cfscript.CFLiteral;
-import cfml.parsing.cfscript.script.CFCompDeclStatement;
-import cfml.parsing.cfscript.script.CFExpressionStatement;
-import cfml.parsing.cfscript.script.CFScriptStatement;
-
+import java.util.Map;
 
 import com.cflint.BugInfo;
 import com.cflint.BugList;
 import com.cflint.plugins.CFLintScannerAdapter;
 import com.cflint.plugins.Context;
+
+import cfml.parsing.cfscript.CFExpression;
+import cfml.parsing.cfscript.CFLiteral;
+import cfml.parsing.cfscript.script.CFCompDeclStatement;
+import cfml.parsing.cfscript.script.CFScriptStatement;
+import ro.fortsoft.pf4j.Extension;
 
 @Extension
 public class LiteralChecker extends CFLintScannerAdapter {

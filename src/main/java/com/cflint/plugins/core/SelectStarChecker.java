@@ -1,19 +1,13 @@
 package com.cflint.plugins.core;
-import java.util.*;
-import ro.fortsoft.pf4j.Extension;
-import net.htmlparser.jericho.Element;
-import cfml.parsing.cfscript.CFExpression;
-import cfml.parsing.cfscript.script.CFScriptStatement;
-
-import net.htmlparser.jericho.Tag;
-import net.htmlparser.jericho.StartTag;
-import net.htmlparser.jericho.Segment;
-import net.htmlparser.jericho.Source;
-
 import com.cflint.BugInfo;
 import com.cflint.BugList;
 import com.cflint.plugins.CFLintScannerAdapter;
 import com.cflint.plugins.Context;
+
+import cfml.parsing.cfscript.CFExpression;
+import cfml.parsing.cfscript.script.CFScriptStatement;
+import net.htmlparser.jericho.Element;
+import ro.fortsoft.pf4j.Extension;
 
 @Extension
 public class SelectStarChecker extends CFLintScannerAdapter {

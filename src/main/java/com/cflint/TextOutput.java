@@ -4,9 +4,7 @@ package com.cflint;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.List;
-import java.util.HashMap;
 import java.util.Map.Entry;
-import java.util.Map;
 
 public class TextOutput {
 

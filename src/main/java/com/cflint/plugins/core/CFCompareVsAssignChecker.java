@@ -3,18 +3,16 @@ package com.cflint.plugins.core;
 import java.util.Arrays;
 import java.util.List;
 
-import ro.fortsoft.pf4j.Extension;
-import net.htmlparser.jericho.Element;
-import cfml.CFSCRIPTLexer;
-import cfml.parsing.cfscript.CFBinaryExpression;
-import cfml.parsing.cfscript.CFExpression;
-import cfml.parsing.cfscript.script.CFExpressionStatement;
-import cfml.parsing.cfscript.script.CFScriptStatement;
-
 import com.cflint.BugInfo;
 import com.cflint.BugList;
 import com.cflint.plugins.CFLintScannerAdapter;
 import com.cflint.plugins.Context;
+
+import cfml.CFSCRIPTLexer;
+import cfml.parsing.cfscript.CFBinaryExpression;
+import cfml.parsing.cfscript.script.CFExpressionStatement;
+import cfml.parsing.cfscript.script.CFScriptStatement;
+import ro.fortsoft.pf4j.Extension;
 
 @Extension
 public class CFCompareVsAssignChecker extends CFLintScannerAdapter {

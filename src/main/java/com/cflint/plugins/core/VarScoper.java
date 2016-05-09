@@ -6,14 +6,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import net.htmlparser.jericho.Element;
-import cfml.parsing.cfscript.CFExpression;
-import cfml.parsing.cfscript.CFIdentifier;
-import cfml.parsing.cfscript.CFFullVarExpression;
-
 import com.cflint.BugList;
 import com.cflint.plugins.CFLintScannerAdapter;
 import com.cflint.plugins.Context;
+
+import cfml.parsing.cfscript.CFExpression;
+import cfml.parsing.cfscript.CFFullVarExpression;
+import cfml.parsing.cfscript.CFIdentifier;
+import net.htmlparser.jericho.Element;
 
 public class VarScoper extends CFLintScannerAdapter {
 

@@ -7,12 +7,12 @@ import java.io.IOException;
 import org.junit.Before;
 import org.junit.Test;
 
-import cfml.parsing.reporting.ParseException;
-
 import com.cflint.config.CFLintPluginInfo.PluginInfoRule;
 import com.cflint.config.CFLintPluginInfo.PluginInfoRule.PluginMessage;
 import com.cflint.config.ConfigRuntime;
 import com.cflint.plugins.core.CFXTagChecker;
+
+import cfml.parsing.reporting.ParseException;
 
 public class TestCFUpdateTagChecker {
 

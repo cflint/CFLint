@@ -3,10 +3,10 @@ package com.cflint.plugins;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.htmlparser.jericho.Element;
-import cfml.parsing.cfscript.CFIdentifier;
-
 import com.cflint.StackHandler;
+
+import cfml.parsing.cfscript.CFIdentifier;
+import net.htmlparser.jericho.Element;
 
 public class Context {
 

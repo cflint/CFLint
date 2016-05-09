@@ -1,21 +1,20 @@
 package com.cflint.plugins.core;
 
-import java.util.Map;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
-
-import cfml.parsing.cfscript.CFAssignmentExpression;
-import cfml.parsing.cfscript.CFExpression;
-import cfml.parsing.cfscript.CFIdentifier;
-import cfml.parsing.cfscript.CFFullVarExpression;
-import cfml.parsing.cfscript.CFVarDeclExpression;
+import java.util.Map;
 
 import com.cflint.BugInfo;
 import com.cflint.BugList;
 import com.cflint.plugins.CFLintScannerAdapter;
 import com.cflint.plugins.Context;
+
+import cfml.parsing.cfscript.CFExpression;
+import cfml.parsing.cfscript.CFFullVarExpression;
+import cfml.parsing.cfscript.CFIdentifier;
+import cfml.parsing.cfscript.CFVarDeclExpression;
 
 public class UnusedLocalVarChecker extends CFLintScannerAdapter {
 	final String severity = "INFO";

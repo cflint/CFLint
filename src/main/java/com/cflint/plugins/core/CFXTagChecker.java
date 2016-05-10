@@ -1,10 +1,10 @@
 package com.cflint.plugins.core;
 
-import net.htmlparser.jericho.Element;
-
 import com.cflint.BugList;
 import com.cflint.plugins.CFLintScannerAdapter;
 import com.cflint.plugins.Context;
+
+import net.htmlparser.jericho.Element;
 
 public class CFXTagChecker extends CFLintScannerAdapter {
 

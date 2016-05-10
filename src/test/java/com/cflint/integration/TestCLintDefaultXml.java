@@ -8,10 +8,10 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-import cfml.parsing.reporting.ParseException;
-
 import com.cflint.BugInfo;
 import com.cflint.CFLint;
+
+import cfml.parsing.reporting.ParseException;
 
 public class TestCLintDefaultXml {
 

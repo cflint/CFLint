@@ -1,15 +1,13 @@
 package com.cflint.plugins.core;
 
-import net.htmlparser.jericho.Element;
-import cfml.parsing.cfscript.script.CFFuncDeclStatement;
-import cfml.parsing.cfscript.script.CFFunctionParameter;
-import cfml.parsing.cfscript.script.CFScriptStatement;
-
 import com.cflint.BugInfo;
 import com.cflint.BugList;
 import com.cflint.plugins.CFLintScannerAdapter;
 import com.cflint.plugins.Context;
-import com.cflint.tools.CFTool;
+
+import cfml.parsing.cfscript.script.CFFuncDeclStatement;
+import cfml.parsing.cfscript.script.CFScriptStatement;
+import net.htmlparser.jericho.Element;
 
 public class TooManyArgumentsChecker extends CFLintScannerAdapter {
 	final String severity = "WARNING";

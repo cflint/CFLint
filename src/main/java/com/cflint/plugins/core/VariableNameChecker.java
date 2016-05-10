@@ -1,20 +1,15 @@
 package com.cflint.plugins.core;
 
-import ro.fortsoft.pf4j.Extension;
-import net.htmlparser.jericho.Element;
-import net.htmlparser.jericho.Attributes;
-import cfml.parsing.cfscript.CFAssignmentExpression;
-import cfml.parsing.cfscript.CFExpression;
-import cfml.parsing.cfscript.CFFullVarExpression;
-import cfml.parsing.cfscript.CFIdentifier;
-import cfml.parsing.cfscript.CFVarDeclExpression;
-
 import com.cflint.BugInfo;
 import com.cflint.BugList;
 import com.cflint.plugins.CFLintScannerAdapter;
 import com.cflint.plugins.Context;
 
-import java.util.regex.Pattern;
+import cfml.parsing.cfscript.CFExpression;
+import cfml.parsing.cfscript.CFFullVarExpression;
+import cfml.parsing.cfscript.CFIdentifier;
+import cfml.parsing.cfscript.CFVarDeclExpression;
+import ro.fortsoft.pf4j.Extension;
 
 @Extension
 public class VariableNameChecker extends CFLintScannerAdapter {

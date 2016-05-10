@@ -1,10 +1,10 @@
 package com.cflint.plugins;
 
-import net.htmlparser.jericho.Element;
+import com.cflint.BugList;
+
 import cfml.parsing.cfscript.CFExpression;
 import cfml.parsing.cfscript.script.CFScriptStatement;
-
-import com.cflint.BugList;
+import net.htmlparser.jericho.Element;
 
 public interface CFLintScanner {
 

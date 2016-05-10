@@ -1,16 +1,11 @@
 package com.cflint.plugins.core;
 
-import net.htmlparser.jericho.Element;
-
 import com.cflint.BugInfo;
 import com.cflint.BugList;
 import com.cflint.plugins.CFLintScannerAdapter;
 import com.cflint.plugins.Context;
 
-import cfml.parsing.cfscript.script.CFCompDeclStatement;
-import cfml.parsing.cfscript.script.CFScriptStatement;
-
-import java.util.Vector;
+import net.htmlparser.jericho.Element;
 
 public class ComponentDisplayNameChecker extends CFLintScannerAdapter {
 	final String severity = "INFO";

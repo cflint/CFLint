@@ -23,7 +23,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
-import com.cflint.BugInfo;
 import com.cflint.CFLint;
 import com.cflint.JSONOutput;
 import com.cflint.config.CFLintConfig;
@@ -71,7 +70,7 @@ public class TestFiles {
 		CFLint cflint = new CFLint(config );
 		
 		cflint.process(inputString, sourceFile.getPath());
-		List<BugInfo> result = cflint.getBugs().getFlatBugList();
+		//List<BugInfo> result = cflint.getBugs().getFlatBugList();
 		StringWriter writer = new StringWriter();
 		new JSONOutput().output(cflint.getBugs(), writer, false);
 		
@@ -95,29 +94,6 @@ public class TestFiles {
 		fos.write(actualTree.getBytes());
 		fos.close();
 		
-	}
-	
-	
-	
-	
-	private String getTree(String expectedFileText) {
-		if (expectedFileText != null && expectedFileText.contains("/*===TREE===*/")) {
-			int startIdx = expectedFileText.indexOf("/*===TREE===*/") + 14;
-			while (expectedFileText.charAt(startIdx) == '\r' || expectedFileText.charAt(startIdx) == '\n') {
-				startIdx++;
-			}
-			int endIndex = expectedFileText.indexOf("/*======*/", startIdx);
-			if (endIndex > startIdx) {
-				while (expectedFileText.charAt(endIndex - 1) == '\r' || expectedFileText.charAt(endIndex - 1) == '\n') {
-					endIndex--;
-				}
-				return expectedFileText.substring(startIdx, endIndex);
-			}
-		}
-		if (expectedFileText != null && expectedFileText.contains("/*===")) {
-			return null;
-		}
-		return expectedFileText;
 	}
 	
 	@Parameterized.Parameters(name = "{1}")
@@ -160,21 +136,18 @@ public class TestFiles {
 	
 	public static CFLintConfig loadPluginInfo(File folder) throws IOException {
 		try{
-		final InputStream jsonInputStream = new FileInputStream(folder.getPath() + "/.cflintrc");
-			if (jsonInputStream != null) {
-				return ConfigUtils.unmarshalJson(jsonInputStream, CFLintConfig.class);
-			}
+  		    final InputStream jsonInputStream = new FileInputStream(folder.getPath() + "/.cflintrc");
+			final CFLintConfig retval = ConfigUtils.unmarshalJson(jsonInputStream, CFLintConfig.class);
+			jsonInputStream.close();
+			return retval;
 		}catch(FileNotFoundException fnfe){}
 		
 		final InputStream inputStream = new FileInputStream(folder.getPath() + "/.cflintrc.xml");
-		if (inputStream != null) {
-			try {
-				return ConfigUtils.unmarshal(inputStream, CFLintConfig.class);
-			} catch (JAXBException e) {
-				throw new IOException(e);
-			}
+		try {
+			return ConfigUtils.unmarshal(inputStream, CFLintConfig.class);
+		} catch (JAXBException e) {
+			throw new IOException(e);
 		}
-		return null;
 	}
 	
 }

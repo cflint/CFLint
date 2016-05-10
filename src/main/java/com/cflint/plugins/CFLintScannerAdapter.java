@@ -3,11 +3,11 @@ package com.cflint.plugins;
 import java.util.HashMap;
 import java.util.Map;
 
-import net.htmlparser.jericho.Element;
+import com.cflint.BugList;
+
 import cfml.parsing.cfscript.CFExpression;
 import cfml.parsing.cfscript.script.CFScriptStatement;
-
-import com.cflint.BugList;
+import net.htmlparser.jericho.Element;
 
 /**
  * Lint Rule Plugins can extend this adapter instead of implementing all the methods of CFLintScanner

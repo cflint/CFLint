@@ -11,7 +11,6 @@ import javax.xml.bind.annotation.XmlTransient;
 import com.cflint.plugins.CFLintScanner;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 @XmlRootElement(name = "CFLint-Plugin")
 @JsonInclude(Include.NON_NULL)

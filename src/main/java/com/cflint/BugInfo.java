@@ -2,12 +2,12 @@ package com.cflint;
 
 import java.util.List;
 
-import net.htmlparser.jericho.Element;
-import cfml.parsing.cfscript.CFExpression;
-import cfml.parsing.cfscript.script.CFParsedStatement;
-
 import com.cflint.config.CFLintPluginInfo.PluginInfoRule.PluginMessage;
 import com.cflint.config.CFLintPluginInfo.PluginInfoRule.PluginParameter;
+
+import cfml.parsing.cfscript.CFExpression;
+import cfml.parsing.cfscript.script.CFParsedStatement;
+import net.htmlparser.jericho.Element;
 
 public class BugInfo implements Comparable<BugInfo>{
 

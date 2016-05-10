@@ -1,31 +1,26 @@
 package com.cflint.config;
 
 import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.StringReader;
 import java.io.StringWriter;
+import java.util.HashMap;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 
-import java.util.HashMap;
-
 import com.cflint.config.CFLintPluginInfo.PluginInfoRule;
 import com.cflint.config.CFLintPluginInfo.PluginInfoRule.PluginParameter;
 import com.cflint.plugins.CFLintScanner;
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.AnnotationIntrospector;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.introspect.JacksonAnnotationIntrospector;
-import com.fasterxml.jackson.module.jaxb.JaxbAnnotationIntrospector;
 import com.fasterxml.jackson.module.jaxb.JaxbAnnotationModule;
 
 public class ConfigUtils {
@@ -87,7 +82,6 @@ public class ConfigUtils {
 		return sw.toString();
 	}
 
-	@SuppressWarnings("unchecked")
 	public static <E> E unmarshalJson(InputStream inputStream,
 			Class<E> expectedClass) throws JsonParseException, JsonMappingException, IOException {
 		ObjectMapper objectMapper = new ObjectMapper();
@@ -98,7 +92,6 @@ public class ConfigUtils {
 		return objectMapper.readValue(inputStream, expectedClass);
 	}
 	
-	@SuppressWarnings("unchecked")
 	public static <E> E unmarshalJson(Reader reader,
 			Class<E> expectedClass) throws JsonParseException, JsonMappingException, IOException {
 		ObjectMapper objectMapper = new ObjectMapper();
@@ -141,8 +134,8 @@ public class ConfigUtils {
 	 * 
 	 * @return MapList&lt;String,String&gt; map of message codes to descriptions
 	 */
-	public static HashMap loadDescriptions() {
-		HashMap descriptions = new HashMap();
+	public static HashMap<String,String> loadDescriptions() {
+		HashMap<String,String> descriptions = new HashMap<String,String>();
 		InputStream inputStream = ConfigUtils.class
 				.getResourceAsStream("/cflint.description.txt");
 

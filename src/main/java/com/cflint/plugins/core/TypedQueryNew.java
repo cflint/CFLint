@@ -1,11 +1,11 @@
 package com.cflint.plugins.core;
 
-import cfml.parsing.cfscript.CFExpression;
-import cfml.parsing.cfscript.CFFunctionExpression;
-
 import com.cflint.BugList;
 import com.cflint.plugins.CFLintScannerAdapter;
 import com.cflint.plugins.Context;
+
+import cfml.parsing.cfscript.CFExpression;
+import cfml.parsing.cfscript.CFFunctionExpression;
 
 public class TypedQueryNew extends CFLintScannerAdapter {
 

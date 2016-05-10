@@ -1,26 +1,23 @@
 package com.cflint.plugins.core;
 
-import java.util.Map;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
-
-import net.htmlparser.jericho.Element;
-
-import cfml.parsing.cfscript.CFAssignmentExpression;
-import cfml.parsing.cfscript.CFExpression;
-import cfml.parsing.cfscript.CFIdentifier;
-import cfml.parsing.cfscript.CFFullVarExpression;
-import cfml.parsing.cfscript.CFVarDeclExpression;
-import cfml.parsing.cfscript.script.CFFuncDeclStatement;
-import cfml.parsing.cfscript.script.CFFunctionParameter;
-import cfml.parsing.cfscript.script.CFScriptStatement;
+import java.util.Map;
 
 import com.cflint.BugInfo;
 import com.cflint.BugList;
 import com.cflint.plugins.CFLintScannerAdapter;
 import com.cflint.plugins.Context;
+
+import cfml.parsing.cfscript.CFExpression;
+import cfml.parsing.cfscript.CFFullVarExpression;
+import cfml.parsing.cfscript.CFIdentifier;
+import cfml.parsing.cfscript.script.CFFuncDeclStatement;
+import cfml.parsing.cfscript.script.CFFunctionParameter;
+import cfml.parsing.cfscript.script.CFScriptStatement;
+import net.htmlparser.jericho.Element;
 
 public class UnusedArgumentChecker extends CFLintScannerAdapter {
 	final String severity = "INFO";

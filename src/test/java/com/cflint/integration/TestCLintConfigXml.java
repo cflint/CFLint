@@ -8,13 +8,13 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-import cfml.parsing.reporting.ParseException;
-
 import com.cflint.BugInfo;
 import com.cflint.CFLint;
 import com.cflint.config.CFLintConfig;
 import com.cflint.config.CFLintPluginInfo.PluginInfoRule;
 import com.cflint.config.CFLintPluginInfo.PluginInfoRule.PluginMessage;
+
+import cfml.parsing.reporting.ParseException;
 
 public class TestCLintConfigXml {
 

@@ -17,12 +17,12 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
-import cfml.parsing.reporting.ParseException;
-
 import com.cflint.config.CFLintPluginInfo.PluginInfoRule;
 import com.cflint.config.CFLintPluginInfo.PluginInfoRule.PluginMessage;
 import com.cflint.config.ConfigRuntime;
 import com.cflint.plugins.core.VarScoper;
+
+import cfml.parsing.reporting.ParseException;
 
 @RunWith(Parameterized.class)
 public class TestCFBugs_VarScoper_Names {

@@ -1,18 +1,11 @@
 package com.cflint.config;
 
-import static org.junit.Assert.assertEquals;
-
-import java.io.FileInputStream;
 import java.io.StringReader;
 import java.io.StringWriter;
-import java.util.ArrayList;
 
 import javax.xml.bind.Marshaller;
 
 import org.junit.Test;
-
-import com.cflint.config.CFLintPluginInfo.PluginInfoRule;
-import com.cflint.config.CFLintPluginInfo.PluginInfoRule.PluginMessage;
 
 public class TestConfigUtilsJson {
 

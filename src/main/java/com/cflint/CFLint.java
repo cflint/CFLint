@@ -14,9 +14,6 @@ import java.util.Stack;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import net.htmlparser.jericho.Element;
-import net.htmlparser.jericho.Source;
-
 import org.antlr.runtime.BitSet;
 import org.antlr.runtime.IntStream;
 import org.antlr.runtime.RecognitionException;
@@ -26,7 +23,23 @@ import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.atn.ATNConfigSet;
 import org.antlr.v4.runtime.dfa.DFA;
 
-import cfml.CFSCRIPTLexer;
+import com.cflint.BugInfo.BugInfoBuilder;
+import com.cflint.config.CFLintConfig;
+import com.cflint.config.CFLintPluginInfo;
+import com.cflint.config.CFLintPluginInfo.PluginInfoRule;
+import com.cflint.config.CFLintPluginInfo.PluginInfoRule.PluginMessage;
+import com.cflint.config.ConfigRuntime;
+import com.cflint.config.ConfigUtils;
+import com.cflint.listeners.ProgressMonitorListener;
+import com.cflint.listeners.ScanProgressListener;
+import com.cflint.plugins.CFLintScanner;
+import com.cflint.plugins.CFLintStructureListener;
+import com.cflint.plugins.Context;
+import com.cflint.plugins.Context.ContextMessage;
+import com.cflint.plugins.exceptions.CFLintExceptionListener;
+import com.cflint.plugins.exceptions.DefaultCFLintExceptionListener;
+import com.cflint.tools.CFLintFilter;
+
 import cfml.CFSCRIPTParser;
 import cfml.parsing.CFMLParser;
 import cfml.parsing.CFMLSource;
@@ -55,23 +68,8 @@ import cfml.parsing.cfscript.script.CFReturnStatement;
 import cfml.parsing.cfscript.script.CFScriptStatement;
 import cfml.parsing.reporting.IErrorReporter;
 import cfml.parsing.reporting.ParseException;
-
-import com.cflint.BugInfo.BugInfoBuilder;
-import com.cflint.config.CFLintConfig;
-import com.cflint.config.CFLintPluginInfo;
-import com.cflint.config.CFLintPluginInfo.PluginInfoRule;
-import com.cflint.config.CFLintPluginInfo.PluginInfoRule.PluginMessage;
-import com.cflint.config.ConfigRuntime;
-import com.cflint.config.ConfigUtils;
-import com.cflint.listeners.ProgressMonitorListener;
-import com.cflint.listeners.ScanProgressListener;
-import com.cflint.plugins.CFLintScanner;
-import com.cflint.plugins.CFLintStructureListener;
-import com.cflint.plugins.Context;
-import com.cflint.plugins.Context.ContextMessage;
-import com.cflint.plugins.exceptions.CFLintExceptionListener;
-import com.cflint.plugins.exceptions.DefaultCFLintExceptionListener;
-import com.cflint.tools.CFLintFilter;
+import net.htmlparser.jericho.Element;
+import net.htmlparser.jericho.Source;
 
 public class CFLint implements IErrorReporter {
 
@@ -347,8 +345,8 @@ public class CFLint implements IErrorReporter {
 		}
 		if (elem.getName().equalsIgnoreCase("cfset") || elem.getName().equalsIgnoreCase("cfif")
 				|| elem.getName().equalsIgnoreCase("cfelseif")|| elem.getName().equalsIgnoreCase("cfreturn")) {
-			final int elemLine = elem.getSource().getRow(elem.getBegin());
-			final int elemColumn = elem.getSource().getColumn(elem.getBegin());
+			//final int elemLine = elem.getSource().getRow(elem.getBegin());
+			//final int elemColumn = elem.getSource().getColumn(elem.getBegin());
 			final Pattern p = Pattern.compile("<\\w+\\s(.*[^/])/?>",Pattern.MULTILINE|Pattern.DOTALL);
 			final String expr = elem.getFirstStartTag().toString();
 			final Matcher m = p.matcher(expr);
@@ -369,7 +367,7 @@ public class CFLint implements IErrorReporter {
 //					}
 				} catch (final Exception npe) {
 					final int line = elem.getSource().getRow(elem.getBegin());
-					final int column = elem.getSource().getColumn(elem.getBegin());
+					//final int column = elem.getSource().getColumn(elem.getBegin());
 					if (!quiet) {
 						System.err.println("Error in: " + shortSource(elem.getSource(), line) + " @ " + line + ":");
 						if (verbose) {

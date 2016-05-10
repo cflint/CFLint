@@ -8,10 +8,10 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import cfml.parsing.reporting.ParseException;
-
 import com.cflint.config.ConfigRuntime;
 import com.cflint.plugins.core.VarScoper;
+
+import cfml.parsing.reporting.ParseException;
 
 public class TestCFBugs_ParseError {
 

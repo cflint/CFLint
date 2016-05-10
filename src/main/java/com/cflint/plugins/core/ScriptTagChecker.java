@@ -28,9 +28,9 @@ public class ScriptTagChecker extends CFLintScannerAdapter {
 		if (element.getName().equals("script")) {  
 			String src = element.getStartTag().toString();
 			if (!src.matches(".*src=.*")) {
-				int endLine = element.getSource().getRow(element.getEnd()); 
+				//int endLine = element.getSource().getRow(element.getEnd()); 
 				int begLine = element.getSource().getRow(element.getBegin());
-				int total = endLine - begLine;
+				//int total = endLine - begLine;
 				bugs.add(new BugInfo.BugInfoBuilder().setLine(begLine).setMessageCode("AVOID_USING_INLINE_JS")
 						.setSeverity(severity).setFilename(context.getFilename())
 						.setMessage(message)

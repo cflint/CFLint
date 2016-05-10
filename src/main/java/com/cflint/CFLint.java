@@ -345,8 +345,8 @@ public class CFLint implements IErrorReporter {
 		}
 		if (elem.getName().equalsIgnoreCase("cfset") || elem.getName().equalsIgnoreCase("cfif")
 				|| elem.getName().equalsIgnoreCase("cfelseif")|| elem.getName().equalsIgnoreCase("cfreturn")) {
-			final int elemLine = elem.getSource().getRow(elem.getBegin());
-			final int elemColumn = elem.getSource().getColumn(elem.getBegin());
+			//final int elemLine = elem.getSource().getRow(elem.getBegin());
+			//final int elemColumn = elem.getSource().getColumn(elem.getBegin());
 			final Pattern p = Pattern.compile("<\\w+\\s(.*[^/])/?>",Pattern.MULTILINE|Pattern.DOTALL);
 			final String expr = elem.getFirstStartTag().toString();
 			final Matcher m = p.matcher(expr);
@@ -367,7 +367,7 @@ public class CFLint implements IErrorReporter {
 //					}
 				} catch (final Exception npe) {
 					final int line = elem.getSource().getRow(elem.getBegin());
-					final int column = elem.getSource().getColumn(elem.getBegin());
+					//final int column = elem.getSource().getColumn(elem.getBegin());
 					if (!quiet) {
 						System.err.println("Error in: " + shortSource(elem.getSource(), line) + " @ " + line + ":");
 						if (verbose) {

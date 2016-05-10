@@ -82,7 +82,6 @@ public class ConfigUtils {
 		return sw.toString();
 	}
 
-	@SuppressWarnings("unchecked")
 	public static <E> E unmarshalJson(InputStream inputStream,
 			Class<E> expectedClass) throws JsonParseException, JsonMappingException, IOException {
 		ObjectMapper objectMapper = new ObjectMapper();
@@ -93,7 +92,6 @@ public class ConfigUtils {
 		return objectMapper.readValue(inputStream, expectedClass);
 	}
 	
-	@SuppressWarnings("unchecked")
 	public static <E> E unmarshalJson(Reader reader,
 			Class<E> expectedClass) throws JsonParseException, JsonMappingException, IOException {
 		ObjectMapper objectMapper = new ObjectMapper();
@@ -136,8 +134,8 @@ public class ConfigUtils {
 	 * 
 	 * @return MapList&lt;String,String&gt; map of message codes to descriptions
 	 */
-	public static HashMap loadDescriptions() {
-		HashMap descriptions = new HashMap();
+	public static HashMap<String,String> loadDescriptions() {
+		HashMap<String,String> descriptions = new HashMap<String,String>();
 		InputStream inputStream = ConfigUtils.class
 				.getResourceAsStream("/cflint.description.txt");
 

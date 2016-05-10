@@ -38,7 +38,7 @@ public class QueryParamChecker extends CFLintScannerAdapter {
 				final Matcher matcher = pattern.matcher(content);
 				while (matcher.find()) {
 					if (matcher.groupCount() >= 1) {
-						final String variableName = matcher.group(1);
+						//final String variableName = matcher.group(1);
 						context.addMessage("CFQUERYPARAM_REQ", element.getAttributeValue("NAME"));
 					}
 				}

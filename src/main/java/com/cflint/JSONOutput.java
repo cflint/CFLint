@@ -25,7 +25,6 @@ public class JSONOutput {
 		this.prettyPrint = prettyPrint;
 	}
 
-	@SuppressWarnings("unchecked")
 	public void output(final BugList bugList, final Writer writer, final boolean showStats) throws IOException {
 		BugCounts counts = new BugCounts();
 		// final StringBuilder sb = new StringBuilder();

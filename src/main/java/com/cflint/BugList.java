@@ -14,6 +14,7 @@ public class BugList implements Iterable<BugInfo> {
 	/**
 	 * 
 	 */
+	@SuppressWarnings("unused")
 	private static final long serialVersionUID = -8008927848087276202L;
 
 	public BugList(final CFLintFilter filter) {

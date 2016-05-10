@@ -154,7 +154,7 @@ public class CFLintMain {
 				pluginInfo = ConfigUtils.loadDefaultPluginInfo();
 			}
 			ConfigRuntime config = new ConfigRuntime(loadConfig(main.configfile), pluginInfo);
-			HashMap descriptions = ConfigUtils.loadDescriptions();
+			final HashMap<String,String> descriptions = ConfigUtils.loadDescriptions();
 			System.out.println("Supported rules");
 			for (PluginInfoRule rule:config.getRules()) {
 				System.out.println("  " + rule.getName());
@@ -287,7 +287,7 @@ public class CFLintMain {
 		}
 
 		final String[] slist = new String[] { "xml", "html", "text","txt","json" };
-		final JList list = new JList(slist);
+		final JList<String> list = new JList<String>(slist);
 		JOptionPane.showMessageDialog(null, list, "Output Type", JOptionPane.PLAIN_MESSAGE);
 
 		final int[] indxs = list.getSelectedIndices();
@@ -346,6 +346,7 @@ public class CFLintMain {
 				FileInputStream fis = new FileInputStream(ffile);
 				byte b[] = new byte[fis.available()];
 				fis.read(b);
+				fis.close();
 				filter = CFLintFilter.createFilter(new String(b),verbose);
 			}
 		}

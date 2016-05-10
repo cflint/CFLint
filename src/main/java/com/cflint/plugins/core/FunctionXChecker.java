@@ -20,7 +20,7 @@ public class FunctionXChecker extends CFLintScannerAdapter {
 
 			CFFunctionExpression functionExpression = (CFFunctionExpression)expression;
 			if(functionExpression.getName().equalsIgnoreCase(cfmlFunctionCheck)){
-				int lineNo = expression.getLine() + context.startLine() - 1;
+				//int lineNo = expression.getLine() + context.startLine() - 1;
 				//structNew(lineNo, context, bugs);
 				context.addMessage("AVOID_USING_" + cfmlFunctionCheck.toUpperCase(), cfmlFunctionCheck);
 

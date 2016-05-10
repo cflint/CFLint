@@ -138,17 +138,6 @@ public class CFLintTask extends Task {
 		}
 	}
 
-	private String shorten(String includedFile) {
-		if (includedFile == null) {
-			return "";
-		}
-		includedFile = includedFile.trim();
-		if (includedFile.length() < 20) {
-			return includedFile;
-		}
-		return ".." + includedFile.substring(includedFile.length() - 20);
-	}
-
 	public void addFileset(final FileSet fileset) {
 		filesets.add(fileset);
 	}
@@ -205,7 +194,4 @@ public class CFLintTask extends Task {
 		this.configFile = configFile;
 	}
 
-	public void setShowStats(final boolean verbose) {
-		this.showStats = showStats;
-	}
 }

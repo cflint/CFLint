@@ -49,8 +49,10 @@ public class JSONOutput {
 				jg.writeStringField("message", code);
 				jg.writeStringField("category", "CFLINT");
 				jg.writeStringField("abbrev", abbrev(code));
+				jg.writeFieldName("locations");
+				jg.writeStartArray();
 				do {
-					jg.writeObjectFieldStart("location");
+					jg.writeStartObject();
 					jg.writeStringField("file",notNull(bugInfo.getFilename()));
 					jg.writeStringField("fileName",filename(bugInfo.getFilename()));
 					jg.writeStringField("function",filename(bugInfo.getFunction()));
@@ -63,6 +65,7 @@ public class JSONOutput {
 					prevbugInfo = bugInfo;
 					bugInfo = iterator.hasNext() ? iterator.next() : null;
 				} while (isGrouped(prevbugInfo, bugInfo));
+				jg.writeEndArray();
 				jg.writeEndObject();
 			}
 		}

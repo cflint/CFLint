@@ -4,8 +4,8 @@
   "message" : "COMPARE_INSTEAD_OF_ASSIGN",
   "category" : "CFLINT",
   "abbrev" : "CI",
-  "location" : {
-    "file" : "src\\test\\resources\\com\\cflint\\tests\\CompareInsteadOfAssign\\Compare1.cfm",
+  "locations" : [ {
+    "file" : "src/test/resources/com/cflint/tests/CompareInsteadOfAssign/Compare1.cfm",
     "fileName" : "Compare1.cfm",
     "function" : "",
     "column" : "5",
@@ -13,15 +13,15 @@
     "message" : "CWE-482: Comparing instead of Assigning",
     "variable" : "==",
     "expression" : "x.x == 2"
-  }
+  } ]
 }, {
   "severity" : "WARNING",
   "id" : "COMPARE_INSTEAD_OF_ASSIGN",
   "message" : "COMPARE_INSTEAD_OF_ASSIGN",
   "category" : "CFLINT",
   "abbrev" : "CI",
-  "location" : {
-    "file" : "src\\test\\resources\\com\\cflint\\tests\\CompareInsteadOfAssign\\Compare1.cfm",
+  "locations" : [ {
+    "file" : "src/test/resources/com/cflint/tests/CompareInsteadOfAssign/Compare1.cfm",
     "fileName" : "Compare1.cfm",
     "function" : "",
     "column" : "5",
@@ -29,5 +29,5 @@
     "message" : "CWE-482: Comparing instead of Assigning",
     "variable" : "EQ",
     "expression" : "x.x EQ 6"
-  }
+  } ]
 } ]

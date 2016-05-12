@@ -19,18 +19,12 @@ public class WriteDumpChecker extends CFLintScannerAdapter {
 		
 		if(expression instanceof CFFunctionExpression){
 			final CFFunctionExpression functionExpression = (CFFunctionExpression) expression;
-			if(functionExpression.getFunctionName().equals("writeDump")){
+			if(functionExpression.getFunctionName().equalsIgnoreCase("writeDump")){
 				final int lineNo = functionExpression.getLine() + context.startLine() - 1;
-				writeDump(lineNo, context, bugs);
+				context.addMessage("AVOID_USING_WRITEDUMP", null);
 			}
 		}
 		
 	}
 
-	protected void writeDump(final int lineNo, final Context context, final BugList bugs) {
-		bugs.add(new BugInfo.BugInfoBuilder().setLine(lineNo).setMessageCode("AVOID_USING_WRITEDUMP")
-			.setSeverity(severity).setFilename(context.getFilename())
-			.setMessage("WriteDump statement at line " + lineNo + ". Avoid using writeDump in production code.")
-			.build());
-	}
 }

@@ -140,9 +140,11 @@
 	</ruleImpl>
 	<ruleImpl name="ArgumentTypeChecker" className="ArgTypeChecker">
         <message code="ARG_TYPE_MISSING">
+         	<messageText>ARGUMENT ${variable} is missing a type.</messageText>
         	<severity>WARNING</severity>
         </message>
         <message code="ARG_TYPE_ANY">
+         	<messageText>Argument ${variable} is any. Please change to be the correct type.</messageText>
          	<severity>INFO</severity>
         </message>
 	</ruleImpl>

@@ -1,6 +1,5 @@
 package com.cflint.plugins.core;
 
-import com.cflint.BugInfo;
 import com.cflint.BugList;
 import com.cflint.plugins.CFLintScannerAdapter;
 import com.cflint.plugins.Context;
@@ -11,32 +10,21 @@ import cfml.parsing.cfscript.script.CFScriptStatement;
 import net.htmlparser.jericho.Element;
 
 public class ArgTypeChecker extends CFLintScannerAdapter {
-	public static final String ARGUMENT = "Argument ";
-	final String severity = "WARNING";
 
 	@Override
 	public void expression(final CFScriptStatement expression, final Context context, final BugList bugs) {
 		if (expression instanceof CFFuncDeclStatement) {
 			final CFFuncDeclStatement function = (CFFuncDeclStatement) expression;
-			final int begLine = function.getLine();
 
 			for (final CFFunctionParameter argument : function.getFormals()) {
 				final String name = argument.getName();
 				final String variableType = argument.getType();
 
 				if (variableType == null) {
-					bugs.add(new BugInfo.BugInfoBuilder().setLine(begLine).setMessageCode("ARG_TYPE_MISSING")
-						.setSeverity(severity).setFilename(context.getFilename()).setFunction(context.getFunctionName())
-						.setMessage(ARGUMENT + name + " is missing a type.")
-						.setVariable(name)
-						.build());
+					context.addMessage("ARG_TYPE_MISSING", name);
 				}
 				else if (variableType.equals("any")) {
-					bugs.add(new BugInfo.BugInfoBuilder().setLine(begLine).setMessageCode("ARG_TYPE_ANY")
-						.setSeverity(severity).setFilename(context.getFilename()).setFunction(context.getFunctionName())
-						.setMessage(ARGUMENT + name + " is any. Please change to be the correct type.")
-						.setVariable(name)
-						.build());
+					context.addMessage("ARG_TYPE_ANY", name);
 				}
 			}
 		}
@@ -47,22 +35,12 @@ public class ArgTypeChecker extends CFLintScannerAdapter {
 		if (element.getName().equals("cfargument")) {
 			final String name = element.getAttributeValue("name");
 			final String variableType = element.getAttributeValue("type");
-			int begLine = element.getSource().getRow(element.getBegin());
 
 			if (variableType == null) {
-				bugs.add(new BugInfo.BugInfoBuilder().setLine(begLine).setMessageCode("ARG_TYPE_MISSING")
-					.setSeverity(severity).setFilename(context.getFilename()).setFunction(context.getFunctionName())
-					.setMessage(ARGUMENT + name + " is missing a type.")
-					.setVariable(name)
-					.build());
+				context.addMessage("ARG_TYPE_MISSING", name);
 			}
 			else if (variableType.equals("any")) {
-				bugs.add(new BugInfo.BugInfoBuilder().setLine(begLine).setMessageCode("ARG_TYPE_ANY")
-					.setSeverity(severity).setFilename(context.getFilename())
-					.setFunction(context.getFunctionName())
-					.setMessage(ARGUMENT + name + " is any. Please change to be the correct type.")
-					.setVariable(name)
-					.build());
+				context.addMessage("ARG_TYPE_ANY", name);
 			}
 		}
 	}

@@ -310,11 +310,13 @@
       "message": [
         {
           "code": "ARG_TYPE_MISSING",
-          "severity": "WARNING"
+          "severity": "WARNING",
+          "messageText": "ARGUMENT ${variable} is missing a type."
         },
         {
           "code": "ARG_TYPE_ANY",
-          "severity": "INFO"
+          "severity": "WARNING"
+          "messageText": "Argument ${variable} is any. Please change to be the correct type."
         }
       ],
       "parameter": [

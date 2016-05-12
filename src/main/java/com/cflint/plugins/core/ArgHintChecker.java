@@ -1,6 +1,5 @@
 package com.cflint.plugins.core;
 
-import com.cflint.BugInfo;
 import com.cflint.BugList;
 import com.cflint.plugins.CFLintScannerAdapter;
 import com.cflint.plugins.Context;
@@ -8,7 +7,6 @@ import com.cflint.plugins.Context;
 import net.htmlparser.jericho.Element;
 
 public class ArgHintChecker extends CFLintScannerAdapter {
-	final String severity = "INFO";
 
 	@Override
 	public void element(final Element element, final Context context, final BugList bugs) {

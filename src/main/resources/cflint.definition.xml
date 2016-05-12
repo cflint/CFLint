@@ -83,13 +83,13 @@
 	<ruleImpl name="CFAbortChecker" className="CFXTagChecker">
 		<message code="AVOID_USING_CFABORT_TAG">
 			<messageText>Avoid Leaving &lt;${tagName}&gt; tags in committed code. Did you accidently leave a cfabort in the code?</messageText>
-			<severity>INFO</severity>
+			<severity>WARNING</severity>
 		</message>
 		<parameter name="tagName" value="cfabort"/>
 	</ruleImpl>
 	<ruleImpl name="AbortChecker" className="AbortChecker">
 		<message code="AVOID_USING_ABORT">
-			<severity>INFO</severity>
+			<severity>WARNING</severity>
 			<messageText>Avoid using abort in production code.</messageText>
 		</message>
 	</ruleImpl>

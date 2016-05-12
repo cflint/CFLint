@@ -422,7 +422,7 @@
     },
     {
       "name": "WriteDumpChecker",
-      "className": "WriteDumpChecker",
+      "className": "FunctionXChecker",
       "message": [
         {
           "code": "AVOID_USING_WRITEDUMP",

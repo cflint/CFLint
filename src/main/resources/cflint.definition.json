@@ -184,7 +184,8 @@
       "message": [
         {
           "code": "AVOID_USING_ABORT",
-          "severity": "INFO"
+          "severity": "INFO",
+          "messageText" : "Avoid using abort in production code.";
         }
       ],
       "parameter": [

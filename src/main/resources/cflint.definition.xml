@@ -90,6 +90,7 @@
 	<ruleImpl name="AbortChecker" className="AbortChecker">
 		<message code="AVOID_USING_ABORT">
 			<severity>INFO</severity>
+			<messageText>Avoid using abort in production code.</messageText>
 		</message>
 	</ruleImpl>
 	<ruleImpl name="CFInsertChecker" className="CFXTagChecker">

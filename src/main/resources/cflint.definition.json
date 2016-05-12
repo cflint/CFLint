@@ -772,6 +772,7 @@
       "message": [
         {
           "code": "UNUSED_METHOD_ARGUMENT",
+          "messageText": "Argument ${variable} is not used in function, consider removing it.",
           "severity": "INFO"
          }
       ],

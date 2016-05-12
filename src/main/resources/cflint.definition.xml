@@ -355,6 +355,7 @@
 	<ruleImpl name="UnusedArgumentChecker" className="UnusedArgumentChecker">
 		<message code="UNUSED_METHOD_ARGUMENT">
 			<severity>INFO</severity>
+			<messageText>Argument ${variable} is not used in function, consider removing it.</messageText>
 		</message>
 	</ruleImpl>
 	<ruleImpl name="CFCompareVsAssignChecker" className="CFCompareVsAssignChecker">

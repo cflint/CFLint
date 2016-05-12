@@ -476,6 +476,7 @@
       "className": "ArrayNewChecker",
       "message": [
         {
+          "messageText": "Use implict array construction instead (= []).",
           "code": "AVOID_USING_ARRAYNEW",
           "severity": "INFO"
         }

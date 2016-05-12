@@ -209,6 +209,7 @@
 	</ruleImpl>
 	<ruleImpl name="ArrayNewChecker" className="ArrayNewChecker">
 		<message code="AVOID_USING_ARRAYNEW">
+			<messageText>Use implict array construction instead (= []).</messageText>
 			<severity>INFO</severity>
 		</message>
 	</ruleImpl>

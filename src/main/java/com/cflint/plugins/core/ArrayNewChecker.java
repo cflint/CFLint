@@ -1,6 +1,5 @@
 package com.cflint.plugins.core;
 
-import com.cflint.BugInfo;
 import com.cflint.BugList;
 import com.cflint.plugins.CFLintScannerAdapter;
 import com.cflint.plugins.Context;
@@ -12,16 +11,14 @@ import ro.fortsoft.pf4j.Extension;
 
 @Extension
 public class ArrayNewChecker extends CFLintScannerAdapter {
-	final String severity = "INFO";
 
 	@Override
 	public void expression(final CFScriptStatement expression, final Context context, final BugList bugs) {	
 		if (expression instanceof CFExpressionStatement) {
 			String code = ((CFExpressionStatement) expression).getExpression().Decompile(0);
-			int lineNo = ((CFExpressionStatement) expression).getLine() + context.startLine() - 1;
 
 			if (code.toLowerCase().contains("arraynew(1)")) {
-				arrayNew(lineNo, context, bugs);
+				context.addMessage("AVOID_USING_ARRAYNEW", null);
 			}
 		}
 	}
@@ -30,18 +27,11 @@ public class ArrayNewChecker extends CFLintScannerAdapter {
 	public void element(final Element element, final Context context, final BugList bugs) {
 		if (element.getName().equals("cfset")) {
 			String content = element.getStartTag().getTagContent().toString();
-			int lineNo = element.getSource().getRow(element.getBegin());
 
 			if (content.toLowerCase().contains("arraynew(1)")) {
-				arrayNew(lineNo, context, bugs);
+				context.addMessage("AVOID_USING_ARRAYNEW", null);
 			}
 		}
 	}
 
-	protected void arrayNew(final int lineNo, final Context context, final BugList bugs) {
-		bugs.add(new BugInfo.BugInfoBuilder().setLine(lineNo).setMessageCode("AVOID_USING_ARRAYNEW")
-			.setSeverity(severity).setFilename(context.getFilename())
-			.setMessage("ArrayNew statement at line " + lineNo + ". Use implict array construction instead (= []).")
-			.build());
-	}
 }

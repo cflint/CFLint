@@ -27,6 +27,8 @@ public class TestArrayNewChecker {
 		conf.getRules().add(pluginRule);
 		final PluginMessage pluginMessage = new PluginMessage("AVOID_USING_ARRAYNEW");
 		pluginMessage.setSeverity("INFO");
+		pluginMessage.setMessageText("Use implict array construction instead (= []).");
+		pluginRule.getMessages().add(pluginMessage);
 		cfBugs = new CFLint(conf, new ArrayNewChecker());
 	}
 
@@ -42,6 +44,8 @@ public class TestArrayNewChecker {
 		assertEquals(1, result.size());
 		assertEquals("AVOID_USING_ARRAYNEW", result.get(0).getMessageCode());
 		assertEquals(3, result.get(0).getLine());
+		assertEquals("INFO", result.get(0).getSeverity());
+		assertEquals("Use implict array construction instead (= []).", result.get(0).getMessage());
 	}
 
 	@Test
@@ -65,6 +69,8 @@ public class TestArrayNewChecker {
 		assertEquals(1, result.size());
 		assertEquals("AVOID_USING_ARRAYNEW", result.get(0).getMessageCode());
 		assertEquals(2, result.get(0).getLine());
+		assertEquals("INFO", result.get(0).getSeverity());
+		assertEquals("Use implict array construction instead (= []).", result.get(0).getMessage());
 	}
 
 }

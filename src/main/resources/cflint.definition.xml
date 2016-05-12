@@ -134,6 +134,7 @@
 	</ruleImpl>
 	<ruleImpl name="ArgumentHintChecker" className="ArgHintChecker">
         <message code="ARG_HINT_MISSING">
+         	<messageText>Argument ${variable} is missing a hint.</messageText>
          	<severity>INFO</severity>
         </message>
 	</ruleImpl>

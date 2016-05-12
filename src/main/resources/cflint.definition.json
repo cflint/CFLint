@@ -296,7 +296,8 @@
       "message": [
         {
           "code": "ARG_HINT_MISSING",
-          "severity": "INFO"
+          "severity": "INFO",
+          "messageText" : "Argument ${variable} is missing a hint."
         }
       ],
       "parameter": [

@@ -866,7 +866,12 @@ public class CFLint implements IErrorReporter {
 		if (expression instanceof CFExpression){
 			bugs.add(bldr.build((CFExpression)expression, elem));
 		}else{
-			bugs.add(bldr.build((CFParsedStatement)expression, elem));
+			BugInfo bug = bldr.build((CFParsedStatement)expression, elem);
+			if(msg.getLine() != null){
+				bug.setLine(msg.getLine());
+				bug.setColumn(0);
+			}
+			bugs.add(bug);
 		}
 	}
 

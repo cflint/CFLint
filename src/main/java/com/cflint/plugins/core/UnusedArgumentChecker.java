@@ -84,7 +84,7 @@ public class UnusedArgumentChecker extends CFLintScannerAdapter {
 			Boolean used = method.getValue();
 	    	if (!used) {
 	    		final String name = method.getKey();
-	    		context.addMessage("UNUSED_METHOD_ARGUMENT", name);
+	    		context.addMessage("UNUSED_METHOD_ARGUMENT", name,argumentLineNo.get(name));
 	    	}
 	    }
 	}

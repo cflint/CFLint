@@ -185,7 +185,7 @@
         {
           "code": "AVOID_USING_ABORT",
           "severity": "INFO",
-          "messageText" : "Avoid using abort in production code.";
+          "messageText" : "Avoid using abort in production code."
         }
       ],
       "parameter": [
@@ -315,7 +315,7 @@
         },
         {
           "code": "ARG_TYPE_ANY",
-          "severity": "WARNING"
+          "severity": "WARNING",
           "messageText": "Argument ${variable} is any. Please change to be the correct type."
         }
       ],

@@ -220,6 +220,7 @@
 	</ruleImpl>
 	<ruleImpl name="BooleanExpressionChecker" className="BooleanExpressionChecker">
 		<message code="EXPLICIT_BOOLEAN_CHECK">
+			<messageText>Explicit check of boolean expession is not needed.</messageText>
 			<severity>INFO</severity>
 		</message>
 	</ruleImpl>

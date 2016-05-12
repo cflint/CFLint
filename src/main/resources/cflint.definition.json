@@ -499,6 +499,7 @@
       "className": "BooleanExpressionChecker",
       "message": [
         {
+          "messageText" : "Explicit check of boolean expession is not needed.",
           "code": "EXPLICIT_BOOLEAN_CHECK",
           "severity": "INFO"
         }

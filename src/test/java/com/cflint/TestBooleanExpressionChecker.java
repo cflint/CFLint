@@ -27,6 +27,8 @@ public class TestBooleanExpressionChecker {
 		conf.getRules().add(pluginRule);
 		final PluginMessage pluginMessage = new PluginMessage("EXPLICIT_BOOLEAN_CHECK");
 		pluginMessage.setSeverity("INFO");
+		pluginMessage.setMessageText("Explicit check of boolean expession is not needed.");
+		pluginRule.getMessages().add(pluginMessage);
 		cfBugs = new CFLint(conf, new BooleanExpressionChecker());
 	}
 

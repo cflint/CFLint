@@ -35,9 +35,9 @@ public class SimpleComplexityChecker extends CFLintScannerAdapter {
 			alreadyTooComplex = false;
 		} 
 		else if (expression == null){
-			bugs.add(new BugInfo.BugInfoBuilder().setLine(context.startLine()).setMessageCode("PARSE_ERROR")
-					.setSeverity("ERROR").setFilename(context.getFilename()).setFunction(context.getFunctionName())
-					.setMessage("Unable to parse expression.")
+			bugs.add(new BugInfo.BugInfoBuilder().setLine(context.startLine()).setMessageCode("PARSE_NOTHING")
+					.setSeverity("WARNING").setFilename(context.getFilename()).setFunction(context.getFunctionName())
+					.setMessage("Nothing to parse")
 					.build());
 		}
 		// Not using instanceof to avoid double counting

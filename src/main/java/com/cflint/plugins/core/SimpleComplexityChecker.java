@@ -33,6 +33,12 @@ public class SimpleComplexityChecker extends CFLintScannerAdapter {
 			functionLineNo = function.getLine();
 			complexity = 0;
 			alreadyTooComplex = false;
+		} 
+		else if (expression == null){
+			bugs.add(new BugInfo.BugInfoBuilder().setLine(context.startLine()).setMessageCode("PARSE_ERROR")
+					.setSeverity("ERROR").setFilename(context.getFilename()).setFunction(context.getFunctionName())
+					.setMessage("Unable to parse expression.")
+					.build());
 		}
 		// Not using instanceof to avoid double counting
 		else if (expression.getClass().equals(CFIfStatement.class) ||

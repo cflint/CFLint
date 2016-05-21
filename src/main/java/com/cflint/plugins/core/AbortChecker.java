@@ -1,6 +1,5 @@
 package com.cflint.plugins.core;
 
-import com.cflint.BugInfo;
 import com.cflint.BugList;
 import com.cflint.plugins.CFLintScannerAdapter;
 import com.cflint.plugins.Context;
@@ -16,11 +15,7 @@ public class AbortChecker extends CFLintScannerAdapter {
 	@Override
 	public void expression(final CFScriptStatement expression, final Context context, final BugList bugs) {
 		if (expression instanceof CFAbortStatement) {
-			int lineNo = ((CFAbortStatement) expression).getLine() + context.startLine() - 1;
-			bugs.add(new BugInfo.BugInfoBuilder().setLine(lineNo).setMessageCode("AVOID_USING_ABORT")
-				.setSeverity(severity).setFilename(context.getFilename())
-				.setMessage("Abort statement at line " + lineNo + ". Avoid using abort in production code.")
-				.build());
+			context.addMessage("AVOID_USING_ABORT", null);
 		}
 	}
 }

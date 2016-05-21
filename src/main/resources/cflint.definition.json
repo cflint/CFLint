@@ -184,7 +184,8 @@
       "message": [
         {
           "code": "AVOID_USING_ABORT",
-          "severity": "INFO"
+          "severity": "INFO",
+          "messageText" : "Avoid using abort in production code."
         }
       ],
       "parameter": [
@@ -295,7 +296,8 @@
       "message": [
         {
           "code": "ARG_HINT_MISSING",
-          "severity": "INFO"
+          "severity": "INFO",
+          "messageText" : "Argument ${variable} is missing a hint."
         }
       ],
       "parameter": [
@@ -308,11 +310,13 @@
       "message": [
         {
           "code": "ARG_TYPE_MISSING",
-          "severity": "WARNING"
+          "severity": "WARNING",
+          "messageText": "ARGUMENT ${variable} is missing a type."
         },
         {
           "code": "ARG_TYPE_ANY",
-          "severity": "INFO"
+          "severity": "WARNING",
+          "messageText": "Argument ${variable} is any. Please change to be the correct type."
         }
       ],
       "parameter": [
@@ -418,7 +422,7 @@
     },
     {
       "name": "WriteDumpChecker",
-      "className": "WriteDumpChecker",
+      "className": "FunctionXChecker",
       "message": [
         {
           "code": "AVOID_USING_WRITEDUMP",
@@ -472,6 +476,7 @@
       "className": "ArrayNewChecker",
       "message": [
         {
+          "messageText": "Use implict array construction instead (= []).",
           "code": "AVOID_USING_ARRAYNEW",
           "severity": "INFO"
         }
@@ -494,6 +499,7 @@
       "className": "BooleanExpressionChecker",
       "message": [
         {
+          "messageText" : "Explicit check of boolean expession is not needed.",
           "code": "EXPLICIT_BOOLEAN_CHECK",
           "severity": "INFO"
         }
@@ -766,6 +772,7 @@
       "message": [
         {
           "code": "UNUSED_METHOD_ARGUMENT",
+          "messageText": "Argument ${variable} is not used in function, consider removing it.",
           "severity": "INFO"
          }
       ],

@@ -119,21 +119,32 @@ public class Context {
 	public void addMessage(String messageCode, String variable) {
 		messages.add(new ContextMessage(messageCode,variable));
 	}
+	public void addMessage(String messageCode, String variable, Integer line) {
+		messages.add(new ContextMessage(messageCode,variable,line));
+	}
 	
 	public static class ContextMessage{
 		String messageCode;
 		String variable;
+		Integer line;
 		
 		public ContextMessage(String messageCode, String variable) {
 			super();
 			this.messageCode = messageCode;
 			this.variable = variable;
 		}
+		public ContextMessage(String messageCode, String variable,Integer line) {
+			this(messageCode,variable);
+			this.line = line;
+		}
 		public String getMessageCode() {
 			return messageCode;
 		}
 		public String getVariable() {
 			return variable;
+		}
+		public Integer getLine() {
+			return line;
 		}
 	}
 	

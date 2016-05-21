@@ -83,13 +83,14 @@
 	<ruleImpl name="CFAbortChecker" className="CFXTagChecker">
 		<message code="AVOID_USING_CFABORT_TAG">
 			<messageText>Avoid Leaving &lt;${tagName}&gt; tags in committed code. Did you accidently leave a cfabort in the code?</messageText>
-			<severity>INFO</severity>
+			<severity>WARNING</severity>
 		</message>
 		<parameter name="tagName" value="cfabort"/>
 	</ruleImpl>
 	<ruleImpl name="AbortChecker" className="AbortChecker">
 		<message code="AVOID_USING_ABORT">
-			<severity>INFO</severity>
+			<severity>WARNING</severity>
+			<messageText>Avoid using abort in production code.</messageText>
 		</message>
 	</ruleImpl>
 	<ruleImpl name="CFInsertChecker" className="CFXTagChecker">
@@ -133,14 +134,17 @@
 	</ruleImpl>
 	<ruleImpl name="ArgumentHintChecker" className="ArgHintChecker">
         <message code="ARG_HINT_MISSING">
+         	<messageText>Argument ${variable} is missing a hint.</messageText>
          	<severity>INFO</severity>
         </message>
 	</ruleImpl>
 	<ruleImpl name="ArgumentTypeChecker" className="ArgTypeChecker">
         <message code="ARG_TYPE_MISSING">
+         	<messageText>ARGUMENT ${variable} is missing a type.</messageText>
         	<severity>WARNING</severity>
         </message>
         <message code="ARG_TYPE_ANY">
+         	<messageText>Argument ${variable} is any. Please change to be the correct type.</messageText>
          	<severity>INFO</severity>
         </message>
 	</ruleImpl>
@@ -205,6 +209,7 @@
 	</ruleImpl>
 	<ruleImpl name="ArrayNewChecker" className="ArrayNewChecker">
 		<message code="AVOID_USING_ARRAYNEW">
+			<messageText>Use implict array construction instead (= []).</messageText>
 			<severity>INFO</severity>
 		</message>
 	</ruleImpl>
@@ -215,6 +220,7 @@
 	</ruleImpl>
 	<ruleImpl name="BooleanExpressionChecker" className="BooleanExpressionChecker">
 		<message code="EXPLICIT_BOOLEAN_CHECK">
+			<messageText>Explicit check of boolean expession is not needed.</messageText>
 			<severity>INFO</severity>
 		</message>
 	</ruleImpl>
@@ -349,6 +355,7 @@
 	<ruleImpl name="UnusedArgumentChecker" className="UnusedArgumentChecker">
 		<message code="UNUSED_METHOD_ARGUMENT">
 			<severity>INFO</severity>
+			<messageText>Argument ${variable} is not used in function, consider removing it.</messageText>
 		</message>
 	</ruleImpl>
 	<ruleImpl name="CFCompareVsAssignChecker" className="CFCompareVsAssignChecker">

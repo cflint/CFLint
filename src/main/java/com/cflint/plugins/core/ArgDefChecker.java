@@ -20,8 +20,6 @@ public class ArgDefChecker extends CFLintScannerAdapter {
 				// handler.addArgument(param.getName());
 				final String name = argument.getName();
 				if (!argument.toString().contains("required") && !argument.toString().contains("=")) {
-					function.getLine();
-					function.getColumn();
 					context.addMessage("ARG_DEFAULT_MISSING", name);
 				}
 			}

@@ -28,6 +28,7 @@ public class TestUnusedArgumentChecker {
 		conf.getRules().add(pluginRule);
 		final PluginMessage pluginMessage = new PluginMessage("UNUSED_METHOD_ARGUMENT");
 		pluginMessage.setSeverity("INFO");
+		pluginRule.getMessages().add(pluginMessage);
 		cfBugs = new CFLint(conf, new UnusedArgumentChecker());
 	}
 

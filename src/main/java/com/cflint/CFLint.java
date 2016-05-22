@@ -306,6 +306,10 @@ public class CFLint implements IErrorReporter {
 			for (final CFLintStructureListener structurePlugin : getStructureListeners(extensions)) {
 				try{
 					structurePlugin.startComponent(context, bugs);
+					for(final ContextMessage message : context.getMessages()){
+						reportRule(elem, null, context, (CFLintScanner)structurePlugin, message);
+					}
+					context.getMessages().clear();
 				}catch(Exception e){
 					e.printStackTrace();
 				}
@@ -322,6 +326,10 @@ public class CFLint implements IErrorReporter {
 			for (final CFLintStructureListener structurePlugin : getStructureListeners(extensions)) {
 				try{
 					structurePlugin.startFunction(context, bugs);
+					for(final ContextMessage message : context.getMessages()){
+						reportRule(elem, null, context, (CFLintScanner)structurePlugin, message);
+					}
+					context.getMessages().clear();
 				}catch(Exception e){
 					e.printStackTrace();
 				}
@@ -413,6 +421,11 @@ public class CFLint implements IErrorReporter {
 			for (final CFLintStructureListener structurePlugin : getStructureListeners(extensions)) {
 				try{
 					structurePlugin.endFunction(context, bugs);
+					for(final ContextMessage message : context.getMessages()){
+						reportRule(elem, null, context, (CFLintScanner)structurePlugin, message);
+					}
+					context.getMessages().clear();
+					
 				}catch(Exception e){
 					e.printStackTrace();
 				}
@@ -424,6 +437,10 @@ public class CFLint implements IErrorReporter {
 			for (final CFLintStructureListener structurePlugin : getStructureListeners(extensions)) {
 				try{
 					structurePlugin.endComponent(context, bugs);
+					for(final ContextMessage message : context.getMessages()){
+						reportRule(elem, null, context, (CFLintScanner)structurePlugin, message);
+					}
+					context.getMessages().clear();
 				}catch(Exception e){
 					e.printStackTrace();
 				}
@@ -491,6 +508,10 @@ public class CFLint implements IErrorReporter {
 			for (final CFLintStructureListener structurePlugin : getStructureListeners(extensions)) {
 				try{
 					structurePlugin.startComponent(context, bugs);
+					for(final ContextMessage message : context.getMessages()){
+						reportRule(elem, null, context, (CFLintScanner)structurePlugin, message);
+					}
+					context.getMessages().clear();
 				}catch(Exception e){
 					e.printStackTrace();
 				}
@@ -508,6 +529,10 @@ public class CFLint implements IErrorReporter {
 			for (final CFLintStructureListener structurePlugin : getStructureListeners(extensions)) {
 				try{
 					structurePlugin.startFunction(context, bugs);
+					for(final ContextMessage message : context.getMessages()){
+						reportRule(elem, null, context, (CFLintScanner)structurePlugin, message);
+					}
+					context.getMessages().clear();
 				}catch(Exception e){
 					e.printStackTrace();
 				}
@@ -542,6 +567,10 @@ public class CFLint implements IErrorReporter {
 			for (final CFLintStructureListener structurePlugin : getStructureListeners(extensions)) {
 				try{
 					structurePlugin.endComponent(context, bugs);
+					for(final ContextMessage message : context.getMessages()){
+						reportRule(elem, null, context, (CFLintScanner)structurePlugin, message);
+					}
+					context.getMessages().clear();
 				}catch(Exception e){
 					e.printStackTrace();
 				}
@@ -585,6 +614,10 @@ public class CFLint implements IErrorReporter {
 			for (final CFLintStructureListener structurePlugin : getStructureListeners(extensions)) {
 				try{
 					structurePlugin.endFunction(context, bugs);
+					for(final ContextMessage message : context.getMessages()){
+						reportRule(elem, null, context, (CFLintScanner)structurePlugin, message);
+					}
+					context.getMessages().clear();
 				}catch(Exception e){
 					e.printStackTrace();
 				}
@@ -833,7 +866,12 @@ public class CFLint implements IErrorReporter {
 		if (expression instanceof CFExpression){
 			bugs.add(bldr.build((CFExpression)expression, elem));
 		}else{
-			bugs.add(bldr.build((CFParsedStatement)expression, elem));
+			BugInfo bug = bldr.build((CFParsedStatement)expression, elem);
+			if(msg.getLine() != null){
+				bug.setLine(msg.getLine());
+				bug.setColumn(0);
+			}
+			bugs.add(bug);
 		}
 	}
 

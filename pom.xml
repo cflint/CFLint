@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.github.cflint</groupId>
 	<artifactId>CFLint</artifactId>
-	<version>0.7.1</version>
+	<version>0.7.2</version>
 
 	<name>CFLint</name>
 	<description>
@@ -27,6 +27,12 @@
 			<organization>cfparser</organization>
 			<organizationUrl>https://github.com/jjames967</organizationUrl>
 		</developer>
+		<developer>
+			<name>Denny Valliant</name>
+			<email>valliantster@gmail.com</email>
+			<organization>cfparser</organization>
+			<organizationUrl>https://github.com/denuno</organizationUrl>
+		</developer>
 	</developers>
 
 	<scm>
@@ -35,8 +41,16 @@
 		<url>git@github.com:cflint/CFLint.git</url>
 	</scm>
 
+	<repositories>
+	    <repository>
+	      <id>cfmlprojects</id>
+	      <name>cfmlprojects</name>
+	      <url>http://cfmlprojects.org/artifacts</url>
+	    </repository>
+    	</repositories>
+  
 	<licenses>
-		<license>
+	<license>
             <name>The New BSD License</name>
             <url>http://www.opensource.org/licenses/bsd-license.html</url>
             <distribution>repo</distribution>
@@ -51,18 +65,18 @@
 		<dependency>
 			<groupId>com.github.cfparser</groupId>
 			<artifactId>cfparser</artifactId>
-			<version>2.2.2</version>
+			<version>2.2.5</version>
 			<type>pom</type>
 		</dependency>
 		<dependency>
 			<groupId>com.github.cfparser</groupId>
 			<artifactId>cfml.parsing</artifactId>
-			<version>2.2.2</version>
+			<version>2.2.6</version>
 		</dependency>
 		<dependency>
 			<groupId>com.github.cfparser</groupId>
 			<artifactId>cfml.dictionary</artifactId>
-			<version>2.2.2</version>
+			<version>2.2.6</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>

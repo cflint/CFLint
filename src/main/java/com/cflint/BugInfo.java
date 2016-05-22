@@ -144,7 +144,8 @@ public class BugInfo implements Comparable<BugInfo>{
 		
 		private void doMessageText(final Element elem) {
 			String message = notNull(bugInfo.getMessage());
-			message = message.replaceAll("\\$\\{variable\\}",notNull(bugInfo.getVariable()));
+			String variable = notNull(bugInfo.getVariable());
+			message = message.replace("${variable}",variable);
 			if(message.contains("{tag}") && elem != null){
 				message = message.replaceAll("\\$\\{tag\\}",notNull(elem.getName()));
 			}

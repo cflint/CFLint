@@ -33,8 +33,15 @@ public class ArgumentNameChecker extends CFLintScannerAdapter {
 		if (element.getName().equals("cfargument")) {
 			final int lineNo = context.startLine();
 			final String name = element.getAttributeValue("name");
-
-			checkNameForBugs(name, context.getFilename(), context.getFunctionName(), lineNo, bugs);
+			if(name != null && name.length() > 0) {
+				checkNameForBugs(name, context.getFilename(), context.getFunctionName(), lineNo, bugs);
+			} else {
+				bugs.add(new BugInfo.BugInfoBuilder().setLine(lineNo).setMessageCode("ARGUMENT_INVALID_NAME")
+						.setSeverity("ERROR").setFilename(context.getFilename()).setFunction(context.getFunctionName())
+						.setMessage(ARGUMENT + " is missing a name.")
+						.setVariable("")
+						.build());
+			}
 		}
 	}
 

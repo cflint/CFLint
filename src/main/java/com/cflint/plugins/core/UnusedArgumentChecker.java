@@ -25,7 +25,8 @@ public class UnusedArgumentChecker extends CFLintScannerAdapter {
 	@Override
 	public void element(final Element element, final Context context, final BugList bugs) {
 		if (element.getName().equals("cfargument")) {
-			final String name = element.getAttributeValue("name").toLowerCase();
+			final String name = element.getAttributeValue("name") != null ? 
+					element.getAttributeValue("name").toLowerCase() : "";
 			methodArguments.put(name, false);
 			setArgumentLineNo(name, context.startLine());
 		}

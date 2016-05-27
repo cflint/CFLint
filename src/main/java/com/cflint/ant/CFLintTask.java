@@ -2,10 +2,15 @@ package com.cflint.ant;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
 import java.io.Writer;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -93,9 +98,9 @@ public class CFLintTask extends Task {
 					System.out.println("Style:" + xmlStyle);
 				}
 				if ("findbugs".equalsIgnoreCase(xmlStyle)) {
-					new XMLOutput().outputFindBugs(cflint.getBugs(), new FileWriter(xmlFile), showStats);
+					new XMLOutput().outputFindBugs(cflint.getBugs(), createWriter(xmlFile,StandardCharsets.UTF_8), showStats);
 				} else {
-					new XMLOutput().output(cflint.getBugs(), new FileWriter(xmlFile), showStats);
+					new XMLOutput().output(cflint.getBugs(), createWriter(xmlFile,StandardCharsets.UTF_8), showStats);
 				}
 			}
 			if (textFile != null) {
@@ -136,6 +141,12 @@ public class CFLintTask extends Task {
 				
 			}
 		}
+	}
+
+	private Writer createWriter(File xmlFile2, Charset encoding) throws IOException {
+		final OutputStreamWriter out = new OutputStreamWriter(new FileOutputStream(xmlFile2),encoding);
+		out.append(String.format("<?xml version=\"1.0\" encoding=\"%s\" ?>%n",encoding));
+		return out;
 	}
 
 	public void addFileset(final FileSet fileset) {

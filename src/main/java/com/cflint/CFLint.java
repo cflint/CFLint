@@ -500,6 +500,7 @@ public class CFLint implements IErrorReporter {
 	private void process(final CFScriptStatement expression, final String filename, final Element elem,
 			String functionName) {
 		final Context context = new Context(filename, elem, functionName, inAssignment, handler);
+		try{
 		
 		context.setInComponent(inComponent);
 		if (expression instanceof CFCompDeclStatement) {
@@ -625,6 +626,11 @@ public class CFLint implements IErrorReporter {
 			inFunction = false;
 			handler.pop();
 		} else {
+		}
+		}catch(StackOverflowError soe){
+			System.err.println("Stack overflow in " + filename);
+			final int line = context.startLine(); 
+			fireCFLintException(soe,PARSE_ERROR,filename,line,1,"","Stack overflow on " + expression.getClass());
 		}
 	}
 
@@ -975,7 +981,7 @@ public class CFLint implements IErrorReporter {
 		exceptionListeners.add(exceptionListener);
 	}
 
-	protected void fireCFLintException(final Exception e, final String messageCode, final String filename,
+	protected void fireCFLintException(final Throwable e, final String messageCode, final String filename,
 			final Integer line, final Integer column,final String functionName, final String expression) {
 		for (final CFLintExceptionListener p : exceptionListeners) {
 			p.exceptionOccurred(e, messageCode, filename, line, column, functionName, expression);

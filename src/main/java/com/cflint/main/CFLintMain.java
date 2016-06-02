@@ -3,10 +3,13 @@ package com.cflint.main;
 import java.awt.Desktop;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -373,7 +376,7 @@ public class CFLintMain {
 			cflint.process(source.toString(), stdInFile);
 		}
 		if (xmlOutput) {
-			Writer xmlwriter = stdOut ? new OutputStreamWriter(System.out) : new FileWriter(xmlOutFile);
+			Writer xmlwriter = stdOut ? new OutputStreamWriter(System.out) : createWriter(xmlOutFile,StandardCharsets.UTF_8);
 			if ("findbugs".equalsIgnoreCase(xmlstyle)) {
 				if(verbose) {
 					display("Writing XML findbugs style" + (stdOut ? "." : " to " + xmlOutFile));
@@ -431,5 +434,11 @@ public class CFLintMain {
 			return false;
 		}
 		return true;
+	}
+	
+	private Writer createWriter(final String xmlOutFile, final Charset encoding) throws IOException {
+		final OutputStreamWriter out = new OutputStreamWriter(new FileOutputStream(xmlOutFile),encoding);
+		out.append(String.format("<?xml version=\"1.0\" encoding=\"%s\" ?>%n",encoding));
+		return out;
 	}
 }

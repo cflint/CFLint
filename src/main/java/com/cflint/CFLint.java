@@ -270,7 +270,7 @@ public class CFLint implements IErrorReporter {
 	public void process(final String src, final String filename) throws ParseException, IOException {
 		fireStartedProcessing(filename);
 		final CFMLSource cfmlSource = new CFMLSource(src);
-		ParserTag firstTag = cfmlSource.getTagAt(0);
+		ParserTag firstTag = cfmlSource.getNextTag(0);
 		final List<Element> elements = new ArrayList<Element>();
 		if(firstTag != null){
 			elements.addAll(cfmlSource.getChildElements());

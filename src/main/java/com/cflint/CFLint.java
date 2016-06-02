@@ -43,6 +43,7 @@ import com.cflint.tools.CFLintFilter;
 import cfml.CFSCRIPTParser;
 import cfml.parsing.CFMLParser;
 import cfml.parsing.CFMLSource;
+import cfml.parsing.ParserTag;
 import cfml.parsing.cfscript.CFAssignmentExpression;
 import cfml.parsing.cfscript.CFBinaryExpression;
 import cfml.parsing.cfscript.CFExpression;
@@ -269,7 +270,11 @@ public class CFLint implements IErrorReporter {
 	public void process(final String src, final String filename) throws ParseException, IOException {
 		fireStartedProcessing(filename);
 		final CFMLSource cfmlSource = new CFMLSource(src);
-		final List<Element> elements = cfmlSource.getChildElements();
+		ParserTag firstTag = cfmlSource.getTagAt(0);
+		final List<Element> elements = new ArrayList<Element>();
+		if(firstTag != null){
+			elements.addAll(cfmlSource.getChildElements());
+		}
 		if (elements.isEmpty() && src.contains("component")) {
 			// Check if pure cfscript
 			final CFScriptStatement scriptStatement = cfmlParser.parseScript(src);

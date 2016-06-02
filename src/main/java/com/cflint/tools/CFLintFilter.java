@@ -136,12 +136,12 @@ public class CFLintFilter {
 						System.out.println("Exclude matched line " + bugInfo.getLine());
 					}
 				}
-				if (item.containsKey("expression")) {
-					if (bugInfo.getExpression() == null
-							|| !bugInfo.getExpression().matches(item.get("expression").toString())) {
+				if (item.containsKey("severity")) {
+					if (bugInfo.getSeverity() == null
+							|| !bugInfo.getSeverity().matches(item.get("severity").toString())) {
 						continue;
 					}else if (verbose){
-						System.out.println("Exclude matched expression " + bugInfo.getExpression());
+						System.out.println("Exclude matched severity " + bugInfo.getLine());
 					}
 				}
 				return false;

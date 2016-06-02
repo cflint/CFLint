@@ -43,6 +43,7 @@ import com.cflint.tools.CFLintFilter;
 import cfml.CFSCRIPTParser;
 import cfml.parsing.CFMLParser;
 import cfml.parsing.CFMLSource;
+import cfml.parsing.ParserTag;
 import cfml.parsing.cfscript.CFAssignmentExpression;
 import cfml.parsing.cfscript.CFBinaryExpression;
 import cfml.parsing.cfscript.CFExpression;
@@ -269,7 +270,11 @@ public class CFLint implements IErrorReporter {
 	public void process(final String src, final String filename) throws ParseException, IOException {
 		fireStartedProcessing(filename);
 		final CFMLSource cfmlSource = new CFMLSource(src);
-		final List<Element> elements = cfmlSource.getChildElements();
+		ParserTag firstTag = cfmlSource.getTagAt(0);
+		final List<Element> elements = new ArrayList<Element>();
+		if(firstTag != null){
+			elements.addAll(cfmlSource.getChildElements());
+		}
 		if (elements.isEmpty() && src.contains("component")) {
 			// Check if pure cfscript
 			final CFScriptStatement scriptStatement = cfmlParser.parseScript(src);
@@ -500,6 +505,7 @@ public class CFLint implements IErrorReporter {
 	private void process(final CFScriptStatement expression, final String filename, final Element elem,
 			String functionName) {
 		final Context context = new Context(filename, elem, functionName, inAssignment, handler);
+		try{
 		
 		context.setInComponent(inComponent);
 		if (expression instanceof CFCompDeclStatement) {
@@ -625,6 +631,11 @@ public class CFLint implements IErrorReporter {
 			inFunction = false;
 			handler.pop();
 		} else {
+		}
+		}catch(StackOverflowError soe){
+			System.err.println("Stack overflow in " + filename);
+			final int line = context.startLine(); 
+			fireCFLintException(soe,PARSE_ERROR,filename,line,1,"","Stack overflow on " + expression.getClass());
 		}
 	}
 
@@ -975,7 +986,7 @@ public class CFLint implements IErrorReporter {
 		exceptionListeners.add(exceptionListener);
 	}
 
-	protected void fireCFLintException(final Exception e, final String messageCode, final String filename,
+	protected void fireCFLintException(final Throwable e, final String messageCode, final String filename,
 			final Integer line, final Integer column,final String functionName, final String expression) {
 		for (final CFLintExceptionListener p : exceptionListeners) {
 			p.exceptionOccurred(e, messageCode, filename, line, column, functionName, expression);

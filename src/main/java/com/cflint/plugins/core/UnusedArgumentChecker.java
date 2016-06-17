@@ -76,6 +76,7 @@ public class UnusedArgumentChecker extends CFLintScannerAdapter {
 	@Override	
 	public void startFunction(Context context, BugList bugs) {
 		methodArguments.clear();
+		argumentLineNo.clear();
 	}
 
 	@Override	

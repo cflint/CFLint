@@ -695,7 +695,7 @@ public class CFLint implements IErrorReporter {
 			// }
 			for (final CFExpression expr : cfFunctionExpr.getArgs()) {
 				if(expr instanceof CFAssignmentExpression){
-					process(((CFAssignmentExpression) expression).getRight(), filename, elem, functionName);
+					process(((CFAssignmentExpression) expr).getRight(), filename, elem, functionName);
 				}else{
 					process(expr, filename, elem, functionName);
 				}

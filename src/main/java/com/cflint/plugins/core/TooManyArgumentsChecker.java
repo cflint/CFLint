@@ -38,7 +38,7 @@ public class TooManyArgumentsChecker extends CFLintScannerAdapter {
 		}
 		// No easy way of detecting end tag so assumes functions will contain some code
 		// otherwise the argument count will be off by one
-		else if (argumentCount > 0) {
+		else if (!element.getName().equals("!---") && argumentCount > 0) {
 			checkNumberArguments(argumentCount, functionLine, context, bugs);
 			argumentCount = 0;
 			functionLine = 0;

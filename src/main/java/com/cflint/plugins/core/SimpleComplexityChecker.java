@@ -25,6 +25,13 @@ public class SimpleComplexityChecker extends CFLintScannerAdapter {
 	int functionLineNo = 1;
 
 	@Override
+	public void startFile(String fileName, BugList bugs) {
+		complexity = 0;
+		alreadyTooComplex = false;
+		functionLineNo = 1;
+	}
+
+	@Override
 	public void expression(final CFScriptStatement expression, final Context context, final BugList bugs) {
 		CFFuncDeclStatement function;
 

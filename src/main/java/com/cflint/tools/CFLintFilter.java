@@ -8,11 +8,15 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.cflint.BugInfo;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class CFLintFilter {
 
+	final static Logger logger = LoggerFactory.getLogger(CFLintFilter.class);
 	private ArrayList<Map<String,?>> data = null;
 	private List<String> includeCodes = null;
 	private List<String> excludeCodes = null;
@@ -51,17 +55,18 @@ public class CFLintFilter {
 
 	public static CFLintFilter createFilter(boolean verbose) throws IOException {
 		String data = null;
+		
 		try {
 			final InputStream is = CFLintFilter.class.getResourceAsStream("/cflintexclude.json");
 			if(is == null){
 				if(verbose){
-					System.out.println("No cflintexclude.json on classpath.");
+					logger.info("No cflintexclude.json on classpath.");
 				}
 				return new CFLintFilter(null);
 			}
 			if(verbose){
 				final URL url = CFLintFilter.class.getResource("/cflintexclude.json");
-				System.out.println("Using exclude file " + url);
+				logger.info("Using exclude file " + url);
 			}
 			
 			final byte b[] = new byte[is.available()];
@@ -73,7 +78,7 @@ public class CFLintFilter {
 		final CFLintFilter filter = new CFLintFilter(data);
 		filter.setVerbose(verbose);
 		if (verbose){
-			System.out.println("Exclude rule count : " + filter.data.size());
+			logger.info("Exclude rule count : " + filter.data.size());
 		}
 		return filter;
 	}
@@ -102,14 +107,14 @@ public class CFLintFilter {
 					if (!bugInfo.getFilename().matches(item.get("file").toString())) {
 						continue;
 					}else if (verbose){
-						System.out.println("Exclude matched file " + bugInfo.getFilename());
+						logger.info("Exclude matched file " + bugInfo.getFilename());
 					}
 				}
 				if (item.containsKey("code")) {
 					if (!bugInfo.getMessageCode().matches(item.get("code").toString())) {
 						continue;
 					}else if (verbose){
-						System.out.println("Exclude matched message code " + bugInfo.getMessageCode());
+						logger.info("Exclude matched message code " + bugInfo.getMessageCode());
 					}
 				}
 				if (item.containsKey("function")) {
@@ -117,7 +122,7 @@ public class CFLintFilter {
 							|| !bugInfo.getFunction().matches(item.get("function").toString())) {
 						continue;
 					}else if (verbose){
-						System.out.println("Exclude matched function name " + bugInfo.getFunction());
+						logger.info("Exclude matched function name " + bugInfo.getFunction());
 					}
 				}
 				if (item.containsKey("variable")) {
@@ -125,7 +130,7 @@ public class CFLintFilter {
 							|| !bugInfo.getVariable().matches(item.get("variable").toString())) {
 						continue;
 					}else if (verbose){
-						System.out.println("Exclude matched variable name " + bugInfo.getVariable());
+						logger.info("Exclude matched variable name " + bugInfo.getVariable());
 					}
 				}
 				if (item.containsKey("line")) {
@@ -133,7 +138,7 @@ public class CFLintFilter {
 							|| !new Integer(bugInfo.getLine()).toString().matches(item.get("line").toString())) {
 						continue;
 					}else if (verbose){
-						System.out.println("Exclude matched line " + bugInfo.getLine());
+						logger.info("Exclude matched line " + bugInfo.getLine());
 					}
 				}
 				if (item.containsKey("severity")) {
@@ -141,7 +146,7 @@ public class CFLintFilter {
 							|| !bugInfo.getSeverity().matches(item.get("severity").toString())) {
 						continue;
 					}else if (verbose){
-						System.out.println("Exclude matched severity " + bugInfo.getLine());
+						logger.info("Exclude matched severity " + bugInfo.getLine());
 					}
 				}
 				return false;

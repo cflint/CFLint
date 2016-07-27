@@ -11,7 +11,7 @@
 	</appender>
 
 	<root>
-		<priority value="FATAL" />
+		<priority value="INFO" />
 		<appender-ref ref="default.console" />
 	</root>
 </log4j:configuration>

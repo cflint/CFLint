@@ -12,7 +12,7 @@ public class BugList implements Iterable<BugInfo> {
 
 	Map<String, List<BugInfo>> bugList = new HashMap<String, List<BugInfo>>();
 	/**
-	 * 
+	 *
 	 */
 	@SuppressWarnings("unused")
 	private static final long serialVersionUID = -8008927848087276202L;
@@ -47,7 +47,7 @@ public class BugList implements Iterable<BugInfo> {
 	/**
 	 * Returns a list of bugs as a map.
 	 *
-	 * @return      Map of bugs
+	 * @return Map of bugs
 	 */
 	public Map<String, List<BugInfo>> getBugList() {
 		return bugList;
@@ -70,6 +70,7 @@ public class BugList implements Iterable<BugInfo> {
 
 	}
 
+	@Override
 	public Iterator<BugInfo> iterator() {
 		return getFlatBugList().iterator();
 	}

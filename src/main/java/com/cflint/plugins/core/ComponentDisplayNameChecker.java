@@ -22,11 +22,11 @@ public class ComponentDisplayNameChecker extends CFLintScannerAdapter {
 		}
 	}
 
-	protected void didYouMeanDisplayName(String name, Context context, BugList bugs) {
-		bugs.add(new BugInfo.BugInfoBuilder().setLine(1).setMessageCode("USE_DISPLAY_NAME")
-			.setSeverity(severity).setFilename(context.getFilename())
-			.setMessage("Component " + name + " is has a name attribute perhaps you meant to use displayName?")
-			.build());
+	protected void didYouMeanDisplayName(final String name, final Context context, final BugList bugs) {
+		bugs.add(new BugInfo.BugInfoBuilder().setLine(1).setMessageCode("USE_DISPLAY_NAME").setSeverity(severity)
+				.setFilename(context.getFilename())
+				.setMessage("Component " + name + " is has a name attribute perhaps you meant to use displayName?")
+				.build());
 	}
 
 }

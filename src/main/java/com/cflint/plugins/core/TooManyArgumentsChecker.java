@@ -21,7 +21,7 @@ public class TooManyArgumentsChecker extends CFLintScannerAdapter {
 		if (expression instanceof CFFuncDeclStatement) {
 			final CFFuncDeclStatement function = (CFFuncDeclStatement) expression;
 			final int begLine = function.getLine();
-			int noArguments = function.getFormals().size();
+			final int noArguments = function.getFormals().size();
 
 			checkNumberArguments(noArguments, begLine, context, bugs);
 		}
@@ -32,11 +32,11 @@ public class TooManyArgumentsChecker extends CFLintScannerAdapter {
 		if (element.getName().equals("cffunction")) {
 			functionLine = element.getSource().getRow(element.getBegin());
 			argumentCount = 0;
-		}
-		else if (element.getName().equals("cfargument")) {
+		} else if (element.getName().equals("cfargument")) {
 			argumentCount++;
 		}
-		// No easy way of detecting end tag so assumes functions will contain some code
+		// No easy way of detecting end tag so assumes functions will contain
+		// some code
 		// otherwise the argument count will be off by one
 		else if (argumentCount > 0) {
 			checkNumberArguments(argumentCount, functionLine, context, bugs);
@@ -45,8 +45,9 @@ public class TooManyArgumentsChecker extends CFLintScannerAdapter {
 		}
 	}
 
-	protected void checkNumberArguments(int argumentCount, int atLine, Context context, BugList bugs) {
-		String argumentThreshold = getParameter("maximum");
+	protected void checkNumberArguments(final int argumentCount, final int atLine, final Context context,
+			final BugList bugs) {
+		final String argumentThreshold = getParameter("maximum");
 		int threshold = ARGUMENT_THRESHOLD;
 
 		if (argumentThreshold != null) {
@@ -56,7 +57,9 @@ public class TooManyArgumentsChecker extends CFLintScannerAdapter {
 		if (argumentCount > threshold) {
 			bugs.add(new BugInfo.BugInfoBuilder().setLine(atLine).setMessageCode("EXCESSIVE_ARGUMENTS")
 					.setSeverity(severity).setFilename(context.getFilename()).setFunction(context.getFunctionName())
-					.setMessage("Function " + context.getFunctionName() + " has too many arguments. Has" + Integer.toString(argumentCount) + " arguments, should be less than " + Integer.toString(threshold) + ".")
+					.setMessage("Function " + context.getFunctionName() + " has too many arguments. Has"
+							+ Integer.toString(argumentCount) + " arguments, should be less than "
+							+ Integer.toString(threshold) + ".")
 					.build());
 		}
 	}

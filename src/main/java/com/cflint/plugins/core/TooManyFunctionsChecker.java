@@ -22,8 +22,7 @@ public class TooManyFunctionsChecker extends CFLintScannerAdapter {
 		if (expression instanceof CFCompDeclStatement) {
 			functionCount = 0;
 			alreadyTooMany = false;
-		}
-		else if (expression instanceof CFFuncDeclStatement) {
+		} else if (expression instanceof CFFuncDeclStatement) {
 
 			if (!trivalFunction(context.getFunctionName())) {
 				functionCount++;
@@ -37,11 +36,10 @@ public class TooManyFunctionsChecker extends CFLintScannerAdapter {
 
 	@Override
 	public void element(final Element element, final Context context, final BugList bugs) {
-		if (element.getName().equals("cfcomponent")) {	
+		if (element.getName().equals("cfcomponent")) {
 			functionCount = 0;
 			alreadyTooMany = false;
-		}
-		else if (element.getName().equals("cffunction") && !trivalFunction(context.getFunctionName())) {
+		} else if (element.getName().equals("cffunction") && !trivalFunction(context.getFunctionName())) {
 			functionCount++;
 
 			if (!alreadyTooMany) {
@@ -50,15 +48,15 @@ public class TooManyFunctionsChecker extends CFLintScannerAdapter {
 		}
 	}
 
-	protected boolean trivalFunction(String name) {
+	protected boolean trivalFunction(final String name) {
 		final int length = name.length();
-		return length >= 3 && name.substring(1,3) == "get"
-		 || length >= 3 && name.substring(1,3) == "set"
-		  || length >= 2 && name.substring(1,2) == "is";
+		return length >= 3 && name.substring(1, 3) == "get" || length >= 3 && name.substring(1, 3) == "set"
+				|| length >= 2 && name.substring(1, 2) == "is";
 	}
 
-	protected void checkNumberFunctions(int functionCount, int atLine, Context context, BugList bugs) {
-		String functionThreshold = getParameter("maximum");
+	protected void checkNumberFunctions(final int functionCount, final int atLine, final Context context,
+			final BugList bugs) {
+		final String functionThreshold = getParameter("maximum");
 		int threshold = FUNCTION_THRESHOLD;
 
 		if (functionThreshold != null) {
@@ -69,7 +67,8 @@ public class TooManyFunctionsChecker extends CFLintScannerAdapter {
 			alreadyTooMany = true;
 			bugs.add(new BugInfo.BugInfoBuilder().setLine(atLine).setMessageCode("EXCESSIVE_FUNCTIONS")
 					.setSeverity(severity).setFilename(context.getFilename()).setFunction(context.getFunctionName())
-					.setMessage("Function " + context.getFunctionName() + " has too many functions. Should be less than " + Integer.toString(threshold) + ".")
+					.setMessage("Function " + context.getFunctionName()
+							+ " has too many functions. Should be less than " + Integer.toString(threshold) + ".")
 					.build());
 		}
 	}

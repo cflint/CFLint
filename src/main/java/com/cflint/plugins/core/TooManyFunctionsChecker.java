@@ -50,8 +50,8 @@ public class TooManyFunctionsChecker extends CFLintScannerAdapter {
 
 	protected boolean trivalFunction(final String name) {
 		final int length = name.length();
-		return length >= 3 && name.substring(1, 3) == "get" || length >= 3 && name.substring(1, 3) == "set"
-				|| length >= 2 && name.substring(1, 2) == "is";
+		return length >= 3 && name.substring(1, 3).equalsIgnoreCase("get") || length >= 3 && name.substring(1, 3).equalsIgnoreCase("set")
+				|| length >= 2 && name.substring(1, 2).equalsIgnoreCase("is");
 	}
 
 	protected void checkNumberFunctions(final int functionCount, final int atLine, final Context context,

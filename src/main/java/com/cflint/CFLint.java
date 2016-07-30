@@ -948,7 +948,7 @@ public class CFLint implements IErrorReporter {
 	public void reportError(final String[] arg0, final RecognitionException arg1) {
 		// TODO Auto-generated method stub
 		final String file = currentFile == null ? "" : currentFile + "\r\n";
-		System.out.println(file + "-------" + arg0);
+		System.out.println(file + "-------" + (arg0.length>0?arg0[0]:""));
 	}
 
 	public void reportError(final IntStream arg0, final RecognitionException arg1, final BitSet arg2) {

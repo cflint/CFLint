@@ -275,7 +275,7 @@ public class CFLint implements IErrorReporter {
 		if(firstTag != null){
 			elements.addAll(cfmlSource.getChildElements());
 		}
-		if (elements.isEmpty() && src.contains("component")) {
+		if (src.contains("component") && (elements.isEmpty() || elements.get(0).getBegin() > src.indexOf("component"))) {
 			// Check if pure cfscript
 			final CFScriptStatement scriptStatement = cfmlParser.parseScript(src);
 			process(scriptStatement, filename, null, (String)null);

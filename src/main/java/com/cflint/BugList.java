@@ -23,6 +23,11 @@ public class BugList implements Iterable<BugInfo> {
 	}
 
 	CFLintFilter filter;
+	CFLintFilter fileFilter;
+
+	public CFLintFilter getFileFilter() {
+		return fileFilter;
+	}
 
 	public CFLintFilter getFilter() {
 		return filter;
@@ -30,6 +35,7 @@ public class BugList implements Iterable<BugInfo> {
 
 	public void setFilter(final CFLintFilter filter) {
 		this.filter = filter;
+		this.fileFilter = filter.createFilePreFilter();
 	}
 
 	public boolean add(final BugInfo bugInfo) {

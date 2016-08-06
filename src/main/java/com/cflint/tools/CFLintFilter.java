@@ -1,5 +1,6 @@
 package com.cflint.tools;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -30,6 +31,10 @@ public class CFLintFilter {
 		} else {
 			this.data = new ArrayList<Map<String, ?>>();
 		}
+	}
+
+	private CFLintFilter(final ArrayList<Map<String, ?>> data) {
+		this.data = data;
 	}
 
 	@Deprecated
@@ -63,7 +68,7 @@ public class CFLintFilter {
 				if (verbose) {
 					logger.info("No cflintexclude.json on classpath.");
 				}
-				return new CFLintFilter(null);
+				return new CFLintFilter((String) null);
 			}
 			if (verbose) {
 				final URL url = CFLintFilter.class.getResource("/cflintexclude.json");
@@ -94,6 +99,21 @@ public class CFLintFilter {
 		final CFLintFilter filter = new CFLintFilter(excludeJSON);
 		return filter;
 	}
+	public boolean includeFile(final File file) {
+		if (data != null) {
+			for (final Map<String, ?> item : data) {
+				if (item.containsKey("file")) {
+					if (!file.getName().matches(item.get("file").toString())) {
+						continue;
+					} else if (verbose) {
+						logger.info("Exclude matched file - prescan " + file.getName());
+						return false;
+					}
+				}
+			}
+		}
+		return true;
+	}
 
 	public boolean include(final BugInfo bugInfo) {
 		if (includeCodes != null && !includeCodes.contains(bugInfo.getMessageCode())) {
@@ -106,7 +126,7 @@ public class CFLintFilter {
 			for (final Map<String, ?> item : data) {
 
 				if (item.containsKey("file")) {
-					if (!bugInfo.getFilename().matches(item.get("file").toString())) {
+					if (!bugInfo.getFilename().matches(item.get("file").toString().trim())) {
 						continue;
 					} else if (verbose) {
 						logger.info("Exclude matched file " + bugInfo.getFilename());
@@ -159,5 +179,22 @@ public class CFLintFilter {
 
 	public void setVerbose(final boolean verbose) {
 		this.verbose = verbose;
+	}
+
+	/**
+	 * Identify a subset of the filter that can be applied without parsing i.e.
+	 * filename.
+	 * 
+	 * @param filter2
+	 * @return
+	 */
+	public CFLintFilter createFilePreFilter() {
+		final ArrayList<Map<String, ?>> newdata = new ArrayList<Map<String, ?>>();
+		for (final Map<String, ?> map : this.data) {
+			if (map.keySet().size() == 1 && map.containsKey("file")) {
+				newdata.add(map);
+			}
+		}
+		return new CFLintFilter(newdata);
 	}
 }

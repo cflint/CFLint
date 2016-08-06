@@ -199,7 +199,7 @@ public class BugInfo implements Comparable<BugInfo> {
 	}
 
 	public void setFilename(final String filename) {
-		this.filename = filename;
+		this.filename = filename.trim();
 	}
 
 	public String getFunction() {

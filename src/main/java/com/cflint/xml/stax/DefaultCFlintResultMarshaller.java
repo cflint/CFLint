@@ -13,7 +13,8 @@ import com.cflint.BugList;
 import com.cflint.Version;
 import com.cflint.xml.CFLintResultMarshaller;
 import com.cflint.xml.MarshallerException;
-import com.sun.xml.txw2.output.IndentingXMLStreamWriter;
+
+import javanet.staxutils.IndentingXMLStreamWriter;
 
 /**
  * Generates xml file with CFlint analyze results.

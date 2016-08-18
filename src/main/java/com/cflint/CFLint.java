@@ -946,6 +946,7 @@ public class CFLint implements IErrorReporter {
 	}
 
 	protected void fireStartedProcessing(final String srcidentifier) {
+		cfmlParser.reset();
 		currentFile = srcidentifier;
 		for (final CFLintStructureListener structurePlugin : getStructureListeners(extensions)) {
 			try{

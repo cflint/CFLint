@@ -14,7 +14,7 @@ public class CFXTagChecker extends CFLintScannerAdapter {
 		final String cfmlTagCheck = getParameter("tagName");
 		final String scope = getParameter("scope");
 
-		if (tagName.matches(cfmlTagCheck)) {
+		if (cfmlTagCheck != null && tagName.matches(cfmlTagCheck)) {
 			if (scope == null || scope.equals("component") && context.isInComponent()) {
 				context.addMessage("AVOID_USING_" + tagName.toUpperCase() + "_TAG", tagName);
 			}

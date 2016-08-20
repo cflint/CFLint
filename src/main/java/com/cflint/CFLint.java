@@ -211,6 +211,10 @@ public class CFLint implements IErrorReporter {
 	}
 
 	public void scan(final File folderOrFile) {
+		if (getBugs().getFileFilter() != null 
+				&& !getBugs().getFileFilter().includeFile(folderOrFile)){
+			return;
+		}
 		if (folderOrFile.isDirectory()) {
 			for (final File file : folderOrFile.listFiles()) {
 				scan(file);

@@ -15,7 +15,7 @@ public class NestedCFOutput extends CFLintScannerAdapter {
 	public void element(final Element element, final Context context, final BugList bugs) {
 		if (element.getName().equals(CFOUTPUT)) {
 			final Element parent = CFTool.getNamedParent(element, CFOUTPUT);
-			if(parent != null){
+			if (parent != null) {
 				if (parent.getAttributeValue("group") == null && anyContainingCFOutputHasQuery(parent)) {
 					element.getSource().getRow(element.getBegin());
 					element.getSource().getColumn(element.getBegin());
@@ -24,12 +24,12 @@ public class NestedCFOutput extends CFLintScannerAdapter {
 			}
 		}
 	}
-	
-	final boolean anyContainingCFOutputHasQuery(Element element){
-		if(element == null){
+
+	final boolean anyContainingCFOutputHasQuery(final Element element) {
+		if (element == null) {
 			return false;
 		}
-		if(element.getAttributeValue("query") != null){
+		if (element.getAttributeValue("query") != null) {
 			return true;
 		}
 		return anyContainingCFOutputHasQuery(CFTool.getNamedParent(element, CFOUTPUT));

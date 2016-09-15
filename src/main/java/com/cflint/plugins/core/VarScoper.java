@@ -23,8 +23,9 @@ public class VarScoper extends CFLintScannerAdapter {
 	@Override
 	public void expression(final CFExpression expression, final Context context, final BugList bugs) {
 		if (expression instanceof CFIdentifier) {
-			//No issue
-			if(expression instanceof CFFullVarExpression && ((CFFullVarExpression) expression).getExpressions().size()>1){
+			// No issue
+			if (expression instanceof CFFullVarExpression
+					&& ((CFFullVarExpression) expression).getExpressions().size() > 1) {
 				return;
 			}
 			final String name = ((CFIdentifier) expression).getName();
@@ -97,8 +98,8 @@ public class VarScoper extends CFLintScannerAdapter {
 
 	final static Collection<String> variables = Arrays.asList("APPLICATION", "CGI", "COOKIE", "FORM", "REQUEST",
 			"SERVER", "SESSION", "URL");
-	
-	private boolean isGlobal(String nameVar) {
+
+	private boolean isGlobal(final String nameVar) {
 		return nameVar != null && variables.contains(nameVar.toUpperCase().trim());
 	}
 

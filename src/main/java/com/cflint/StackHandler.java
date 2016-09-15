@@ -107,6 +107,7 @@ public class StackHandler {
 		}
 		return false;
 	}
+
 	public boolean checkVariable(final String name) {
 		if (excludes.contains(name.toUpperCase())) {
 			return true;
@@ -114,7 +115,7 @@ public class StackHandler {
 		final Iterator<Stack> iter = varStack.iterator();
 		while (iter.hasNext()) {
 			final Stack vars = iter.next();
-			//Report only once per scope level
+			// Report only once per scope level
 			if (vars.getReported().contains(name.toUpperCase())) {
 				return true;
 			}
@@ -122,7 +123,8 @@ public class StackHandler {
 				return true;
 			}
 			if (vars.getArguments().contains(name.toUpperCase())) {
-				//Dereference of an argument without the arguments scope copies to local scope
+				// Dereference of an argument without the arguments scope copies
+				// to local scope
 				vars.getVariables().add(name.toUpperCase());
 				return true;
 			}

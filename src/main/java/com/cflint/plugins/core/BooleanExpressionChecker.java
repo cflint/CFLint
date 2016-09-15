@@ -10,20 +10,20 @@ import cfml.parsing.cfscript.CFExpression;
 public class BooleanExpressionChecker extends CFLintScannerAdapter {
 	protected int lastLineNo = -1;
 
-	//Reset the last line number
+	// Reset the last line number
 	@Override
-	public void startFile(String fileName, BugList bugs) {
+	public void startFile(final String fileName, final BugList bugs) {
 		super.startFile(fileName, bugs);
 		lastLineNo = -1;
 	}
 
-	@Override	
+	@Override
 	public void expression(final CFExpression expression, final Context context, final BugList bugs) {
 		if (expression instanceof CFBinaryExpression) {
-			String code = expression.Decompile(0).toLowerCase();
+			final String code = expression.Decompile(0).toLowerCase();
 
 			if (hasExplicitBooleanCheck(code)) {
-				int lineNo = currentLine(expression, context);
+				final int lineNo = currentLine(expression, context);
 
 				// Only report issue once per line
 				if (lastLineNo != lineNo) {
@@ -32,12 +32,13 @@ public class BooleanExpressionChecker extends CFLintScannerAdapter {
 				}
 			}
 		}
-		
+
 	}
 
 	protected boolean hasExplicitBooleanCheck(final String code) {
-		return code.contains("== true") || code.contains("eq true") || code.contains("is true") || code.contains("!= true")
-			|| code.contains("== false") || code.contains("eq false") || code.contains("is false") || code.contains("!= false");
+		return code.contains("== true") || code.contains("eq true") || code.contains("is true")
+				|| code.contains("!= true") || code.contains("== false") || code.contains("eq false")
+				|| code.contains("is false") || code.contains("!= false");
 	}
 
 }

@@ -18,7 +18,7 @@ public class XMLOutput {
 	public static final String LINE_SEPARATOR = "line.separator";
 
 	public void output(final BugList bugList, final Writer writer, final boolean showStats) throws IOException {
-		BugCounts counts = new BugCounts();
+		final BugCounts counts = new BugCounts();
 		// final StringBuilder sb = new StringBuilder();
 		writer.append("<issues version=\"" + Version.getVersion() + "\">").append(System.getProperty(LINE_SEPARATOR));
 		for (final Entry<String, List<BugInfo>> bugEntry : bugList.getBugList().entrySet()) {
@@ -27,8 +27,8 @@ public class XMLOutput {
 			BugInfo prevbugInfo;
 
 			while (bugInfo != null) {
-				String severity = bugEntry.getValue().get(0).getSeverity();
-				String code = bugEntry.getValue().get(0).getMessageCode();
+				final String severity = bugEntry.getValue().get(0).getSeverity();
+				final String code = bugEntry.getValue().get(0).getMessageCode();
 				counts.add(code, severity);
 				writer.append("<issue");
 				writer.append(" severity=\"").append(xmlEscapeText(severity)).append("\"");
@@ -48,33 +48,34 @@ public class XMLOutput {
 					writer.append(" variable=\"").append(xmlEscapeText(bugInfo.getVariable())).append("\"");
 					writer.append(">");
 					writer.append("<Expression><![CDATA[")
-							.append(bugInfo.getExpression() == null ? "" : bugInfo.getExpression()
-									.replace("<![CDATA[", "").replace("]]>", "")).append("]]></Expression>");
+							.append(bugInfo.getExpression() == null ? ""
+									: bugInfo.getExpression().replace("<![CDATA[", "").replace("]]>", ""))
+							.append("]]></Expression>");
 					writer.append("</location>").append(System.getProperty(LINE_SEPARATOR));
 					prevbugInfo = bugInfo;
 					bugInfo = iterator.hasNext() ? iterator.next() : null;
 				} while (isGrouped(prevbugInfo, bugInfo));
-				// writer.append(" function=\"").append(bugInfo.getFunction()).append("\"");
+				// writer.append("
+				// function=\"").append(bugInfo.getFunction()).append("\"");
 				writer.append("</issue>").append(System.getProperty(LINE_SEPARATOR));
 			}
 		}
-		
+
 		if (showStats) {
 			writer.append("<counts>").append(System.getProperty(LINE_SEPARATOR));
 
-			for (String code : counts.bugTypes()) {
+			for (final String code : counts.bugTypes()) {
 				writer.append("<count");
 				writer.append(" code=\"").append(code).append("\"");
-				writer.append(" count=\"").append(Integer.toString(counts.getCode(code))).append("\" />");	
+				writer.append(" count=\"").append(Integer.toString(counts.getCode(code))).append("\" />");
 				writer.append(System.getProperty(LINE_SEPARATOR));
 			}
 
-			for (String severity:BugCounts.levels)
-			{
+			for (final String severity : BugCounts.levels) {
 				if (counts.getSeverity(severity) > 0) {
 					writer.append("<count");
 					writer.append(" severity=\"").append(severity).append("\"");
-					writer.append(" count=\"").append(Integer.toString(counts.getSeverity(severity))).append("\" />");	
+					writer.append(" count=\"").append(Integer.toString(counts.getSeverity(severity))).append("\" />");
 					writer.append(System.getProperty(LINE_SEPARATOR));
 				}
 			}
@@ -103,8 +104,8 @@ public class XMLOutput {
 		// Some message codes (such as parse error are grouped at the function
 		// level
 		if (CODE_GROUPBY_FUNCTION.contains(bugInfo.getMessageCode())
-			&& safeEquals(prevbugInfo.getFunction(), bugInfo.getFunction())) {
-				return true;
+				&& safeEquals(prevbugInfo.getFunction(), bugInfo.getFunction())) {
+			return true;
 		}
 		return false;
 	}
@@ -113,7 +114,8 @@ public class XMLOutput {
 		return a != null && b != null && a.equals(b);
 	}
 
-	public void outputFindBugs(final BugList bugList, final Writer writer, final boolean showStats) throws IOException, TransformerException {
+	public void outputFindBugs(final BugList bugList, final Writer writer, final boolean showStats)
+			throws IOException, TransformerException {
 		final StringWriter sw = new StringWriter();
 		output(bugList, sw, showStats);
 		// 1. Instantiate a TransformerFactory.
@@ -135,10 +137,10 @@ public class XMLOutput {
 	}
 
 	private CharSequence filename(final String filename) {
-		if(filename == null){
+		if (filename == null) {
 			return "";
 		}
-		return filename.substring(Math.max(filename.lastIndexOf('/'), filename.lastIndexOf('\\'))+1);
+		return filename.substring(Math.max(filename.lastIndexOf('/'), filename.lastIndexOf('\\')) + 1);
 	}
 
 	private CharSequence abbrev(final String messageCode) {

@@ -10,34 +10,42 @@ import cfml.parsing.cfscript.script.CFScriptStatement;
 import net.htmlparser.jericho.Element;
 
 /**
- * Lint Rule Plugins can extend this adapter instead of implementing all the methods of CFLintScanner
- *  (and CFLintStructureListener)
- * 
+ * Lint Rule Plugins can extend this adapter instead of implementing all the
+ * methods of CFLintScanner (and CFLintStructureListener)
+ *
  * @author eberlyrh
  *
  */
-public class CFLintScannerAdapter implements CFLintScanner,CFLintStructureListener {
+public class CFLintScannerAdapter implements CFLintScanner, CFLintStructureListener {
 
-	Map<String, String> params = new HashMap<String,String>();
+	Map<String, String> params = new HashMap<String, String>();
+
 	public CFLintScannerAdapter() {
 		super();
 	}
 
-	public void expression(CFExpression expression, Context context, BugList bugs){}
+	@Override
+	public void expression(final CFExpression expression, final Context context, final BugList bugs) {
+	}
 
-	public void element(Element element, Context context, BugList bugs){}
+	@Override
+	public void element(final Element element, final Context context, final BugList bugs) {
+	}
 
-	public void expression(CFScriptStatement expression, Context context, BugList bugs){}
-	
-	public void setParameter(String name, String value){
-		if(name != null){
+	@Override
+	public void expression(final CFScriptStatement expression, final Context context, final BugList bugs) {
+	}
+
+	@Override
+	public void setParameter(final String name, final String value) {
+		if (name != null) {
 			params.put(name.toLowerCase(), value);
 			params.put(name, value);
 		}
 	}
 
-	public String getParameter(String name){
-		if(name != null){
+	public String getParameter(final String name) {
+		if (name != null) {
 			return params.get(name.toLowerCase());
 		}
 		return null;
@@ -55,35 +63,41 @@ public class CFLintScannerAdapter implements CFLintScanner,CFLintStructureListen
 	 * Default implementation does nothing
 	 */
 	@Override
-	public void startFile(String fileName, BugList bugs) {}
+	public void startFile(final String fileName, final BugList bugs) {
+	}
 
 	/**
 	 * Default implementation does nothing
 	 */
 	@Override
-	public void endFile(String fileName, BugList bugs) {}
+	public void endFile(final String fileName, final BugList bugs) {
+	}
 
 	/**
 	 * Default implementation does nothing
 	 */
 	@Override
-	public void startComponent(Context context, BugList bugs) {}
+	public void startComponent(final Context context, final BugList bugs) {
+	}
 
 	/**
 	 * Default implementation does nothing
 	 */
 	@Override
-	public void endComponent(Context context, BugList bugs) {}
+	public void endComponent(final Context context, final BugList bugs) {
+	}
 
 	/**
 	 * Default implementation does nothing
 	 */
 	@Override
-	public void startFunction(Context context, BugList bugs) {}
+	public void startFunction(final Context context, final BugList bugs) {
+	}
 
 	/**
 	 * Default implementation does nothing
 	 */
 	@Override
-	public void endFunction(Context context, BugList bugs) {}
+	public void endFunction(final Context context, final BugList bugs) {
+	}
 }

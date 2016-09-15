@@ -77,7 +77,7 @@ public class CFLint implements IErrorReporter {
 	private static final String FILE_ERROR = "FILE_ERROR";
 	private static final String PARSE_ERROR = "PARSE_ERROR";
 	public static final String PLUGIN_ERROR = "PLUGIN_ERROR:";
-	final CFMLParser cfmlParser = new CFMLParser();
+	CFMLParser cfmlParser = new CFMLParser();
 	
 	
 	StackHandler handler = new StackHandler();
@@ -946,7 +946,8 @@ public class CFLint implements IErrorReporter {
 	}
 
 	protected void fireStartedProcessing(final String srcidentifier) {
-		cfmlParser.reset();
+		cfmlParser = new CFMLParser();
+		cfmlParser.setErrorReporter(this);
 		currentFile = srcidentifier;
 		for (final CFLintStructureListener structurePlugin : getStructureListeners(extensions)) {
 			try{

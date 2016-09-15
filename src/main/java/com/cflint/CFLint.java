@@ -298,7 +298,7 @@ public class CFLint implements IErrorReporter {
 		}
 	}
 
-
+	
 	private void process(final Element elem, final String space, Context context)
 			throws ParseException, IOException {
 		context.setInComponent(inComponent);

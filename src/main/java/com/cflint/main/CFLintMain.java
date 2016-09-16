@@ -27,7 +27,6 @@ import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.GnuParser;
 import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Options;
-import org.apache.commons.cli.ParseException;
 
 import com.cflint.CFLint;
 import com.cflint.HTMLOutput;
@@ -42,6 +41,8 @@ import com.cflint.config.CFLintPluginInfo.PluginInfoRule.PluginMessage;
 import com.cflint.config.ConfigRuntime;
 import com.cflint.config.ConfigUtils;
 import com.cflint.tools.CFLintFilter;
+import com.cflint.xml.MarshallerException;
+import com.cflint.xml.stax.DefaultCFlintResultMarshaller;
 
 public class CFLintMain {
 
@@ -90,11 +91,10 @@ public class CFLintMain {
 	private String configfile = null;
 	boolean showStats = false;
 
-	public static void main(final String[] args)
-			throws ParseException, IOException, TransformerException, JAXBException {
-		// PropertyConfigurator.configure("/log4j.properties");
-		// DOMConfigurator.configure(CFLintFilter.class.getResource("/log4j.xml").getFile());
-		// Logger.getLogger("net.htmlparser.jericho");
+	public static void main(final String[] args) throws Exception {
+		//PropertyConfigurator.configure("/log4j.properties");
+		//DOMConfigurator.configure(CFLintFilter.class.getResource("/log4j.xml").getFile());
+		//Logger.getLogger("net.htmlparser.jericho");
 
 		final Options options = new Options();
 		options.addOption(RULES, false, "list of all supported rules");
@@ -327,7 +327,7 @@ public class CFLintMain {
 		return null;
 	}
 
-	private void execute() throws IOException, TransformerException, JAXBException {
+	private void execute() throws IOException, TransformerException, JAXBException, MarshallerException {
 		final CFLint cflint = new CFLint(loadConfig(configfile));
 		cflint.setVerbose(verbose);
 		cflint.setLogError(logerror);
@@ -387,7 +387,7 @@ public class CFLintMain {
 				if (verbose) {
 					display("Writing XML" + (stdOut ? "." : " to " + xmlOutFile));
 				}
-				new XMLOutput().output(cflint.getBugs(), xmlwriter, showStats);
+				new DefaultCFlintResultMarshaller().output(cflint.getBugs(), xmlwriter, showStats);
 			}
 		}
 		if (textOutput) {

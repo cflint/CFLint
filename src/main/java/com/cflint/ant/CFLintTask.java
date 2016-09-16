@@ -27,6 +27,7 @@ import com.cflint.XMLOutput;
 import com.cflint.config.CFLintConfig;
 import com.cflint.config.ConfigUtils;
 import com.cflint.tools.CFLintFilter;
+import com.cflint.xml.stax.DefaultCFlintResultMarshaller;
 
 public class CFLintTask extends Task {
 
@@ -99,7 +100,7 @@ public class CFLintTask extends Task {
 					new XMLOutput().outputFindBugs(cflint.getBugs(), createWriter(xmlFile, StandardCharsets.UTF_8),
 							showStats);
 				} else {
-					new XMLOutput().output(cflint.getBugs(), createWriter(xmlFile, StandardCharsets.UTF_8), showStats);
+					new DefaultCFlintResultMarshaller().output(cflint.getBugs(), createWriter(xmlFile, StandardCharsets.UTF_8), showStats);
 				}
 			}
 			if (textFile != null) {

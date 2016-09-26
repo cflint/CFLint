@@ -14,8 +14,8 @@ import ro.fortsoft.pf4j.Extension;
 public class ComponentNameChecker extends CFLintScannerAdapter {
 	public static final String COMPONENT_NAME = "Component name ";
 	final String severity = "INFO";
-	
-	@Override	
+
+	@Override
 	public void expression(final CFScriptStatement expression, final Context context, final BugList bugs) {
 		if (expression instanceof CFCompDeclStatement) {
 			String name = context.getFilename().replace(".cfc","");

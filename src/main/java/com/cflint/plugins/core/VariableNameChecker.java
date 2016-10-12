@@ -12,6 +12,7 @@ import cfml.parsing.cfscript.CFExpression;
 import cfml.parsing.cfscript.CFFullVarExpression;
 import cfml.parsing.cfscript.CFIdentifier;
 import cfml.parsing.cfscript.CFVarDeclExpression;
+import net.htmlparser.jericho.Element;
 import ro.fortsoft.pf4j.Extension;
 
 @Extension
@@ -24,6 +25,32 @@ public class VariableNameChecker extends CFLintScannerAdapter {
 	private final List<String> exclusions = new ArrayList<>();
 
 	final String severity = "INFO";
+	
+	@Override
+	public void element(final Element element, final Context context, final BugList bugs) {
+		final String elementName = element.getName();
+		final int begLine = element.getSource().getRow(element.getBegin());
+
+		if (elementName.equals("cfquery")) {
+			if(element.getAttributeValue("name") != null){
+				final String varName = element.getAttributeValue("name") != null
+					? element.getAttributeValue("name") : "";
+				checkNameForBugs(context, varName, context.getFilename(), context.getFunctionName(), begLine, bugs);
+			}
+		} else if (elementName.equals("cfinvoke")) {
+			if(element.getAttributeValue("returnvariable") != null){
+				final String varName = element.getAttributeValue("returnvariable") != null
+					? element.getAttributeValue("returnvariable") : "";
+				checkNameForBugs(context, varName, context.getFilename(), context.getFunctionName(), begLine, bugs);
+			}
+		} else if (elementName.equals("cfloop")) {
+			if(element.getAttributeValue("index") != null || element.getAttributeValue("item") != null){
+				final String varName = element.getAttributeValue("index") != null
+					? element.getAttributeValue("index") : (element.getAttributeValue("item") != null ? element.getAttributeValue("item") : "");
+				checkNameForBugs(context, varName, context.getFilename(), context.getFunctionName(), begLine, bugs);
+			}
+		}
+	}
 
 	@Override
 	public void setParameter(String name, String value) {

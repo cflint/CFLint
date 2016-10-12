@@ -94,7 +94,7 @@ public class BugInfo implements Comparable<BugInfo> {
 		}
 
 		public BugInfoBuilder setFilename(final String filename) {
-			bugInfo.filename = filename;
+			bugInfo.filename = filename.replaceAll("(\\r|\\n)", "");
 			return this;
 		}
 

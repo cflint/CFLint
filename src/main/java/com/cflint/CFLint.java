@@ -40,10 +40,12 @@ import com.cflint.plugins.exceptions.CFLintExceptionListener;
 import com.cflint.plugins.exceptions.DefaultCFLintExceptionListener;
 import com.cflint.tools.CFLintFilter;
 
+import cfml.CFSCRIPTLexer;
 import cfml.CFSCRIPTParser;
 import cfml.parsing.CFMLParser;
 import cfml.parsing.CFMLSource;
 import cfml.parsing.ParserTag;
+import cfml.parsing.cfml.antlr.CFLexer;
 import cfml.parsing.cfscript.CFAssignmentExpression;
 import cfml.parsing.cfscript.CFBinaryExpression;
 import cfml.parsing.cfscript.CFExpression;
@@ -805,7 +807,10 @@ public class CFLint implements IErrorReporter {
 		bldr.setRuleParameters(ruleInfo.getParameters());
 		if (expression instanceof CFExpression) {
 			BugInfo bugInfo = bldr.build((CFExpression) expression, elem);
-			bugs.add(bugInfo);
+			final Token token = ((CFExpression) expression).getToken();
+			if(!suppressed(bugInfo,token,context)){
+				bugs.add(bugInfo);
+			}
 		} else {
 			final BugInfo bug = bldr.build((CFParsedStatement) expression, elem);
 			if (msg.getLine() != null) {
@@ -814,6 +819,40 @@ public class CFLint implements IErrorReporter {
 			}
 			bugs.add(bug);
 		}
+	}
+	
+	/*
+	 * Look for a suppress comment on the same line.
+	 * cflint:line - suppresses any messages on the same line
+	 * cflint:MESSAGE_CODE - suppresses any message matching that code
+	 */
+	protected boolean suppressed(BugInfo bugInfo, Token token, Context context) {
+		Iterable<Token> tokens = context.afterTokens(token);
+		for (Token currentTok : tokens) {
+			if (currentTok.getLine() != token.getLine()) {
+				break;
+			}
+			if (currentTok.getChannel() == Token.HIDDEN_CHANNEL
+					&& currentTok.getType() == CFSCRIPTLexer.LINE_COMMENT) {
+				final String commentText = currentTok.getText().replaceFirst("^//\\s*", "").trim();
+				if(commentText.startsWith("cflint ")){
+					Pattern pattern = Pattern.compile("cflint\\s+ignore:([\\w,]+).*");
+					Matcher matcher = pattern.matcher(commentText);
+					if(matcher.matches() && matcher.groupCount() > 0){
+						final String ignoreCodes = matcher.group(1);
+						if(ignoreCodes.equalsIgnoreCase("line")){
+							return true;
+						}
+						for(final String ignoreCode : ignoreCodes.split(",\\s*")){
+							if(ignoreCode.equals(bugInfo.getMessageCode())){
+								return true;
+							}
+						}
+					}
+				}
+			}
+		}
+		return false;
 	}
 	
 	public BugList getBugs() {

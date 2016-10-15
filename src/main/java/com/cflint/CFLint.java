@@ -139,9 +139,6 @@ public class CFLint implements IErrorReporter {
 	public CFLint(final ConfigRuntime configuration, final CFLintScanner... bugsScanners) {
 		super();
 		this.configuration = configuration;
-		// DictionaryPreferences dprefs = new DictionaryPreferences();
-		// dprefs.setDictionaryDir("C:\\projects\\cfml.dictionary-master\\dictionary");
-		// DictionaryManager.initDictionaries(dprefs);
 
 		for (final CFLintScanner scanner : bugsScanners) {
 			extensions.add(scanner);
@@ -221,7 +218,6 @@ public class CFLint implements IErrorReporter {
 			}
 		} else if (!folderOrFile.isHidden() && checkExtension(folderOrFile)) {
 			final String src = load(folderOrFile);
-			// System.out.println("processing " + file);
 			try {
 				process(src, folderOrFile.getAbsolutePath());
 			} catch (final Exception e) {
@@ -232,12 +228,6 @@ public class CFLint implements IErrorReporter {
 						System.err.println(e.getMessage());
 					}
 				}
-				/*
-				 * bugs.add(new
-				 * BugInfo.BugInfoBuilder().setMessageCode("FILE_ERROR")
-				 * .setFilename(folderOrFile.getAbsolutePath()).setMessage(e.
-				 * getMessage()).setSeverity("ERROR") .build());
-				 */
 				if (logError) {
 					System.out.println("Logging Error: " + FILE_ERROR);
 					fireCFLintException(e, FILE_ERROR, folderOrFile.getAbsolutePath(), null, null, null, null);
@@ -289,7 +279,8 @@ public class CFLint implements IErrorReporter {
 				&& (elements.isEmpty() || elements.get(0).getBegin() > src.indexOf("component"))) {
 			// Check if pure cfscript
 			final CFScriptStatement scriptStatement = cfmlParser.parseScript(src);
-			process(scriptStatement, filename, null, (String) null);
+			Context context = new Context(filename,null,null,inAssignment,handler,scriptStatement.getTokens());
+			process(scriptStatement, context);
 		} else {
 			processStack(elements, " ", filename, null);
 		}
@@ -369,54 +360,26 @@ public class CFLint implements IErrorReporter {
 			}
 			if (elem.getName().equalsIgnoreCase("cfset") || elem.getName().equalsIgnoreCase("cfif")
 					|| elem.getName().equalsIgnoreCase("cfelseif") || elem.getName().equalsIgnoreCase("cfreturn")) {
-				// final int elemLine =
-				// elem.getSource().getRow(elem.getBegin());
-				// final int elemColumn =
-				// elem.getSource().getColumn(elem.getBegin());
 				final Pattern p = Pattern.compile("<\\w+\\s(.*[^/])/?>", Pattern.MULTILINE | Pattern.DOTALL);
 				final String expr = elem.getFirstStartTag().toString();
 				final Matcher m = p.matcher(expr);
 				if (m.matches()) {
 					final String cfscript = m.group(1);
 					try {
-						// if(elem.getName().equalsIgnoreCase("cfset")){
-						// System.out.println("parse: " + cfscript + ";");
-						// final CFScriptStatement scriptStatement =
-						// cfmlParser.parseScript(cfscript + ";");
-						// process(scriptStatement, context.getFilename(), elem,
-						// context.getFunctionName());
-						// }else{
 						final CFExpression expression = cfmlParser.parseCFExpression(cfscript, this);
 
 						if (expression == null) {
 							throw new NullPointerException("expression is null, parsing error");
 						}
-						process(expression, context.getFilename(), elem, context.getFunctionName());
-						// }
+						process(expression, elem, context);
 					} catch (final Exception npe) {
 						final int line = elem.getSource().getRow(elem.getBegin());
-						// final int column =
-						// elem.getSource().getColumn(elem.getBegin());
 						if (!quiet) {
 							System.err.println("Error in: " + shortSource(elem.getSource(), line) + " @ " + line + ":");
 							if (verbose) {
 								npe.printStackTrace(System.err);
 							}
 						}
-						/*
-						 * bugs.add(new
-						 * BugInfo.BugInfoBuilder().setLine(elemLine).setColumn(
-						 * elemColumn + column)
-						 * .setMessageCode("PARSE_ERROR").setSeverity("ERROR").
-						 * setExpression(m.group(1))
-						 * .setFilename(filename).setFunction(functionName).
-						 * setMessage("Unable to parse").build());
-						 */
-						// if (logError) {
-						// System.out.println("Logging Error: " + PARSE_ERROR);
-						// fireCFLintException(npe,PARSE_ERROR,context.getFilename(),elemLine,elemColumn
-						// + column,context.getFunctionName(),m.group(1));
-						// }
 					}
 				}
 
@@ -429,22 +392,8 @@ public class CFLint implements IErrorReporter {
 				final String cfscript = elem.getContent().toString();
 				final CFScriptStatement scriptStatement = cfmlParser.parseScript(cfscript);
 
-				process(scriptStatement, context.getFilename(), elem, context.getFunctionName());
-				// } else if (elem.getName().equalsIgnoreCase("cfoutput")) {
-				// final Element parent = CFTool.getNamedParent(elem,
-				// "cfoutput");
-				// if (parent != null && parent.getAttributeValue("query") !=
-				// null
-				// && parent.getAttributeValue("group") == null) {
-				// final int line = elem.getSource().getRow(elem.getBegin());
-				// final int column =
-				// elem.getSource().getColumn(elem.getBegin());
-				// bugs.add(new
-				// BugInfo.BugInfoBuilder().setLine(line).setColumn(column).setMessageCode("NESTED_CFOUTPUT")
-				// .setSeverity("ERROR").setFilename(filename)
-				// .setMessage("Nested CFOutput, outer CFOutput has
-				// @query.").build());
-				// }
+				Context subcontext = context.subContext(elem);
+				process(scriptStatement, subcontext);
 			} else {
 			}
 
@@ -485,12 +434,6 @@ public class CFLint implements IErrorReporter {
 				processStack(list.subList(1, list.size()), space + " ", context);
 			} else if (elem.getName().equalsIgnoreCase("cfqueryparam")) {
 				if (elem.getAttributeValue("value") != null) {
-					// final CFScriptStatement scriptStatement =
-					// cfmlParser.parseScript(elem.getAttributeValue("value") +
-					// ";");
-					// process(scriptStatement, context.getFilename(), elem,
-					// context.getFunctionName());
-					// TODO this could be 'parsed if the value has a # sign
 				}
 			} else {
 				processStack(elem.getChildElements(), space + " ", context);
@@ -530,14 +473,11 @@ public class CFLint implements IErrorReporter {
 		return cfscript.replaceAll("//[^\r\n]*\r?\n", "\r\n");
 	}
 
-	private void process(final CFScriptStatement expression, final String filename, final Element elem,
-			final CFIdentifier functionName) {
-		process(expression, filename, elem, functionName.getName());
-	}
 
-	private void process(final CFScriptStatement expression, final String filename, final Element elem,
-			String functionName) {
-		final Context context = new Context(filename, elem, functionName, inAssignment, handler);
+	private void process(final CFScriptStatement expression, Context context) {
+		
+		Element elem = context.getElement();
+		String functionName = context.getFunctionName();
 		try {
 
 			context.setInComponent(inComponent);
@@ -594,13 +534,13 @@ public class CFLint implements IErrorReporter {
 
 			if (expression instanceof CFCompoundStatement) {
 				for (final CFScriptStatement statement : ((CFCompoundStatement) expression).getStatements()) {
-					process(statement, filename, elem, functionName);
+					process(statement, context);
 				}
 			} else if (expression instanceof CFExpressionStatement) {
-				process(((CFExpressionStatement) expression).getExpression(), filename, elem, functionName);
+				process(((CFExpressionStatement) expression).getExpression(), elem, context);
 			} else if (expression instanceof CFCompDeclStatement) {
 				// process the component declaration
-				process(((CFCompDeclStatement) expression).getBody(), filename, elem, functionName);
+				process(((CFCompDeclStatement) expression).getBody(), context);
 				// do endComponent notifications
 				for (final CFLintStructureListener structurePlugin : getStructureListeners(extensions)) {
 					try {
@@ -613,42 +553,41 @@ public class CFLint implements IErrorReporter {
 						e.printStackTrace();
 					}
 				}
-
 				inComponent = false;
 			} else if (expression instanceof CFForStatement) {
-				process(((CFForStatement) expression).getInit(), filename, elem, functionName);
-				process(((CFForStatement) expression).getCond(), filename, elem, functionName);
-				process(((CFForStatement) expression).getNext(), filename, elem, functionName);
-				process(((CFForStatement) expression).getBody(), filename, elem, functionName);
+				process(((CFForStatement) expression).getInit(), elem, context);
+				process(((CFForStatement) expression).getCond(), elem, context);
+				process(((CFForStatement) expression).getNext(), elem, context);
+				process(((CFForStatement) expression).getBody(), context);
 			} else if (expression instanceof CFForInStatement) {
-				process(((CFForInStatement) expression).getVariable(), filename, elem, functionName);
-				process(((CFForInStatement) expression).getStructure(), filename, elem, functionName);
-				process(((CFForInStatement) expression).getBody(), filename, elem, functionName);
+				process(((CFForInStatement) expression).getVariable(), elem, context);
+				process(((CFForInStatement) expression).getStructure(), elem, context);
+				process(((CFForInStatement) expression).getBody(), context);
 			} else if (expression instanceof CFIfStatement) {
 				final CFIfStatement cfif = (CFIfStatement) expression;
-				process(cfif.getCond(), filename, elem, functionName);
-				process(cfif.getThenStatement(), filename, elem, functionName);
+				process(cfif.getCond(), elem, context);
+				process(cfif.getThenStatement(), context);
 				if (cfif.getElseStatement() != null) {
-					process(cfif.getElseStatement(), filename, elem, functionName);
+					process(cfif.getElseStatement(), context);
 				}
 			} else if (expression instanceof CFReturnStatement) {
 				final CFReturnStatement cfreturn = (CFReturnStatement) expression;
-				// TODO replace with cfreturn.getExpression() when next
-				// cfmlparser is released
 				Field f;
 				try {
 					f = CFReturnStatement.class.getDeclaredField("_ret");
 					f.setAccessible(true);
 					final CFExpression subExpression = (CFExpression) f.get(cfreturn);
 					if (subExpression != null) {
-						process(subExpression, filename, elem, functionName);
+						process(subExpression, elem, context);
 					}
 				} catch (final Exception e) {
-				} // NoSuchFieldException
-
+				} 
 			} else if (expression instanceof CFFuncDeclStatement) {
 				final CFFuncDeclStatement function = (CFFuncDeclStatement) expression;
-				process(function.getBody(), filename, elem, function.getName());
+				Context subcontext = context.subContext(context.getElement());
+				subcontext.setFunctionIdentifier(function.getName());
+				process(function.getBody(), subcontext);
+
 				for (final CFLintStructureListener structurePlugin : getStructureListeners(extensions)) {
 					try {
 						structurePlugin.endFunction(context, bugs);
@@ -665,9 +604,9 @@ public class CFLint implements IErrorReporter {
 			} else {
 			}
 		} catch (final StackOverflowError soe) {
-			System.err.println("Stack overflow in " + filename);
+			System.err.println("Stack overflow in " + context.getFilename());
 			final int line = context.startLine();
-			fireCFLintException(soe, PARSE_ERROR, filename, line, 1, "", "Stack overflow on " + expression.getClass());
+			fireCFLintException(soe, PARSE_ERROR, context.getFilename(), line, 1, "", "Stack overflow on " + expression.getClass());
 		}
 	}
 
@@ -685,9 +624,12 @@ public class CFLint implements IErrorReporter {
 		return msg;
 	}
 
-	private void process(final CFExpression expression, final String filename, final Element elem,
-			final String functionName) {
-		final Context context = new Context(filename, elem, functionName, inAssignment, handler);
+	private void process(final CFExpression expression, final Element elem,
+			Context oldcontext) {
+		
+		final String filename = oldcontext.getFilename();
+		final String functionName = oldcontext.getFunctionName();
+		final Context context = new Context(filename, elem, functionName, inAssignment, handler, oldcontext.getTokens());
 		context.setInComponent(inComponent);
 
 		for (final CFLintScanner plugin : extensions) {
@@ -705,98 +647,49 @@ public class CFLint implements IErrorReporter {
 			}
 		}
 		if (expression instanceof CFUnaryExpression) {
-			process(((CFUnaryExpression) expression).getSub(), filename, elem, functionName);
+			process(((CFUnaryExpression) expression).getSub(), elem, context);
 		} else if (expression instanceof CFNestedExpression) {
-			process(((CFNestedExpression) expression).getSub(), filename, elem, functionName);
+			process(((CFNestedExpression) expression).getSub(), elem, context);
 		} else if (expression instanceof CFAssignmentExpression) {
 			inAssignment = true;
-			process(((CFAssignmentExpression) expression).getLeft(), filename, elem, functionName);
+			process(((CFAssignmentExpression) expression).getLeft(), elem, context);
 			inAssignment = false;
-			process(((CFAssignmentExpression) expression).getRight(), filename, elem, functionName);
+			process(((CFAssignmentExpression) expression).getRight(), elem, context);
 		} else if (expression instanceof CFBinaryExpression) {
-			process(((CFBinaryExpression) expression).getLeft(), filename, elem, functionName);
-			process(((CFBinaryExpression) expression).getRight(), filename, elem, functionName);
+			process(((CFBinaryExpression) expression).getLeft(), elem, context);
+			process(((CFBinaryExpression) expression).getRight(), elem, context);
 		} else if (expression instanceof CFFunctionExpression) {
 			final CFFunctionExpression cfFunctionExpr = (CFFunctionExpression) expression;
-			// if ("QueryNew".equalsIgnoreCase(cfFunctionExpr.getName()) &&
-			// cfFunctionExpr.getArgs().size() == 1) {
-			// bugs.add(new
-			// BugInfo.BugInfoBuilder().setMessageCode("QUERYNEW_DATATYPE")
-			// .setMessage("QueryNew statement should specify
-			// datatypes.").setVariable("QueryNew")
-			// .setFunction(functionName).setSeverity("WARNING").setFilename(filename)
-			// .setExpression(expression.Decompile(0)).build(expression, elem));
-			// }
 			for (final CFExpression expr : cfFunctionExpr.getArgs()) {
 				if (expr instanceof CFAssignmentExpression) {
-					process(((CFAssignmentExpression) expr).getRight(), filename, elem, functionName);
+					process(((CFAssignmentExpression) expr).getRight(), elem, context);
 				} else {
-					process(expr, filename, elem, functionName);
+					process(expr, elem, context);
 				}
 			}
 		} else if (expression instanceof CFIdentifier) {
 			final String name = ((CFIdentifier) expression).getName();
 			handler.checkVariable(name);
-			// if (inFunction && inAssignment && !handler.checkVariable(name)) {
-			// bugs.add(new
-			// BugInfo.BugInfoBuilder().setMessageCode("MISSING_VAR")
-			// .setMessage("Variable " + name +
-			// " is not declared with a var statement.").setVariable(name)
-			// .setFunction(functionName).setSeverity("ERROR").setFilename(filename)
-			// .setExpression(expression.Decompile(0)).build(expression, elem));
-			// }
 			if (expression instanceof CFFullVarExpression) {
 				final CFFullVarExpression fullVarExpression = (CFFullVarExpression) expression;
 				for (final CFExpression expr : fullVarExpression.getExpressions()) {
 					if (expr instanceof CFFunctionExpression) {
-						process(expr, filename, elem, functionName);
+						process(expr, elem, context);
 					}
 				}
 			}
 		} else if (expression instanceof CFVarDeclExpression) {
 			handler.addVariable(((CFVarDeclExpression) expression).getName());
-			process(((CFVarDeclExpression) expression).getInit(), filename, elem, functionName);
+			process(((CFVarDeclExpression) expression).getInit(), elem, context);
 		} else if (expression instanceof CFStringExpression) {
 			final CFStringExpression stringExpression = (CFStringExpression) expression;
 			for (final CFExpression expr : stringExpression.getSubExpressions()) {
-				process(expr, filename, elem, functionName);
+				process(expr, elem, context);
 			}
 		} else if (expression instanceof CFLiteral) {
-			// if(expression.getToken().getType() ==
-			// CFSCRIPTLexer.STRING_LITERAL){
-			// for(String subExprStr : splitHash(expression.Decompile(0))){
-			// try{
-			// final CFExpression subExpression =
-			// cfmlParser.parseCFExpression(subExprStr,this);
-			// if (expression == null) {
-			// throw new NullPointerException("expression is null, parsing
-			// error");
-			// }
-			// process(subExpression, filename, elem,functionName);
-			// } catch (final Exception npe) {
-			// final int line = elem.getSource().getRow(elem.getBegin());
-			// final int column = elem.getSource().getColumn(elem.getBegin());
-			// if (!quiet) {
-			// System.err.println("Error in: " + shortSource(elem.getSource(),
-			// line) + " @ " + line + ":");
-			// if (verbose) {
-			// npe.printStackTrace(System.err);
-			// }
-			// }
-			// }
-			// }
-			//
-			// }
-			// } else if (expression instanceof CFFullVarExpression) {
-			// if (((CFFullVarExpression) expression).getExpressions().size() ==
-			// 1) {
-			// process(((CFFullVarExpression)
-			// expression).getExpressions().get(0), filename, elem,
-			// functionName);
-			// }
 		} else if (expression instanceof CFStringExpression) {
 			for (final CFExpression expr : ((CFStringExpression) expression).getSubExpressions()) {
-				process(expr, filename, elem, functionName);
+				process(expr, elem, context);
 			}
 		} else {
 		}
@@ -911,7 +804,8 @@ public class CFLint implements IErrorReporter {
 		}
 		bldr.setRuleParameters(ruleInfo.getParameters());
 		if (expression instanceof CFExpression) {
-			bugs.add(bldr.build((CFExpression) expression, elem));
+			BugInfo bugInfo = bldr.build((CFExpression) expression, elem);
+			bugs.add(bugInfo);
 		} else {
 			final BugInfo bug = bldr.build((CFParsedStatement) expression, elem);
 			if (msg.getLine() != null) {
@@ -921,7 +815,7 @@ public class CFLint implements IErrorReporter {
 			bugs.add(bug);
 		}
 	}
-
+	
 	public BugList getBugs() {
 		return bugs;
 	}
@@ -936,30 +830,15 @@ public class CFLint implements IErrorReporter {
 
 	@Override
 	public void reportError(final String arg0) {
-		// TODO Auto-generated method stub
-		final String file = currentFile == null ? "" : currentFile + "\r\n";
-		System.out.println(file + "------4-" + arg0);
-
 	}
 
 	public void reportError(final RecognitionException arg0) {
-		// TODO Auto-generated method stub
-		final String file = currentFile == null ? "" : currentFile + "\r\n";
-		System.out.println(file + "-------" + arg0);
-
 	}
 
 	public void reportError(final String[] arg0, final RecognitionException arg1) {
-		// TODO Auto-generated method stub
-		final String file = currentFile == null ? "" : currentFile + "\r\n";
-		System.out.println(file + "-------" + (arg0.length>0?arg0[0]:""));
 	}
 
 	public void reportError(final IntStream arg0, final RecognitionException arg1, final BitSet arg2) {
-		// TODO Auto-generated method stub
-		final String file = currentFile == null ? "" : currentFile + "\r\n";
-		System.out.println(file + "-------" + arg0);
-
 	}
 
 	public void setVerbose(final boolean verbose) {
@@ -1075,43 +954,31 @@ public class CFLint implements IErrorReporter {
 	@Override
 	public void reportAmbiguity(final Parser recognizer, final DFA dfa, final int startIndex, final int stopIndex,
 			final boolean exact, final java.util.BitSet ambigAlts, final ATNConfigSet configs) {
-		// final String file = currentFile == null ? "" : currentFile + "\r\n";
-		// System.out.println(file + "----reportAmbiguity ---");
 	}
 
 	@Override
 	public void reportAttemptingFullContext(final Parser recognizer, final DFA dfa, final int startIndex,
 			final int stopIndex, final java.util.BitSet conflictingAlts, final ATNConfigSet configs) {
-		// final String file = currentFile == null ? "" : currentFile + "\r\n";
-		// System.out.println(file + "----reportAttemptingFullContext ---");
 	}
 
 	@Override
 	public void reportContextSensitivity(final Parser recognizer, final DFA dfa, final int startIndex,
 			final int stopIndex, final int prediction, final ATNConfigSet configs) {
-		// final String file = currentFile == null ? "" : currentFile + "\r\n";
-		// System.out.println(file + "----reportContextSensitivity ---");
 	}
 
 	@Override
 	public void reportError(final org.antlr.v4.runtime.RecognitionException re) {
 		final String file = currentFile == null ? "" : currentFile + "\r\n";
-		System.out.println(file + "----RecognitionException ---" + re.getCtx().getSourceInterval().a + " : "
-				+ re.getCtx().getSourceInterval().b);
 	}
 
 	@Override
 	public void reportError(final String[] tokenNames, final org.antlr.v4.runtime.RecognitionException re) {
 		final String file = currentFile == null ? "" : currentFile + "\r\n";
-		System.out.println(file + "----reportError ---" + re.getCtx().getSourceInterval().a + " : "
-				+ re.getCtx().getSourceInterval().b);
 	}
 
 	@Override
 	public void reportError(final org.antlr.v4.runtime.IntStream input,
 			final org.antlr.v4.runtime.RecognitionException re, final BitSet follow) {
-		final String file = currentFile == null ? "" : currentFile + "\r\n";
-		System.out.println(file + "----reportError ---");
 	}
 
 	List<String> splitHash(String input) {

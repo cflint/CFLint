@@ -1,7 +1,11 @@
 package com.cflint.plugins;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+
+import org.antlr.v4.runtime.CommonTokenStream;
+import org.antlr.v4.runtime.Token;
 
 import com.cflint.StackHandler;
 
@@ -17,7 +21,9 @@ public class Context {
 	final boolean inAssignmentExpression;
 	boolean inComponent;
 	final StackHandler callStack;
+	final CommonTokenStream tokens;
 	final List<ContextMessage> messages = new ArrayList<ContextMessage>();
+	Context parent=null;
 
 	public Context(final String filename, final Element element, final CFIdentifier functionName,
 			final boolean inAssignmentExpression, final StackHandler handler) {
@@ -27,16 +33,18 @@ public class Context {
 		this.functionName = functionName == null ? "" : functionName.Decompile(0);
 		this.inAssignmentExpression = inAssignmentExpression;
 		this.callStack = handler;
+		this.tokens=null;
 	}
 
 	public Context(final String filename, final Element element, final String functionName,
-			final boolean inAssignmentExpression, final StackHandler handler) {
+			final boolean inAssignmentExpression, final StackHandler handler,CommonTokenStream tokens) {
 		super();
 		this.filename = filename;
 		this.element = element;
 		this.functionName = functionName == null ? "" : functionName;
 		this.inAssignmentExpression = inAssignmentExpression;
 		this.callStack = handler;
+		this.tokens=tokens;
 	}
 
 	public String getFilename() {
@@ -153,8 +161,9 @@ public class Context {
 
 	public Context subContext(final Element elem) {
 		final Context context2 = new Context(getFilename(), elem, getFunctionName(), isInAssignmentExpression(),
-				callStack);
+				callStack,tokens);
 		context2.setInComponent(isInComponent());
+		context2.parent = this;
 		return context2;
 	}
 
@@ -176,5 +185,65 @@ public class Context {
 		}
 
 		return filename.substring(seperatorPosition + 1, dotPosition);
+	}
+
+	public CommonTokenStream getTokens() {
+		return tokens;
+	}
+	
+	public Iterable<Token> beforeTokens(Token t){
+		return new ContextTokensIterable(t,-1);
+	}
+	public Iterable<Token> afterTokens(Token t){
+		return new ContextTokensIterable(t,1);
+	}
+	
+	public class ContextTokensIterable implements Iterable<Token> {
+
+		final Token token;
+		final int direction;
+		
+		public ContextTokensIterable(Token token, int direction){
+			this.token=token;
+			this.direction=direction;
+		}
+		
+		@Override
+		public Iterator<Token> iterator() {
+			return new ContextTokensIterator(token,direction);
+		}
+	}
+	public class ContextTokensIterator implements Iterator<Token> {
+
+		int tokenIndex;
+		final int direction;
+		
+		public ContextTokensIterator(Token token, int direction){
+			this.tokenIndex=token.getTokenIndex() + direction;
+			this.direction=direction;
+		}
+
+		@Override
+		public boolean hasNext() {
+			if(direction <0)
+				return tokens != null && tokenIndex >= 0;
+			else
+				return tokens != null && tokenIndex < tokens.getTokens().size();		
+		}
+
+		@Override
+		public Token next() {
+			if (tokens != null && tokenIndex > 0){
+				Token retval = tokens.getTokens().get(tokenIndex);
+				tokenIndex += direction;
+				return retval;
+			}
+			return null;
+		}
+	
+	}
+
+	public Context getParent() {
+		return parent;
 	}
 }

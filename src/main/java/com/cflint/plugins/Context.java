@@ -241,6 +241,10 @@ public class Context {
 			return null;
 		}
 	
+		@Override
+		public void remove(){
+			throw new UnsupportedOperationException();
+		}
 	}
 
 	public Context getParent() {

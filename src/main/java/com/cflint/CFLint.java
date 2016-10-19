@@ -760,6 +760,7 @@ public class CFLint implements IErrorReporter {
 
 	protected void reportRule(final Element elem, final Object expression, final Context context,
 			final CFLintScanner plugin, final ContextMessage msg) {
+		
 		final String msgcode = msg.getMessageCode();
 		final String nameVar = msg.getVariable();
 
@@ -778,6 +779,7 @@ public class CFLint implements IErrorReporter {
 			ruleInfo.getMessages().add(msgInfo);
 		} else {
 			ruleInfo = configuration.getRuleForPlugin(plugin);
+			
 		}
 		if (ruleInfo == null) {
 			throw new NullPointerException("Rule not found for " + plugin.getClass().getSimpleName());
@@ -808,8 +810,14 @@ public class CFLint implements IErrorReporter {
 		if (expression instanceof CFExpression) {
 			BugInfo bugInfo = bldr.build((CFExpression) expression, elem);
 			final Token token = ((CFExpression) expression).getToken();
-			if(!suppressed(bugInfo,token,context)){
-				bugs.add(bugInfo);
+			System.out.println(configuration.getIncludes());
+
+			if(configuration.getIncludes().isEmpty() || configuration.getIncludes().contains(ruleInfo.getMessageByCode(msgcode))){	
+				if(configuration.getExcludes().isEmpty() || !configuration.getExcludes().contains(ruleInfo.getMessageByCode(msgcode))){	
+					if(!suppressed(bugInfo,token,context)){
+						bugs.add(bugInfo);
+					}
+				}
 			}
 		} else {
 			final BugInfo bug = bldr.build((CFParsedStatement) expression, elem);
@@ -817,7 +825,11 @@ public class CFLint implements IErrorReporter {
 				bug.setLine(msg.getLine());
 				bug.setColumn(0);
 			}
-			bugs.add(bug);
+			if(configuration.getIncludes().isEmpty() || configuration.getIncludes().contains(ruleInfo.getMessageByCode(msgcode))){	
+				if(configuration.getExcludes().isEmpty() || !configuration.getExcludes().contains(ruleInfo.getMessageByCode(msgcode))){	
+						bugs.add(bug);
+				}
+			}
 		}
 	}
 	

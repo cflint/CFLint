@@ -360,7 +360,10 @@ public class CFLintMain {
 		if (includeCodes != null && includeCodes.length > 0) {
 			filter.includeCode(includeCodes);
 		}
-		cflint.getBugs().setFilter(filter);
+
+        mergeConfigFileInFilter(filter);
+
+        cflint.getBugs().setFilter(filter);
 		for (final String scanfolder : folder) {
 			cflint.scan(scanfolder);
 		}
@@ -424,7 +427,26 @@ public class CFLintMain {
 		}
 	}
 
-	private void display(final String text) {
+    /**
+     * Merges included and excluded messages in the filter,
+     * as if you specified them in -includeRule and -excludeRule command line parameters
+     *
+     * @param filter
+     */
+    private void mergeConfigFileInFilter(CFLintFilter filter)
+    {
+        CFLintConfig cfg = loadConfig(configfile);
+        for(PluginMessage message : cfg.getIncludes())
+        {
+            filter.includeCode(message.getCode());
+        }
+        for(PluginMessage message : cfg.getExcludes())
+        {
+            filter.excludeCode(message.getCode());
+        }
+    }
+
+    private void display(final String text) {
 		if (verbose) {
 			System.out.println(text);
 		}

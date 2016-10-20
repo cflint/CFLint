@@ -1,5 +1,5 @@
 [ {
-  "severity" : "WARNING",
+  "severity" : "INFO",
   "id" : "FUNCTION_TYPE_ANY",
   "message" : "FUNCTION_TYPE_ANY",
   "category" : "CFLINT",
@@ -8,10 +8,10 @@
     "file" : "src\\test\\resources\\com\\cflint\\tests\\FunctionType\\Any\\functionany1.cfc",
     "fileName" : "functionany1.cfc",
     "function" : "x",
-    "column" : "0",
+    "column" : "11",
     "line" : "3",
     "message" : "Function x return type is any. Please change to be the correct type.",
-    "variable" : "",
-    "expression" : ""
+    "variable" : "x",
+    "expression" : "public any function x()   {\nx = 123;\n\n  }"
   } ]
 } ]

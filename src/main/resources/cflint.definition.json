@@ -361,11 +361,13 @@
       "message": [
         {
           "code": "FUNCTION_TYPE_MISSING",
-          "severity": "WARNING"
+          "severity": "WARNING",
+          "messageText": "Function ${variable} return type is missing a return type."
         },
         {
           "code": "FUNCTION_TYPE_ANY",
-          "severity": "INFO"
+          "severity": "INFO",
+          "messageText": "Function ${variable} return type is any. Please change to be the correct type."
         }
       ],
       "parameter": [

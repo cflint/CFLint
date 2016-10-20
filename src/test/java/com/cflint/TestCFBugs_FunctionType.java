@@ -23,7 +23,7 @@ public class TestCFBugs_FunctionType {
 	public void setUp() {
 		final ConfigRuntime conf = new ConfigRuntime();
 		final PluginInfoRule pluginRule = new PluginInfoRule();
-		pluginRule.setName("ArgTypeChecker");
+		pluginRule.setName("FunctionTypeChecker");
 		conf.getRules().add(pluginRule);
 		final PluginMessage pluginMessageMissing = new PluginMessage("FUNCTION_TYPE_MISSING");
 		pluginMessageMissing.setSeverity("WARNING");

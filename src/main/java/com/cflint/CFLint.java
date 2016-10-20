@@ -355,7 +355,7 @@ public class CFLint implements IErrorReporter {
 					context.getMessages().clear();
 				} catch (final Exception e) {
 					if (verbose) {
-						e.printStackTrace();
+						;
 					}
 					reportRule(elem, null, context, plugin, PLUGIN_ERROR + exceptionText(e));
 				}

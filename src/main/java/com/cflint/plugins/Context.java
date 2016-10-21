@@ -7,6 +7,7 @@ import java.util.List;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.Token;
 
+import com.cflint.BugInfo;
 import com.cflint.StackHandler;
 
 import cfml.parsing.cfscript.CFIdentifier;
@@ -24,6 +25,7 @@ public class Context {
 	final CommonTokenStream tokens;
 	final List<ContextMessage> messages = new ArrayList<ContextMessage>();
 	Context parent=null;
+	List<String> ignores = new ArrayList<String>();
 
 	public Context(final String filename, final Element element, final CFIdentifier functionName,
 			final boolean inAssignmentExpression, final StackHandler handler) {
@@ -249,5 +251,14 @@ public class Context {
 
 	public Context getParent() {
 		return parent;
+	}
+
+	public void ignore(List<String> ignores) {
+		this.ignores.addAll(ignores);
+	}
+	
+	public boolean isSuppressed(BugInfo bugInfo){
+		return ignores.contains(bugInfo.getMessageCode())
+		 || (parent != null && parent.isSuppressed(bugInfo));
 	}
 }

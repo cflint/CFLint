@@ -8,6 +8,7 @@ import java.io.StringReader;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.Stack;
@@ -501,6 +502,22 @@ public class CFLint implements IErrorReporter {
 				final CFFuncDeclStatement function = (CFFuncDeclStatement) expression;
 				functionName = function.getName().getName();
 				context.setFunctionName(functionName);
+				Iterable<Token> tokens = context.beforeTokens(function.getToken());
+				for(Token currentTok: tokens){
+					if(currentTok.getChannel() == Token.HIDDEN_CHANNEL
+							&& currentTok.getType() == CFSCRIPTLexer.ML_COMMENT){
+						String mlText = currentTok.getText();
+						Pattern pattern = Pattern.compile(".*\\s*@CFLintIgnore\\s+([\\w,_]+)\\s*.*", Pattern.DOTALL);
+						Matcher matcher = pattern.matcher(mlText);
+						if(matcher.matches() ){
+							String ignoreCodes = matcher.group(1);
+							context.ignore(Arrays.asList(ignoreCodes.split(",\\s*")));
+						}else
+							System.out.println("no match");
+					}else if(currentTok.getLine() < function.getToken().getLine()){
+						break;
+					}
+				}
 				inFunction = true;
 				handler.push("function");
 				for (final CFFunctionParameter param : function.getFormals()) {
@@ -629,11 +646,8 @@ public class CFLint implements IErrorReporter {
 	private void process(final CFExpression expression, final Element elem,
 			Context oldcontext) {
 		
-		final String filename = oldcontext.getFilename();
-		final String functionName = oldcontext.getFunctionName();
-		final Context context = new Context(filename, elem, functionName, inAssignment, handler, oldcontext.getTokens());
-		context.setInComponent(inComponent);
-
+		final Context context = oldcontext.subContext(elem);
+		
 		for (final CFLintScanner plugin : extensions) {
 			try {
 				plugin.expression(expression, context, bugs);
@@ -839,6 +853,8 @@ public class CFLint implements IErrorReporter {
 	 * cflint:MESSAGE_CODE - suppresses any message matching that code
 	 */
 	protected boolean suppressed(BugInfo bugInfo, Token token, Context context) {
+		if(context != null && context.isSuppressed(bugInfo))
+			return true;
 		Iterable<Token> tokens = context.afterTokens(token);
 		for (Token currentTok : tokens) {
 			if (currentTok.getLine() != token.getLine()) {

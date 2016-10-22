@@ -181,6 +181,7 @@ public class Context {
 		}
 		return subContext(elem, null);
 	}
+	
 	public Context subContext(final Element elem, final List<Element> siblingElements) {
 		final Context context2 = new Context(getFilename(), elem == null? this.element:elem, 
 				getFunctionName(), isInAssignmentExpression(),

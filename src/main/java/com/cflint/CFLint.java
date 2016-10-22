@@ -38,6 +38,7 @@ import com.cflint.plugins.Context.ContextMessage;
 import com.cflint.plugins.exceptions.CFLintExceptionListener;
 import com.cflint.plugins.exceptions.DefaultCFLintExceptionListener;
 import com.cflint.tools.CFLintFilter;
+import com.cflint.tools.CFNestedExpressionProvider;
 
 import cfml.CFSCRIPTLexer;
 import cfml.CFSCRIPTParser;
@@ -433,7 +434,7 @@ public class CFLint implements IErrorReporter {
 				context.getMessages().clear();
 			} catch (final Exception e) {
 				if (verbose) {
-					;
+					e.printStackTrace();;
 				}
 				reportRule(elem, null, context, plugin, PLUGIN_ERROR + exceptionText(e));
 			}
@@ -657,79 +658,42 @@ public class CFLint implements IErrorReporter {
 	private void process(final CFExpression expression, final Element elem,
 			Context oldcontext) {
 		
-		if(expression == null){
-			return;
-		}
-		
-		final Context context = oldcontext.subContext(elem);
-		
-		for (final CFLintScanner plugin : extensions) {
-			try {
-				plugin.expression(expression, context, bugs);
-				for (final ContextMessage message : context.getMessages()) {
-					reportRule(elem, expression, context, plugin, message);
-				}
-				context.getMessages().clear();
-			} catch (final Exception e) {
-				if (verbose) {
-					e.printStackTrace();
-				}
-				reportRule(elem, expression, context, plugin, PLUGIN_ERROR + exceptionText(e));
-			}
-		}
-		if (expression instanceof CFUnaryExpression) {
-			process(((CFUnaryExpression) expression).getSub(), elem, context);
-		} else if (expression instanceof CFNestedExpression) {
-			process(((CFNestedExpression) expression).getSub(), elem, context);
-		} else if (expression instanceof CFAssignmentExpression) {
-			final Context assignmentContext = context.subContext(elem);
-			assignmentContext.setInAssignmentExpression(true);
-			process(((CFAssignmentExpression) expression).getLeft(), elem, assignmentContext);
-			process(((CFAssignmentExpression) expression).getRight(), elem, context);
-		} else if (expression instanceof CFBinaryExpression) {
-			process(((CFBinaryExpression) expression).getLeft(), elem, context);
-			process(((CFBinaryExpression) expression).getRight(), elem, context);
-		} else if (expression instanceof CFFunctionExpression) {
-			final CFFunctionExpression cfFunctionExpr = (CFFunctionExpression) expression;
-			for (final CFExpression expr : cfFunctionExpr.getArgs()) {
-				if (expr instanceof CFAssignmentExpression) {
-					process(((CFAssignmentExpression) expr).getRight(), elem, context);
-				} else {
-					process(expr, elem, context);
-				}
-			}
-		} else if (expression instanceof CFIdentifier) {
-			final String name = ((CFIdentifier) expression).getName();
-			handler.checkVariable(name);
-			if (expression instanceof CFFullVarExpression) {
-				final CFFullVarExpression fullVarExpression = (CFFullVarExpression) expression;
-				for (final CFExpression expr : fullVarExpression.getExpressions()) {
-					if (expr instanceof CFFunctionExpression) {
-						process(expr, elem, context);
+		if(expression != null){
+			final Context context = oldcontext.subContext(elem);
+			
+			for (final CFLintScanner plugin : extensions) {
+				try {
+					plugin.expression(expression, context, bugs);
+					for (final ContextMessage message : context.getMessages()) {
+						reportRule(elem, expression, context, plugin, message);
 					}
+					context.getMessages().clear();
+				} catch (final Exception e) {
+					if (verbose) {
+						e.printStackTrace();
+					}
+					reportRule(elem, expression, context, plugin, PLUGIN_ERROR + exceptionText(e));
 				}
 			}
-		} else if (expression instanceof CFVarDeclExpression) {
-			handler.addVariable(((CFVarDeclExpression) expression).getName());
-			process(((CFVarDeclExpression) expression).getInit(), elem, context);
-		} else if (expression instanceof CFStringExpression) {
-			final CFStringExpression stringExpression = (CFStringExpression) expression;
-			for (final CFExpression expr : stringExpression.getSubExpressions()) {
-				process(expr, elem, context);
+			//Handle a few expression types in a special fashion.
+			if (expression instanceof CFAssignmentExpression) {
+				final Context assignmentContext = context.subContext(elem);
+				assignmentContext.setInAssignmentExpression(true);
+				process(((CFAssignmentExpression) expression).getLeft(), elem, assignmentContext);
+				//Right hand side is handled below. Left hand side gets a special context.
+			} else if (expression instanceof CFIdentifier) {
+				final String name = ((CFIdentifier) expression).getName();
+				handler.checkVariable(name);
+			} else if (expression instanceof CFVarDeclExpression) {
+				handler.addVariable(((CFVarDeclExpression) expression).getName());
 			}
-		} else if (expression instanceof CFLiteral) {
-		} else if (expression instanceof CFStringExpression) {
-			for (final CFExpression expr : ((CFStringExpression) expression).getSubExpressions()) {
-				process(expr, elem, context);
+			
+			//Loop into all relevant nested (child) expressions.
+			List<CFExpression> childExpressions = CFNestedExpressionProvider.createInstance(expression).getChildExpressions();
+			for(CFExpression child: childExpressions){
+				process(child, elem, context);
 			}
-		} else if (expression instanceof CFStructExpression) {
-			for( Object element: ((CFStructExpression) expression).getElements()){
-				final CFStructElementExpression structKeyExpression = (CFStructElementExpression)element;
-				process(structKeyExpression.getValue(), elem, context);
-			}
-		} else {
 		}
-		
 	}
 
 	protected void reportRule(final Element elem, final Object expression, final Context context,

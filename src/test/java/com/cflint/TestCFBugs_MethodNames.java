@@ -63,6 +63,7 @@ public class TestCFBugs_MethodNames {
 		 + "</cfcomponent>";
 		cfBugs.process(tagSrc, "test");
 		Collection<List<BugInfo>> result = cfBugs.getBugs().getBugList().values();
+		System.out.println(result);
 		assertEquals(0, result.size());
 	}
 

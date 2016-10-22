@@ -1,8 +1,9 @@
+/*
+Test!
+@CFLintIgnore SOMETHINGELSE,MISSING_VAR,ANOTHERTHINGTOIGNORE
+*/
 component {
 	
-	/*
-	Test! 
-	*/
 	public void function function1() {
 	    someVar = ''; 
 	}

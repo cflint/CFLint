@@ -5,11 +5,11 @@
   "category" : "CFLINT",
   "abbrev" : "MV",
   "locations" : [ {
-    "file" : "src\\test\\resources\\com\\cflint\\tests\\Ignores\\ignoreMultiLine.cfc",
-    "fileName" : "ignoreMultiLine.cfc",
+    "file" : "src\\test\\resources\\com\\cflint\\tests\\Ignores\\ignoreMultiLineComponent2.cfc",
+    "fileName" : "ignoreMultiLineComponent2.cfc",
     "function" : "function1",
     "column" : "6",
-    "line" : "7",
+    "line" : "8",
     "message" : "Variable someVar is not declared with a var statement.",
     "variable" : "someVar",
     "expression" : "someVar"

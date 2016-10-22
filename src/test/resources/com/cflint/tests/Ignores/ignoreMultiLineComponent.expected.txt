@@ -5,8 +5,8 @@
   "category" : "CFLINT",
   "abbrev" : "MV",
   "locations" : [ {
-    "file" : "src\\test\\resources\\com\\cflint\\tests\\Ignores\\ignoreMultiLine.cfc",
-    "fileName" : "ignoreMultiLine.cfc",
+    "file" : "src\\test\\resources\\com\\cflint\\tests\\Ignores\\ignoreMultiLineComponent.cfc",
+    "fileName" : "ignoreMultiLineComponent.cfc",
     "function" : "function1",
     "column" : "6",
     "line" : "7",

@@ -12,14 +12,20 @@ import com.cflint.StackHandler;
 
 import cfml.parsing.cfscript.CFIdentifier;
 import net.htmlparser.jericho.Element;
+import static com.cflint.tools.CFTool.*;
 
 public class Context {
 
 	String filename;
 	String componentName;
 	final Element element;
+	List<Element> siblingElements;
 	String functionName;
-	final boolean inAssignmentExpression;
+	boolean inAssignmentExpression;
+	public void setInAssignmentExpression(boolean inAssignmentExpression) {
+		this.inAssignmentExpression = inAssignmentExpression;
+	}
+
 	boolean inComponent;
 	final StackHandler callStack;
 	final CommonTokenStream tokens;
@@ -93,6 +99,14 @@ public class Context {
 		return inAssignmentExpression;
 	}
 
+	public List<Element> getSiblingElements() {
+		return siblingElements;
+	}
+
+	public void setSiblingElements(List<Element> siblingElements) {
+		this.siblingElements = siblingElements;
+	}
+
 	public StackHandler getCallStack() {
 		return callStack;
 	}
@@ -162,8 +176,19 @@ public class Context {
 	}
 
 	public Context subContext(final Element elem) {
-		final Context context2 = new Context(getFilename(), elem, getFunctionName(), isInAssignmentExpression(),
+		if(elem == this.element || (siblingElements != null && siblingElements.contains(elem))){
+			return subContext(elem, siblingElements);
+		}
+		return subContext(elem, null);
+	}
+	public Context subContext(final Element elem, final List<Element> siblingElements) {
+		final Context context2 = new Context(getFilename(), elem == null? this.element:elem, 
+				getFunctionName(), isInAssignmentExpression(),
 				callStack,tokens);
+		context2.siblingElements=siblingElements;
+		if(siblingElements == null && elem==this.element){
+			context2.siblingElements=this.siblingElements;
+		}
 		context2.setInComponent(isInComponent());
 		context2.parent = this;
 		return context2;
@@ -228,7 +253,7 @@ public class Context {
 		@Override
 		public boolean hasNext() {
 			if(direction <0)
-				return tokens != null && tokenIndex >= 0;
+				return tokens != null && tokenIndex > 0;
 			else
 				return tokens != null && tokenIndex < tokens.getTokens().size();		
 		}
@@ -261,4 +286,16 @@ public class Context {
 		return ignores.contains(bugInfo.getMessageCode())
 		 || (parent != null && parent.isSuppressed(bugInfo));
 	}
+	
+	public Element getPreviousSiblingElement(){
+		if(element.getParentElement() != null){
+			return getElementBefore(element,element.getParentElement().getChildElements());
+		}
+		if(siblingElements != null){
+			return getElementBefore(element,siblingElements);
+		}
+		return null;
+	}
+
+
 }

@@ -19,7 +19,11 @@ public class Context {
 	String componentName;
 	final Element element;
 	String functionName;
-	final boolean inAssignmentExpression;
+	boolean inAssignmentExpression;
+	public void setInAssignmentExpression(boolean inAssignmentExpression) {
+		this.inAssignmentExpression = inAssignmentExpression;
+	}
+
 	boolean inComponent;
 	final StackHandler callStack;
 	final CommonTokenStream tokens;
@@ -162,7 +166,8 @@ public class Context {
 	}
 
 	public Context subContext(final Element elem) {
-		final Context context2 = new Context(getFilename(), elem, getFunctionName(), isInAssignmentExpression(),
+		final Context context2 = new Context(getFilename(), elem == null? this.element:elem, 
+				getFunctionName(), isInAssignmentExpression(),
 				callStack,tokens);
 		context2.setInComponent(isInComponent());
 		context2.parent = this;
@@ -228,7 +233,7 @@ public class Context {
 		@Override
 		public boolean hasNext() {
 			if(direction <0)
-				return tokens != null && tokenIndex >= 0;
+				return tokens != null && tokenIndex > 0;
 			else
 				return tokens != null && tokenIndex < tokens.getTokens().size();		
 		}

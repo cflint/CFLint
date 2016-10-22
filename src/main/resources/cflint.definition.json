@@ -791,6 +791,19 @@
         }
       ],
       "parameter": []
-    }
+    },
+    {
+      "name": "StructKeyChecker",
+      "message": [
+        {
+          "code": "UNQUOTED_STRUCT_KEY",
+          "messageText": "Unquoted struct key ${variable} is not case-sensitive.  Quoting it is recommended.",
+          "severity": "WARNING"
+        }
+      ],
+      "parameter": [
+        
+      ]
+    }    
   ]
 }

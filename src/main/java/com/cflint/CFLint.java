@@ -54,6 +54,8 @@ import cfml.parsing.cfscript.CFLiteral;
 import cfml.parsing.cfscript.CFNestedExpression;
 import cfml.parsing.cfscript.CFStatement;
 import cfml.parsing.cfscript.CFStringExpression;
+import cfml.parsing.cfscript.CFStructElementExpression;
+import cfml.parsing.cfscript.CFStructExpression;
 import cfml.parsing.cfscript.CFUnaryExpression;
 import cfml.parsing.cfscript.CFVarDeclExpression;
 import cfml.parsing.cfscript.script.CFCompDeclStatement;
@@ -720,8 +722,14 @@ public class CFLint implements IErrorReporter {
 			for (final CFExpression expr : ((CFStringExpression) expression).getSubExpressions()) {
 				process(expr, elem, context);
 			}
+		} else if (expression instanceof CFStructExpression) {
+			for( Object element: ((CFStructExpression) expression).getElements()){
+				final CFStructElementExpression structKeyExpression = (CFStructElementExpression)element;
+				process(structKeyExpression.getValue(), elem, context);
+			}
 		} else {
 		}
+		
 	}
 
 	protected void reportRule(final Element elem, final Object expression, final Context context,

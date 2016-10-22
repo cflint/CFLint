@@ -364,4 +364,10 @@
 			<messageText>CWE-482: Comparing instead of Assigning</messageText>
 		</message>
 	</ruleImpl>
+	<ruleImpl name="StructKeyChecker">
+		<message code="UNQUOTED_STRUCT_KEY"><!-- checked -->
+			<severity>WARNING</severity>
+			<messageText>Unquoted struct key ${variable} is not case-sensitive.  Quoting it is recommended.</messageText>
+		</message>
+	</ruleImpl>
 </CFLint-Plugin>

@@ -137,6 +137,10 @@
          	<messageText>Argument ${variable} is missing a hint.</messageText>
          	<severity>INFO</severity>
         </message>
+        <message code="ARG_HINT_MISSING_SCRIPT">
+         	<messageText>Argument ${variable} is missing a hint.  Use javadoc style annotations on cfscript functions.</messageText>
+         	<severity>INFO</severity>
+        </message>
 	</ruleImpl>
 	<ruleImpl name="ArgumentTypeChecker" className="ArgTypeChecker">
         <message code="ARG_TYPE_MISSING">

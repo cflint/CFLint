@@ -38,6 +38,7 @@ import com.cflint.tools.AllowedExtensionsLoader;
 import com.cflint.tools.CFLintFilter;
 import com.cflint.tools.CFNestedExpressionProvider;
 import com.cflint.tools.FileUtil;
+import com.cflint.tools.PrecedingCommentReader;
 import com.cflint.tools.ScanningProgressMonitorLookAhead;
 
 import cfml.CFSCRIPTLexer;
@@ -435,7 +436,7 @@ public class CFLint implements IErrorReporter {
 			} else if (expression instanceof CFFuncDeclStatement) {
 				final CFFuncDeclStatement function = (CFFuncDeclStatement) expression;
 				final Context functionContext = context.subContext(null);
-				functionContext.setFunctionIdentifier(function.getName());
+				functionContext.setFunctionInfo(function);
 				registerRuleOverrides(functionContext, function.getToken());
 				inFunction = true;
 				handler.push("function");
@@ -509,18 +510,13 @@ public class CFLint implements IErrorReporter {
 	 * Register any overrides from multi-line comments.
 	 */
 	protected void registerRuleOverrides(Context context, final Token functionToken) {
-		Iterable<Token> tokens = context.beforeTokens(functionToken);
-		for (Token currentTok : tokens) {
-			if (currentTok.getChannel() == Token.HIDDEN_CHANNEL && currentTok.getType() == CFSCRIPTLexer.ML_COMMENT) {
-				String mlText = currentTok.getText();
-				Pattern pattern = Pattern.compile(".*\\s*@CFLintIgnore\\s+([\\w,_]+)\\s*.*", Pattern.DOTALL);
-				Matcher matcher = pattern.matcher(mlText);
-				if (matcher.matches()) {
-					String ignoreCodes = matcher.group(1);
-					context.ignore(Arrays.asList(ignoreCodes.split(",\\s*")));
-				}
-			} else if (currentTok.getLine() < functionToken.getLine()) {
-				break;
+		final String mlText = PrecedingCommentReader.getMultiLine(context, functionToken);
+		if(mlText != null && !mlText.isEmpty()){
+			final Pattern pattern = Pattern.compile(".*\\s*@CFLintIgnore\\s+([\\w,_]+)\\s*.*", Pattern.DOTALL);
+			final Matcher matcher = pattern.matcher(mlText);
+			if (matcher.matches()) {
+				String ignoreCodes = matcher.group(1);
+				context.ignore(Arrays.asList(ignoreCodes.split(",\\s*")));
 			}
 		}
 	}

@@ -270,6 +270,7 @@
       "message": [
         {
           "code": "COMPONENT_HINT_MISSING",
+          "messageText" : "Component ${variable} is missing a hint.",
           "severity": "WARNING"
         }
       ],
@@ -283,6 +284,7 @@
       "message": [
         {
           "code": "FUNCTION_HINT_MISSING",
+          "messageText" : "Function ${variable} is missing a hint.",
           "severity": "INFO"
         }
       ],
@@ -298,6 +300,11 @@
           "code": "ARG_HINT_MISSING",
           "severity": "INFO",
           "messageText" : "Argument ${variable} is missing a hint."
+        },
+        {
+          "code": "ARG_HINT_MISSING_SCRIPT",
+          "severity": "INFO",
+          "messageText" : "Argument ${variable} is missing a hint.  Use javadoc style annotations on cfscript functions."
         }
       ],
       "parameter": [

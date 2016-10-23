@@ -1,0 +1,5 @@
+<config>
+	<includes code="COMPONENT_HINT_MISSING"/>
+	<includes code="FUNCTION_HINT_MISSING"/>
+	<includes code="ARG_HINT_MISSING"/>
+</config>

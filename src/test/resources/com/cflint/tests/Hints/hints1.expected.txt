@@ -1,0 +1,17 @@
+[ {
+  "severity" : "WARNING",
+  "id" : "COMPONENT_HINT_MISSING",
+  "message" : "COMPONENT_HINT_MISSING",
+  "category" : "CFLINT",
+  "abbrev" : "CH",
+  "locations" : [ {
+    "file" : "src\\test\\resources\\com\\cflint\\tests\\Hints\\hints1.cfc",
+    "fileName" : "hints1.cfc",
+    "function" : "",
+    "column" : "1",
+    "line" : "1",
+    "message" : "Component hints1 is missing a hint.",
+    "variable" : "hints1",
+    "expression" : "component {\n  public void function function1(arg1, arg2)     {\nsomeVar = '';\n\n    }\n}"
+  } ]
+} ]

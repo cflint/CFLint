@@ -1,8 +1,11 @@
 package com.cflint.plugins;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.Token;
@@ -11,6 +14,7 @@ import com.cflint.BugInfo;
 import com.cflint.StackHandler;
 
 import cfml.parsing.cfscript.CFIdentifier;
+import cfml.parsing.cfscript.script.CFFuncDeclStatement;
 import net.htmlparser.jericho.Element;
 import static com.cflint.tools.CFTool.*;
 
@@ -20,6 +24,8 @@ public class Context {
 	String componentName;
 	final Element element;
 	List<Element> siblingElements;
+	CFFuncDeclStatement functionInfo;
+
 	String functionName;
 	boolean inAssignmentExpression;
 	public void setInAssignmentExpression(boolean inAssignmentExpression) {
@@ -74,9 +80,15 @@ public class Context {
 	public String getComponentName() {
 		return componentName;
 	}
-
-	public void setFunctionIdentifier(final CFIdentifier functionName) {
-		this.functionName = functionName == null ? "" : functionName.Decompile(0);
+	public String calcComponentName() {
+		if (componentName!= null && !componentName.trim().isEmpty()){
+			return componentName.trim();
+		}
+		if(filename == null){
+			return "";
+		}
+		//Return filename without the cfc extension
+		return new File(filename).getName().replaceAll("\\.\\w+$", "");
 	}
 
 	public void setFunctionName(final String functionName) {
@@ -254,14 +266,14 @@ public class Context {
 		@Override
 		public boolean hasNext() {
 			if(direction <0)
-				return tokens != null && tokenIndex > 0;
+				return tokens != null && tokenIndex >= 0;
 			else
 				return tokens != null && tokenIndex < tokens.getTokens().size();		
 		}
 
 		@Override
 		public Token next() {
-			if (tokens != null && tokenIndex > 0){
+			if (tokens != null && tokenIndex >= 0){
 				Token retval = tokens.getTokens().get(tokenIndex);
 				tokenIndex += direction;
 				return retval;
@@ -298,5 +310,15 @@ public class Context {
 		return null;
 	}
 
+	public CFFuncDeclStatement getFunctionInfo() {
+		return functionInfo;
+	}
+
+	public void setFunctionInfo(CFFuncDeclStatement functionInfo) {
+		this.functionInfo = functionInfo;
+		if(this.functionInfo != null){
+			this.functionName = functionInfo.getName() == null ? "" : functionInfo.getName().Decompile(0);
+		}
+	}
 
 }

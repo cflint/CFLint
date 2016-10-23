@@ -365,7 +365,8 @@ public class CFLint implements IErrorReporter {
 			for (int i = 1; i < line; i++) {
 				sr.readLine();
 			}
-			return sr.readLine().replaceAll("\t", " ");
+			String sLine = sr.readLine();
+			return sLine == null?null: sLine.replaceAll("\t", " ");
 		} catch (final Exception e) {
 		}
 		return retval.substring(0, 300);
@@ -740,7 +741,7 @@ public class CFLint implements IErrorReporter {
 	 * message matching that code
 	 */
 	protected boolean suppressed(BugInfo bugInfo, Token token, Context context) {
-		if (context != null && context.isSuppressed(bugInfo))
+		if (context == null || context.isSuppressed(bugInfo))
 			return true;
 		Iterable<Token> tokens = context.afterTokens(token);
 		for (Token currentTok : tokens) {

@@ -3,9 +3,12 @@ package com.cflint;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 
 import javax.xml.transform.TransformerException;
@@ -14,33 +17,37 @@ import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonGenerator;
 
 public class JSONOutput {
-	
+
 	boolean prettyPrint = true;
 
 	public boolean isPrettyPrint() {
 		return prettyPrint;
 	}
 
-	public void setPrettyPrint(boolean prettyPrint) {
+	public void setPrettyPrint(final boolean prettyPrint) {
 		this.prettyPrint = prettyPrint;
 	}
 
 	public void output(final BugList bugList, final Writer writer, final boolean showStats) throws IOException {
-		BugCounts counts = new BugCounts();
+		final BugCounts counts = new BugCounts();
 		// final StringBuilder sb = new StringBuilder();
-		JsonFactory jsonF = new JsonFactory();
-		JsonGenerator jg = jsonF.createGenerator(writer);
-		if(prettyPrint)
+		final JsonFactory jsonF = new JsonFactory();
+		final JsonGenerator jg = jsonF.createGenerator(writer);
+		if (prettyPrint) {
 			jg.useDefaultPrettyPrinter();
+		}
 		jg.writeStartArray();
-		for (final Entry<String, List<BugInfo>> bugEntry : bugList.getBugList().entrySet()) {
-			final Iterator<BugInfo> iterator = bugEntry.getValue().iterator();
+		List<String> keys = new ArrayList<String>(bugList.getBugList().keySet());
+		Collections.sort(keys);
+		for (final String key: keys){
+			List<BugInfo> currentList = bugList.getBugList().get(key);
+			final Iterator<BugInfo> iterator = currentList.iterator();
 			BugInfo bugInfo = iterator.hasNext() ? iterator.next() : null;
 			BugInfo prevbugInfo;
 
 			while (bugInfo != null) {
-				String severity = bugEntry.getValue().get(0).getSeverity();
-				String code = bugEntry.getValue().get(0).getMessageCode();
+				final String severity = currentList.get(0).getSeverity();
+				final String code = currentList.get(0).getMessageCode();
 				counts.add(code, severity);
 
 				jg.writeStartObject();
@@ -53,14 +60,14 @@ public class JSONOutput {
 				jg.writeStartArray();
 				do {
 					jg.writeStartObject();
-					jg.writeStringField("file",notNull(bugInfo.getFilename()));
-					jg.writeStringField("fileName",filename(bugInfo.getFilename()));
-					jg.writeStringField("function",filename(bugInfo.getFunction()));
-					jg.writeStringField("column",Integer.valueOf(bugInfo.getColumn()).toString());
-					jg.writeStringField("line",Integer.valueOf(bugInfo.getLine()).toString());
-					jg.writeStringField("message",notNull(bugInfo.getMessage()));
-					jg.writeStringField("variable",notNull(bugInfo.getVariable()));
-					jg.writeStringField("expression",notNull(bugInfo.getExpression()));
+					jg.writeStringField("file", notNull(bugInfo.getFilename()));
+					jg.writeStringField("fileName", filename(bugInfo.getFilename()));
+					jg.writeStringField("function", filename(bugInfo.getFunction()));
+					jg.writeStringField("column", Integer.valueOf(bugInfo.getColumn()).toString());
+					jg.writeStringField("line", Integer.valueOf(bugInfo.getLine()).toString());
+					jg.writeStringField("message", notNull(bugInfo.getMessage()));
+					jg.writeStringField("variable", notNull(bugInfo.getVariable()));
+					jg.writeStringField("expression", notNull(bugInfo.getExpression()));
 					jg.writeEndObject();
 					prevbugInfo = bugInfo;
 					bugInfo = iterator.hasNext() ? iterator.next() : null;
@@ -69,16 +76,15 @@ public class JSONOutput {
 				jg.writeEndObject();
 			}
 		}
-		
+
 		if (showStats) {
-			for (String code : counts.bugTypes()) {
+			for (final String code : counts.bugTypes()) {
 				jg.writeStartObject();
 				jg.writeStringField("code", code);
 				jg.writeStringField("count", Integer.toString(counts.getCode(code)));
 				jg.writeEndObject();
 			}
-			for (String severity:BugCounts.levels)
-			{
+			for (final String severity : BugCounts.levels) {
 				if (counts.getSeverity(severity) > 0) {
 					jg.writeStartObject();
 					jg.writeStringField("severity", severity);
@@ -110,8 +116,8 @@ public class JSONOutput {
 		// Some message codes (such as parse error are grouped at the function
 		// level
 		if (CODE_GROUPBY_FUNCTION.contains(bugInfo.getMessageCode())
-			&& safeEquals(prevbugInfo.getFunction(), bugInfo.getFunction())) {
-				return true;
+				&& safeEquals(prevbugInfo.getFunction(), bugInfo.getFunction())) {
+			return true;
 		}
 		return false;
 	}
@@ -120,16 +126,17 @@ public class JSONOutput {
 		return a != null && b != null && a.equals(b);
 	}
 
-	public void outputFindBugs(final BugList bugList, final Writer writer, final boolean showStats) throws IOException, TransformerException {
+	public void outputFindBugs(final BugList bugList, final Writer writer, final boolean showStats)
+			throws IOException, TransformerException {
 		final StringWriter sw = new StringWriter();
 		output(bugList, sw, showStats);
 	}
 
 	private String filename(final String filename) {
-		if(filename == null){
+		if (filename == null) {
 			return "";
 		}
-		return filename.substring(Math.max(filename.lastIndexOf('/'), filename.lastIndexOf('\\'))+1);
+		return filename.substring(Math.max(filename.lastIndexOf('/'), filename.lastIndexOf('\\')) + 1);
 	}
 
 	private String abbrev(final String messageCode) {
@@ -144,10 +151,10 @@ public class JSONOutput {
 		}
 	}
 
-	private String notNull(String value){
-		if (value ==  null){
+	private String notNull(final String value) {
+		if (value == null) {
 			return "";
-		}else{
+		} else {
 			return value;
 		}
 	}

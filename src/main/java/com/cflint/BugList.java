@@ -12,7 +12,7 @@ public class BugList implements Iterable<BugInfo> {
 
 	Map<String, List<BugInfo>> bugList = new HashMap<String, List<BugInfo>>();
 	/**
-	 * 
+	 *
 	 */
 	@SuppressWarnings("unused")
 	private static final long serialVersionUID = -8008927848087276202L;
@@ -23,6 +23,11 @@ public class BugList implements Iterable<BugInfo> {
 	}
 
 	CFLintFilter filter;
+	CFLintFilter fileFilter;
+
+	public CFLintFilter getFileFilter() {
+		return fileFilter;
+	}
 
 	public CFLintFilter getFilter() {
 		return filter;
@@ -30,6 +35,7 @@ public class BugList implements Iterable<BugInfo> {
 
 	public void setFilter(final CFLintFilter filter) {
 		this.filter = filter;
+		this.fileFilter = filter.createFilePreFilter();
 	}
 
 	public boolean add(final BugInfo bugInfo) {
@@ -47,7 +53,7 @@ public class BugList implements Iterable<BugInfo> {
 	/**
 	 * Returns a list of bugs as a map.
 	 *
-	 * @return      Map of bugs
+	 * @return Map of bugs
 	 */
 	public Map<String, List<BugInfo>> getBugList() {
 		return bugList;
@@ -70,6 +76,7 @@ public class BugList implements Iterable<BugInfo> {
 
 	}
 
+	@Override
 	public Iterator<BugInfo> iterator() {
 		return getFlatBugList().iterator();
 	}

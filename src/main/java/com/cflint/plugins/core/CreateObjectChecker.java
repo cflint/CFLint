@@ -14,10 +14,10 @@ public class CreateObjectChecker extends CFLintScannerAdapter {
 	final String severity = "INFO";
 
 	@Override
-	public void expression(final CFScriptStatement expression, final Context context, final BugList bugs) {	
+	public void expression(final CFScriptStatement expression, final Context context, final BugList bugs) {
 		if (expression instanceof CFExpressionStatement) {
-			String code = ((CFExpressionStatement) expression).getExpression().Decompile(0);
-			int lineNo = ((CFExpressionStatement) expression).getLine() + context.startLine() - 1;
+			final String code = ((CFExpressionStatement) expression).getExpression().Decompile(0);
+			final int lineNo = ((CFExpressionStatement) expression).getLine() + context.startLine() - 1;
 			if (code.toLowerCase().contains("createobject('component'")) {
 				noNeedtoUseCreateObject(lineNo, context, bugs);
 			}
@@ -26,8 +26,8 @@ public class CreateObjectChecker extends CFLintScannerAdapter {
 
 	protected void noNeedtoUseCreateObject(final int lineNo, final Context context, final BugList bugs) {
 		bugs.add(new BugInfo.BugInfoBuilder().setLine(lineNo).setMessageCode("AVOID_USING_CREATEOBJECT")
-			.setSeverity(severity).setFilename(context.getFilename())
-			.setMessage("CreateObject statement at line " + lineNo + ". Use createObject(path_to_component) or even better new path_to_component().")
-			.build());
+				.setSeverity(severity).setFilename(context.getFilename()).setMessage("CreateObject statement at line "
+						+ lineNo + ". Use createObject(path_to_component) or even better new path_to_component().")
+				.build());
 	}
 }

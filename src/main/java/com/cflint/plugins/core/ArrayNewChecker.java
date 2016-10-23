@@ -13,9 +13,9 @@ import ro.fortsoft.pf4j.Extension;
 public class ArrayNewChecker extends CFLintScannerAdapter {
 
 	@Override
-	public void expression(final CFScriptStatement expression, final Context context, final BugList bugs) {	
+	public void expression(final CFScriptStatement expression, final Context context, final BugList bugs) {
 		if (expression instanceof CFExpressionStatement) {
-			String code = ((CFExpressionStatement) expression).getExpression().Decompile(0);
+			final String code = ((CFExpressionStatement) expression).getExpression().Decompile(0);
 
 			if (code.toLowerCase().contains("arraynew(1)")) {
 				context.addMessage("AVOID_USING_ARRAYNEW", null);
@@ -26,7 +26,7 @@ public class ArrayNewChecker extends CFLintScannerAdapter {
 	@Override
 	public void element(final Element element, final Context context, final BugList bugs) {
 		if (element.getName().equals("cfset")) {
-			String content = element.getStartTag().getTagContent().toString();
+			final String content = element.getStartTag().getTagContent().toString();
 
 			if (content.toLowerCase().contains("arraynew(1)")) {
 				context.addMessage("AVOID_USING_ARRAYNEW", null);

@@ -52,14 +52,14 @@ public class CFLintTask extends Task {
 		FileInputStream fis = null;
 		try {
 			CFLintConfig config = null;
-			if(configFile != null){
-				if(configFile.getName().toLowerCase().endsWith(".xml")){
+			if (configFile != null) {
+				if (configFile.getName().toLowerCase().endsWith(".xml")) {
 					config = ConfigUtils.unmarshal(new FileInputStream(configFile), CFLintConfig.class);
-				}else{
+				} else {
 					config = ConfigUtils.unmarshalJson(new FileInputStream(configFile), CFLintConfig.class);
 				}
 			}
-			
+
 			final CFLint cflint = new CFLint(config);
 			cflint.setVerbose(verbose);
 			cflint.setQuiet(quiet);
@@ -73,7 +73,7 @@ public class CFLintTask extends Task {
 					fis = new FileInputStream(ffile);
 					final byte b[] = new byte[fis.available()];
 					fis.read(b);
-					filter = CFLintFilter.createFilter(new String(b),verbose);
+					filter = CFLintFilter.createFilter(new String(b), verbose);
 				}
 			}
 			if (excludeRule != null && excludeRule.trim().length() > 0) {
@@ -97,13 +97,15 @@ public class CFLintTask extends Task {
 					System.out.println("Style:" + xmlStyle);
 				}
 				if ("findbugs".equalsIgnoreCase(xmlStyle)) {
-					new XMLOutput().outputFindBugs(cflint.getBugs(), createWriter(xmlFile,StandardCharsets.UTF_8), showStats);
+					new XMLOutput().outputFindBugs(cflint.getBugs(), createWriter(xmlFile, StandardCharsets.UTF_8),
+							showStats);
 				} else {
 					new DefaultCFlintResultMarshaller().output(cflint.getBugs(), createWriter(xmlFile, StandardCharsets.UTF_8), showStats);
 				}
 			}
 			if (textFile != null) {
-				final Writer textwriter = textFile != null ? new FileWriter(textFile) : new OutputStreamWriter(System.out);
+				final Writer textwriter = textFile != null ? new FileWriter(textFile)
+						: new OutputStreamWriter(System.out);
 				new TextOutput().output(cflint.getBugs(), textwriter, showStats);
 
 			}
@@ -117,14 +119,14 @@ public class CFLintTask extends Task {
 			for (final FileSet fileset : filesets) {
 				int progress = 1;
 				final DirectoryScanner ds = fileset.getDirectoryScanner(getProject()); // 3
-				final ProgressMonitor progressMonitor = showProgress && !filesets.isEmpty() ? new ProgressMonitor(null,
-						"CFLint", "", 1, ds.getIncludedFilesCount()) : null;
+				final ProgressMonitor progressMonitor = showProgress && !filesets.isEmpty()
+						? new ProgressMonitor(null, "CFLint", "", 1, ds.getIncludedFilesCount()) : null;
 				final String[] includedFiles = ds.getIncludedFiles();
 				for (final String includedFile : includedFiles) {
-					if(progressMonitor.isCanceled()){
+					if (progressMonitor.isCanceled()) {
 						throw new RuntimeException("CFLint scan cancelled");
 					}
-					final String filename = ds.getBasedir()+File.separator+includedFile;
+					final String filename = ds.getBasedir() + File.separator + includedFile;
 					progressMonitor.setNote("scanning " + includedFile);
 					cflint.scan(filename);
 					progressMonitor.setProgress(progress++);
@@ -134,17 +136,18 @@ public class CFLintTask extends Task {
 			throw new RuntimeException(e);
 		} finally {
 			try {
-				if (fis != null)
+				if (fis != null) {
 					fis.close();
-			} catch (IOException e) {
-				
+				}
+			} catch (final IOException e) {
+
 			}
 		}
 	}
 
-	private Writer createWriter(File xmlFile2, Charset encoding) throws IOException {
-		final OutputStreamWriter out = new OutputStreamWriter(new FileOutputStream(xmlFile2),encoding);
-		out.append(String.format("<?xml version=\"1.0\" encoding=\"%s\" ?>%n",encoding));
+	private Writer createWriter(final File xmlFile2, final Charset encoding) throws IOException {
+		final OutputStreamWriter out = new OutputStreamWriter(new FileOutputStream(xmlFile2), encoding);
+		out.append(String.format("<?xml version=\"1.0\" encoding=\"%s\" ?>%n", encoding));
 		return out;
 	}
 
@@ -200,7 +203,7 @@ public class CFLintTask extends Task {
 		this.quiet = quiet;
 	}
 
-	public void setConfigFile(File configFile) {
+	public void setConfigFile(final File configFile) {
 		this.configFile = configFile;
 	}
 

@@ -35,7 +35,8 @@ public class ArgVarChecker extends CFLintScannerAdapter {
 			}
 		} else if (expression instanceof CFFullVarExpression) {
 			final CFFullVarExpression fullVarExpr = (CFFullVarExpression) expression;
-			if (fullVarExpr.getExpressions().size() > 1 && fullVarExpr.getExpressions().get(0) instanceof CFIdentifier) {
+			if (fullVarExpr.getExpressions().size() > 1
+					&& fullVarExpr.getExpressions().get(0) instanceof CFIdentifier) {
 				final CFIdentifier cfIdentifier1 = (CFIdentifier) fullVarExpr.getExpressions().get(0);
 				if (cfIdentifier1.getName().equalsIgnoreCase("arguments")
 						&& fullVarExpr.getExpressions().get(1) instanceof CFIdentifier) {

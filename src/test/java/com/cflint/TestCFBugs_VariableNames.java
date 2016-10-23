@@ -274,6 +274,20 @@ public class TestCFBugs_VariableNames {
 		assertEquals("VAR_HAS_PREFIX_OR_POSTFIX", result.get(6).getMessageCode());
 		assertEquals(9, result.get(6).getLine());
 	}
+	
+	@Test
+	public void QueryValidNameTag() throws ParseException, IOException {
+		final String cfcSrc = "<cfcomponent>\r\n" + "<cffunction name=\"rateBop\" >\r\n"
+				+ "<cfquery name=\"Categories\">\r\n" + "SELECT * FROM product_categories p\r\n"
+				+ "WHERE p.id = <cfqueryparam value=\"#LOCAL.id#\"/>\r\n"
+				+ "and p.name = <cfqueryparam value=\"abc\"/>\r\n" + "</cfquery>\r\n" + "</cffunction>"
+				+ "</cfcomponent>";
+		cfBugs.process(cfcSrc, "test");
+		final List<BugInfo> result = cfBugs.getBugs().getFlatBugList();
+		assertEquals(1, result.size());
+		assertEquals("VAR_INVALID_NAME", result.get(0).getMessageCode());
+		assertEquals(3, result.get(0).getLine());
+	}
 
 
 	@Test

@@ -137,6 +137,10 @@
          	<messageText>Argument ${variable} is missing a hint.</messageText>
          	<severity>INFO</severity>
         </message>
+        <message code="ARG_HINT_MISSING_SCRIPT">
+         	<messageText>Argument ${variable} is missing a hint.  Use javadoc style annotations on cfscript functions.</messageText>
+         	<severity>INFO</severity>
+        </message>
 	</ruleImpl>
 	<ruleImpl name="ArgumentTypeChecker" className="ArgTypeChecker">
         <message code="ARG_TYPE_MISSING">
@@ -362,6 +366,12 @@
 		<message code="COMPARE_INSTEAD_OF_ASSIGN">
 			<severity>WARNING</severity>
 			<messageText>CWE-482: Comparing instead of Assigning</messageText>
+		</message>
+	</ruleImpl>
+	<ruleImpl name="StructKeyChecker">
+		<message code="UNQUOTED_STRUCT_KEY"><!-- checked -->
+			<severity>WARNING</severity>
+			<messageText>Unquoted struct key ${variable} is not case-sensitive.  Quoting it is recommended.</messageText>
 		</message>
 	</ruleImpl>
 </CFLint-Plugin>

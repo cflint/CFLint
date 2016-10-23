@@ -1,0 +1,17 @@
+[ {
+  "severity" : "WARNING",
+  "id" : "UNQUOTED_STRUCT_KEY",
+  "message" : "UNQUOTED_STRUCT_KEY",
+  "category" : "CFLINT",
+  "abbrev" : "US",
+  "locations" : [ {
+    "file" : "src\\test\\resources\\com\\cflint\\tests\\StructKeyQuoted\\unquotedStructKeyNested.cfc",
+    "fileName" : "unquotedStructKeyNested.cfc",
+    "function" : "x",
+    "column" : "15",
+    "line" : "5",
+    "message" : "Unquoted struct key mySubKey is not case-sensitive.  Quoting it is recommended.",
+    "variable" : "mySubKey",
+    "expression" : "{mySubKey:'123'}"
+  } ]
+} ]

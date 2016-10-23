@@ -8,7 +8,8 @@ import java.io.InputStreamReader;
 public class Version {
 
 	public static String getVersion() {
-		final InputStream is = Version.class.getResourceAsStream("/META-INF/maven/com.github.cflint/CFLint/pom.properties");
+		final InputStream is = Version.class
+				.getResourceAsStream("/META-INF/maven/com.github.cflint/CFLint/pom.properties");
 		try {
 			final BufferedReader reader = new BufferedReader(new InputStreamReader(is));
 			String line = reader.readLine();

@@ -19,21 +19,22 @@ public class LiteralChecker extends CFLintScannerAdapter {
 	final String severity = "WARNING";
 	final protected int REPEAT_THRESHOLD = 3;
 	final protected int WARNING_THRESHOLD = 5;
-	
+
 	protected int threshold = REPEAT_THRESHOLD;
 	protected int warningThreshold = WARNING_THRESHOLD;
 
 	protected Map<String, Integer> globalLiterals = new HashMap<String, Integer>();
 	protected Map<String, Integer> functionListerals = new HashMap<String, Integer>();
 
-	// May want to consider resetting literal map on new components but this way it
+	// May want to consider resetting literal map on new components but this way
+	// it
 	// detects duplicated literals across files which is useful
 
-	@Override	
+	@Override
 	public void expression(final CFExpression expression, final Context context, final BugList bugs) {
-		String repeatThreshold = getParameter("maximum");
-		String maxWarnings = getParameter("maxWarnings");
-		String warningScope = getParameter("warningScope");
+		final String repeatThreshold = getParameter("maximum");
+		final String maxWarnings = getParameter("maxWarnings");
+		final String warningScope = getParameter("warningScope");
 
 		if (repeatThreshold != null) {
 			threshold = Integer.parseInt(repeatThreshold);
@@ -44,19 +45,18 @@ public class LiteralChecker extends CFLintScannerAdapter {
 		}
 
 		if (expression instanceof CFLiteral) {
-			CFLiteral literal = (CFLiteral) expression;
-			String name = literal.Decompile(0).replace("'","");
+			final CFLiteral literal = (CFLiteral) expression;
+			final String name = literal.Decompile(0).replace("'", "");
 
 			if (isCommon(name)) {
 				return;
 			}
 
-			int lineNo = literal.getLine() + context.startLine() - 1;
+			final int lineNo = literal.getLine() + context.startLine() - 1;
 
 			if (warningScope == null || warningScope.equals("global")) {
 				literalCount(name, lineNo, globalLiterals, true, context, bugs);
-			}
-			else if (warningScope.equals("local")) {
+			} else if (warningScope.equals("local")) {
 				literalCount(name, lineNo, functionListerals, false, context, bugs);
 			}
 		}
@@ -69,13 +69,13 @@ public class LiteralChecker extends CFLintScannerAdapter {
 		}
 	}
 
-	protected void literalCount(final String name, final int lineNo, Map<String, Integer> literals, boolean global, final Context context, final BugList bugs) {
+	protected void literalCount(final String name, final int lineNo, final Map<String, Integer> literals,
+			final boolean global, final Context context, final BugList bugs) {
 		int count = 1;
 
 		if (literals.get(name) == null) {
 			literals.put(name, count);
-		}
-		else {
+		} else {
 			count = literals.get(name);
 			count++;
 			literals.put(name, count);
@@ -84,8 +84,7 @@ public class LiteralChecker extends CFLintScannerAdapter {
 		if (count > threshold && (warningThreshold == -1 || (count - threshold) <= warningThreshold)) {
 			if (global) {
 				magicGlobalValue(name, lineNo, context, bugs);
-			}
-			else {
+			} else {
 				magicLocalValue(name, lineNo, context, bugs);
 			}
 		}
@@ -97,15 +96,17 @@ public class LiteralChecker extends CFLintScannerAdapter {
 
 	public void magicLocalValue(final String name, final int lineNo, final Context context, final BugList bugs) {
 		bugs.add(new BugInfo.BugInfoBuilder().setLine(lineNo).setMessageCode("LOCAL_LITERAL_VALUE_USED_TOO_OFTEN")
-			.setSeverity(severity).setFilename(context.getFilename())
-			.setMessage("Literal " + name + " occurs several times in the same file. Consider giving it a name and not hard coding values.")
-			.build());
+				.setSeverity(severity).setFilename(context.getFilename())
+				.setMessage("Literal " + name
+						+ " occurs several times in the same file. Consider giving it a name and not hard coding values.")
+				.build());
 	}
 
 	public void magicGlobalValue(final String name, final int lineNo, final Context context, final BugList bugs) {
 		bugs.add(new BugInfo.BugInfoBuilder().setLine(lineNo).setMessageCode("GLOBAL_LITERAL_VALUE_USED_TOO_OFTEN")
-			.setSeverity(severity).setFilename(context.getFilename())
-			.setMessage("Literal " + name + " occurs several times in one or more files. Consider giving it a name and not hard coding values.")
-			.build());
+				.setSeverity(severity).setFilename(context.getFilename())
+				.setMessage("Literal " + name
+						+ " occurs several times in one or more files. Consider giving it a name and not hard coding values.")
+				.build());
 	}
 }

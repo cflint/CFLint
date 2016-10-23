@@ -15,9 +15,9 @@ public class FunctionTypeChecker extends CFLintScannerAdapter {
 	@Override
 	public void expression(final CFScriptStatement expression, final Context context, final BugList bugs) {
 		if (expression instanceof CFFuncDeclStatement) {
-			CFFuncDeclStatement function = (CFFuncDeclStatement) expression;
+			final CFFuncDeclStatement function = (CFFuncDeclStatement) expression;
 			final int begLine = function.getLine();
-			final String functionType = function.getReturnType() == null? null :function.getReturnType().toString();
+			final String functionType = function.getReturnType() == null ? null : function.getReturnType().toString();
 
 			checkReturnType(functionType, begLine, context, bugs);
 		}
@@ -33,18 +33,12 @@ public class FunctionTypeChecker extends CFLintScannerAdapter {
 		}
 	}
 
-	protected void checkReturnType(final String functionType, final int lineNumber, final Context context, final BugList bugs) {
+	protected void checkReturnType(final String functionType, final int lineNumber, final Context context,
+			final BugList bugs) {
 		if (functionType == null || functionType.length() == 0) {
-			bugs.add(new BugInfo.BugInfoBuilder().setLine(lineNumber).setMessageCode("FUNCTION_TYPE_MISSING")
-				.setSeverity(severity).setFilename(context.getFilename()).setFunction(context.getFunctionName())
-				.setMessage("Function " + context.getFunctionName() + " is missing a return type.")
-				.build());
-		}
-		else if (functionType.equals("any")) {
-			bugs.add(new BugInfo.BugInfoBuilder().setLine(lineNumber).setMessageCode("FUNCTION_TYPE_ANY")
-				.setSeverity(severity).setFilename(context.getFilename()).setFunction(context.getFunctionName())
-				.setMessage("Function " + context.getFunctionName() + " return type is any. Please change to be the correct type.")
-				.build());
+			context.addMessage("FUNCTION_TYPE_MISSING", context.getFunctionName());
+		} else if (functionType.equals("any")) {
+			context.addMessage("FUNCTION_TYPE_ANY", context.getFunctionName());
 		}
 	}
 

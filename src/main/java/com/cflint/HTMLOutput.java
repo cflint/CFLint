@@ -14,7 +14,8 @@ public class HTMLOutput {
 
 	final String htmlStyle;
 
-	public void output(final BugList bugList, final Writer writer, final boolean showStats) throws IOException, TransformerException {
+	public void output(final BugList bugList, final Writer writer, final boolean showStats)
+			throws IOException, TransformerException {
 
 		// 1. Instantiate a TransformerFactory.
 		final javax.xml.transform.TransformerFactory tFactory = javax.xml.transform.TransformerFactory.newInstance();
@@ -22,7 +23,7 @@ public class HTMLOutput {
 		// 2. Use the TransformerFactory to process the stylesheet Source and
 		// generate a Transformer.
 		javax.xml.transform.Transformer transformer;
-		//System.out.println("Using html style:" + htmlStyle);
+		// System.out.println("Using html style:" + htmlStyle);
 		try {
 			final InputStream is = getClass().getResourceAsStream("/findbugs/" + htmlStyle);
 			transformer = tFactory.newTransformer(new javax.xml.transform.stream.StreamSource(is));

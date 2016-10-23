@@ -27,50 +27,52 @@ public class ValidName {
 	public ValidName() {
 	}
 
-	public ValidName(int minLength, int maxLength, int maxWords) {
+	public ValidName(final int minLength, final int maxLength, final int maxWords) {
 		this.minLength = minLength;
 		this.maxLength = maxLength;
 		this.maxWords = maxWords;
 	}
 
-	public boolean isInvalid(String name) {
-		return !validChars(name) || endsInNumber(name) || !(isSameCase(name) || isCamelCaseLower(name) || usesUnderscores(name));
+	public boolean isInvalid(final String name) {
+		return !validChars(name) || endsInNumber(name)
+				|| !(isSameCase(name) || isCamelCaseLower(name) || usesUnderscores(name));
 	}
 
-	public boolean isInvalidComponent(String name) {
-		return !validChars(name) || endsInNumber(name) || !(isUpperCase(name) || isCamelCaseUpper(name) || usesUnderscores(name));
+	public boolean isInvalidComponent(final String name) {
+		return !validChars(name) || endsInNumber(name)
+				|| !(isUpperCase(name) || isCamelCaseUpper(name) || usesUnderscores(name));
 	}
 
-	public boolean validChars(String name) {
-		Pattern valid = Pattern.compile("^[A-Za-z0-9_]+$");
+	public boolean validChars(final String name) {
+		final Pattern valid = Pattern.compile("^[A-Za-z0-9_]+$");
 		return valid.matcher(name).matches();
 	}
 
-	public boolean isUpperCase(String name) {
+	public boolean isUpperCase(final String name) {
 		return name.toUpperCase().equals(name);
 	}
 
-	public boolean isSameCase(String name) {
+	public boolean isSameCase(final String name) {
 		return name.equals(name.toLowerCase()) || name.equals(name.toUpperCase());
 	}
 
-	public boolean isCamelCaseLower(String name) {
+	public boolean isCamelCaseLower(final String name) {
 		// [A-Z0-9]{2,5} catch names like productID, phone4G, requestURL etc etc
-		Pattern valid = Pattern.compile("^[a-z0-9]+([A-Z]{1,5}[a-z0-9]+)*([A-Z0-9]{2,5}){0,1}$");
+		final Pattern valid = Pattern.compile("^[a-z0-9]+([A-Z]{1,5}[a-z0-9]+)*([A-Z0-9]{2,5}){0,1}$");
 		return valid.matcher(name).matches();
 	}
 
-	public boolean isCamelCaseUpper(String name) {
-		Pattern valid = Pattern.compile("^([A-Z]{1,5}[a-z0-9]+)+([A-Z0-9]{2,5}){0,1}$");
+	public boolean isCamelCaseUpper(final String name) {
+		final Pattern valid = Pattern.compile("^([A-Z]{1,5}[a-z0-9]+)+([A-Z0-9]{2,5}){0,1}$");
 		return valid.matcher(name).matches();
 	}
 
-	public boolean usesUnderscores(String name) {
+	public boolean usesUnderscores(final String name) {
 		return name.indexOf('_') != -1;
 	}
 
-	public boolean endsInNumber(String name) {
-		char lastLetter = name.charAt(name.length() - 1);
+	public boolean endsInNumber(final String name) {
+		final char lastLetter = name.charAt(name.length() - 1);
 
 		if (Character.isDigit(lastLetter)) {
 			return true;
@@ -79,16 +81,16 @@ public class ValidName {
 		return false;
 	}
 
-	public boolean tooShort(String name) {
+	public boolean tooShort(final String name) {
 		return name.length() < minLength;
 	}
 
-	public boolean tooLong(String name) {
+	public boolean tooLong(final String name) {
 		return name.length() > maxLength;
 	}
 
-	public boolean tooWordy(String name) {
-		String[] words = name.split("[A-Z_]+");
+	public boolean tooWordy(final String name) {
+		final String[] words = name.split("[A-Z_]+");
 		int count = 0;
 
 		for (int i = 0; i < words.length; i++) {
@@ -100,16 +102,16 @@ public class ValidName {
 		return count > maxWords;
 	}
 
-	public boolean isTemporary(String name) {
-		String[] wordsToAvoid = {"temp", "tmp", "var", "func", "obj", "object", "bool", "struct", "string", "array", "comp"};
+	public boolean isTemporary(final String name) {
+		final String[] wordsToAvoid = { "temp", "tmp", "var", "func", "obj", "object", "bool", "struct", "string",
+				"array", "comp" };
 		String sentence = name.replaceAll("_", " ");
-		sentence = sentence.replaceAll("(\\p{Ll})(\\p{Lu})","$1 $2");
-		String[] words = sentence.split(" ");
-		
-		for (String badWord : wordsToAvoid) {
-			for (String word : words) {
-				if (word.toLowerCase().equals(badWord))
-				{
+		sentence = sentence.replaceAll("(\\p{Ll})(\\p{Lu})", "$1 $2");
+		final String[] words = sentence.split(" ");
+
+		for (final String badWord : wordsToAvoid) {
+			for (final String word : words) {
+				if (word.toLowerCase().equals(badWord)) {
 					return true;
 				}
 			}
@@ -118,22 +120,20 @@ public class ValidName {
 		return false;
 	}
 
-	public boolean hasPrefixOrPostfix(String name) {
-		String[] namesToAvoid = {"s", "st", "str", "o", "obj", "b", "q", "a", "arr", "this", "my"};
+	public boolean hasPrefixOrPostfix(final String name) {
+		final String[] namesToAvoid = { "s", "st", "str", "o", "obj", "b", "q", "a", "arr", "this", "my" };
 		String sentence = name.replaceAll("_", " ");
-		sentence = sentence.replaceAll("(\\p{Ll})(\\p{Lu})","$1 $2");
-		String[] words = sentence.split(" ");
-		String firstWord = words[0];
-		String lastWord = words[words.length-1];
+		sentence = sentence.replaceAll("(\\p{Ll})(\\p{Lu})", "$1 $2");
+		final String[] words = sentence.split(" ");
+		final String firstWord = words[0];
+		final String lastWord = words[words.length - 1];
 
 		if (words.length > 1) {
-			for (String badName : namesToAvoid) {
-				if (firstWord.toLowerCase().equals(badName))
-				{
+			for (final String badName : namesToAvoid) {
+				if (firstWord.toLowerCase().equals(badName)) {
 					return true;
 				}
-				if (lastWord.toLowerCase().equals(badName))
-				{
+				if (lastWord.toLowerCase().equals(badName)) {
 					return true;
 				}
 			}

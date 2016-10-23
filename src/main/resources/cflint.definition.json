@@ -270,6 +270,7 @@
       "message": [
         {
           "code": "COMPONENT_HINT_MISSING",
+          "messageText" : "Component ${variable} is missing a hint.",
           "severity": "WARNING"
         }
       ],
@@ -283,6 +284,7 @@
       "message": [
         {
           "code": "FUNCTION_HINT_MISSING",
+          "messageText" : "Function ${variable} is missing a hint.",
           "severity": "INFO"
         }
       ],
@@ -298,6 +300,11 @@
           "code": "ARG_HINT_MISSING",
           "severity": "INFO",
           "messageText" : "Argument ${variable} is missing a hint."
+        },
+        {
+          "code": "ARG_HINT_MISSING_SCRIPT",
+          "severity": "INFO",
+          "messageText" : "Argument ${variable} is missing a hint.  Use javadoc style annotations on cfscript functions."
         }
       ],
       "parameter": [
@@ -361,11 +368,13 @@
       "message": [
         {
           "code": "FUNCTION_TYPE_MISSING",
-          "severity": "WARNING"
+          "severity": "WARNING",
+          "messageText": "Function ${variable} return type is missing a return type."
         },
         {
           "code": "FUNCTION_TYPE_ANY",
-          "severity": "INFO"
+          "severity": "INFO",
+          "messageText": "Function ${variable} return type is any. Please change to be the correct type."
         }
       ],
       "parameter": [
@@ -789,6 +798,19 @@
         }
       ],
       "parameter": []
-    }
+    },
+    {
+      "name": "StructKeyChecker",
+      "message": [
+        {
+          "code": "UNQUOTED_STRUCT_KEY",
+          "messageText": "Unquoted struct key ${variable} is not case-sensitive.  Quoting it is recommended.",
+          "severity": "WARNING"
+        }
+      ],
+      "parameter": [
+        
+      ]
+    }    
   ]
 }

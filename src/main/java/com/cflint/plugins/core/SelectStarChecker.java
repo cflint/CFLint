@@ -1,4 +1,5 @@
 package com.cflint.plugins.core;
+
 import com.cflint.BugInfo;
 import com.cflint.BugList;
 import com.cflint.plugins.CFLintScannerAdapter;
@@ -16,30 +17,29 @@ public class SelectStarChecker extends CFLintScannerAdapter {
 	final String message = "Avoid using 'select *' in a query";
 	final String severity = "ERROR";
 
+	@Override
 	public void expression(final CFExpression expression, final Context context, final BugList bugs) {
-		
+
 	}
 
+	@Override
 	public void expression(final CFScriptStatement expression, final Context context, final BugList bugs) {
-	
+
 	}
-	
+
+	@Override
 	public void element(final Element element, final Context context, final BugList bugs) {
-		String tagName = element.getName();
-		if (tagName.equals("cfquery")){
-			
-			String queryGuts = element.getContent().toString().replaceAll("\\s+","");
+		final String tagName = element.getName();
+		if (tagName.equals("cfquery")) {
+
+			String queryGuts = element.getContent().toString().replaceAll("\\s+", "");
 			queryGuts = queryGuts.toLowerCase();
 
-			if (queryGuts.contains(selectStar)){
-				int beginLine = element.getSource().getRow(element.getBegin());
+			if (queryGuts.contains(selectStar)) {
+				final int beginLine = element.getSource().getRow(element.getBegin());
 				bugs.add(new BugInfo.BugInfoBuilder().setLine(beginLine).setMessageCode(messageCode)
-					.setSeverity(severity).setFilename(context.getFilename())
-					.setMessage(message)
-					.build());
+						.setSeverity(severity).setFilename(context.getFilename()).setMessage(message).build());
 			}
 		}
-	}		
+	}
 }
-
-

@@ -436,13 +436,15 @@ public class CFLintMain {
     private void mergeConfigFileInFilter(CFLintFilter filter)
     {
         CFLintConfig cfg = loadConfig(configfile);
+        if(cfg != null){
         for(PluginMessage message : cfg.getIncludes())
-        {
-            filter.includeCode(message.getCode());
-        }
-        for(PluginMessage message : cfg.getExcludes())
-        {
-            filter.excludeCode(message.getCode());
+	        {
+	            filter.includeCode(message.getCode());
+	        }
+	        for(PluginMessage message : cfg.getExcludes())
+	        {
+	            filter.excludeCode(message.getCode());
+	        }
         }
     }
 

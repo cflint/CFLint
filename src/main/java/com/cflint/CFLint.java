@@ -496,6 +496,10 @@ public class CFLint implements IErrorReporter {
 	}
 
 	/**
+	 * 
+	 * @param context 
+	 * @param functionToken
+	 * 
 	 * Register any overrides from multi-line comments.
 	 */
 	protected void registerRuleOverrides(Context context, final Token functionToken) {

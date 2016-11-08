@@ -1,0 +1,17 @@
+[ {
+  "severity" : "ERROR",
+  "id" : "MISSING_VAR",
+  "message" : "MISSING_VAR",
+  "category" : "CFLINT",
+  "abbrev" : "MV",
+  "locations" : [ {
+    "file" : "src\\test\\resources\\com\\cflint\\tests\\Ignores\\ignoreLineMessageUnmatched.cfc",
+    "fileName" : "ignoreLineMessageUnmatched.cfc",
+    "function" : "function1",
+    "column" : "6",
+    "line" : "4",
+    "message" : "Variable someVar is not declared with a var statement.",
+    "variable" : "someVar",
+    "expression" : "someVar"
+  } ]
+} ]

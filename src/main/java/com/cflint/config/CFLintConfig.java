@@ -84,8 +84,8 @@ public class CFLintConfig {
 		}
 
 		@XmlElement(name = "json")
-		public void setJSON(final OutputText text) {
-			this.text = text;
+		public void setJSON(final OutputText json) {
+			this.json = json;
 		}
 
 		public OutputXML getHtml() {

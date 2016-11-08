@@ -36,15 +36,9 @@ public class FunctionTypeChecker extends CFLintScannerAdapter {
 	protected void checkReturnType(final String functionType, final int lineNumber, final Context context,
 			final BugList bugs) {
 		if (functionType == null || functionType.length() == 0) {
-			bugs.add(new BugInfo.BugInfoBuilder().setLine(lineNumber).setMessageCode("FUNCTION_TYPE_MISSING")
-					.setSeverity(severity).setFilename(context.getFilename()).setFunction(context.getFunctionName())
-					.setMessage("Function " + context.getFunctionName() + " is missing a return type.").build());
+			context.addMessage("FUNCTION_TYPE_MISSING", context.getFunctionName());
 		} else if (functionType.equals("any")) {
-			bugs.add(new BugInfo.BugInfoBuilder().setLine(lineNumber).setMessageCode("FUNCTION_TYPE_ANY")
-					.setSeverity(severity)
-					.setFilename(context.getFilename()).setFunction(context.getFunctionName()).setMessage("Function "
-							+ context.getFunctionName() + " return type is any. Please change to be the correct type.")
-					.build());
+			context.addMessage("FUNCTION_TYPE_ANY", context.getFunctionName());
 		}
 	}
 

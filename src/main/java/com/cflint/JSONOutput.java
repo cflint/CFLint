@@ -3,9 +3,12 @@ package com.cflint;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 
 import javax.xml.transform.TransformerException;
@@ -34,14 +37,17 @@ public class JSONOutput {
 			jg.useDefaultPrettyPrinter();
 		}
 		jg.writeStartArray();
-		for (final Entry<String, List<BugInfo>> bugEntry : bugList.getBugList().entrySet()) {
-			final Iterator<BugInfo> iterator = bugEntry.getValue().iterator();
+		List<String> keys = new ArrayList<String>(bugList.getBugList().keySet());
+		Collections.sort(keys);
+		for (final String key: keys){
+			List<BugInfo> currentList = bugList.getBugList().get(key);
+			final Iterator<BugInfo> iterator = currentList.iterator();
 			BugInfo bugInfo = iterator.hasNext() ? iterator.next() : null;
 			BugInfo prevbugInfo;
 
 			while (bugInfo != null) {
-				final String severity = bugEntry.getValue().get(0).getSeverity();
-				final String code = bugEntry.getValue().get(0).getMessageCode();
+				final String severity = currentList.get(0).getSeverity();
+				final String code = currentList.get(0).getMessageCode();
 				counts.add(code, severity);
 
 				jg.writeStartObject();

@@ -185,8 +185,6 @@ public class CFLintFilter {
 	 * Identify a subset of the filter that can be applied without parsing i.e.
 	 * filename.
 	 * 
-	 * @param filter2
-	 * @return
 	 */
 	public CFLintFilter createFilePreFilter() {
 		final ArrayList<Map<String, ?>> newdata = new ArrayList<Map<String, ?>>();

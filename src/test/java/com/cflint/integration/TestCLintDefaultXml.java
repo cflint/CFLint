@@ -10,6 +10,7 @@ import org.junit.Test;
 
 import com.cflint.BugInfo;
 import com.cflint.CFLint;
+import com.cflint.config.CFLintConfig;
 
 import cfml.parsing.reporting.ParseException;
 
@@ -19,7 +20,7 @@ public class TestCLintDefaultXml {
 
 	@Before
 	public void setup() throws IOException{
-		cflint = new CFLint();
+		cflint = new CFLint((CFLintConfig) null);
 	}
 
 	@Test

@@ -1,23 +1,43 @@
 package com.cflint.plugins;
 
+import java.io.File;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
+import org.antlr.v4.runtime.CommonTokenStream;
+import org.antlr.v4.runtime.Token;
+
+import com.cflint.BugInfo;
 import com.cflint.StackHandler;
 
 import cfml.parsing.cfscript.CFIdentifier;
+import cfml.parsing.cfscript.script.CFFuncDeclStatement;
 import net.htmlparser.jericho.Element;
+import static com.cflint.tools.CFTool.*;
 
 public class Context {
 
 	String filename;
 	String componentName;
 	final Element element;
+	List<Element> siblingElements;
+	CFFuncDeclStatement functionInfo;
+
 	String functionName;
-	final boolean inAssignmentExpression;
+	boolean inAssignmentExpression;
+	public void setInAssignmentExpression(boolean inAssignmentExpression) {
+		this.inAssignmentExpression = inAssignmentExpression;
+	}
+
 	boolean inComponent;
 	final StackHandler callStack;
+	final CommonTokenStream tokens;
 	final List<ContextMessage> messages = new ArrayList<ContextMessage>();
+	Context parent=null;
+	List<String> ignores = new ArrayList<String>();
 
 	public Context(final String filename, final Element element, final CFIdentifier functionName,
 			final boolean inAssignmentExpression, final StackHandler handler) {
@@ -27,16 +47,18 @@ public class Context {
 		this.functionName = functionName == null ? "" : functionName.Decompile(0);
 		this.inAssignmentExpression = inAssignmentExpression;
 		this.callStack = handler;
+		this.tokens=null;
 	}
 
 	public Context(final String filename, final Element element, final String functionName,
-			final boolean inAssignmentExpression, final StackHandler handler) {
+			final boolean inAssignmentExpression, final StackHandler handler,CommonTokenStream tokens) {
 		super();
 		this.filename = filename;
 		this.element = element;
 		this.functionName = functionName == null ? "" : functionName;
 		this.inAssignmentExpression = inAssignmentExpression;
 		this.callStack = handler;
+		this.tokens=tokens;
 	}
 
 	public String getFilename() {
@@ -58,9 +80,15 @@ public class Context {
 	public String getComponentName() {
 		return componentName;
 	}
-
-	public void setFunctionIdentifier(final CFIdentifier functionName) {
-		this.functionName = functionName == null ? "" : functionName.Decompile(0);
+	public String calcComponentName() {
+		if (componentName!= null && !componentName.trim().isEmpty()){
+			return componentName.trim();
+		}
+		if(filename == null){
+			return "";
+		}
+		//Return filename without the cfc extension
+		return new File(filename).getName().replaceAll("\\.\\w+$", "");
 	}
 
 	public void setFunctionName(final String functionName) {
@@ -81,6 +109,14 @@ public class Context {
 
 	public boolean isInAssignmentExpression() {
 		return inAssignmentExpression;
+	}
+
+	public List<Element> getSiblingElements() {
+		return siblingElements;
+	}
+
+	public void setSiblingElements(List<Element> siblingElements) {
+		this.siblingElements = siblingElements;
 	}
 
 	public StackHandler getCallStack() {
@@ -152,9 +188,22 @@ public class Context {
 	}
 
 	public Context subContext(final Element elem) {
-		final Context context2 = new Context(getFilename(), elem, getFunctionName(), isInAssignmentExpression(),
-				callStack);
+		if(elem == this.element || (siblingElements != null && siblingElements.contains(elem))){
+			return subContext(elem, siblingElements);
+		}
+		return subContext(elem, null);
+	}
+	
+	public Context subContext(final Element elem, final List<Element> siblingElements) {
+		final Context context2 = new Context(getFilename(), elem == null? this.element:elem, 
+				getFunctionName(), isInAssignmentExpression(),
+				callStack,tokens);
+		context2.siblingElements=siblingElements;
+		if(siblingElements == null && elem==this.element){
+			context2.siblingElements=this.siblingElements;
+		}
 		context2.setInComponent(isInComponent());
+		context2.parent = this;
 		return context2;
 	}
 
@@ -177,4 +226,99 @@ public class Context {
 
 		return filename.substring(seperatorPosition + 1, dotPosition);
 	}
+
+	public CommonTokenStream getTokens() {
+		return tokens;
+	}
+	
+	public Iterable<Token> beforeTokens(Token t){
+		return new ContextTokensIterable(t,-1);
+	}
+	public Iterable<Token> afterTokens(Token t){
+		return new ContextTokensIterable(t,1);
+	}
+	
+	public class ContextTokensIterable implements Iterable<Token> {
+
+		final Token token;
+		final int direction;
+		
+		public ContextTokensIterable(Token token, int direction){
+			this.token=token;
+			this.direction=direction;
+		}
+		
+		@Override
+		public Iterator<Token> iterator() {
+			return new ContextTokensIterator(token,direction);
+		}
+	}
+	public class ContextTokensIterator implements Iterator<Token> {
+
+		int tokenIndex;
+		final int direction;
+		
+		public ContextTokensIterator(Token token, int direction){
+			this.tokenIndex=token.getTokenIndex() + direction;
+			this.direction=direction;
+		}
+
+		@Override
+		public boolean hasNext() {
+			if(direction <0)
+				return tokens != null && tokenIndex >= 0;
+			else
+				return tokens != null && tokenIndex < tokens.getTokens().size();		
+		}
+
+		@Override
+		public Token next() {
+			if (tokens != null && tokenIndex >= 0){
+				Token retval = tokens.getTokens().get(tokenIndex);
+				tokenIndex += direction;
+				return retval;
+			}
+			return null;
+		}
+	
+		@Override
+		public void remove(){
+			throw new UnsupportedOperationException();
+		}
+	}
+
+	public Context getParent() {
+		return parent;
+	}
+
+	public void ignore(List<String> ignores) {
+		this.ignores.addAll(ignores);
+	}
+	
+	public boolean isSuppressed(BugInfo bugInfo){
+		return ignores.contains(bugInfo.getMessageCode())
+		 || (parent != null && parent.isSuppressed(bugInfo));
+	}
+	
+	public Element getPreviousSiblingElement(){
+		if(element.getParentElement() != null){
+			return getElementBefore(element,element.getParentElement().getChildElements());
+		}
+		if(siblingElements != null){
+			return getElementBefore(element,siblingElements);
+		}
+		return null;
+	}
+
+	public CFFuncDeclStatement getFunctionInfo() {
+		return functionInfo;
+	}
+
+	public void setFunctionInfo(CFFuncDeclStatement functionInfo) {
+		this.functionInfo = functionInfo;
+		if(this.functionInfo != null){
+			this.functionName = functionInfo.getName() == null ? "" : functionInfo.getName().Decompile(0);
+		}
+	}
+
 }

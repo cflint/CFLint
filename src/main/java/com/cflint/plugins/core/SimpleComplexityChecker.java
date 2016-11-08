@@ -34,6 +34,7 @@ public class SimpleComplexityChecker extends CFLintScannerAdapter {
 	@Override
 	public void expression(final CFScriptStatement expression, final Context context, final BugList bugs) {
 		CFFuncDeclStatement function;
+		String methodName = context.getFunctionName().length() > 0 ? context.getFunctionName() : context.getFilename();
 
 		if (expression instanceof CFFuncDeclStatement) {
 			function = (CFFuncDeclStatement) expression;
@@ -54,13 +55,14 @@ public class SimpleComplexityChecker extends CFLintScannerAdapter {
 				|| expression.getClass().equals(CFDoWhileStatement.class)) {
 			complexity++;
 			// TODO +1 for each case statment in a switch
-			checkComplexity(context.getFunctionName(), functionLineNo, context, bugs);
+			checkComplexity(methodName, functionLineNo, context, bugs);
 		}
 	}
 
 	@Override
 	public void element(final Element element, final Context context, final BugList bugs) {
 		final String name = element.getName();
+		String methodName = context.getFunctionName().length() > 0 ? context.getFunctionName() : context.getFilename();
 
 		if (name.equalsIgnoreCase("cffunction")) {
 			functionLineNo = element.getSource().getRow(element.getBegin());
@@ -74,7 +76,7 @@ public class SimpleComplexityChecker extends CFLintScannerAdapter {
 					|| name.equalsIgnoreCase("cfcase") || name.equalsIgnoreCase("cfdefaultcase")
 					|| name.equalsIgnoreCase("cftry") || name.equalsIgnoreCase("cfcatch")) {
 				complexity++;
-				checkComplexity(context.getFunctionName(), functionLineNo, context, bugs);
+				checkComplexity(methodName, functionLineNo, context, bugs);
 			}
 		}
 	}

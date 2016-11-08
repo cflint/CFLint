@@ -3,6 +3,7 @@ package com.cflint.plugins.core;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import com.cflint.BugList;
 import com.cflint.plugins.CFLintScannerAdapter;
@@ -15,6 +16,7 @@ import cfml.parsing.cfscript.script.CFFuncDeclStatement;
 import cfml.parsing.cfscript.script.CFFunctionParameter;
 import cfml.parsing.cfscript.script.CFScriptStatement;
 import net.htmlparser.jericho.Element;
+import net.htmlparser.jericho.Attribute;
 
 public class UnusedArgumentChecker extends CFLintScannerAdapter {
 
@@ -29,7 +31,29 @@ public class UnusedArgumentChecker extends CFLintScannerAdapter {
 					? element.getAttributeValue("name").toLowerCase() : "";
 			methodArguments.put(name, false);
 			setArgumentLineNo(name, context.startLine());
+		} else {
+			final String code = element.toString().replace(element.getName(), "");
+			for (final Map.Entry<String, Boolean> method : methodArguments.entrySet()) {
+				final String argName = method.getKey();
+				final Boolean used = method.getValue();
+				if(!used){
+					methodArguments.put(argName, isCheck(code, argName));
+				}
+			}
 		}
+	}
+	
+
+	private boolean isCheck(String content, final String name){
+		boolean checked = false;
+		content = content.replace(" ", "").replace("'", "\"").toLowerCase();
+		boolean structKeyCheck = (content.contains("structkeyexists(arguments,\""+name+"\""));
+		boolean isDefinedCheck = (content.contains("isdefined(\"arguments."+name+"\""));
+		boolean isUsedCheck = (content.contains("arguments."+name)) || (content.contains("arguments[\""+name+"\"]"));
+		final Pattern valid = Pattern.compile(".*\\(\\s*.+\\s*=\\s*(arguments)\\s*\\).*");
+		boolean isPassedCheck = valid.matcher(content).matches();
+		checked = structKeyCheck || isDefinedCheck || isUsedCheck || isPassedCheck;
+		return checked;
 	}
 
 	@Override
@@ -49,6 +73,28 @@ public class UnusedArgumentChecker extends CFLintScannerAdapter {
 			}
 		}
 	}
+	@Override
+	public void expression(final CFExpression expression, final Context context, final BugList bugs) {
+		final String code = expression.toString();
+		if (expression instanceof CFFullVarExpression) {
+			final CFExpression variable = ((CFFullVarExpression) expression).getExpressions().get(0);
+			if (variable instanceof CFIdentifier) {
+				useIdentifier((CFIdentifier) expression);
+			}
+		} else if (expression instanceof CFIdentifier) {
+			useIdentifier((CFIdentifier) expression);
+		} else {
+			
+			for (final Map.Entry<String, Boolean> method : methodArguments.entrySet()) {
+				final String argName = method.getKey();
+				final Boolean used = method.getValue();
+				if(!used){
+					methodArguments.put(argName, isCheck(code, argName));
+				}
+			}
+		}
+	}
+	
 
 	protected void setArgumentLineNo(final String argument, final Integer lineNo) {
 		if (argumentLineNo.get(argument) == null) {
@@ -59,29 +105,23 @@ public class UnusedArgumentChecker extends CFLintScannerAdapter {
 	protected void useIdentifier(final CFIdentifier identifier) {
 		String name = identifier.getName().toLowerCase();
 		if (name.equals("arguments")) {
-			name = identifier.Decompile(0).toLowerCase().replace("arguments.", ""); // TODO
+			name = identifier.Decompile(0).toLowerCase();
+			name = name.replace("['", ".").replace("']", "");
+			if(name.split("\\.").length > 1){
+				name = name.split("\\.")[1]; // TODO
 																					// better
 																					// way
 																					// of
 																					// doing
 																					// this?
+			}
 		}
 		if (methodArguments.get(name) != null) {
 			methodArguments.put(name, true);
 		}
 	}
 
-	@Override
-	public void expression(final CFExpression expression, final Context context, final BugList bugs) {
-		if (expression instanceof CFFullVarExpression) {
-			final CFExpression variable = ((CFFullVarExpression) expression).getExpressions().get(0);
-			if (variable instanceof CFIdentifier) {
-				useIdentifier((CFIdentifier) expression);
-			}
-		} else if (expression instanceof CFIdentifier) {
-			useIdentifier((CFIdentifier) expression);
-		}
-	}
+	
 
 	@Override
 	public void startFunction(final Context context, final BugList bugs) {

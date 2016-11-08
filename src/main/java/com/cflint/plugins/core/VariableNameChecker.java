@@ -30,24 +30,26 @@ public class VariableNameChecker extends CFLintScannerAdapter {
 	public void element(final Element element, final Context context, final BugList bugs) {
 		final String elementName = element.getName();
 		final int begLine = element.getSource().getRow(element.getBegin());
+		String varName = "";
 
 		if (elementName.equals("cfquery")) {
 			if(element.getAttributeValue("name") != null){
-				final String varName = element.getAttributeValue("name") != null
-					? element.getAttributeValue("name") : "";
-				checkNameForBugs(context, varName, context.getFilename(), context.getFunctionName(), begLine, bugs);
+				varName = element.getAttributeValue("name") != null ? element.getAttributeValue("name") : "";
 			}
 		} else if (elementName.equals("cfinvoke")) {
 			if(element.getAttributeValue("returnvariable") != null){
-				final String varName = element.getAttributeValue("returnvariable") != null
-					? element.getAttributeValue("returnvariable") : "";
-				checkNameForBugs(context, varName, context.getFilename(), context.getFunctionName(), begLine, bugs);
+				varName = element.getAttributeValue("returnvariable") != null ? element.getAttributeValue("returnvariable") : "";
 			}
 		} else if (elementName.equals("cfloop")) {
 			if(element.getAttributeValue("index") != null || element.getAttributeValue("item") != null){
-				final String varName = element.getAttributeValue("index") != null
-					? element.getAttributeValue("index") : (element.getAttributeValue("item") != null ? element.getAttributeValue("item") : "");
-				checkNameForBugs(context, varName, context.getFilename(), context.getFunctionName(), begLine, bugs);
+				varName = element.getAttributeValue("index") != null ? element.getAttributeValue("index") : (element.getAttributeValue("item") != null ? element.getAttributeValue("item") : "");
+			}
+		}
+		
+		if(varName.trim().length() > 0){
+			String[] varNameParts = varName.split("\\.");
+			for (String varNames : varNameParts) {
+				checkNameForBugs(context, varNames, context.getFilename(), context.getFunctionName(), begLine, bugs);
 			}
 		}
 	}

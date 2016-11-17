@@ -240,7 +240,7 @@
 				<executions>
 					<execution>
 						<id>assemble-standalone</id>
-						<phase>integration-test</phase>
+						<phase>package</phase>
 						<goals>
 							<goal>assemble</goal>
 						</goals>

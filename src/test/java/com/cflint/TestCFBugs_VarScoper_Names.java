@@ -92,8 +92,11 @@ public class TestCFBugs_VarScoper_Names {
 		assertEquals(3, result.get(0).getLine());
 		assertEquals("test",result.get(0).getFunction());
 		assertEquals("test",result.get(0).getFilename());
-		assertEquals("<cfstoredproc name=\"xx\">\r\n</cfstoredproc>".replaceAll("cfstoredproc",tag).replaceAll("name",attr),
-				result.get(0).getExpression());
+		String expected = "<cfstoredproc name=\"xx\">".replaceAll("cfstoredproc",tag).replaceAll("name",attr);
+		if(!result.get(0).getExpression().startsWith(expected)){
+				assertEquals(expected,
+					result.get(0).getExpression());
+		}
 	}
 
 	public void runTagAttrTestVard(final String tag, final String attr, final String variable) throws ParseException,

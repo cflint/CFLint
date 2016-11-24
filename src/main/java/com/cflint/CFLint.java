@@ -183,7 +183,7 @@ public class CFLint implements IErrorReporter {
 	public void process(final String src, final String filename) throws ParseException, IOException {
 		fireStartedProcessing(filename);
 		final CFMLSource cfmlSource = new CFMLSource(src);
-		final ParserTag firstTag = cfmlSource.getNextTag(0);
+		final ParserTag firstTag = getFirstTagQuietly(cfmlSource);
 		final List<Element> elements = new ArrayList<Element>();
 		if (firstTag != null) {
 			elements.addAll(cfmlSource.getChildElements());
@@ -198,6 +198,13 @@ public class CFLint implements IErrorReporter {
 			processStack(elements, " ", filename, null);
 		}
 		fireFinishedProcessing(filename);
+	}
+
+	protected ParserTag getFirstTagQuietly(final CFMLSource cfmlSource) {
+		try{
+			return cfmlSource.getNextTag(0);
+		}catch(Exception e){e.printStackTrace();}
+		return null;
 	}
 
 	public void processStack(final List<Element> elements, final String space, final String filename,
@@ -501,6 +508,8 @@ public class CFLint implements IErrorReporter {
 	 * @param functionToken
 	 * 
 	 * Register any overrides from multi-line comments.
+	 * @param context The current context.
+	 * @param functionToken  A token that points to the current function
 	 */
 	protected void registerRuleOverrides(Context context, final Token functionToken) {
 		final String mlText = PrecedingCommentReader.getMultiLine(context, functionToken);
@@ -516,6 +525,7 @@ public class CFLint implements IErrorReporter {
 
 	/**
 	 * Register any overrides from comment elements before functions/components.
+	 * @param context The current context.
 	 */
 	protected void registerRuleOverrides(Context context) {
 

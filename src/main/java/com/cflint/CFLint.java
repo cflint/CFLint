@@ -496,6 +496,10 @@ public class CFLint implements IErrorReporter {
 	}
 
 	/**
+	 * 
+	 * @param context 
+	 * @param functionToken
+	 * 
 	 * Register any overrides from multi-line comments.
 	 * @param context The current context.
 	 * @param functionToken  A token that points to the current function

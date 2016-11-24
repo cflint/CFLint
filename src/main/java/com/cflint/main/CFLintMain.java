@@ -456,7 +456,7 @@ public class CFLintMain {
 
 	private boolean isValid() {
 		if (folder.isEmpty() && !stdIn) {
-			System.err.println("Set -scanFolder or -stdin");
+			System.err.println("Set -folder or -stdin");
 			return false;
 		}
 		return true;

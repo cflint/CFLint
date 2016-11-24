@@ -497,6 +497,8 @@ public class CFLint implements IErrorReporter {
 
 	/**
 	 * Register any overrides from multi-line comments.
+	 * @param context The current context.
+	 * @param functionToken  A token that points to the current function
 	 */
 	protected void registerRuleOverrides(Context context, final Token functionToken) {
 		final String mlText = PrecedingCommentReader.getMultiLine(context, functionToken);
@@ -512,6 +514,7 @@ public class CFLint implements IErrorReporter {
 
 	/**
 	 * Register any overrides from comment elements before functions/components.
+	 * @param context The current context.
 	 */
 	protected void registerRuleOverrides(Context context) {
 

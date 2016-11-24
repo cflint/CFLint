@@ -114,7 +114,7 @@ public class CFLintFilter {
 		}
 		return true;
 	}
-
+	
 	public boolean include(final BugInfo bugInfo) {
 		if (includeCodes != null && !includeCodes.contains(bugInfo.getMessageCode())) {
 			return false;
@@ -185,8 +185,7 @@ public class CFLintFilter {
 	 * Identify a subset of the filter that can be applied without parsing i.e.
 	 * filename.
 	 * 
-	 * @param filter2
-	 * @return
+	 * @return instance of CFLintFilter
 	 */
 	public CFLintFilter createFilePreFilter() {
 		final ArrayList<Map<String, ?>> newdata = new ArrayList<Map<String, ?>>();

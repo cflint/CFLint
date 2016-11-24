@@ -14,6 +14,7 @@ import com.cflint.plugins.Context;
 import cfml.parsing.cfscript.CFExpression;
 import cfml.parsing.cfscript.CFFullVarExpression;
 import cfml.parsing.cfscript.CFIdentifier;
+import cfml.parsing.cfscript.CFMember;
 import cfml.parsing.cfscript.CFVarDeclExpression;
 
 public class UnusedLocalVarChecker extends CFLintScannerAdapter {
@@ -32,6 +33,16 @@ public class UnusedLocalVarChecker extends CFLintScannerAdapter {
 				if (!scopes.isCFScoped(name) || scopes.isLocalScoped(name)) {
 					localVariables.put(name, true);
 				}
+			}
+			for(CFExpression subexpr: ((CFFullVarExpression) expression).getExpressions()){
+				if(subexpr instanceof CFMember){
+					CFMember memberExpr = (CFMember) subexpr;
+					final String name = memberExpr.getExpression().toString();
+					if (!scopes.isCFScoped(name) || scopes.isLocalScoped(name)) {
+						localVariables.put(name, true);
+					}
+				}
+				
 			}
 		} else if (expression instanceof CFVarDeclExpression) {
 			final String name = ((CFVarDeclExpression) expression).getName();

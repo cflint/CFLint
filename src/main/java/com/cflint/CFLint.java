@@ -7,7 +7,6 @@ import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Stack;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -209,17 +208,36 @@ public class CFLint implements IErrorReporter {
 
 	public void processStack(final List<Element> elements, final String space, final String filename,
 			final CFIdentifier functionName) throws ParseException, IOException {
+		Element commentElement = null;
 		for (final Element elem : elements) {
-			final Context context = new Context(filename, elem, functionName, false, handler);
-			context.setSiblingElements(elements);
-			process(elem, space, context);
+			if (elem.getName().equals("!---")){
+				commentElement=elem;
+			}else{
+				final Context context = new Context(filename, elem, functionName, false, handler);
+				if(commentElement != null){
+					applyRuleOverrides(context,commentElement);
+					commentElement=null;
+				}
+				process(elem, space, context);
+				
+			}
 		}
 	}
 
 	public void processStack(final List<Element> elements, final String space, final Context context)
 			throws ParseException, IOException {
+		Element commentElement = null;
 		for (final Element elem : elements) {
-			process(elem, space, context.subContext(elem, elements));
+			if (elem.getName().equals("!---")){
+				commentElement=elem;
+			}else{
+				final Context subContext = context.subContext(elem);
+				if(commentElement != null){
+					applyRuleOverrides(subContext,commentElement);
+					commentElement=null;
+				}
+				process(elem, space, subContext);
+			}
 		}
 	}
 
@@ -230,13 +248,11 @@ public class CFLint implements IErrorReporter {
 			final Context componentContext = context.subContext(elem);
 			componentContext.setInComponent(true);
 			componentContext.setComponentName(elem.getAttributeValue("displayname"));
-			registerRuleOverrides(componentContext);
 			handler.push("component");
 			doStructureStart(elem, componentContext, CFCompDeclStatement.class);
 		} else if (elem.getName().equalsIgnoreCase("cffunction")) {
 			final Context functionContext = context.subContext(elem);
 			functionContext.setFunctionName(elem.getAttributeValue("name"));
-			registerRuleOverrides(functionContext);
 			handler.push("function");
 			doStructureStart(elem, functionContext, CFFuncDeclStatement.class);
 		}
@@ -280,7 +296,6 @@ public class CFLint implements IErrorReporter {
 		} else if (elem.getName().equalsIgnoreCase("cffunction")) {
 			final Context functionContext = context.subContext(elem);
 			functionContext.setFunctionName(elem.getAttributeValue("name"));
-			registerRuleOverrides(functionContext);
 			scanElement(elem, functionContext);
 			processStack(elem.getChildElements(), space + " ", functionContext);
 			for (final CFLintStructureListener structurePlugin : getStructureListeners(extensions)) {
@@ -299,7 +314,6 @@ public class CFLint implements IErrorReporter {
 			final Context componentContext = context.subContext(elem);
 			componentContext.setInComponent(true);
 			componentContext.setComponentName(elem.getAttributeValue("displayname"));
-			registerRuleOverrides(componentContext);
 			scanElement(elem, componentContext);
 
 			processStack(elem.getChildElements(), space + " ", componentContext);
@@ -526,12 +540,12 @@ public class CFLint implements IErrorReporter {
 	/**
 	 * Register any overrides from comment elements before functions/components.
 	 * @param context The current context.
+	 * @param commentElement The CFML comment element
 	 */
-	protected void registerRuleOverrides(Context context) {
+	protected void applyRuleOverrides(Context context,Element commentElement) {
 
-		final Element priorElement = context == null ? null : context.getPreviousSiblingElement();
-		if (priorElement != null && "!---".equals(priorElement.getName())) {
-			String mlText = priorElement.toString();
+		if (commentElement != null && "!---".equals(commentElement.getName())) {
+			String mlText = commentElement.toString();
 			Pattern pattern = Pattern.compile(".*\\s*@CFLintIgnore\\s+([\\w,_]+)\\s*.*", Pattern.DOTALL);
 			Matcher matcher = pattern.matcher(mlText);
 			if (matcher.matches()) {

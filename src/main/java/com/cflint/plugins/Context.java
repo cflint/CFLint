@@ -23,7 +23,6 @@ public class Context {
 	String filename;
 	String componentName;
 	final Element element;
-	List<Element> siblingElements;
 	CFFuncDeclStatement functionInfo;
 
 	String functionName;
@@ -111,14 +110,6 @@ public class Context {
 		return inAssignmentExpression;
 	}
 
-	public List<Element> getSiblingElements() {
-		return siblingElements;
-	}
-
-	public void setSiblingElements(List<Element> siblingElements) {
-		this.siblingElements = siblingElements;
-	}
-
 	public StackHandler getCallStack() {
 		return callStack;
 	}
@@ -187,21 +178,11 @@ public class Context {
 		}
 	}
 
-	public Context subContext(final Element elem) {
-		if(elem == this.element || (siblingElements != null && siblingElements.contains(elem))){
-			return subContext(elem, siblingElements);
-		}
-		return subContext(elem, null);
-	}
 	
-	public Context subContext(final Element elem, final List<Element> siblingElements) {
+	public Context subContext(final Element elem) {
 		final Context context2 = new Context(getFilename(), elem == null? this.element:elem, 
 				getFunctionName(), isInAssignmentExpression(),
 				callStack,tokens);
-		context2.siblingElements=siblingElements;
-		if(siblingElements == null && elem==this.element){
-			context2.siblingElements=this.siblingElements;
-		}
 		context2.setInComponent(isInComponent());
 		context2.parent = this;
 		return context2;
@@ -300,16 +281,6 @@ public class Context {
 		 || (parent != null && parent.isSuppressed(bugInfo));
 	}
 	
-	public Element getPreviousSiblingElement(){
-		if(element.getParentElement() != null){
-			return getElementBefore(element,element.getParentElement().getChildElements());
-		}
-		if(siblingElements != null){
-			return getElementBefore(element,siblingElements);
-		}
-		return null;
-	}
-
 	public CFFuncDeclStatement getFunctionInfo() {
 		return functionInfo;
 	}

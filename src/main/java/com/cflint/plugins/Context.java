@@ -4,8 +4,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.Token;
@@ -16,7 +14,6 @@ import com.cflint.StackHandler;
 import cfml.parsing.cfscript.CFIdentifier;
 import cfml.parsing.cfscript.script.CFFuncDeclStatement;
 import net.htmlparser.jericho.Element;
-import static com.cflint.tools.CFTool.*;
 
 public class Context {
 

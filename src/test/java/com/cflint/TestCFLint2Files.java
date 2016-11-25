@@ -54,13 +54,13 @@ public class TestCFLint2Files {
 		assertEquals(1, result.size());
 		assertEquals("ARG_DEFAULT_MISSING", result.get(0).getMessageCode());
  
-		final String cfcSrc2 = "component {\r\n" + "   public string function fooFunction() {\r\n" 
-				+ "local.query = new Query();\r\n" + "local.query.setSql(\"\r\n"
-				+ "    SELECT id from table where id = #arguments.id#\");" + "</cfscript>\r\n" 
-				+ "   }\r\n"
-				+ "}";
+		final String cfcSrc2 = "component {\n" + 
+				"    public string function fooFunction() {\n" + 
+				"        return foo = bar\n" + 
+				"    }\n" + 
+				"}";
 		cfBugs.process(cfcSrc2, "test");
-		final List<BugInfo> result2 = cfBugs.getBugs().getBugList().get("QUERYPARAM_REQ");
+		final List<BugInfo> result2 = cfBugs.getBugs().getBugList().get("MISSING_SEMI");
 		assertEquals(1, result2.size());
 		System.out.println(result2);
 		assertEquals(4, result2.get(0).getLine());

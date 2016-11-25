@@ -814,6 +814,7 @@ public class CFLint implements IErrorReporter {
 		cfmlParser = new CFMLParser();
 		cfmlParser.setErrorReporter(this);
 		currentFile = srcidentifier;
+		currentElement = null;
 		for (final CFLintStructureListener structurePlugin : getStructureListeners(extensions)) {
 			try {
 				structurePlugin.startFile(srcidentifier, bugs);

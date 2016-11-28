@@ -178,7 +178,7 @@ public class CFLint implements IErrorReporter {
 			}
 		}
 	}
-
+	
 	public void process(final String src, final String filename) throws ParseException, IOException {
 		fireStartedProcessing(filename);
 		final CFMLSource cfmlSource = new CFMLSource(src);
@@ -274,6 +274,7 @@ public class CFLint implements IErrorReporter {
 					process(expression, elem, context);
 				} catch (final Exception npe) {
 					printException(npe, elem);
+					fireCFLintException(npe, PARSE_ERROR, context.getFilename(), null, null, null, null);
 				}
 			}
 			processStack(elem.getChildElements(), space + " ", context);
@@ -307,6 +308,7 @@ public class CFLint implements IErrorReporter {
 					functionContext.getMessages().clear();
 				} catch (final Exception e) {
 					printException(e);
+					fireCFLintException(e, PARSE_ERROR, context.getFilename(), null, null, null, null);
 				}
 			}
 			handler.pop();
@@ -326,6 +328,7 @@ public class CFLint implements IErrorReporter {
 					componentContext.getMessages().clear();
 				} catch (final Exception e) {
 					printException(e);
+					fireCFLintException(e, PARSE_ERROR, context.getFilename(), null, null, null, null);
 				}
 			}
 			handler.pop();
@@ -354,6 +357,7 @@ public class CFLint implements IErrorReporter {
 			} catch (final Exception e) {
 				printException(e);
 				reportRule(elem, null, context, plugin, PLUGIN_ERROR + exceptionText(e));
+				fireCFLintException(e, PLUGIN_ERROR, context.getFilename(), null, null, null, null);
 			}
 		}
 	}
@@ -421,6 +425,7 @@ public class CFLint implements IErrorReporter {
 						componentContext.getMessages().clear();
 					} catch (final Exception e) {
 						printException(e);
+						fireCFLintException(e, PARSE_ERROR, context.getFilename(), null, null, null, null);
 					}
 				}
 			} else if (expression instanceof CFForStatement) {
@@ -468,6 +473,7 @@ public class CFLint implements IErrorReporter {
 						context.getMessages().clear();
 					} catch (final Exception e) {
 						printException(e);
+						fireCFLintException(e, PARSE_ERROR, context.getFilename(), null, null, null, null);
 					}
 				}
 				handler.pop();
@@ -497,6 +503,7 @@ public class CFLint implements IErrorReporter {
 				context.getMessages().clear();
 			} catch (final Exception e) {
 				printException(e);
+				fireCFLintException(e, PARSE_ERROR, context.getFilename(), null, null, null, null);
 			}
 		}
 	}
@@ -512,6 +519,7 @@ public class CFLint implements IErrorReporter {
 			} catch (final Exception e) {
 				printException(e);
 				reportRule(elem, expression, context, plugin, PLUGIN_ERROR + exceptionText(e));
+				fireCFLintException(e, PLUGIN_ERROR, context.getFilename(), null, null, null, null);
 			}
 		}
 	}
@@ -584,6 +592,7 @@ public class CFLint implements IErrorReporter {
 				} catch (final Exception e) {
 					printException(e);
 					reportRule(elem, expression, context, plugin, PLUGIN_ERROR + exceptionText(e));
+					fireCFLintException(e, PLUGIN_ERROR, context.getFilename(), null, null, null, null);
 				}
 			}
 			// Handle a few expression types in a special fashion.
@@ -834,6 +843,7 @@ public class CFLint implements IErrorReporter {
 				structurePlugin.startFile(srcidentifier, bugs);
 			} catch (final Exception e) {
 				printException(e);
+				fireCFLintException(e, PARSE_ERROR, srcidentifier, null, null, null, null);
 			}
 		}
 		for (final ScanProgressListener p : scanProgressListeners) {
@@ -847,6 +857,7 @@ public class CFLint implements IErrorReporter {
 				structurePlugin.endFile(srcidentifier, bugs);
 			} catch (final Exception e) {
 				printException(e);
+				fireCFLintException(e, PARSE_ERROR, srcidentifier, null, null, null, null);
 			}
 		}
 		for (final ScanProgressListener p : scanProgressListeners) {

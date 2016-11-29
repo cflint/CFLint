@@ -872,7 +872,8 @@ public class CFLint implements IErrorReporter {
 	}
 
 	public void addScanner(final CFLintScanner plugin) {
-		extensions.add(plugin);
+		if(plugin != null)
+			extensions.add(plugin);
 	}
 
 	public List<CFLintScanner> getScanners() {

@@ -14,6 +14,9 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.cflint.config.CFLintPluginInfo.PluginInfoRule;
 import com.cflint.config.CFLintPluginInfo.PluginInfoRule.PluginParameter;
 import com.cflint.plugins.CFLintScanner;
@@ -25,6 +28,7 @@ import com.fasterxml.jackson.module.jaxb.JaxbAnnotationModule;
 
 public class ConfigUtils {
 
+	final static Logger log = LoggerFactory.getLogger(ConfigUtils.class);
 	static JAXBContext CFLintConfigContext = null;
 
 	public static Marshaller createMarshaller() throws JAXBException {
@@ -110,7 +114,7 @@ public class ConfigUtils {
 			try {
 				return unmarshalJson(jsonInputStream, CFLintPluginInfo.class);
 			} catch (final IOException e) {
-				e.printStackTrace(System.err);
+				log.error("Error loading default plugin json info",e);
 			}
 		}
 
@@ -119,7 +123,7 @@ public class ConfigUtils {
 			try {
 				return unmarshal(inputStream, CFLintPluginInfo.class);
 			} catch (final JAXBException e) {
-				e.printStackTrace(System.err);
+				log.error("Error loading default plugin xml info",e);
 			}
 		}
 		return new CFLintPluginInfo();
@@ -144,7 +148,7 @@ public class ConfigUtils {
 				}
 			}
 		} catch (final Exception e) {
-			e.printStackTrace(System.err);
+			log.error("Error loading descriptions",e);
 		}
 
 		return descriptions;
@@ -165,8 +169,9 @@ public class ConfigUtils {
 			ruleInfo.setPluginInstance(plugin);
 			return plugin;
 		} catch (final Exception e) {
-			throw new RuntimeException(e);
+			log.error("Could not load plugin " + className, e);
 		}
+		return null;
 	}
 
 }

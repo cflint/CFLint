@@ -50,6 +50,8 @@ import cfml.parsing.cfscript.CFExpression;
 import cfml.parsing.cfscript.CFIdentifier;
 import cfml.parsing.cfscript.CFStatement;
 import cfml.parsing.cfscript.CFVarDeclExpression;
+import cfml.parsing.cfscript.script.CFCatchClause;
+import cfml.parsing.cfscript.script.CFCatchStatement;
 import cfml.parsing.cfscript.script.CFCompDeclStatement;
 import cfml.parsing.cfscript.script.CFCompoundStatement;
 import cfml.parsing.cfscript.script.CFExpressionStatement;
@@ -61,6 +63,7 @@ import cfml.parsing.cfscript.script.CFIfStatement;
 import cfml.parsing.cfscript.script.CFParsedStatement;
 import cfml.parsing.cfscript.script.CFReturnStatement;
 import cfml.parsing.cfscript.script.CFScriptStatement;
+import cfml.parsing.cfscript.script.CFTryCatchStatement;
 import cfml.parsing.reporting.IErrorReporter;
 import cfml.parsing.reporting.ParseException;
 import net.htmlparser.jericho.Element;
@@ -440,6 +443,14 @@ public class CFLint implements IErrorReporter {
 				process(cfif.getCond(), elem, context);
 				process(cfif.getThenStatement(), context);
 				process(cfif.getElseStatement(), context);
+			} else if (expression instanceof CFTryCatchStatement) {
+				scanExpression(expression, context, elem);
+				final CFTryCatchStatement cftry = (CFTryCatchStatement) expression;
+				process(cftry.getBody(), context);
+				for(CFCatchClause stmt: cftry.getCatchStatements()){
+					process(((CFCatchStatement)stmt).getCatchBody(), context);
+				}
+				process(cftry.getFinallyStatement(), context);
 			} else if (expression instanceof CFReturnStatement) {
 				scanExpression(expression, context, elem);
 				final CFReturnStatement cfreturn = (CFReturnStatement) expression;

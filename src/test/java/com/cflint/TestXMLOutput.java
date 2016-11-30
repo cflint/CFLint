@@ -27,12 +27,12 @@ public class TestXMLOutput {
 		BugInfo bugInfo = new BugInfo.BugInfoBuilder().setFunction("testf").setMessageCode("PARSE_ERROR").setFilename("c:\\temp\\test.cfc").build();
 		bugList.add(bugInfo);
 		outputer.output(bugList, writer, false);
-		String expectedText = "<issues version=\"\">\n" +
+		String expectedText = "<issues version=\"" + Version.getVersion() + "\">\n" +
 "<issue severity=\"\" id=\"PARSE_ERROR\" message=\"PARSE_ERROR\" category=\"CFLint\" abbrev=\"PE\"><location file=\"c:\\temp\\test.cfc\" fileName=\"test.cfc\" function=\"testf\" column=\"0\" line=\"0\" message=\"\" variable=\"\"><Expression><![CDATA[]]></Expression></location>\n" +
 "</issue>\n" +
 "</issues>";
 		//remove the version 
-		assertEquals(expectedText.replace("\n", "").replace("\r", ""),writer.toString().replace("\n", "").replace("\r", "").replaceFirst("version=[^0-9][0-9\\.]+[^0-9]", "version=\"\""));
+		assertEquals(expectedText.replace("\n", "").replace("\r", ""),writer.toString().replace("\n", "").replace("\r", ""));
 	}
 
 	@Test
@@ -40,14 +40,14 @@ public class TestXMLOutput {
 		BugInfo bugInfo = new BugInfo.BugInfoBuilder().setFunction("testf").setMessageCode("PARSE_ERROR").setFilename("c:\\temp\\test.cfc").build();
 		bugList.add(bugInfo);
 		outputer.output(bugList, writer, true);
-		String expectedText = "<issues version=\"\">\n" +
+		String expectedText = "<issues version=\"" + Version.getVersion() + "\">\n" +
 "<issue severity=\"\" id=\"PARSE_ERROR\" message=\"PARSE_ERROR\" category=\"CFLint\" abbrev=\"PE\"><location file=\"c:\\temp\\test.cfc\" fileName=\"test.cfc\" function=\"testf\" column=\"0\" line=\"0\" message=\"\" variable=\"\"><Expression><![CDATA[]]></Expression></location>\n" +
 "</issue>\n" +
 "<counts>\n" +
 "<count code=\"PARSE_ERROR\" count=\"1\" />\n" +
 "</counts>" +
 "</issues>";
-		assertEquals(expectedText.replace("\n", "").replace("\r", ""),writer.toString().replace("\n", "").replace("\r", "").replaceFirst("version=[^0-9][0-9\\.]+[^0-9]", "version=\"\""));
+		assertEquals(expectedText.replace("\n", "").replace("\r", ""),writer.toString().replace("\n", "").replace("\r", ""));
 	}
 	
 }

@@ -2,6 +2,7 @@ package com.cflint.integration;
 
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -20,6 +21,7 @@ import javax.xml.bind.JAXBException;
 import javax.xml.transform.TransformerException;
 
 import org.junit.Test;
+import org.junit.internal.runners.statements.Fail;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
@@ -27,6 +29,7 @@ import com.cflint.CFLint;
 import com.cflint.JSONOutput;
 import com.cflint.config.CFLintConfig;
 import com.cflint.config.ConfigUtils;
+import com.cflint.plugins.exceptions.CFLintExceptionListener;
 
 
 /**
@@ -68,7 +71,16 @@ public class TestFiles {
 	
 		final CFLintConfig config = loadPluginInfo(sourceFile.getParentFile());
 		CFLint cflint = new CFLint(config );
-		
+		cflint.setVerbose(true);
+		cflint.setLogError(true);
+		cflint.addExceptionListener(new CFLintExceptionListener() {
+			@Override
+			public void exceptionOccurred(Throwable exception, String messageCode, String filename, Integer line,
+					Integer column, String functionName, String expression) {
+				exception.printStackTrace();
+				fail("Error scanning " + filename);
+			}
+		});
 		cflint.process(inputString, sourceFile.getPath());
 		//List<BugInfo> result = cflint.getBugs().getFlatBugList();
 		StringWriter writer = new StringWriter();

@@ -37,12 +37,13 @@ public class UnusedLocalVarChecker extends CFLintScannerAdapter {
 			for(CFExpression subexpr: ((CFFullVarExpression) expression).getExpressions()){
 				if(subexpr instanceof CFMember){
 					CFMember memberExpr = (CFMember) subexpr;
-					final String name = memberExpr.getExpression().toString();
-					if (!scopes.isCFScoped(name) || scopes.isLocalScoped(name)) {
-						localVariables.put(name, true);
+					if(memberExpr.getExpression() != null) {
+						final String name = memberExpr.getExpression().toString();
+						if (!scopes.isCFScoped(name) || scopes.isLocalScoped(name)) {
+							localVariables.put(name, true);
+						}
 					}
 				}
-				
 			}
 		} else if (expression instanceof CFVarDeclExpression) {
 			final String name = ((CFVarDeclExpression) expression).getName();

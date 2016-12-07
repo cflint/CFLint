@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.github.cflint</groupId>
 	<artifactId>CFLint</artifactId>
-	<version>0.10.0-SNAPSHOT</version>
+	<version>0.11.0-SNAPSHOT</version>
 
 	<name>CFLint</name>
 	<description>
@@ -59,7 +59,7 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<cfparser.version>2.2.11-SNAPSHOT</cfparser.version>
+		<cfparser.version>2.2.12-SNAPSHOT</cfparser.version>
 	</properties>
   
 	<dependencies>

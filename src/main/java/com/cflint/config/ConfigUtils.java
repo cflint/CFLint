@@ -24,6 +24,7 @@ import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.module.jaxb.JaxbAnnotationModule;
 
 public class ConfigUtils {
@@ -79,6 +80,7 @@ public class ConfigUtils {
 		final ObjectMapper objectMapper = new ObjectMapper();
 		final JaxbAnnotationModule module = new JaxbAnnotationModule();
 		objectMapper.registerModule(module);
+		objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
 		objectMapper.writeValue(sw, obj);
 		return sw.toString();
 	}

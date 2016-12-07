@@ -520,6 +520,8 @@ public class CFLint implements IErrorReporter {
 	}
 
 	protected void scanExpression(final CFScriptStatement expression, Context context, final Element elem) {
+		if(expression == null)
+			return;
 		for (final CFLintScanner plugin : extensions) {
 			try {
 				plugin.expression(expression, context, bugs);

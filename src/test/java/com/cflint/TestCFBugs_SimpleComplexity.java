@@ -103,6 +103,20 @@ public class TestCFBugs_SimpleComplexity {
 	}
 
 	@Test
+	public void testIfStatementNoElse() throws ParseException, IOException {
+		final String cfcSrc = "component {\r\n"+
+				"    public void function foo() {\r\n"+
+				"        if (something) {\r\n"+
+				"            doSomething();\r\n"+
+				"        }\r\n"+
+				"    }\r\n"+
+				"}";
+		cfBugs.process(cfcSrc, "test");
+		Collection<List<BugInfo>> result = cfBugs.getBugs().getBugList().values();
+		assertEquals(0, result.size());
+	}
+	
+	@Test
 	public void testComplexScriptBased() throws ParseException, IOException {
 		final String cfcSrc = "component {\r\n"
 		 + "function functionFour() {\r\n"

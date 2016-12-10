@@ -145,6 +145,7 @@ public class CFLintMain {
 		}
 		if (cmd.hasOption("version")) {
 			System.out.println("CFLint " + Version.getVersion());
+			System.out.println("CFParser " + cfml.parsing.Version.getVersion());
 			return;
 		}
 		if (cmd.hasOption(RULES) || cmd.hasOption("config")) {

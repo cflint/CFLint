@@ -7,6 +7,7 @@ import java.util.Collection;
 import java.util.List;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.cflint.config.CFLintPluginInfo.PluginInfoRule;
@@ -16,6 +17,7 @@ import com.cflint.plugins.core.VariableNameChecker;
 
 import cfml.parsing.reporting.ParseException;
 
+@Ignore
 public class TestCFBugs_VariableNames {
 
 	private CFLint cfBugs;

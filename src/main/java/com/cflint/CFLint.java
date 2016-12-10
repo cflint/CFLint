@@ -353,6 +353,11 @@ public class CFLint implements IErrorReporter {
 			scanElement(elem, context);
 			processStack(elem.getChildElements(), space + " ", context);
 		}
+		//Process any messages added by downstream parsing.
+		for (final ContextMessage message : context.getMessages()) {
+			reportRule(elem, null, context, message.getSource(), message);
+		}
+		context.getMessages().clear();
 	}
 
 	protected void scanElement(final Element elem, final Context context) {
@@ -413,6 +418,7 @@ public class CFLint implements IErrorReporter {
 				CFCompDeclStatement compDeclStatement = (CFCompDeclStatement) expression;
 				final Context componentContext = context.subContext(null);
 				componentContext.setInComponent(true);
+				componentContext.setContextType(ContextType.Component);
 				// componentContext.setComponentName(compDeclStatement.get); //
 				// TODO
 
@@ -470,6 +476,7 @@ public class CFLint implements IErrorReporter {
 			} else if (expression instanceof CFFuncDeclStatement) {
 				final CFFuncDeclStatement function = (CFFuncDeclStatement) expression;
 				final Context functionContext = context.subContext(null);
+				functionContext.setContextType(ContextType.Function);
 				functionContext.setFunctionInfo(function);
 				registerRuleOverrides(functionContext, function.getToken());
 				handler.push("function");
@@ -503,6 +510,12 @@ public class CFLint implements IErrorReporter {
 			fireCFLintException(soe, PARSE_ERROR, context.getFilename(), line, 1, "",
 					"Stack overflow on " + expression.getClass());
 		}
+		//Process any messages added by downstream parsing.
+		for (final ContextMessage message : context.getMessages()) {
+			reportRule(elem, null, context, message.getSource(), message);
+		}
+		context.getMessages().clear();
+
 	}
 
 	protected void doStructureStart(final Element elem, final Context context,
@@ -718,6 +731,9 @@ public class CFLint implements IErrorReporter {
 			msgInfo.setSeverity("ERROR");
 			ruleInfo.getMessages().add(msgInfo);
 		} else {
+			if(plugin == null){
+				throw new NullPointerException("Plugin not set.  Plugin should be using addMessage(messageCode,variable,source) to report messages in parent contexts");
+			}
 			ruleInfo = configuration.getRuleForPlugin(plugin);
 
 		}

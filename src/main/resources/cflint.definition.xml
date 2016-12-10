@@ -186,6 +186,7 @@
 	</ruleImpl>
 	<ruleImpl name="SimpleComplexityChecker" className="SimpleComplexityChecker">
 		<message code="FUNCTION_TOO_COMPLEX">
+			<messageText>Function ${functionName} is too complex. Consider breaking the function into smaller functions.</messageText>
 			<severity>WARNING</severity>
 		</message>
 		<parameter name="maximum" value="10" />

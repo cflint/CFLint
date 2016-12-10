@@ -1,5 +1,6 @@
 package com.cflint;
 
+import java.io.ObjectInputStream.GetField;
 import java.util.List;
 
 import com.cflint.config.CFLintPluginInfo.PluginInfoRule.PluginMessage;
@@ -7,6 +8,7 @@ import com.cflint.config.CFLintPluginInfo.PluginInfoRule.PluginParameter;
 
 import cfml.parsing.cfscript.CFExpression;
 import cfml.parsing.cfscript.script.CFParsedStatement;
+import javolution.context.Context;
 import net.htmlparser.jericho.Element;
 
 public class BugInfo implements Comparable<BugInfo> {
@@ -167,6 +169,8 @@ public class BugInfo implements Comparable<BugInfo> {
 			String message = notNull(bugInfo.getMessage());
 			final String variable = notNull(bugInfo.getVariable());
 			message = message.replace("${variable}", variable);
+			message = message.replace("${functionName}", bugInfo.function);
+			
 			if (message.contains("{tag}") && elem != null) {
 				message = message.replaceAll("\\$\\{tag\\}", notNull(elem.getName()));
 			}

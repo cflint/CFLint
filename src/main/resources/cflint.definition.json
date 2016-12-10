@@ -418,6 +418,7 @@
       "className": "SimpleComplexityChecker",
       "message": [
         {
+          "messageText": "Function ${functionName} is too complex. Consider breaking the function into smaller functions.",
           "code": "FUNCTION_TOO_COMPLEX",
           "severity": "WARNING"
         }

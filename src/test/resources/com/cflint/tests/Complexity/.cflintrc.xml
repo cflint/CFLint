@@ -1,0 +1,4 @@
+<config>
+<includes code="PARSE_NOTHING"/>
+<includes code="FUNCTION_TOO_COMPLEX"/>
+</config>

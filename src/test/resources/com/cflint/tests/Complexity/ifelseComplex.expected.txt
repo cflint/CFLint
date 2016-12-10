@@ -1,0 +1,17 @@
+[ {
+  "severity" : "WARNING",
+  "id" : "FUNCTION_TOO_COMPLEX",
+  "message" : "FUNCTION_TOO_COMPLEX",
+  "category" : "CFLINT",
+  "abbrev" : "FT",
+  "locations" : [ {
+    "file" : "src/test/resources/com/cflint/tests/Complexity/ifelseComplex.cfc",
+    "fileName" : "ifelseComplex.cfc",
+    "function" : "foo",
+    "column" : "21",
+    "line" : "15",
+    "message" : "Function foo is too complex. Consider breaking the function into smaller functions.",
+    "variable" : "",
+    "expression" : "if(something )   {/ndoSomethingElse();/n/n  }"
+  } ]
+} ]

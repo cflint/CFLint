@@ -169,7 +169,9 @@ public class BugInfo implements Comparable<BugInfo> {
 			String message = notNull(bugInfo.getMessage());
 			final String variable = notNull(bugInfo.getVariable());
 			message = message.replace("${variable}", variable);
-			message = message.replace("${functionName}", bugInfo==null?"":bugInfo.function);
+			if(bugInfo != null && bugInfo.function != null){
+				message = message.replace("${functionName}", bugInfo==null?"":bugInfo.function);
+			}
 			
 			if (message.contains("{tag}") && elem != null) {
 				message = message.replaceAll("\\$\\{tag\\}", notNull(elem.getName()));

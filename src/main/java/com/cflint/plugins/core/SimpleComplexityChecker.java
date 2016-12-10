@@ -90,7 +90,7 @@ public class SimpleComplexityChecker extends CFLintScannerAdapter {
 		if (!alreadyTooComplex && complexity > threshold) {
 			alreadyTooComplex = true;
 
-			context.addMessage("FUNCTION_TOO_COMPLEX", null);
+			context.addMessage("FUNCTION_TOO_COMPLEX", null,lineNo);
 		}
 	}
 

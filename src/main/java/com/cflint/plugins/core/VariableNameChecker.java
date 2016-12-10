@@ -36,19 +36,19 @@ public class VariableNameChecker extends CFLintScannerAdapter {
 			if(element.getAttributeValue("name") != null){
 				final String varName = element.getAttributeValue("name") != null
 					? element.getAttributeValue("name") : "";
-				checkNameForBugs(context, varName, context.getFilename(), context.getFunctionName(), begLine, bugs);
+				checkNameForBugs(context, varName,varName, context.getFilename(), context.getFunctionName(), begLine, bugs);
 			}
 		} else if (elementName.equals("cfinvoke")) {
 			if(element.getAttributeValue("returnvariable") != null){
 				final String varName = element.getAttributeValue("returnvariable") != null
 					? element.getAttributeValue("returnvariable") : "";
-				checkNameForBugs(context, varName, context.getFilename(), context.getFunctionName(), begLine, bugs);
+				checkNameForBugs(context, varName, varName, context.getFilename(), context.getFunctionName(), begLine, bugs);
 			}
 		} else if (elementName.equals("cfloop")) {
 			if(element.getAttributeValue("index") != null || element.getAttributeValue("item") != null){
 				final String varName = element.getAttributeValue("index") != null
 					? element.getAttributeValue("index") : (element.getAttributeValue("item") != null ? element.getAttributeValue("item") : "");
-				checkNameForBugs(context, varName, context.getFilename(), context.getFunctionName(), begLine, bugs);
+				checkNameForBugs(context, varName, varName, context.getFilename(), context.getFunctionName(), begLine, bugs);
 			}
 		}
 	}
@@ -84,23 +84,29 @@ public class VariableNameChecker extends CFLintScannerAdapter {
 		if (expression instanceof CFVarDeclExpression) {
 			final CFVarDeclExpression cfVarDeclExpression = (CFVarDeclExpression) expression;
 			final int lineNo = expression.getLine() + context.startLine() - 1;
-			checkNameForBugs(context, cfVarDeclExpression.getName(), context.getFilename(), context.getFunctionName(),
+			final String varName = cfVarDeclExpression.getName();
+			checkNameForBugs(context, varName, varName, context.getFilename(), context.getFunctionName(),
 					lineNo, bugs);
 		} else if (expression instanceof CFFullVarExpression) {
 			final CFFullVarExpression cfFullVarExpression = (CFFullVarExpression) expression;
 			for (final CFExpression subexpression : cfFullVarExpression.getExpressions()) {
-				expression(subexpression, context, bugs);
+				if (subexpression instanceof CFIdentifier) {
+					final String varName = ((CFIdentifier) subexpression).getName();
+					final int lineNo = ((CFIdentifier) subexpression).getLine() + context.startLine() - 1;
+	
+					checkNameForBugs(context, cfFullVarExpression.Decompile(0), varName, context.getFilename(), context.getFunctionName(), lineNo, bugs);
+				}
 			}
 		} else if (expression instanceof CFIdentifier) {
 			final String varName = ((CFIdentifier) expression).getName();
 			final int lineNo = ((CFIdentifier) expression).getLine() + context.startLine() - 1;
 
-			checkNameForBugs(context, varName, context.getFilename(), context.getFunctionName(), lineNo, bugs);
+			checkNameForBugs(context, varName, varName, context.getFilename(), context.getFunctionName(), lineNo, bugs);
 		}
 	}
 
-	public void checkNameForBugs(final Context context, final String variable, final String filename, 
-			final String functionName, final int line, final BugList bugs) {
+	public void checkNameForBugs(final Context context, final String fullVariable, final String variable, 
+			final String filename, final String functionName, final int line, final BugList bugs) {
 		if (excludeFromAnalyse(variable)) {
 			return;
 		}
@@ -134,29 +140,29 @@ public class VariableNameChecker extends CFLintScannerAdapter {
 		final ValidName name = new ValidName(minVarLength, maxVarLength, maxVarWords);
 
 		if (name.isInvalid(variable)) {
-			context.getParent(ContextType.Function).addUniqueMessage("VAR_INVALID_NAME", variable);
+			context.getParent(ContextType.Function).addUniqueMessage("VAR_INVALID_NAME", fullVariable,this,line);
 		}
 		if (!scope.isCFScoped(variable) && name.isUpperCase(variable)) {
-			context.getParent(ContextType.Function).addUniqueMessage("VAR_ALLCAPS_NAME", variable);
+			context.getParent(ContextType.Function).addUniqueMessage("VAR_ALLCAPS_NAME", fullVariable,this,line);
 		}
 		if (scope.isCFScoped(variable) && name.isUpperCase(variable) && (getParameter("IgnoreUpperCaseScopes") == null
 				|| !getParameter("IgnoreUpperCaseScopes").contains(variable))) {
-			context.getParent(ContextType.Function).addUniqueMessage("SCOPE_ALLCAPS_NAME", variable);
+			context.getParent(ContextType.Function).addUniqueMessage("SCOPE_ALLCAPS_NAME", fullVariable,this,line);
 		}
 		if (name.tooShort(variable)) {
-			context.getParent(ContextType.Function).addUniqueMessage("VAR_TOO_SHORT", variable);
+			context.getParent(ContextType.Function).addUniqueMessage("VAR_TOO_SHORT", fullVariable,this,line);
 		}
 		if (name.tooLong(variable)) {
-			context.getParent(ContextType.Function).addUniqueMessage("VAR_TOO_LONG", variable);
+			context.getParent(ContextType.Function).addUniqueMessage("VAR_TOO_LONG", fullVariable,this,line);
 		}
 		if (!name.isUpperCase(variable) && name.tooWordy(variable)) {
-			context.getParent(ContextType.Function).addUniqueMessage("VAR_TOO_WORDY", variable);
+			context.getParent(ContextType.Function).addUniqueMessage("VAR_TOO_WORDY", fullVariable,this,line);
 		}
 		if (name.isTemporary(variable)) {
-			context.getParent(ContextType.Function).addUniqueMessage("VAR_IS_TEMPORARY", variable);
+			context.getParent(ContextType.Function).addUniqueMessage("VAR_IS_TEMPORARY", fullVariable,this,line);
 		}
 		if (name.hasPrefixOrPostfix(variable)) {
-			context.getParent(ContextType.Function).addUniqueMessage("VAR_HAS_PREFIX_OR_POSTFIX", variable);
+			context.getParent(ContextType.Function).addUniqueMessage("VAR_HAS_PREFIX_OR_POSTFIX", fullVariable,this,line);
 		}
 	}
 

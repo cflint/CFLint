@@ -147,7 +147,10 @@ public class Context {
 		return messages;
 	}
 	
-	public void addUniqueMessage(final String messageCode, final String variable) {
+	public void addUniqueMessage(final String messageCode, final String variable,final CFLintScanner source) {
+		addUniqueMessage(messageCode, variable, source,null);
+	}
+	public void addUniqueMessage(final String messageCode, final String variable,final CFLintScanner source,final Integer line) {
 		if(messageCode != null){
 			for(ContextMessage msg: messages){
 				if(ObjectEquals.equals(msg.getMessageCode(), messageCode) && ObjectEquals.equals(variable, msg.getVariable())){
@@ -155,11 +158,14 @@ public class Context {
 				}
 			}
 		}
-		addMessage(messageCode, variable);
+		addMessage(messageCode, variable, source,line);
 	}
 	
 	public void addMessage(final String messageCode, final String variable) {
 		messages.add(new ContextMessage(messageCode, variable));
+	}
+	public void addMessage(final String messageCode, final String variable, final CFLintScanner source,final Integer line) {
+		messages.add(new ContextMessage(messageCode, variable,source,line));
 	}
 
 	public void addMessage(final String messageCode, final String variable, final Integer line) {
@@ -170,11 +176,23 @@ public class Context {
 		String messageCode;
 		String variable;
 		Integer line;
+		CFLintScanner source;
 
+		public CFLintScanner getSource() {
+			return source;
+		}
 		public ContextMessage(final String messageCode, final String variable) {
 			super();
 			this.messageCode = messageCode;
 			this.variable = variable;
+			this.source=null;
+		}
+		public ContextMessage(final String messageCode, final String variable,CFLintScanner source, final Integer line) {
+			super();
+			this.messageCode = messageCode;
+			this.variable = variable;
+			this.source=source;
+			this.line = line;
 		}
 
 		public ContextMessage(final String messageCode, final String variable, final Integer line) {

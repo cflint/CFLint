@@ -17,7 +17,6 @@ import com.cflint.plugins.core.VariableNameChecker;
 
 import cfml.parsing.reporting.ParseException;
 
-@Ignore
 public class TestCFBugs_VariableNames {
 
 	private CFLint cfBugs;
@@ -71,6 +70,7 @@ public class TestCFBugs_VariableNames {
 		 + "</cfcomponent>";
 		cfBugs.process(tagSrc, "test");
 		Collection<List<BugInfo>> result = cfBugs.getBugs().getBugList().values();
+		System.out.println(result);
 		assertEquals(0, result.size());
 	}
 
@@ -371,25 +371,26 @@ public class TestCFBugs_VariableNames {
 		assertEquals(5, result.get(2).getLine());
 	}
 
-	@Test
-	public void nameEndsInNumberScript() throws ParseException, IOException {
-		final String scriptSrc = "component {\r\n"
-		 + "function test() {\r\n"
-		 + "	name_1 = \"Fred\";\r\n"
-		 + "	name2 = \"Smith\";\r\n"
-		 + "	last.name1 = \"Fred\";\r\n"
-		 + "}\r\n"
-		 + "}";
-		cfBugs.process(scriptSrc, "test");
-		final List<BugInfo> result = cfBugs.getBugs().getBugList().values().iterator().next();
-		assertEquals(3, result.size());
-		assertEquals("VAR_INVALID_NAME", result.get(0).getMessageCode());
-		assertEquals(3, result.get(0).getLine());
-		assertEquals("VAR_INVALID_NAME", result.get(1).getMessageCode());
-		assertEquals(4, result.get(1).getLine());
-		assertEquals("VAR_INVALID_NAME", result.get(2).getMessageCode());
-		assertEquals(5, result.get(2).getLine());
-	}
+//	@Test
+	// moved to /src/test/resources/com/cflint/tests/Naming/nameEndsInNumberScript.cfc
+//	public void nameEndsInNumberScript() throws ParseException, IOException {
+//		final String scriptSrc = "component {\r\n"
+//		 + "function test() {\r\n"
+//		 + "	name_1 = \"Fred\";\r\n"
+//		 + "	name2 = \"Smith\";\r\n"
+//		 + "	last.name1 = \"Fred\";\r\n"
+//		 + "}\r\n"
+//		 + "}";
+//		cfBugs.process(scriptSrc, "test");
+//		final List<BugInfo> result = cfBugs.getBugs().getBugList().values().iterator().next();
+//		assertEquals(3, result.size());
+//		assertEquals("VAR_INVALID_NAME", result.get(0).getMessageCode());
+//		assertEquals(3, result.get(0).getLine());
+//		assertEquals("VAR_INVALID_NAME", result.get(1).getMessageCode());
+//		assertEquals(4, result.get(1).getLine());
+//		assertEquals("VAR_INVALID_NAME", result.get(2).getMessageCode());
+//		assertEquals(5, result.get(2).getLine());
+//	}
 
 	@Test
 	public void nameTooShortScript() throws ParseException, IOException {

@@ -10,17 +10,26 @@ import org.antlr.v4.runtime.Token;
 
 import com.cflint.BugInfo;
 import com.cflint.StackHandler;
+import com.cflint.tools.ObjectEquals;
 
 import cfml.parsing.cfscript.CFIdentifier;
 import cfml.parsing.cfscript.script.CFFuncDeclStatement;
 import net.htmlparser.jericho.Element;
 
 public class Context {
+	
+	public static enum ContextType{
+		Component,
+		Function,
+		Other
+	}
 
 	String filename;
 	String componentName;
 	final Element element;
 	CFFuncDeclStatement functionInfo;
+	ContextType contextType;
+
 
 	String functionName;
 	boolean inAssignmentExpression;
@@ -137,7 +146,18 @@ public class Context {
 	public List<ContextMessage> getMessages() {
 		return messages;
 	}
-
+	
+	public void addUniqueMessage(final String messageCode, final String variable) {
+		if(messageCode != null){
+			for(ContextMessage msg: messages){
+				if(ObjectEquals.equals(msg.getMessageCode(), messageCode) && ObjectEquals.equals(variable, msg.getVariable())){
+					return;
+				}
+			}
+		}
+		addMessage(messageCode, variable);
+	}
+	
 	public void addMessage(final String messageCode, final String variable) {
 		messages.add(new ContextMessage(messageCode, variable));
 	}
@@ -268,6 +288,18 @@ public class Context {
 	public Context getParent() {
 		return parent;
 	}
+	/**
+	 * 
+	 * @param type
+	 * @return the parent context of the given type OR the root context if none matches
+	 */
+	public Context getParent(ContextType type) {
+		Context p = this;
+		while(p.parent != null && p.contextType != type){
+			p = p.parent;
+		}
+		return p;
+	}
 
 	public void ignore(List<String> ignores) {
 		this.ignores.addAll(ignores);
@@ -289,4 +321,11 @@ public class Context {
 		}
 	}
 
+	public ContextType getContextType() {
+		return contextType;
+	}
+
+	public void setContextType(ContextType contextType) {
+		this.contextType = contextType;
+	}
 }

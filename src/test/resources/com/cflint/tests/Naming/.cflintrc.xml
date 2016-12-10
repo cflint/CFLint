@@ -1,0 +1,10 @@
+<config>
+<includes code="VAR_INVALID_NAME"/>
+<includes code="VAR_ALLCAPS_NAME"/>
+<includes code="SCOPE_ALLCAPS_NAME"/>
+<includes code="VAR_TOO_SHORT"/>
+<includes code="VAR_TOO_LONG"/>
+<includes code="VAR_TOO_WORDY"/>
+<includes code="VAR_IS_TEMPORARY"/>
+<includes code="VAR_HAS_PREFIX_OR_POSTFIX"/>
+</config>

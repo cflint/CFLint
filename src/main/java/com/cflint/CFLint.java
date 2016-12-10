@@ -31,6 +31,7 @@ import com.cflint.plugins.CFLintScanner;
 import com.cflint.plugins.CFLintStructureListener;
 import com.cflint.plugins.Context;
 import com.cflint.plugins.Context.ContextMessage;
+import com.cflint.plugins.Context.ContextType;
 import com.cflint.plugins.exceptions.CFLintExceptionListener;
 import com.cflint.plugins.exceptions.DefaultCFLintExceptionListener;
 import com.cflint.tools.AllowedExtensionsLoader;
@@ -251,11 +252,13 @@ public class CFLint implements IErrorReporter {
 			final Context componentContext = context.subContext(elem);
 			componentContext.setInComponent(true);
 			componentContext.setComponentName(elem.getAttributeValue("displayname"));
+			componentContext.setContextType(ContextType.Component);
 			handler.push("component");
 			doStructureStart(elem, componentContext, CFCompDeclStatement.class);
 		} else if (elem.getName().equalsIgnoreCase("cffunction")) {
 			final Context functionContext = context.subContext(elem);
 			functionContext.setFunctionName(elem.getAttributeValue("name"));
+			functionContext.setContextType(ContextType.Function);
 			handler.push("function");
 			doStructureStart(elem, functionContext, CFFuncDeclStatement.class);
 		}
@@ -300,6 +303,7 @@ public class CFLint implements IErrorReporter {
 		} else if (elem.getName().equalsIgnoreCase("cffunction")) {
 			final Context functionContext = context.subContext(elem);
 			functionContext.setFunctionName(elem.getAttributeValue("name"));
+			functionContext.setContextType(ContextType.Function);
 			scanElement(elem, functionContext);
 			processStack(elem.getChildElements(), space + " ", functionContext);
 			for (final CFLintStructureListener structurePlugin : getStructureListeners(extensions)) {
@@ -319,6 +323,8 @@ public class CFLint implements IErrorReporter {
 			final Context componentContext = context.subContext(elem);
 			componentContext.setInComponent(true);
 			componentContext.setComponentName(elem.getAttributeValue("displayname"));
+			componentContext.setContextType(ContextType.Component);
+			
 			scanElement(elem, componentContext);
 
 			processStack(elem.getChildElements(), space + " ", componentContext);

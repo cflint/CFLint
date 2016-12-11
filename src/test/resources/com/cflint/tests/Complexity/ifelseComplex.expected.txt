@@ -5,13 +5,13 @@
   "category" : "CFLINT",
   "abbrev" : "FT",
   "locations" : [ {
-    "file" : "src/test/resources/com/cflint/tests/Complexity/ifelseComplex.cfc",
+    "file" : "src\\test\\resources\\com\\cflint\\tests\\Complexity\\ifelseComplex.cfc",
     "fileName" : "ifelseComplex.cfc",
     "function" : "foo",
-    "column" : "21",
-    "line" : "15",
+    "column" : "0",
+    "line" : "2",
     "message" : "Function foo is too complex. Consider breaking the function into smaller functions.",
     "variable" : "",
-    "expression" : "if(something )   {/ndoSomethingElse();/n/n  }"
+    "expression" : "if(something )   {\ndoSomethingElse();\n\n  }"
   } ]
 } ]

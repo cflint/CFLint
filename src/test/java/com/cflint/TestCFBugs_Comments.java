@@ -150,4 +150,17 @@ public class TestCFBugs_Comments {
 		assertEquals(0, result.size());
 	}
 
+	/* Entire function is commented */
+	@Test
+	public void testNestedComments() throws ParseException, IOException {
+		final String cfcSrc = "<cfcomponent>\r\n" + "<!---<cffunction name=\"test\">\r\n" + "	"
+				+ "<!---CFLINT-DISABLE SOMEOTHER--->"
+				+ "<cfargument name=\"xyz\">\r\n"
+				+ "</cffunction>\r\n" + "---></cfcomponent>";
+		cfBugs.process(cfcSrc, "test");
+		final List<BugInfo> result = cfBugs.getBugs().getBugList().values().iterator().next();
+		assertEquals(1, result.size());
+		assertEquals("ARG_DEFAULT_MISSING", result.get(0).getMessageCode());
+	}
+
 }

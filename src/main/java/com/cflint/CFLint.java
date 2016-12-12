@@ -37,6 +37,7 @@ import com.cflint.plugins.exceptions.DefaultCFLintExceptionListener;
 import com.cflint.tools.AllowedExtensionsLoader;
 import com.cflint.tools.CFLintFilter;
 import com.cflint.tools.CFNestedExpressionProvider;
+import com.cflint.tools.CommentReformatting;
 import com.cflint.tools.FileUtil;
 import com.cflint.tools.PrecedingCommentReader;
 import com.cflint.tools.ScanningProgressMonitorLookAhead;
@@ -185,7 +186,7 @@ public class CFLint implements IErrorReporter {
 	
 	public void process(final String src, final String filename) throws ParseException, IOException {
 		fireStartedProcessing(filename);
-		final CFMLSource cfmlSource = new CFMLSource(src);
+		final CFMLSource cfmlSource = new CFMLSource(src != null && src.contains("<!---")?CommentReformatting.wrap(src):src);
 		final ParserTag firstTag = getFirstTagQuietly(cfmlSource);
 		final List<Element> elements = new ArrayList<Element>();
 		if (firstTag != null) {

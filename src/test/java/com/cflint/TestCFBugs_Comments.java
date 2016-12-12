@@ -158,9 +158,7 @@ public class TestCFBugs_Comments {
 				+ "<cfargument name=\"xyz\">\r\n"
 				+ "</cffunction>\r\n" + "---></cfcomponent>";
 		cfBugs.process(cfcSrc, "test");
-		final List<BugInfo> result = cfBugs.getBugs().getBugList().values().iterator().next();
-		assertEquals(1, result.size());
-		assertEquals("ARG_DEFAULT_MISSING", result.get(0).getMessageCode());
+		assertEquals(0, cfBugs.getBugs().getBugList().size());
 	}
 
 }

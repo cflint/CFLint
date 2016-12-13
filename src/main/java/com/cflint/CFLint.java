@@ -6,7 +6,9 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -404,7 +406,14 @@ public class CFLint implements IErrorReporter {
 		return retval.substring(0, 300);
 	}
 
+	Set<CFScriptStatement> processed = new HashSet<CFScriptStatement>();
+	
 	private void process(final CFScriptStatement expression, Context context) {
+		if(processed.contains(expression)){
+			System.err.println("Attempt to process expression twice aborted.  This may be a parsing bug.");
+			return;
+		}
+		processed.add(expression);
 		final Element elem = context.getElement();
 		try {
 			if (expression instanceof CFCompoundStatement) {

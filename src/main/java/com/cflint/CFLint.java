@@ -191,7 +191,6 @@ public class CFLint implements IErrorReporter {
 		final CFMLSource cfmlSource = new CFMLSource(src != null && src.contains("<!---")?CommentReformatting.wrap(src):src);
 		final ParserTag firstTag = getFirstTagQuietly(cfmlSource);
 		final List<Element> elements = new ArrayList<Element>();
-		if (firstTag != null) {
 			elements.addAll(cfmlSource.getChildElements());
 		}
 		if (src.contains("component")
@@ -908,6 +907,7 @@ public class CFLint implements IErrorReporter {
 		for (final ScanProgressListener p : scanProgressListeners) {
 			p.finishedProcessing(srcidentifier);
 		}
+		processed.clear();
 	}
 
 	protected void fireClose() {

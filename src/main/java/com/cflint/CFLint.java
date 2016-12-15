@@ -191,6 +191,7 @@ public class CFLint implements IErrorReporter {
 		final CFMLSource cfmlSource = new CFMLSource(src != null && src.contains("<!---")?CommentReformatting.wrap(src):src);
 		final ParserTag firstTag = getFirstTagQuietly(cfmlSource);
 		final List<Element> elements = new ArrayList<Element>();
+		if (firstTag != null) {
 			elements.addAll(cfmlSource.getChildElements());
 		}
 		if (src.contains("component")

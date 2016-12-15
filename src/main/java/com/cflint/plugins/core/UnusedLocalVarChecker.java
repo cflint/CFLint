@@ -15,6 +15,7 @@ import cfml.parsing.cfscript.CFExpression;
 import cfml.parsing.cfscript.CFFullVarExpression;
 import cfml.parsing.cfscript.CFIdentifier;
 import cfml.parsing.cfscript.CFVarDeclExpression;
+import net.htmlparser.jericho.Element;
 
 public class UnusedLocalVarChecker extends CFLintScannerAdapter {
 	final String severity = "INFO";
@@ -39,6 +40,35 @@ public class UnusedLocalVarChecker extends CFLintScannerAdapter {
 			addLocalVariable(name, lineNo);
 		} else if (expression instanceof CFIdentifier) {
 			localVariables.put(((CFIdentifier) expression).getName(), true);
+		}
+	}
+	
+	@Override
+	public void element(final Element element, final Context context, final BugList bugs) {
+		final String elementName = element.getName();
+		//final int begLine = element.getSource().getRow(element.getBegin());
+		String varName = "";
+
+		if (elementName.equals("cfquery")) {
+			if(element.getAttributeValue("name") != null){
+				varName = element.getAttributeValue("name") != null ? element.getAttributeValue("name") : "";
+				localVariables.put(varName, true);
+			}
+		} else if (elementName.equals("cfinvoke")) {
+			if(element.getAttributeValue("returnvariable") != null){
+				varName = element.getAttributeValue("returnvariable") != null ? element.getAttributeValue("returnvariable") : "";
+				localVariables.put(varName, true);
+			}
+		} else if (elementName.equals("cfloop")) {
+			if(element.getAttributeValue("index") != null || element.getAttributeValue("item") != null){
+				varName = element.getAttributeValue("index") != null ? element.getAttributeValue("index") : (element.getAttributeValue("item") != null ? element.getAttributeValue("item") : "");
+				localVariables.put(varName, true);
+			}
+		} else if (elementName.equals("cfsavecontent")) {
+			if(element.getAttributeValue("variable") != null){
+				varName = element.getAttributeValue("variable") != null ? element.getAttributeValue("variable") : "";
+				localVariables.put(varName, true);
+			}
 		}
 	}
 

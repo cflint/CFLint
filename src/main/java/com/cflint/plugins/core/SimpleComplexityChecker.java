@@ -46,7 +46,7 @@ public class SimpleComplexityChecker extends CFLintScannerAdapter {
 					.setSeverity("WARNING").setFilename(context.getFilename()).setFunction(context.getFunctionName())
 					.setMessage("Nothing to parse").build());
 		}
-		// Not using instanceof to avoid double counting
+		// Not using instance of to avoid double counting
 		else if (expression.getClass().equals(CFIfStatement.class) || expression.getClass().equals(CFForStatement.class)
 				|| expression.getClass().equals(CFForInStatement.class)
 				|| expression.getClass().equals(CFSwitchStatement.class)
@@ -54,7 +54,7 @@ public class SimpleComplexityChecker extends CFLintScannerAdapter {
 				|| expression.getClass().equals(CFWhileStatement.class)
 				|| expression.getClass().equals(CFDoWhileStatement.class)) {
 			complexity++;
-			// TODO +1 for each case statment in a switch
+			// TODO +1 for each case statement in a switch
 			checkComplexity(methodName, functionLineNo, context, bugs);
 		}
 	}

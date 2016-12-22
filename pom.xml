@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.github.cflint</groupId>
 	<artifactId>CFLint</artifactId>
-	<version>0.8.0</version>
+	<version>0.10.0</version>
 
 	<name>CFLint</name>
 	<description>
@@ -59,24 +59,25 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<cfparser.version>2.2.11</cfparser.version>
 	</properties>
   
 	<dependencies>
 		<dependency>
 			<groupId>com.github.cfparser</groupId>
 			<artifactId>cfparser</artifactId>
-			<version>2.2.9</version>
+			<version>${cfparser.version}</version>
 			<type>pom</type>
 		</dependency>
 		<dependency>
 			<groupId>com.github.cfparser</groupId>
 			<artifactId>cfml.parsing</artifactId>
-			<version>2.2.9</version>
+			<version>${cfparser.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.github.cfparser</groupId>
 			<artifactId>cfml.dictionary</artifactId>
-			<version>2.2.9</version>
+			<version>${cfparser.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
@@ -240,7 +241,7 @@
 				<executions>
 					<execution>
 						<id>assemble-standalone</id>
-						<phase>integration-test</phase>
+						<phase>package</phase>
 						<goals>
 							<goal>assemble</goal>
 						</goals>

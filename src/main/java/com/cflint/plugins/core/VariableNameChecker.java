@@ -7,6 +7,7 @@ import java.util.List;
 import com.cflint.BugList;
 import com.cflint.plugins.CFLintScannerAdapter;
 import com.cflint.plugins.Context;
+import com.cflint.plugins.Context.ContextType;
 
 import cfml.parsing.cfscript.CFExpression;
 import cfml.parsing.cfscript.CFFullVarExpression;
@@ -135,29 +136,29 @@ public class VariableNameChecker extends CFLintScannerAdapter {
 		final ValidName name = new ValidName(minVarLength, maxVarLength, maxVarWords);
 
 		if (name.isInvalid(variable)) {
-			context.addMessage("VAR_INVALID_NAME", variable);
+			context.getParent(ContextType.Function).addUniqueMessage("VAR_INVALID_NAME", variable);
 		}
 		if (!scope.isCFScoped(variable) && name.isUpperCase(variable)) {
-			context.addMessage("VAR_ALLCAPS_NAME", variable);
+			context.getParent(ContextType.Function).addUniqueMessage("VAR_ALLCAPS_NAME", variable);
 		}
 		if (scope.isCFScoped(variable) && name.isUpperCase(variable) && (getParameter("IgnoreUpperCaseScopes") == null
 				|| !getParameter("IgnoreUpperCaseScopes").contains(variable))) {
-			context.addMessage("SCOPE_ALLCAPS_NAME", variable);
+			context.getParent(ContextType.Function).addUniqueMessage("SCOPE_ALLCAPS_NAME", variable);
 		}
 		if (name.tooShort(variable)) {
-			context.addMessage("VAR_TOO_SHORT", variable);
+			context.getParent(ContextType.Function).addUniqueMessage("VAR_TOO_SHORT", variable);
 		}
 		if (name.tooLong(variable)) {
-			context.addMessage("VAR_TOO_LONG", variable);
+			context.getParent(ContextType.Function).addUniqueMessage("VAR_TOO_LONG", variable);
 		}
 		if (!name.isUpperCase(variable) && name.tooWordy(variable)) {
-			context.addMessage("VAR_TOO_WORDY", variable);
+			context.getParent(ContextType.Function).addUniqueMessage("VAR_TOO_WORDY", variable);
 		}
 		if (name.isTemporary(variable)) {
-			context.addMessage("VAR_IS_TEMPORARY", variable);
+			context.getParent(ContextType.Function).addUniqueMessage("VAR_IS_TEMPORARY", variable);
 		}
 		if (name.hasPrefixOrPostfix(variable)) {
-			context.addMessage("VAR_HAS_PREFIX_OR_POSTFIX", variable);
+			context.getParent(ContextType.Function).addUniqueMessage("VAR_HAS_PREFIX_OR_POSTFIX", variable);
 		}
 	}
 

@@ -12,6 +12,6 @@
     "line" : "1",
     "message" : "Component hints1 is missing a hint.",
     "variable" : "hints1",
-    "expression" : "component {\n  public void function function1(arg1, arg2)     {\nsomeVar = '';\n\n    }\n}"
+    "expression" : "component {/n  public void function function1(arg1, arg2) hint='test hint attribute'    {/nsomeVar = '';/n/n    }/n}"
   } ]
 } ]

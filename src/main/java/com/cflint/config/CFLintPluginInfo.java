@@ -35,6 +35,14 @@ public class CFLintPluginInfo {
 		}
 		return null;
 	}
+	
+	public String toString(){
+		StringBuilder sb = new StringBuilder();
+		sb.append("CFLintPluginInfo[");
+		sb.append(rules);
+		sb.append("]");
+		return sb.toString();
+	}
 
 	@JsonInclude(Include.NON_NULL)
 	public static class PluginInfoRule {
@@ -48,6 +56,19 @@ public class CFLintPluginInfo {
 
 		public CFLintScanner getPluginInstance() {
 			return pluginInstance;
+		}
+		
+		public String toString(){
+			StringBuilder sb = new StringBuilder();
+			sb.append("PluginInfoRule[");
+			sb.append("name=");
+			sb.append(name);
+			if(className != null && !className.isEmpty()){
+				sb.append(", class=");
+				sb.append(className);
+			}
+			sb.append("]");
+			return sb.toString();
 		}
 
 		@XmlTransient
@@ -230,6 +251,11 @@ public class CFLintPluginInfo {
 					return false;
 				}
 				return true;
+			}
+
+			@Override
+			public String toString() {
+				return "PluginMessage [code=" + code + ", messageText=" + messageText + "]";
 			}
 		}
 	}

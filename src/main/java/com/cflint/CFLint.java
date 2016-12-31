@@ -309,6 +309,12 @@ public class CFLint implements IErrorReporter {
 			functionContext.setContextType(ContextType.Function);
 			scanElement(elem, functionContext);
 			processStack(elem.getChildElements(), space + " ", functionContext);
+			//Process any messages added by downstream parsing.
+			for (final ContextMessage message : functionContext.getMessages()) {
+				reportRule(elem, null, functionContext, message.getSource(), message);
+			}
+			functionContext.getMessages().clear();
+
 			for (final CFLintStructureListener structurePlugin : getStructureListeners(extensions)) {
 				try {
 					structurePlugin.endFunction(functionContext, bugs);

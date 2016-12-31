@@ -56,16 +56,24 @@ public class UnusedArgumentChecker extends CFLintScannerAdapter {
 		}
 	}
 
-	protected void useIdentifier(final CFIdentifier identifier) {
-		String name = identifier.getName().toLowerCase();
-		if (name.equals("arguments")) {
-			name = identifier.Decompile(0).toLowerCase().replace("arguments.", ""); // TODO
-																					// better
-																					// way
-																					// of
-																					// doing
-																					// this?
+	protected void useIdentifier(final CFFullVarExpression fullVarExpression) {
+		if(fullVarExpression.getExpressions().size()>0){
+			final CFExpression identifier1 = fullVarExpression.getExpressions().get(0);
+			if (identifier1 instanceof CFIdentifier){
+				if("arguments".equalsIgnoreCase(((CFIdentifier) identifier1).getName()) && fullVarExpression.getExpressions().size()>1) {
+					final CFExpression identifier2 = fullVarExpression.getExpressions().get(1);
+					if(identifier2 instanceof CFIdentifier){
+						useIdentifier((CFIdentifier)identifier2);
+					}
+				}else{
+					useIdentifier((CFIdentifier)identifier1);
+				}
+			}
 		}
+	}
+
+	protected void useIdentifier(final CFIdentifier identifier) {
+		final String name = identifier.getName().toLowerCase();
 		if (methodArguments.get(name) != null) {
 			methodArguments.put(name, true);
 		}
@@ -74,10 +82,7 @@ public class UnusedArgumentChecker extends CFLintScannerAdapter {
 	@Override
 	public void expression(final CFExpression expression, final Context context, final BugList bugs) {
 		if (expression instanceof CFFullVarExpression) {
-			final CFExpression variable = ((CFFullVarExpression) expression).getExpressions().get(0);
-			if (variable instanceof CFIdentifier) {
-				useIdentifier((CFIdentifier) expression);
-			}
+			useIdentifier((CFFullVarExpression) expression);
 		} else if (expression instanceof CFIdentifier) {
 			useIdentifier((CFIdentifier) expression);
 		}

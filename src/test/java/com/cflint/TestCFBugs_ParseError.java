@@ -39,19 +39,13 @@ public class TestCFBugs_ParseError {
 	}
 	
 	@Test
-	@Ignore
-	//Parsing error fixed!
-	public void testLookBackError() throws ParseException, IOException{
-		final String cfcSrc = "<cfcomponent>\r\n" +
-				"<cffunction name=\"test\">\r\n" +
-				"	<cfset var user = userservice[\"getuser\"]();/>\r\n" +
-				"</cffunction>\r\n" +
-				"</cfcomponent>";
+	public void testParseErrorLine1() throws ParseException, IOException{
+		final String cfcSrc = "<cfif \"foo\" ==== \"bar\">Foo</cfif>";
 		cfBugs.process(cfcSrc,"test");
 		List<BugInfo> result = cfBugs.getBugs().getFlatBugList();
-		System.out.println(result.get(0));
-		assertEquals(1,result.size());
+		System.out.println(result.toString());
+		assertEquals(result.toString(),1,result.size());
 		assertEquals("PARSE_ERROR",result.get(0).getMessageCode());
-		assertEquals(3,result.get(0).getLine());
+		assertEquals(1,result.get(0).getLine());
 	}
 }

@@ -14,8 +14,8 @@ import net.htmlparser.jericho.Element;
 public class BugInfo implements Comparable<BugInfo> {
 
 	String filename;
-	int line;
-	int column;
+	int line =1; //Default to non-zero task #230
+	int column=1;
 	String message;
 	String messageCode;
 	String expression;

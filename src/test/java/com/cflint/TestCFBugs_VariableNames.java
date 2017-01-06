@@ -129,13 +129,11 @@ public class TestCFBugs_VariableNames {
 		 + "</cfcomponent>";
 		cfBugs.process(tagSrc, "test");
 		final List<BugInfo> result = cfBugs.getBugs().getBugList().values().iterator().next();
-		assertEquals(3, result.size());
+		assertEquals(2, result.size());
 		assertEquals("VAR_INVALID_NAME", result.get(0).getMessageCode());
 		assertEquals(3, result.get(0).getLine());
 		assertEquals("VAR_INVALID_NAME", result.get(1).getMessageCode());
 		assertEquals(4, result.get(1).getLine());
-		assertEquals("VAR_INVALID_NAME", result.get(2).getMessageCode());
-		assertEquals(5, result.get(2).getLine());
 	}
 
 	@Test
@@ -169,13 +167,11 @@ public class TestCFBugs_VariableNames {
 		 + "</cfcomponent>";
 		cfBugs.process(tagSrc, "test");
 		final List<BugInfo> result = cfBugs.getBugs().getBugList().values().iterator().next();
-		assertEquals(3, result.size());
+		assertEquals(2, result.size());
 		assertEquals("VAR_TOO_SHORT", result.get(0).getMessageCode());
 		assertEquals(3, result.get(0).getLine());
 		assertEquals("VAR_TOO_SHORT", result.get(1).getMessageCode());
 		assertEquals(4, result.get(1).getLine());
-		assertEquals("VAR_TOO_SHORT", result.get(2).getMessageCode());
-		assertEquals(5, result.get(2).getLine());
 	}
 
 	@Test
@@ -228,21 +224,19 @@ public class TestCFBugs_VariableNames {
 		 + "</cfcomponent>";
 		cfBugs.process(tagSrc, "test");
 		final List<BugInfo> result = cfBugs.getBugs().getBugList().get("VAR_IS_TEMPORARY");
-		assertEquals(7, result.size());
+		assertEquals(6, result.size());
 		assertEquals("VAR_IS_TEMPORARY", result.get(0).getMessageCode());
 		assertEquals(3, result.get(0).getLine());
 		assertEquals("VAR_IS_TEMPORARY", result.get(1).getMessageCode());
-		assertEquals(4, result.get(1).getLine());
+		assertEquals(5, result.get(1).getLine());
 		assertEquals("VAR_IS_TEMPORARY", result.get(2).getMessageCode());
-		assertEquals(5, result.get(2).getLine());
+		assertEquals(6, result.get(2).getLine());
 		assertEquals("VAR_IS_TEMPORARY", result.get(3).getMessageCode());
-		assertEquals(6, result.get(3).getLine());
+		assertEquals(7, result.get(3).getLine());
 		assertEquals("VAR_IS_TEMPORARY", result.get(4).getMessageCode());
-		assertEquals(7, result.get(4).getLine());
+		assertEquals(8, result.get(4).getLine());
 		assertEquals("VAR_IS_TEMPORARY", result.get(5).getMessageCode());
-		assertEquals(8, result.get(5).getLine());
-		assertEquals("VAR_IS_TEMPORARY", result.get(6).getMessageCode());
-		assertEquals(9, result.get(6).getLine());
+		assertEquals(9, result.get(5).getLine());
 	}
 
 	@Test
@@ -362,13 +356,11 @@ public class TestCFBugs_VariableNames {
 		 + "}";
 		cfBugs.process(scriptSrc, "test");
 		final List<BugInfo> result = cfBugs.getBugs().getBugList().values().iterator().next();
-		assertEquals(3, result.size());
+		assertEquals(2, result.size());
 		assertEquals("VAR_INVALID_NAME", result.get(0).getMessageCode());
 		assertEquals(3, result.get(0).getLine());
 		assertEquals("VAR_INVALID_NAME", result.get(1).getMessageCode());
 		assertEquals(4, result.get(1).getLine());
-		assertEquals("VAR_INVALID_NAME", result.get(2).getMessageCode());
-		assertEquals(5, result.get(2).getLine());
 	}
 
 //	@Test
@@ -403,13 +395,11 @@ public class TestCFBugs_VariableNames {
 		 + "}";
 		cfBugs.process(scriptSrc, "test");
 		final List<BugInfo> result = cfBugs.getBugs().getBugList().values().iterator().next();
-		assertEquals(3, result.size());
+		assertEquals(2, result.size());
 		assertEquals("VAR_TOO_SHORT", result.get(0).getMessageCode());
 		assertEquals(3, result.get(0).getLine());
 		assertEquals("VAR_TOO_SHORT", result.get(1).getMessageCode());
 		assertEquals(4, result.get(1).getLine());
-		assertEquals("VAR_TOO_SHORT", result.get(2).getMessageCode());
-		assertEquals(5, result.get(2).getLine());
 	}
 
 	@Test
@@ -462,21 +452,19 @@ public class TestCFBugs_VariableNames {
 		 + "}";
 		cfBugs.process(scriptSrc, "test");
 		final List<BugInfo> result = cfBugs.getBugs().getBugList().get("VAR_IS_TEMPORARY");
-		assertEquals(7, result.size());
+		assertEquals(6, result.size());
 		assertEquals("VAR_IS_TEMPORARY", result.get(0).getMessageCode());
 		assertEquals(3, result.get(0).getLine());
 		assertEquals("VAR_IS_TEMPORARY", result.get(1).getMessageCode());
-		assertEquals(4, result.get(1).getLine());
+		assertEquals(5, result.get(1).getLine());
 		assertEquals("VAR_IS_TEMPORARY", result.get(2).getMessageCode());
-		assertEquals(5, result.get(2).getLine());
+		assertEquals(6, result.get(2).getLine());
 		assertEquals("VAR_IS_TEMPORARY", result.get(3).getMessageCode());
-		assertEquals(6, result.get(3).getLine());
+		assertEquals(7, result.get(3).getLine());
 		assertEquals("VAR_IS_TEMPORARY", result.get(4).getMessageCode());
-		assertEquals(7, result.get(4).getLine());
+		assertEquals(8, result.get(4).getLine());
 		assertEquals("VAR_IS_TEMPORARY", result.get(5).getMessageCode());
-		assertEquals(8, result.get(5).getLine());
-		assertEquals("VAR_IS_TEMPORARY", result.get(6).getMessageCode());
-		assertEquals(9, result.get(6).getLine());
+		assertEquals(9, result.get(5).getLine());
 	}
 
 	@Test

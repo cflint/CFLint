@@ -5,7 +5,7 @@
   "category" : "CFLINT",
   "abbrev" : "VI",
   "locations" : [ {
-    "file" : "src\\test\\resources\\com\\cflint\\tests\\Naming\\nameEndsInNumberScript.cfc",
+    "file" : "src/test/resources/com/cflint/tests/Naming/nameEndsInNumberScript.cfc",
     "fileName" : "nameEndsInNumberScript.cfc",
     "function" : "test",
     "column" : "0",
@@ -21,7 +21,7 @@
   "category" : "CFLINT",
   "abbrev" : "VI",
   "locations" : [ {
-    "file" : "src\\test\\resources\\com\\cflint\\tests\\Naming\\nameEndsInNumberScript.cfc",
+    "file" : "src/test/resources/com/cflint/tests/Naming/nameEndsInNumberScript.cfc",
     "fileName" : "nameEndsInNumberScript.cfc",
     "function" : "test",
     "column" : "0",
@@ -37,13 +37,13 @@
   "category" : "CFLINT",
   "abbrev" : "VI",
   "locations" : [ {
-    "file" : "src\\test\\resources\\com\\cflint\\tests\\Naming\\nameEndsInNumberScript.cfc",
+    "file" : "src/test/resources/com/cflint/tests/Naming/nameEndsInNumberScript.cfc",
     "fileName" : "nameEndsInNumberScript.cfc",
     "function" : "test",
     "column" : "0",
     "line" : "5",
-    "message" : "Variable last.name1 is not a valid name. Please use CamelCase or underscores.",
-    "variable" : "last.name1",
+    "message" : "Variable name1 is not a valid name. Please use CamelCase or underscores.",
+    "variable" : "name1",
     "expression" : ""
   } ]
 } ]

@@ -424,6 +424,9 @@ public class CFLint implements IErrorReporter {
 	Set<CFScriptStatement> processed = new HashSet<CFScriptStatement>();
 	
 	private void process(final CFScriptStatement expression, Context context) {
+		if(expression ==null){
+			return;
+		}
 		if(processed.contains(expression)){
 			System.err.println("Attempt to process expression twice aborted.  This may be a parsing bug.");
 			return;

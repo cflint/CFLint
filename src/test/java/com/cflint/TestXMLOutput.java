@@ -28,7 +28,7 @@ public class TestXMLOutput {
 		bugList.add(bugInfo);
 		outputer.output(bugList, writer, false);
 		String expectedText = "<issues version=\"" + Version.getVersion() + "\">\n" +
-"<issue severity=\"\" id=\"PARSE_ERROR\" message=\"PARSE_ERROR\" category=\"CFLint\" abbrev=\"PE\"><location file=\"c:\\temp\\test.cfc\" fileName=\"test.cfc\" function=\"testf\" column=\"0\" line=\"0\" message=\"\" variable=\"\"><Expression><![CDATA[]]></Expression></location>\n" +
+"<issue severity=\"\" id=\"PARSE_ERROR\" message=\"PARSE_ERROR\" category=\"CFLint\" abbrev=\"PE\"><location file=\"c:\\temp\\test.cfc\" fileName=\"test.cfc\" function=\"testf\" column=\"1\" line=\"1\" message=\"\" variable=\"\"><Expression><![CDATA[]]></Expression></location>\n" +
 "</issue>\n" +
 "</issues>";
 		//remove the version 
@@ -41,7 +41,7 @@ public class TestXMLOutput {
 		bugList.add(bugInfo);
 		outputer.output(bugList, writer, true);
 		String expectedText = "<issues version=\"" + Version.getVersion() + "\">\n" +
-"<issue severity=\"\" id=\"PARSE_ERROR\" message=\"PARSE_ERROR\" category=\"CFLint\" abbrev=\"PE\"><location file=\"c:\\temp\\test.cfc\" fileName=\"test.cfc\" function=\"testf\" column=\"0\" line=\"0\" message=\"\" variable=\"\"><Expression><![CDATA[]]></Expression></location>\n" +
+"<issue severity=\"\" id=\"PARSE_ERROR\" message=\"PARSE_ERROR\" category=\"CFLint\" abbrev=\"PE\"><location file=\"c:\\temp\\test.cfc\" fileName=\"test.cfc\" function=\"testf\" column=\"1\" line=\"1\" message=\"\" variable=\"\"><Expression><![CDATA[]]></Expression></location>\n" +
 "</issue>\n" +
 "<counts>\n" +
 "<count code=\"PARSE_ERROR\" count=\"1\" />\n" +

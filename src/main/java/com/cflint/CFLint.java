@@ -269,23 +269,24 @@ public class CFLint implements IErrorReporter {
 		if (elem.getName().equalsIgnoreCase("cfset") || elem.getName().equalsIgnoreCase("cfif")
 				|| elem.getName().equalsIgnoreCase("cfelseif") || elem.getName().equalsIgnoreCase("cfreturn")) {
 			scanElement(elem, context);
-			// final Pattern p = Pattern.compile("<\\w+\\s(.*[^/])/?>", Pattern.MULTILINE | Pattern.DOTALL);
-			// final String expr = elem.getFirstStartTag().toString();
-			// final Matcher m = p.matcher(expr);
-			// if (m.matches()) {
+			 final Pattern p = Pattern.compile("<\\w+\\s(.*[^/])/?>", Pattern.MULTILINE | Pattern.DOTALL);
+			 final String expr = elem.getFirstStartTag().toString();
+			 final Matcher m = p.matcher(expr);
+			 if (m.matches()) {
 			
 			// TODO if LUCEE?
-			final int uglyNotPos = elem.toString().lastIndexOf("<>");
-			int endPos = elem.getStartTag().getEnd() - 1;
+//			final int uglyNotPos = elem.toString().lastIndexOf("<>");
+//			int endPos = elem.getStartTag().getEnd() - 1;
+//			
+//			if (uglyNotPos > 0) {
+//				final int nextPos = elem.toString().indexOf(">", uglyNotPos + 2);
+//				if (nextPos > 0 && nextPos < elem.getEndTag().getBegin()) {
+//					endPos = nextPos;
+//				}
+//			}
 			
-			if (uglyNotPos > 0) {
-				final int nextPos = elem.toString().indexOf(">", uglyNotPos + 2);
-				if (nextPos > 0 && nextPos < elem.getEndTag().getBegin()) {
-					endPos = nextPos;
-				}
-			}
-			
-			final String cfscript = elem.toString().substring(elem.getName().length() + 1, endPos);
+			//final String cfscript = elem.toString().substring(elem.getName().length() + 1, Math.min(endPos,elem.toString().length()-1));
+				 final String cfscript = m.group(1);
 			try {
 				final CFExpression expression = cfmlParser.parseCFExpression(cfscript, this);
 				if (expression != null) {
@@ -295,6 +296,7 @@ public class CFLint implements IErrorReporter {
 				printException(npe, elem);
 				fireCFLintException(npe, PARSE_ERROR, context.getFilename(), null, null, null, null);
 			}
+		    }
 			processStack(elem.getChildElements(), space + " ", context);
 
 		} else if (elem.getName().equalsIgnoreCase("cfargument")) {
@@ -506,6 +508,7 @@ public class CFLint implements IErrorReporter {
 				final Context functionContext = context.subContext(null);
 				functionContext.setContextType(ContextType.Function);
 				functionContext.setFunctionInfo(function);
+				
 				registerRuleOverrides(functionContext, function.getToken());
 				handler.push("function");
 				for (final CFFunctionParameter param : function.getFormals()) {
@@ -513,14 +516,15 @@ public class CFLint implements IErrorReporter {
 				}
 				doStructureStart(elem, functionContext, CFFuncDeclStatement.class);
 				scanExpression(expression, functionContext, elem);
-
-				process(function.getBody(), functionContext);
+				
+				Context functionBodyContext = functionContext.subContext(null);
+				process(function.getBody(), functionBodyContext);
 
 				for (final CFLintStructureListener structurePlugin : getStructureListeners(extensions)) {
 					try {
-						structurePlugin.endFunction(context, bugs);
-						for (final ContextMessage message : context.getMessages()) {
-							reportRule(elem, null, context, (CFLintScanner) structurePlugin, message);
+						structurePlugin.endFunction(functionContext, bugs);
+						for (final ContextMessage message : functionContext.getMessages()) {
+							reportRule(elem, null, functionContext, (CFLintScanner) structurePlugin, message);
 						}
 						context.getMessages().clear();
 					} catch (final Exception e) {

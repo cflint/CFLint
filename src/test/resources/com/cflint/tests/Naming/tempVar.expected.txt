@@ -5,45 +5,13 @@
   "category" : "CFLINT",
   "abbrev" : "VI",
   "locations" : [ {
-    "file" : "src\\test\\resources\\com\\cflint\\tests\\Naming\\tempVar.cfc",
+    "file" : "src/test/resources/com/cflint/tests/Naming/tempVar.cfc",
     "fileName" : "tempVar.cfc",
     "function" : "foo",
     "column" : "0",
     "line" : "3",
     "message" : "Temporary variable tempStruct could be named better.",
     "variable" : "tempStruct",
-    "expression" : ""
-  } ]
-}, {
-  "severity" : "INFO",
-  "id" : "VAR_IS_TEMPORARY",
-  "message" : "VAR_IS_TEMPORARY",
-  "category" : "CFLINT",
-  "abbrev" : "VI",
-  "locations" : [ {
-    "file" : "src\\test\\resources\\com\\cflint\\tests\\Naming\\tempVar.cfc",
-    "fileName" : "tempVar.cfc",
-    "function" : "foo",
-    "column" : "0",
-    "line" : "4",
-    "message" : "Temporary variable tempStruct could be named better.",
-    "variable" : "tempStruct",
-    "expression" : ""
-  } ]
-}, {
-  "severity" : "INFO",
-  "id" : "VAR_IS_TEMPORARY",
-  "message" : "VAR_IS_TEMPORARY",
-  "category" : "CFLINT",
-  "abbrev" : "VI",
-  "locations" : [ {
-    "file" : "src\\test\\resources\\com\\cflint\\tests\\Naming\\tempVar.cfc",
-    "fileName" : "tempVar.cfc",
-    "function" : "foo",
-    "column" : "0",
-    "line" : "5",
-    "message" : "Temporary variable tempStruct.foo could be named better.",
-    "variable" : "tempStruct.foo",
     "expression" : ""
   } ]
 } ]

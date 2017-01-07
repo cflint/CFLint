@@ -86,18 +86,6 @@ public class ConfigRuntime extends CFLintConfig {
 		return messageText == null || messageText.trim().length() == 0;
 	}
 
-	public boolean isIncludeMessage(final String messageCode) {
-		return isIncludeMessage(new PluginMessage(messageCode));
-	}
-
-	public boolean isIncludeMessage(final PluginMessage message) {
-		if (!includes.isEmpty()) {
-			return includes.contains(message);
-		} else {
-			return !excludes.contains(message);
-		}
-	}
-
 	public PluginInfoRule getRuleByClass(final Class<?> clazz) {
 		final String className = clazz.getSimpleName();
 		for (final PluginInfoRule rule : getRules()) {

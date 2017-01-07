@@ -30,7 +30,6 @@ public class Context {
 	CFFuncDeclStatement functionInfo;
 	ContextType contextType;
 
-
 	String functionName;
 	boolean inAssignmentExpression;
 	public void setInAssignmentExpression(boolean inAssignmentExpression) {

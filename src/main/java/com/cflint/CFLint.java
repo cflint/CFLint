@@ -795,31 +795,22 @@ public class CFLint implements IErrorReporter {
 			bldr.setExpression(elem.toString());
 		}
 		bldr.setRuleParameters(ruleInfo.getParameters());
-		if (expression instanceof CFExpression) {
-			BugInfo bugInfo = bldr.build((CFExpression) expression, elem);
-			final Token token = ((CFExpression) expression).getToken();
-
-			if (configuration.getIncludes().isEmpty()
-					|| configuration.getIncludes().contains(ruleInfo.getMessageByCode(msgcode))) {
-				if (configuration.getExcludes().isEmpty()
-						|| !configuration.getExcludes().contains(ruleInfo.getMessageByCode(msgcode))) {
-					if (!suppressed(bugInfo, token, context)) {
-						bugs.add(bugInfo);
-					}
+		if (configuration.includes(ruleInfo.getMessageByCode(msgcode))
+				&& !configuration.excludes(ruleInfo.getMessageByCode(msgcode))
+		){
+			if (expression instanceof CFExpression) {
+				BugInfo bugInfo = bldr.build((CFExpression) expression, elem);
+				final Token token = ((CFExpression) expression).getToken();
+				if (!suppressed(bugInfo, token, context)) {
+					bugs.add(bugInfo);
 				}
-			}
-		} else {
-			final BugInfo bug = bldr.build((CFParsedStatement) expression, elem);
-			if (msg.getLine() != null) {
-				bug.setLine(msg.getLine());
-				bug.setColumn(0);
-			}
-			if (configuration.getIncludes().isEmpty()
-					|| configuration.getIncludes().contains(ruleInfo.getMessageByCode(msgcode))) {
-				if (configuration.getExcludes().isEmpty()
-						|| !configuration.getExcludes().contains(ruleInfo.getMessageByCode(msgcode))) {
+			} else {
+				final BugInfo bug = bldr.build((CFParsedStatement) expression, elem);
+				if (msg.getLine() != null) {
+					bug.setLine(msg.getLine());
+					bug.setColumn(0);
+				}
 					bugs.add(bug);
-				}
 			}
 		}
 	}

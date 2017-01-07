@@ -9,14 +9,14 @@ import com.cflint.config.CFLintPluginInfo.PluginInfoRule.PluginMessage;
 
 public class TestCFLintConfig2 {
 
-	final String config0 = "<config><includes code=\"ARG_VAR_CONFLICT\"/></config>";
-	final String config1 = "<config><includes code=\"COMPONENT_HINT_MISSING\"/></config>";
-	final String config2 = "<config><includes code=\"FUNCTION_HINT_MISSING\"/></config>";
-	final String config3 = "<config><includes code=\"ARG_HINT_MISSING\"/></config>";
+	final String sconfig0 = "<config><includes code=\"ARG_VAR_CONFLICT\"/></config>";
+	final String sconfig1 = "<config><includes code=\"COMPONENT_HINT_MISSING\"/></config>";
+	final String sconfig2 = "<config><includes code=\"FUNCTION_HINT_MISSING\"/></config>";
+	final String sconfig3 = "<config><includes code=\"ARG_HINT_MISSING\"/></config>";
 	@Test
 	public void test() throws Exception {
-		CFLintConfig config = com.cflint.config.ConfigUtils.unmarshal(config0, CFLintConfig.class);
-		CFLintConfig config1 = com.cflint.config.ConfigUtils.unmarshal(config0, CFLintConfig.class);
+		CFLintConfig config = com.cflint.config.ConfigUtils.unmarshal(sconfig0, CFLintConfig.class);
+		CFLintConfig config1 = com.cflint.config.ConfigUtils.unmarshal(sconfig1, CFLintConfig.class);
 		
 		assertTrue(config.includes(new PluginMessage("ARG_VAR_CONFLICT")));
 		assertTrue(!config1.includes(new PluginMessage("ARG_VAR_CONFLICT")));

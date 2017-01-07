@@ -84,8 +84,8 @@ public class CFLint implements IErrorReporter {
 	CFMLParser cfmlParser = new CFMLParser();
 	StackHandler handler = new StackHandler();
 	BugList bugs;
-	List<CFLintScanner> extensions = new ArrayList<CFLintScanner>();
-	List<String> allowedExtensions = new ArrayList<String>();
+	final List<CFLintScanner> extensions = new ArrayList<CFLintScanner>();
+	final List<String> allowedExtensions = new ArrayList<String>();
 	boolean verbose = false;
 	boolean logError = false;
 	boolean quiet = false;
@@ -94,8 +94,8 @@ public class CFLint implements IErrorReporter {
 
 	// constants
 
-	List<ScanProgressListener> scanProgressListeners = new ArrayList<ScanProgressListener>();
-	List<CFLintExceptionListener> exceptionListeners = new ArrayList<CFLintExceptionListener>();
+	final List<ScanProgressListener> scanProgressListeners = new ArrayList<ScanProgressListener>();
+	final List<CFLintExceptionListener> exceptionListeners = new ArrayList<CFLintExceptionListener>();
 
 	ConfigRuntime configuration;
 
@@ -110,7 +110,7 @@ public class CFLint implements IErrorReporter {
 		if (exceptionListeners.isEmpty()) {
 			addExceptionListener(new DefaultCFLintExceptionListener(bugs));
 		}
-		allowedExtensions = AllowedExtensionsLoader.init(RESOURCE_BUNDLE_NAME);
+		allowedExtensions.addAll(AllowedExtensionsLoader.init(RESOURCE_BUNDLE_NAME));
 		cfmlParser.setErrorReporter(this);
 	}
 
@@ -138,7 +138,7 @@ public class CFLint implements IErrorReporter {
 		if (exceptionListeners.isEmpty()) {
 			addExceptionListener(new DefaultCFLintExceptionListener(bugs));
 		}
-		allowedExtensions = AllowedExtensionsLoader.init(RESOURCE_BUNDLE_NAME);
+		allowedExtensions.addAll(AllowedExtensionsLoader.init(RESOURCE_BUNDLE_NAME));
 		cfmlParser.setErrorReporter(this);
 	}
 
@@ -859,7 +859,8 @@ public class CFLint implements IErrorReporter {
 	}
 
 	public void setAllowedExtensions(final List<String> allowedExtensions) {
-		this.allowedExtensions = allowedExtensions;
+		this.allowedExtensions.clear();
+		this.allowedExtensions.addAll(allowedExtensions);
 	}
 
 	@Override

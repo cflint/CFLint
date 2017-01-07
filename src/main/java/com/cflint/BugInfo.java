@@ -1,6 +1,5 @@
 package com.cflint;
 
-import java.io.ObjectInputStream.GetField;
 import java.util.List;
 
 import com.cflint.config.CFLintPluginInfo.PluginInfoRule.PluginMessage;
@@ -8,7 +7,6 @@ import com.cflint.config.CFLintPluginInfo.PluginInfoRule.PluginParameter;
 
 import cfml.parsing.cfscript.CFExpression;
 import cfml.parsing.cfscript.script.CFParsedStatement;
-import javolution.context.Context;
 import net.htmlparser.jericho.Element;
 
 public class BugInfo implements Comparable<BugInfo> {

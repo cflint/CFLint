@@ -1,17 +1,18 @@
 package com.cflint.xml.stax;
 
-import com.cflint.BugList;
-import com.cflint.xml.CFLintResultMarshaller;
-import com.cflint.xml.MarshallerException;
+import java.io.StringReader;
+import java.io.StringWriter;
+import java.io.Writer;
 
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
-import java.io.StringReader;
-import java.io.StringWriter;
-import java.io.Writer;
+
+import com.cflint.BugList;
+import com.cflint.xml.CFLintResultMarshaller;
+import com.cflint.xml.MarshallerException;
 
 public class FindBugsCFLintResultMarshaller implements CFLintResultMarshaller {
 

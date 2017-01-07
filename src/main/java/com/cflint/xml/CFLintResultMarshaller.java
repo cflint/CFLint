@@ -1,8 +1,8 @@
 package com.cflint.xml;
 
-import com.cflint.BugList;
-
 import java.io.Writer;
+
+import com.cflint.BugList;
 
 public interface CFLintResultMarshaller {
 

@@ -11,11 +11,8 @@ import java.util.regex.Pattern;
 import com.cflint.BugList;
 import com.cflint.plugins.CFLintScannerAdapter;
 import com.cflint.plugins.Context;
-import com.cflint.tools.CFTool;
 import com.cflint.tools.PrecedingCommentReader;
 
-import cfml.parsing.cfscript.CFAssignmentExpression;
-import cfml.parsing.cfscript.CFExpression;
 import cfml.parsing.cfscript.script.CFFuncDeclStatement;
 import cfml.parsing.cfscript.script.CFFunctionParameter;
 import cfml.parsing.cfscript.script.CFScriptStatement;

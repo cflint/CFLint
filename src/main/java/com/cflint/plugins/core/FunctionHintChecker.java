@@ -3,7 +3,6 @@ package com.cflint.plugins.core;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.cflint.BugInfo;
 import com.cflint.BugList;
 import com.cflint.plugins.CFLintScannerAdapter;
 import com.cflint.plugins.Context;

@@ -25,6 +25,8 @@ Someone has created a [SublimeLinter](http://www.sublimelinter.com) plugin [here
 
 Ray Camden created a [CFBuilder](http://www.adobe.com/products/coldfusion-builder.html) plugin [here](https://github.com/cfjedimaster/CFLint-Extension) and blogs about CFLint [here](http://www.raymondcamden.com/2014/7/31/Linting-your-ColdFusion-code#more).
 
+Sonar plugin [here](https://github.com/stepstone-tech/sonar-coldfusion)
+
 Vim [Syntastic](https://github.com/scrooloose/syntastic) support for CFML is available [here](https://github.com/cflint/cflint-syntastic).
 
 [![Build Status](https://travis-ci.org/cflint/CFLint.svg?branch=master)](https://travis-ci.org/cflint/CFLint)

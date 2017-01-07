@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.github.cflint</groupId>
 	<artifactId>CFLint</artifactId>
-	<version>0.11.0-SNAPSHOT</version>
+	<version>0.11.1</version>
 
 	<name>CFLint</name>
 	<description>
@@ -59,7 +59,7 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<cfparser.version>2.3.0-SNAPSHOT</cfparser.version>
+		<cfparser.version>2.2.12</cfparser.version>
 	</properties>
   
 	<dependencies>
@@ -423,7 +423,7 @@
 			<plugin>
 				<groupId>org.sonatype.plugins</groupId>
 				<artifactId>nexus-staging-maven-plugin</artifactId>
-				<version>1.6.2</version>
+				<version>1.6.7</version>
 				<extensions>true</extensions>
 				<configuration>
 					<serverId>ossrh</serverId>
@@ -440,7 +440,7 @@
 	<!-- Sonatype: mvn clean package -P deploy -->
 	<!-- Sonatype: mvn verify gpg:sign -DskipTests -P deploy -->
 	<!-- Sonatype: mvn deploy -DskipTests -P deploy -->
-	<!-- Sonatype: mvn nexus-staging:release -DskipTests -->
+	<!-- Sonatype: mvn nexus-staging:release -P deploy -DskipTests -->
 	<distributionManagement>
 		<snapshotRepository>
 			<id>ossrh</id>

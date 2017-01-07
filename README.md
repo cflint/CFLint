@@ -15,6 +15,7 @@ Check out the new [wiki!](https://github.com/cflint/CFLint/wiki) where you can:
   * [Learn how to include/exclude rules](https://github.com/cflint/CFLint/wiki/Include-Exclude-Rules-Using-Exteral-XML-File)
   * [Learn CFLint from the command line](https://github.com/cflint/CFLint/wiki/How-Do-I-Use-This-Tool%3F)
   * [Get the library from Maven](https://github.com/cflint/CFLint/wiki/Get-the-library-from-Maven)
+  * [Ignore Specific Flags](https://github.com/cflint/CFLint/wiki/Ignoring-Specific-Flags-In-Code)
   * [Suggest a feature](https://github.com/cflint/CFLint/wiki/How-Do-I-Suggest-Features%3F)
 
 

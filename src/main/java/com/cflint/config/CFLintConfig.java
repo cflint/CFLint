@@ -148,7 +148,7 @@ public class CFLintConfig {
 		return (getIncludes().isEmpty() || getIncludes().contains(pluginMessage));
 	}
 
-	public Object excludes(PluginMessage pluginMessage) {
+	public boolean excludes(PluginMessage pluginMessage) {
 		return (getExcludes().isEmpty() || !getExcludes().contains(pluginMessage));
 	}
 	

@@ -744,11 +744,11 @@ public class CFLint implements IErrorReporter {
 	}
 
 	protected void reportRule(final Element elem, final Object expression, final Context context,
-			final CFLintScanner plugin, final ContextMessage msg) {
+			final CFLintScanner pluginParm, final ContextMessage msg) {
 
 		final String msgcode = msg.getMessageCode();
 		final String nameVar = msg.getVariable();
-
+		final CFLintScanner plugin  = msg.getSource()==null?pluginParm:msg.getSource();
 		if (checkForDisabled(elem, msgcode)) {
 			return;
 		}

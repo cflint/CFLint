@@ -7,7 +7,9 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.cflint.config.CFLintPluginInfo.PluginInfoRule;
 import com.cflint.config.CFLintPluginInfo.PluginInfoRule.PluginMessage;
+import com.cflint.plugins.CFLintScanner;
 
 @XmlRootElement(name = "config")
 public class CFLintConfig {
@@ -152,4 +154,22 @@ public class CFLintConfig {
 		return (!getExcludes().isEmpty() && getExcludes().contains(pluginMessage));
 	}
 	
+	public PluginInfoRule getRuleByClass(final Class<?> clazz) {
+		final String className = clazz.getSimpleName();
+		for (final PluginInfoRule rule : getRules()) {
+			if (rule.getName().equals(className) || className.equals(rule.getClassName())) {
+				return rule;
+			}
+		}
+		return null;
+	}
+
+	public PluginInfoRule getRuleForPlugin(final CFLintScanner plugin) {
+		for (final PluginInfoRule rule : getRules()) {
+			if (rule.getPluginInstance() == plugin) {
+				return rule;
+			}
+		}
+		return getRuleByClass(plugin.getClass());
+	}
 }

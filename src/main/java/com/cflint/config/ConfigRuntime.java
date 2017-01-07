@@ -6,6 +6,7 @@ import java.util.List;
 import com.cflint.config.CFLintPluginInfo.PluginInfoRule;
 import com.cflint.config.CFLintPluginInfo.PluginInfoRule.PluginMessage;
 import com.cflint.plugins.CFLintScanner;
+import com.cflint.tools.CFTool;
 
 /**
  * Combines information from the config.xml and the core CFLint information and
@@ -44,7 +45,7 @@ public class ConfigRuntime extends CFLintConfig {
 						if (config.getIncludes().contains(msg)) {
 							for (final PluginMessage cfgMsg : config.getIncludes()) {
 								if (cfgMsg.equals(msg)) {
-									merge(cfgMsg, msg);
+									CFTool.merge(cfgMsg, msg);
 								}
 							}
 
@@ -70,38 +71,7 @@ public class ConfigRuntime extends CFLintConfig {
 		}
 	}
 
-	/*
-	 * Apply the configuration to the existing rule. Overlay it.
-	 */
-	private void merge(final PluginMessage cfgMsg, final PluginMessage msg) {
-		if (!isEmpty(cfgMsg.getMessageText())) {
-			msg.setMessageText(cfgMsg.getMessageText());
-		}
-		if (!isEmpty(cfgMsg.getSeverity())) {
-			msg.setSeverity(cfgMsg.getSeverity());
-		}
-	}
 
-	private boolean isEmpty(final String messageText) {
-		return messageText == null || messageText.trim().length() == 0;
-	}
 
-	public PluginInfoRule getRuleByClass(final Class<?> clazz) {
-		final String className = clazz.getSimpleName();
-		for (final PluginInfoRule rule : getRules()) {
-			if (rule.getName().equals(className) || className.equals(rule.getClassName())) {
-				return rule;
-			}
-		}
-		return null;
-	}
 
-	public PluginInfoRule getRuleForPlugin(final CFLintScanner plugin) {
-		for (final PluginInfoRule rule : getRules()) {
-			if (rule.getPluginInstance() == plugin) {
-				return rule;
-			}
-		}
-		return getRuleByClass(plugin.getClass());
-	}
 }

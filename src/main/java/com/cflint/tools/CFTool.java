@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import com.cflint.config.CFLintPluginInfo.PluginInfoRule.PluginMessage;
+
 import cfml.parsing.cfscript.CFExpression;
 import net.htmlparser.jericho.Element;
 
@@ -40,4 +42,19 @@ public class CFTool {
 		return retval;
 	}
 	
+	/*
+	 * Apply the configuration to the existing rule. Overlay it.
+	 */
+	public static void merge(final PluginMessage cfgMsg, final PluginMessage msg) {
+		if (!isEmpty(cfgMsg.getMessageText())) {
+			msg.setMessageText(cfgMsg.getMessageText());
+		}
+		if (!isEmpty(cfgMsg.getSeverity())) {
+			msg.setSeverity(cfgMsg.getSeverity());
+		}
+	}
+
+	private static boolean isEmpty(final String messageText) {
+		return messageText == null || messageText.trim().length() == 0;
+	}
 }

@@ -3,6 +3,7 @@ package com.cflint.main;
 import java.awt.Desktop;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -343,17 +344,7 @@ public class CFLintMain {
 						"Unable to use extensions (" + extensions + ") using default instead. " + e.getMessage());
 			}
 		}
-		CFLintFilter filter = CFLintFilter.createFilter(verbose);
-		if (filterFile != null) {
-			final File ffile = new File(filterFile);
-			if (ffile.exists()) {
-				final FileInputStream fis = new FileInputStream(ffile);
-				final byte b[] = new byte[fis.available()];
-				fis.read(b);
-				fis.close();
-				filter = CFLintFilter.createFilter(new String(b), verbose);
-			}
-		}
+		final CFLintFilter filter = createBaseFilter();
 
 		if (excludeCodes != null && excludeCodes.length > 0) {
 			filter.excludeCode(excludeCodes);
@@ -426,6 +417,21 @@ public class CFLintMain {
 		if (excludeCodes != null) {
 			cflint.getBugs().getFilter().excludeCode(excludeCodes);
 		}
+	}
+
+	protected CFLintFilter createBaseFilter() throws IOException, FileNotFoundException {
+		CFLintFilter filter = CFLintFilter.createFilter(verbose);
+		if (filterFile != null) {
+			final File ffile = new File(filterFile);
+			if (ffile.exists()) {
+				final FileInputStream fis = new FileInputStream(ffile);
+				final byte b[] = new byte[fis.available()];
+				fis.read(b);
+				fis.close();
+				filter = CFLintFilter.createFilter(new String(b), verbose);
+			}
+		}
+		return filter;
 	}
 
     /**

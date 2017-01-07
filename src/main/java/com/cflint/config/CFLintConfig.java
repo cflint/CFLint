@@ -17,6 +17,8 @@ public class CFLintConfig {
 	List<PluginMessage> excludes = new ArrayList<PluginMessage>();
 	List<PluginMessage> includes = new ArrayList<PluginMessage>();
 
+	private boolean inheritParent = true;
+	
 	public List<ConfigOutput> getOutput() {
 		return output;
 	}
@@ -51,6 +53,15 @@ public class CFLintConfig {
 	@XmlElement(name = "includes")
 	public void setIncludes(final List<PluginMessage> includes) {
 		this.includes = includes;
+	}
+
+	public boolean isInheritParent() {
+		return inheritParent;
+	}
+
+	@XmlAttribute(name = "inheritParent")
+	public void setInheritParent(boolean inheritParent) {
+		this.inheritParent = inheritParent;
 	}
 
 	public static class ConfigOutput {
@@ -132,4 +143,13 @@ public class CFLintConfig {
 			}
 		}
 	}
+
+	public boolean includes(PluginMessage pluginMessage) {
+		return (getIncludes().isEmpty() || getIncludes().contains(pluginMessage));
+	}
+
+	public Object excludes(PluginMessage pluginMessage) {
+		return (getExcludes().isEmpty() || !getExcludes().contains(pluginMessage));
+	}
+	
 }

@@ -10,7 +10,7 @@ import org.junit.Test;
 
 import com.cflint.config.CFLintPluginInfo.PluginInfoRule;
 import com.cflint.config.CFLintPluginInfo.PluginInfoRule.PluginMessage;
-import com.cflint.config.ConfigRuntime;
+import com.cflint.config.CFLintConfig;
 import com.cflint.plugins.core.OutputParmMissing;
 
 import cfml.parsing.reporting.ParseException;
@@ -20,8 +20,8 @@ public class TestCFBugs_OutputDef {
 	private CFLint cfBugs;
 
 	@Before
-	public void setUp() {
-		final ConfigRuntime conf = new ConfigRuntime();
+	public void setUp() throws Exception{
+		final CFLintConfig conf = new CFLintConfig();
 		final PluginInfoRule pluginRule = new PluginInfoRule();
 		pluginRule.setName("OutputParmMissing");
 		conf.getRules().add(pluginRule);

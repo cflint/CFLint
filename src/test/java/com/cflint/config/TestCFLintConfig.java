@@ -60,8 +60,6 @@ public class TestCFLintConfig {
 		message.setMessageText("messageText");
 		message.setSeverity("WARNING");
 
-		System.out.println(ConfigUtils.marshalJson(config));
-		
 		Marshaller jaxbMarshaller = ConfigUtils.createMarshaller();
 
 		// output pretty printed
@@ -70,7 +68,6 @@ public class TestCFLintConfig {
 		StringWriter sw = new StringWriter();
 		jaxbMarshaller.marshal(config, sw);
 		assertEquals(expected, sw.toString().trim());
-		System.out.println(sw);
 	}
 	
 	@Test

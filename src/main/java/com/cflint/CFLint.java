@@ -2,6 +2,8 @@ package com.cflint;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
@@ -11,6 +13,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import javax.xml.bind.JAXBException;
 
 import org.antlr.runtime.BitSet;
 import org.antlr.runtime.IntStream;
@@ -23,6 +27,7 @@ import org.antlr.v4.runtime.dfa.DFA;
 
 import com.cflint.BugInfo.BugInfoBuilder;
 import com.cflint.config.CFLintConfig;
+import com.cflint.config.CFLintConfiguration;
 import com.cflint.config.CFLintPluginInfo;
 import com.cflint.config.CFLintPluginInfo.PluginInfoRule;
 import com.cflint.config.CFLintPluginInfo.PluginInfoRule.PluginMessage;
@@ -97,13 +102,14 @@ public class CFLint implements IErrorReporter {
 	final List<ScanProgressListener> scanProgressListeners = new ArrayList<ScanProgressListener>();
 	final List<CFLintExceptionListener> exceptionListeners = new ArrayList<CFLintExceptionListener>();
 
-	ConfigRuntime configuration;
+	CFLintConfiguration configuration;
 
-	public CFLint(final CFLintConfig configFile) throws IOException {
+	public CFLint(final CFLintConfiguration configFile) throws IOException {
 		final CFLintPluginInfo pluginInfo = ConfigUtils.loadDefaultPluginInfo();
-		configuration = new ConfigRuntime(configFile, pluginInfo);
+		//configuration = new ConfigRuntime(configFile, pluginInfo);
+		configuration =configFile==null?new CFLintConfig():configFile;
 		for (final PluginInfoRule ruleInfo : configuration.getRules()) {
-			addScanner(ConfigUtils.loadPlugin(ruleInfo));
+			addScanner(ConfigUtils.loadPlugin(ruleInfo));//TODO load them all
 		}
 		final CFLintFilter filter = CFLintFilter.createFilter(verbose);
 		bugs = new BugList(filter);
@@ -115,7 +121,7 @@ public class CFLint implements IErrorReporter {
 	}
 
 	@Deprecated
-	public CFLint(final ConfigRuntime configuration, final CFLintScanner... bugsScanners) {
+	public CFLint(final CFLintConfiguration configuration, final CFLintScanner... bugsScanners) {
 		super();
 		this.configuration = configuration;
 
@@ -155,8 +161,23 @@ public class CFLint implements IErrorReporter {
 			return;
 		}
 		if (folderOrFile.isDirectory()) {
+			boolean newConfigFlag = false;
+			for (final File file : folderOrFile.listFiles()) {
+				if(file.getName().equalsIgnoreCase(".cflintrc.xml")){
+					try {
+						CFLintConfiguration newConfig = com.cflint.config.ConfigUtils.unmarshal(new FileInputStream(file), CFLintConfig.class);
+						System.out.println("read config " + file);
+						newConfigFlag =true;
+					} catch (Exception e) {
+						System.err.println("Could not read config file " + file);
+					} 
+				}
+			}
 			for (final File file : folderOrFile.listFiles()) {
 				scan(file);
+			}
+			if(newConfigFlag){
+				//TODO unwrap
 			}
 		} else if (!folderOrFile.isHidden() && FileUtil.checkExtension(folderOrFile, allowedExtensions)) {
 			final String src = FileUtil.loadFile(folderOrFile);

@@ -9,7 +9,7 @@ import org.junit.Test;
 
 import com.cflint.config.CFLintPluginInfo.PluginInfoRule;
 import com.cflint.config.CFLintPluginInfo.PluginInfoRule.PluginMessage;
-import com.cflint.config.ConfigRuntime;
+import com.cflint.config.CFLintConfig;
 import com.cflint.plugins.core.ArgVarChecker;
 
 import cfml.parsing.reporting.ParseException;
@@ -20,9 +20,9 @@ public class TestCFBugs_ArgsUse {
 	private CFLint cfBugs;
 
 	@Before
-	public void setUp() {
+	public void setUp() throws Exception{
 		handler = new StackHandler();
-		final ConfigRuntime conf = new ConfigRuntime();
+		final CFLintConfig conf = new CFLintConfig();
 		final PluginInfoRule pluginRule = new PluginInfoRule();
 		pluginRule.setName("ArgVarChecker");
 		conf.getRules().add(pluginRule);

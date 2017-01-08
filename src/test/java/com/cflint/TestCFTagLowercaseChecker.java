@@ -7,7 +7,7 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.cflint.config.ConfigRuntime;
+import com.cflint.config.CFLintConfig;
 import com.cflint.plugins.core.CFTagLowercaseChecker;
 
 import cfml.parsing.reporting.ParseException;
@@ -17,8 +17,8 @@ public class TestCFTagLowercaseChecker {
 	private CFLint cfBugs;
 
 	@Before
-	public void setUp() {
-		final ConfigRuntime conf = new ConfigRuntime();
+	public void setUp() throws Exception{
+		final CFLintConfig conf = new CFLintConfig();
 		cfBugs = new CFLint(conf, new CFTagLowercaseChecker());
 		cfBugs.setLogError(false);
 	}

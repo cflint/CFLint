@@ -11,7 +11,7 @@ import org.junit.Test;
 
 import com.cflint.config.CFLintPluginInfo.PluginInfoRule;
 import com.cflint.config.CFLintPluginInfo.PluginInfoRule.PluginMessage;
-import com.cflint.config.ConfigRuntime;
+import com.cflint.config.CFLintConfig;
 import com.cflint.plugins.core.QueryParamChecker;
 
 import cfml.parsing.reporting.ParseException;
@@ -21,8 +21,8 @@ public class TestCFBugs_QueryParams {
 	private CFLint cfBugs;
 
 	@Before
-	public void setUp() {
-		final ConfigRuntime conf = new ConfigRuntime();
+	public void setUp() throws Exception{
+		final CFLintConfig conf = new CFLintConfig();
 		PluginInfoRule pluginRule = new PluginInfoRule();
 		pluginRule.setName("QueryParamChecker");
 		conf.getRules().add(pluginRule);
@@ -77,9 +77,6 @@ public class TestCFBugs_QueryParams {
 				+ "</cfcomponent>";
 		cfBugs.process(cfcSrc, "test");
 		final List<BugInfo> result = cfBugs.getBugs().getFlatBugList();
-		for (final BugInfo bi : result) {
-			System.out.println(bi);
-		}
 		assertEquals(2, result.size());
 		assertEquals("CFQUERYPARAM_REQ", result.get(0).getMessageCode());
 		assertEquals(3, result.get(0).getLine());
@@ -94,9 +91,6 @@ public class TestCFBugs_QueryParams {
 				+ "WHERE p.id = #LOCAL.id#\r\n" + "and p.name = #LOCAL.abc#\r\n" + "</cfquery>";
 		cfBugs.process(cfcSrc, "test");
 		final List<BugInfo> result = cfBugs.getBugs().getFlatBugList();
-		for (final BugInfo bi : result) {
-			System.out.println(bi);
-		}
 		assertEquals(2, result.size());
 		assertEquals("CFQUERYPARAM_REQ", result.get(0).getMessageCode());
 		assertEquals(1, result.get(0).getLine());
@@ -110,9 +104,6 @@ public class TestCFBugs_QueryParams {
 		final String cfcSrc = "<cfquery name=\"outDocs\" dbtype=\"query\"> Select * From arguments.documents WHERE DocumentType = 'COLD' and TransactionType IN ('1','6') #orderBy# </cfquery> ";
 		cfBugs.process(cfcSrc, "test");
 		final List<BugInfo> result = cfBugs.getBugs().getFlatBugList();
-		for (final BugInfo bi : result) {
-			System.out.println(bi);
-		}
 		assertEquals(0, result.size());
 	}
 
@@ -124,9 +115,6 @@ public class TestCFBugs_QueryParams {
 				+ "</cfcomponent>";
 		cfBugs.process(cfcSrc, "test");
 		final List<BugInfo> result = cfBugs.getBugs().getBugList().values().iterator().next();
-		for (final BugInfo bi : result) {
-			System.out.println(bi);
-		}
 		assertEquals(1, result.size());
 		assertEquals("QUERYPARAM_REQ", result.get(0).getMessageCode());
 		assertEquals(4, result.get(0).getLine());
@@ -151,12 +139,8 @@ public class TestCFBugs_QueryParams {
 				"</cfquery>";
 		cfBugs.process(cfcSrc, "test");
 		final List<BugInfo> result = cfBugs.getBugs().getFlatBugList();
-		for (final BugInfo bi : result) {
-			System.out.println(bi);
-		}
 		assertEquals(1, result.size());
 		assertEquals("CFQUERYPARAM_REQ", result.get(0).getMessageCode());
 		assertEquals("queryName", result.get(0).getVariable());
-		System.out.println(result.get(0).getExpression());
 	}
 }

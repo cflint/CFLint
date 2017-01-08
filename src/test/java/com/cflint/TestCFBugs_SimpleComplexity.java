@@ -11,7 +11,7 @@ import org.junit.Test;
 
 import com.cflint.config.CFLintPluginInfo.PluginInfoRule;
 import com.cflint.config.CFLintPluginInfo.PluginInfoRule.PluginMessage;
-import com.cflint.config.ConfigRuntime;
+import com.cflint.config.CFLintConfig;
 import com.cflint.plugins.core.SimpleComplexityChecker;
 
 import cfml.parsing.reporting.ParseException;
@@ -21,16 +21,9 @@ public class TestCFBugs_SimpleComplexity {
 	private CFLint cfBugs;
 
 	@Before
-	public void setUp() {
-		final ConfigRuntime conf = new ConfigRuntime();
-		final PluginInfoRule pluginRule = new PluginInfoRule();
-		pluginRule.setName("SimpleComplexityChecker");
-		conf.getRules().add(pluginRule);
-		PluginMessage pluginMessage = new PluginMessage("FUNCTION_TOO_COMPLEX");
-		pluginMessage.setSeverity("WARNING");
-		pluginRule.getMessages().add(pluginMessage);
-
-		cfBugs = new CFLint(conf, new SimpleComplexityChecker());
+	public void setUp() throws Exception{
+		final com.cflint.config.CFLintConfiguration conf = CFLintConfig.createDefaultLimited("SimpleComplexityChecker");
+		cfBugs = new CFLint(conf);
 	}
 
 	@Test

@@ -10,7 +10,7 @@ import org.junit.Test;
 
 import com.cflint.config.CFLintPluginInfo.PluginInfoRule;
 import com.cflint.config.CFLintPluginInfo.PluginInfoRule.PluginMessage;
-import com.cflint.config.ConfigRuntime;
+import com.cflint.config.CFLintConfig;
 import com.cflint.plugins.core.CreateObjectChecker;
 
 import cfml.parsing.reporting.ParseException;
@@ -20,14 +20,9 @@ public class TestCreateObjectChecker {
 	private CFLint cfBugs;
 
 	@Before
-	public void setUp() {
-		final ConfigRuntime conf = new ConfigRuntime();
-		final PluginInfoRule pluginRule = new PluginInfoRule();
-		pluginRule.setName("CreateObjectChecker");
-		conf.getRules().add(pluginRule);
-		final PluginMessage pluginMessage = new PluginMessage("AVOID_USING_CREATEOBJECT");
-		pluginMessage.setSeverity("INFO");
-		cfBugs = new CFLint(conf, new CreateObjectChecker());
+	public void setUp() throws Exception{
+		final com.cflint.config.CFLintConfiguration conf = CFLintConfig.createDefaultLimited("CreateObjectChecker");
+		cfBugs = new CFLint(conf);
 	}
 
 	@Test

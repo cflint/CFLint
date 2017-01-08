@@ -10,7 +10,7 @@ import org.junit.Test;
 
 import com.cflint.config.CFLintPluginInfo.PluginInfoRule;
 import com.cflint.config.CFLintPluginInfo.PluginInfoRule.PluginMessage;
-import com.cflint.config.ConfigRuntime;
+import com.cflint.config.CFLintConfig;
 import com.cflint.plugins.core.BooleanExpressionChecker;
 
 import cfml.parsing.reporting.ParseException;
@@ -20,16 +20,9 @@ public class TestBooleanExpressionChecker {
 	private CFLint cfBugs;
 
 	@Before
-	public void setUp() {
-		final ConfigRuntime conf = new ConfigRuntime();
-		final PluginInfoRule pluginRule = new PluginInfoRule();
-		pluginRule.setName("BooleanExpressionChecker");
-		conf.getRules().add(pluginRule);
-		final PluginMessage pluginMessage = new PluginMessage("EXPLICIT_BOOLEAN_CHECK");
-		pluginMessage.setSeverity("INFO");
-		pluginMessage.setMessageText("Explicit check of boolean expession is not needed.");
-		pluginRule.getMessages().add(pluginMessage);
-		cfBugs = new CFLint(conf, new BooleanExpressionChecker());
+	public void setUp() throws Exception{
+		final com.cflint.config.CFLintConfiguration conf = CFLintConfig.createDefaultLimited("BooleanExpressionChecker");
+		cfBugs = new CFLint(conf);
 	}
 
 	@Test

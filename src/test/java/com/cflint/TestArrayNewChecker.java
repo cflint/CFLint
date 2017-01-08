@@ -10,7 +10,8 @@ import org.junit.Test;
 
 import com.cflint.config.CFLintPluginInfo.PluginInfoRule;
 import com.cflint.config.CFLintPluginInfo.PluginInfoRule.PluginMessage;
-import com.cflint.config.ConfigRuntime;
+import com.cflint.config.CFLintConfig;
+import com.cflint.config.CFLintConfiguration;
 import com.cflint.plugins.core.ArrayNewChecker;
 
 import cfml.parsing.reporting.ParseException;
@@ -20,16 +21,9 @@ public class TestArrayNewChecker {
 	private CFLint cfBugs;
 
 	@Before
-	public void setUp() {
-		final ConfigRuntime conf = new ConfigRuntime();
-		final PluginInfoRule pluginRule = new PluginInfoRule();
-		pluginRule.setName("ArrayNewChecker");
-		conf.getRules().add(pluginRule);
-		final PluginMessage pluginMessage = new PluginMessage("AVOID_USING_ARRAYNEW");
-		pluginMessage.setSeverity("INFO");
-		pluginMessage.setMessageText("Use implict array construction instead (= []).");
-		pluginRule.getMessages().add(pluginMessage);
-		cfBugs = new CFLint(conf, new ArrayNewChecker());
+	public void setUp() throws Exception{
+		final CFLintConfiguration conf = CFLintConfig.createDefaultLimited("ArrayNewChecker");
+		cfBugs = new CFLint(conf);
 	}
 
 	@Test

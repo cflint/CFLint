@@ -13,7 +13,7 @@ import org.junit.Test;
 
 import com.cflint.config.CFLintPluginInfo.PluginInfoRule;
 import com.cflint.config.CFLintPluginInfo.PluginInfoRule.PluginMessage;
-import com.cflint.config.ConfigRuntime;
+import com.cflint.config.CFLintConfig;
 import com.cflint.plugins.core.GlobalVarChecker;
 import com.cflint.plugins.core.NestedCFOutput;
 import com.cflint.plugins.core.TypedQueryNew;
@@ -27,7 +27,7 @@ public class TestCFBugs {
 	
 	@Before
 	public void setUp(){
-		ConfigRuntime conf = new ConfigRuntime();
+		CFLintConfig conf = new CFLintConfig();
 		PluginInfoRule pluginRule = new PluginInfoRule();
 		pluginRule.setName("VarScoper");
 		conf.getRules().add(pluginRule);
@@ -329,9 +329,6 @@ public class TestCFBugs {
 				"</cfcomponent>";
 		cfBugs.process(cfcSrc,"test");
 		List<BugInfo> result = cfBugs.getBugs().getBugList().values().iterator().next();
-		for(BugInfo bi: result){
-			System.out.println(bi);
-		}
 		assertEquals(2,result.size());
 	}
 	
@@ -351,9 +348,6 @@ public class TestCFBugs {
 				"</cfcomponent>";
 		cfBugs.process(cfcSrc,"test");
 		List<BugInfo> result = cfBugs.getBugs().getBugList().values().iterator().next();
-		for(BugInfo bi: result){
-			System.out.println(bi);
-		}
 		assertEquals(2,result.size());
 	}
 	
@@ -385,9 +379,6 @@ public class TestCFBugs {
 				"</cfcomponent>";
 		cfBugs.process(cfcSrc,"test");
 		List<BugInfo> result = cfBugs.getBugs().getBugList().values().iterator().next();
-		for(BugInfo bi: result){
-			System.out.println(bi);
-		}
 		assertEquals(1,result.size());
 		assertEquals("QUERYNEW_DATATYPE",result.get(0).getMessageCode());
 		assertEquals(6,result.get(0).getLine());

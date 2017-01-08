@@ -11,7 +11,7 @@ import org.junit.Test;
 
 import com.cflint.config.CFLintPluginInfo.PluginInfoRule;
 import com.cflint.config.CFLintPluginInfo.PluginInfoRule.PluginMessage;
-import com.cflint.config.ConfigRuntime;
+import com.cflint.config.CFLintConfig;
 import com.cflint.plugins.core.ComponentNameChecker;
 
 import cfml.parsing.reporting.ParseException;
@@ -21,48 +21,18 @@ public class TestCFBugs_ComponentNames {
 	private CFLint cfBugs;
 
 	@Before
-	public void setUp() {
-		final ConfigRuntime conf = new ConfigRuntime();
-		final PluginInfoRule pluginRule = new PluginInfoRule();
-		pluginRule.setName("ComponentNameChecker");
-		conf.getRules().add(pluginRule);
-		PluginMessage pluginMessage = new PluginMessage("COMPONENT_INVALID_NAME");
-		pluginMessage.setSeverity("INFO");
-		pluginRule.getMessages().add(pluginMessage);
-		pluginMessage = new PluginMessage("COMPONENT_ALLCAPS_NAME");
-		pluginMessage.setSeverity("INFO");
-		pluginRule.getMessages().add(pluginMessage);
-		pluginMessage = new PluginMessage("COMPONENT_TOO_SHORT");
-		pluginMessage.setSeverity("INFO");
-		pluginRule.getMessages().add(pluginMessage);
-		pluginRule.addParameter("MinLength", "3");
-		pluginRule.addParameter("MaxLength", "15");
-		pluginMessage = new PluginMessage("COMPONENT_TOO_LONG");
-		pluginMessage.setSeverity("INFO");
-		pluginRule.getMessages().add(pluginMessage);
-		pluginMessage = new PluginMessage("COMPONENT_TOO_WORDY");
-		pluginMessage.setSeverity("INFO");
-		pluginRule.getMessages().add(pluginMessage);
-		pluginRule.addParameter("MaxWords", "3");
-		pluginMessage = new PluginMessage("COMPONENT_IS_TEMPORARY");
-		pluginMessage.setSeverity("INFO");
-		pluginRule.getMessages().add(pluginMessage);
-		pluginMessage = new PluginMessage("COMPONENT_HAS_PREFIX_OR_POSTFIX");
-		pluginMessage.setSeverity("INFO");
-		pluginRule.getMessages().add(pluginMessage);
-
-		final ComponentNameChecker checker = new ComponentNameChecker();
-		cfBugs = new CFLint(conf, checker);
-		cfBugs.setVerbose(true);
+	public void setUp() throws Exception{
+		final com.cflint.config.CFLintConfiguration conf = CFLintConfig.createDefaultLimited("ComponentNameChecker");
+		cfBugs = new CFLint(conf);
 	}
 
 	@Test
 	public void testValidNamesTag() throws ParseException, IOException {
 		final String tagSrc = "<cfcomponent>\r\n"
 		 + "</cfcomponent>";
-		cfBugs.process(tagSrc, "NiceComponentName.cfc");
+		cfBugs.process(tagSrc, "NicComponentNm.cfc");
 		Collection<List<BugInfo>> result = cfBugs.getBugs().getBugList().values();
-		assertEquals(0, result.size());
+		assertEquals(cfBugs.getBugs().getBugList().values().toString(),0, result.size());
 	}
 
 	@Test
@@ -169,7 +139,7 @@ public class TestCFBugs_ComponentNames {
 	public void testValidNamesScript() throws ParseException, IOException {
 		final String scriptSrc = "component {\r\n"
 		 + "}";
-		cfBugs.process(scriptSrc, "NiceComponentName.cfc");
+		cfBugs.process(scriptSrc, "NicComponentNm.cfc");
 		Collection<List<BugInfo>> result = cfBugs.getBugs().getBugList().values();
 		assertEquals(0, result.size());
 	}

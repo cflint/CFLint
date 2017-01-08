@@ -11,7 +11,7 @@ import org.junit.Test;
 
 import com.cflint.config.CFLintPluginInfo.PluginInfoRule;
 import com.cflint.config.CFLintPluginInfo.PluginInfoRule.PluginMessage;
-import com.cflint.config.ConfigRuntime;
+import com.cflint.config.CFLintConfig;
 import com.cflint.plugins.core.FileCaseChecker;
 
 import cfml.parsing.reporting.ParseException;
@@ -21,16 +21,9 @@ public class TestFileCaseChecker {
 	private CFLint cfBugs;
 
 	@Before
-	public void setUp() {
-		final ConfigRuntime conf = new ConfigRuntime();
-		final PluginInfoRule pluginRule = new PluginInfoRule();
-		pluginRule.setName("FileCaseChecker");
-		conf.getRules().add(pluginRule);
-		PluginMessage pluginMessage = new PluginMessage("FILE_SHOULD_START_WITH_LOWERCASE");
-		pluginMessage.setSeverity("INFO");
-		pluginRule.getMessages().add(pluginMessage);
-
-		cfBugs = new CFLint(conf, new FileCaseChecker());
+	public void setUp() throws Exception{
+		final com.cflint.config.CFLintConfiguration conf = CFLintConfig.createDefaultLimited("FileCaseChecker");
+		cfBugs = new CFLint(conf);
 	}
 
 	@Test

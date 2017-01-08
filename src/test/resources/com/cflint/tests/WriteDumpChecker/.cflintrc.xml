@@ -1,1 +1,1 @@
-<config><includes code="AVOID_USING_WRITEDUMP"/></config>
+<config  inheritParent="false"><includes code="AVOID_USING_WRITEDUMP"/></config>

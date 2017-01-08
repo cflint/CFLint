@@ -12,7 +12,9 @@ import com.cflint.config.CFLintPluginInfo.PluginInfoRule.PluginMessage;
 import com.cflint.plugins.CFLintScanner;
 
 @XmlRootElement(name = "config")
-public class CFLintConfig {
+public class CFLintConfig implements CFLintConfiguration {
+	
+	
 
 	List<ConfigOutput> output = new ArrayList<CFLintConfig.ConfigOutput>();
 	List<CFLintPluginInfo.PluginInfoRule> rules = new ArrayList<CFLintPluginInfo.PluginInfoRule>();
@@ -20,7 +22,11 @@ public class CFLintConfig {
 	List<PluginMessage> includes = new ArrayList<PluginMessage>();
 
 	private boolean inheritParent = true;
+	private boolean inheritPlugins = true;
 	
+	/* (non-Javadoc)
+	 * @see com.cflint.config.CFLintConfiguration#getOutput()
+	 */
 	public List<ConfigOutput> getOutput() {
 		return output;
 	}
@@ -30,6 +36,9 @@ public class CFLintConfig {
 		this.output = output;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.cflint.config.CFLintConfiguration#getRules()
+	 */
 	public List<CFLintPluginInfo.PluginInfoRule> getRules() {
 		return rules;
 	}
@@ -39,6 +48,9 @@ public class CFLintConfig {
 		this.rules = rules;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.cflint.config.CFLintConfiguration#getExcludes()
+	 */
 	public List<PluginMessage> getExcludes() {
 		return excludes;
 	}
@@ -48,6 +60,9 @@ public class CFLintConfig {
 		this.excludes = excludes;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.cflint.config.CFLintConfiguration#getIncludes()
+	 */
 	public List<PluginMessage> getIncludes() {
 		return includes;
 	}
@@ -66,6 +81,15 @@ public class CFLintConfig {
 		this.inheritParent = inheritParent;
 	}
 
+	public boolean isInheritPlugins() {
+		return inheritPlugins;
+	}
+
+	@XmlAttribute(name = "inheritPlugins")
+	public void setInheritPlugins(boolean inheritPlugins) {
+		this.inheritPlugins = inheritPlugins;
+	}
+	
 	public static class ConfigOutput {
 
 		String name;
@@ -146,14 +170,26 @@ public class CFLintConfig {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see com.cflint.config.CFLintConfiguration#includes(com.cflint.config.CFLintPluginInfo.PluginInfoRule.PluginMessage)
+	 */
+	@Override
 	public boolean includes(PluginMessage pluginMessage) {
 		return (getIncludes().isEmpty() || getIncludes().contains(pluginMessage));
 	}
 
+	/* (non-Javadoc)
+	 * @see com.cflint.config.CFLintConfiguration#excludes(com.cflint.config.CFLintPluginInfo.PluginInfoRule.PluginMessage)
+	 */
+	@Override
 	public boolean excludes(PluginMessage pluginMessage) {
 		return (!getExcludes().isEmpty() && getExcludes().contains(pluginMessage));
 	}
 	
+	/* (non-Javadoc)
+	 * @see com.cflint.config.CFLintConfiguration#getRuleByClass(java.lang.Class)
+	 */
+	@Override
 	public PluginInfoRule getRuleByClass(final Class<?> clazz) {
 		final String className = clazz.getSimpleName();
 		for (final PluginInfoRule rule : getRules()) {
@@ -164,6 +200,10 @@ public class CFLintConfig {
 		return null;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.cflint.config.CFLintConfiguration#getRuleForPlugin(com.cflint.plugins.CFLintScanner)
+	 */
+	@Override
 	public PluginInfoRule getRuleForPlugin(final CFLintScanner plugin) {
 		for (final PluginInfoRule rule : getRules()) {
 			if (rule.getPluginInstance() == plugin) {
@@ -172,4 +212,39 @@ public class CFLintConfig {
 		}
 		return getRuleByClass(plugin.getClass());
 	}
+
+	@Override
+	public void addInclude(PluginMessage pluginMessage) {
+		includes.add(pluginMessage);
+	}
+
+	@Override
+	public void addExclude(PluginMessage pluginMessage) {
+		excludes.add(pluginMessage);
+	}
+	
+	public static CFLintConfiguration createDefault(){
+		final CFLintPluginInfo pluginInfo = ConfigUtils.loadDefaultPluginInfo();
+		CFLintConfig defaultConfig = new CFLintConfig();
+		defaultConfig.setRules(pluginInfo.getRules());
+		return defaultConfig;
+	}
+
+	/**
+	 * Limit the rule set, primarily for unit test support
+	 * @param rulename
+	 */
+	public static CFLintConfiguration createDefaultLimited(String ... rulenames){
+		final CFLintPluginInfo pluginInfo = ConfigUtils.loadDefaultPluginInfo();
+		CFLintConfig defaultConfig = new CFLintConfig();
+		for(CFLintPluginInfo.PluginInfoRule rule:pluginInfo.getRules()){
+			for(String rulename:rulenames){
+				if(rule.getName().equalsIgnoreCase(rulename)){
+					defaultConfig.getRules().add(rule);
+				}
+			}
+		}
+		return defaultConfig;
+	}
+	
 }

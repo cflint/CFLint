@@ -11,7 +11,7 @@ import org.junit.Test;
 
 import com.cflint.config.CFLintPluginInfo.PluginInfoRule;
 import com.cflint.config.CFLintPluginInfo.PluginInfoRule.PluginMessage;
-import com.cflint.config.ConfigRuntime;
+import com.cflint.config.CFLintConfig;
 import com.cflint.plugins.core.TooManyFunctionsChecker;
 
 import cfml.parsing.reporting.ParseException;
@@ -21,16 +21,9 @@ public class TestCFBugs_TooManyFunctions {
 	private CFLint cfBugs;
 
 	@Before
-	public void setUp() {
-		final ConfigRuntime conf = new ConfigRuntime();
-		final PluginInfoRule pluginRule = new PluginInfoRule();
-		pluginRule.setName("TooManyFunctionsChecker");
-		conf.getRules().add(pluginRule);
-		PluginMessage pluginMessage = new PluginMessage("EXCESSIVE_FUNCTIONS");
-		pluginMessage.setSeverity("WARNING");
-		pluginRule.getMessages().add(pluginMessage);
-
-		cfBugs = new CFLint(conf, new TooManyFunctionsChecker());
+	public void setUp() throws Exception{
+		final com.cflint.config.CFLintConfiguration conf = CFLintConfig.createDefaultLimited("TooManyFunctionsChecker");
+		cfBugs = new CFLint(conf);
 	}
 
 	@Test

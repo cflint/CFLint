@@ -21,56 +21,56 @@ public class ConfigRuntime extends CFLintConfig {
 
 	}
 
-	public ConfigRuntime(final CFLintConfig config, final CFLintPluginInfo pluginInfo) {
+	public ConfigRuntime(final CFLintConfiguration config, final CFLintPluginInfo pluginInfo) {
 		final List<PluginInfoRule> rules = new ArrayList<PluginInfoRule>();
 
-		if (config != null) {
-			includes.addAll(config.getIncludes());
-			excludes.addAll(config.getExcludes());
-			rules.addAll(config.getRules());
-		}
-		for (final PluginInfoRule rule : pluginInfo.getRules()) {
-			if (!rules.contains(rule)) {
-				rules.add(rule);
-			}
-		}
-
-		if (config != null) {
-			// If includes is specified, load *only* those messages
-			if (!config.getIncludes().isEmpty()) {
-				for (final PluginInfoRule rule : rules) {
-					// Include the rule if at least one of the messages is
-					// included.
-					for (final PluginMessage msg : rule.getMessages()) {
-						if (config.getIncludes().contains(msg)) {
-							for (final PluginMessage cfgMsg : config.getIncludes()) {
-								if (cfgMsg.equals(msg)) {
-									CFTool.merge(cfgMsg, msg);
-								}
-							}
-
-							getRules().add(rule);
-							break;
-						}
-					}
-				}
-			} else {// Otherwise load all considering the excludes.
-				for (final PluginInfoRule rule : rules) {
-					// Exclude the rule if ALL of the messages are excluded.
-					boolean excluded = true;
-					for (final PluginMessage msg : rule.getMessages()) {
-						excluded = excluded && config.getExcludes().contains(msg);
-					}
-					if (!excluded) {
-						getRules().add(rule);
-					}
-				}
-			}
-		} else {
-			getRules().addAll(rules);
-		}
+//		if (config != null) {
+//			includes.addAll(config.getIncludes());
+//			excludes.addAll(config.getExcludes());
+//			rules.addAll(config.getRules());
+//		}
+//		for (final PluginInfoRule rule : pluginInfo.getRules()) {
+//			if (!rules.contains(rule)) {
+//				rules.add(rule);
+//			}
+//		}
+//
+//		if (config != null) {
+//			// If includes is specified, load *only* those messages
+//			if (!config.getIncludes().isEmpty()) {
+//				for (final PluginInfoRule rule : rules) {
+//					// Include the rule if at least one of the messages is
+//					// included.
+//					for (final PluginMessage msg : rule.getMessages()) {
+//						if (config.getIncludes().contains(msg)) {
+//							for (final PluginMessage cfgMsg : config.getIncludes()) {
+//								if (cfgMsg.equals(msg)) {
+//									CFTool.merge(cfgMsg, msg);
+//								}
+//							}
+//
+//							getRules().add(rule);
+//							break;
+//						}
+//					}
+//				}
+//			} else {// Otherwise load all considering the excludes.
+//				for (final PluginInfoRule rule : rules) {
+//					// Exclude the rule if ALL of the messages are excluded.
+//					boolean excluded = true;
+//					for (final PluginMessage msg : rule.getMessages()) {
+//						excluded = excluded && config.getExcludes().contains(msg);
+//					}
+//					if (!excluded) {
+//						getRules().add(rule);
+//					}
+//				}
+//			}
+//		} else {
+//			getRules().addAll(rules);
+//		}
 	}
-
+//
 
 
 

@@ -25,7 +25,9 @@ import com.cflint.HTMLOutput;
 import com.cflint.TextOutput;
 import com.cflint.XMLOutput;
 import com.cflint.config.CFLintConfig;
+import com.cflint.config.CFLintConfiguration;
 import com.cflint.config.ConfigUtils;
+import com.cflint.config.CFLintPluginInfo.PluginInfoRule.PluginMessage;
 import com.cflint.tools.CFLintFilter;
 import com.cflint.xml.stax.DefaultCFlintResultMarshaller;
 
@@ -51,7 +53,7 @@ public class CFLintTask extends Task {
 	public void execute() {
 		FileInputStream fis = null;
 		try {
-			CFLintConfig config = null;
+			CFLintConfiguration config = null;
 			if (configFile != null) {
 				if (configFile.getName().toLowerCase().endsWith(".xml")) {
 					config = ConfigUtils.unmarshal(new FileInputStream(configFile), CFLintConfig.class);
@@ -59,7 +61,21 @@ public class CFLintTask extends Task {
 					config = ConfigUtils.unmarshalJson(new FileInputStream(configFile), CFLintConfig.class);
 				}
 			}
-
+			CFLintConfiguration cmdLineConfig = null;
+			if ((excludeRule != null && excludeRule.trim().length() > 0) || (includeRule != null && includeRule.trim().length() > 0)) {
+				cmdLineConfig=new CFLintConfig();
+				if (includeRule != null && includeRule.trim().length() > 0) {
+					for(final String code: includeRule.trim().split(",")){
+						cmdLineConfig.addInclude(new PluginMessage(code));
+					}
+				}
+				if (excludeRule != null && excludeRule.trim().length() > 0) {
+					for(final String code: excludeRule.trim().split(",")){
+						cmdLineConfig.addExclude(new PluginMessage(code));
+					}
+				}
+			}
+			//TODO combine configs
 			final CFLint cflint = new CFLint(config);
 			cflint.setVerbose(verbose);
 			cflint.setQuiet(quiet);
@@ -76,18 +92,7 @@ public class CFLintTask extends Task {
 					filter = CFLintFilter.createFilter(new String(b), verbose);
 				}
 			}
-			if (excludeRule != null && excludeRule.trim().length() > 0) {
-				final String[] excludeCodes = excludeRule.split(",");
-				if (excludeCodes != null && excludeCodes.length > 0) {
-					filter.excludeCode(excludeCodes);
-				}
-			}
-			if (includeRule != null && includeRule.trim().length() > 0) {
-				final String[] includeCodes = includeRule.split(",");
-				if (includeCodes != null && includeCodes.length > 0) {
-					filter.excludeCode(includeCodes);
-				}
-			}
+
 			cflint.getBugs().setFilter(filter);
 			if (xmlFile == null && htmlFile == null && textFile == null) {
 				xmlFile = new File("cflint-result.xml");

@@ -11,7 +11,7 @@ import org.junit.Test;
 
 import com.cflint.config.CFLintPluginInfo.PluginInfoRule;
 import com.cflint.config.CFLintPluginInfo.PluginInfoRule.PluginMessage;
-import com.cflint.config.ConfigRuntime;
+import com.cflint.config.CFLintConfig;
 import com.cflint.plugins.core.CFXTagChecker;
 
 import cfml.parsing.reporting.ParseException;
@@ -21,20 +21,9 @@ public class TestCFIncludeChecker {
 	private CFLint cfBugs;
 
 	@Before
-	public void setUp() {
-		final ConfigRuntime conf = new ConfigRuntime();
-		final PluginInfoRule pluginRule = new PluginInfoRule();
-		pluginRule.setName("CFXTagChecker");
-		pluginRule.addParameter("tagName", "cfinclude");
-		pluginRule.addParameter("scope", "component");
-		conf.getRules().add(pluginRule);
-		final PluginMessage pluginMessage = new PluginMessage("AVOID_USING_CFINCLUDE_TAG");
-		pluginMessage.setSeverity("WARNING");
-		pluginRule.getMessages().add(pluginMessage);
-		final CFXTagChecker checker = new CFXTagChecker();
-		checker.setParameter("tagName", "cfinclude");
-		checker.setParameter("scope", "component");
-		cfBugs = new CFLint(conf, checker);
+	public void setUp() throws Exception{
+		final com.cflint.config.CFLintConfiguration conf = CFLintConfig.createDefaultLimited("CFIncludeChecker");
+		cfBugs = new CFLint(conf);
 	}
 
 	@Test

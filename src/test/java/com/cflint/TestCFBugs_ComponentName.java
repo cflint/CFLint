@@ -7,30 +7,26 @@ import java.util.Collection;
 import java.util.List;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.cflint.config.CFLintPluginInfo.PluginInfoRule;
 import com.cflint.config.CFLintPluginInfo.PluginInfoRule.PluginMessage;
-import com.cflint.config.ConfigRuntime;
+import com.cflint.config.CFLintConfig;
 import com.cflint.plugins.core.ComponentDisplayNameChecker;
 
 import cfml.parsing.reporting.ParseException;
 
+@Ignore
+//TODO add this component to cflint.definition.json
 public class TestCFBugs_ComponentName {
 
 	private CFLint cfBugs;
 
 	@Before
-	public void setUp() {
-		final ConfigRuntime conf = new ConfigRuntime();
-		final PluginInfoRule pluginRule = new PluginInfoRule();
-		pluginRule.setName("ComponentDisplayNameChecker");
-		conf.getRules().add(pluginRule);
-		PluginMessage pluginMessage = new PluginMessage("USE_DISPLAY_NAME");
-		pluginMessage.setSeverity("WARNING");
-		pluginRule.getMessages().add(pluginMessage);
-
-		cfBugs = new CFLint(conf, new ComponentDisplayNameChecker());
+	public void setUp() throws Exception{
+		final com.cflint.config.CFLintConfiguration conf = CFLintConfig.createDefaultLimited("ComponentDisplayNameChecker");
+		cfBugs = new CFLint(conf);
 	}
 
 	@Test

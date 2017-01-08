@@ -11,6 +11,7 @@ import org.junit.Test;
 import com.cflint.BugInfo;
 import com.cflint.CFLint;
 import com.cflint.config.CFLintConfig;
+import com.cflint.config.CFLintConfiguration;
 import com.cflint.config.CFLintPluginInfo.PluginInfoRule;
 import com.cflint.config.CFLintPluginInfo.PluginInfoRule.PluginMessage;
 
@@ -20,19 +21,9 @@ public class TestCLintConfigXml {
 
 	private CFLint cflint;
 	@Before
-	public void setup() throws IOException{
-		CFLintConfig config = new CFLintConfig();
-		PluginInfoRule pluginRule = new PluginInfoRule();
-		pluginRule.setName("CFInsertChecker");
-		pluginRule.setClassName("CFXTagChecker");
-		pluginRule.addParameter("tagName", "cfinsert");
-		PluginMessage pluginMessage = new PluginMessage("AVOID_USING_CFINSERT_TAG");
-		pluginMessage.setSeverity("ERROR");
-		pluginMessage.setMessageText("Avoid <${tagName}> tags!");
-		pluginRule.getMessages().add(pluginMessage);
-		config.getRules().add(pluginRule);
-		
-		cflint = new CFLint(config);
+	public void setUp() throws Exception{
+		final com.cflint.config.CFLintConfiguration conf = CFLintConfig.createDefaultLimited("CFInsertChecker","CFUpdateChecker","CFModuleChecker");
+		cflint = new CFLint(conf);
 	}
 	@Test
 	/**
@@ -47,11 +38,11 @@ public class TestCLintConfigXml {
 				+ "</cfcomponent>";
 		cflint.process(cfcSrc, "Test.cfc");
 		List<BugInfo> result = cflint.getBugs().getFlatBugList();
-		System.out.println(result);
+		
 		assertEquals(1, result.size());
 		assertEquals("AVOID_USING_CFINSERT_TAG", result.get(0).getMessageCode());
-		assertEquals("Avoid <cfinsert> tags!", result.get(0).getMessage());
-		assertEquals("ERROR", result.get(0).getSeverity());
+		assertEquals("Avoid using <cfinsert> tags. Use cfquery and cfstoredproc instead.", result.get(0).getMessage());
+		assertEquals("WARNING", result.get(0).getSeverity());
 	}
 	@Test
 	/**

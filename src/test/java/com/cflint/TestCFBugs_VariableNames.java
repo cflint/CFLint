@@ -12,7 +12,7 @@ import org.junit.Test;
 
 import com.cflint.config.CFLintPluginInfo.PluginInfoRule;
 import com.cflint.config.CFLintPluginInfo.PluginInfoRule.PluginMessage;
-import com.cflint.config.ConfigRuntime;
+import com.cflint.config.CFLintConfig;
 import com.cflint.plugins.core.VariableNameChecker;
 
 import cfml.parsing.reporting.ParseException;
@@ -22,38 +22,9 @@ public class TestCFBugs_VariableNames {
 	private CFLint cfBugs;
 
 	@Before
-	public void setUp() {
-		final ConfigRuntime conf = new ConfigRuntime();
-		final PluginInfoRule pluginRule = new PluginInfoRule();
-		pluginRule.setName("VariableNameChecker");
-		conf.getRules().add(pluginRule);
-		PluginMessage pluginMessage = new PluginMessage("VAR_INVALID_NAME");
-		pluginMessage.setSeverity("INFO");
-		pluginRule.getMessages().add(pluginMessage);
-		pluginMessage = new PluginMessage("VAR_ALLCAPS_NAME");
-		pluginMessage.setSeverity("INFO");
-		pluginRule.getMessages().add(pluginMessage);
-		pluginMessage = new PluginMessage("VAR_TOO_SHORT");
-		pluginMessage.setSeverity("INFO");
-		pluginRule.getMessages().add(pluginMessage);
-		pluginRule.addParameter("MinLength", "3");
-		pluginRule.addParameter("MaxLength", "20");
-		pluginMessage = new PluginMessage("VAR_TOO_LONG");
-		pluginMessage.setSeverity("INFO");
-		pluginRule.getMessages().add(pluginMessage);
-		pluginMessage = new PluginMessage("VAR_TOO_WORDY");
-		pluginMessage.setSeverity("INFO");
-		pluginRule.getMessages().add(pluginMessage);
-		pluginRule.addParameter("MaxWords", "4");
-		pluginMessage = new PluginMessage("VAR_IS_TEMPORARY");
-		pluginMessage.setSeverity("INFO");
-		pluginRule.getMessages().add(pluginMessage);
-		pluginMessage = new PluginMessage("VAR_HAS_PREFIX_OR_POSTFIX");
-		pluginMessage.setSeverity("INFO");
-		pluginRule.getMessages().add(pluginMessage);
-
-		final VariableNameChecker checker = new VariableNameChecker();
-		cfBugs = new CFLint(conf, checker);
+	public void setUp() throws Exception{
+		final com.cflint.config.CFLintConfiguration conf = CFLintConfig.createDefaultLimited("VariableNameChecker");
+		cfBugs = new CFLint(conf);
 	}
 
 	@Test
@@ -70,7 +41,7 @@ public class TestCFBugs_VariableNames {
 		 + "</cfcomponent>";
 		cfBugs.process(tagSrc, "test");
 		Collection<List<BugInfo>> result = cfBugs.getBugs().getBugList().values();
-		System.out.println(result);
+		
 		assertEquals(0, result.size());
 	}
 

@@ -10,7 +10,7 @@ import org.junit.Test;
 
 import com.cflint.config.CFLintPluginInfo.PluginInfoRule;
 import com.cflint.config.CFLintPluginInfo.PluginInfoRule.PluginMessage;
-import com.cflint.config.ConfigRuntime;
+import com.cflint.config.CFLintConfig;
 import com.cflint.plugins.core.ComponentLengthChecker;
 
 import cfml.parsing.reporting.ParseException;
@@ -21,17 +21,9 @@ public class TestComponentLengthChecker {
 	private HashMap list;
 	
 	@Before
-	public void setUp(){
-		ConfigRuntime conf = new ConfigRuntime();
-		PluginInfoRule pluginRule = new PluginInfoRule();
-		pluginRule.setName("ComponentLengthChecker");
-		conf.getRules().add(pluginRule);
-		PluginMessage pluginMessage = new PluginMessage("EXCESSIVE_COMPONENT_LENGTH");
-		pluginMessage.setSeverity("INFO");
-		pluginMessage.setMessageText("Component is too long.");
-		pluginRule.getMessages().add(pluginMessage);
-		list = new HashMap();
-		cfBugs = new CFLint(conf, new ComponentLengthChecker());
+	public void setUp() throws Exception{
+		final com.cflint.config.CFLintConfiguration conf = CFLintConfig.createDefaultLimited("ComponentLengthChecker");
+		cfBugs = new CFLint(conf);
 	}
 	
 	@Test

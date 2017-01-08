@@ -1,1 +1,1 @@
-<config><includes code="UNUSED_LOCAL_VARIABLE"/></config>
+<config  inheritParent="false"><includes code="UNUSED_LOCAL_VARIABLE"/></config>

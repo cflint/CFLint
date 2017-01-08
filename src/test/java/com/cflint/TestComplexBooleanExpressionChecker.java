@@ -10,7 +10,7 @@ import org.junit.Test;
 
 import com.cflint.config.CFLintPluginInfo.PluginInfoRule;
 import com.cflint.config.CFLintPluginInfo.PluginInfoRule.PluginMessage;
-import com.cflint.config.ConfigRuntime;
+import com.cflint.config.CFLintConfig;
 import com.cflint.plugins.core.ComplexBooleanExpressionChecker;
 
 import cfml.parsing.reporting.ParseException;
@@ -20,14 +20,9 @@ public class TestComplexBooleanExpressionChecker {
 	private CFLint cfBugs;
 
 	@Before
-	public void setUp() {
-		final ConfigRuntime conf = new ConfigRuntime();
-		final PluginInfoRule pluginRule = new PluginInfoRule();
-		pluginRule.setName("ComplexBooleanExpressionChecker");
-		conf.getRules().add(pluginRule);
-		final PluginMessage pluginMessage = new PluginMessage("COMPLEX_BOOLEAN_CHECK");
-		pluginMessage.setSeverity("WARNING");
-		cfBugs = new CFLint(conf, new ComplexBooleanExpressionChecker());
+	public void setUp() throws Exception{
+		final com.cflint.config.CFLintConfiguration conf = CFLintConfig.createDefaultLimited("ComplexBooleanExpressionChecker");
+		cfBugs = new CFLint(conf);
 	}
 
 	@Test

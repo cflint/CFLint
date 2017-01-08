@@ -35,11 +35,12 @@ import com.cflint.JSONOutput;
 import com.cflint.TextOutput;
 import com.cflint.Version;
 import com.cflint.XMLOutput;
+import com.cflint.config.CFLintChainedConfig;
 import com.cflint.config.CFLintConfig;
+import com.cflint.config.CFLintConfiguration;
 import com.cflint.config.CFLintPluginInfo;
 import com.cflint.config.CFLintPluginInfo.PluginInfoRule;
 import com.cflint.config.CFLintPluginInfo.PluginInfoRule.PluginMessage;
-import com.cflint.config.ConfigRuntime;
 import com.cflint.config.ConfigUtils;
 import com.cflint.tools.CFLintFilter;
 import com.cflint.xml.MarshallerException;
@@ -81,22 +82,19 @@ public class CFLintMain {
 	String htmlStyle = "plain.xsl";
 	String jsonOutFile = "cflint-result.json";
 	String textOutFile = null;
-	String[] includeCodes = null;
-	String[] excludeCodes = null;
+	CFLintConfig cmdLineConfig=null;
+	CFLintConfig configFileConfig=null;
+	CFLintConfig defaultConfig=null;
 	private String extensions;
 	boolean showprogress = false;
 	boolean progressUsesThread = true;
 	private Boolean stdIn = false;
 	private String stdInFile = "source.cfc";
 	private Boolean stdOut = false;
-	private String configfile = null;
+	//private String configfile = null;
 	boolean showStats = false;
 
 	public static void main(final String[] args) throws Exception {
-		//PropertyConfigurator.configure("/log4j.properties");
-		//DOMConfigurator.configure(CFLintFilter.class.getResource("/log4j.xml").getFile());
-		//Logger.getLogger("net.htmlparser.jericho");
-
 		final Options options = new Options();
 		options.addOption(RULES, false, "list of all supported rules");
 		options.addOption("config", false, "list of rules in config file");
@@ -150,18 +148,19 @@ public class CFLintMain {
 			return;
 		}
 		if (cmd.hasOption(RULES) || cmd.hasOption("config")) {
-			CFLintPluginInfo pluginInfo = new CFLintPluginInfo();
+			final CFLintPluginInfo pluginInfo = cmd.hasOption(RULES)?ConfigUtils.loadDefaultPluginInfo():new CFLintPluginInfo();
+			main.defaultConfig= new CFLintConfig();
+			main.defaultConfig.setRules(pluginInfo.getRules());
 
+			CFLintChainedConfig myConfig = new CFLintChainedConfig(main.defaultConfig);
 			if (cmd.hasOption(CONFIGFILE)) {
-				main.configfile = cmd.getOptionValue(CONFIGFILE);
+				final String configfile = cmd.getOptionValue(CONFIGFILE);
+				myConfig = myConfig.createNestedConfig(loadConfig(configfile));
 			}
-			if (cmd.hasOption(RULES)) {
-				pluginInfo = ConfigUtils.loadDefaultPluginInfo();
-			}
-			final ConfigRuntime config = new ConfigRuntime(loadConfig(main.configfile), pluginInfo);
+			
 			final HashMap<String, String> descriptions = ConfigUtils.loadDescriptions();
 			System.out.println("Supported rules");
-			for (final PluginInfoRule rule : config.getRules()) {
+			for (final PluginInfoRule rule : myConfig.getRules()) {
 				System.out.println("  " + rule.getName());
 				for (final PluginMessage message : rule.getMessages()) {
 					System.out.println("    " + message.getCode() + " - " + descriptions.get(message.getCode()));
@@ -171,6 +170,10 @@ public class CFLintMain {
 			return;
 		}
 
+		final CFLintPluginInfo pluginInfo = ConfigUtils.loadDefaultPluginInfo();
+		main.defaultConfig= new CFLintConfig();
+		main.defaultConfig.setRules(pluginInfo.getRules());
+		
 		main.verbose = (cmd.hasOption('v') || cmd.hasOption(VERBOSE));
 		main.quiet = (cmd.hasOption('q') || cmd.hasOption(QUIET));
 		main.logerror = (cmd.hasOption('e') || cmd.hasOption("logerror"));
@@ -219,7 +222,8 @@ public class CFLintMain {
 			main.jsonOutFile = cmd.getOptionValue(JSONFILE);
 		}
 		if (cmd.hasOption(CONFIGFILE)) {
-			main.configfile = cmd.getOptionValue(CONFIGFILE);
+			final String configfile = cmd.getOptionValue(CONFIGFILE);
+			main.configFileConfig=loadConfig(configfile);
 		}
 		if (cmd.hasOption(HTMLFILE)) {
 			main.htmlOutFile = cmd.getOptionValue(HTMLFILE);
@@ -234,11 +238,18 @@ public class CFLintMain {
 			main.extensions = cmd.getOptionValue(EXTENSIONS);
 		}
 
-		if (cmd.hasOption(INCLUDE_RULE)) {
-			main.includeCodes = cmd.getOptionValue(INCLUDE_RULE).split(",");
-		}
-		if (cmd.hasOption(EXCLUDE_RULE)) {
-			main.excludeCodes = cmd.getOptionValue(EXCLUDE_RULE).split(",");
+		if (cmd.hasOption(INCLUDE_RULE) || cmd.hasOption(EXCLUDE_RULE)) {
+			main.cmdLineConfig=new CFLintConfig();
+			if (cmd.hasOption(INCLUDE_RULE)) {
+				for(final String code: cmd.getOptionValue(INCLUDE_RULE).split(",")){
+					main.cmdLineConfig.addInclude(new PluginMessage(code));
+				}
+			}
+			if (cmd.hasOption(EXCLUDE_RULE)) {
+				for(final String code: cmd.getOptionValue(EXCLUDE_RULE).split(",")){
+					main.cmdLineConfig.addExclude(new PluginMessage(code));
+				}
+			}
 		}
 		main.showprogress = cmd.hasOption(SHOWPROGRESS) || (!cmd.hasOption(SHOWPROGRESS) && cmd.hasOption("ui"));
 		main.progressUsesThread = !cmd.hasOption("singlethread");
@@ -325,12 +336,11 @@ public class CFLintMain {
 				System.err.println("Unable to load config file. " + e.getMessage());
 			}
 		}
-
 		return null;
 	}
 
 	private void execute() throws IOException, TransformerException, JAXBException, MarshallerException {
-		final CFLint cflint = new CFLint(loadConfig(configfile));
+		final CFLint cflint = new CFLint(buildConfigChain());
 		cflint.setVerbose(verbose);
 		cflint.setLogError(logerror);
 		cflint.setQuiet(quiet);
@@ -345,17 +355,8 @@ public class CFLintMain {
 			}
 		}
 		final CFLintFilter filter = createBaseFilter();
-
-		if (excludeCodes != null && excludeCodes.length > 0) {
-			filter.excludeCode(excludeCodes);
-		}
-		if (includeCodes != null && includeCodes.length > 0) {
-			filter.includeCode(includeCodes);
-		}
-
-        mergeConfigFileInFilter(filter);
-
         cflint.getBugs().setFilter(filter);
+        
 		for (final String scanfolder : folder) {
 			cflint.scan(scanfolder);
 		}
@@ -411,12 +412,12 @@ public class CFLintMain {
 			final Writer jsonwriter = stdOut ? new OutputStreamWriter(System.out) : new FileWriter(jsonOutFile);
 			new JSONOutput().output(cflint.getBugs(), jsonwriter, showStats);
 		}
-		if (includeCodes != null) {
-			cflint.getBugs().getFilter().includeCode(includeCodes);
-		}
-		if (excludeCodes != null) {
-			cflint.getBugs().getFilter().excludeCode(excludeCodes);
-		}
+	}
+
+	private CFLintConfiguration buildConfigChain() {
+		CFLintChainedConfig myConfig = new CFLintChainedConfig(defaultConfig);
+		myConfig= myConfig.createNestedConfig(configFileConfig);
+		return myConfig.createNestedConfig(cmdLineConfig);
 	}
 
 	protected CFLintFilter createBaseFilter() throws IOException, FileNotFoundException {
@@ -433,27 +434,6 @@ public class CFLintMain {
 		}
 		return filter;
 	}
-
-    /**
-     * Merges included and excluded messages in the filter,
-     * as if you specified them in -includeRule and -excludeRule command line parameters
-     *
-     * @param filter
-     */
-    private void mergeConfigFileInFilter(CFLintFilter filter)
-    {
-        CFLintConfig cfg = loadConfig(configfile);
-        if(cfg != null){
-        for(PluginMessage message : cfg.getIncludes())
-	        {
-	            filter.includeCode(message.getCode());
-	        }
-	        for(PluginMessage message : cfg.getExcludes())
-	        {
-	            filter.excludeCode(message.getCode());
-	        }
-        }
-    }
 
     private void display(final String text) {
 		if (verbose) {

@@ -14,7 +14,6 @@ public class TestConfigUtilsJson {
 		CFLintPluginInfo config = ConfigUtils.unmarshal(this.getClass().getResourceAsStream("/cflint.definition.xml"), CFLintPluginInfo.class);
 		
 		String jsondata = ConfigUtils.marshalJson(config);
-		System.out.println(jsondata);
 		
 		config = ConfigUtils.unmarshalJson(new StringReader(jsondata),CFLintPluginInfo.class);
 		

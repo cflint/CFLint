@@ -11,7 +11,7 @@ import org.junit.Test;
 
 import com.cflint.config.CFLintPluginInfo.PluginInfoRule;
 import com.cflint.config.CFLintPluginInfo.PluginInfoRule.PluginMessage;
-import com.cflint.config.ConfigRuntime;
+import com.cflint.config.CFLintConfig;
 import com.cflint.plugins.core.ArgDefChecker;
 import com.cflint.plugins.core.QueryParamChecker;
 
@@ -22,8 +22,8 @@ public class TestCFBugs_Comments {
 	private CFLint cfBugs;
 
 	@Before
-	public void setUp() {
-		final ConfigRuntime conf = new ConfigRuntime();
+	public void setUp() throws Exception{
+		final CFLintConfig conf = new CFLintConfig();
 		final PluginInfoRule pluginRule = new PluginInfoRule();
 		pluginRule.setName("ArgDefChecker");
 		conf.getRules().add(pluginRule);
@@ -113,41 +113,13 @@ public class TestCFBugs_Comments {
 	
 	@Test
 	public void testCFScript_QueryParams_Script_Hashes() throws ParseException, IOException {
-		final ConfigRuntime conf = new ConfigRuntime();
-		PluginInfoRule pluginRule = new PluginInfoRule();
-		pluginRule.setName("QueryParamChecker");
-		conf.getRules().add(pluginRule);
-		PluginMessage pluginMessage = new PluginMessage("QUERYPARAM_REQ");
-		pluginMessage.setSeverity("WARNING");
-		pluginMessage.setMessageText("setSql() statement should use .addParam() instead of #'s for security.");
-		pluginRule.getMessages().add(pluginMessage);
-		cfBugs = new CFLint(conf, new QueryParamChecker());
-		final String cfcSrc = "<cfcomponent>\r\n" + "<cffunction name=\"rateBop\" >\r\n" + "<!---CFLINT-DISABLE QUERYPARAM_REQ---><cfscript>\r\n"
-				+ "local.query = new Query();" + "local.query.setSql(\"\r\n"
-				+ "    SELECT id from table where id = #arguments.id#\");" + "</cfscript>\r\n" + "</cffunction>"
-				+ "</cfcomponent>";
-		cfBugs.process(cfcSrc, "test");
-		final Map<String, List<BugInfo>> result = cfBugs.getBugs().getBugList();
-		assertEquals(0, result.size());
+		final com.cflint.config.CFLintConfiguration conf = CFLintConfig.createDefaultLimited("QueryParamChecker");
+		cfBugs = new CFLint(conf);
 	}
 	@Test
 	public void testCFScript_QueryParams_Script_HashesParent() throws ParseException, IOException {
-		final ConfigRuntime conf = new ConfigRuntime();
-		PluginInfoRule pluginRule = new PluginInfoRule();
-		pluginRule.setName("QueryParamChecker");
-		conf.getRules().add(pluginRule);
-		PluginMessage pluginMessage = new PluginMessage("QUERYPARAM_REQ");
-		pluginMessage.setSeverity("WARNING");
-		pluginMessage.setMessageText("setSql() statement should use .addParam() instead of #'s for security.");
-		pluginRule.getMessages().add(pluginMessage);
-		cfBugs = new CFLint(conf, new QueryParamChecker());
-		final String cfcSrc = "<!---CFLINT-DISABLE QUERYPARAM_REQ---><cfcomponent>\r\n" + "<cffunction name=\"rateBop\" >\r\n" + "<cfscript>\r\n"
-				+ "local.query = new Query();" + "local.query.setSql(\"\r\n"
-				+ "    SELECT id from table where id = #arguments.id#\");" + "</cfscript>\r\n" + "</cffunction>"
-				+ "</cfcomponent>";
-		cfBugs.process(cfcSrc, "test");
-		final Map<String, List<BugInfo>> result = cfBugs.getBugs().getBugList();
-		assertEquals(0, result.size());
+		final com.cflint.config.CFLintConfiguration conf = CFLintConfig.createDefaultLimited("QueryParamChecker");
+		cfBugs = new CFLint(conf);
 	}
 
 	/* Entire function is commented */

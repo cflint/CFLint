@@ -15,8 +15,8 @@ public class TestCFLintConfig2 {
 	final String sconfig3 = "<config><includes code=\"ARG_HINT_MISSING\"/></config>";
 	@Test
 	public void test() throws Exception {
-		CFLintConfig config = com.cflint.config.ConfigUtils.unmarshal(sconfig0, CFLintConfig.class);
-		CFLintConfig config1 = com.cflint.config.ConfigUtils.unmarshal(sconfig1, CFLintConfig.class);
+		CFLintConfiguration config = com.cflint.config.ConfigUtils.unmarshal(sconfig0, CFLintConfig.class);
+		CFLintConfiguration config1 = com.cflint.config.ConfigUtils.unmarshal(sconfig1, CFLintConfig.class);
 		
 		assertTrue(config.includes(new PluginMessage("ARG_VAR_CONFLICT")));
 		assertTrue(!config1.includes(new PluginMessage("ARG_VAR_CONFLICT")));

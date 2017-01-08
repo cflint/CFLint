@@ -13,7 +13,7 @@ public class TestValidNames {
 	private ValidName name;
 
 	@Before
-	public void setUp() {
+	public void setUp() throws Exception{
 		name = new ValidName(3, 20, 3);
 	}
 

@@ -11,7 +11,7 @@ import org.junit.Test;
 
 import com.cflint.config.CFLintPluginInfo.PluginInfoRule;
 import com.cflint.config.CFLintPluginInfo.PluginInfoRule.PluginMessage;
-import com.cflint.config.ConfigRuntime;
+import com.cflint.config.CFLintConfig;
 import com.cflint.plugins.core.TooManyArgumentsChecker;
 
 import cfml.parsing.reporting.ParseException;
@@ -21,16 +21,9 @@ public class TestCFBugs_TooManyArguments {
 	private CFLint cfBugs;
 
 	@Before
-	public void setUp() {
-		final ConfigRuntime conf = new ConfigRuntime();
-		final PluginInfoRule pluginRule = new PluginInfoRule();
-		pluginRule.setName("TooManyArgumentsChecker");
-		conf.getRules().add(pluginRule);
-		PluginMessage pluginMessage = new PluginMessage("EXCESSIVE_ARGUMENTS");
-		pluginMessage.setSeverity("WARNING");
-		pluginRule.getMessages().add(pluginMessage);
-
-		cfBugs = new CFLint(conf, new TooManyArgumentsChecker());
+	public void setUp() throws Exception{
+		final com.cflint.config.CFLintConfiguration conf = CFLintConfig.createDefaultLimited("TooManyArgumentsChecker");
+		cfBugs = new CFLint(conf);
 	}
 
 	@Test

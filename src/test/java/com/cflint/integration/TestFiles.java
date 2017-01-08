@@ -27,7 +27,9 @@ import org.junit.runners.Parameterized;
 
 import com.cflint.CFLint;
 import com.cflint.JSONOutput;
+import com.cflint.config.CFLintChainedConfig;
 import com.cflint.config.CFLintConfig;
+import com.cflint.config.CFLintConfiguration;
 import com.cflint.config.ConfigUtils;
 import com.cflint.plugins.exceptions.CFLintExceptionListener;
 
@@ -69,7 +71,7 @@ public class TestFiles {
 		final String expectedFileText = expectedFile.exists() ? loadFile(expectedFile) : null;
 		String expectedText = expectedFileText ;
 	
-		final CFLintConfig config = loadPluginInfo(sourceFile.getParentFile());
+		final CFLintConfiguration config = loadPluginInfo(sourceFile.getParentFile());
 		CFLint cflint = new CFLint(config );
 		cflint.setVerbose(true);
 		cflint.setLogError(true);
@@ -147,17 +149,19 @@ public class TestFiles {
 		return new String(b);
 	}
 	
-	public static CFLintConfig loadPluginInfo(File folder) throws IOException {
+	public static CFLintConfiguration loadPluginInfo(File folder) throws IOException {
+		CFLintChainedConfig config = new CFLintChainedConfig((CFLintConfig)CFLintConfig.createDefault());
 		try{
   		    final InputStream jsonInputStream = new FileInputStream(folder.getPath() + "/.cflintrc");
 			final CFLintConfig retval = ConfigUtils.unmarshalJson(jsonInputStream, CFLintConfig.class);
 			jsonInputStream.close();
-			return retval;
+			return config.createNestedConfig(retval);
 		}catch(FileNotFoundException fnfe){}
 		
 		final InputStream inputStream = new FileInputStream(folder.getPath() + "/.cflintrc.xml");
 		try {
-			return ConfigUtils.unmarshal(inputStream, CFLintConfig.class);
+			final CFLintConfig retval =  ConfigUtils.unmarshal(inputStream, CFLintConfig.class);
+			return config.createNestedConfig(retval);
 		} catch (JAXBException e) {
 			throw new IOException(e);
 		}

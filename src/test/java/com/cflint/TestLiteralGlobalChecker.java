@@ -7,32 +7,26 @@ import java.util.List;
 import java.util.Map;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.cflint.config.CFLintPluginInfo.PluginInfoRule;
 import com.cflint.config.CFLintPluginInfo.PluginInfoRule.PluginMessage;
-import com.cflint.config.ConfigRuntime;
+import com.cflint.config.CFLintConfig;
 import com.cflint.plugins.core.LiteralChecker;
 
 import cfml.parsing.reporting.ParseException;
 
+@Ignore
+//TODO add to cflint definition
 public class TestLiteralGlobalChecker {
 
 	private CFLint cfBugs;
 
 	@Before
-	public void setUp() {
-		final ConfigRuntime conf = new ConfigRuntime();
-		final PluginInfoRule pluginRule = new PluginInfoRule();
-		pluginRule.setName("LiteralChecker");
-		conf.getRules().add(pluginRule);
-		final PluginMessage pluginMessage = new PluginMessage("GLOBAL_LITERAL_VALUE_USED_TOO_OFTEN");
-		pluginMessage.setSeverity("WARNING");
-		LiteralChecker checker = new LiteralChecker();
-		checker.setParameter("maximum", "3");
-		checker.setParameter("maxWarnings", "2");
-		checker.setParameter("scope", "global");
-		cfBugs = new CFLint(conf, checker);
+	public void setUp() throws Exception{
+		final com.cflint.config.CFLintConfiguration conf = CFLintConfig.createDefaultLimited("LiteralChecker");
+		cfBugs = new CFLint(conf);
 	}
 
 	@Test

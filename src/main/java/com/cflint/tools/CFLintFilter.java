@@ -5,8 +5,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -19,8 +17,6 @@ public class CFLintFilter {
 
 	final static Logger logger = LoggerFactory.getLogger(CFLintFilter.class);
 	private ArrayList<Map<String, ?>> data = null;
-	private List<String> includeCodes = null;
-	private List<String> excludeCodes = null;
 	boolean verbose = false;
 
 	@SuppressWarnings("unchecked")
@@ -40,23 +36,6 @@ public class CFLintFilter {
 	@Deprecated
 	public void addFilter(final Map<String, String> filter) {
 		data.add(filter);
-	}
-
-	public void excludeCode(final String... codes) {
-		if (codes.length == 0) {
-			return;
-		}
-		excludeCodes = Arrays.asList(codes);
-	}
-
-	public void includeCode(final String... codes) {
-		if (codes.length == 0) {
-			return;
-		}
-		if (includeCodes == null) {
-			includeCodes = new ArrayList<String>();
-		}
-		includeCodes.addAll(Arrays.asList(codes));
 	}
 
 	public static CFLintFilter createFilter(final boolean verbose) throws IOException {
@@ -116,12 +95,6 @@ public class CFLintFilter {
 	}
 	
 	public boolean include(final BugInfo bugInfo) {
-		if (includeCodes != null && !includeCodes.contains(bugInfo.getMessageCode())) {
-			return false;
-		}
-		if (excludeCodes != null && excludeCodes.contains(bugInfo.getMessageCode())) {
-			return false;
-		}
 		if (data != null) {
 			for (final Map<String, ?> item : data) {
 

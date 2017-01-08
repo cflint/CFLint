@@ -11,7 +11,7 @@ import org.junit.Test;
 
 import com.cflint.config.CFLintPluginInfo.PluginInfoRule;
 import com.cflint.config.CFLintPluginInfo.PluginInfoRule.PluginMessage;
-import com.cflint.config.ConfigRuntime;
+import com.cflint.config.CFLintConfig;
 import com.cflint.plugins.core.ArgDefChecker;
 import com.cflint.plugins.core.QueryParamChecker;
 
@@ -22,8 +22,8 @@ public class TestCFLint2Files {
 	private CFLint cfBugs;
 
 	@Before
-	public void setUp() {
-		final ConfigRuntime conf = new ConfigRuntime();
+	public void setUp() throws Exception{
+		final CFLintConfig conf = new CFLintConfig();
 		PluginInfoRule pluginRule = new PluginInfoRule();
 		pluginRule.setName("ArgDefChecker");
 		conf.getRules().add(pluginRule);
@@ -62,7 +62,6 @@ public class TestCFLint2Files {
 		cfBugs.process(cfcSrc2, "test");
 		final List<BugInfo> result2 = cfBugs.getBugs().getBugList().get("MISSING_SEMI");
 		assertEquals(1, result2.size());
-		System.out.println(result2);
 		assertEquals(4, result2.get(0).getLine());
 	}
 }

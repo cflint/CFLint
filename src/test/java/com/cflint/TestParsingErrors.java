@@ -10,7 +10,7 @@ import org.junit.Test;
 
 import com.cflint.config.CFLintPluginInfo.PluginInfoRule;
 import com.cflint.config.CFLintPluginInfo.PluginInfoRule.PluginMessage;
-import com.cflint.config.ConfigRuntime;
+import com.cflint.config.CFLintConfig;
 import com.cflint.plugins.core.VarScoper;
 
 import cfml.parsing.reporting.ParseException;
@@ -20,8 +20,8 @@ public class TestParsingErrors {
 	private CFLint cfBugs;
 
 	@Before
-	public void setUp() {
-		ConfigRuntime conf = new ConfigRuntime();
+	public void setUp() throws Exception{
+		CFLintConfig conf = new CFLintConfig();
 		PluginInfoRule pluginRule = new PluginInfoRule();
 		pluginRule.setName("VarScoper");
 		conf.getRules().add(pluginRule);
@@ -47,7 +47,6 @@ public class TestParsingErrors {
 		cfBugs.process(cfcSrc,"test");
 		
 		assertEquals(2,cfBugs.getBugs().getFlatBugList().size());
-		System.out.println(cfBugs.getBugs().getFlatBugList());
 		final List<BugInfo> result = cfBugs.getBugs().getBugList().get("MISSING_SEMI");
 		assertEquals(1,result.size());
 		assertEquals("MISSING_SEMI",result.get(0).getMessageCode());

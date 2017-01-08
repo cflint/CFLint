@@ -11,7 +11,7 @@ import org.junit.Test;
 
 import com.cflint.config.CFLintPluginInfo.PluginInfoRule;
 import com.cflint.config.CFLintPluginInfo.PluginInfoRule.PluginMessage;
-import com.cflint.config.ConfigRuntime;
+import com.cflint.config.CFLintConfig;
 import com.cflint.plugins.core.MethodNameChecker;
 
 import cfml.parsing.reporting.ParseException;
@@ -21,38 +21,9 @@ public class TestCFBugs_MethodNames {
 	private CFLint cfBugs;
 
 	@Before
-	public void setUp() {
-		final ConfigRuntime conf = new ConfigRuntime();
-		final PluginInfoRule pluginRule = new PluginInfoRule();
-		pluginRule.setName("MethodNameChecker");
-		conf.getRules().add(pluginRule);
-		PluginMessage pluginMessage = new PluginMessage("METHOD_INVALID_NAME");
-		pluginMessage.setSeverity("INFO");
-		pluginRule.getMessages().add(pluginMessage);
-		pluginMessage = new PluginMessage("METHOD_ALLCAPS_NAME");
-		pluginMessage.setSeverity("INFO");
-		pluginRule.getMessages().add(pluginMessage);
-		pluginMessage = new PluginMessage("METHOD_TOO_SHORT");
-		pluginMessage.setSeverity("INFO");
-		pluginRule.getMessages().add(pluginMessage);
-		pluginRule.addParameter("MinLength", "3");
-		pluginRule.addParameter("MaxLength", "20");
-		pluginMessage = new PluginMessage("METHOD_TOO_LONG");
-		pluginMessage.setSeverity("INFO");
-		pluginRule.getMessages().add(pluginMessage);
-		pluginMessage = new PluginMessage("METHOD_TOO_WORDY");
-		pluginMessage.setSeverity("INFO");
-		pluginRule.getMessages().add(pluginMessage);
-		pluginRule.addParameter("MaxWords", "4");
-		pluginMessage = new PluginMessage("METHOD_IS_TEMPORARY");
-		pluginMessage.setSeverity("INFO");
-		pluginRule.getMessages().add(pluginMessage);
-		pluginMessage = new PluginMessage("METHOD_HAS_PREFIX_OR_POSTFIX");
-		pluginMessage.setSeverity("INFO");
-		pluginRule.getMessages().add(pluginMessage);
-
-		final MethodNameChecker checker = new MethodNameChecker();
-		cfBugs = new CFLint(conf, checker);
+	public void setUp() throws Exception{
+		final com.cflint.config.CFLintConfiguration conf = CFLintConfig.createDefaultLimited("MethodNameChecker");
+		cfBugs = new CFLint(conf);
 	}
 
 	@Test
@@ -63,7 +34,7 @@ public class TestCFBugs_MethodNames {
 		 + "</cfcomponent>";
 		cfBugs.process(tagSrc, "test");
 		Collection<List<BugInfo>> result = cfBugs.getBugs().getBugList().values();
-		System.out.println(result);
+		
 		assertEquals(0, result.size());
 	}
 

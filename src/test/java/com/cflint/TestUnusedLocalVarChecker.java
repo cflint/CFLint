@@ -11,7 +11,7 @@ import org.junit.Test;
 
 import com.cflint.config.CFLintPluginInfo.PluginInfoRule;
 import com.cflint.config.CFLintPluginInfo.PluginInfoRule.PluginMessage;
-import com.cflint.config.ConfigRuntime;
+import com.cflint.config.CFLintConfig;
 import com.cflint.plugins.core.UnusedLocalVarChecker;
 
 import cfml.parsing.reporting.ParseException;
@@ -21,14 +21,9 @@ public class TestUnusedLocalVarChecker {
 	private CFLint cfBugs;
 
 	@Before
-	public void setUp() {
-		final ConfigRuntime conf = new ConfigRuntime();
-		final PluginInfoRule pluginRule = new PluginInfoRule();
-		pluginRule.setName("UnusedLocalVarChecker");
-		conf.getRules().add(pluginRule);
-		final PluginMessage pluginMessage = new PluginMessage("UNUSED_LOCAL_VARIABLE");
-		pluginMessage.setSeverity("INFO");
-		cfBugs = new CFLint(conf, new UnusedLocalVarChecker());
+	public void setUp() throws Exception{
+		final com.cflint.config.CFLintConfiguration conf = CFLintConfig.createDefaultLimited("UnusedLocalVarChecker");
+		cfBugs = new CFLint(conf);
 	}
 
 	@Test

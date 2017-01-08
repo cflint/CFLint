@@ -8,10 +8,8 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.cflint.config.CFLintPluginInfo.PluginInfoRule;
-import com.cflint.config.CFLintPluginInfo.PluginInfoRule.PluginMessage;
-import com.cflint.config.ConfigRuntime;
-import com.cflint.plugins.core.CFSwitchDefaultChecker;
+import com.cflint.config.CFLintConfig;
+import com.cflint.config.CFLintConfiguration;
 
 import cfml.parsing.reporting.ParseException;
 
@@ -20,17 +18,9 @@ public class Test_Switch_Default_Checker {
 	private CFLint cfBugs;
 
 	@Before
-	public void setUp() {
-		final ConfigRuntime conf = new ConfigRuntime();
-		final PluginInfoRule pluginRule = new PluginInfoRule();
-		pluginRule.setName("CFSwitchDefaultChecker");
-		conf.getRules().add(pluginRule);
-		final PluginMessage pluginMessage = new PluginMessage("NO_DEFAULT_INSIDE_SWITCH");
-		pluginMessage.setSeverity("WARNING");
-		pluginMessage.setMessageText("Not having a Default statement defined for a switch could pose potential issues");
-		pluginRule.getMessages().add(pluginMessage);
-
-		cfBugs = new CFLint(conf, new CFSwitchDefaultChecker());
+	public void setUp() throws IOException {
+		final CFLintConfiguration conf = CFLintConfig.createDefaultLimited("CFSwitchDefaultChecker");
+		cfBugs = new CFLint(conf);
 	}
 	
 	@Test

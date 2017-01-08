@@ -399,7 +399,7 @@
     },
     {
       "name": "TooManyFunctionsChecker",
-      "className": "TooManyArgumentsChecker",
+      "className": "TooManyFunctionsChecker",
       "message": [
         {
           "code": "EXCESSIVE_FUNCTIONS",

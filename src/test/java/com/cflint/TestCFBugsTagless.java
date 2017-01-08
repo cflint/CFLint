@@ -9,7 +9,7 @@ import org.junit.Test;
 
 import com.cflint.config.CFLintPluginInfo.PluginInfoRule;
 import com.cflint.config.CFLintPluginInfo.PluginInfoRule.PluginMessage;
-import com.cflint.config.ConfigRuntime;
+import com.cflint.config.CFLintConfig;
 import com.cflint.plugins.core.VarScoper;
 
 import cfml.parsing.reporting.ParseException;
@@ -20,7 +20,7 @@ public class TestCFBugsTagless {
 	
 	@Before
 	public void setUp(){
-		ConfigRuntime conf = new ConfigRuntime();
+		CFLintConfig conf = new CFLintConfig();
 		PluginInfoRule pluginRule = new PluginInfoRule();
 		pluginRule.setName("VarScoper");
 		conf.getRules().add(pluginRule);

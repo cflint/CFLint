@@ -11,7 +11,7 @@ import org.junit.Test;
 
 import com.cflint.config.CFLintPluginInfo.PluginInfoRule;
 import com.cflint.config.CFLintPluginInfo.PluginInfoRule.PluginMessage;
-import com.cflint.config.ConfigRuntime;
+import com.cflint.config.CFLintConfig;
 import com.cflint.plugins.core.UnusedArgumentChecker;
 
 import cfml.parsing.reporting.ParseException;
@@ -21,15 +21,9 @@ public class TestUnusedArgumentChecker {
 	private CFLint cfBugs;
 
 	@Before
-	public void setUp() {
-		final ConfigRuntime conf = new ConfigRuntime();
-		final PluginInfoRule pluginRule = new PluginInfoRule();
-		pluginRule.setName("UnusedArgumentChecker");
-		conf.getRules().add(pluginRule);
-		final PluginMessage pluginMessage = new PluginMessage("UNUSED_METHOD_ARGUMENT");
-		pluginMessage.setSeverity("INFO");
-		pluginRule.getMessages().add(pluginMessage);
-		cfBugs = new CFLint(conf, new UnusedArgumentChecker());
+	public void setUp() throws Exception{
+		final com.cflint.config.CFLintConfiguration conf = CFLintConfig.createDefaultLimited("UnusedArgumentChecker");
+		cfBugs = new CFLint(conf);
 	}
 
 	@Test

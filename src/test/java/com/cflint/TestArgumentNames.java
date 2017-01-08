@@ -9,10 +9,8 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.cflint.config.CFLintPluginInfo.PluginInfoRule;
-import com.cflint.config.CFLintPluginInfo.PluginInfoRule.PluginMessage;
-import com.cflint.config.ConfigRuntime;
-import com.cflint.plugins.core.ArgumentNameChecker;
+import com.cflint.config.CFLintConfig;
+import com.cflint.config.CFLintConfiguration;
 
 import cfml.parsing.reporting.ParseException;
 
@@ -21,38 +19,10 @@ public class TestArgumentNames {
 	private CFLint cfBugs;
 
 	@Before
-	public void setUp() {
-		final ConfigRuntime conf = new ConfigRuntime();
-		final PluginInfoRule pluginRule = new PluginInfoRule();
-		pluginRule.setName("ArgumentNameChecker");
-		conf.getRules().add(pluginRule);
-		PluginMessage pluginMessage = new PluginMessage("ARGUMENT_INVALID_NAME");
-		pluginMessage.setSeverity("INFO");
-		pluginRule.getMessages().add(pluginMessage);
-		pluginMessage = new PluginMessage("ARGUMENT_ALLCAPS_NAME");
-		pluginMessage.setSeverity("INFO");
-		pluginRule.getMessages().add(pluginMessage);
-		pluginMessage = new PluginMessage("ARGUMENT_TOO_SHORT");
-		pluginMessage.setSeverity("INFO");
-		pluginRule.getMessages().add(pluginMessage);
-		pluginRule.addParameter("MinLength", "3");
-		pluginRule.addParameter("MaxLength", "20");
-		pluginMessage = new PluginMessage("ARGUMENT_TOO_LONG");
-		pluginMessage.setSeverity("INFO");
-		pluginRule.getMessages().add(pluginMessage);
-		pluginMessage = new PluginMessage("ARGUMENT_TOO_WORDY");
-		pluginMessage.setSeverity("INFO");
-		pluginRule.getMessages().add(pluginMessage);
-		pluginRule.addParameter("MaxWords", "4");
-		pluginMessage = new PluginMessage("ARGUMENT_IS_TEMPORARY");
-		pluginMessage.setSeverity("INFO");
-		pluginRule.getMessages().add(pluginMessage);
-		pluginMessage = new PluginMessage("ARGUMENT_HAS_PREFIX_OR_POSTFIX");
-		pluginMessage.setSeverity("INFO");
-		pluginRule.getMessages().add(pluginMessage);
+	public void setUp() throws Exception{
+		final CFLintConfiguration conf = CFLintConfig.createDefaultLimited("ArgumentNameChecker");
+		cfBugs = new CFLint(conf);
 
-		final ArgumentNameChecker checker = new ArgumentNameChecker();
-		cfBugs = new CFLint(conf, checker);
 	}
 
 	@Test

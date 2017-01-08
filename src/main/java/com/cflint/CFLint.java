@@ -804,7 +804,8 @@ public class CFLint implements IErrorReporter {
 			bldr.setSeverity(msgInfo.getSeverity());
 			bldr.setMessage(msgInfo.getMessageText());
 		} else {
-			System.err.println("Message code: " + msgcode + " is not configured correctly.");
+			String errMessage = "Message code: " + msgcode + " is not configured correctly.";
+			fireCFLintException(new NullPointerException(errMessage), PLUGIN_ERROR, "", null, null, null, null);
 			bldr.setSeverity("WARNING");
 			bldr.setMessage(msgcode);
 		}

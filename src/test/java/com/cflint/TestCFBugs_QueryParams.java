@@ -25,19 +25,15 @@ public class TestCFBugs_QueryParams {
 		final CFLintConfig conf = new CFLintConfig();
 		PluginInfoRule pluginRule = new PluginInfoRule();
 		pluginRule.setName("QueryParamChecker");
-		conf.getRules().add(pluginRule);
 		PluginMessage pluginMessage = new PluginMessage("QUERYPARAM_REQ");
 		pluginMessage.setSeverity("WARNING");
 		pluginMessage.setMessageText("setSql() statement should use .addParam() instead of #'s for security.");
 		pluginRule.getMessages().add(pluginMessage);
-
-		pluginRule = new PluginInfoRule();
-		pluginRule.setName("QueryParamChecker");
-		conf.getRules().add(pluginRule);
 		pluginMessage = new PluginMessage("CFQUERYPARAM_REQ");
 		pluginMessage.setSeverity("WARNING");
 		pluginMessage.setMessageText("<${tag} name=\"${variable}\"> should use <cfqueryparam/> for security reasons.");
 		pluginRule.getMessages().add(pluginMessage);
+		conf.getRules().add(pluginRule);
 
 		cfBugs = new CFLint(conf, new QueryParamChecker());
 	}

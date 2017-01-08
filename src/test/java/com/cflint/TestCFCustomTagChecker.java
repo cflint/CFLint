@@ -25,7 +25,7 @@ public class TestCFCustomTagChecker {
 		pluginRuleX.setName("CFXTagChecker");
 		pluginRuleX.addParameter("tagName", "cfcustomtag");
 		conf.getRules().add(pluginRuleX);
-		final PluginMessage pluginMessageX = new PluginMessage("AVOID_USING_CFUPDATE_TAG");
+		final PluginMessage pluginMessageX = new PluginMessage("AVOID_USING_MYLIB:CFCUSTOMTAG_TAG");
 		pluginMessageX.setSeverity("WARNING");
 		pluginMessageX
 				.setMessageText("Avoid Leaving <${tagName}> tags in committed code. Debug information should be ommited from release code");

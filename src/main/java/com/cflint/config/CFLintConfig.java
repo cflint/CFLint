@@ -232,7 +232,6 @@ public class CFLintConfig implements CFLintConfiguration {
 
 	/**
 	 * Limit the rule set, primarily for unit test support
-	 * @param rulename
 	 */
 	public static CFLintConfiguration createDefaultLimited(String ... rulenames){
 		final CFLintPluginInfo pluginInfo = ConfigUtils.loadDefaultPluginInfo();

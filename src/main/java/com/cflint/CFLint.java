@@ -59,6 +59,7 @@ import cfml.parsing.cfscript.CFExpression;
 import cfml.parsing.cfscript.CFIdentifier;
 import cfml.parsing.cfscript.CFStatement;
 import cfml.parsing.cfscript.CFVarDeclExpression;
+import cfml.parsing.cfscript.script.CFCase;
 import cfml.parsing.cfscript.script.CFCatchClause;
 import cfml.parsing.cfscript.script.CFCatchStatement;
 import cfml.parsing.cfscript.script.CFCompDeclStatement;
@@ -72,6 +73,7 @@ import cfml.parsing.cfscript.script.CFIfStatement;
 import cfml.parsing.cfscript.script.CFParsedStatement;
 import cfml.parsing.cfscript.script.CFReturnStatement;
 import cfml.parsing.cfscript.script.CFScriptStatement;
+import cfml.parsing.cfscript.script.CFSwitchStatement;
 import cfml.parsing.cfscript.script.CFTryCatchStatement;
 import cfml.parsing.reporting.IErrorReporter;
 import cfml.parsing.reporting.ParseException;
@@ -511,6 +513,19 @@ public class CFLint implements IErrorReporter {
 				process(cfif.getCond(), elem, context);
 				process(cfif.getThenStatement(), context);
 				process(cfif.getElseStatement(), context);
+			} else if (expression instanceof CFSwitchStatement) {
+				scanExpression(expression, context, elem);
+				final CFSwitchStatement cfswitch = (CFSwitchStatement) expression;
+				process(cfswitch.getVariable(), elem, context);
+				for(CFCase _case:cfswitch.getCases()){
+					process(_case, context);
+				}
+			} else if (expression instanceof CFCase) {
+				scanExpression(expression, context, elem);
+				final CFCase cfcase = (CFCase) expression;
+				for(CFScriptStatement cfstatement:cfcase.getStatements()){
+					process(cfstatement, context);
+				}
 			} else if (expression instanceof CFTryCatchStatement) {
 				scanExpression(expression, context, elem);
 				final CFTryCatchStatement cftry = (CFTryCatchStatement) expression;

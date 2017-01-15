@@ -437,6 +437,20 @@ public class TestCFBugs_VariableNames {
 		assertEquals("VAR_IS_TEMPORARY", result.get(5).getMessageCode());
 		assertEquals(9, result.get(5).getLine());
 	}
+	
+	@Test
+	public void nameIsTemporyNestedScript() throws ParseException, IOException {
+		final String scriptSrc = "component {\r\n"
+		+"function foo() {\r\n"
+		+"    var tempStruct = {};\r\n"
+		+"    doSomething(tempStruct);\r\n"
+		+"    tempStruct.foo = \"bar\";\r\n"
+		+"  }\r\n"
+		+"}\r\n";
+		cfBugs.process(scriptSrc, "test");
+		final List<BugInfo> result = cfBugs.getBugs().getBugList().get("VAR_IS_TEMPORARY");
+		assertEquals(1, result.size());
+	}
 
 	@Test
 	public void nameHasPrefixOrPostfixScript() throws ParseException, IOException {

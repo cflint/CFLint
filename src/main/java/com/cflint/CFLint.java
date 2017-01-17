@@ -26,6 +26,7 @@ import org.antlr.v4.runtime.atn.ATNConfigSet;
 import org.antlr.v4.runtime.dfa.DFA;
 
 import com.cflint.BugInfo.BugInfoBuilder;
+import com.cflint.config.CFLintChainedConfig;
 import com.cflint.config.CFLintConfig;
 import com.cflint.config.CFLintConfiguration;
 import com.cflint.config.CFLintPluginInfo;
@@ -163,23 +164,25 @@ public class CFLint implements IErrorReporter {
 			return;
 		}
 		if (folderOrFile.isDirectory()) {
-			boolean newConfigFlag = false;
-			for (final File file : folderOrFile.listFiles()) {
-				if(file.getName().equalsIgnoreCase(".cflintrc.xml")){
-					try {
-						CFLintConfiguration newConfig = com.cflint.config.ConfigUtils.unmarshal(new FileInputStream(file), CFLintConfig.class);
-						System.out.println("read config " + file);
-						newConfigFlag =true;
-					} catch (Exception e) {
-						System.err.println("Could not read config file " + file);
-					} 
+			final CFLintConfiguration saveConfig = configuration;
+			try{
+				for (final File file : folderOrFile.listFiles()) {
+					if(file.getName().equalsIgnoreCase(".cflintrc.xml")){
+						try {
+							CFLintConfiguration newConfig = com.cflint.config.ConfigUtils.unmarshal(new FileInputStream(file), CFLintConfig.class);
+							System.out.println("read config " + file);
+							configuration = new CFLintChainedConfig(newConfig, configuration);
+						} catch (Exception e) {
+							System.err.println("Could not read config file " + file);
+						} 
+					}
+				}
+				for (final File file : folderOrFile.listFiles()) {
+					scan(file);
 				}
 			}
-			for (final File file : folderOrFile.listFiles()) {
-				scan(file);
-			}
-			if(newConfigFlag){
-				//TODO unwrap
+			finally{
+				configuration = saveConfig;
 			}
 		} else if (!folderOrFile.isHidden() && FileUtil.checkExtension(folderOrFile, allowedExtensions)) {
 			final String src = FileUtil.loadFile(folderOrFile);

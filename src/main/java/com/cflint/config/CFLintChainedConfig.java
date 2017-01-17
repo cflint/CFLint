@@ -10,14 +10,14 @@ import com.cflint.plugins.CFLintScanner;
 public class CFLintChainedConfig implements CFLintConfiguration{
 
 	final CFLintConfig config;
-	final CFLintChainedConfig parent;
+	final CFLintConfiguration parent;
 
 	public CFLintChainedConfig(CFLintConfiguration config) {
 		super();
 		this.config = (CFLintConfig)config;
 		parent = null;
 	}
-	public CFLintChainedConfig(CFLintConfiguration config,CFLintChainedConfig parent) {
+	public CFLintChainedConfig(CFLintConfiguration config,CFLintConfiguration parent) {
 		super();
 		this.config = (CFLintConfig)config;
 		this.parent = parent;
@@ -41,7 +41,7 @@ public class CFLintChainedConfig implements CFLintConfiguration{
 				(config.isInheritParent() && parent!=null && parent.excludes(pluginMessage));
 	}
 	
-	public CFLintChainedConfig getParent() {
+	public CFLintConfiguration getParent() {
 		return parent;
 	}
 	
@@ -88,7 +88,12 @@ public class CFLintChainedConfig implements CFLintConfiguration{
 		if(parent==null || !config.isInheritPlugins()){
 			return config.getRules();
 		}
-		final HashSet<PluginInfoRule> retval = new HashSet<PluginInfoRule>(parent.getAllRules());
+		final HashSet<PluginInfoRule> retval = new HashSet<PluginInfoRule>();
+		if(parent instanceof CFLintChainedConfig){
+			retval.addAll(((CFLintChainedConfig) parent).getAllRules());
+		}else{
+			retval.addAll(parent.getRules());
+		}
 		//Override any rules from the parent configuration
 		retval.addAll(config.getRules());
 		return retval;

@@ -1,6 +1,5 @@
 package com.cflint.plugins.core;
 
-import com.cflint.BugInfo;
 import com.cflint.BugList;
 import com.cflint.plugins.CFLintScannerAdapter;
 import com.cflint.plugins.Context;
@@ -19,15 +18,12 @@ public class CreateObjectChecker extends CFLintScannerAdapter {
 			final String code = ((CFExpressionStatement) expression).getExpression().Decompile(0);
 			final int lineNo = ((CFExpressionStatement) expression).getLine() + context.startLine() - 1;
 			if (code.toLowerCase().contains("createobject('component'")) {
-				noNeedtoUseCreateObject(lineNo, context, bugs);
+				noNeedtoUseCreateObject(lineNo, context);
 			}
 		}
 	}
 
-	protected void noNeedtoUseCreateObject(final int lineNo, final Context context, final BugList bugs) {
-		bugs.add(new BugInfo.BugInfoBuilder().setLine(lineNo).setMessageCode("AVOID_USING_CREATEOBJECT")
-				.setSeverity(severity).setFilename(context.getFilename()).setMessage("CreateObject statement at line "
-						+ lineNo + ". Use createObject(path_to_component) or even better new path_to_component().")
-				.build());
+	protected void noNeedtoUseCreateObject(final int lineNo, final Context context) {
+		context.addMessage("AVOID_USING_CREATEOBJECT", null,lineNo);
 	}
 }

@@ -751,6 +751,7 @@
       "className": "CreateObjectChecker",
       "message": [
         {
+          "messageText" : "CreateObject found.  Use createObject(path_to_component) or even better new path_to_component().",
           "code": "AVOID_USING_CREATEOBJECT",
           "severity": "INFO"
         }

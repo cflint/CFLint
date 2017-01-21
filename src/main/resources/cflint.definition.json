@@ -635,30 +635,37 @@
       "className": "MethodNameChecker",
       "message": [
         {
+          "messageText" : "Method name ${function} is not a valid name. Please use CamelCase or underscores.",
           "code": "METHOD_INVALID_NAME",
           "severity": "INFO"
         },
         {
+          "messageText" : "Method name ${function} should not be upper case.",
           "code": "METHOD_ALLCAPS_NAME",
           "severity": "INFO"
         },
         {
+          "messageText" : "Method name ${function} should be longer than ${MinLength} characters.",
           "code": "METHOD_TOO_SHORT",
           "severity": "INFO"
         },
         {
+          "messageText" : "Method name ${function} should be shorter than ${MaxLength} characters.",
           "code": "METHOD_TOO_LONG",
           "severity": "INFO"
         },
         {
+          "messageText" : "Method name ${function} is too wordy, can you think of a more concise name?",
           "code": "METHOD_TOO_WORDY",
           "severity": "INFO"
         },
         {
+          "messageText" : "Method name ${function} could be named better.",
           "code": "METHOD_IS_TEMPORARY",
           "severity": "INFO"
         },
         {
+          "messageText" : "Method name ${function} has prefix or postfix and could be named better.",
           "code": "METHOD_HAS_PREFIX_OR_POSTFIX",
           "severity": "INFO"
         }

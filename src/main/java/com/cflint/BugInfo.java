@@ -19,6 +19,7 @@ public class BugInfo implements Comparable<BugInfo> {
 	String expression;
 	String function;
 	String variable;
+	String component;
 
 	public BugInfo() {
 		super();
@@ -102,6 +103,11 @@ public class BugInfo implements Comparable<BugInfo> {
 			bugInfo.function = function;
 			return this;
 		}
+		
+		public BugInfoBuilder setComponent(final String component) {
+			bugInfo.component = component;
+			return this;
+		}
 
 		public BugInfoBuilder setVariable(final String variable) {
 			bugInfo.variable = variable;
@@ -168,9 +174,16 @@ public class BugInfo implements Comparable<BugInfo> {
 			final String variable = notNull(bugInfo.getVariable());
 			message = message.replace("${variable}", variable);
 			if(bugInfo != null && bugInfo.function != null){
-				message = message.replace("${function}", bugInfo==null?"":bugInfo.function);
+				message = message.replace("${function}", bugInfo.function);
+			}
+			if(bugInfo != null && bugInfo.filename != null){
+				message = message.replace("${filename}", bugInfo.filename);
 			}
 			
+			if(bugInfo != null && bugInfo.component != null){
+				message = message.replace("${component}", bugInfo.component);
+			}
+
 			if (message.contains("{tag}") && elem != null) {
 				message = message.replaceAll("\\$\\{tag\\}", notNull(elem.getName()));
 			}

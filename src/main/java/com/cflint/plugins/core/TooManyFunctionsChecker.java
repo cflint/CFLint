@@ -4,6 +4,7 @@ import com.cflint.BugInfo;
 import com.cflint.BugList;
 import com.cflint.plugins.CFLintScannerAdapter;
 import com.cflint.plugins.Context;
+import com.cflint.plugins.Context.ContextType;
 
 import cfml.parsing.cfscript.script.CFCompDeclStatement;
 import cfml.parsing.cfscript.script.CFFuncDeclStatement;
@@ -15,21 +16,16 @@ public class TooManyFunctionsChecker extends CFLintScannerAdapter {
 	final int FUNCTION_THRESHOLD = 10;
 
 	protected int functionCount = 0;
-	protected boolean alreadyTooMany = false;
 
 	@Override
 	public void expression(final CFScriptStatement expression, final Context context, final BugList bugs) {
 		if (expression instanceof CFCompDeclStatement) {
 			functionCount = 0;
-			alreadyTooMany = false;
 		} else if (expression instanceof CFFuncDeclStatement) {
 
 			if (!trivalFunction(context.getFunctionName())) {
 				functionCount++;
-
-				if (!alreadyTooMany) {
-					checkNumberFunctions(functionCount, 1, context, bugs);
-				}
+				checkNumberFunctions(functionCount, 1, context, bugs);
 			}
 		}
 	}
@@ -38,13 +34,9 @@ public class TooManyFunctionsChecker extends CFLintScannerAdapter {
 	public void element(final Element element, final Context context, final BugList bugs) {
 		if (element.getName().equals("cfcomponent")) {
 			functionCount = 0;
-			alreadyTooMany = false;
 		} else if (element.getName().equals("cffunction") && !trivalFunction(context.getFunctionName())) {
 			functionCount++;
-
-			if (!alreadyTooMany) {
-				checkNumberFunctions(functionCount, 1, context, bugs);
-			}
+			checkNumberFunctions(functionCount, 1, context, bugs);
 		}
 	}
 
@@ -64,12 +56,7 @@ public class TooManyFunctionsChecker extends CFLintScannerAdapter {
 		}
 
 		if (functionCount > threshold) {
-			alreadyTooMany = true;
-			bugs.add(new BugInfo.BugInfoBuilder().setLine(atLine).setMessageCode("EXCESSIVE_FUNCTIONS")
-					.setSeverity(severity).setFilename(context.getFilename()).setFunction(context.getFunctionName())
-					.setMessage("Function " + context.getFunctionName()
-							+ " has too many functions. Should be less than " + Integer.toString(threshold) + ".")
-					.build());
+			context.getParent(ContextType.Component).addUniqueMessage("EXCESSIVE_FUNCTIONS", context.getFilename(), this, atLine);
 		}
 	}
 

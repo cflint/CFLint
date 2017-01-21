@@ -817,7 +817,7 @@ public class CFLint implements IErrorReporter {
 					"Message definition not found for [" + msgcode + "] in " + plugin.getClass().getSimpleName());
 		}
 		final BugInfoBuilder bldr = new BugInfo.BugInfoBuilder().setMessageCode(msgcode).setVariable(nameVar)
-				.setFunction(context.getFunctionName()).setFilename(context.getFilename());
+				.setFunction(context.getFunctionName()).setFilename(context.getFilename()).setComponent(context.getComponentName());
 		if (msgInfo != null) {
 			bldr.setSeverity(msgInfo.getSeverity());
 			bldr.setMessage(msgInfo.getMessageText());

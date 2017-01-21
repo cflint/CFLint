@@ -64,12 +64,14 @@ public class TestCFBugs_TooManyFunctions {
 		 + "<cffunction name=\"functionNine\" />\r\n"
 		 + "<cffunction name=\"functionTen\" />\r\n"
 		 + "<cffunction name=\"functionEleven\" />\r\n"		 
+		 + "<cffunction name=\"functionTwelve\" />\r\n"		 
 		 + "</cfcomponent>";
 		cfBugs.process(cfcSrc, "test");
 		final List<BugInfo> result = cfBugs.getBugs().getBugList().values().iterator().next();
 		assertEquals(1, result.size());
 		assertEquals("EXCESSIVE_FUNCTIONS", result.get(0).getMessageCode());
 		assertEquals(1, result.get(0).getLine());
+		System.out.println(result.get(0));
 	}
 
 	@Test

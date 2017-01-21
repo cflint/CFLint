@@ -402,6 +402,7 @@
       "className": "TooManyFunctionsChecker",
       "message": [
         {
+          "messageText": "Component ${filename} has too many functions. Should be less than ${maximum}.",
           "code": "EXCESSIVE_FUNCTIONS",
           "severity": "WARNING"
         }
@@ -771,7 +772,8 @@
       "message": [
         {
           "code": "UNUSED_LOCAL_VARIABLE",
-          "severity": "INFO"
+          "severity": "INFO",
+          "messageText": "Local variable ${variable} is not used in function ${function}, consider removing it."
          }
       ],
       "parameter": []

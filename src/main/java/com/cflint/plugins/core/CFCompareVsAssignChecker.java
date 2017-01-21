@@ -3,7 +3,6 @@ package com.cflint.plugins.core;
 import java.util.Arrays;
 import java.util.List;
 
-import com.cflint.BugInfo;
 import com.cflint.BugList;
 import com.cflint.plugins.CFLintScannerAdapter;
 import com.cflint.plugins.Context;
@@ -34,12 +33,5 @@ public class CFCompareVsAssignChecker extends CFLintScannerAdapter {
 				}
 			}
 		}
-	}
-
-	protected void noNeedtoUseCreateObject(final int lineNo, final Context context, final BugList bugs) {
-		bugs.add(new BugInfo.BugInfoBuilder().setLine(lineNo).setMessageCode("AVOID_USING_CREATEOBJECT")
-				.setSeverity(severity).setFilename(context.getFilename()).setMessage("CreateObject statement at line "
-						+ lineNo + ". Use createObject(path_to_component) or even better new path_to_component().")
-				.build());
 	}
 }

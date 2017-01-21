@@ -815,6 +815,19 @@
       "parameter": [
         
       ]
+    },
+    {
+      "name": "SelectStarChecker",
+      "message": [
+        {
+          "code": "SQL_SELECT_STAR",
+          "messageText": "Avoid using 'select *' in a query.",
+          "severity": "WARNING"
+        }
+      ],
+      "parameter": [
+        
+      ]
     }    
   ]
 }

@@ -87,16 +87,9 @@ public class UnusedLocalVarChecker extends CFLintScannerAdapter {
 			if (!used) {
 				final String name = variable.getKey();
 				final Integer lineNo = variableLineNo.get(name);
-//				presortbugs.add(new BugInfo.BugInfoBuilder().setLine(lineNo).setMessageCode("UNUSED_LOCAL_VARIABLE")
-//						.setSeverity(severity).setFilename(context.getFilename())
-//						.setFunction(context.getFunctionName()).setMessage("Local variable " + name
-//								+ " is not used in function " + context.getFunctionName() + ", consider removing it.")
-//						.setVariable(name).build());
 				context.addMessage("UNUSED_LOCAL_VARIABLE", name, lineNo);
 			}
 		}
-		// Sort the bugs by line/col before adding to the list of bugs.
-		//Collections.sort(presortbugs);
 	}
 
 }

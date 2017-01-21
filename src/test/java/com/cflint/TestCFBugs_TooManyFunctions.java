@@ -71,7 +71,6 @@ public class TestCFBugs_TooManyFunctions {
 		assertEquals(1, result.size());
 		assertEquals("EXCESSIVE_FUNCTIONS", result.get(0).getMessageCode());
 		assertEquals(1, result.get(0).getLine());
-		System.out.println(result.get(0));
 	}
 
 	@Test

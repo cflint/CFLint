@@ -68,6 +68,7 @@ public class TestCFBugs_TooManyArguments {
 		 + "	<cfargument name=\"argumentNone\">\r\n"
 		 + "	<cfargument name=\"argumentTen\">\r\n"
 		 + "	<cfargument name=\"argumentEleven\">\r\n"
+		 + "	<cfargument name=\"argumentTwelve\">\r\n"
 		 + "	<cfset var a = 1>\r\n"
 		 + "</cffunction>\r\n"
 		 + "</cfcomponent>";

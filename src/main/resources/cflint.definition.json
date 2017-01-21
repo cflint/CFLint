@@ -386,6 +386,7 @@
       "className": "TooManyArgumentsChecker",
       "message": [
         {
+          "messageText": "Function ${function} has too many arguments. Should be less than ${maximum}.",
           "code": "EXCESSIVE_ARGUMENTS",
           "severity": "WARNING"
         }

@@ -1,6 +1,5 @@
 package com.cflint.plugins.core;
 
-import com.cflint.BugInfo;
 import com.cflint.BugList;
 import com.cflint.plugins.CFLintScannerAdapter;
 import com.cflint.plugins.Context;
@@ -11,10 +10,9 @@ import net.htmlparser.jericho.Element;
 import ro.fortsoft.pf4j.Extension;
 
 @Extension
-public class CFTagLowercaseChecker extends CFLintScannerAdapter {
-	final String messageCode = "CFTAG_SHOULD_BE_LOWERCASE";
-	final String severity = "WARNING";
-
+public class CFTagCaseChecker extends CFLintScannerAdapter {
+	final String messageCode = "CFTAG_PREFERRED_CASE";
+	
 	@Override
 	public void expression(final CFExpression expression, final Context context, final BugList bugs) {
 
@@ -27,6 +25,13 @@ public class CFTagLowercaseChecker extends CFLintScannerAdapter {
 	// rule: tag should be lowercase or camelCase
 	@Override
 	public void element(final Element element, final Context context, final BugList bugs) {
+	    boolean encourageUpper = true;
+        if (getParameter("PreferCase") != null) {
+            try {
+                encourageUpper = "upper".equalsIgnoreCase(getParameter("PreferCase"));
+            } catch (final Exception e) {
+            }
+        }	    
 		final String tag = element.getStartTag().toString();
 		if (tag.substring(1, 3).equalsIgnoreCase("cf")) {
 			int index = tag.indexOf(" ");
@@ -34,20 +39,16 @@ public class CFTagLowercaseChecker extends CFLintScannerAdapter {
 				index = tag.indexOf(">");
 			}
 			final String cfTag = tag.substring(1, index);
-			final String upperCase = cfTag.toUpperCase();
+			final String nonPreferredCase = encourageUpper?cfTag.toLowerCase():cfTag.toUpperCase();
 			/*
 			 * ensuring the tag is not pure uppercase instead of checking to see
 			 * if the tag is lowercase or camelcase as some camelcase can get
 			 * hairy e.g. <cfmcGrabURLFromHTTPSite>
 			 */
-			if (cfTag.equals(upperCase)) {
+			if (cfTag.equals(nonPreferredCase)) {
 				final int begLine = element.getSource().getRow(element.getBegin());
-				bugs.add(
-						new BugInfo.BugInfoBuilder().setLine(begLine).setMessageCode(messageCode).setSeverity(severity)
-								.setFilename(context.getFilename())
-								.setMessage("Tag <" + cfTag
-										+ "> should be written in lowercase or camelCase for consistency in code.")
-								.build());
+				context.addMessage(messageCode, cfTag, this, begLine);
+				//messageText = "Tag <${variable}> should be written in lowercase or camelCase for consistency in code.";
 			}
 		}
 	}

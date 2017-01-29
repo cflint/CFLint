@@ -336,7 +336,8 @@
       "message": [
         {
           "code": "EXCESSIVE_FUNCTION_LENGTH",
-          "severity": "WARNING"
+          "severity": "WARNING",
+          "messageText": "Function ${function} is ${variable} lines. Should be less than ${length} lines."
         }
       ],
       "parameter": [
@@ -759,6 +760,7 @@
       "className": "FileCaseChecker",
       "message": [
         {
+          "messageText" : "File ${filename} starts with a upper case letter. Only components (.cfc files) should start with an upper case letter.",
           "code": "FILE_SHOULD_START_WITH_LOWERCASE",
           "severity": "INFO"
         }

@@ -1,6 +1,5 @@
 package com.cflint.plugins.core;
 
-import com.cflint.BugInfo;
 import com.cflint.BugList;
 import com.cflint.plugins.CFLintScannerAdapter;
 import com.cflint.plugins.Context;
@@ -55,11 +54,7 @@ public class FunctionLengthChecker extends CFLintScannerAdapter {
 		}
 
 		if (linesLength > length) {
-			bugs.add(new BugInfo.BugInfoBuilder().setLine(atLine).setMessageCode("EXCESSIVE_FUNCTION_LENGTH")
-					.setSeverity(severity).setFilename(context.getFilename()).setFunction(context.getFunctionName())
-					.setMessage("Function " + context.getFunctionName() + " is " + Integer.toString(linesLength)
-							+ " lines. Should be less than " + Integer.toString(length) + " lines.")
-					.build());
+		    context.addMessage("EXCESSIVE_FUNCTION_LENGTH", Integer.toString(linesLength), this, atLine);
 		}
 	}
 }

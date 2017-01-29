@@ -862,11 +862,40 @@
       "message": [
         {
           "code": "USE_DISPLAY_NAME",
-          "messageText": ""Component ${variable} is has a name attribute perhaps you meant to use displayName?",
+          "messageText": "Component ${variable} is has a name attribute perhaps you meant to use displayName?",
           "severity": "INFO"
         }
       ],
       "parameter": []
+    },
+    {
+      "name": "LiteralChecker",
+      "message": [
+        {
+          "code": "LOCAL_LITERAL_VALUE_USED_TOO_OFTEN",
+          "messageText": "Literal ${variable} occurs several times in the same file. Consider giving it a name and not hard coding values.",
+          "severity": "WARNING"
+        },
+        {
+          "code": "GLOBAL_LITERAL_VALUE_USED_TOO_OFTEN",
+           "messageText": "Literal ${variable} occurs several times in one or more files. Consider giving it a name and not hard coding values.",
+          "severity": "WARNING"
+        }
+      ],
+      "parameter": [
+        {
+          "name": "Maximum",
+          "value": "3"
+        },
+        {
+          "name": "MaxWarnings",
+          "value": "5"
+        },
+        {
+          "name": "WarningScope",
+          "value": "global"
+        }
+      ]
     }    
   ]
 }

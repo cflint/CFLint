@@ -3,7 +3,6 @@ package com.cflint.plugins.core;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.cflint.BugInfo;
 import com.cflint.BugList;
 import com.cflint.plugins.CFLintScannerAdapter;
 import com.cflint.plugins.Context;
@@ -16,7 +15,6 @@ import ro.fortsoft.pf4j.Extension;
 
 @Extension
 public class LiteralChecker extends CFLintScannerAdapter {
-	final String severity = "WARNING";
 	final protected int REPEAT_THRESHOLD = 3;
 	final protected int WARNING_THRESHOLD = 5;
 
@@ -32,9 +30,9 @@ public class LiteralChecker extends CFLintScannerAdapter {
 
 	@Override
 	public void expression(final CFExpression expression, final Context context, final BugList bugs) {
-		final String repeatThreshold = getParameter("maximum");
-		final String maxWarnings = getParameter("maxWarnings");
-		final String warningScope = getParameter("warningScope");
+		final String repeatThreshold = getParameter("Maximum");
+		final String maxWarnings = getParameter("MaxWarnings");
+		final String warningScope = getParameter("WarningScope");
 
 		if (repeatThreshold != null) {
 			threshold = Integer.parseInt(repeatThreshold);
@@ -95,18 +93,10 @@ public class LiteralChecker extends CFLintScannerAdapter {
 	}
 
 	public void magicLocalValue(final String name, final int lineNo, final Context context, final BugList bugs) {
-		bugs.add(new BugInfo.BugInfoBuilder().setLine(lineNo).setMessageCode("LOCAL_LITERAL_VALUE_USED_TOO_OFTEN")
-				.setSeverity(severity).setFilename(context.getFilename())
-				.setMessage("Literal " + name
-						+ " occurs several times in the same file. Consider giving it a name and not hard coding values.")
-				.build());
+	    context.addMessage("LOCAL_LITERAL_VALUE_USED_TOO_OFTEN", name, this, lineNo);
 	}
 
 	public void magicGlobalValue(final String name, final int lineNo, final Context context, final BugList bugs) {
-		bugs.add(new BugInfo.BugInfoBuilder().setLine(lineNo).setMessageCode("GLOBAL_LITERAL_VALUE_USED_TOO_OFTEN")
-				.setSeverity(severity).setFilename(context.getFilename())
-				.setMessage("Literal " + name
-						+ " occurs several times in one or more files. Consider giving it a name and not hard coding values.")
-				.build());
+	    context.addMessage("GLOBAL_LITERAL_VALUE_USED_TOO_OFTEN", name, this, lineNo);
 	}
 }

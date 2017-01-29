@@ -1,6 +1,5 @@
 package com.cflint.plugins.core;
 
-import com.cflint.BugInfo;
 import com.cflint.BugList;
 import com.cflint.plugins.CFLintScannerAdapter;
 import com.cflint.plugins.Context;
@@ -54,11 +53,7 @@ public class ComplexBooleanExpressionChecker extends CFLintScannerAdapter {
 	}
 
 	public void complexBooleanExpression(final int lineNo, final Context context, final BugList bugs) {
-		bugs.add(
-				new BugInfo.BugInfoBuilder().setLine(lineNo).setMessageCode("COMPLEX_BOOLEAN_CHECK")
-						.setSeverity(severity).setFilename(context.getFilename()).setMessage("Boolean expession at "
-								+ lineNo + " is too complex. Consider simplifying or moving to a named method.")
-						.build());
+	    context.addMessage("COMPLEX_BOOLEAN_CHECK", null, this, lineNo);
 	}
 
 }

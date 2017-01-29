@@ -21,7 +21,6 @@ import javax.xml.bind.JAXBException;
 import javax.xml.transform.TransformerException;
 
 import org.junit.Test;
-import org.junit.internal.runners.statements.Fail;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 

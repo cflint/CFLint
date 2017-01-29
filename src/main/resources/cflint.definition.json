@@ -352,7 +352,8 @@
       "message": [
         {
           "code": "EXCESSIVE_COMPONENT_LENGTH",
-          "severity": "WARNING"
+          "severity": "WARNING",
+          "messageText": "Component ${component} is ${variable} lines. Should be less than ${length} lines."
         }
       ],
       "parameter": [

@@ -1,6 +1,5 @@
 package com.cflint.plugins.core;
 
-import com.cflint.BugInfo;
 import com.cflint.BugList;
 import com.cflint.plugins.CFLintScannerAdapter;
 import com.cflint.plugins.Context;
@@ -52,11 +51,7 @@ public class ComponentLengthChecker extends CFLintScannerAdapter {
 		}
 
 		if (linesLength > length) {
-			bugs.add(new BugInfo.BugInfoBuilder().setLine(1).setMessageCode("EXCESSIVE_COMPONENT_LENGTH")
-					.setSeverity(severity).setFilename(context.getFilename())
-					.setMessage("Component " + context.getComponentName() + " is " + Integer.toString(linesLength)
-							+ " lines. Should be less than " + Integer.toString(length) + " lines.")
-					.build());
+		    context.addMessage("EXCESSIVE_COMPONENT_LENGTH", Integer.toString(linesLength), this, 1);
 		}
 	}
 }

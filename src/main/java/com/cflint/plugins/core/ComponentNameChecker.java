@@ -1,6 +1,5 @@
 package com.cflint.plugins.core;
 
-import com.cflint.BugInfo;
 import com.cflint.BugList;
 import com.cflint.plugins.CFLintScannerAdapter;
 import com.cflint.plugins.Context;
@@ -19,7 +18,7 @@ public class ComponentNameChecker extends CFLintScannerAdapter {
 	public void expression(final CFScriptStatement expression, final Context context, final BugList bugs) {
 		if (expression instanceof CFCompDeclStatement) {
 			final String name = context.getFilename().replace(".cfc", "");
-			checkNameForBugs(actualFileName(name), context.getFilename(), bugs);
+			checkNameForBugs(context,actualFileName(name), context.getFilename(), bugs);
 		}
 	}
 
@@ -27,7 +26,7 @@ public class ComponentNameChecker extends CFLintScannerAdapter {
 	public void element(final Element element, final Context context, final BugList bugs) {
 		if (element.getName().equals("cfcomponent")) {
 			final String name = context.getFilename().replace(".cfc", "");
-			checkNameForBugs(actualFileName(name), context.getFilename(), bugs);
+			checkNameForBugs(context,actualFileName(name), context.getFilename(), bugs);
 		}
 	}
 
@@ -43,7 +42,7 @@ public class ComponentNameChecker extends CFLintScannerAdapter {
 		return actualFileName;
 	}
 
-	public void checkNameForBugs(final String component, final String filename, final BugList bugs) {
+	public void checkNameForBugs(final Context context, final String component, final String filename, final BugList bugs) {
 		int minComponentLength = ValidName.MIN_COMPONENT_LENGTH;
 		int maxComponentLength = ValidName.MAX_COMPONENT_LENGTH;
 		int maxComponentWords = ValidName.MAX_COMPONENT_WORDS;
@@ -75,46 +74,25 @@ public class ComponentNameChecker extends CFLintScannerAdapter {
 		// TODO check package name as well?
 
 		if (name.isInvalidComponent(component)) {
-			bugs.add(
-					new BugInfo.BugInfoBuilder().setLine(line).setMessageCode("COMPONENT_INVALID_NAME")
-							.setSeverity(severity).setFilename(filename)
-							.setMessage(COMPONENT_NAME + component
-									+ " is not a valid name. Please use CamelCase and start with a capital letter.")
-							.build());
+		    context.addMessage("COMPONENT_INVALID_NAME", null, this, line);
 		}
 		if (name.isUpperCase(component)) {
-			bugs.add(new BugInfo.BugInfoBuilder().setLine(line).setMessageCode("COMPONENT_ALLCAPS_NAME")
-					.setSeverity(severity).setFilename(filename)
-					.setMessage(COMPONENT_NAME + component + " should not be all upper case.").build());
+            context.addMessage("COMPONENT_ALLCAPS_NAME", null, this, line);
 		}
 		if (name.tooShort(component)) {
-			bugs.add(new BugInfo.BugInfoBuilder().setLine(line).setMessageCode("COMPONENT_TOO_SHORT")
-					.setSeverity(severity).setFilename(filename).setMessage(COMPONENT_NAME + component
-							+ " should be longer than " + minComponentLength + " characters.")
-					.build());
+            context.addMessage("COMPONENT_TOO_SHORT", null, this, line);
 		}
 		if (name.tooLong(component)) {
-			bugs.add(new BugInfo.BugInfoBuilder().setLine(line).setMessageCode("COMPONENT_TOO_LONG")
-					.setSeverity(severity).setFilename(filename).setMessage(COMPONENT_NAME + component
-							+ " should be shorter than " + maxComponentLength + " characters.")
-					.build());
+            context.addMessage("COMPONENT_TOO_LONG", null, this, line);
 		}
 		if (!name.isUpperCase(component) && name.tooWordy(component)) {
-			bugs.add(new BugInfo.BugInfoBuilder().setLine(line).setMessageCode("COMPONENT_TOO_WORDY")
-					.setSeverity(severity).setFilename(filename)
-					.setMessage(COMPONENT_NAME + component + " is too wordy, can you think of a more concise name?")
-					.build());
+            context.addMessage("COMPONENT_TOO_WORDY", null, this, line);
 		}
 		if (name.isTemporary(component)) {
-			bugs.add(new BugInfo.BugInfoBuilder().setLine(line).setMessageCode("COMPONENT_IS_TEMPORARY")
-					.setSeverity(severity).setFilename(filename)
-					.setMessage(COMPONENT_NAME + component + " could be named better.").build());
+            context.addMessage("COMPONENT_IS_TEMPORARY", null, this, line);
 		}
 		if (name.hasPrefixOrPostfix(component)) {
-			bugs.add(new BugInfo.BugInfoBuilder().setLine(line).setMessageCode("COMPONENT_HAS_PREFIX_OR_POSTFIX")
-					.setSeverity(severity).setFilename(filename)
-					.setMessage(COMPONENT_NAME + component + " has prefix or postfix and could be named better.")
-					.build());
+            context.addMessage("COMPONENT_HAS_PREFIX_OR_POSTFIX", null, this, line);
 		}
 	}
 }

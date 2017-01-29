@@ -1,0 +1,5 @@
+<config>
+   <includes code="FUNCTION_HINT_MISSING"/>
+   <includes code="COMPONENT_INVALID_NAME"/>
+
+</config>

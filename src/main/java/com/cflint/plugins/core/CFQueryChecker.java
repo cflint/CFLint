@@ -1,6 +1,5 @@
 package com.cflint.plugins.core;
 
-import com.cflint.BugInfo;
 import com.cflint.BugList;
 import com.cflint.plugins.CFLintScannerAdapter;
 import com.cflint.plugins.Context;
@@ -12,8 +11,6 @@ import ro.fortsoft.pf4j.Extension;
 
 @Extension
 public class CFQueryChecker extends CFLintScannerAdapter {
-	final String message = "Don't use <cfquery> in .cfm files. Database should not be coupled with view";
-	final String severity = "ERROR";
 	final String messageCode = "NEVER_USE_QUERY_IN_CFM";
 
 	@Override
@@ -33,8 +30,7 @@ public class CFQueryChecker extends CFLintScannerAdapter {
 		final String tagName = element.getName();
 		if (tagName.equals("cfquery") && ext.equals("cfm")) {
 			final int begLine = element.getSource().getRow(element.getBegin());
-			bugs.add(new BugInfo.BugInfoBuilder().setLine(begLine).setMessageCode(messageCode).setSeverity(severity)
-					.setFilename(context.getFilename()).setMessage(message).build());
+			context.addMessage(messageCode, null, this, begLine);
 		}
 	}
 }

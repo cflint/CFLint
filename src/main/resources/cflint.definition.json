@@ -705,31 +705,38 @@
       "message": [
         {
           "code": "COMPONENT_INVALID_NAME",
-          "severity": "INFO"
+          "severity": "INFO",
+          "messageText" : "Component name ${component} is not a valid name. Please use CamelCase and start with a capital letter."
         },
         {
           "code": "COMPONENT_ALLCAPS_NAME",
-          "severity": "INFO"
+          "severity": "INFO",
+          "messageText" : "Component name ${component} should not be all upper case."
         },
         {
           "code": "COMPONENT_TOO_SHORT",
-          "severity": "INFO"
+          "severity": "INFO",
+          "messageText" : "Component name ${component} should be longer than ${MinLength} characters."
         },
         {
           "code": "COMPONENT_TOO_LONG",
-          "severity": "INFO"
+          "severity": "INFO",
+          "messageText" : "Component name ${component} should be shorter than ${MaxLength} characters."
         },
         {
           "code": "COMPONENT_TOO_WORDY",
-          "severity": "INFO"
+          "severity": "INFO",
+          "messageText" : "Component name ${component} is too wordy, can you think of a more concise name?"
         },
         {
           "code": "COMPONENT_IS_TEMPORARY",
-          "severity": "INFO"
+          "severity": "INFO",
+          "messageText" : "Component name ${component} could be named better."
         },
         {
           "code": "COMPONENT_HAS_PREFIX_OR_POSTFIX",
-          "severity": "INFO"
+          "severity": "INFO",
+          "messageText" : "Component name ${component} has prefix or postfix and could be named better."
         }
       ],
       "parameter": [

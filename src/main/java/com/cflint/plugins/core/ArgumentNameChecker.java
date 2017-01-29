@@ -1,6 +1,5 @@
 package com.cflint.plugins.core;
 
-import com.cflint.BugInfo;
 import com.cflint.BugList;
 import com.cflint.plugins.CFLintScannerAdapter;
 import com.cflint.plugins.Context;
@@ -13,8 +12,6 @@ import ro.fortsoft.pf4j.Extension;
 
 @Extension
 public class ArgumentNameChecker extends CFLintScannerAdapter {
-	public static final String ARGUMENT = "Argument ";
-	final String severity = "INFO";
 
 	@Override
 	public void expression(final CFScriptStatement expression, final Context context, final BugList bugs) {
@@ -23,7 +20,7 @@ public class ArgumentNameChecker extends CFLintScannerAdapter {
 			final int lineNo = function.getLine() + context.startLine() - 1;
 
 			for (final CFFunctionParameter argument : function.getFormals()) {
-				checkNameForBugs(argument.getName(), context.getFilename(), context.getFunctionName(), lineNo, bugs);
+				checkNameForBugs(context,argument.getName(), context.getFilename(), context.getFunctionName(), lineNo, bugs);
 			}
 		}
 	}
@@ -34,16 +31,14 @@ public class ArgumentNameChecker extends CFLintScannerAdapter {
 			final int lineNo = context.startLine();
 			final String name = element.getAttributeValue("name");
 			if (name != null && name.length() > 0) {
-				checkNameForBugs(name, context.getFilename(), context.getFunctionName(), lineNo, bugs);
+				checkNameForBugs(context,name, context.getFilename(), context.getFunctionName(), lineNo, bugs);
 			} else {
-				bugs.add(new BugInfo.BugInfoBuilder().setLine(lineNo).setMessageCode("ARGUMENT_INVALID_NAME")
-						.setSeverity("ERROR").setFilename(context.getFilename()).setFunction(context.getFunctionName())
-						.setMessage(ARGUMENT + " is missing a name.").setVariable("").build());
+				context.addMessage("ARGUMENT_MISSING_NAME", null, this, lineNo);
 			}
 		}
 	}
 
-	public void checkNameForBugs(final String argument, final String filename, final String functionName,
+	public void checkNameForBugs(final Context context, final String argument, final String filename, final String functionName,
 			final int line, final BugList bugs) {
 		int minArgLength = ValidName.MIN_ARGUMENT_LENGTH;
 		int maxArgLength = ValidName.MAX_ARGUMENT_LENGTH;
@@ -73,49 +68,25 @@ public class ArgumentNameChecker extends CFLintScannerAdapter {
 		final ValidName name = new ValidName(minArgLength, maxArgLength, maxArgWords);
 
 		if (name.isInvalid(argument)) {
-			bugs.add(
-					new BugInfo.BugInfoBuilder().setLine(line).setMessageCode("ARGUMENT_INVALID_NAME")
-							.setSeverity(severity).setFilename(filename).setFunction(functionName)
-							.setMessage(
-									ARGUMENT + argument + " is not a valid name. Please use CamelCase or underscores.")
-							.setVariable(argument).build());
+		     context.addMessage("ARGUMENT_INVALID_NAME", null, this, line);
 		}
 		if (name.isUpperCase(argument)) {
-			bugs.add(new BugInfo.BugInfoBuilder().setLine(line).setMessageCode("ARGUMENT_ALLCAPS_NAME")
-					.setSeverity(severity).setFilename(filename).setFunction(functionName)
-					.setMessage(ARGUMENT + argument + " should not be upper case.").setVariable(argument).build());
+		    context.addMessage("ARGUMENT_ALLCAPS_NAME", argument, this, line);
 		}
 		if (name.tooShort(argument)) {
-			bugs.add(new BugInfo.BugInfoBuilder().setLine(line).setMessageCode("ARGUMENT_TOO_SHORT")
-					.setSeverity(severity).setFilename(filename).setFunction(functionName)
-					.setMessage(ARGUMENT + argument + " should be longer than " + minArgLength + " characters.")
-					.setVariable(argument).build());
+            context.addMessage("ARGUMENT_TOO_SHORT", argument, this, line);
 		}
 		if (name.tooLong(argument)) {
-			bugs.add(
-					new BugInfo.BugInfoBuilder().setLine(line).setMessageCode("ARGUMENT_TOO_LONG").setSeverity(severity)
-							.setFilename(filename).setFunction(functionName)
-							.setMessage(
-									ARGUMENT + argument + " should be shorter than " + maxArgLength + " characters.")
-							.setVariable(argument).build());
+            context.addMessage("ARGUMENT_TOO_LONG", argument, this, line);
 		}
 		if (!name.isUpperCase(argument) && name.tooWordy(argument)) {
-			bugs.add(new BugInfo.BugInfoBuilder().setLine(line).setMessageCode("ARGUMENT_TOO_WORDY")
-					.setSeverity(severity).setFilename(filename).setFunction(functionName)
-					.setMessage(ARGUMENT + argument + " is too wordy, can you think of a more concise name?")
-					.setVariable(argument).build());
+            context.addMessage("ARGUMENT_TOO_WORDY", argument, this, line);
 		}
 		if (name.isTemporary(argument)) {
-			bugs.add(new BugInfo.BugInfoBuilder().setLine(line).setMessageCode("ARGUMENT_IS_TEMPORARY")
-					.setSeverity(severity).setFilename(filename).setFunction(functionName)
-					.setMessage("Temporary argument " + argument + " could be named better.").setVariable(argument)
-					.build());
+            context.addMessage("ARGUMENT_IS_TEMPORARY", argument, this, line);
 		}
 		if (name.hasPrefixOrPostfix(argument)) {
-			bugs.add(new BugInfo.BugInfoBuilder().setLine(line).setMessageCode("ARGUMENT_HAS_PREFIX_OR_POSTFIX")
-					.setSeverity(severity).setFilename(filename).setFunction(functionName)
-					.setMessage("Argument has prefix or postfix " + argument + " and could be named better.")
-					.setVariable(argument).build());
+            context.addMessage("ARGUMENT_HAS_PREFIX_OR_POSTFIX", argument, this, line);
 		}
 	}
 }

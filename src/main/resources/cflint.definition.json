@@ -500,6 +500,7 @@
       "className": "ComplexBooleanExpressionChecker",
       "message": [
         {
+          "messageText" : "Boolean expession is too complex. Consider simplifying or moving to a named method.",
           "code": "COMPLEX_BOOLEAN_CHECK",
           "severity": "WARNING"
         }
@@ -832,9 +833,7 @@
           "severity": "WARNING"
         }
       ],
-      "parameter": [
-        
-      ]
+      "parameter": []
     },
     {
       "name": "SelectStarChecker",
@@ -845,9 +844,29 @@
           "severity": "WARNING"
         }
       ],
-      "parameter": [
-        
-      ]
+      "parameter": []
+    },
+    {
+      "name": "CFQueryChecker",
+      "message": [
+        {
+          "code": "NEVER_USE_QUERY_IN_CFM",
+          "messageText": "Don't use <cfquery> in .cfm files. Database should not be coupled with view.",
+          "severity": "WARN"
+        }
+      ],
+      "parameter": []
+    },
+    {
+      "name": "ComponentDisplayNameChecker",
+      "message": [
+        {
+          "code": "USE_DISPLAY_NAME",
+          "messageText": ""Component ${variable} is has a name attribute perhaps you meant to use displayName?",
+          "severity": "INFO"
+        }
+      ],
+      "parameter": []
     }    
   ]
 }

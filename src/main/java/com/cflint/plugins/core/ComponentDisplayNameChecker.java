@@ -1,6 +1,5 @@
 package com.cflint.plugins.core;
 
-import com.cflint.BugInfo;
 import com.cflint.BugList;
 import com.cflint.plugins.CFLintScannerAdapter;
 import com.cflint.plugins.Context;
@@ -23,10 +22,7 @@ public class ComponentDisplayNameChecker extends CFLintScannerAdapter {
 	}
 
 	protected void didYouMeanDisplayName(final String name, final Context context, final BugList bugs) {
-		bugs.add(new BugInfo.BugInfoBuilder().setLine(1).setMessageCode("USE_DISPLAY_NAME").setSeverity(severity)
-				.setFilename(context.getFilename())
-				.setMessage("Component " + name + " is has a name attribute perhaps you meant to use displayName?")
-				.build());
+	    context.addMessage("USE_DISPLAY_NAME", name, this, 1);
 	}
 
 }

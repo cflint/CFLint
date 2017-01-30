@@ -16,9 +16,6 @@ public class TestIntegrationFolder {
 
 	@Test
 	public void testFolder() throws Exception{
-	    
-	    URL url = TestIntegrationFolder.class.getResource("/cflint.definition.json");
-	    final String path=new File(url.toURI()).getParentFile().getParentFile().getParent();
 	    CFLintMain.main(
 				new String[]{
 				"--folder",
@@ -32,9 +29,27 @@ public class TestIntegrationFolder {
         assertEquals( 
                 expected.replaceAll("\\\\","/").replaceAll("/+","/").replaceAll("\r\n", "\n").replaceAll("\\s\"file\".+\\R", ""),
                 actual.replaceAll("\\\\","/").replaceAll("/+","/").replaceAll("\r\n", "\n").replaceAll("\\s\"file\".+\\R", ""));
-
 	}
-	
+
+	   @Test
+	    public void testRuleGroupFolder() throws Exception{
+	        CFLintMain.main(
+	                new String[]{
+	                "--folder",
+	                "src/test/resources/com/cflint/integration",
+	                "--json",
+                    "--jsonfile",
+                    "src/test/resources/com/cflint/integration/output.rulegroup.json",
+                    "--rulegroups",
+                    "Naming"
+                    });
+	        final String expected = loadFile(new File("src/test/resources/com/cflint/integration/output.rulegroup.expected.json"));
+	        final String actual = loadFile(new File("src/test/resources/com/cflint/integration/output.rulegroup.json"));
+	        assertEquals( 
+	                expected.replaceAll("\\\\","/").replaceAll("/+","/").replaceAll("\r\n", "\n").replaceAll("\\s\"file\".+\\R", ""),
+	                actual.replaceAll("\\\\","/").replaceAll("/+","/").replaceAll("\r\n", "\n").replaceAll("\\s\"file\".+\\R", ""));
+	    }
+
 	   public static String loadFile(File file) throws IOException {
 	        InputStream is = new FileInputStream(file);
 	        byte[] b = new byte[is.available()];

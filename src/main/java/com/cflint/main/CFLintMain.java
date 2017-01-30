@@ -136,6 +136,8 @@ public class CFLintMain {
 		options.addOption(STDIN, true, "use stdin for file input (default: source.cfc)");
         options.addOption("stdout", false, "output to stdout only");
         options.addOption("listrulegroups", false, "list rule groups");
+        options.addOption("rulegroups", true, "rule groups");
+        
 
 		final CommandLineParser parser = new GnuParser();
 		final CommandLine cmd = parser.parse(options, args);
@@ -182,6 +184,15 @@ public class CFLintMain {
             listRuleGroups(pluginInfo);
             return;
         }
+		//Load the codes from the rule groups into the includes list, if rule groups are specified
+		if (cmd.hasOption("rulegroups")){
+		    final String rulegroups = cmd.getOptionValue("rulegroups");
+		    for(RuleGroup rg: pluginInfo.getRuleGroups()){
+		        if(rulegroups.contains(rg.getName())){
+		            main.defaultConfig.getIncludes().addAll(rg.getMessages());
+		        }
+		    }
+		}
         
 		
 		main.verbose = (cmd.hasOption('v') || cmd.hasOption(VERBOSE));

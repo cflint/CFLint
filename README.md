@@ -27,4 +27,5 @@ Ray Camden created a [CFBuilder](http://www.adobe.com/products/coldfusion-builde
 
 Vim [Syntastic](https://github.com/scrooloose/syntastic) support for CFML is available [here](https://github.com/cflint/cflint-syntastic).
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/6f68b108f5984861ab6d9190cd50f3e8)](https://www.codacy.com/app/sjmatta/CFLint?utm_source=github.com&utm_medium=referral&utm_content=cflint/CFLint&utm_campaign=badger)
 [![Build Status](https://travis-ci.org/cflint/CFLint.svg?branch=master)](https://travis-ci.org/cflint/CFLint)

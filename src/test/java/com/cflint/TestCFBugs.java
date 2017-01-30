@@ -12,10 +12,6 @@ import org.junit.Test;
 import com.cflint.config.CFLintConfig;
 import com.cflint.config.CFLintPluginInfo.PluginInfoRule;
 import com.cflint.config.CFLintPluginInfo.PluginInfoRule.PluginMessage;
-import com.cflint.plugins.core.GlobalVarChecker;
-import com.cflint.plugins.core.NestedCFOutput;
-import com.cflint.plugins.core.TypedQueryNew;
-import com.cflint.plugins.core.VarScoper;
 
 import cfml.parsing.reporting.ParseException;
 
@@ -24,7 +20,7 @@ public class TestCFBugs {
 	private CFLint cfBugs;
 	
 	@Before
-	public void setUp(){
+	public void setUp() throws IOException{
 		CFLintConfig conf = new CFLintConfig();
 		PluginInfoRule pluginRule = new PluginInfoRule();
 		pluginRule.setName("VarScoper");
@@ -61,7 +57,7 @@ public class TestCFBugs {
 				.setMessageText("QueryNew statement should specify datatypes.");
 		pluginRule.getMessages().add(pluginMessage);
 		
-		cfBugs = new CFLint(conf,new VarScoper(),new GlobalVarChecker(), new NestedCFOutput(), new TypedQueryNew());
+		cfBugs = new CFLint(conf);
 		cfBugs.setLogError(true);
 	}
 	

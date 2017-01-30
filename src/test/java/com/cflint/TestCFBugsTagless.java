@@ -10,7 +10,6 @@ import org.junit.Test;
 import com.cflint.config.CFLintConfig;
 import com.cflint.config.CFLintPluginInfo.PluginInfoRule;
 import com.cflint.config.CFLintPluginInfo.PluginInfoRule.PluginMessage;
-import com.cflint.plugins.core.VarScoper;
 
 import cfml.parsing.reporting.ParseException;
 
@@ -19,7 +18,7 @@ public class TestCFBugsTagless {
 	private CFLint cfBugs;
 	
 	@Before
-	public void setUp(){
+	public void setUp() throws IOException{
 		CFLintConfig conf = new CFLintConfig();
 		PluginInfoRule pluginRule = new PluginInfoRule();
 		pluginRule.setName("VarScoper");
@@ -29,7 +28,7 @@ public class TestCFBugsTagless {
 		pluginMessage.setMessageText("Variable ${variable} is not declared with a var statement.");
 		pluginRule.getMessages().add(pluginMessage);
 		
-		cfBugs = new CFLint(conf,new VarScoper());
+		cfBugs = new CFLint(conf);
 	}
 	
 	@Test

@@ -10,8 +10,6 @@ import org.junit.Test;
 import com.cflint.config.CFLintConfig;
 import com.cflint.config.CFLintPluginInfo.PluginInfoRule;
 import com.cflint.config.CFLintPluginInfo.PluginInfoRule.PluginMessage;
-import com.cflint.plugins.core.CFXTagChecker;
-
 import cfml.parsing.reporting.ParseException;
 
 public class TestCFAbortChecker {
@@ -29,9 +27,7 @@ public class TestCFAbortChecker {
 		pluginMessage.setSeverity("INFO");
 		pluginMessage.setMessageText("Avoid Leaving <${tagName}> tags in committed code.");
 		pluginRule.getMessages().add(pluginMessage);
-		final CFXTagChecker checker = new CFXTagChecker();
-		checker.setParameter("tagName", "cfabort");
-		cfBugs = new CFLint(conf, checker);
+		cfBugs = new CFLint(conf);
 	}
 
 	@Test

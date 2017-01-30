@@ -12,8 +12,6 @@ import org.junit.Test;
 import com.cflint.config.CFLintConfig;
 import com.cflint.config.CFLintPluginInfo.PluginInfoRule;
 import com.cflint.config.CFLintPluginInfo.PluginInfoRule.PluginMessage;
-import com.cflint.plugins.core.ArgDefConditionChecker;
-
 import cfml.parsing.reporting.ParseException;
 
 public class TestCFBugs_ArgsDefCond {
@@ -31,7 +29,7 @@ public class TestCFBugs_ArgsDefCond {
 		pluginMessage.setMessageText("Argument ${variable} is not required and does not define a default value or is not being checked.");
 		pluginRule.getMessages().add(pluginMessage);
 
-		cfBugs = new CFLint(conf, new ArgDefConditionChecker());
+		cfBugs = new CFLint(conf);
 	}
 
 	@Test

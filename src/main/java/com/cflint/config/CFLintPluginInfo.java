@@ -98,7 +98,7 @@ public class CFLintPluginInfo {
             this.messages = messages;
         }
     }
-	@JsonInclude(Include.NON_NULL)
+	//@JsonInclude(Include.NON_NULL)
 	public static class PluginInfoRule {
 
 		String name;

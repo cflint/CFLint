@@ -96,6 +96,10 @@ public class ConfigUtils {
 		return objectMapper.readValue(inputStream, expectedClass);
 	}
 
+    public static <E> E unmarshalJson(final String input, final Class<E> expectedClass) 
+            throws JsonParseException, JsonMappingException, IOException{
+        return unmarshalJson(new StringReader(input),expectedClass);
+    }
 	public static <E> E unmarshalJson(final Reader reader, final Class<E> expectedClass)
 			throws JsonParseException, JsonMappingException, IOException {
 		final ObjectMapper objectMapper = new ObjectMapper();

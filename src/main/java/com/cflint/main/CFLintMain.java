@@ -14,7 +14,9 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 import javax.swing.JFileChooser;
@@ -41,6 +43,7 @@ import com.cflint.config.CFLintConfiguration;
 import com.cflint.config.CFLintPluginInfo;
 import com.cflint.config.CFLintPluginInfo.PluginInfoRule;
 import com.cflint.config.CFLintPluginInfo.PluginInfoRule.PluginMessage;
+import com.cflint.config.CFLintPluginInfo.RuleGroup;
 import com.cflint.config.ConfigUtils;
 import com.cflint.tools.CFLintFilter;
 import com.cflint.xml.MarshallerException;
@@ -131,7 +134,8 @@ public class CFLintMain {
 		options.addOption(EXTENSIONS, true, "specify the extensions of the CF source files (default: .cfm,.cfc)");
 		options.addOption(CONFIGFILE, true, "specify the location of the config file");
 		options.addOption(STDIN, true, "use stdin for file input (default: source.cfc)");
-		options.addOption("stdout", false, "output to stdout only");
+        options.addOption("stdout", false, "output to stdout only");
+        options.addOption("listrulegroups", false, "list rule groups");
 
 		final CommandLineParser parser = new GnuParser();
 		final CommandLine cmd = parser.parse(options, args);
@@ -173,6 +177,12 @@ public class CFLintMain {
 		final CFLintPluginInfo pluginInfo = ConfigUtils.loadDefaultPluginInfo();
 		main.defaultConfig= new CFLintConfig();
 		main.defaultConfig.setRules(pluginInfo.getRules());
+		
+		if (cmd.hasOption("listrulegroups")){
+            listRuleGroups(pluginInfo);
+            return;
+        }
+        
 		
 		main.verbose = (cmd.hasOption('v') || cmd.hasOption(VERBOSE));
 		main.quiet = (cmd.hasOption('q') || cmd.hasOption(QUIET));
@@ -272,7 +282,33 @@ public class CFLintMain {
 		}
 	}
 
-	private void open() throws IOException {
+	/**
+	 * List the rule groups
+	 * @param pluginInfo
+	 */
+	private static void listRuleGroups(CFLintPluginInfo pluginInfo) {
+	    Map<String,PluginMessage> allCodes = new LinkedHashMap<String,PluginMessage>();
+	    for(PluginInfoRule rule: pluginInfo.getRules()){
+	        for(PluginMessage msg:rule.getMessages()){
+	            allCodes.put(msg.getCode(),msg);
+	        }
+	    }
+	    for(RuleGroup ruleGroup: pluginInfo.getRuleGroups()){
+	        System.out.println("Rule Group : " + ruleGroup.getName());
+            for(PluginMessage msg:ruleGroup.getMessages()){
+                System.out.println("\t" + msg.getCode() + " : " + msg.getSeverity());
+                allCodes.remove(msg.getCode());
+            }
+	    }
+	    if(!allCodes.isEmpty()){
+            System.out.println("Rule Group : UNASSIGNED" );
+	        for(PluginMessage msg:allCodes.values()){
+                System.out.println("\t" + msg.getCode() + " : " + msg.getSeverity());
+	        }
+	    }
+    }
+
+    private void open() throws IOException {
 		if (xmlOutput) {
 			Desktop.getDesktop().open(new File(xmlOutFile));
 			return;

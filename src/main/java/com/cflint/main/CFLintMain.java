@@ -303,7 +303,7 @@ public class CFLintMain {
             final String rulegroups) {
         final boolean include = !rulegroups.startsWith("!");
         for (RuleGroup rg : pluginInfo.getRuleGroups()) {
-            if (rulegroups.contains(rg.getName()) == include) {
+            if (rulegroups.contains(rg.getName())) {
                 if (include) {
                     main.defaultConfig.getIncludes().addAll(rg.getMessages());
                 } else {

@@ -1,8 +1,6 @@
 package com.cflint;
 import static org.junit.Assert.assertEquals;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
@@ -11,9 +9,9 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
+import com.cflint.config.CFLintConfig;
 import com.cflint.config.CFLintPluginInfo.PluginInfoRule;
 import com.cflint.config.CFLintPluginInfo.PluginInfoRule.PluginMessage;
-import com.cflint.config.CFLintConfig;
 import com.cflint.plugins.core.GlobalVarChecker;
 import com.cflint.plugins.core.NestedCFOutput;
 import com.cflint.plugins.core.TypedQueryNew;
@@ -293,23 +291,6 @@ public class TestCFBugs {
 		cfBugs.process(cfcSrc,"test");
 		Collection<List<BugInfo>> result = cfBugs.getBugs().getBugList().values();
 		assertEquals(0,result.size());
-	}
-
-	private String loadFile(String fileString) {
-		try {
-			FileInputStream fis = new FileInputStream(fileString);
-			byte b[] = new byte[fis.available()];
-			fis.read(b);
-			return new String(b);
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		return null;
 	}
 
 	@Test

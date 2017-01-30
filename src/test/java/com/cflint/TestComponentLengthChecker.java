@@ -9,12 +9,12 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.cflint.config.CFLintConfig;
+
 import cfml.parsing.reporting.ParseException;
 
 public class TestComponentLengthChecker {
 
 	private CFLint cfBugs;
-	private HashMap list;
 	
 	@Before
 	public void setUp() throws Exception{

@@ -26,8 +26,8 @@ import com.cflint.TextOutput;
 import com.cflint.XMLOutput;
 import com.cflint.config.CFLintConfig;
 import com.cflint.config.CFLintConfiguration;
-import com.cflint.config.ConfigUtils;
 import com.cflint.config.CFLintPluginInfo.PluginInfoRule.PluginMessage;
+import com.cflint.config.ConfigUtils;
 import com.cflint.tools.CFLintFilter;
 import com.cflint.xml.stax.DefaultCFlintResultMarshaller;
 

@@ -17,9 +17,9 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
+import com.cflint.config.CFLintConfig;
 import com.cflint.config.CFLintPluginInfo.PluginInfoRule;
 import com.cflint.config.CFLintPluginInfo.PluginInfoRule.PluginMessage;
-import com.cflint.config.CFLintConfig;
 import com.cflint.plugins.core.VarScoper;
 
 import cfml.parsing.reporting.ParseException;

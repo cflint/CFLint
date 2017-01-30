@@ -10,6 +10,7 @@ import org.junit.Test;
 
 import com.cflint.config.CFLintConfig;
 import com.cflint.config.CFLintConfiguration;
+
 import cfml.parsing.reporting.ParseException;
 
 public class TestAbortChecker {

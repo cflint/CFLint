@@ -11,6 +11,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 import com.cflint.config.CFLintConfig;
+
 import cfml.parsing.reporting.ParseException;
 
 //TODO add literal checked to cflintdefinition

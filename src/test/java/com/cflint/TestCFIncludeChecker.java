@@ -10,6 +10,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.cflint.config.CFLintConfig;
+
 import cfml.parsing.reporting.ParseException;
 
 public class TestCFIncludeChecker {

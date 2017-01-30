@@ -39,7 +39,8 @@ public class CFLintConfig implements CFLintConfiguration {
 	/* (non-Javadoc)
 	 * @see com.cflint.config.CFLintConfiguration#getRules()
 	 */
-	public List<CFLintPluginInfo.PluginInfoRule> getRules() {
+	@Override
+    public List<CFLintPluginInfo.PluginInfoRule> getRules() {
 		return rules;
 	}
 

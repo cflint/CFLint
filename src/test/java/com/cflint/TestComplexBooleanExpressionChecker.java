@@ -8,11 +8,7 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.cflint.config.CFLintPluginInfo.PluginInfoRule;
-import com.cflint.config.CFLintPluginInfo.PluginInfoRule.PluginMessage;
 import com.cflint.config.CFLintConfig;
-import com.cflint.plugins.core.ComplexBooleanExpressionChecker;
-
 import cfml.parsing.reporting.ParseException;
 
 public class TestComplexBooleanExpressionChecker {

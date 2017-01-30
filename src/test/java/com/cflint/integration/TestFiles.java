@@ -149,7 +149,7 @@ public class TestFiles {
 	}
 	
 	public static CFLintConfiguration loadPluginInfo(File folder) throws IOException {
-		CFLintChainedConfig config = new CFLintChainedConfig((CFLintConfig)CFLintConfig.createDefault());
+		CFLintChainedConfig config = new CFLintChainedConfig(CFLintConfig.createDefault());
 		try{
   		    final InputStream jsonInputStream = new FileInputStream(folder.getPath() + "/.cflintrc");
 			final CFLintConfig retval = ConfigUtils.unmarshalJson(jsonInputStream, CFLintConfig.class);

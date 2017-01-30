@@ -49,7 +49,8 @@ public class CFLintPluginInfo {
 		return null;
 	}
 	
-	public String toString(){
+	@Override
+    public String toString(){
 		StringBuilder sb = new StringBuilder();
 		sb.append("CFLintPluginInfo[");
 		sb.append(rules);
@@ -112,7 +113,8 @@ public class CFLintPluginInfo {
 			return pluginInstance;
 		}
 		
-		public String toString(){
+		@Override
+        public String toString(){
 			StringBuilder sb = new StringBuilder();
 			sb.append("PluginInfoRule[");
 			sb.append("name=");

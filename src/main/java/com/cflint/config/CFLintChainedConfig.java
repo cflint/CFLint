@@ -31,12 +31,14 @@ public class CFLintChainedConfig implements CFLintConfiguration{
 		return config==null?this:new CFLintChainedConfig(config,this);
 	}
 	
-	public boolean includes(PluginMessage pluginMessage) {
+	@Override
+    public boolean includes(PluginMessage pluginMessage) {
 		return config.includes(pluginMessage) || 
 				(config.isInheritParent() && parent!=null && parent.includes(pluginMessage));
 	}
 
-	public boolean excludes(PluginMessage pluginMessage) {
+	@Override
+    public boolean excludes(PluginMessage pluginMessage) {
 		return config.excludes(pluginMessage) || 
 				(config.isInheritParent() && parent!=null && parent.excludes(pluginMessage));
 	}

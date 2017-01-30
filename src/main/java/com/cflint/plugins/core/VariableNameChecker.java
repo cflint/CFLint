@@ -80,7 +80,8 @@ public class VariableNameChecker extends CFLintScannerAdapter {
 		}
 	}
 
-	public void expression(final CFExpression expression, final Context context, final BugList bugs) {
+	@Override
+    public void expression(final CFExpression expression, final Context context, final BugList bugs) {
 		if (expression instanceof CFVarDeclExpression) {
 			final CFVarDeclExpression cfVarDeclExpression = (CFVarDeclExpression) expression;
 			final int lineNo = expression.getLine() + context.startLine() - 1;

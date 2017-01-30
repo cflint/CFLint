@@ -13,8 +13,6 @@ import com.cflint.config.CFLintPluginInfo.PluginInfoRule;
 import com.cflint.config.CFLintPluginInfo.PluginInfoRule.PluginMessage;
 import com.cflint.config.CFLintConfig;
 import com.cflint.plugins.core.ArgDefChecker;
-import com.cflint.plugins.core.QueryParamChecker;
-
 import cfml.parsing.reporting.ParseException;
 
 public class TestCFBugs_Comments {

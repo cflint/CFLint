@@ -2,7 +2,6 @@ package com.cflint;
 import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
 
 import org.junit.Before;
@@ -18,7 +17,6 @@ import cfml.parsing.reporting.ParseException;
 public class TestFunctionLengthChecker {
 
 	private CFLint cfBugs;
-	private HashMap list;
 	
 	@Before
 	public void setUp(){
@@ -30,7 +28,6 @@ public class TestFunctionLengthChecker {
 		pluginMessage.setSeverity("INFO");
 		pluginMessage.setMessageText("Variable ${variable} is not declared with a var statement.");
 		pluginRule.getMessages().add(pluginMessage);
-		list = new HashMap();
 		cfBugs = new CFLint(conf, new FunctionLengthChecker());
 	}
 	

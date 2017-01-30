@@ -2,7 +2,6 @@ package com.cflint;
 import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
 
 import org.junit.Before;
@@ -35,7 +34,8 @@ public class TestComponentLengthChecker {
 										"return result;\r\n" +
 									"}\r\n" +
 								"}";
-		assertEquals(true, cfBugs.getBugs().getBugList().isEmpty());
+		cfBugs.process(cfcSrc,"test");
+        assertEquals(true, cfBugs.getBugs().getBugList().isEmpty());
 	}
 
 	@Test

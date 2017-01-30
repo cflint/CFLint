@@ -3,7 +3,6 @@ package com.cflint;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
@@ -13,8 +12,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import javax.xml.bind.JAXBException;
 
 import org.antlr.runtime.BitSet;
 import org.antlr.runtime.IntStream;
@@ -29,10 +26,8 @@ import com.cflint.BugInfo.BugInfoBuilder;
 import com.cflint.config.CFLintChainedConfig;
 import com.cflint.config.CFLintConfig;
 import com.cflint.config.CFLintConfiguration;
-import com.cflint.config.CFLintPluginInfo;
 import com.cflint.config.CFLintPluginInfo.PluginInfoRule;
 import com.cflint.config.CFLintPluginInfo.PluginInfoRule.PluginMessage;
-import com.cflint.config.ConfigRuntime;
 import com.cflint.config.ConfigUtils;
 import com.cflint.listeners.ScanProgressListener;
 import com.cflint.plugins.CFLintScanner;
@@ -108,8 +103,6 @@ public class CFLint implements IErrorReporter {
 	CFLintConfiguration configuration;
 
 	public CFLint(final CFLintConfiguration configFile) throws IOException {
-		final CFLintPluginInfo pluginInfo = ConfigUtils.loadDefaultPluginInfo();
-		//configuration = new ConfigRuntime(configFile, pluginInfo);
 		configuration =configFile==null?new CFLintConfig():configFile;
 		for (final PluginInfoRule ruleInfo : configuration.getRules()) {
 			addScanner(ConfigUtils.loadPlugin(ruleInfo));//TODO load them all

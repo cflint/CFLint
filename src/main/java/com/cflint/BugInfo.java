@@ -173,14 +173,14 @@ public class BugInfo implements Comparable<BugInfo> {
 			String message = notNull(bugInfo.getMessage());
 			final String variable = notNull(bugInfo.getVariable());
 			message = message.replace("${variable}", variable);
-			if(bugInfo != null && bugInfo.function != null){
+			if(bugInfo.function != null){
 				message = message.replace("${function}", bugInfo.function);
 			}
-			if(bugInfo != null && bugInfo.filename != null){
+			if(bugInfo.filename != null){
 				message = message.replace("${filename}", bugInfo.filename);
 			}
 			
-			if(bugInfo != null && bugInfo.component != null){
+			if(bugInfo.component != null){
 				message = message.replace("${component}", bugInfo.component);
 			}
 

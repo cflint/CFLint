@@ -81,7 +81,6 @@ public class UnusedLocalVarChecker extends CFLintScannerAdapter {
 	@Override
 	public void endFunction(final Context context, final BugList bugs) {
 		// sort by line number
-		final List<BugInfo> presortbugs = new ArrayList<BugInfo>();
 		for (final Map.Entry<String, Boolean> variable : localVariables.entrySet()) {
 			final Boolean used = variable.getValue();
 			if (!used) {

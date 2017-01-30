@@ -187,11 +187,10 @@ public class CFLintMain {
 		//Load the codes from the rule groups into the includes list, if rule groups are specified
 		if (cmd.hasOption("rulegroups")){
 		    final String rulegroups = cmd.getOptionValue("rulegroups");
-		    for(RuleGroup rg: pluginInfo.getRuleGroups()){
-		        if(rulegroups.contains(rg.getName())){
-		            main.defaultConfig.getIncludes().addAll(rg.getMessages());
-		        }
-		    }
+		    applyRuleGroups(main, pluginInfo, rulegroups);
+		}else{
+		    //Exclude the experimental by default.
+            applyRuleGroups(main, pluginInfo, "!Experimental");
 		}
         
 		
@@ -292,6 +291,25 @@ public class CFLintMain {
 			formatter.printHelp(CFLINT, options);
 		}
 	}
+	/**
+	 * Apply the listed rule groups
+	 * @param main
+	 * @param pluginInfo
+	 * @param rulegroups
+	 */
+    protected static void applyRuleGroups(final CFLintMain main, final CFLintPluginInfo pluginInfo,
+            final String rulegroups) {
+        final boolean include = !rulegroups.startsWith("!");
+        for(RuleGroup rg: pluginInfo.getRuleGroups()){
+            if(rulegroups.contains(rg.getName()) == include){
+                if(include){
+                    main.defaultConfig.getIncludes().addAll(rg.getMessages());
+                }else{
+                    main.defaultConfig.getExcludes().addAll(rg.getMessages());
+                }
+            }
+        }
+    }
 
 	/**
 	 * List the rule groups

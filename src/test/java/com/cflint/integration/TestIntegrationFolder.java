@@ -22,13 +22,13 @@ public class TestIntegrationFolder {
 	    CFLintMain.main(
 				new String[]{
 				"--folder",
-				path + "\\src\\test\\resources\\com\\cflint\\integration",
+				"src/test/resources/com/cflint/integration",
 				"--json",
 				"--jsonfile",
-				path + "\\src\\test\\resources\\com\\cflint\\integration\\output.json"
+				"src/test/resources/com/cflint/integration/output.json"
 				});
-        final String expected = loadFile(new File(path + "\\src\\test\\resources\\com\\cflint\\integration\\output.expected.json"));
-        final String actual = loadFile(new File(path + "\\src\\test\\resources\\com\\cflint\\integration\\output.json"));
+        final String expected = loadFile(new File("src/test/resources/com/cflint/integration/output.expected.json"));
+        final String actual = loadFile(new File("src/test/resources/com/cflint/integration/output.json"));
         assertEquals( 
                 expected.replaceAll("\\\\","/").replaceAll("/+","/").replaceAll("\r\n", "\n"),
                 actual.replaceAll("\\\\","/").replaceAll("/+","/").replaceAll("\r\n", "\n"));

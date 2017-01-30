@@ -13,32 +13,32 @@ import com.cflint.BugList;
  */
 public class DefaultCFLintExceptionListener implements CFLintExceptionListener {
 
-	BugList bugs;
+    BugList bugs;
 
-	public DefaultCFLintExceptionListener(final BugList bugs) {
-		super();
-		this.bugs = bugs;
-	}
+    public DefaultCFLintExceptionListener(final BugList bugs) {
+        super();
+        this.bugs = bugs;
+    }
 
-	@Override
-	public void exceptionOccurred(final Throwable exception, final String messageCode, final String filename,
-			final Integer line, final Integer column, final String functionName, final String expression) {
-		final BugInfoBuilder bugInfoBuilder = new BugInfo.BugInfoBuilder();
-		bugInfoBuilder.setMessageCode(messageCode).setFilename(filename).setSeverity("ERROR");
-		if ("PARSE_ERROR".equals(messageCode)) {
-			bugInfoBuilder.setMessage("Unable to parse");
-		} else {
-			bugInfoBuilder.setMessage(exception.getMessage());
-		}
-		bugInfoBuilder.setExpression(expression);
-		bugInfoBuilder.setFunction(functionName);
-		if (line != null) {
-			bugInfoBuilder.setLine(line);
-		}
-		if (column != null) {
-			bugInfoBuilder.setColumn(column);
-		}
-		bugs.add(bugInfoBuilder.build());
-	}
+    @Override
+    public void exceptionOccurred(final Throwable exception, final String messageCode, final String filename,
+            final Integer line, final Integer column, final String functionName, final String expression) {
+        final BugInfoBuilder bugInfoBuilder = new BugInfo.BugInfoBuilder();
+        bugInfoBuilder.setMessageCode(messageCode).setFilename(filename).setSeverity("ERROR");
+        if ("PARSE_ERROR".equals(messageCode)) {
+            bugInfoBuilder.setMessage("Unable to parse");
+        } else {
+            bugInfoBuilder.setMessage(exception.getMessage());
+        }
+        bugInfoBuilder.setExpression(expression);
+        bugInfoBuilder.setFunction(functionName);
+        if (line != null) {
+            bugInfoBuilder.setLine(line);
+        }
+        if (column != null) {
+            bugInfoBuilder.setColumn(column);
+        }
+        bugs.add(bugInfoBuilder.build());
+    }
 
 }

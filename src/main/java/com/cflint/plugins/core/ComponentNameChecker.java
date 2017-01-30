@@ -18,7 +18,7 @@ public class ComponentNameChecker extends CFLintScannerAdapter {
     public void expression(final CFScriptStatement expression, final Context context, final BugList bugs) {
         if (expression instanceof CFCompDeclStatement) {
             final String name = context.getFilename().replace(".cfc", "");
-            checkNameForBugs(context,actualFileName(name), context.getFilename(), bugs);
+            checkNameForBugs(context, actualFileName(name), context.getFilename(), bugs);
         }
     }
 
@@ -26,7 +26,7 @@ public class ComponentNameChecker extends CFLintScannerAdapter {
     public void element(final Element element, final Context context, final BugList bugs) {
         if (element.getName().equals("cfcomponent")) {
             final String name = context.getFilename().replace(".cfc", "");
-            checkNameForBugs(context,actualFileName(name), context.getFilename(), bugs);
+            checkNameForBugs(context, actualFileName(name), context.getFilename(), bugs);
         }
     }
 
@@ -42,7 +42,8 @@ public class ComponentNameChecker extends CFLintScannerAdapter {
         return actualFileName;
     }
 
-    public void checkNameForBugs(final Context context, final String component, final String filename, final BugList bugs) {
+    public void checkNameForBugs(final Context context, final String component, final String filename,
+            final BugList bugs) {
         int minComponentLength = ValidName.MIN_COMPONENT_LENGTH;
         int maxComponentLength = ValidName.MAX_COMPONENT_LENGTH;
         int maxComponentWords = ValidName.MAX_COMPONENT_WORDS;

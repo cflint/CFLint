@@ -11,252 +11,252 @@ import net.htmlparser.jericho.Element;
 
 public class BugInfo implements Comparable<BugInfo> {
 
-	String filename;
-	int line =1; //Default to non-zero task #230
-	int column=1;
-	String message;
-	String messageCode;
-	String expression;
-	String function;
-	String variable;
-	String component;
+    String filename;
+    int line = 1; // Default to non-zero task #230
+    int column = 1;
+    String message;
+    String messageCode;
+    String expression;
+    String function;
+    String variable;
+    String component;
 
-	public BugInfo() {
-		super();
-	}
+    public BugInfo() {
+        super();
+    }
 
-	String severity;
+    String severity;
 
-	public int getLine() {
-		return line;
-	}
+    public int getLine() {
+        return line;
+    }
 
-	public void setLine(final int line) {
-		this.line = line;
-	}
+    public void setLine(final int line) {
+        this.line = line;
+    }
 
-	public int getColumn() {
-		return column;
-	}
+    public int getColumn() {
+        return column;
+    }
 
-	public void setColumn(final int row) {
-		this.column = row;
-	}
+    public void setColumn(final int row) {
+        this.column = row;
+    }
 
-	public String getMessage() {
-		return message;
-	}
+    public String getMessage() {
+        return message;
+    }
 
-	public void setMessage(final String message) {
-		this.message = message;
-	}
+    public void setMessage(final String message) {
+        this.message = message;
+    }
 
-	public String getMessageCode() {
-		return messageCode;
-	}
+    public String getMessageCode() {
+        return messageCode;
+    }
 
-	public void setMessageCode(final String messageCode) {
-		this.messageCode = messageCode;
-	}
+    public void setMessageCode(final String messageCode) {
+        this.messageCode = messageCode;
+    }
 
-	public static class BugInfoBuilder {
-		BugInfo bugInfo = new BugInfo();
-		List<PluginParameter> parameters = null;
+    public static class BugInfoBuilder {
+        BugInfo bugInfo = new BugInfo();
+        List<PluginParameter> parameters = null;
 
-		public void setRuleParameters(final List<PluginParameter> parameters) {
-			this.parameters = parameters;
-		}
+        public void setRuleParameters(final List<PluginParameter> parameters) {
+            this.parameters = parameters;
+        }
 
-		public BugInfoBuilder setLine(final int line) {
-			bugInfo.line = line;
-			return this;
-		}
+        public BugInfoBuilder setLine(final int line) {
+            bugInfo.line = line;
+            return this;
+        }
 
-		public BugInfoBuilder setColumn(final int column) {
-			bugInfo.column = column;
-			return this;
-		}
+        public BugInfoBuilder setColumn(final int column) {
+            bugInfo.column = column;
+            return this;
+        }
 
-		public BugInfoBuilder setMessage(final String message) {
-			bugInfo.message = message;
-			return this;
-		}
+        public BugInfoBuilder setMessage(final String message) {
+            bugInfo.message = message;
+            return this;
+        }
 
-		public BugInfoBuilder setMessageCode(final String messageCode) {
-			bugInfo.messageCode = messageCode;
-			return this;
-		}
+        public BugInfoBuilder setMessageCode(final String messageCode) {
+            bugInfo.messageCode = messageCode;
+            return this;
+        }
 
-		public BugInfoBuilder setMessageInfo(final PluginMessage messageInfo) {
-			setMessageCode(messageInfo.getCode());
-			setSeverity(messageInfo.getSeverity());
-			setMessage(messageInfo.getMessageText());
-			return this;
-		}
+        public BugInfoBuilder setMessageInfo(final PluginMessage messageInfo) {
+            setMessageCode(messageInfo.getCode());
+            setSeverity(messageInfo.getSeverity());
+            setMessage(messageInfo.getMessageText());
+            return this;
+        }
 
-		public BugInfoBuilder setFilename(final String filename) {
-			bugInfo.filename = filename.replaceAll("(\\r|\\n)", "");
-			return this;
-		}
+        public BugInfoBuilder setFilename(final String filename) {
+            bugInfo.filename = filename.replaceAll("(\\r|\\n)", "");
+            return this;
+        }
 
-		public BugInfoBuilder setFunction(final String function) {
-			bugInfo.function = function;
-			return this;
-		}
-		
-		public BugInfoBuilder setComponent(final String component) {
-			bugInfo.component = component;
-			return this;
-		}
+        public BugInfoBuilder setFunction(final String function) {
+            bugInfo.function = function;
+            return this;
+        }
 
-		public BugInfoBuilder setVariable(final String variable) {
-			bugInfo.variable = variable;
-			return this;
-		}
+        public BugInfoBuilder setComponent(final String component) {
+            bugInfo.component = component;
+            return this;
+        }
 
-		public BugInfoBuilder setSeverity(final String severity) {
-			bugInfo.severity = severity;
-			return this;
-		}
+        public BugInfoBuilder setVariable(final String variable) {
+            bugInfo.variable = variable;
+            return this;
+        }
 
-		public BugInfoBuilder setExpression(String expression) {
-			if (expression == null) {
-				expression = "";
-			}
-			if (expression.length() > 200) {
-				bugInfo.expression = expression.substring(0, 200);
-			} else {
-				bugInfo.expression = expression;
-			}
-			return this;
-		}
+        public BugInfoBuilder setSeverity(final String severity) {
+            bugInfo.severity = severity;
+            return this;
+        }
 
-		public BugInfo build() {
-			doMessageText(null);
-			return bugInfo;
-		}
+        public BugInfoBuilder setExpression(String expression) {
+            if (expression == null) {
+                expression = "";
+            }
+            if (expression.length() > 200) {
+                bugInfo.expression = expression.substring(0, 200);
+            } else {
+                bugInfo.expression = expression;
+            }
+            return this;
+        }
 
-		public BugInfo build(final CFParsedStatement expression, final Element elem) {
-			int elemLine = 1;
-			int elemColumn = 1;
-			if (elem != null) {
-				elemLine = elem.getSource().getRow(elem.getBegin());
-				elemColumn = elem.getSource().getColumn(elem.getBegin());
-			}
-			bugInfo.setLine(elemLine + Math.max(expression == null ? 0 : expression.getLine() - 1, 0));
-			bugInfo.setColumn(elemColumn + Math.max(expression == null ? 0 : expression.getColumn() - 1, 0));
-			doMessageText(elem);
-			return bugInfo;
-		}
+        public BugInfo build() {
+            doMessageText(null);
+            return bugInfo;
+        }
 
-		public BugInfo build(final CFExpression expression, final Element elem) {
-			int elemLine = 1;
-			int elemColumn = 1;
-			if (elem != null) {
-				elemLine = elem.getSource().getRow(elem.getBegin());
-				elemColumn = elem.getSource().getColumn(elem.getBegin());
-			}
-			bugInfo.setLine(elemLine + Math.max(expression == null ? 0 : expression.getLine() - 1, 0));
-			bugInfo.setColumn(elemColumn + Math.max(expression == null ? 0 : expression.getColumn() - 1, 0));
-			doMessageText(elem);
-			return bugInfo;
-		}
+        public BugInfo build(final CFParsedStatement expression, final Element elem) {
+            int elemLine = 1;
+            int elemColumn = 1;
+            if (elem != null) {
+                elemLine = elem.getSource().getRow(elem.getBegin());
+                elemColumn = elem.getSource().getColumn(elem.getBegin());
+            }
+            bugInfo.setLine(elemLine + Math.max(expression == null ? 0 : expression.getLine() - 1, 0));
+            bugInfo.setColumn(elemColumn + Math.max(expression == null ? 0 : expression.getColumn() - 1, 0));
+            doMessageText(elem);
+            return bugInfo;
+        }
 
-		private final String notNull(final String in) {
-			if (in == null) {
-				return "";
-			}
-			return in.trim();
-		}
+        public BugInfo build(final CFExpression expression, final Element elem) {
+            int elemLine = 1;
+            int elemColumn = 1;
+            if (elem != null) {
+                elemLine = elem.getSource().getRow(elem.getBegin());
+                elemColumn = elem.getSource().getColumn(elem.getBegin());
+            }
+            bugInfo.setLine(elemLine + Math.max(expression == null ? 0 : expression.getLine() - 1, 0));
+            bugInfo.setColumn(elemColumn + Math.max(expression == null ? 0 : expression.getColumn() - 1, 0));
+            doMessageText(elem);
+            return bugInfo;
+        }
 
-		private void doMessageText(final Element elem) {
-			String message = notNull(bugInfo.getMessage());
-			final String variable = notNull(bugInfo.getVariable());
-			message = message.replace("${variable}", variable);
-			if(bugInfo.function != null){
-				message = message.replace("${function}", bugInfo.function);
-			}
-			if(bugInfo.filename != null){
-				message = message.replace("${filename}", bugInfo.filename);
-			}
-			
-			if(bugInfo.component != null){
-				message = message.replace("${component}", bugInfo.component);
-			}
+        private final String notNull(final String in) {
+            if (in == null) {
+                return "";
+            }
+            return in.trim();
+        }
 
-			if (message.contains("{tag}") && elem != null) {
-				message = message.replaceAll("\\$\\{tag\\}", notNull(elem.getName()));
-			}
+        private void doMessageText(final Element elem) {
+            String message = notNull(bugInfo.getMessage());
+            final String variable = notNull(bugInfo.getVariable());
+            message = message.replace("${variable}", variable);
+            if (bugInfo.function != null) {
+                message = message.replace("${function}", bugInfo.function);
+            }
+            if (bugInfo.filename != null) {
+                message = message.replace("${filename}", bugInfo.filename);
+            }
 
-			if (parameters != null) {
-				for (final PluginParameter param : parameters) {
-					message = message.replaceAll("\\$\\{" + param.getName() + "\\}", notNull(param.getValue()));
-				}
-			}
-			setMessage(message);
-		}
-	}
+            if (bugInfo.component != null) {
+                message = message.replace("${component}", bugInfo.component);
+            }
 
-	@Override
-	public String toString() {
-		return "BugInfo [filename=" + filename + ", line=" + line + ", column=" + column + ", message=" + message
-				+ ", messageCode=" + messageCode + ", expression=" + expression + "]";
-	}
+            if (message.contains("{tag}") && elem != null) {
+                message = message.replaceAll("\\$\\{tag\\}", notNull(elem.getName()));
+            }
 
-	public String getExpression() {
-		return expression;
-	}
+            if (parameters != null) {
+                for (final PluginParameter param : parameters) {
+                    message = message.replaceAll("\\$\\{" + param.getName() + "\\}", notNull(param.getValue()));
+                }
+            }
+            setMessage(message);
+        }
+    }
 
-	public void setExpression(final String expression) {
-		this.expression = expression;
-	}
+    @Override
+    public String toString() {
+        return "BugInfo [filename=" + filename + ", line=" + line + ", column=" + column + ", message=" + message
+                + ", messageCode=" + messageCode + ", expression=" + expression + "]";
+    }
 
-	public String getFilename() {
-		return filename;
-	}
+    public String getExpression() {
+        return expression;
+    }
 
-	public void setFilename(final String filename) {
-		this.filename = filename.trim();
-	}
+    public void setExpression(final String expression) {
+        this.expression = expression;
+    }
 
-	public String getFunction() {
-		return function;
-	}
+    public String getFilename() {
+        return filename;
+    }
 
-	public void setFunction(final String function) {
-		this.function = function;
-	}
+    public void setFilename(final String filename) {
+        this.filename = filename.trim();
+    }
 
-	public String getVariable() {
-		return variable;
-	}
+    public String getFunction() {
+        return function;
+    }
 
-	public void setVariable(final String variable) {
-		this.variable = variable;
-	}
+    public void setFunction(final String function) {
+        this.function = function;
+    }
 
-	public String getSeverity() {
-		return severity;
-	}
+    public String getVariable() {
+        return variable;
+    }
 
-	public void setSeverity(final String severity) {
-		this.severity = severity;
-	}
+    public void setVariable(final String variable) {
+        this.variable = variable;
+    }
 
-	/**
-	 * Makes BugInfo sortable by filename,line,col,messagecode
-	 */
-	@Override
-	public int compareTo(final BugInfo o) {
-		if (filename.compareTo(o.filename) != 0) {
-			return filename.compareTo(o.filename);
-		}
-		if (((Integer) line).compareTo((o.line)) != 0) {
-			return ((Integer) line).compareTo((o.line));
-		}
-		if (((Integer) column).compareTo((o.column)) != 0) {
-			return ((Integer) column).compareTo((o.column));
-		}
-		return messageCode.compareTo(o.messageCode);
-	}
+    public String getSeverity() {
+        return severity;
+    }
+
+    public void setSeverity(final String severity) {
+        this.severity = severity;
+    }
+
+    /**
+     * Makes BugInfo sortable by filename,line,col,messagecode
+     */
+    @Override
+    public int compareTo(final BugInfo o) {
+        if (filename.compareTo(o.filename) != 0) {
+            return filename.compareTo(o.filename);
+        }
+        if (((Integer) line).compareTo((o.line)) != 0) {
+            return ((Integer) line).compareTo((o.line));
+        }
+        if (((Integer) column).compareTo((o.column)) != 0) {
+            return ((Integer) column).compareTo((o.column));
+        }
+        return messageCode.compareTo(o.messageCode);
+    }
 }

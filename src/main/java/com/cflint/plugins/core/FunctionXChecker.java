@@ -10,21 +10,21 @@ import ro.fortsoft.pf4j.Extension;
 
 @Extension
 public class FunctionXChecker extends CFLintScannerAdapter {
-	final String severity = "INFO";
+    final String severity = "INFO";
 
-	@Override
-	public void expression(final CFExpression expression, final Context context, final BugList bugs) {
-		if (expression instanceof CFFunctionExpression) {
-			final String cfmlFunctionCheck = getParameter("functionName");
+    @Override
+    public void expression(final CFExpression expression, final Context context, final BugList bugs) {
+        if (expression instanceof CFFunctionExpression) {
+            final String cfmlFunctionCheck = getParameter("functionName");
 
-			final CFFunctionExpression functionExpression = (CFFunctionExpression) expression;
-			if (functionExpression.getName().equalsIgnoreCase(cfmlFunctionCheck)) {
-				// int lineNo = expression.getLine() + context.startLine() - 1;
-				// structNew(lineNo, context, bugs);
-				context.addMessage("AVOID_USING_" + cfmlFunctionCheck.toUpperCase(), cfmlFunctionCheck);
+            final CFFunctionExpression functionExpression = (CFFunctionExpression) expression;
+            if (functionExpression.getName().equalsIgnoreCase(cfmlFunctionCheck)) {
+                // int lineNo = expression.getLine() + context.startLine() - 1;
+                // structNew(lineNo, context, bugs);
+                context.addMessage("AVOID_USING_" + cfmlFunctionCheck.toUpperCase(), cfmlFunctionCheck);
 
-			}
-		}
-	}
+            }
+        }
+    }
 
 }

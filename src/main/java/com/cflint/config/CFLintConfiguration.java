@@ -8,17 +8,17 @@ import com.cflint.plugins.CFLintScanner;
 
 public interface CFLintConfiguration {
 
-	boolean includes(PluginMessage pluginMessage);
+    boolean includes(PluginMessage pluginMessage);
 
-	boolean excludes(PluginMessage pluginMessage);
+    boolean excludes(PluginMessage pluginMessage);
 
-	PluginInfoRule getRuleByClass(Class<?> clazz);
+    PluginInfoRule getRuleByClass(Class<?> clazz);
 
-	PluginInfoRule getRuleForPlugin(CFLintScanner plugin);
+    PluginInfoRule getRuleForPlugin(CFLintScanner plugin);
 
-	void addInclude(PluginMessage pluginMessage);
+    void addInclude(PluginMessage pluginMessage);
 
-	void addExclude(PluginMessage pluginMessage);
+    void addExclude(PluginMessage pluginMessage);
 
-	Collection<CFLintPluginInfo.PluginInfoRule> getRules();
+    Collection<CFLintPluginInfo.PluginInfoRule> getRules();
 }

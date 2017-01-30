@@ -24,7 +24,8 @@ public class FindBugsCFLintResultMarshaller implements CFLintResultMarshaller {
             marshaller.output(bugList, sw, showStats);
             sw.flush();
 
-            final Transformer transformer = TransformerFactory.newInstance().newTransformer(new StreamSource(getClass().getResourceAsStream("/findbugs/cflint-to-findbugs.xsl")));
+            final Transformer transformer = TransformerFactory.newInstance().newTransformer(
+                    new StreamSource(getClass().getResourceAsStream("/findbugs/cflint-to-findbugs.xsl")));
 
             transformer.transform(new StreamSource(new StringReader(sw.toString())), new StreamResult(writer));
 

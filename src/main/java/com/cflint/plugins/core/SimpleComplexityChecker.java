@@ -16,78 +16,78 @@ import cfml.parsing.cfscript.script.CFWhileStatement;
 import net.htmlparser.jericho.Element;
 
 public class SimpleComplexityChecker extends CFLintScannerAdapter {
-	final String severity = "WARNING";
-	final protected int COMPLEXITY_THRESHOLD = 10;
+    final String severity = "WARNING";
+    final protected int COMPLEXITY_THRESHOLD = 10;
 
-	protected int complexity = 0;
-	protected boolean alreadyTooComplex = false;
-	int functionLineNo = 1;
+    protected int complexity = 0;
+    protected boolean alreadyTooComplex = false;
+    int functionLineNo = 1;
 
-	@Override
-	public void startFile(String fileName, BugList bugs) {
-		complexity = 0;
-		alreadyTooComplex = false;
-		functionLineNo = 1;
-	}
+    @Override
+    public void startFile(String fileName, BugList bugs) {
+        complexity = 0;
+        alreadyTooComplex = false;
+        functionLineNo = 1;
+    }
 
-	@Override
-	public void expression(final CFScriptStatement expression, final Context context, final BugList bugs) {
-		CFFuncDeclStatement function;
+    @Override
+    public void expression(final CFScriptStatement expression, final Context context, final BugList bugs) {
+        CFFuncDeclStatement function;
 
-		if (expression instanceof CFFuncDeclStatement) {
-			function = (CFFuncDeclStatement) expression;
-			functionLineNo = function.getLine();
-			complexity = 0;
-			alreadyTooComplex = false;
-		} else if (expression == null) {
-		}
-		// Not using instanceof to avoid double counting
-		else if (expression.getClass().equals(CFIfStatement.class) || expression.getClass().equals(CFForStatement.class)
-				|| expression.getClass().equals(CFForInStatement.class)
-				|| expression.getClass().equals(CFSwitchStatement.class)
-				|| expression.getClass().equals(CFTryCatchStatement.class)
-				|| expression.getClass().equals(CFWhileStatement.class)
-				|| expression.getClass().equals(CFDoWhileStatement.class)) {
-			complexity++;
-			// TODO +1 for each case statment in a switch
-			checkComplexity(context.getFunctionName(), functionLineNo, context, bugs);
-		}
-	}
+        if (expression instanceof CFFuncDeclStatement) {
+            function = (CFFuncDeclStatement) expression;
+            functionLineNo = function.getLine();
+            complexity = 0;
+            alreadyTooComplex = false;
+        } else if (expression == null) {
+        }
+        // Not using instanceof to avoid double counting
+        else if (expression.getClass().equals(CFIfStatement.class) || expression.getClass().equals(CFForStatement.class)
+                || expression.getClass().equals(CFForInStatement.class)
+                || expression.getClass().equals(CFSwitchStatement.class)
+                || expression.getClass().equals(CFTryCatchStatement.class)
+                || expression.getClass().equals(CFWhileStatement.class)
+                || expression.getClass().equals(CFDoWhileStatement.class)) {
+            complexity++;
+            // TODO +1 for each case statment in a switch
+            checkComplexity(context.getFunctionName(), functionLineNo, context, bugs);
+        }
+    }
 
-	@Override
-	public void element(final Element element, final Context context, final BugList bugs) {
-		final String name = element.getName();
+    @Override
+    public void element(final Element element, final Context context, final BugList bugs) {
+        final String name = element.getName();
 
-		if (name.equalsIgnoreCase("cffunction")) {
-			functionLineNo = element.getSource().getRow(element.getBegin());
-			complexity = 0;
-			alreadyTooComplex = false;
-		} else {
-			if (name.equalsIgnoreCase("cfif") || name.equalsIgnoreCase("cfelse") || name.equalsIgnoreCase("cfelseif")
-					|| name.equalsIgnoreCase("cfloop") || name.equalsIgnoreCase("cfwhile")
-					|| name.equalsIgnoreCase("cfoutput") // TODO could check for
-															// query=
-					|| name.equalsIgnoreCase("cfcase") || name.equalsIgnoreCase("cfdefaultcase")
-					|| name.equalsIgnoreCase("cftry") || name.equalsIgnoreCase("cfcatch")) {
-				complexity++;
-				checkComplexity(context.getFunctionName(), functionLineNo, context, bugs);
-			}
-		}
-	}
+        if (name.equalsIgnoreCase("cffunction")) {
+            functionLineNo = element.getSource().getRow(element.getBegin());
+            complexity = 0;
+            alreadyTooComplex = false;
+        } else {
+            if (name.equalsIgnoreCase("cfif") || name.equalsIgnoreCase("cfelse") || name.equalsIgnoreCase("cfelseif")
+                    || name.equalsIgnoreCase("cfloop") || name.equalsIgnoreCase("cfwhile")
+                    || name.equalsIgnoreCase("cfoutput") // TODO could check for
+                                                         // query=
+                    || name.equalsIgnoreCase("cfcase") || name.equalsIgnoreCase("cfdefaultcase")
+                    || name.equalsIgnoreCase("cftry") || name.equalsIgnoreCase("cfcatch")) {
+                complexity++;
+                checkComplexity(context.getFunctionName(), functionLineNo, context, bugs);
+            }
+        }
+    }
 
-	protected void checkComplexity(final String name, final int lineNo, final Context context, final BugList bugs) {
-		final String complexityThreshold = getParameter("maximum");
-		int threshold = COMPLEXITY_THRESHOLD;
+    protected void checkComplexity(final String name, final int lineNo, final Context context, final BugList bugs) {
+        final String complexityThreshold = getParameter("maximum");
+        int threshold = COMPLEXITY_THRESHOLD;
 
-		if (complexityThreshold != null) {
-			threshold = Integer.parseInt(complexityThreshold);
-		}
+        if (complexityThreshold != null) {
+            threshold = Integer.parseInt(complexityThreshold);
+        }
 
-		if (!alreadyTooComplex && complexity > threshold) {
-			alreadyTooComplex = true;
+        if (!alreadyTooComplex && complexity > threshold) {
+            alreadyTooComplex = true;
 
-			context.addMessage("FUNCTION_TOO_COMPLEX", null,lineNo);
-		}
-	}
+            context.addMessage("FUNCTION_TOO_COMPLEX", null, lineNo);
+        }
+    }
 
 }

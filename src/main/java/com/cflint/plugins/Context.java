@@ -17,332 +17,341 @@ import cfml.parsing.cfscript.script.CFFuncDeclStatement;
 import net.htmlparser.jericho.Element;
 
 public class Context {
-	
-	public static enum ContextType{
-		Component,
-		Function,
-		Other
-	}
 
-	String filename;
-	String componentName;
-	final Element element;
-	CFFuncDeclStatement functionInfo;
-	ContextType contextType;
+    public static enum ContextType {
+        Component, Function, Other
+    }
 
-	String functionName;
-	boolean inAssignmentExpression;
-	public void setInAssignmentExpression(boolean inAssignmentExpression) {
-		this.inAssignmentExpression = inAssignmentExpression;
-	}
+    String filename;
+    String componentName;
+    final Element element;
+    CFFuncDeclStatement functionInfo;
+    ContextType contextType;
 
-	boolean inComponent;
-	final StackHandler callStack;
-	final CommonTokenStream tokens;
-	final List<ContextMessage> messages = new ArrayList<ContextMessage>();
-	Context parent=null;
-	List<String> ignores = new ArrayList<String>();
+    String functionName;
+    boolean inAssignmentExpression;
 
-	public Context(final String filename, final Element element, final CFIdentifier functionName,
-			final boolean inAssignmentExpression, final StackHandler handler) {
-		super();
-		this.filename = filename;
-		this.element = element;
-		this.functionName = functionName == null ? "" : functionName.Decompile(0);
-		this.inAssignmentExpression = inAssignmentExpression;
-		this.callStack = handler;
-		this.tokens=null;
-	}
+    public void setInAssignmentExpression(boolean inAssignmentExpression) {
+        this.inAssignmentExpression = inAssignmentExpression;
+    }
 
-	public Context(final String filename, final Element element, final String functionName,
-			final boolean inAssignmentExpression, final StackHandler handler,CommonTokenStream tokens) {
-		super();
-		this.filename = filename;
-		this.element = element;
-		this.functionName = functionName == null ? "" : functionName;
-		this.inAssignmentExpression = inAssignmentExpression;
-		this.callStack = handler;
-		this.tokens=tokens;
-	}
+    boolean inComponent;
+    final StackHandler callStack;
+    final CommonTokenStream tokens;
+    final List<ContextMessage> messages = new ArrayList<ContextMessage>();
+    Context parent = null;
+    List<String> ignores = new ArrayList<String>();
 
-	public String getFilename() {
-		return filename;
-	}
+    public Context(final String filename, final Element element, final CFIdentifier functionName,
+            final boolean inAssignmentExpression, final StackHandler handler) {
+        super();
+        this.filename = filename;
+        this.element = element;
+        this.functionName = functionName == null ? "" : functionName.Decompile(0);
+        this.inAssignmentExpression = inAssignmentExpression;
+        this.callStack = handler;
+        this.tokens = null;
+    }
 
-	public void setFilename(final String filename) {
-		this.filename = filename;
-	}
+    public Context(final String filename, final Element element, final String functionName,
+            final boolean inAssignmentExpression, final StackHandler handler, CommonTokenStream tokens) {
+        super();
+        this.filename = filename;
+        this.element = element;
+        this.functionName = functionName == null ? "" : functionName;
+        this.inAssignmentExpression = inAssignmentExpression;
+        this.callStack = handler;
+        this.tokens = tokens;
+    }
 
-	public Element getElement() {
-		return element;
-	}
+    public String getFilename() {
+        return filename;
+    }
 
-	public String getFunctionName() {
-		return functionName;
-	}
+    public void setFilename(final String filename) {
+        this.filename = filename;
+    }
 
-	public String getComponentName() {
-		return componentName;
-	}
-	public String calcComponentName() {
-		if (componentName!= null && !componentName.trim().isEmpty()){
-			return componentName.trim();
-		}
-		if(filename == null){
-			return "";
-		}
-		//Return filename without the cfc extension
-		return new File(filename).getName().replaceAll("\\.\\w+$", "");
-	}
+    public Element getElement() {
+        return element;
+    }
 
-	public void setFunctionName(final String functionName) {
-		this.functionName = functionName;
-	}
+    public String getFunctionName() {
+        return functionName;
+    }
 
-	public void setComponentName(final String componentName) {
-		if (componentName == null) {
-			this.componentName = componentFromFile(this.filename);
-		} else {
-			this.componentName = componentName;
-		}
-	}
+    public String getComponentName() {
+        return componentName;
+    }
 
-	public boolean isInFunction() {
-		return functionName != null && getFunctionName().length() > 0;
-	}
+    public String calcComponentName() {
+        if (componentName != null && !componentName.trim().isEmpty()) {
+            return componentName.trim();
+        }
+        if (filename == null) {
+            return "";
+        }
+        // Return filename without the cfc extension
+        return new File(filename).getName().replaceAll("\\.\\w+$", "");
+    }
 
-	public boolean isInAssignmentExpression() {
-		return inAssignmentExpression;
-	}
+    public void setFunctionName(final String functionName) {
+        this.functionName = functionName;
+    }
 
-	public StackHandler getCallStack() {
-		return callStack;
-	}
+    public void setComponentName(final String componentName) {
+        if (componentName == null) {
+            this.componentName = componentFromFile(this.filename);
+        } else {
+            this.componentName = componentName;
+        }
+    }
 
-	public String fileFunctionString() {
-		if (functionName == null && filename == null) {
-			return null;
-		}
-		final StringBuilder key = new StringBuilder();
-		if (filename != null) {
-			key.append(filename.trim());
-		}
-		key.append(":");
-		if (functionName != null) {
-			key.append(functionName);
-		}
-		return key.toString();
-	}
+    public boolean isInFunction() {
+        return functionName != null && getFunctionName().length() > 0;
+    }
 
-	public boolean isInComponent() {
-		return inComponent;
-	}
+    public boolean isInAssignmentExpression() {
+        return inAssignmentExpression;
+    }
 
-	public void setInComponent(final boolean inComponent) {
-		this.inComponent = inComponent;
-	}
+    public StackHandler getCallStack() {
+        return callStack;
+    }
 
-	public List<ContextMessage> getMessages() {
-		return messages;
-	}
-	
-	public void addUniqueMessage(final String messageCode, final String variable,final CFLintScanner source) {
-		addUniqueMessage(messageCode, variable, source,null);
-	}
-	public void addUniqueMessage(final String messageCode, final String variable,final CFLintScanner source,final Integer line) {
-		if(messageCode != null){
-			for(ContextMessage msg: messages){
-				if(ObjectEquals.equals(msg.getMessageCode(), messageCode) && ObjectEquals.equals(variable, msg.getVariable())){
-					return;
-				}
-			}
-		}
-		addMessage(messageCode, variable, source,line);
-	}
-	
-	public void addMessage(final String messageCode, final String variable) {
-		messages.add(new ContextMessage(messageCode, variable));
-	}
-	public void addMessage(final String messageCode, final String variable, final CFLintScanner source,final Integer line) {
-		messages.add(new ContextMessage(messageCode, variable,source,line));
-	}
+    public String fileFunctionString() {
+        if (functionName == null && filename == null) {
+            return null;
+        }
+        final StringBuilder key = new StringBuilder();
+        if (filename != null) {
+            key.append(filename.trim());
+        }
+        key.append(":");
+        if (functionName != null) {
+            key.append(functionName);
+        }
+        return key.toString();
+    }
 
-	public void addMessage(final String messageCode, final String variable, final Integer line) {
-		messages.add(new ContextMessage(messageCode, variable, line));
-	}
+    public boolean isInComponent() {
+        return inComponent;
+    }
 
-	public static class ContextMessage {
-		String messageCode;
-		String variable;
-		Integer line;
-		CFLintScanner source;
+    public void setInComponent(final boolean inComponent) {
+        this.inComponent = inComponent;
+    }
 
-		public CFLintScanner getSource() {
-			return source;
-		}
-		public ContextMessage(final String messageCode, final String variable) {
-			super();
-			this.messageCode = messageCode;
-			this.variable = variable;
-			this.source=null;
-		}
-		public ContextMessage(final String messageCode, final String variable,CFLintScanner source, final Integer line) {
-			super();
-			this.messageCode = messageCode;
-			this.variable = variable;
-			this.source=source;
-			this.line = line;
-		}
+    public List<ContextMessage> getMessages() {
+        return messages;
+    }
 
-		public ContextMessage(final String messageCode, final String variable, final Integer line) {
-			this(messageCode, variable);
-			this.line = line;
-		}
+    public void addUniqueMessage(final String messageCode, final String variable, final CFLintScanner source) {
+        addUniqueMessage(messageCode, variable, source, null);
+    }
 
-		public String getMessageCode() {
-			return messageCode;
-		}
+    public void addUniqueMessage(final String messageCode, final String variable, final CFLintScanner source,
+            final Integer line) {
+        if (messageCode != null) {
+            for (ContextMessage msg : messages) {
+                if (ObjectEquals.equals(msg.getMessageCode(), messageCode)
+                        && ObjectEquals.equals(variable, msg.getVariable())) {
+                    return;
+                }
+            }
+        }
+        addMessage(messageCode, variable, source, line);
+    }
 
-		public String getVariable() {
-			return variable;
-		}
+    public void addMessage(final String messageCode, final String variable) {
+        messages.add(new ContextMessage(messageCode, variable));
+    }
 
-		public Integer getLine() {
-			return line;
-		}
-	}
+    public void addMessage(final String messageCode, final String variable, final CFLintScanner source,
+            final Integer line) {
+        messages.add(new ContextMessage(messageCode, variable, source, line));
+    }
 
-	
-	public Context subContext(final Element elem) {
-		final Context context2 = new Context(getFilename(), elem == null? this.element:elem, 
-				getFunctionName(), isInAssignmentExpression(),
-				callStack,tokens);
-		context2.setInComponent(isInComponent());
-		context2.parent = this;
-		return context2;
-	}
+    public void addMessage(final String messageCode, final String variable, final Integer line) {
+        messages.add(new ContextMessage(messageCode, variable, line));
+    }
 
-	public int startLine() {
-		if (element != null && element.getSource() != null) {
-			return element.getSource().getRow(element.getBegin());
-		} else {
-			return 1; // not zero
-		}
-	}
+    public static class ContextMessage {
+        String messageCode;
+        String variable;
+        Integer line;
+        CFLintScanner source;
 
-	protected String componentFromFile(final String filename) {
-		final int dotPosition = filename.lastIndexOf(".");
-		final String separator = System.getProperty("file.separator");
-		final int seperatorPosition = filename.lastIndexOf(separator);
+        public CFLintScanner getSource() {
+            return source;
+        }
 
-		if (dotPosition == -1 || seperatorPosition == -1) {
-			return null;
-		}
+        public ContextMessage(final String messageCode, final String variable) {
+            super();
+            this.messageCode = messageCode;
+            this.variable = variable;
+            this.source = null;
+        }
 
-		return filename.substring(seperatorPosition + 1, dotPosition);
-	}
+        public ContextMessage(final String messageCode, final String variable, CFLintScanner source,
+                final Integer line) {
+            super();
+            this.messageCode = messageCode;
+            this.variable = variable;
+            this.source = source;
+            this.line = line;
+        }
 
-	public CommonTokenStream getTokens() {
-		return tokens;
-	}
-	
-	public Iterable<Token> beforeTokens(Token t){
-		return new ContextTokensIterable(t,-1);
-	}
-	public Iterable<Token> afterTokens(Token t){
-		return new ContextTokensIterable(t,1);
-	}
-	
-	public class ContextTokensIterable implements Iterable<Token> {
+        public ContextMessage(final String messageCode, final String variable, final Integer line) {
+            this(messageCode, variable);
+            this.line = line;
+        }
 
-		final Token token;
-		final int direction;
-		
-		public ContextTokensIterable(Token token, int direction){
-			this.token=token;
-			this.direction=direction;
-		}
-		
-		@Override
-		public Iterator<Token> iterator() {
-			return new ContextTokensIterator(token,direction);
-		}
-	}
-	public class ContextTokensIterator implements Iterator<Token> {
+        public String getMessageCode() {
+            return messageCode;
+        }
 
-		int tokenIndex;
-		final int direction;
-		
-		public ContextTokensIterator(Token token, int direction){
-			this.tokenIndex=token.getTokenIndex() + direction;
-			this.direction=direction;
-		}
+        public String getVariable() {
+            return variable;
+        }
 
-		@Override
-		public boolean hasNext() {
-			if(direction <0)
-				return tokens != null && tokenIndex >= 0;
-			else
-				return tokens != null && tokenIndex < tokens.getTokens().size();		
-		}
+        public Integer getLine() {
+            return line;
+        }
+    }
 
-		@Override
-		public Token next() {
-			if (tokens != null && tokenIndex >= 0){
-				Token retval = tokens.getTokens().get(tokenIndex);
-				tokenIndex += direction;
-				return retval;
-			}
-			return null;
-		}
-	
-		@Override
-		public void remove(){
-			throw new UnsupportedOperationException();
-		}
-	}
+    public Context subContext(final Element elem) {
+        final Context context2 = new Context(getFilename(), elem == null ? this.element : elem, getFunctionName(),
+                isInAssignmentExpression(), callStack, tokens);
+        context2.setInComponent(isInComponent());
+        context2.parent = this;
+        return context2;
+    }
 
-	public Context getParent() {
-		return parent;
-	}
-	/**
-	 * 
-	 * @param type
-	 * @return the parent context of the given type OR the root context if none matches
-	 */
-	public Context getParent(ContextType type) {
-		Context p = this;
-		while(p.parent != null && p.contextType != type){
-			p = p.parent;
-		}
-		return p;
-	}
+    public int startLine() {
+        if (element != null && element.getSource() != null) {
+            return element.getSource().getRow(element.getBegin());
+        } else {
+            return 1; // not zero
+        }
+    }
 
-	public void ignore(List<String> ignores) {
-		this.ignores.addAll(ignores);
-	}
-	
-	public boolean isSuppressed(BugInfo bugInfo){
-		return ignores.contains(bugInfo.getMessageCode())
-		 || (parent != null && parent.isSuppressed(bugInfo));
-	}
-	
-	public CFFuncDeclStatement getFunctionInfo() {
-		return functionInfo;
-	}
+    protected String componentFromFile(final String filename) {
+        final int dotPosition = filename.lastIndexOf(".");
+        final String separator = System.getProperty("file.separator");
+        final int seperatorPosition = filename.lastIndexOf(separator);
 
-	public void setFunctionInfo(CFFuncDeclStatement functionInfo) {
-		this.functionInfo = functionInfo;
-		if(this.functionInfo != null){
-			this.functionName = functionInfo.getName() == null ? "" : functionInfo.getName().Decompile(0);
-		}
-	}
+        if (dotPosition == -1 || seperatorPosition == -1) {
+            return null;
+        }
 
-	public ContextType getContextType() {
-		return contextType;
-	}
+        return filename.substring(seperatorPosition + 1, dotPosition);
+    }
 
-	public void setContextType(ContextType contextType) {
-		this.contextType = contextType;
-	}
+    public CommonTokenStream getTokens() {
+        return tokens;
+    }
+
+    public Iterable<Token> beforeTokens(Token t) {
+        return new ContextTokensIterable(t, -1);
+    }
+
+    public Iterable<Token> afterTokens(Token t) {
+        return new ContextTokensIterable(t, 1);
+    }
+
+    public class ContextTokensIterable implements Iterable<Token> {
+
+        final Token token;
+        final int direction;
+
+        public ContextTokensIterable(Token token, int direction) {
+            this.token = token;
+            this.direction = direction;
+        }
+
+        @Override
+        public Iterator<Token> iterator() {
+            return new ContextTokensIterator(token, direction);
+        }
+    }
+
+    public class ContextTokensIterator implements Iterator<Token> {
+
+        int tokenIndex;
+        final int direction;
+
+        public ContextTokensIterator(Token token, int direction) {
+            this.tokenIndex = token.getTokenIndex() + direction;
+            this.direction = direction;
+        }
+
+        @Override
+        public boolean hasNext() {
+            if (direction < 0)
+                return tokens != null && tokenIndex >= 0;
+            else
+                return tokens != null && tokenIndex < tokens.getTokens().size();
+        }
+
+        @Override
+        public Token next() {
+            if (tokens != null && tokenIndex >= 0) {
+                Token retval = tokens.getTokens().get(tokenIndex);
+                tokenIndex += direction;
+                return retval;
+            }
+            return null;
+        }
+
+        @Override
+        public void remove() {
+            throw new UnsupportedOperationException();
+        }
+    }
+
+    public Context getParent() {
+        return parent;
+    }
+
+    /**
+     * 
+     * @param type
+     * @return the parent context of the given type OR the root context if none
+     *         matches
+     */
+    public Context getParent(ContextType type) {
+        Context p = this;
+        while (p.parent != null && p.contextType != type) {
+            p = p.parent;
+        }
+        return p;
+    }
+
+    public void ignore(List<String> ignores) {
+        this.ignores.addAll(ignores);
+    }
+
+    public boolean isSuppressed(BugInfo bugInfo) {
+        return ignores.contains(bugInfo.getMessageCode()) || (parent != null && parent.isSuppressed(bugInfo));
+    }
+
+    public CFFuncDeclStatement getFunctionInfo() {
+        return functionInfo;
+    }
+
+    public void setFunctionInfo(CFFuncDeclStatement functionInfo) {
+        this.functionInfo = functionInfo;
+        if (this.functionInfo != null) {
+            this.functionName = functionInfo.getName() == null ? "" : functionInfo.getName().Decompile(0);
+        }
+    }
+
+    public ContextType getContextType() {
+        return contextType;
+    }
+
+    public void setContextType(ContextType contextType) {
+        this.contextType = contextType;
+    }
 }

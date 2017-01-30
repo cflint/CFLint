@@ -12,39 +12,39 @@ import javax.xml.transform.stream.StreamSource;
 
 public class HTMLOutput {
 
-	final String htmlStyle;
+    final String htmlStyle;
 
-	public void output(final BugList bugList, final Writer writer, final boolean showStats)
-			throws IOException, TransformerException {
+    public void output(final BugList bugList, final Writer writer, final boolean showStats)
+            throws IOException, TransformerException {
 
-		// 1. Instantiate a TransformerFactory.
-		final javax.xml.transform.TransformerFactory tFactory = javax.xml.transform.TransformerFactory.newInstance();
+        // 1. Instantiate a TransformerFactory.
+        final javax.xml.transform.TransformerFactory tFactory = javax.xml.transform.TransformerFactory.newInstance();
 
-		// 2. Use the TransformerFactory to process the stylesheet Source and
-		// generate a Transformer.
-		javax.xml.transform.Transformer transformer;
-		// System.out.println("Using html style:" + htmlStyle);
-		try {
-			final InputStream is = getClass().getResourceAsStream("/findbugs/" + htmlStyle);
-			transformer = tFactory.newTransformer(new javax.xml.transform.stream.StreamSource(is));
-		} catch (final TransformerConfigurationException e) {
-			final InputStream is = getClass().getResourceAsStream("/" + htmlStyle);
-			transformer = tFactory.newTransformer(new javax.xml.transform.stream.StreamSource(is));
-		}
+        // 2. Use the TransformerFactory to process the stylesheet Source and
+        // generate a Transformer.
+        javax.xml.transform.Transformer transformer;
+        // System.out.println("Using html style:" + htmlStyle);
+        try {
+            final InputStream is = getClass().getResourceAsStream("/findbugs/" + htmlStyle);
+            transformer = tFactory.newTransformer(new javax.xml.transform.stream.StreamSource(is));
+        } catch (final TransformerConfigurationException e) {
+            final InputStream is = getClass().getResourceAsStream("/" + htmlStyle);
+            transformer = tFactory.newTransformer(new javax.xml.transform.stream.StreamSource(is));
+        }
 
-		final StringWriter sw = new StringWriter();
-		new XMLOutput().outputFindBugs(bugList, sw, showStats);
+        final StringWriter sw = new StringWriter();
+        new XMLOutput().outputFindBugs(bugList, sw, showStats);
 
-		// 3. Use the Transformer to transform an XML Source and send the
-		// output to a Result object.
-		transformer.transform(new StreamSource(new StringReader(sw.toString())),
-				new javax.xml.transform.stream.StreamResult(writer));
+        // 3. Use the Transformer to transform an XML Source and send the
+        // output to a Result object.
+        transformer.transform(new StreamSource(new StringReader(sw.toString())),
+                new javax.xml.transform.stream.StreamResult(writer));
 
-		writer.close();
-	}
+        writer.close();
+    }
 
-	public HTMLOutput(final String htmlStyle) {
-		super();
-		this.htmlStyle = htmlStyle;
-	}
+    public HTMLOutput(final String htmlStyle) {
+        super();
+        this.htmlStyle = htmlStyle;
+    }
 }

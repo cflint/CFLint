@@ -13,238 +13,257 @@ import com.cflint.plugins.CFLintScanner;
 
 @XmlRootElement(name = "config")
 public class CFLintConfig implements CFLintConfiguration {
-	
-	
 
-	List<ConfigOutput> output = new ArrayList<CFLintConfig.ConfigOutput>();
-	List<CFLintPluginInfo.PluginInfoRule> rules = new ArrayList<CFLintPluginInfo.PluginInfoRule>();
-	List<PluginMessage> excludes = new ArrayList<PluginMessage>();
-	List<PluginMessage> includes = new ArrayList<PluginMessage>();
+    List<ConfigOutput> output = new ArrayList<CFLintConfig.ConfigOutput>();
+    List<CFLintPluginInfo.PluginInfoRule> rules = new ArrayList<CFLintPluginInfo.PluginInfoRule>();
+    List<PluginMessage> excludes = new ArrayList<PluginMessage>();
+    List<PluginMessage> includes = new ArrayList<PluginMessage>();
 
-	private boolean inheritParent = true;
-	private boolean inheritPlugins = true;
-	
-	/* (non-Javadoc)
-	 * @see com.cflint.config.CFLintConfiguration#getOutput()
-	 */
-	public List<ConfigOutput> getOutput() {
-		return output;
-	}
+    private boolean inheritParent = true;
+    private boolean inheritPlugins = true;
 
-	@XmlElement(name = "output")
-	public void setOutput(final List<ConfigOutput> output) {
-		this.output = output;
-	}
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.cflint.config.CFLintConfiguration#getOutput()
+     */
+    public List<ConfigOutput> getOutput() {
+        return output;
+    }
 
-	/* (non-Javadoc)
-	 * @see com.cflint.config.CFLintConfiguration#getRules()
-	 */
-	@Override
+    @XmlElement(name = "output")
+    public void setOutput(final List<ConfigOutput> output) {
+        this.output = output;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.cflint.config.CFLintConfiguration#getRules()
+     */
+    @Override
     public List<CFLintPluginInfo.PluginInfoRule> getRules() {
-		return rules;
-	}
+        return rules;
+    }
 
-	@XmlElement(name = "rule")
-	public void setRules(final List<CFLintPluginInfo.PluginInfoRule> rules) {
-		this.rules = rules;
-	}
+    @XmlElement(name = "rule")
+    public void setRules(final List<CFLintPluginInfo.PluginInfoRule> rules) {
+        this.rules = rules;
+    }
 
-	/* (non-Javadoc)
-	 * @see com.cflint.config.CFLintConfiguration#getExcludes()
-	 */
-	public List<PluginMessage> getExcludes() {
-		return excludes;
-	}
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.cflint.config.CFLintConfiguration#getExcludes()
+     */
+    public List<PluginMessage> getExcludes() {
+        return excludes;
+    }
 
-	@XmlElement(name = "excludes")
-	public void setExcludes(final List<PluginMessage> excludes) {
-		this.excludes = excludes;
-	}
+    @XmlElement(name = "excludes")
+    public void setExcludes(final List<PluginMessage> excludes) {
+        this.excludes = excludes;
+    }
 
-	/* (non-Javadoc)
-	 * @see com.cflint.config.CFLintConfiguration#getIncludes()
-	 */
-	public List<PluginMessage> getIncludes() {
-		return includes;
-	}
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.cflint.config.CFLintConfiguration#getIncludes()
+     */
+    public List<PluginMessage> getIncludes() {
+        return includes;
+    }
 
-	@XmlElement(name = "includes")
-	public void setIncludes(final List<PluginMessage> includes) {
-		this.includes = includes;
-	}
+    @XmlElement(name = "includes")
+    public void setIncludes(final List<PluginMessage> includes) {
+        this.includes = includes;
+    }
 
-	public boolean isInheritParent() {
-		return inheritParent;
-	}
+    public boolean isInheritParent() {
+        return inheritParent;
+    }
 
-	@XmlAttribute(name = "inheritParent")
-	public void setInheritParent(boolean inheritParent) {
-		this.inheritParent = inheritParent;
-	}
+    @XmlAttribute(name = "inheritParent")
+    public void setInheritParent(boolean inheritParent) {
+        this.inheritParent = inheritParent;
+    }
 
-	public boolean isInheritPlugins() {
-		return inheritPlugins;
-	}
+    public boolean isInheritPlugins() {
+        return inheritPlugins;
+    }
 
-	@XmlAttribute(name = "inheritPlugins")
-	public void setInheritPlugins(boolean inheritPlugins) {
-		this.inheritPlugins = inheritPlugins;
-	}
-	
-	public static class ConfigOutput {
+    @XmlAttribute(name = "inheritPlugins")
+    public void setInheritPlugins(boolean inheritPlugins) {
+        this.inheritPlugins = inheritPlugins;
+    }
 
-		String name;
-		OutputText text;
-		OutputXML html;
-		OutputXML xml;
-		OutputText json;
+    public static class ConfigOutput {
 
-		public String getName() {
-			return name;
-		}
+        String name;
+        OutputText text;
+        OutputXML html;
+        OutputXML xml;
+        OutputText json;
 
-		@XmlAttribute(name = "name")
-		public void setName(final String name) {
-			this.name = name;
-		}
+        public String getName() {
+            return name;
+        }
 
-		public OutputText getText() {
-			return text;
-		}
+        @XmlAttribute(name = "name")
+        public void setName(final String name) {
+            this.name = name;
+        }
 
-		public OutputText getJSON() {
-			return json;
-		}
+        public OutputText getText() {
+            return text;
+        }
 
-		@XmlElement(name = "text")
-		public void setText(final OutputText text) {
-			this.text = text;
-		}
+        public OutputText getJSON() {
+            return json;
+        }
 
-		@XmlElement(name = "json")
-		public void setJSON(final OutputText json) {
-			this.json = json;
-		}
+        @XmlElement(name = "text")
+        public void setText(final OutputText text) {
+            this.text = text;
+        }
 
-		public OutputXML getHtml() {
-			return html;
-		}
+        @XmlElement(name = "json")
+        public void setJSON(final OutputText json) {
+            this.json = json;
+        }
 
-		@XmlElement(name = "html")
-		public void setHtml(final OutputXML html) {
-			this.html = html;
-		}
+        public OutputXML getHtml() {
+            return html;
+        }
 
-		public OutputXML getXml() {
-			return xml;
-		}
+        @XmlElement(name = "html")
+        public void setHtml(final OutputXML html) {
+            this.html = html;
+        }
 
-		@XmlElement(name = "xml")
-		public void setXml(final OutputXML xml) {
-			this.xml = xml;
-		}
+        public OutputXML getXml() {
+            return xml;
+        }
 
-		public static class OutputText {
-			String file;
+        @XmlElement(name = "xml")
+        public void setXml(final OutputXML xml) {
+            this.xml = xml;
+        }
 
-			public String getFile() {
-				return file;
-			}
+        public static class OutputText {
+            String file;
 
-			@XmlAttribute(name = "file")
-			public void setFile(final String file) {
-				this.file = file;
-			}
-		}
+            public String getFile() {
+                return file;
+            }
 
-		public static class OutputXML extends OutputText {
-			String style;
+            @XmlAttribute(name = "file")
+            public void setFile(final String file) {
+                this.file = file;
+            }
+        }
 
-			public String getStyle() {
-				return style;
-			}
+        public static class OutputXML extends OutputText {
+            String style;
 
-			@XmlAttribute(name = "style")
-			public void setStyle(final String style) {
-				this.style = style;
-			}
-		}
-	}
+            public String getStyle() {
+                return style;
+            }
 
-	/* (non-Javadoc)
-	 * @see com.cflint.config.CFLintConfiguration#includes(com.cflint.config.CFLintPluginInfo.PluginInfoRule.PluginMessage)
-	 */
-	@Override
-	public boolean includes(PluginMessage pluginMessage) {
-		return (getIncludes().isEmpty() || getIncludes().contains(pluginMessage));
-	}
+            @XmlAttribute(name = "style")
+            public void setStyle(final String style) {
+                this.style = style;
+            }
+        }
+    }
 
-	/* (non-Javadoc)
-	 * @see com.cflint.config.CFLintConfiguration#excludes(com.cflint.config.CFLintPluginInfo.PluginInfoRule.PluginMessage)
-	 */
-	@Override
-	public boolean excludes(PluginMessage pluginMessage) {
-		return (!getExcludes().isEmpty() && getExcludes().contains(pluginMessage));
-	}
-	
-	/* (non-Javadoc)
-	 * @see com.cflint.config.CFLintConfiguration#getRuleByClass(java.lang.Class)
-	 */
-	@Override
-	public PluginInfoRule getRuleByClass(final Class<?> clazz) {
-		final String className = clazz.getSimpleName();
-		for (final PluginInfoRule rule : getRules()) {
-			if (rule.getName().equals(className) || className.equals(rule.getClassName())) {
-				return rule;
-			}
-		}
-		return null;
-	}
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.cflint.config.CFLintConfiguration#includes(com.cflint.config.
+     * CFLintPluginInfo.PluginInfoRule.PluginMessage)
+     */
+    @Override
+    public boolean includes(PluginMessage pluginMessage) {
+        return (getIncludes().isEmpty() || getIncludes().contains(pluginMessage));
+    }
 
-	/* (non-Javadoc)
-	 * @see com.cflint.config.CFLintConfiguration#getRuleForPlugin(com.cflint.plugins.CFLintScanner)
-	 */
-	@Override
-	public PluginInfoRule getRuleForPlugin(final CFLintScanner plugin) {
-		for (final PluginInfoRule rule : getRules()) {
-			if (rule.getPluginInstance() == plugin) {
-				return rule;
-			}
-		}
-		return getRuleByClass(plugin.getClass());
-	}
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.cflint.config.CFLintConfiguration#excludes(com.cflint.config.
+     * CFLintPluginInfo.PluginInfoRule.PluginMessage)
+     */
+    @Override
+    public boolean excludes(PluginMessage pluginMessage) {
+        return (!getExcludes().isEmpty() && getExcludes().contains(pluginMessage));
+    }
 
-	@Override
-	public void addInclude(PluginMessage pluginMessage) {
-		includes.add(pluginMessage);
-	}
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * com.cflint.config.CFLintConfiguration#getRuleByClass(java.lang.Class)
+     */
+    @Override
+    public PluginInfoRule getRuleByClass(final Class<?> clazz) {
+        final String className = clazz.getSimpleName();
+        for (final PluginInfoRule rule : getRules()) {
+            if (rule.getName().equals(className) || className.equals(rule.getClassName())) {
+                return rule;
+            }
+        }
+        return null;
+    }
 
-	@Override
-	public void addExclude(PluginMessage pluginMessage) {
-		excludes.add(pluginMessage);
-	}
-	
-	public static CFLintConfiguration createDefault(){
-		final CFLintPluginInfo pluginInfo = ConfigUtils.loadDefaultPluginInfo();
-		CFLintConfig defaultConfig = new CFLintConfig();
-		defaultConfig.setRules(pluginInfo.getRules());
-		return defaultConfig;
-	}
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * com.cflint.config.CFLintConfiguration#getRuleForPlugin(com.cflint.plugins
+     * .CFLintScanner)
+     */
+    @Override
+    public PluginInfoRule getRuleForPlugin(final CFLintScanner plugin) {
+        for (final PluginInfoRule rule : getRules()) {
+            if (rule.getPluginInstance() == plugin) {
+                return rule;
+            }
+        }
+        return getRuleByClass(plugin.getClass());
+    }
 
-	/**
-	 * Limit the rule set, primarily for unit test support
-	 */
-	public static CFLintConfiguration createDefaultLimited(String ... rulenames){
-		final CFLintPluginInfo pluginInfo = ConfigUtils.loadDefaultPluginInfo();
-		CFLintConfig defaultConfig = new CFLintConfig();
-		for(CFLintPluginInfo.PluginInfoRule rule:pluginInfo.getRules()){
-			for(String rulename:rulenames){
-				if(rule.getName().equalsIgnoreCase(rulename)){
-					defaultConfig.getRules().add(rule);
-				}
-			}
-		}
-		return defaultConfig;
-	}
-	
+    @Override
+    public void addInclude(PluginMessage pluginMessage) {
+        includes.add(pluginMessage);
+    }
+
+    @Override
+    public void addExclude(PluginMessage pluginMessage) {
+        excludes.add(pluginMessage);
+    }
+
+    public static CFLintConfiguration createDefault() {
+        final CFLintPluginInfo pluginInfo = ConfigUtils.loadDefaultPluginInfo();
+        CFLintConfig defaultConfig = new CFLintConfig();
+        defaultConfig.setRules(pluginInfo.getRules());
+        return defaultConfig;
+    }
+
+    /**
+     * Limit the rule set, primarily for unit test support
+     */
+    public static CFLintConfiguration createDefaultLimited(String... rulenames) {
+        final CFLintPluginInfo pluginInfo = ConfigUtils.loadDefaultPluginInfo();
+        CFLintConfig defaultConfig = new CFLintConfig();
+        for (CFLintPluginInfo.PluginInfoRule rule : pluginInfo.getRules()) {
+            for (String rulename : rulenames) {
+                if (rule.getName().equalsIgnoreCase(rulename)) {
+                    defaultConfig.getRules().add(rule);
+                }
+            }
+        }
+        return defaultConfig;
+    }
+
 }

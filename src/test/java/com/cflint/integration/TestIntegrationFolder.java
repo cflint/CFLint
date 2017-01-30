@@ -30,8 +30,8 @@ public class TestIntegrationFolder {
         final String expected = loadFile(new File("src/test/resources/com/cflint/integration/output.expected.json"));
         final String actual = loadFile(new File("src/test/resources/com/cflint/integration/output.json"));
         assertEquals( 
-                expected.replaceAll("\\\\","/").replaceAll("/+","/").replaceAll("\r\n", "\n"),
-                actual.replaceAll("\\\\","/").replaceAll("/+","/").replaceAll("\r\n", "\n"));
+                expected.replaceAll("\\\\","/").replaceAll("/+","/").replaceAll("\r\n", "\n").replaceAll("\\s\"file\".+\\R", ""),
+                actual.replaceAll("\\\\","/").replaceAll("/+","/").replaceAll("\r\n", "\n").replaceAll("\\s\"file\".+\\R", ""));
 
 	}
 	

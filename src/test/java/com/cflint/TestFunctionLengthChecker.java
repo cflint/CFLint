@@ -44,7 +44,8 @@ public class TestFunctionLengthChecker {
 										"return result;\r\n" +
 									"}\r\n" +
 								"}";
-		assertEquals(true, cfBugs.getBugs().getBugList().isEmpty());
+		cfBugs.process(cfcSrc,"test");
+        assertEquals(true, cfBugs.getBugs().getBugList().isEmpty());
 	}
 
 	@Test

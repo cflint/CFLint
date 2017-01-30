@@ -44,7 +44,7 @@ public class TestCFBugs_VarScoper_Names {
 		cfBugs = new CFLint(conf,new VarScoper());
 	}
 	@Parameterized.Parameters(name = "{0}")
-	public static Collection primeNumbers() {
+	public static Collection<?> primeNumbers() {
 		return Arrays.asList(new String[][] { new String[] { "CFStoredProc" }, new String[] { "CFQuery" },
 				new String[] { "CFFeed" }, new String[] { "CFDirectory" }, new String[] { "CFForm" },
 				new String[] { "CFFtp" }, new String[] { "CFObject" }, new String[] { "CFSearch" },

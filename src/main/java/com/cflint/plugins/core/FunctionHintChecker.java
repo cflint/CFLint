@@ -20,7 +20,6 @@ public class FunctionHintChecker extends CFLintScannerAdapter {
 	@Override
 	public void element(final Element element, final Context context, final BugList bugs) {
 		if (element.getName().equals("cffunction")) {
-			final String name = element.getAttributeValue("name");
 			final String hint = element.getAttributeValue("hint");
 			if (hint == null || hint.trim().isEmpty()) {
 				context.addMessage("FUNCTION_HINT_MISSING", context.getFunctionName());	

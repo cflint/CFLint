@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.github.cflint</groupId>
 	<artifactId>CFLint</artifactId>
-	<version>0.12.0-SNAPSHOT</version>
+	<version>1.0.0-RC1</version>
 
 	<name>CFLint</name>
 	<description>
@@ -59,7 +59,7 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<cfparser.version>2.3.0-SNAPSHOT</cfparser.version>
+		<cfparser.version>2.3.0</cfparser.version>
 	</properties>
   
 	<dependencies>
@@ -95,7 +95,7 @@
 		<dependency>
 			<groupId>org.antlr</groupId>
 			<artifactId>antlr4-runtime</artifactId>
-			<version>4.5.2-1</version>
+			<version>4.6</version>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
@@ -107,7 +107,7 @@
 		<dependency>
 			<groupId>org.antlr</groupId>
 			<artifactId>antlr4</artifactId>
-			<version>4.5.2-1</version>
+			<version>4.6</version>
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>

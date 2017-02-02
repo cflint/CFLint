@@ -59,7 +59,7 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<cfparser.version>2.3.0</cfparser.version>
+		<cfparser.version>2.3.1</cfparser.version>
 	</properties>
   
 	<dependencies>

@@ -1,0 +1,40 @@
+{
+  "output" : [ ],
+  "rule" : [ ],
+  "excludes" : [ ],
+  "includes" : [ {
+    "code" : "VAR_INVALID_NAME",
+    "messageText" : null,
+    "severity" : null
+  }, {
+    "code" : "VAR_ALLCAPS_NAME",
+    "messageText" : null,
+    "severity" : null
+  }, {
+    "code" : "SCOPE_ALLCAPS_NAME",
+    "messageText" : null,
+    "severity" : null
+  }, {
+    "code" : "VAR_TOO_SHORT",
+    "messageText" : null,
+    "severity" : null
+  }, {
+    "code" : "VAR_TOO_LONG",
+    "messageText" : null,
+    "severity" : null
+  }, {
+    "code" : "VAR_TOO_WORDY",
+    "messageText" : null,
+    "severity" : null
+  }, {
+    "code" : "VAR_IS_TEMPORARY",
+    "messageText" : null,
+    "severity" : null
+  }, {
+    "code" : "VAR_HAS_PREFIX_OR_POSTFIX",
+    "messageText" : null,
+    "severity" : null
+  } ],
+  "inheritParent" : false,
+  "inheritPlugins" : true
+}

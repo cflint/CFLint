@@ -1,0 +1,12 @@
+{
+  "output" : [ ],
+  "rule" : [ ],
+  "excludes" : [ ],
+  "includes" : [ {
+    "code" : "UNUSED_METHOD_ARGUMENT",
+    "messageText" : null,
+    "severity" : null
+  } ],
+  "inheritParent" : false,
+  "inheritPlugins" : true
+}

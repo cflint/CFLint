@@ -1,0 +1,16 @@
+{
+  "output" : [ ],
+  "rule" : [ ],
+  "excludes" : [ ],
+  "includes" : [ {
+    "code" : "FUNCTION_HINT_MISSING",
+    "messageText" : null,
+    "severity" : null
+  }, {
+    "code" : "COMPONENT_INVALID_NAME",
+    "messageText" : null,
+    "severity" : null
+  } ],
+  "inheritParent" : true,
+  "inheritPlugins" : true
+}

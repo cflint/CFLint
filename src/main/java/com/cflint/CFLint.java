@@ -160,11 +160,12 @@ public class CFLint implements IErrorReporter {
             final CFLintConfiguration saveConfig = configuration;
             try {
                 for (final File file : folderOrFile.listFiles()) {
-                    if (file.getName().equalsIgnoreCase(".cflintrc.xml")) {
+                    if (file.getName().toLowerCase().startsWith(".cflintrc")) {
                         try {
-                            CFLintConfiguration newConfig = com.cflint.config.ConfigUtils
-                                    .unmarshal(new FileInputStream(file), CFLintConfig.class);
                             System.out.println("read config " + file);
+                            CFLintConfiguration newConfig = file.getName().toLowerCase().endsWith(".xml")?
+                                    ConfigUtils.unmarshal(new FileInputStream(file), CFLintConfig.class):
+                                    ConfigUtils.unmarshalJson(new FileInputStream(file), CFLintConfig.class);
                             configuration = new CFLintChainedConfig(newConfig, configuration);
                         } catch (Exception e) {
                             System.err.println("Could not read config file " + file);

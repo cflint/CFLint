@@ -1,0 +1,20 @@
+{
+  "output" : [ ],
+  "rule" : [ ],
+  "excludes" : [ ],
+  "includes" : [ {
+    "code" : "COMPONENT_HINT_MISSING",
+    "messageText" : null,
+    "severity" : null
+  }, {
+    "code" : "FUNCTION_HINT_MISSING",
+    "messageText" : null,
+    "severity" : null
+  }, {
+    "code" : "ARG_HINT_MISSING",
+    "messageText" : null,
+    "severity" : null
+  } ],
+  "inheritParent" : false,
+  "inheritPlugins" : true
+}

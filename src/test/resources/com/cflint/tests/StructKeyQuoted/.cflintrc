@@ -1,0 +1,12 @@
+{
+  "output" : [ ],
+  "rule" : [ ],
+  "excludes" : [ ],
+  "includes" : [ {
+    "code" : "UNQUOTED_STRUCT_KEY",
+    "messageText" : null,
+    "severity" : null
+  } ],
+  "inheritParent" : false,
+  "inheritPlugins" : true
+}

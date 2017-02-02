@@ -1,4 +1,0 @@
-<config  inheritParent="false">
-<includes code="PARSE_NOTHING"/>
-<includes code="FUNCTION_TOO_COMPLEX"/>
-</config>

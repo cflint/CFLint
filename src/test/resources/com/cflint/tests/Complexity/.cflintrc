@@ -1,0 +1,16 @@
+{
+  "output" : [ ],
+  "rule" : [ ],
+  "excludes" : [ ],
+  "includes" : [ {
+    "code" : "PARSE_NOTHING",
+    "messageText" : null,
+    "severity" : null
+  }, {
+    "code" : "FUNCTION_TOO_COMPLEX",
+    "messageText" : null,
+    "severity" : null
+  } ],
+  "inheritParent" : false,
+  "inheritPlugins" : true
+}

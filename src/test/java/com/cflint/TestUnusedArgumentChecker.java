@@ -248,5 +248,25 @@ public class TestUnusedArgumentChecker {
 		final Map<String, List<BugInfo>> result = cfBugs.getBugs().getBugList();
 		assertEquals(0, result.size());
 	}
+	
+	@Test
+	public void testArgumentsUsedInQuerygWithArgumentsScope() throws ParseException, IOException {
+		final String tagSrc = "<cfcomponent>\r\n"
+			+ "<cffunction name=\"getProduct\">\r\n"
+			+ "<cfargument name=\"productid\">\r\n"
+			+ "<cfargument name=\"b\">\r\n"
+			+ "<cfset var qryProduct = \"\" />\r\n"
+			+ "<cfquery name=\"qryProduct\">\r\n"
+			+ "SET @productId = <cfqueryparam value=\"#arguments.productid#\" cfsqltype=\"cf_sql_integer\" />\r\n"
+			+ "SELECT @productId as productId\r\n"
+			+ "</cfquery>\r\n"
+			+ "<cfreturn arguments.a + arguments.b>\r\n"
+			+ "</cffunction>\r\n"
+			+ "</cfcomponent>\r\n";
+		
+		cfBugs.process(tagSrc, "test");
+		final Map<String, List<BugInfo>> result = cfBugs.getBugs().getBugList();
+		assertEquals(0, result.size());
+	}
 
 }

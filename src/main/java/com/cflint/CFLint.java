@@ -56,7 +56,6 @@ import cfml.parsing.cfscript.CFIdentifier;
 import cfml.parsing.cfscript.CFStatement;
 import cfml.parsing.cfscript.CFVarDeclExpression;
 import cfml.parsing.cfscript.script.CFCase;
-import cfml.parsing.cfscript.script.CFCatchClause;
 import cfml.parsing.cfscript.script.CFCatchStatement;
 import cfml.parsing.cfscript.script.CFCompDeclStatement;
 import cfml.parsing.cfscript.script.CFCompoundStatement;
@@ -533,8 +532,8 @@ public class CFLint implements IErrorReporter {
                 scanExpression(expression, context, elem);
                 final CFTryCatchStatement cftry = (CFTryCatchStatement) expression;
                 process(cftry.getBody(), context);
-                for (CFCatchClause stmt : cftry.getCatchStatements()) {
-                    process(((CFCatchStatement) stmt).getCatchBody(), context);
+                for ( CFCatchStatement stmt : cftry.getCatchStatements()) {
+                    process(stmt.getCatchBody(), context);
                 }
                 process(cftry.getFinallyStatement(), context);
             } else if (expression instanceof CFReturnStatement) {

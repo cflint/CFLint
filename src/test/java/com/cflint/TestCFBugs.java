@@ -421,7 +421,8 @@ public class TestCFBugs {
 				"}\r\n"+
 				"}","test");
 		List<BugInfo> list = cfBugs.getBugs().getFlatBugList();
-		assertEquals(1,list.size());
+		System.out.println(list.toString());
+        assertEquals(list.toString(),1,list.size());
 		assertEquals("test",list.get(0).getFilename());
 		assertEquals("process",list.get(0).getFunction());
 		assertEquals(3,list.get(0).getLine());

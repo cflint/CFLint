@@ -89,7 +89,7 @@ public class TestCFBugs_ArgsUse {
 				"</cffunction>\r\n" +
 				"</cfcomponent>";
 		cfBugs.process(cfcSrc,"test");
-		assertEquals(0,cfBugs.getBugs().getBugList().size());
+		assertEquals(cfBugs.getBugs().getBugList().toString(),0,cfBugs.getBugs().getBugList().size());
 	}
 
 	

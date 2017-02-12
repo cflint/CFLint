@@ -39,7 +39,6 @@ import com.cflint.plugins.exceptions.CFLintExceptionListener;
 import com.cflint.plugins.exceptions.DefaultCFLintExceptionListener;
 import com.cflint.tools.AllowedExtensionsLoader;
 import com.cflint.tools.CFLintFilter;
-import com.cflint.tools.CFNestedExpressionProvider;
 import com.cflint.tools.CommentReformatting;
 import com.cflint.tools.FileUtil;
 import com.cflint.tools.PrecedingCommentReader;
@@ -52,6 +51,8 @@ import cfml.parsing.CFMLSource;
 import cfml.parsing.ParserTag;
 import cfml.parsing.cfscript.CFAssignmentExpression;
 import cfml.parsing.cfscript.CFExpression;
+import cfml.parsing.cfscript.CFFullVarExpression;
+import cfml.parsing.cfscript.CFFunctionExpression;
 import cfml.parsing.cfscript.CFIdentifier;
 import cfml.parsing.cfscript.CFStatement;
 import cfml.parsing.cfscript.CFVarDeclExpression;
@@ -703,24 +704,35 @@ public class CFLint implements IErrorReporter {
                 }
             }
             // Handle a few expression types in a special fashion.
+            if (expression instanceof CFVarDeclExpression) {
+                handler.addVariable(((CFVarDeclExpression) expression).getName());
+            }
+            
+            //CFIdentifier should not decompose
+            if (expression instanceof CFIdentifier) {
+                final String name = ((CFIdentifier) expression).getName();
+                handler.checkVariable(name);
+            } 
             if (expression instanceof CFAssignmentExpression) {
                 final Context assignmentContext = context.subContext(elem);
                 assignmentContext.setInAssignmentExpression(true);
                 process(((CFAssignmentExpression) expression).getLeft(), elem, assignmentContext);
                 // Right hand side is handled below. Left hand side gets a
                 // special context.
-            } else if (expression instanceof CFIdentifier) {
-                final String name = ((CFIdentifier) expression).getName();
-                handler.checkVariable(name);
-            } else if (expression instanceof CFVarDeclExpression) {
-                handler.addVariable(((CFVarDeclExpression) expression).getName());
-            }
-
-            // Loop into all relevant nested (child) expressions.
-            List<CFExpression> childExpressions = CFNestedExpressionProvider.createInstance(expression)
-                    .getChildExpressions();
-            for (CFExpression child : childExpressions) {
-                process(child, elem, context);
+                process(((CFAssignmentExpression) expression).getRight(), elem, context);
+                //Only process function call expressions
+            } else if (expression instanceof CFFullVarExpression) {
+                final CFFullVarExpression fullVarExpression = (CFFullVarExpression) expression;
+                for (final CFExpression expr : fullVarExpression.getExpressions()) {
+                    if (expr instanceof CFFunctionExpression) {
+                        process(expr, elem, context);
+                    }
+                }
+            }else{
+                // Loop into all relevant nested (child) expressions.
+                for (CFExpression child : expression.decomposeExpression()) {
+                    process(child, elem, context);
+                }
             }
         }
     }

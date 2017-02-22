@@ -15,12 +15,12 @@ public class CFScopes {
 
     public boolean isCFScoped(final String variable) {
         final String[] parts = parts(variable);
-        return scopes.contains(parts[0]);
+        return scopes.contains(parts[0].toLowerCase());
     }
 
     public boolean isScoped(final String variable, final String scope) {
         final String[] parts = parts(variable);
-        return parts[0].equals(scope);
+        return parts[0].equalsIgnoreCase(scope);
     }
 
     public boolean isLocalScoped(final String variable) {

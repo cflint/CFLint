@@ -263,6 +263,7 @@ public class CFLintMain {
             if (cmd.hasOption(INCLUDE_RULE)) {
                 for (final String code : cmd.getOptionValue(INCLUDE_RULE).split(",")) {
                     main.cmdLineConfig.addInclude(new PluginMessage(code));
+                    main.cmdLineConfig.setInheritParent(false);
                 }
             }
             if (cmd.hasOption(EXCLUDE_RULE)) {

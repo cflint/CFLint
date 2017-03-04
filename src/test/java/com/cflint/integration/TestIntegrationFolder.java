@@ -49,6 +49,25 @@ public class TestIntegrationFolder {
 	                actual.replaceAll("\\\\","/").replaceAll("/+","/").replaceAll("\r\n", "\n").replaceAll("\\s\"file\".+\\R", ""));
 	    }
 
+	   
+	    @Test
+	    public void test_194() throws Exception{
+	        CFLintMain.main(
+	                new String[]{
+	                "--folder",
+	                "src/test/resources/com/cflint/integration",
+	                "-includeRule",
+	                "COMPONENT_INVALID_NAME",
+	                "--json",
+	                "--jsonfile",
+	                "src/test/resources/com/cflint/integration/output_194.json"
+	                });
+	        final String expected = loadFile(new File("src/test/resources/com/cflint/integration/output_194.expected.json"));
+	        final String actual = loadFile(new File("src/test/resources/com/cflint/integration/output_194.json"));
+	        assertEquals( 
+	                expected.replaceAll("\\\\","/").replaceAll("/+","/").replaceAll("\r\n", "\n").replaceAll("\\s\"file\".+\\R", ""),
+	                actual.replaceAll("\\\\","/").replaceAll("/+","/").replaceAll("\r\n", "\n").replaceAll("\\s\"file\".+\\R", ""));
+	    }
 	   public static String loadFile(File file) throws IOException {
 	        InputStream is = new FileInputStream(file);
 	        byte[] b = new byte[is.available()];

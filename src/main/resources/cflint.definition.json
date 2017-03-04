@@ -582,6 +582,10 @@
         {
           "name": "IgnoreUpperCaseScopes",
           "value": "CGI,URL"
+        },
+        {
+          "name": "IgnoreAllCapsInScopes",
+          "value": "this"
         }
       ]
     },

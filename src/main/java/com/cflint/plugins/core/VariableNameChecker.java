@@ -114,7 +114,6 @@ public class VariableNameChecker extends CFLintScannerAdapter {
         if (excludeFromAnalyse(variable)) {
             return;
         }
-
         int minVarLength = ValidName.MIN_VAR_LENGTH;
         int maxVarLength = ValidName.MAX_VAR_LENGTH;
         int maxVarWords = ValidName.MAX_VAR_WORDS;
@@ -141,16 +140,17 @@ public class VariableNameChecker extends CFLintScannerAdapter {
         }
 
         final CFScopes scope = new CFScopes();
+        final String varScope = scope.getScope(fullVariable);
         final ValidName name = new ValidName(minVarLength, maxVarLength, maxVarWords);
 
         if (name.isInvalid(variable)) {
             context.getParent(ContextType.Function).addUniqueMessage("VAR_INVALID_NAME", variable, this, line);
         }
         if (!scope.isCFScoped(variable) && name.isUpperCase(variable)) {
+            if (!getParameterNotNull("IgnoreAllCapsInScopes").toLowerCase().contains(varScope))
             context.getParent(ContextType.Function).addUniqueMessage("VAR_ALLCAPS_NAME", variable, this, line);
         }
-        if (scope.isCFScoped(variable) && name.isUpperCase(variable) && (getParameter("IgnoreUpperCaseScopes") == null
-                || !getParameter("IgnoreUpperCaseScopes").contains(variable))) {
+        if (scope.isCFScoped(variable) && name.isUpperCase(variable) && !getParameterNotNull("IgnoreUpperCaseScopes").contains(variable)) {
             context.getParent(ContextType.Function).addUniqueMessage("SCOPE_ALLCAPS_NAME", variable, this, line);
         }
         if (name.tooShort(variable)) {

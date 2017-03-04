@@ -1,0 +1,17 @@
+[ {
+  "severity" : "INFO",
+  "id" : "VAR_ALLCAPS_NAME",
+  "message" : "VAR_ALLCAPS_NAME",
+  "category" : "CFLINT",
+  "abbrev" : "VA",
+  "locations" : [ {
+    "file" : "src/test/resources/com/cflint/tests/VariableNameChecker/sample_239.cfc",
+    "fileName" : "sample_239.cfc",
+    "function" : "",
+    "column" : "0",
+    "line" : "8",
+    "message" : "Variable VARIABLE should not be upper case.",
+    "variable" : "VARIABLE",
+    "expression" : ""
+  } ]
+} ]

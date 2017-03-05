@@ -56,17 +56,8 @@ public class TestCFBugs_VariableNames {
 		 + "</cfcomponent>";
 		cfBugs.process(tagSrc, "test");
 		final List<BugInfo> result = cfBugs.getBugs().getBugList().values().iterator().next();
-		assertEquals(5, result.size());
 		assertEquals("VAR_ALLCAPS_NAME", result.get(0).getMessageCode());
-		assertEquals(3, result.get(0).getLine());
-		assertEquals("VAR_ALLCAPS_NAME", result.get(1).getMessageCode());
-		assertEquals(4, result.get(1).getLine());
-		assertEquals("VAR_ALLCAPS_NAME", result.get(2).getMessageCode());
-		assertEquals(6, result.get(2).getLine());
-		assertEquals("VAR_ALLCAPS_NAME", result.get(3).getMessageCode());
-		assertEquals(7, result.get(3).getLine());
-		assertEquals("VAR_ALLCAPS_NAME", result.get(4).getMessageCode());
-		assertEquals(8, result.get(4).getLine());
+		assertEquals(8, result.get(0).getLine());
 	}
 
 	@Test
@@ -284,17 +275,9 @@ public class TestCFBugs_VariableNames {
 		 + "}";
 		cfBugs.process(scriptSrc, "test");
 		final List<BugInfo> result = cfBugs.getBugs().getBugList().values().iterator().next();
-		assertEquals(5, result.size());
+		assertEquals(1, result.size());
 		assertEquals("VAR_ALLCAPS_NAME", result.get(0).getMessageCode());
-		assertEquals(3, result.get(0).getLine());
-		assertEquals("VAR_ALLCAPS_NAME", result.get(1).getMessageCode());
-		assertEquals(4, result.get(1).getLine());
-		assertEquals("VAR_ALLCAPS_NAME", result.get(2).getMessageCode());
-		assertEquals(6, result.get(2).getLine());
-		assertEquals("VAR_ALLCAPS_NAME", result.get(3).getMessageCode());
-		assertEquals(7, result.get(3).getLine());
-		assertEquals("VAR_ALLCAPS_NAME", result.get(4).getMessageCode());
-		assertEquals(8, result.get(4).getLine());
+		assertEquals(8, result.get(0).getLine());
 	}
 
 	@Test

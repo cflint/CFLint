@@ -449,17 +449,20 @@ public class CFLint implements IErrorReporter {
         return retval.substring(0, 300);
     }
 
-    Set<CFScriptStatement> processed = new HashSet<CFScriptStatement>();
+    Set<List<Object>> processed = new HashSet<List<Object>>();
 
     private void process(final CFScriptStatement expression, Context context) {
         if (expression == null) {
             return;
         }
-        if (processed.contains(expression)) {
-            System.err.println("Attempt to process expression twice aborted.  This may be a parsing bug.");
+        if (expression!=null && expression.getToken() != null) {
+            List<Object> checkItem = Arrays.asList(expression,expression.getToken());
+            if(processed.contains(checkItem)){
+            System.err.println("Attempt to process expression twice aborted.  This may be a parsing bug in " + context.getFilename() + " : " + (expression.getToken() != null?expression.getToken().getLine():""));
             return;
+            }
+            processed.add(checkItem);
         }
-        processed.add(expression);
         final Element elem = context.getElement();
         try {
             if (expression instanceof CFCompoundStatement) {

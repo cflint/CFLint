@@ -80,7 +80,7 @@ public class CFLint implements IErrorReporter {
 
     static final String FILE_ERROR = "FILE_ERROR";
     static final String PARSE_ERROR = "PARSE_ERROR";
-    static final String PLUGIN_ERROR = "PLUGIN_ERROR:";
+    static final String PLUGIN_ERROR = "PLUGIN_ERROR";
 
     static final String RESOURCE_BUNDLE_NAME = "com.cflint.cflint";
 

@@ -13,6 +13,8 @@ import com.cflint.plugins.Context;
 import cfml.parsing.cfscript.CFExpression;
 import cfml.parsing.cfscript.CFFullVarExpression;
 import cfml.parsing.cfscript.CFIdentifier;
+import cfml.parsing.cfscript.script.CFPropertyStatement;
+import cfml.parsing.cfscript.script.CFScriptStatement;
 import net.htmlparser.jericho.Element;
 
 public class VarScoper extends CFLintScannerAdapter {

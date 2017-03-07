@@ -5,10 +5,13 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.StringReader;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -55,6 +58,7 @@ import cfml.parsing.cfscript.CFFullVarExpression;
 import cfml.parsing.cfscript.CFFunctionExpression;
 import cfml.parsing.cfscript.CFIdentifier;
 import cfml.parsing.cfscript.CFStatement;
+import cfml.parsing.cfscript.CFStringExpression;
 import cfml.parsing.cfscript.CFVarDeclExpression;
 import cfml.parsing.cfscript.script.CFCase;
 import cfml.parsing.cfscript.script.CFCatchStatement;
@@ -67,6 +71,7 @@ import cfml.parsing.cfscript.script.CFFuncDeclStatement;
 import cfml.parsing.cfscript.script.CFFunctionParameter;
 import cfml.parsing.cfscript.script.CFIfStatement;
 import cfml.parsing.cfscript.script.CFParsedStatement;
+import cfml.parsing.cfscript.script.CFPropertyStatement;
 import cfml.parsing.cfscript.script.CFReturnStatement;
 import cfml.parsing.cfscript.script.CFScriptStatement;
 import cfml.parsing.cfscript.script.CFSwitchStatement;
@@ -473,6 +478,28 @@ public class CFLint implements IErrorReporter {
             } else if (expression instanceof CFExpressionStatement) {
                 scanExpression(expression, context, elem);
                 process(((CFExpressionStatement) expression).getExpression(), elem, context);
+            } else if (expression instanceof CFPropertyStatement) {
+                try{
+                    //TODO fix this to use getPropertyName() when it is available and not null.
+                    Field field = CFPropertyStatement.class.getDeclaredField("propertyName");
+                    field.setAccessible(true);
+                    CFExpression value = (CFExpression)field.get(expression);
+                    if(value == null){
+                        for(Entry<CFIdentifier, CFExpression> entry:((CFPropertyStatement)expression).getAttributes().entrySet()){
+                            if("name".equals(entry.getKey().getName())){
+                                value = entry.getValue();
+                            }
+                        }
+                    }
+                    String name = value.Decompile(0);
+                    handler.addVariable(name.substring(1, name.length()-1));
+                }catch(Exception e){
+                    e.printStackTrace();
+                }
+                scanExpression(expression, context, elem);
+//                for(CFExpression expr: ((CFPropertyStatement) expression).decomposeExpression()){
+//                    process(expr, elem, context);
+//                }
             } else if (expression instanceof CFCompDeclStatement) {
                 CFCompDeclStatement compDeclStatement = (CFCompDeclStatement) expression;
                 final Context componentContext = context.subContext(null);
@@ -488,7 +515,21 @@ public class CFLint implements IErrorReporter {
 
                 scanExpression(compDeclStatement, componentContext, elem);
                 // process the component declaration
-                process(compDeclStatement.getBody(), componentContext);
+                if(compDeclStatement.getBody() instanceof CFCompoundStatement){
+                    //Process property expressions first
+                    for(CFScriptStatement subscript: compDeclStatement.getBody().decomposeScript()){
+                        if(subscript instanceof CFPropertyStatement){
+                            process(subscript, componentContext);
+                        }
+                    }
+                    for(CFScriptStatement subscript: compDeclStatement.getBody().decomposeScript()){
+                        if(!(subscript instanceof CFPropertyStatement)){
+                            process(subscript, componentContext);
+                        }
+                    }
+                }else{
+                    process(compDeclStatement.getBody(), componentContext);
+                }
                 // do endComponent notifications
                 for (final CFLintStructureListener structurePlugin : getStructureListeners(extensions)) {
                     try {
@@ -710,6 +751,7 @@ public class CFLint implements IErrorReporter {
             if (expression instanceof CFVarDeclExpression) {
                 handler.addVariable(((CFVarDeclExpression) expression).getName());
             }
+            
             
             //CFIdentifier should not decompose
             if (expression instanceof CFIdentifier) {

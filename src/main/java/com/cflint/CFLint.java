@@ -416,7 +416,7 @@ public class CFLint implements IErrorReporter {
                 context.getMessages().clear();
             } catch (final Exception e) {
                 printException(e);
-                reportRule(elem, null, context, plugin, PLUGIN_ERROR + exceptionText(e));
+                reportRule(elem, null, context, plugin, PLUGIN_ERROR);
                 fireCFLintException(e, PLUGIN_ERROR, context.getFilename(), null, null, null, null);
             }
         }
@@ -624,7 +624,7 @@ public class CFLint implements IErrorReporter {
                 context.getMessages().clear();
             } catch (final Exception e) {
                 printException(e);
-                reportRule(elem, expression, context, plugin, PLUGIN_ERROR + exceptionText(e));
+                reportRule(elem, expression, context, plugin, PLUGIN_ERROR);
                 fireCFLintException(e, PLUGIN_ERROR, context.getFilename(), null, null, null, null);
             }
         }
@@ -702,7 +702,7 @@ public class CFLint implements IErrorReporter {
                     context.getMessages().clear();
                 } catch (final Exception e) {
                     printException(e);
-                    reportRule(elem, expression, context, plugin, PLUGIN_ERROR + exceptionText(e));
+                    reportRule(elem, expression, context, plugin, PLUGIN_ERROR);
                     fireCFLintException(e, PLUGIN_ERROR, context.getFilename(), null, null, null, null);
                 }
             }

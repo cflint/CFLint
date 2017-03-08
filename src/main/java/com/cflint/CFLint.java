@@ -505,6 +505,11 @@ public class CFLint implements IErrorReporter {
                 final Context componentContext = context.subContext(null);
                 componentContext.setInComponent(true);
                 componentContext.setContextType(ContextType.Component);
+                for(Entry<CFExpression, CFExpression> entry:compDeclStatement.getAttributes().entrySet()){
+                    if(entry.getKey()!=null && entry.getKey().Decompile(0).equalsIgnoreCase("name")){
+                        componentContext.setComponentName(entry.getValue().Decompile(0));
+                    }
+                }
                 // componentContext.setComponentName(compDeclStatement.get); //
                 // TODO
 

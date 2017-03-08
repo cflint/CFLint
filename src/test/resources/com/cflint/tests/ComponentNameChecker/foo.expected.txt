@@ -1,0 +1,17 @@
+[ {
+  "severity" : "INFO",
+  "id" : "COMPONENT_INVALID_NAME",
+  "message" : "COMPONENT_INVALID_NAME",
+  "category" : "CFLINT",
+  "abbrev" : "CI",
+  "locations" : [ {
+    "file" : "src\\test\\resources\\com\\cflint\\tests\\ComponentNameChecker\\foo.cfc",
+    "fileName" : "foo.cfc",
+    "function" : "",
+    "column" : "0",
+    "line" : "1",
+    "message" : "Component name ${component} is not a valid name. Please use CamelCase and start with a capital letter.",
+    "variable" : "",
+    "expression" : "component {\n}"
+  } ]
+} ]

@@ -31,6 +31,7 @@ import com.cflint.config.CFLintConfig;
 import com.cflint.config.CFLintConfiguration;
 import com.cflint.config.ConfigUtils;
 import com.cflint.plugins.exceptions.CFLintExceptionListener;
+import com.cflint.tools.FileUtil;
 
 
 /**
@@ -65,9 +66,9 @@ public class TestFiles {
 	
 	@Test
 	public void test() throws IOException, URISyntaxException, JAXBException, TransformerException {
-		final String inputString = loadFile(sourceFile);
+		final String inputString = FileUtil.loadFile(sourceFile);
 		final File expectedFile = new File(sourceFile.getPath().replaceAll("\\.cf.", ".expected.txt"));
-		final String expectedFileText = expectedFile.exists() ? loadFile(expectedFile) : null;
+		final String expectedFileText = expectedFile.exists() ? FileUtil.loadFile(expectedFile) : null;
 		String expectedText = expectedFileText ;
 	
 		final CFLintConfiguration config = loadPluginInfo(sourceFile.getParentFile());
@@ -140,14 +141,7 @@ public class TestFiles {
 			}
 		}
 	}
-	public static String loadFile(File file) throws IOException {
-		InputStream is = new FileInputStream(file);
-		byte[] b = new byte[is.available()];
-		is.read(b);
-		is.close();
-		return new String(b);
-	}
-	
+
 	public static CFLintConfiguration loadPluginInfo(File folder) throws IOException {
 		CFLintChainedConfig config = new CFLintChainedConfig(CFLintConfig.createDefault());
 		try{

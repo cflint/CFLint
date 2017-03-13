@@ -44,7 +44,11 @@ public class LiteralChecker extends CFLintScannerAdapter {
 
         if (expression instanceof CFLiteral) {
             final CFLiteral literal = (CFLiteral) expression;
-            final String name = literal.Decompile(0).replace("'", "");
+            String name = literal.Decompile(0);
+            		
+            if(name != null){
+            	name = name.replace("'", "");
+            }
 
             if (isCommon(name)) {
                 return;

@@ -12,6 +12,8 @@ import ro.fortsoft.pf4j.Extension;
 @Extension
 public class SelectStarChecker extends CFLintScannerAdapter {
     final CharSequence selectStar = "select*";
+    
+    // ".*[^\\(\\*]+(\\s*\\*\\s*)[^\\w]+"
 
     @Override
     public void expression(final CFExpression expression, final Context context, final BugList bugs) {

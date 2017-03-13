@@ -82,6 +82,10 @@ public class ValidName {
     }
 
     public boolean tooShort(final String name) {
+    	System.out.println("============== Variable to Short ==============");
+    	System.out.println(name);
+    	System.out.println(minLength);
+    	System.out.println("================================================");
         return name.length() < minLength;
     }
 
@@ -121,7 +125,7 @@ public class ValidName {
     }
 
     public boolean hasPrefixOrPostfix(final String name) {
-        final String[] namesToAvoid = { "s", "st", "str", "o", "obj", "b", "q", "a", "arr", "this", "my" };
+        final String[] namesToAvoid = { "s", "st", "str", "o", "obj", "b", "q", "a", "arr", "this", "my", "stu" };
         String sentence = name.replaceAll("_", " ");
         sentence = sentence.replaceAll("(\\p{Ll})(\\p{Lu})", "$1 $2");
         final String[] words = sentence.split(" ");

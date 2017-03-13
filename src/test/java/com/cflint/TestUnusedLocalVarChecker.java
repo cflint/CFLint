@@ -249,5 +249,25 @@ public class TestUnusedLocalVarChecker {
 		assertEquals("UNUSED_LOCAL_VARIABLE", result.get(2).getMessageCode());
 		assertEquals(7, result.get(2).getLine());
 	}
+	
+	@Test
+	public void testAllUnUsedInTags() throws ParseException, IOException {
+		final String tagSrc = "<cfcomponent>\r\n"
+			+ "<cffunction someFunction() {\r\n"
+			+ "<cfset var a = 1>\r\n"
+			+ "<cfset var b = 2>\r\n"
+			+ "<cfset var c = 3>\r\n"
+			+ "<cfset var sdTest = StructNew()>\r\n"
+			+ "<cfoutput>"
+			+ "Test #sdTest.test#"
+			+ "</cfoutput>"
+			+ "<cfreturn c * (a + b)>\r\n"
+			+ "</cffunction>\r\n"
+			+ "</cfcomponent>";
+			
+		cfBugs.process(tagSrc, "test");
+		final Map<String, List<BugInfo>> result = cfBugs.getBugs().getBugList();
+		assertEquals(0, result.size());
+	}
 
 }

@@ -13,6 +13,8 @@ import com.cflint.plugins.Context;
 import cfml.parsing.cfscript.CFExpression;
 import cfml.parsing.cfscript.CFFullVarExpression;
 import cfml.parsing.cfscript.CFIdentifier;
+import cfml.parsing.cfscript.script.CFPropertyStatement;
+import cfml.parsing.cfscript.script.CFScriptStatement;
 import net.htmlparser.jericho.Element;
 
 public class VarScoper extends CFLintScannerAdapter {
@@ -36,6 +38,14 @@ public class VarScoper extends CFLintScannerAdapter {
                 final CFFullVarExpression fullVarExpr = (CFFullVarExpression) expression;
                 expression(fullVarExpr.getExpressions().get(0), context, bugs);
             }
+        }
+    }
+    
+    @Override
+    public void expression(final CFScriptStatement expression, final Context context, final BugList bugs) {
+        if(expression instanceof CFPropertyStatement ){
+            final CFPropertyStatement propertyStatement = (CFPropertyStatement)expression;
+            
         }
     }
 

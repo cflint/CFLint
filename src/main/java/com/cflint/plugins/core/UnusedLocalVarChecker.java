@@ -1,6 +1,5 @@
 package com.cflint.plugins.core;
 
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -19,8 +18,8 @@ public class UnusedLocalVarChecker extends CFLintScannerAdapter {
 
     protected CFScopes scopes = new CFScopes();
     // LinkedHashMap is ordered.
-    protected Map<String, Boolean> localVariables = new LinkedHashMap<String, Boolean>();
-    protected Map<String, Integer> variableLineNo = new HashMap<String, Integer>();
+    protected Map<String, VarInfo> localVariables = new LinkedHashMap<String, VarInfo>();
+    //protected Map<String, Integer> variableLineNo = new HashMap<String, Integer>();
 
     @Override
     public void expression(final CFExpression expression, final Context context, final BugList bugs) {
@@ -32,11 +31,12 @@ public class UnusedLocalVarChecker extends CFLintScannerAdapter {
             if (variable instanceof CFIdentifier) {
                 final String name = ((CFIdentifier) variable).getName();
                 if (!scopes.isCFScoped(name)) {
-                    localVariables.put(name, true);
+                    localVariables.put(name.toLowerCase(), new VarInfo(name, true));
                 } else if (scopes.isLocalScoped(name) && fullVarExpression.getExpressions().size() > 1) {
                     final CFExpression variable2 = fullVarExpression.getExpressions().get(1);
                     if (variable2 instanceof CFIdentifier) {
-                        localVariables.put(((CFIdentifier) variable2).getName(), true);
+                        final String namepart=((CFIdentifier) variable2).getName();
+                        localVariables.put(namepart.toLowerCase(), new VarInfo(namepart, true));
                     }
                 }
             }
@@ -53,7 +53,10 @@ public class UnusedLocalVarChecker extends CFLintScannerAdapter {
             final int lineNo = expression.getLine() + context.startLine() - 1;
             addLocalVariable(name, lineNo);
         } else if (expression instanceof CFIdentifier) {
-            localVariables.put(((CFIdentifier) expression).getName(), true);
+            final String name = ((CFIdentifier) expression).getName();
+            if(name != null){
+                localVariables.put(name.toLowerCase(), new VarInfo(name, true));
+            }
         }
     }
     /*
@@ -71,35 +74,43 @@ public class UnusedLocalVarChecker extends CFLintScannerAdapter {
     */
 
     protected void addLocalVariable(final String variable, final Integer lineNo) {
-        if (localVariables.get(variable) == null) {
-            localVariables.put(variable, false);
+        if (variable != null && localVariables.get(variable.toLowerCase()) == null) {
+            localVariables.put(variable.toLowerCase(), new VarInfo(variable, false));
             setLocalVariableLineNo(variable, lineNo);
         }
     }
 
     protected void setLocalVariableLineNo(final String variable, final Integer lineNo) {
-        if (variableLineNo.get(variable) == null) {
-            variableLineNo.put(variable, lineNo);
+        if (variable != null && localVariables.get(variable.toLowerCase()) != null) {
+            localVariables.get(variable).lineNumber=lineNo;
         }
     }
 
     @Override
     public void startFunction(final Context context, final BugList bugs) {
-        localVariables.clear();
-        variableLineNo.clear();
-    }
+        localVariables.clear();    }
 
     @Override
     public void endFunction(final Context context, final BugList bugs) {
         // sort by line number
-        for (final Map.Entry<String, Boolean> variable : localVariables.entrySet()) {
-            final Boolean used = variable.getValue();
+        for (final VarInfo variable : localVariables.values()) {
+            final Boolean used = variable.used;
             if (!used) {
-                final String name = variable.getKey();
-                final Integer lineNo = variableLineNo.get(name);
+                final String name = variable.name;
+                final Integer lineNo = variable.lineNumber;
                 context.addMessage("UNUSED_LOCAL_VARIABLE", name, lineNo);
             }
         }
     }
 
+    public static class VarInfo{
+        
+        public VarInfo(String name, Boolean used){
+            this.name=name;
+            this.used=used;
+        }
+        Boolean used;
+        Integer lineNumber;
+        String name;
+    }
 }

@@ -50,6 +50,12 @@ public class CFLintScannerAdapter implements CFLintScanner, CFLintStructureListe
         }
         return null;
     }
+    public String getParameterNotNull(final String name) {
+        if (name != null) {
+            return params.get(name.toLowerCase());
+        }
+        return "";
+    }
 
     public int currentLine(final CFExpression expression, final Context context) {
         return expression.getLine() + context.startLine() - 1;

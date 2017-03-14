@@ -182,6 +182,8 @@ public class BugInfo implements Comparable<BugInfo> {
 
             if (bugInfo.component != null) {
                 message = message.replace("${component}", bugInfo.component);
+            }else{
+                message = message.replace("${component}", "unknown");
             }
 
             if (message.contains("{tag}") && elem != null) {

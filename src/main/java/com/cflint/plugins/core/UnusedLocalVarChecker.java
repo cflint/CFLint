@@ -82,7 +82,7 @@ public class UnusedLocalVarChecker extends CFLintScannerAdapter {
 
     protected void setLocalVariableLineNo(final String variable, final Integer lineNo) {
         if (variable != null && localVariables.get(variable.toLowerCase()) != null) {
-            localVariables.get(variable).lineNumber=lineNo;
+            localVariables.get(variable.toLowerCase()).lineNumber=lineNo;
         }
     }
 

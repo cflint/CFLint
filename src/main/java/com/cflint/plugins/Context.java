@@ -10,6 +10,7 @@ import org.antlr.v4.runtime.Token;
 
 import com.cflint.BugInfo;
 import com.cflint.StackHandler;
+import com.cflint.plugins.Context.ContextType;
 import com.cflint.tools.ObjectEquals;
 
 import cfml.parsing.cfscript.CFIdentifier;
@@ -353,5 +354,10 @@ public class Context {
 
     public void setContextType(ContextType contextType) {
         this.contextType = contextType;
+        if(contextType == ContextType.Component && componentName==null){
+            if(filename != null && filename.trim().length()>0){
+                componentName= new File(filename.trim()).getName().replaceAll("[.]\\w+", "");
+            }
+        }
     }
 }

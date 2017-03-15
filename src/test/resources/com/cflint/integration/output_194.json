@@ -5,7 +5,7 @@
   "category" : "CFLINT",
   "abbrev" : "CI",
   "locations" : [ {
-    "file" : "C:\\Users\\Ryan\\git\\CFLint\\src\\test\\resources\\com\\cflint\\integration\\inherit\\test.cfc",
+    "file" : "C:\\Workspace\\CFLint\\src\\test\\resources\\com\\cflint\\integration\\inherit\\test.cfc",
     "fileName" : "test.cfc",
     "function" : "",
     "column" : "0",

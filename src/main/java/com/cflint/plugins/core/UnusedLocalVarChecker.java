@@ -23,8 +23,8 @@ public class UnusedLocalVarChecker extends CFLintScannerAdapter {
 
     @Override
     public void expression(final CFExpression expression, final Context context, final BugList bugs) {
-    	System.out.println(expression);
-    	System.out.println(expression.Decompile(0));
+    	//System.out.println(expression);
+    	//System.out.println(expression.Decompile(0));
         if (expression instanceof CFFullVarExpression) {
             final CFFullVarExpression fullVarExpression = (CFFullVarExpression) expression;
             final CFExpression variable = fullVarExpression.getExpressions().get(0);

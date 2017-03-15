@@ -82,10 +82,10 @@ public class ValidName {
     }
 
     public boolean tooShort(final String name) {
-    	System.out.println("============== Variable to Short ==============");
-    	System.out.println(name);
-    	System.out.println(minLength);
-    	System.out.println("================================================");
+    	//System.out.println("============== Variable to Short ==============");
+    	//System.out.println(name);
+    	//System.out.println(minLength);
+    	//System.out.println("================================================");
         return name.length() < minLength;
     }
 

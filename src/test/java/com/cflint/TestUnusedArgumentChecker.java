@@ -268,5 +268,20 @@ public class TestUnusedArgumentChecker {
 		final Map<String, List<BugInfo>> result = cfBugs.getBugs().getBugList();
 		assertEquals(0, result.size());
 	}
+	
+	@Test
+	public void testArgumentsUsedAgumentCollectionScript() throws ParseException, IOException {
+		final String scriptSrc = "<cfscript>\r\n"
+			+ "component {\r\n"
+			+ "function sum(a,b) {\r\n"
+			+ "return test(argumentCollection = arguments);\r\n"
+			+ "}\r\n"
+			+ "}\r\n"
+			+ "</cfscript>";
+			
+		cfBugs.process(scriptSrc, "test");
+		final Map<String, List<BugInfo>> result = cfBugs.getBugs().getBugList();
+		assertEquals(0, result.size());
+	}
 
 }

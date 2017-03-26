@@ -60,6 +60,7 @@ import cfml.parsing.cfscript.CFIdentifier;
 import cfml.parsing.cfscript.CFMember;
 import cfml.parsing.cfscript.CFStatement;
 import cfml.parsing.cfscript.CFStringExpression;
+import cfml.parsing.cfscript.CFTernaryExpression;
 import cfml.parsing.cfscript.CFVarDeclExpression;
 import cfml.parsing.cfscript.script.CFCase;
 import cfml.parsing.cfscript.script.CFCatchStatement;
@@ -764,7 +765,7 @@ public class CFLint implements IErrorReporter {
                 final String name = ((CFIdentifier) expression).getName();
                 handler.checkVariable(name);
             } 
-            if (expression instanceof CFAssignmentExpression) {
+            if (expression instanceof CFAssignmentExpression && !(expression instanceof CFTernaryExpression)) {
                 final Context assignmentContext = context.subContext(elem);
                 assignmentContext.setInAssignmentExpression(true);
                 process(((CFAssignmentExpression) expression).getLeft(), elem, assignmentContext);

@@ -57,6 +57,7 @@ import cfml.parsing.cfscript.CFExpression;
 import cfml.parsing.cfscript.CFFullVarExpression;
 import cfml.parsing.cfscript.CFFunctionExpression;
 import cfml.parsing.cfscript.CFIdentifier;
+import cfml.parsing.cfscript.CFMember;
 import cfml.parsing.cfscript.CFStatement;
 import cfml.parsing.cfscript.CFStringExpression;
 import cfml.parsing.cfscript.CFVarDeclExpression;
@@ -776,6 +777,9 @@ public class CFLint implements IErrorReporter {
                 for (final CFExpression expr : fullVarExpression.getExpressions()) {
                     if (expr instanceof CFFunctionExpression) {
                         process(expr, elem, context);
+                    }
+                    if (expr instanceof CFMember){
+                        process(((CFMember) expr).getExpression(), elem, context);
                     }
                 }
             }else{

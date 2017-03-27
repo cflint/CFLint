@@ -121,7 +121,7 @@ public class ValidName {
     }
 
     public boolean hasPrefixOrPostfix(final String name) {
-        final String[] namesToAvoid = { "s", "st", "str", "o", "obj", "b", "q", "a", "arr", "this", "my" };
+        final String[] namesToAvoid = { "s", "st", "str", "o", "obj", "b", "q", "a", "arr", "this", "my","stu" };
         String sentence = name.replaceAll("_", " ");
         sentence = sentence.replaceAll("(\\p{Ll})(\\p{Lu})", "$1 $2");
         final String[] words = sentence.split(" ");

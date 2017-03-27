@@ -50,6 +50,9 @@ public class UnusedArgumentChecker extends CFLintScannerAdapter {
                                                                       // sensitive
                 methodArguments.put(name, false);
                 setArgumentLineNo(name, function.getLine()); // close enough?
+                if(isUsed(function.Decompile(0), name)){
+                    methodArguments.put(name, true);
+                }
             }
         }
     }
@@ -116,7 +119,8 @@ public class UnusedArgumentChecker extends CFLintScannerAdapter {
         content = content.replace(" ", "").replace("'", "\"").toLowerCase();
         boolean structKeyCheck = (content.contains("arguments[\"" + name + "\"]"));
         boolean isDefinedCheck = (content.contains("arguments." + name));
-        isUsed = structKeyCheck || isDefinedCheck;
+        boolean isInCollection = (content.replace(" ", "").contains("argumentcollection=arguments"));
+        isUsed = structKeyCheck || isDefinedCheck || isInCollection;
         return isUsed;
     }
 

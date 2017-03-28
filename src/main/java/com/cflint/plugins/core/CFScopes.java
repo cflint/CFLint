@@ -3,6 +3,9 @@ package com.cflint.plugins.core;
 import java.util.Arrays;
 import java.util.Collection;
 
+import cfml.parsing.cfscript.CFExpression;
+import cfml.parsing.cfscript.CFFullVarExpression;
+
 public class CFScopes {
 
     public static final String LOCAL = "local";
@@ -24,11 +27,26 @@ public class CFScopes {
         }
         return "variables";
     }
+    public String getScope(final CFFullVarExpression variable) {
+        CFExpression part1 = variable.decomposeExpression().get(0);
+        if(scopes.contains(part1.Decompile(0).toLowerCase())){
+            return part1.Decompile(0).toLowerCase();
+        }
+        return "variables";
+    }
 
 
     public boolean isScoped(final String variable, final String scope) {
         final String[] parts = parts(variable);
         return parts[0].equalsIgnoreCase(scope);
+    }
+    public boolean isScoped(final CFFullVarExpression variable) {
+        CFExpression part1 = variable.decomposeExpression().get(0);
+        return scopes.contains(part1.Decompile(0).toLowerCase());
+    }
+    public boolean isScoped(final CFFullVarExpression variable,String scope) {
+        CFExpression part1 = variable.decomposeExpression().get(0);
+        return scope != null && scope.equalsIgnoreCase(part1.Decompile(0).toLowerCase());
     }
 
     public boolean isLocalScoped(final String variable) {

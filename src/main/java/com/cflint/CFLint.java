@@ -38,6 +38,7 @@ import com.cflint.plugins.CFLintStructureListener;
 import com.cflint.plugins.Context;
 import com.cflint.plugins.Context.ContextMessage;
 import com.cflint.plugins.Context.ContextType;
+import com.cflint.plugins.core.CFScopes;
 import com.cflint.plugins.exceptions.CFLintExceptionListener;
 import com.cflint.plugins.exceptions.DefaultCFLintExceptionListener;
 import com.cflint.tools.AllowedExtensionsLoader;
@@ -775,6 +776,9 @@ public class CFLint implements IErrorReporter {
                 //Only process function call expressions
             } else if (expression instanceof CFFullVarExpression) {
                 final CFFullVarExpression fullVarExpression = (CFFullVarExpression) expression;
+                if(context.isInAssignmentExpression() && new CFScopes().isScoped(fullVarExpression,"local") && fullVarExpression.getExpressions().size()>1){
+                    handler.addVariable(fullVarExpression.getExpressions().get(1).Decompile(0));
+                }
                 for (final CFExpression expr : fullVarExpression.getExpressions()) {
                     if (expr instanceof CFFunctionExpression) {
                         process(expr, elem, context);

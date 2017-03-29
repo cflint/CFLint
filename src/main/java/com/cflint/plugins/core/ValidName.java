@@ -120,8 +120,12 @@ public class ValidName {
         return false;
     }
 
+    final String[] DEFAULT_PREFIXES_TO_AVOID = { "s", "st", "str", "o", "obj", "b", "q", "a", "arr", "this", "my","stu" };
+    String[] prefixesToAvoid = DEFAULT_PREFIXES_TO_AVOID;
+    String[] suffixesToAvoid = DEFAULT_PREFIXES_TO_AVOID;
+    private String[] requiredPrefixes = null;;
+    
     public boolean hasPrefixOrPostfix(final String name) {
-        final String[] namesToAvoid = { "s", "st", "str", "o", "obj", "b", "q", "a", "arr", "this", "my","stu" };
         String sentence = name.replaceAll("_", " ");
         sentence = sentence.replaceAll("(\\p{Ll})(\\p{Lu})", "$1 $2");
         final String[] words = sentence.split(" ");
@@ -129,16 +133,37 @@ public class ValidName {
         final String lastWord = words[words.length - 1];
 
         if (words.length > 1) {
-            for (final String badName : namesToAvoid) {
+            for (final String badName : prefixesToAvoid) {
                 if (firstWord.toLowerCase().equals(badName)) {
                     return true;
                 }
+            }
+            for (final String badName : suffixesToAvoid) {
                 if (lastWord.toLowerCase().equals(badName)) {
+                    return true;
+                }
+            }
+        }
+        if(requiredPrefixes != null){
+            for (final String badName : requiredPrefixes) {
+                if (firstWord.toLowerCase().equals(badName)) {
                     return true;
                 }
             }
         }
 
         return false;
+    }
+
+    public void setPrefixesToAvoid(String[] prefixesToAvoid) {
+        this.prefixesToAvoid = prefixesToAvoid;
+    }
+
+    public void setSuffixesToAvoid(String[] suffixesToAvoid) {
+        this.suffixesToAvoid = suffixesToAvoid;
+    }
+
+    public void setRequiredPrefixList(String[] prefixes) {
+        this.requiredPrefixes = prefixes;
     }
 }

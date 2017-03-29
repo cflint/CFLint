@@ -67,7 +67,16 @@ public class ArgumentNameChecker extends CFLintScannerAdapter {
         }
 
         final ValidName name = new ValidName(minArgLength, maxArgLength, maxArgWords);
-
+        if (getParameter("FlagArgumentNamePrefix") != null) {
+            name.setPrefixesToAvoid(getParameter("FlagArgumentNamePrefix").split(","));
+        }
+        if (getParameter("FlagArgumentNameSuffix") != null) {
+            name.setSuffixesToAvoid(getParameter("FlagArgumentNameSuffix").split(","));
+        }
+        if (getParameter("RequiredArgumentNamePrefix") != null) {
+            name.setRequiredPrefixList(getParameter("RequiredArgumentNamePrefix").split(","));
+        }
+        
         if (name.isInvalid(argument)) {
             context.addMessage("ARGUMENT_INVALID_NAME", null, this, line);
         }

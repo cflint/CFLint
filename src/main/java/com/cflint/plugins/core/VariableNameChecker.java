@@ -142,6 +142,15 @@ public class VariableNameChecker extends CFLintScannerAdapter {
         final CFScopes scope = new CFScopes();
         final String varScope = scope.getScope(fullVariable);
         final ValidName name = new ValidName(minVarLength, maxVarLength, maxVarWords);
+        if (getParameter("FlagVariableNamePrefix") != null) {
+            name.setPrefixesToAvoid(getParameter("FlagVariableNamePrefix").split(","));
+        }
+        if (getParameter("FlagVariableNameSuffix") != null) {
+            name.setSuffixesToAvoid(getParameter("FlagVariableNameSuffix").split(","));
+        }
+        if (getParameter("RequiredVariableNamePrefix") != null) {
+            name.setRequiredPrefixList(getParameter("RequiredVariableNamePrefix").split(","));
+        }
 
         if (name.isInvalid(variable)) {
             context.getParent(ContextType.Function).addUniqueMessage("VAR_INVALID_NAME", variable, this, line);

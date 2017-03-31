@@ -396,11 +396,15 @@ public class CFLintMain {
     private static CFLintConfig loadConfig(final String configfile) {
         if (configfile != null) {
             try {
+                CFLintPluginInfo pluginInfo=null;
                 if (configfile.toLowerCase().endsWith(".xml")) {
-                    return ConfigUtils.unmarshal(new FileInputStream(configfile), CFLintConfig.class);
+                    pluginInfo= ConfigUtils.unmarshal(new FileInputStream(configfile), CFLintPluginInfo.class);
                 } else {
-                    return ConfigUtils.unmarshalJson(new FileInputStream(configfile), CFLintConfig.class);
+                    pluginInfo= ConfigUtils.unmarshalJson(new FileInputStream(configfile), CFLintPluginInfo.class);
                 }
+                CFLintConfig returnVal = new CFLintConfig();
+                returnVal.setRules(pluginInfo.getRules());
+                return returnVal;
             } catch (final Exception e) {
                 System.err.println("Unable to load config file. " + e.getMessage());
             }

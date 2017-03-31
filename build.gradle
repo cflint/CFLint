@@ -1,3 +1,4 @@
+
 buildscript {
      repositories {
          mavenLocal()
@@ -15,6 +16,7 @@ buildscript {
 plugins {
   id 'java'
   id 'com.github.johnrengelman.shadow' version '1.2.4'
+  id 'eclipse'
 }
 
 apply plugin: "base"

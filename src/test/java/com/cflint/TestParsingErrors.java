@@ -46,14 +46,7 @@ public class TestParsingErrors {
 				"</cfcomponent>";
 		cfBugs.process(cfcSrc,"test");
 		
-		assertEquals(2,cfBugs.getBugs().getFlatBugList().size());
-		final List<BugInfo> result = cfBugs.getBugs().getBugList().get("MISSING_SEMI");
-		assertEquals(1,result.size());
-		assertEquals("MISSING_SEMI",result.get(0).getMessageCode());
-		assertEquals(5,result.get(0).getLine());
-		assertEquals("ERROR",result.get(0).getSeverity());
-		assertEquals("End of statement(;) expected instead of yy",result.get(0).getMessage());
-		
+		assertEquals(1,cfBugs.getBugs().getFlatBugList().size());
 		final List<BugInfo> result2 = cfBugs.getBugs().getBugList().get("MISSING_VAR");
 		assertEquals(1,result2.size());
 		assertEquals("MISSING_VAR",result2.get(0).getMessageCode());

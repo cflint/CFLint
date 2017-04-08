@@ -60,7 +60,6 @@ public class TestCFLint2Files {
 				"}";
 		cfBugs.process(cfcSrc2, "test");
 		final List<BugInfo> result2 = cfBugs.getBugs().getBugList().get("MISSING_SEMI");
-		assertEquals(1, result2.size());
-		assertEquals(4, result2.get(0).getLine());
+		assertEquals(null, result2);
 	}
 }

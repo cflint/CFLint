@@ -398,7 +398,12 @@ public class CFLintMain {
             try {
                 CFLintPluginInfo pluginInfo=null;
                 if (configfile.toLowerCase().endsWith(".xml")) {
-                    pluginInfo= ConfigUtils.unmarshal(new FileInputStream(configfile), CFLintPluginInfo.class);
+                    final Object configObj = ConfigUtils.unmarshal(new FileInputStream(configfile));
+                    if (configObj instanceof CFLintPluginInfo)
+                        pluginInfo= (CFLintPluginInfo) configObj;
+                    else if(configObj instanceof CFLintConfig ){
+                        return (CFLintConfig) configObj;
+                    }
                 } else {
                     pluginInfo= ConfigUtils.unmarshalJson(new FileInputStream(configfile), CFLintPluginInfo.class);
                 }

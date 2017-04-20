@@ -73,6 +73,10 @@ public class ConfigUtils {
     public static <E> E unmarshal(final InputStream inputStream, final Class<E> expectedClass) throws JAXBException {
         return (E) createUnmarshaller().unmarshal(new InputStreamReader(inputStream));
     }
+    
+    public static Object unmarshal(final InputStream inputStream) throws JAXBException {
+        return createUnmarshaller().unmarshal(new InputStreamReader(inputStream));
+    }
 
     public static String marshalJson(final Object obj)
             throws JsonGenerationException, JsonMappingException, IOException {

@@ -52,6 +52,7 @@ public class TestIntegrationFolder {
 	   
 	    @Test
 	    public void test_194() throws Exception{
+	    	File tempFile = File.createTempFile("test_194_", "json");
 	        CFLintMain.main(
 	                new String[]{
 	                "--folder",
@@ -60,19 +61,20 @@ public class TestIntegrationFolder {
 	                "COMPONENT_INVALID_NAME",
 	                "--json",
 	                "--jsonfile",
-	                "src/test/resources/com/cflint/integration/output_194.json"
+	                tempFile.getAbsolutePath()
 	                });
 	        final String expected = loadFile(new File("src/test/resources/com/cflint/integration/output_194.expected.json"));
-	        final String actual = loadFile(new File("src/test/resources/com/cflint/integration/output_194.json"));
+	        final String actual = loadFile(tempFile);
 	        assertEquals( 
 	                expected.replaceAll("\\\\","/").replaceAll("/+","/").replaceAll("\r\n", "\n").replaceAll("\\s\"file\".+\\R", ""),
 	                actual.replaceAll("\\\\","/").replaceAll("/+","/").replaceAll("\r\n", "\n").replaceAll("\\s\"file\".+\\R", ""));
-	    }
+	        tempFile.delete();
+	   }
 	   public static String loadFile(File file) throws IOException {
 	        InputStream is = new FileInputStream(file);
 	        byte[] b = new byte[is.available()];
 	        is.read(b);
 	        is.close();
 	        return new String(b);
-	    }
+	   }
 }

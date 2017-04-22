@@ -26,8 +26,8 @@ public class TestIntegrationFolder {
         final String expected = loadFile(new File("src/test/resources/com/cflint/integration/output.expected.json"));
         final String actual = loadFile(new File("src/test/resources/com/cflint/integration/output.json"));
         assertEquals( 
-                expected.replaceAll("\\\\","/").replaceAll("/+","/").replaceAll("\r\n", "\n").replaceAll("\\s\"file\".+\\R", ""),
-                actual.replaceAll("\\\\","/").replaceAll("/+","/").replaceAll("\r\n", "\n").replaceAll("\\s\"file\".+\\R", ""));
+                expected.replaceAll("\\\\","/").replaceAll("/+","/").replaceAll("\r\n", "\n").replaceAll("\\s\"file\".+\n", ""),
+                actual.replaceAll("\\\\","/").replaceAll("/+","/").replaceAll("\r\n", "\n").replaceAll("\\s\"file\".+\n", ""));
 	}
 
 	   @Test
@@ -45,8 +45,8 @@ public class TestIntegrationFolder {
 	        final String expected = loadFile(new File("src/test/resources/com/cflint/integration/output.rulegroup.expected.json"));
 	        final String actual = loadFile(new File("src/test/resources/com/cflint/integration/output.rulegroup.json"));
 	        assertEquals( 
-	                expected.replaceAll("\\\\","/").replaceAll("/+","/").replaceAll("\r\n", "\n").replaceAll("\\s\"file\".+\\R", ""),
-	                actual.replaceAll("\\\\","/").replaceAll("/+","/").replaceAll("\r\n", "\n").replaceAll("\\s\"file\".+\\R", ""));
+	                expected.replaceAll("\\\\","/").replaceAll("/+","/").replaceAll("\r\n", "\n").replaceAll("\\s\"file\".+\n", ""),
+	                actual.replaceAll("\\\\","/").replaceAll("/+","/").replaceAll("\r\n", "\n").replaceAll("\\s\"file\".+\n", ""));
 	    }
 
 	   

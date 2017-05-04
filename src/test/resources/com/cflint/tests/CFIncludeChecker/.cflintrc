@@ -1,0 +1,12 @@
+{
+  "output" : [ ],
+  "rule" : [ ],
+  "excludes" : [ ],
+  "includes" : [ {
+    "code" : "AVOID_USING_CFINCLUDE_TAG",
+    "messageText" : null,
+    "severity" : null
+  } ],
+  "inheritParent" : false,
+  "inheritPlugins" : true
+}

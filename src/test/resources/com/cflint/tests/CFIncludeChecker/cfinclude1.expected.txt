@@ -1,0 +1,17 @@
+[ {
+  "severity" : "WARNING",
+  "id" : "AVOID_USING_CFINCLUDE_TAG",
+  "message" : "AVOID_USING_CFINCLUDE_TAG",
+  "category" : "CFLINT",
+  "abbrev" : "AU",
+  "locations" : [ {
+    "file" : "src\\test\\resources\\com\\cflint\\tests\\CFIncludeChecker\\cfinclude1.cfc",
+    "fileName" : "cfinclude1.cfc",
+    "function" : "",
+    "column" : "3",
+    "line" : "3",
+    "message" : "Avoid using <cfinclude> tags. Use components instead.",
+    "variable" : "cfinclude",
+    "expression" : "<cfinclude template=\"functions.cfm\">"
+  } ]
+} ]

@@ -33,20 +33,20 @@ import com.cflint.xml.stax.DefaultCFlintResultMarshaller;
 
 public class CFLintTask extends Task {
 
-    boolean showProgress;
-    String includeRule;
-    String excludeRule;
-    File filterFile;
-    File xmlFile;
-    File htmlFile;
-    File textFile;
-    File configFile;
-    String xmlStyle = "cflint";
-    String htmlStyle = "plain.xsl";
-    String extensions;
-    boolean verbose;
-    boolean quiet;
-    boolean showStats;
+    private boolean showProgress;
+    private String includeRule;
+    private String excludeRule;
+    private File filterFile;
+    private File xmlFile;
+    private File htmlFile;
+    private File textFile;
+    private File configFile;
+    private String xmlStyle = "cflint";
+    private String htmlStyle = "plain.xsl";
+    private String extensions;
+    private boolean verbose;
+    private boolean quiet;
+    private boolean showStats;
     private final List<FileSet> filesets = new ArrayList<FileSet>();
 
     @Override

@@ -14,10 +14,10 @@ import com.cflint.plugins.CFLintScanner;
 @XmlRootElement(name = "config")
 public class CFLintConfig implements CFLintConfiguration {
 
-    List<ConfigOutput> output = new ArrayList<CFLintConfig.ConfigOutput>();
-    List<CFLintPluginInfo.PluginInfoRule> rules = new ArrayList<CFLintPluginInfo.PluginInfoRule>();
-    List<PluginMessage> excludes = new ArrayList<PluginMessage>();
-    List<PluginMessage> includes = new ArrayList<PluginMessage>();
+    private List<ConfigOutput> output = new ArrayList<CFLintConfig.ConfigOutput>();
+    private List<CFLintPluginInfo.PluginInfoRule> rules = new ArrayList<CFLintPluginInfo.PluginInfoRule>();
+    private List<PluginMessage> excludes = new ArrayList<PluginMessage>();
+    private List<PluginMessage> includes = new ArrayList<PluginMessage>();
 
     private boolean inheritParent = true;
     private boolean inheritPlugins = true;

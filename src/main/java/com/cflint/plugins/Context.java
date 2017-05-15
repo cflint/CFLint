@@ -23,25 +23,24 @@ public class Context {
         Component, Function, Other
     }
 
-    String filename;
-    String componentName;
-    final Element element;
-    CFFuncDeclStatement functionInfo;
-    ContextType contextType;
+    private String filename;
+    private String componentName;
+    final private Element element;
+    private CFFuncDeclStatement functionInfo;
+    private ContextType contextType;
+    private String functionName;
+    private boolean inAssignmentExpression;
 
-    String functionName;
-    boolean inAssignmentExpression;
+    private boolean inComponent;
+    private final StackHandler callStack;
+    private final CommonTokenStream tokens;
+    private final List<ContextMessage> messages = new ArrayList<ContextMessage>();
+    private Context parent = null;
+    private List<String> ignores = new ArrayList<String>();
 
     public void setInAssignmentExpression(boolean inAssignmentExpression) {
         this.inAssignmentExpression = inAssignmentExpression;
     }
-
-    boolean inComponent;
-    final StackHandler callStack;
-    final CommonTokenStream tokens;
-    final List<ContextMessage> messages = new ArrayList<ContextMessage>();
-    Context parent = null;
-    List<String> ignores = new ArrayList<String>();
 
     public Context(final String filename, final Element element, final CFIdentifier functionName,
             final boolean inAssignmentExpression, final StackHandler handler) {
@@ -178,10 +177,10 @@ public class Context {
     }
 
     public static class ContextMessage {
-        String messageCode;
-        String variable;
-        Integer line;
-        CFLintScanner source;
+        private String messageCode;
+        private String variable;
+        private Integer line;
+        private CFLintScanner source;
 
         public CFLintScanner getSource() {
             return source;

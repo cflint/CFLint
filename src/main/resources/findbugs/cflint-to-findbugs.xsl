@@ -5,8 +5,7 @@
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
 xmlns:sets="http://exslt.org/sets">
 
-	<xsl:output method="xml" indent="yes" standalone="yes" encoding="UTF-8" />
-
+	<xsl:output method="xml" indent="yes" standalone="yes" encoding="UTF-8" omit-xml-declaration="yes" />
 
 	<!-- timestamp="1385123483628" analysisTimestamp="1385123483675" -->
 	<xsl:template match="/">

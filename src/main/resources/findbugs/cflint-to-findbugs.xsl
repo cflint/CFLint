@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!-- CFLint xml to FindBugs xml for HTML output Authors: Ryan Eberly -->
+<!-- CFLint XML to FindBugs XML (https://github.com/findbugsproject/findbugs/blob/master/findbugs/etc/bugcollection.xsd) -->
 
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 

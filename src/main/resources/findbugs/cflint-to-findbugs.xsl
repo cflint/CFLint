@@ -88,7 +88,7 @@
 			<xsl:attribute name="type">
 				<xsl:value-of select="../@category" />
 			</xsl:attribute>
-			<xsl:attribute name="severity">
+			<xsl:attribute name="priority">
 				<xsl:choose>
 					<xsl:when test="../@severity = 'FATAL' or ../@severity = 'Fatal'">1</xsl:when>
 					<xsl:when test="../@severity = 'CRITICAL' or ../@severity = 'Critical'">2</xsl:when>
@@ -108,62 +108,83 @@
 			<ShortMessage>
 				<xsl:value-of select="@message"/>
 			</ShortMessage>
-			
-					<LongMessage><xsl:value-of select="@message"/>
-			<xsl:choose>
-				<xsl:when test="../@message='MISSING_VAR'">
+			<LongMessage>
+				<xsl:value-of select="@message"/>
+				<xsl:choose>
+					<xsl:when test="../@message='MISSING_VAR'">
 						<xsl:text>  Use var or the local scope, or otherwise clarify the scope</xsl:text>
-				</xsl:when>
-			</xsl:choose>
-					</LongMessage>
-
-			<Class classname="com.goodville.common.imageright.publish.ImageRightServiceImpl">
-				<xsl:attribute name="type">
-					<xsl:value-of select="../@category" />
+					</xsl:when>
+				</xsl:choose>
+			</LongMessage>
+			<Class>
+				<xsl:attribute name="classname">
+					<xsl:value-of select="@file" />
 				</xsl:attribute>
-				<Message>
-					<xsl:text>In </xsl:text>
-					<xsl:value-of select="@file"/>
-				</Message>
+				<SourceLine startBytecode="0" endBytecode="0">
+					<xsl:attribute name="classname">
+						<xsl:value-of select="@file" />
+					</xsl:attribute>
+					<xsl:attribute name="start">
+						<xsl:value-of select="@line" />
+					</xsl:attribute>
+					<xsl:attribute name="end">
+						<xsl:value-of select="@line" />
+					</xsl:attribute>
+					<xsl:attribute name="sourcefile">
+						<xsl:value-of select="@fileName" />
+					</xsl:attribute>
+					<xsl:attribute name="sourcepath">
+						<xsl:value-of select="@file" />
+					</xsl:attribute>
+					<Message>
+						<xsl:text>At line: </xsl:text>
+						<xsl:value-of select="@line" />
+					</Message>
+				</SourceLine>
 			</Class>
 			<xsl:if test="@function">
-				<Method> 
+				<Method signature="" isStatic="false">
+					<xsl:attribute name="classname">
+						<xsl:value-of select="@file" />
+					</xsl:attribute>
 					<xsl:attribute name="name">
 						<xsl:value-of select="@function" />
 					</xsl:attribute>
-					<Message>
-						<xsl:text>In function </xsl:text>
-						<xsl:value-of select="@function"/>
-						<xsl:text>()</xsl:text>
-					</Message>
+					<SourceLine startBytecode="0" endBytecode="0">
+						<xsl:attribute name="classname">
+							<xsl:value-of select="@file" />
+						</xsl:attribute>
+						<xsl:attribute name="start">
+							<xsl:value-of select="@line" />
+						</xsl:attribute>
+						<xsl:attribute name="end">
+							<xsl:value-of select="@line" />
+						</xsl:attribute>
+						<xsl:attribute name="sourcefile">
+							<xsl:value-of select="@fileName" />
+						</xsl:attribute>
+						<xsl:attribute name="sourcepath">
+							<xsl:value-of select="@file" />
+						</xsl:attribute>
+						<Message>
+							<xsl:text>In function </xsl:text>
+							<xsl:value-of select="@function"/>
+							<xsl:text>()</xsl:text>
+						</Message>
+					</SourceLine>
 				</Method>
 			</xsl:if>
 
-			<SourceLine startBytecode="0" endBytecode="0">
-				<xsl:attribute name="start">
-					<xsl:value-of select="@line" />
-				</xsl:attribute>
-				<xsl:attribute name="end">
-					<xsl:value-of select="@line" />
-				</xsl:attribute>
-				<xsl:attribute name="sourcefile">
-					<xsl:value-of select="@fileName" />
-				</xsl:attribute>
-				<xsl:attribute name="sourcepath">
-					<xsl:value-of select="@file" />
-				</xsl:attribute>
-				<Message>
-					<xsl:text>At line : </xsl:text>
-					<xsl:value-of select="@line" />
-				</Message>
-			</SourceLine>
 			<xsl:if test="Expression and not(Expression = 'null')">
-			<Expression>
+			<LocalVariable register="0" pc="0" role="">
+				<xsl:attribute name="name">
+					<xsl:value-of select="Expression" />
+				</xsl:attribute>
 				<Message>
 					<xsl:text>Expression: </xsl:text>
 					<xsl:value-of select="Expression" />
 				</Message>
-			</Expression>
+			</LocalVariable>
 			</xsl:if>
 			
 		</BugInstance>

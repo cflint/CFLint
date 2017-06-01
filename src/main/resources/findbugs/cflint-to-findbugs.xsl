@@ -12,11 +12,14 @@
 			<xsl:attribute name="version">
 				<xsl:value-of select="$version"/>
 			</xsl:attribute>
-			<Project projectName="">
-			</Project>
+			<Project projectName=""/>
 			<xsl:apply-templates select="/issues/issue" />
 			<xsl:call-template name="category"/>
 			<xsl:call-template name="pattern"/>
+			<Errors/>
+			<FindBugsSummary timestamp="" total_classes="0" total_bugs="0" total_size="0" num_packages="0"/>
+			<ClassFeatures/>
+			<History/>
 		</BugCollection>
 	</xsl:template>
 	

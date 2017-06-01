@@ -6,7 +6,6 @@
 
 	<xsl:output method="xml" indent="yes" standalone="yes" encoding="UTF-8" omit-xml-declaration="yes" />
 
-	<!-- timestamp="1385123483628" analysisTimestamp="1385123483675" -->
 	<xsl:template match="/">
 		<xsl:variable name="version" select="/issues/@version"/>
 		<BugCollection sequence="0" release="" timestamp="0" analysisTimestamp="0">

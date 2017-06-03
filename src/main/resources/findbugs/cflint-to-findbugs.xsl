@@ -89,7 +89,7 @@
 	<xsl:template match="issue/location">
 		<BugInstance>
 			<xsl:attribute name="type">
-				<xsl:value-of select="../@category" />
+				<xsl:value-of select="../@id" />
 			</xsl:attribute>
 			<xsl:attribute name="priority">
 				<xsl:choose>
@@ -106,7 +106,7 @@
 				<xsl:value-of select="../@abbrev" />
 			</xsl:attribute>
 			<xsl:attribute name="category">
-				<xsl:value-of select="'CFLint'" />
+				<xsl:value-of select="../@category" />
 			</xsl:attribute>
 			<ShortMessage>
 				<xsl:value-of select="@message"/>

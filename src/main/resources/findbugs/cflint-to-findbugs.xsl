@@ -77,7 +77,6 @@
 								<xsl:when test="@message='OUTPUT_ATTR'">
 									<xsl:text>Functions should specify @output="false"</xsl:text>
 								</xsl:when>
-								
 							</xsl:choose>
 						</Details>
 					</BugPattern>
@@ -142,6 +141,8 @@
 					<Message>
 						<xsl:text>At line: </xsl:text>
 						<xsl:value-of select="@line" />
+						<xsl:text>,at column: </xsl:text>
+						<xsl:value-of select="@column" />
 					</Message>
 				</SourceLine>
 			</Class>

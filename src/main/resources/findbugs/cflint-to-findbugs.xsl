@@ -14,15 +14,19 @@
 			</xsl:attribute>
 			<Project projectName=""/>
 			<xsl:apply-templates select="/issues/issue" />
-			<xsl:call-template name="category"/>
-			<xsl:call-template name="pattern"/>
+			<xsl:call-template name="category" />
+			<xsl:call-template name="pattern" />
 			<Errors/>
-			<FindBugsSummary timestamp="" total_classes="0" total_bugs="0" total_size="0" num_packages="0"/>
+			<xsl:call-template name="summary" />
 			<ClassFeatures/>
 			<History/>
 		</BugCollection>
 	</xsl:template>
-	
+
+	<xsl:template name="summary">
+		<FindBugsSummary timestamp="" total_classes="0" total_bugs="0" total_size="0" num_packages="0"/>
+	</xsl:template>
+
 	<xsl:template name="category">
 		<xsl:for-each select="/issues/issue[@category]">
 			<xsl:variable name="cat" select="@category"/>
@@ -38,6 +42,7 @@
 			</xsl:if>
 		</xsl:for-each>
 	</xsl:template>
+
 	<xsl:template name="pattern">
 		<xsl:for-each select="/issues/issue[@message]"> 
 			<xsl:variable name="msg" select="@message"/>

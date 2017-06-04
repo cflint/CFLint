@@ -141,7 +141,7 @@
 					<Message>
 						<xsl:text>At line: </xsl:text>
 						<xsl:value-of select="@line" />
-						<xsl:text>,at column: </xsl:text>
+						<xsl:text>, at column: </xsl:text>
 						<xsl:value-of select="@column" />
 					</Message>
 				</SourceLine>

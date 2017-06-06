@@ -29,5 +29,6 @@ Sonar plugin [here](https://github.com/stepstone-tech/sonar-coldfusion)
 
 Vim [Syntastic](https://github.com/scrooloose/syntastic) support for CFML is available [here](https://github.com/cflint/cflint-syntastic).
 
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/6f68b108f5984861ab6d9190cd50f3e8)](https://www.codacy.com/app/sjmatta/CFLint?utm_source=github.com&utm_medium=referral&utm_content=cflint/CFLint&utm_campaign=badger)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/6f4b01d4d2cb4860b60ac666452071f1)](https://www.codacy.com/app/ryaneberly/CFLint?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=cflint/CFLint&amp;utm_campaign=Badge_Grade)
+
 [![Build Status](https://travis-ci.org/cflint/CFLint.svg?branch=master)](https://travis-ci.org/cflint/CFLint)

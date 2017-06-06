@@ -1,32 +1,58 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!-- CFLint xml to FindBugs xml for HTML output Authors: Ryan Eberly -->
+<!-- CFLint XML to FindBugs XML (https://github.com/findbugsproject/findbugs/blob/master/findbugs/etc/bugcollection.xsd) -->
 
-<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-xmlns:sets="http://exslt.org/sets">
+<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
-	<xsl:output method="xml" indent="yes" standalone="yes" encoding="UTF-8" />
+	<xsl:output method="xml" indent="yes" standalone="yes" encoding="UTF-8" omit-xml-declaration="yes"/>
 
-
-	<!-- timestamp="1385123483628" analysisTimestamp="1385123483675" -->
 	<xsl:template match="/">
 		<xsl:variable name="version" select="/issues/@version"/>
-		<BugCollection sequence="0" release="">
+		<BugCollection sequence="0" release="" timestamp="0" analysisTimestamp="0">
 			<xsl:attribute name="version">
 				<xsl:value-of select="$version"/>
 			</xsl:attribute>
-			<Project projectName="">
-			</Project>
+			<Project projectName=""/>
 			<xsl:apply-templates select="/issues/issue" />
-			<xsl:call-template name="category"/>
-			<xsl:call-template name="pattern"/>
+			<xsl:call-template name="category" />
+			<xsl:call-template name="pattern" />
+			<Errors/>
+			<xsl:call-template name="summary" />
+			<ClassFeatures/>
+			<History/>
 		</BugCollection>
 	</xsl:template>
-	
+
+	<xsl:template name="summary">
+		<FindBugsSummary timestamp="" num_packages="0">
+			<xsl:attribute name="total_bugs">
+				<xsl:value-of select="sum(/issues/counts/count[@code]/@count)"/>
+			</xsl:attribute>
+			<xsl:attribute name="total_classes">
+				<xsl:value-of select="0"/>
+			</xsl:attribute>
+			<xsl:attribute name="total_size">
+				<xsl:value-of select="0"/>
+			</xsl:attribute>
+			<xsl:for-each select="/issues/issue/location[@file]">
+				<xsl:if test="count(preceding::*[./@file = current()/@file]) = 0">
+					<FileStats>
+						<xsl:attribute name="path">
+							<xsl:value-of select="@file" />
+						</xsl:attribute>
+						<xsl:attribute name="bugCount">
+							<xsl:value-of select="count(//@file[.=current()/@file])" />
+						</xsl:attribute>
+					</FileStats>
+				</xsl:if>
+			</xsl:for-each>
+		</FindBugsSummary>
+	</xsl:template>
+
 	<xsl:template name="category">
 		<xsl:for-each select="/issues/issue[@category]">
 			<xsl:variable name="cat" select="@category"/>
-			<xsl:if test="not(preceding-sibling::issue[@category=$cat])"> 
+			<xsl:if test="not(preceding-sibling::issue[@category=$cat])">
 				<BugCategory>
 					<xsl:attribute name="category">
 						<xsl:value-of select="$cat"/>
@@ -38,10 +64,11 @@ xmlns:sets="http://exslt.org/sets">
 			</xsl:if>
 		</xsl:for-each>
 	</xsl:template>
+
 	<xsl:template name="pattern">
-		<xsl:for-each select="/issues/issue[@message]"> 
+		<xsl:for-each select="/issues/issue[@message]">
 			<xsl:variable name="msg" select="@message"/>
-			<xsl:if test="not(preceding-sibling::issue[@message=$msg])"> 
+			<xsl:if test="not(preceding-sibling::issue[@message=$msg])">
 				<xsl:for-each select="/issues/issue[@message=$msg][1]">
 					<BugPattern>
 						<xsl:attribute name="abbrev">
@@ -77,7 +104,6 @@ xmlns:sets="http://exslt.org/sets">
 								<xsl:when test="@message='OUTPUT_ATTR'">
 									<xsl:text>Functions should specify @output="false"</xsl:text>
 								</xsl:when>
-								
 							</xsl:choose>
 						</Details>
 					</BugPattern>
@@ -89,9 +115,9 @@ xmlns:sets="http://exslt.org/sets">
 	<xsl:template match="issue/location">
 		<BugInstance>
 			<xsl:attribute name="type">
-				<xsl:value-of select="../@category" />
+				<xsl:value-of select="../@id" />
 			</xsl:attribute>
-			<xsl:attribute name="severity">
+			<xsl:attribute name="priority">
 				<xsl:choose>
 					<xsl:when test="../@severity = 'FATAL' or ../@severity = 'Fatal'">1</xsl:when>
 					<xsl:when test="../@severity = 'CRITICAL' or ../@severity = 'Critical'">2</xsl:when>
@@ -106,101 +132,93 @@ xmlns:sets="http://exslt.org/sets">
 				<xsl:value-of select="../@abbrev" />
 			</xsl:attribute>
 			<xsl:attribute name="category">
-				<xsl:value-of select="'CFLint'" />
+				<xsl:value-of select="../@category" />
 			</xsl:attribute>
 			<ShortMessage>
 				<xsl:value-of select="@message"/>
 			</ShortMessage>
-			
-					<LongMessage><xsl:value-of select="@message"/>
-			<xsl:choose>
-				<xsl:when test="../@message='MISSING_VAR'">
+			<LongMessage>
+				<xsl:value-of select="@message"/>
+				<xsl:choose>
+					<xsl:when test="../@message='MISSING_VAR'">
 						<xsl:text>  Use var or the local scope, or otherwise clarify the scope</xsl:text>
-				</xsl:when>
-			</xsl:choose>
-					</LongMessage>
-
-			<Class classname="com.goodville.common.imageright.publish.ImageRightServiceImpl">
-				<xsl:attribute name="type">
-					<xsl:value-of select="../@category" />
+					</xsl:when>
+				</xsl:choose>
+			</LongMessage>
+			<Class>
+				<xsl:attribute name="classname">
+					<xsl:value-of select="@file" />
 				</xsl:attribute>
-				<Message>
-					<xsl:text>In </xsl:text>
-					<xsl:value-of select="@file"/>
-				</Message>
+				<SourceLine startBytecode="0" endBytecode="0">
+					<xsl:attribute name="classname">
+						<xsl:value-of select="@file" />
+					</xsl:attribute>
+					<xsl:attribute name="start">
+						<xsl:value-of select="@line" />
+					</xsl:attribute>
+					<xsl:attribute name="end">
+						<xsl:value-of select="@line" />
+					</xsl:attribute>
+					<xsl:attribute name="sourcefile">
+						<xsl:value-of select="@fileName" />
+					</xsl:attribute>
+					<xsl:attribute name="sourcepath">
+						<xsl:value-of select="@file" />
+					</xsl:attribute>
+					<Message>
+						<xsl:text>At line: </xsl:text>
+						<xsl:value-of select="@line" />
+						<xsl:text>, at column: </xsl:text>
+						<xsl:value-of select="@column" />
+					</Message>
+				</SourceLine>
 			</Class>
 			<xsl:if test="@function">
-				<Method> 
+				<Method signature="" isStatic="false">
+					<xsl:attribute name="classname">
+						<xsl:value-of select="@file" />
+					</xsl:attribute>
 					<xsl:attribute name="name">
 						<xsl:value-of select="@function" />
 					</xsl:attribute>
-					<Message>
-						<xsl:text>In function </xsl:text>
-						<xsl:value-of select="@function"/>
-						<xsl:text>()</xsl:text>
-					</Message>
+					<SourceLine startBytecode="0" endBytecode="0">
+						<xsl:attribute name="classname">
+							<xsl:value-of select="@file" />
+						</xsl:attribute>
+						<xsl:attribute name="start">
+							<xsl:value-of select="@line" />
+						</xsl:attribute>
+						<xsl:attribute name="end">
+							<xsl:value-of select="@line" />
+						</xsl:attribute>
+						<xsl:attribute name="sourcefile">
+							<xsl:value-of select="@fileName" />
+						</xsl:attribute>
+						<xsl:attribute name="sourcepath">
+							<xsl:value-of select="@file" />
+						</xsl:attribute>
+						<Message>
+							<xsl:text>In function </xsl:text>
+							<xsl:value-of select="@function"/>
+							<xsl:text>()</xsl:text>
+						</Message>
+					</SourceLine>
 				</Method>
 			</xsl:if>
 
-			<SourceLine startBytecode="0" endBytecode="0">
-				<xsl:attribute name="start">
-					<xsl:value-of select="@line" />
-				</xsl:attribute>
-				<xsl:attribute name="end">
-					<xsl:value-of select="@line" />
-				</xsl:attribute>
-				<xsl:attribute name="sourcefile">
-					<xsl:value-of select="@fileName" />
-				</xsl:attribute>
-				<xsl:attribute name="sourcepath">
-					<xsl:value-of select="@file" />
-				</xsl:attribute>
-				<Message>
-					<xsl:text>At line : </xsl:text>
-					<xsl:value-of select="@line" />
-				</Message>
-			</SourceLine>
 			<xsl:if test="Expression and not(Expression = 'null')">
-			<Expression>
+			<LocalVariable register="0" pc="0" role="">
+				<xsl:attribute name="name">
+					<xsl:value-of select="Expression" />
+				</xsl:attribute>
 				<Message>
 					<xsl:text>Expression: </xsl:text>
 					<xsl:value-of select="Expression" />
 				</Message>
-			</Expression>
+			</LocalVariable>
 			</xsl:if>
 			
 		</BugInstance>
 	</xsl:template>
 
 </xsl:stylesheet>
-
-<!-- vim:set ts=4: -->
-<!-- Stylus Studio meta-information - (c) 2004-2009. Progress Software Corporation. All rights reserved.
-
-<metaInformation>
-	<scenarios>
-		<scenario default="yes" name="Scenario1" userelativepaths="yes" externalpreview="no" url="..\..\..\..\..\..\..\..\..\temp\out.xml" htmlbaseurl="" outputurl="" processortype="saxon8" useresolver="yes" profilemode="0" profiledepth="" profilelength=""
-		          urlprofilexml="" commandline="" additionalpath="" additionalclasspath="" postprocessortype="none" postprocesscommandline="" postprocessadditionalpath="" postprocessgeneratedext="" validateoutput="no" validator="internal"
-		          customvalidator="">
-			<advancedProp name="sInitialMode" value=""/>
-			<advancedProp name="bXsltOneIsOkay" value="true"/>
-			<advancedProp name="bSchemaAware" value="true"/>
-			<advancedProp name="bXml11" value="false"/>
-			<advancedProp name="iValidation" value="0"/>
-			<advancedProp name="bExtensions" value="true"/>
-			<advancedProp name="iWhitespace" value="0"/>
-			<advancedProp name="sInitialTemplate" value=""/>
-			<advancedProp name="bTinyTree" value="true"/>
-			<advancedProp name="bWarnings" value="true"/>
-			<advancedProp name="bUseDTD" value="false"/>
-			<advancedProp name="iErrorHandling" value="fatal"/>
-		</scenario>
-	</scenarios>
-	<MapperMetaTag>
-		<MapperInfo srcSchemaPathIsRelative="yes" srcSchemaInterpretAsXML="no" destSchemaPath="" destSchemaRoot="" destSchemaPathIsRelative="yes" destSchemaInterpretAsXML="no"/>
-		<MapperBlockPosition></MapperBlockPosition>
-		<TemplateContext></TemplateContext>
-		<MapperFilter side="source"></MapperFilter>
-	</MapperMetaTag>
-</metaInformation>
--->

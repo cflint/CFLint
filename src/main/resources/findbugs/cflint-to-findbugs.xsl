@@ -46,7 +46,6 @@
 					</FileStats>
 				</xsl:if>
 			</xsl:for-each>
-
 		</FindBugsSummary>
 	</xsl:template>
 

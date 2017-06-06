@@ -4,7 +4,7 @@
 
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
-	<xsl:output method="xml" indent="yes" standalone="yes" encoding="UTF-8" omit-xml-declaration="yes" />
+	<xsl:output method="xml" indent="yes" standalone="yes" encoding="UTF-8" omit-xml-declaration="yes"/>
 
 	<xsl:template match="/">
 		<xsl:variable name="version" select="/issues/@version"/>
@@ -14,19 +14,45 @@
 			</xsl:attribute>
 			<Project projectName=""/>
 			<xsl:apply-templates select="/issues/issue" />
-			<xsl:call-template name="category"/>
-			<xsl:call-template name="pattern"/>
+			<xsl:call-template name="category" />
+			<xsl:call-template name="pattern" />
 			<Errors/>
-			<FindBugsSummary timestamp="" total_classes="0" total_bugs="0" total_size="0" num_packages="0"/>
+			<xsl:call-template name="summary" />
 			<ClassFeatures/>
 			<History/>
 		</BugCollection>
 	</xsl:template>
-	
+
+	<xsl:template name="summary">
+		<FindBugsSummary timestamp="" num_packages="0">
+			<xsl:attribute name="total_bugs">
+				<xsl:value-of select="sum(/issues/counts/count[@code]/@count)"/>
+			</xsl:attribute>
+			<xsl:attribute name="total_classes">
+				<xsl:value-of select="0"/>
+			</xsl:attribute>
+			<xsl:attribute name="total_size">
+				<xsl:value-of select="0"/>
+			</xsl:attribute>
+			<xsl:for-each select="/issues/issue/location[@file]">
+				<xsl:if test="count(preceding::*[./@file = current()/@file]) = 0">
+					<FileStats>
+						<xsl:attribute name="path">
+							<xsl:value-of select="@file" />
+						</xsl:attribute>
+						<xsl:attribute name="bugCount">
+							<xsl:value-of select="count(//@file[.=current()/@file])" />
+						</xsl:attribute>
+					</FileStats>
+				</xsl:if>
+			</xsl:for-each>
+		</FindBugsSummary>
+	</xsl:template>
+
 	<xsl:template name="category">
 		<xsl:for-each select="/issues/issue[@category]">
 			<xsl:variable name="cat" select="@category"/>
-			<xsl:if test="not(preceding-sibling::issue[@category=$cat])"> 
+			<xsl:if test="not(preceding-sibling::issue[@category=$cat])">
 				<BugCategory>
 					<xsl:attribute name="category">
 						<xsl:value-of select="$cat"/>
@@ -38,10 +64,11 @@
 			</xsl:if>
 		</xsl:for-each>
 	</xsl:template>
+
 	<xsl:template name="pattern">
-		<xsl:for-each select="/issues/issue[@message]"> 
+		<xsl:for-each select="/issues/issue[@message]">
 			<xsl:variable name="msg" select="@message"/>
-			<xsl:if test="not(preceding-sibling::issue[@message=$msg])"> 
+			<xsl:if test="not(preceding-sibling::issue[@message=$msg])">
 				<xsl:for-each select="/issues/issue[@message=$msg][1]">
 					<BugPattern>
 						<xsl:attribute name="abbrev">
@@ -77,7 +104,6 @@
 								<xsl:when test="@message='OUTPUT_ATTR'">
 									<xsl:text>Functions should specify @output="false"</xsl:text>
 								</xsl:when>
-								
 							</xsl:choose>
 						</Details>
 					</BugPattern>
@@ -89,7 +115,7 @@
 	<xsl:template match="issue/location">
 		<BugInstance>
 			<xsl:attribute name="type">
-				<xsl:value-of select="../@category" />
+				<xsl:value-of select="../@id" />
 			</xsl:attribute>
 			<xsl:attribute name="priority">
 				<xsl:choose>
@@ -106,7 +132,7 @@
 				<xsl:value-of select="../@abbrev" />
 			</xsl:attribute>
 			<xsl:attribute name="category">
-				<xsl:value-of select="'CFLint'" />
+				<xsl:value-of select="../@category" />
 			</xsl:attribute>
 			<ShortMessage>
 				<xsl:value-of select="@message"/>
@@ -142,6 +168,8 @@
 					<Message>
 						<xsl:text>At line: </xsl:text>
 						<xsl:value-of select="@line" />
+						<xsl:text>, at column: </xsl:text>
+						<xsl:value-of select="@column" />
 					</Message>
 				</SourceLine>
 			</Class>

@@ -4,7 +4,7 @@
 
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
-	<xsl:output method="xml" indent="yes" standalone="yes" encoding="UTF-8" omit-xml-declaration="yes" />
+	<xsl:output method="xml" indent="yes" standalone="yes" encoding="UTF-8" omit-xml-declaration="yes"/>
 
 	<xsl:template match="/">
 		<xsl:variable name="version" select="/issues/@version"/>
@@ -24,13 +24,36 @@
 	</xsl:template>
 
 	<xsl:template name="summary">
-		<FindBugsSummary timestamp="" total_classes="0" total_bugs="0" total_size="0" num_packages="0"/>
+		<FindBugsSummary timestamp="" num_packages="0">
+			<xsl:attribute name="total_bugs">
+				<xsl:value-of select="sum(/issues/counts/count[@code]/@count)"/>
+			</xsl:attribute>
+			<xsl:attribute name="total_classes">
+				<xsl:value-of select="0"/>
+			</xsl:attribute>
+			<xsl:attribute name="total_size">
+				<xsl:value-of select="0"/>
+			</xsl:attribute>
+			<xsl:for-each select="/issues/issue/location[@file]">
+				<xsl:if test="count(preceding::*[./@file = current()/@file]) = 0">
+					<FileStats>
+						<xsl:attribute name="path">
+							<xsl:value-of select="@file" />
+						</xsl:attribute>
+						<xsl:attribute name="bugCount">
+							<xsl:value-of select="count(//@file[.=current()/@file])" />
+						</xsl:attribute>
+					</FileStats>
+				</xsl:if>
+			</xsl:for-each>
+
+		</FindBugsSummary>
 	</xsl:template>
 
 	<xsl:template name="category">
 		<xsl:for-each select="/issues/issue[@category]">
 			<xsl:variable name="cat" select="@category"/>
-			<xsl:if test="not(preceding-sibling::issue[@category=$cat])"> 
+			<xsl:if test="not(preceding-sibling::issue[@category=$cat])">
 				<BugCategory>
 					<xsl:attribute name="category">
 						<xsl:value-of select="$cat"/>
@@ -44,9 +67,9 @@
 	</xsl:template>
 
 	<xsl:template name="pattern">
-		<xsl:for-each select="/issues/issue[@message]"> 
+		<xsl:for-each select="/issues/issue[@message]">
 			<xsl:variable name="msg" select="@message"/>
-			<xsl:if test="not(preceding-sibling::issue[@message=$msg])"> 
+			<xsl:if test="not(preceding-sibling::issue[@message=$msg])">
 				<xsl:for-each select="/issues/issue[@message=$msg][1]">
 					<BugPattern>
 						<xsl:attribute name="abbrev">

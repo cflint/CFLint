@@ -9,8 +9,8 @@ import com.cflint.plugins.CFLintScanner;
 
 public class CFLintChainedConfig implements CFLintConfiguration {
 
-    final CFLintConfig config;
-    final CFLintConfiguration parent;
+    final private CFLintConfig config;
+    final private CFLintConfiguration parent;
 
     public CFLintChainedConfig(CFLintConfiguration config) {
         super();

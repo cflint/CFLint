@@ -3,14 +3,10 @@
   "rule" : [ ],
   "excludes" : [ ],
   "includes" : [ {
-    "code" : "MISSING_VAR",
+    "code" : "AVOID_USING_CFINCLUDE_TAG",
     "messageText" : null,
     "severity" : null
-  }, {
-    "code" : "CFQUERYPARAM_REQ",
-    "messageText" : null,
-    "severity" : null
-  }],
+  } ],
   "inheritParent" : false,
   "inheritPlugins" : true
 }

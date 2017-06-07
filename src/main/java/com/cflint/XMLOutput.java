@@ -103,11 +103,8 @@ public class XMLOutput {
         }
         // Some message codes (such as parse error are grouped at the function
         // level
-        if (CODE_GROUPBY_FUNCTION.contains(bugInfo.getMessageCode())
-                && safeEquals(prevbugInfo.getFunction(), bugInfo.getFunction())) {
-            return true;
-        }
-        return false;
+        return (CODE_GROUPBY_FUNCTION.contains(bugInfo.getMessageCode())
+                && safeEquals(prevbugInfo.getFunction(), bugInfo.getFunction()));
     }
 
     private boolean safeEquals(final String a, final String b) {

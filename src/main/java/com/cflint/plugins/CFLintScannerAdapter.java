@@ -24,14 +24,23 @@ public class CFLintScannerAdapter implements CFLintScanner, CFLintStructureListe
         super();
     }
 
+    /**
+     * Empty implementation
+     */
     @Override
     public void expression(final CFExpression expression, final Context context, final BugList bugs) {
     }
 
+    /**
+     * Empty implementation
+     */
     @Override
     public void element(final Element element, final Context context, final BugList bugs) {
     }
 
+    /**
+     * Empty implementation
+     */
     @Override
     public void expression(final CFScriptStatement expression, final Context context, final BugList bugs) {
     }

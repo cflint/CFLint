@@ -19,8 +19,8 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 @JsonInclude(Include.NON_NULL)
 public class CFLintPluginInfo {
 
-    List<PluginInfoRule> rules = new ArrayList<CFLintPluginInfo.PluginInfoRule>();
-    List<RuleGroup> ruleGroups = new ArrayList<CFLintPluginInfo.RuleGroup>();
+    private List<PluginInfoRule> rules = new ArrayList<CFLintPluginInfo.PluginInfoRule>();
+    private List<RuleGroup> ruleGroups = new ArrayList<CFLintPluginInfo.RuleGroup>();
 
     public List<PluginInfoRule> getRules() {
         return rules;
@@ -61,6 +61,10 @@ public class CFLintPluginInfo {
     @JsonInclude(Include.NON_NULL)
     public static class RuleGroup {
 
+        private String name;
+        private List<PluginMessage> messages = new ArrayList<PluginMessage>();
+        private String defaultSeverity;
+
         public RuleGroup(String name) {
             super();
             this.name = name;
@@ -69,10 +73,6 @@ public class CFLintPluginInfo {
         public RuleGroup() {
             super();
         }
-
-        String name;
-        List<PluginMessage> messages = new ArrayList<PluginMessage>();
-        String defaultSeverity;
 
         public String getDefaultSeverity() {
             return defaultSeverity;
@@ -218,8 +218,8 @@ public class CFLintPluginInfo {
         }
 
         public static class PluginParameter {
-            String name;
-            String value;
+            private String name;
+            private String value;
 
             public String getName() {
                 return name;

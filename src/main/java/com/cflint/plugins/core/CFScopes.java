@@ -54,7 +54,7 @@ public class CFScopes {
     }
 
     public boolean isFunctionScoped(final String variable) {
-        return isScoped(variable, LOCAL) || isScoped(variable, "variables") || isScoped(variable, "arguments");
+        return isScoped(variable, LOCAL) || isScoped(variable, "variables") || isScoped(variable, "arguments") || isScoped(variable, "cfcatch");
     }
 
 }

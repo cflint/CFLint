@@ -5,15 +5,16 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.Reader;
 import java.util.List;
 
 import org.apache.commons.io.ByteOrderMark;
 import org.apache.commons.io.input.BOMInputStream;
-import org.apache.tools.ant.util.FileUtils;
 
 public class FileUtil {
     
     static final String defaultEncoding = "UTF-8";
+    static final int BUF_SIZE = 8192;
 
     static public String loadFile(final File file) {
         FileInputStream fis = null;
@@ -24,7 +25,7 @@ public class FileUtil {
                 final ByteOrderMark bom = bOMInputStream.getBOM();
                 final String charsetName = bom == null ? defaultEncoding : bom.getCharsetName();
                 InputStreamReader reader = new InputStreamReader(new BufferedInputStream(bOMInputStream), charsetName);
-                return FileUtils.readFully(reader);
+                return readFully(reader);
             } finally {
                 fis.close();
             }
@@ -49,4 +50,47 @@ public class FileUtil {
         }
         return false;
     }
+    
+    /**
+     * Read from reader till EOF.
+     * @param rdr the reader from which to read.
+     * @return the contents read out of the given reader.
+     *
+     * @throws IOException if the contents could not be read out from the
+     *         reader.
+     */
+    public static final String readFully(Reader rdr) throws IOException {
+        return readFully(rdr, BUF_SIZE);
+    }
+
+    /**
+     * Read from reader till EOF.
+     *
+     * @param rdr the reader from which to read.
+     * @param bufferSize the buffer size to use when reading.
+     *
+     * @return the contents read out of the given reader.
+     *
+     * @throws IOException if the contents could not be read out from the
+     *         reader.
+     */
+    public static final String readFully(Reader rdr, int bufferSize)
+        throws IOException {
+        if (bufferSize <= 0) {
+            throw new IllegalArgumentException("Buffer size must be greater "
+                                               + "than 0");
+        }
+        final char[] buffer = new char[bufferSize];
+        int bufferLength = 0;
+        StringBuffer textBuffer = null;
+        while (bufferLength != -1) {
+            bufferLength = rdr.read(buffer);
+            if (bufferLength > 0) {
+                textBuffer = (textBuffer == null) ? new StringBuffer() : textBuffer;
+                textBuffer.append(new String(buffer, 0, bufferLength));
+            }
+        }
+        return (textBuffer == null) ? null : textBuffer.toString();
+    }
+
 }

@@ -1,30 +1,15 @@
 package com.cflint;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.StringReader;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map.Entry;
-import java.util.Set;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import org.antlr.runtime.BitSet;
-import org.antlr.runtime.IntStream;
-import org.antlr.runtime.RecognitionException;
-import org.antlr.v4.runtime.Parser;
-import org.antlr.v4.runtime.Recognizer;
-import org.antlr.v4.runtime.Token;
-import org.antlr.v4.runtime.atn.ATNConfigSet;
-import org.antlr.v4.runtime.dfa.DFA;
-
+import cfml.CFSCRIPTLexer;
+import cfml.CFSCRIPTParser;
+import cfml.parsing.CFMLParser;
+import cfml.parsing.CFMLSource;
+import cfml.parsing.ParserTag;
+import cfml.parsing.cfscript.*;
+import cfml.parsing.cfscript.script.*;
+import cfml.parsing.cfscript.script.CFParsedStatement;
+import cfml.parsing.reporting.IErrorReporter;
+import cfml.parsing.reporting.ParseException;
 import com.cflint.BugInfo.BugInfoBuilder;
 import com.cflint.config.CFLintChainedConfig;
 import com.cflint.config.CFLintConfig;
@@ -83,6 +68,21 @@ import cfml.parsing.reporting.IErrorReporter;
 import cfml.parsing.reporting.ParseException;
 import net.htmlparser.jericho.Element;
 import net.htmlparser.jericho.Source;
+import org.antlr.runtime.BitSet;
+import org.antlr.runtime.IntStream;
+import org.antlr.runtime.RecognitionException;
+import org.antlr.v4.runtime.Parser;
+import org.antlr.v4.runtime.Recognizer;
+import org.antlr.v4.runtime.Token;
+import org.antlr.v4.runtime.atn.ATNConfigSet;
+import org.antlr.v4.runtime.dfa.DFA;
+
+import java.io.*;
+import java.lang.reflect.Field;
+import java.util.*;
+import java.util.Map.Entry;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class CFLint implements IErrorReporter {
 
@@ -171,8 +171,8 @@ public class CFLint implements IErrorReporter {
                     if (file.getName().toLowerCase().startsWith(".cflintrc")) {
                         try {
                             System.out.println("read config " + file);
-                            CFLintConfiguration newConfig = file.getName().toLowerCase().endsWith(".xml")?
-                                    ConfigUtils.unmarshal(new FileInputStream(file), CFLintConfig.class):
+                            CFLintConfiguration newConfig = file.getName().toLowerCase().endsWith(".xml") ?
+                                    ConfigUtils.unmarshal(new FileInputStream(file), CFLintConfig.class) :
                                     ConfigUtils.unmarshalJson(new FileInputStream(file), CFLintConfig.class);
                             configuration = new CFLintChainedConfig(newConfig, configuration);
                         } catch (Exception e) {
@@ -245,7 +245,7 @@ public class CFLint implements IErrorReporter {
     }
 
     public void processStack(final List<Element> elements, final String space, final String filename,
-            final CFIdentifier functionName) throws ParseException, IOException {
+                             final CFIdentifier functionName) throws ParseException, IOException {
         Element commentElement = null;
         for (final Element elem : elements) {
             if (elem.getName().equals("!---")) {
@@ -403,6 +403,13 @@ public class CFLint implements IErrorReporter {
             scanElement(elem, context);
             if (elem.getAttributeValue("value") != null) {
             }
+        } else if (elem.getName().equalsIgnoreCase("cfinclude")) {
+            scanElement(elem, context);
+            final String path = elem.getAttributeValue("template");
+            final File include = new File(new File(context.getFilename()).getParentFile(), path);
+            if (strictInclude || include.exists()){
+                process(FileUtil.loadFile(include), context.getFilename());
+            }
         } else {
             scanElement(elem, context);
             processStack(elem.getChildElements(), space + " ", context);
@@ -463,11 +470,11 @@ public class CFLint implements IErrorReporter {
         if (expression == null) {
             return;
         }
-        if (expression!=null && expression.getToken() != null) {
-            List<Object> checkItem = Arrays.asList(expression,expression.getToken());
-            if(processed.contains(checkItem)){
-            System.err.println("Attempt to process expression twice aborted.  This may be a parsing bug in " + context.getFilename() + " : " + (expression.getToken() != null?expression.getToken().getLine():""));
-            return;
+        if (expression != null && expression.getToken() != null) {
+            List<Object> checkItem = Arrays.asList(expression, expression.getToken());
+            if (processed.contains(checkItem)) {
+                System.err.println("Attempt to process expression twice aborted.  This may be a parsing bug in " + context.getFilename() + " : " + (expression.getToken() != null ? expression.getToken().getLine() : ""));
+                return;
             }
             processed.add(checkItem);
         }
@@ -482,21 +489,21 @@ public class CFLint implements IErrorReporter {
                 scanExpression(expression, context, elem);
                 process(((CFExpressionStatement) expression).getExpression(), elem, context);
             } else if (expression instanceof CFPropertyStatement) {
-                try{
+                try {
                     //TODO fix this to use getPropertyName() when it is available and not null.
                     Field field = CFPropertyStatement.class.getDeclaredField("propertyName");
                     field.setAccessible(true);
-                    CFExpression value = (CFExpression)field.get(expression);
-                    if(value == null){
-                        for(Entry<CFIdentifier, CFExpression> entry:((CFPropertyStatement)expression).getAttributes().entrySet()){
-                            if("name".equals(entry.getKey().getName())){
+                    CFExpression value = (CFExpression) field.get(expression);
+                    if (value == null) {
+                        for (Entry<CFIdentifier, CFExpression> entry : ((CFPropertyStatement) expression).getAttributes().entrySet()) {
+                            if ("name".equals(entry.getKey().getName())) {
                                 value = entry.getValue();
                             }
                         }
                     }
                     String name = value.Decompile(0);
-                    handler.addVariable(name.substring(1, name.length()-1));
-                }catch(Exception e){
+                    handler.addVariable(name.substring(1, name.length() - 1));
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
                 scanExpression(expression, context, elem);
@@ -508,8 +515,8 @@ public class CFLint implements IErrorReporter {
                 final Context componentContext = context.subContext(null);
                 componentContext.setInComponent(true);
                 componentContext.setContextType(ContextType.Component);
-                for(Entry<CFExpression, CFExpression> entry:compDeclStatement.getAttributes().entrySet()){
-                    if(entry.getKey()!=null && entry.getKey().Decompile(0).equalsIgnoreCase("name")){
+                for (Entry<CFExpression, CFExpression> entry : compDeclStatement.getAttributes().entrySet()) {
+                    if (entry.getKey() != null && entry.getKey().Decompile(0).equalsIgnoreCase("name")) {
                         componentContext.setComponentName(entry.getValue().Decompile(0));
                     }
                 }
@@ -523,19 +530,19 @@ public class CFLint implements IErrorReporter {
 
                 scanExpression(compDeclStatement, componentContext, elem);
                 // process the component declaration
-                if(compDeclStatement.getBody() instanceof CFCompoundStatement){
+                if (compDeclStatement.getBody() instanceof CFCompoundStatement) {
                     //Process property expressions first
-                    for(CFScriptStatement subscript: compDeclStatement.getBody().decomposeScript()){
-                        if(subscript instanceof CFPropertyStatement){
+                    for (CFScriptStatement subscript : compDeclStatement.getBody().decomposeScript()) {
+                        if (subscript instanceof CFPropertyStatement) {
                             process(subscript, componentContext);
                         }
                     }
-                    for(CFScriptStatement subscript: compDeclStatement.getBody().decomposeScript()){
-                        if(!(subscript instanceof CFPropertyStatement)){
+                    for (CFScriptStatement subscript : compDeclStatement.getBody().decomposeScript()) {
+                        if (!(subscript instanceof CFPropertyStatement)) {
                             process(subscript, componentContext);
                         }
                     }
-                }else{
+                } else {
                     process(compDeclStatement.getBody(), componentContext);
                 }
                 // do endComponent notifications
@@ -585,7 +592,7 @@ public class CFLint implements IErrorReporter {
                 scanExpression(expression, context, elem);
                 final CFTryCatchStatement cftry = (CFTryCatchStatement) expression;
                 process(cftry.getBody(), context);
-                for ( CFCatchStatement stmt : cftry.getCatchStatements()) {
+                for (CFCatchStatement stmt : cftry.getCatchStatements()) {
                     process(stmt.getCatchBody(), context);
                 }
                 process(cftry.getFinallyStatement(), context);
@@ -624,6 +631,29 @@ public class CFLint implements IErrorReporter {
                     }
                 }
                 handler.pop();
+            } else if (expression instanceof CFIncludeStatement) {
+                scanExpression(expression, context, elem);
+                final List<CFExpression> subExpressions = ((CFStringExpression) ((CFIncludeStatement) expression)
+                        .getTemplate()).getSubExpressions();
+                if (subExpressions.size() == 1 && subExpressions.get(0) instanceof CFLiteral) {
+                    String path = ((CFLiteral) subExpressions.get(0)).getVal();
+                    File include = new File(new File(context.getFilename()).getParentFile(), path);
+                    if(include.exists() || strictInclude){
+                        try {
+                            process(FileUtil.loadFile(include), context.getFilename());
+                        } catch (IOException ex) {
+                            System.err.println("Invalid include file " + context.getFilename());
+                            final int line = context.startLine();
+                            fireCFLintException(ex, PARSE_ERROR, context.getFilename(), line, 1, "",
+                                    "Invalid include file " + expression.getClass());
+                        }
+                    }
+                } else if(strictInclude){
+                    System.err.println("Unable to resolve template value " + context.getFilename());
+                    final int line = context.startLine();
+                    fireCFLintException(new Exception(), PARSE_ERROR, context.getFilename(), line, 1, "",
+                            "Unable to resolve template value " + expression.getClass());
+                }
             } else {
                 scanExpression(expression, context, elem);
             }
@@ -642,7 +672,7 @@ public class CFLint implements IErrorReporter {
     }
 
     protected void doStructureStart(final Element elem, final Context context,
-            Class<? extends CFScriptStatement> class1) {
+                                    Class<? extends CFScriptStatement> class1) {
         for (final CFLintStructureListener structurePlugin : getStructureListeners(extensions)) {
             try {
                 if (class1.equals(CFCompDeclStatement.class)) {
@@ -680,15 +710,10 @@ public class CFLint implements IErrorReporter {
     }
 
     /**
-     * 
      * @param context
-     * @param functionToken
-     * 
-     *            Register any overrides from multi-line comments.
-     * @param context
-     *            The current context.
-     * @param functionToken
-     *            A token that points to the current function
+     * @param functionToken Register any overrides from multi-line comments.
+     * @param context       The current context.
+     * @param functionToken A token that points to the current function
      */
     protected void registerRuleOverrides(Context context, final Token functionToken) {
         final String mlText = PrecedingCommentReader.getMultiLine(context, functionToken);
@@ -704,11 +729,9 @@ public class CFLint implements IErrorReporter {
 
     /**
      * Register any overrides from comment elements before functions/components.
-     * 
-     * @param context
-     *            The current context.
-     * @param commentElement
-     *            The CFML comment element
+     *
+     * @param context        The current context.
+     * @param commentElement The CFML comment element
      */
     protected void applyRuleOverrides(Context context, Element commentElement) {
 
@@ -725,7 +748,7 @@ public class CFLint implements IErrorReporter {
 
     /**
      * Return the exception message, or its class name
-     * 
+     *
      * @param e
      * @return
      */
@@ -759,8 +782,8 @@ public class CFLint implements IErrorReporter {
             if (expression instanceof CFVarDeclExpression) {
                 handler.addVariable(((CFVarDeclExpression) expression).getName());
             }
-            
-            
+
+
             //CFIdentifier should not decompose
             if (expression instanceof CFIdentifier) {
                 final String name = ((CFIdentifier) expression).getName();
@@ -787,7 +810,7 @@ public class CFLint implements IErrorReporter {
                         process(((CFMember) expr).getExpression(), elem, context);
                     }
                 }
-            }else{
+            } else {
                 // Loop into all relevant nested (child) expressions.
                 for (CFExpression child : expression.decomposeExpression()) {
                     process(child, elem, context);
@@ -797,7 +820,7 @@ public class CFLint implements IErrorReporter {
     }
 
     protected void reportRule(final Element elem, final Object expression, final Context context,
-            final CFLintScanner plugin, final String msg) {
+                              final CFLintScanner plugin, final String msg) {
         final String[] exceptionmsg = (msg != null ? msg : "").split(":");
         final String msgcode = exceptionmsg[0].trim();
         final String nameVar = exceptionmsg.length > 1 ? exceptionmsg[1].trim() : null;
@@ -858,7 +881,7 @@ public class CFLint implements IErrorReporter {
     }
 
     protected void reportRule(final Element elem, final Object expression, final Context context,
-            final CFLintScanner pluginParm, final ContextMessage msg) {
+                              final CFLintScanner pluginParm, final ContextMessage msg) {
 
         final String msgcode = msg.getMessageCode();
         final String nameVar = msg.getVariable();
@@ -1061,7 +1084,7 @@ public class CFLint implements IErrorReporter {
     }
 
     protected void fireCFLintException(final Throwable e, final String messageCode, final String filename,
-            final Integer line, final Integer column, final String functionName, final String expression) {
+                                       final Integer line, final Integer column, final String functionName, final String expression) {
         for (final CFLintExceptionListener p : exceptionListeners) {
             p.exceptionOccurred(e, messageCode, filename, line, column, functionName, expression);
         }
@@ -1077,10 +1100,11 @@ public class CFLint implements IErrorReporter {
 
     String currentFile = null;
     Element currentElement = null;
+    private boolean strictInclude;
 
     @Override
     public void syntaxError(final Recognizer<?, ?> recognizer, final Object offendingSymbol, int line,
-            int charPositionInLine, final String msg, final org.antlr.v4.runtime.RecognitionException e) {
+                            int charPositionInLine, final String msg, final org.antlr.v4.runtime.RecognitionException e) {
         final String file = currentFile == null ? "" : currentFile + "\r\n";
         String expression = null;
         if (offendingSymbol instanceof Token) {
@@ -1110,17 +1134,17 @@ public class CFLint implements IErrorReporter {
 
     @Override
     public void reportAmbiguity(final Parser recognizer, final DFA dfa, final int startIndex, final int stopIndex,
-            final boolean exact, final java.util.BitSet ambigAlts, final ATNConfigSet configs) {
+                                final boolean exact, final java.util.BitSet ambigAlts, final ATNConfigSet configs) {
     }
 
     @Override
     public void reportAttemptingFullContext(final Parser recognizer, final DFA dfa, final int startIndex,
-            final int stopIndex, final java.util.BitSet conflictingAlts, final ATNConfigSet configs) {
+                                            final int stopIndex, final java.util.BitSet conflictingAlts, final ATNConfigSet configs) {
     }
 
     @Override
     public void reportContextSensitivity(final Parser recognizer, final DFA dfa, final int startIndex,
-            final int stopIndex, final int prediction, final ATNConfigSet configs) {
+                                         final int stopIndex, final int prediction, final ATNConfigSet configs) {
     }
 
     @Override
@@ -1133,7 +1157,11 @@ public class CFLint implements IErrorReporter {
 
     @Override
     public void reportError(final org.antlr.v4.runtime.IntStream input,
-            final org.antlr.v4.runtime.RecognitionException re, final BitSet follow) {
+                            final org.antlr.v4.runtime.RecognitionException re, final BitSet follow) {
+    }
+
+    public void setStrictIncludes(boolean strictInclude) {
+        this.strictInclude=strictInclude;
     }
 
 }

@@ -69,6 +69,7 @@ public class CFLintMain {
     public static final String TEXTFILE = "textfile";
     public static final String EXTENSIONS = "extensions";
     public static final String CONFIGFILE = "configfile";
+    public static final String STRICT_INCLUDE = "strictinclude";
     public static final String STDIN = "stdin";
     List<String> folder = new ArrayList<String>();
     String filterFile = null;
@@ -96,6 +97,7 @@ public class CFLintMain {
     private Boolean stdOut = false;
     // private String configfile = null;
     boolean showStats = false;
+    private boolean strictInclude;
 
     public static void main(final String[] args) throws Exception {
         final Options options = new Options();
@@ -110,6 +112,7 @@ public class CFLintMain {
         options.addOption("version", false, "show the version number");
         options.addOption("ui", false, "show UI");
         options.addOption(VERBOSE, false, VERBOSE);
+        options.addOption(STRICT_INCLUDE, false, "Check every include and try to parse it");
         options.addOption(SHOWPROGRESS, false, "show progress bar");
         options.addOption("singlethread", false, "show progress bar");
 
@@ -152,6 +155,7 @@ public class CFLintMain {
             System.out.println("CFParser " + cfml.parsing.Version.getVersion());
             return;
         }
+        main.strictInclude = cmd.hasOption(STRICT_INCLUDE);
         if (cmd.hasOption(RULES) || cmd.hasOption("config")) {
             final CFLintPluginInfo pluginInfo = cmd.hasOption(RULES) ? ConfigUtils.loadDefaultPluginInfo()
                     : new CFLintPluginInfo();
@@ -422,6 +426,7 @@ public class CFLintMain {
         cflint.setVerbose(verbose);
         cflint.setLogError(logerror);
         cflint.setQuiet(quiet);
+        cflint.setStrictIncludes(strictInclude);
         cflint.setShowProgress(showprogress);
         cflint.setProgressUsesThread(progressUsesThread);
         if (extensions != null && extensions.trim().length() > 0) {

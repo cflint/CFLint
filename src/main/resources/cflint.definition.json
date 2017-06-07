@@ -162,6 +162,17 @@
       ]
     },
     {
+      "name": "CFBuiltInFunctionChecker",
+      "className": "BuiltInFunctionChecker",
+      "message": [
+        {
+          "code": "AVOID_USING_ISDATE",
+          "messageText": "Avoid using the isDate built-in function.  It is too permissive.  Using isValid() instead.",
+          "severity": "WARNING"
+        }
+      ]
+    },
+    {
       "name": "CFAbortChecker",
       "className": "CFXTagChecker",
       "message": [
@@ -919,7 +930,8 @@
     	"NESTED_CFOUTPUT",
     	"OUTPUT_ATTR",
     	"MISSING_VAR",
-    	"COMPARE_INSTEAD_OF_ASSIGN"
+        "COMPARE_INSTEAD_OF_ASSIGN",
+        "AVOID_USING_ISDATE"
      ]
   }, {
     "name" : "Correctness",

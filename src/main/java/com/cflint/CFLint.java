@@ -480,6 +480,7 @@ public class CFLint implements IErrorReporter {
                 }
             } else if (expression instanceof CFExpressionStatement) {
                 scanExpression(expression, context, elem);
+                registerRuleOverrides(context, (CFExpressionStatement) expression);
                 process(((CFExpressionStatement) expression).getExpression(), elem, context);
             } else if (expression instanceof CFPropertyStatement) {
                 try{
@@ -701,6 +702,32 @@ public class CFLint implements IErrorReporter {
             }
         }
     }
+    
+    /**
+     * @param context       The current context.
+     * @param expression    The expression statement to check
+     */
+    protected void registerRuleOverrides(Context context, final CFExpressionStatement expression) {
+    	if(expression.getTokens() == null) {
+    		return;
+    	}
+        Iterable<Token> tokens = expression.getTokens().getTokens();
+        for (Token currentTok : tokens) {
+            if (currentTok.getLine() == expression.getExpression().getLine()) {
+                if (currentTok.getChannel() == Token.HIDDEN_CHANNEL && currentTok.getType() == CFSCRIPTLexer.LINE_COMMENT) {
+                	final String commentText = currentTok.getText().replaceFirst("^//\\s*", "").trim();
+                	if (commentText.startsWith("cflint ")) {
+                		Pattern pattern = Pattern.compile("cflint\\s+ignore:([\\w,]+).*");
+                		final Matcher matcher = pattern.matcher(commentText);
+                		if (matcher.matches()) {
+                			String ignoreCodes = matcher.group(1);
+                			context.ignore(Arrays.asList(ignoreCodes.split(",\\s*")));
+                		}
+                	}
+                }
+            }
+        }
+    }
 
     /**
      * Register any overrides from comment elements before functions/components.
@@ -722,7 +749,7 @@ public class CFLint implements IErrorReporter {
             }
         }
     }
-
+    
     /**
      * Return the exception message, or its class name
      * 
@@ -926,7 +953,9 @@ public class CFLint implements IErrorReporter {
                     bug.setLine(msg.getLine());
                     bug.setColumn(0);
                 }
-                bugs.add(bug);
+                if (context != null && !context.isSuppressed(bug)) {
+                	bugs.add(bug);
+                }
             }
         }
     }

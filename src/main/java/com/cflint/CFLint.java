@@ -704,10 +704,8 @@ public class CFLint implements IErrorReporter {
     }
     
     /**
-     * @param context
-     * @param functionToken Register any overrides from single-line comments.
      * @param context       The current context.
-     * @param expression the expression statement to check
+     * @param expression    The expression statement to check
      */
     protected void registerRuleOverrides(Context context, final CFExpressionStatement expression) {
     	if(expression.getTokens() == null) {
@@ -715,7 +713,6 @@ public class CFLint implements IErrorReporter {
     	}
         Iterable<Token> tokens = expression.getTokens().getTokens();
         for (Token currentTok : tokens) {
-        	System.out.println(currentTok.toString());
             if (currentTok.getLine() == expression.getExpression().getLine()) {
                 if (currentTok.getChannel() == Token.HIDDEN_CHANNEL && currentTok.getType() == CFSCRIPTLexer.LINE_COMMENT) {
                 	final String commentText = currentTok.getText().replaceFirst("^//\\s*", "").trim();

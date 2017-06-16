@@ -20,7 +20,7 @@ import net.htmlparser.jericho.Element;
 public class Context {
 
     public static enum ContextType {
-        Component, Function, Other
+        Component, Function, Other, QueryLoop
     }
 
     private String filename;

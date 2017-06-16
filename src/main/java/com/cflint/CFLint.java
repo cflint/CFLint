@@ -305,6 +305,15 @@ public class CFLint implements IErrorReporter {
             functionContext.setContextType(ContextType.Function);
             handler.push("function");
             doStructureStart(elem, functionContext, CFFuncDeclStatement.class);
+        } else if (elem.getName().equalsIgnoreCase("cfloop") && elem.getAttributeValue("query")!=null) {
+        	//Give a cfloop for query its own context and set the column names as variables if they are available
+        	final Context loopContext = context.subContext(elem);
+            loopContext.setContextType(ContextType.QueryLoop);
+            handler.push("cfloop");
+            
+            final String qryName = elem.getAttributeValue("query");
+        	handler.addVariables(handler.getQueryColumns(qryName));
+        	doStructureStart(elem, loopContext, CFFuncDeclStatement.class);
         }
 
         if (elem.getName().equalsIgnoreCase("cfset") || elem.getName().equalsIgnoreCase("cfif")
@@ -409,6 +418,17 @@ public class CFLint implements IErrorReporter {
             scanElement(elem, context);
             final List<Element> list = elem.getAllElements();
             processStack(list.subList(1, list.size()), space + " ", context);
+            //Save any columns from the cfquery
+            final String qryName = elem.getAttributeValue("name");
+            if(qryName!=null && qryName.trim().length()>0){
+	            final String qryText = elem.getTextExtractor().toString().toUpperCase();
+	            final Matcher m = Pattern.compile(".*SELECT\\s(\\w+(\\s*,\\s*\\w+)+)\\s+FROM\\s+.*").matcher(qryText);
+	            final List<String> cols = new ArrayList<String>();
+	            if(m.matches()){
+	            	cols.addAll(Arrays.asList(m.group(1).trim().split("\\s*,\\s*")));
+		            handler.addQueryColumnSet(qryName,cols);
+	            }
+            }
         } else if (elem.getName().equalsIgnoreCase("cfqueryparam")) {
             scanElement(elem, context);
             if (elem.getAttributeValue("value") != null) {
@@ -426,6 +446,10 @@ public class CFLint implements IErrorReporter {
 	                includeFileStack.pop();
             	}
             }
+        } else if (elem.getName().equalsIgnoreCase("cfloop") && elem.getAttributeValue("query")!=null) {
+            scanElement(elem, context);
+            processStack(elem.getChildElements(), space + " ", context);
+            handler.pop();
         } else {
             scanElement(elem, context);
             processStack(elem.getChildElements(), space + " ", context);

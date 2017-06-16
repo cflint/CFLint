@@ -1,0 +1,17 @@
+[ {
+  "severity" : "WARNING",
+  "id" : "AVOID_EMPTY_FILES",
+  "message" : "AVOID_EMPTY_FILES",
+  "category" : "CFLINT",
+  "abbrev" : "AE",
+  "locations" : [ {
+    "file" : "src/test/resources/com/cflint/tests/EmptyFile/fooWS.cfc",
+    "fileName" : "fooWS.cfc",
+    "function" : "",
+    "column" : "1",
+    "line" : "1",
+    "message" : "CF file is empty: ${file}",
+    "variable" : "",
+    "expression" : ""
+  } ]
+} ]

@@ -219,23 +219,29 @@ public class CFLint implements IErrorReporter {
     }
 
     public void process(final String src, final String filename) throws ParseException, IOException {
-        fireStartedProcessing(filename);
-        final CFMLSource cfmlSource = new CFMLSource(
-                src != null && src.contains("<!---") ? CommentReformatting.wrap(src) : src);
-        final ParserTag firstTag = getFirstTagQuietly(cfmlSource);
-        final List<Element> elements = new ArrayList<Element>();
-        if (firstTag != null) {
-            elements.addAll(cfmlSource.getChildElements());
-        }
-        if (src.contains("component")
-                && (elements.isEmpty() || elements.get(0).getBegin() > src.indexOf("component"))) {
-            // Check if pure cfscript
-            final CFScriptStatement scriptStatement = cfmlParser.parseScript(src);
-            Context context = new Context(filename, null, null, false, handler, scriptStatement.getTokens());
-            process(scriptStatement, context);
-        } else {
-            processStack(elements, " ", filename, null);
-        }
+    	
+    	fireStartedProcessing(filename);
+    	if(src==null || src.trim().length() == 0){
+            final Context context = new Context(filename, null, null, false, handler);
+    		reportRule(null, null, context,null, new ContextMessage("AVOID_EMPTY_FILES", null));
+    	}else{
+	        final CFMLSource cfmlSource = new CFMLSource(
+	                src.contains("<!---") ? CommentReformatting.wrap(src) : src);
+	        final ParserTag firstTag = getFirstTagQuietly(cfmlSource);
+	        final List<Element> elements = new ArrayList<Element>();
+	        if (firstTag != null) {
+	            elements.addAll(cfmlSource.getChildElements());
+	        }
+	        if (src.contains("component")
+	                && (elements.isEmpty() || elements.get(0).getBegin() > src.indexOf("component"))) {
+	            // Check if pure cfscript
+	            final CFScriptStatement scriptStatement = cfmlParser.parseScript(src);
+	            Context context = new Context(filename, null, null, false, handler, scriptStatement.getTokens());
+	            process(scriptStatement, context);
+	        } else {
+	            processStack(elements, " ", filename, null);
+	        }
+    	}
         fireFinishedProcessing(filename);
     }
 
@@ -944,6 +950,12 @@ public class CFLint implements IErrorReporter {
             final PluginMessage msgInfo = new PluginMessage("PLUGIN_ERROR");
             msgInfo.setMessageText("Error in plugin: ${variable}");
             msgInfo.setSeverity("ERROR");
+            ruleInfo.getMessages().add(msgInfo);
+        }else if ("AVOID_EMPTY_FILES".equals(msgcode)) {
+            ruleInfo = new PluginInfoRule();
+            final PluginMessage msgInfo = new PluginMessage("AVOID_EMPTY_FILES");
+            msgInfo.setMessageText("CF file is empty: ${file}");
+            msgInfo.setSeverity("WARNING");
             ruleInfo.getMessages().add(msgInfo);
         } else {
             if (plugin == null) {

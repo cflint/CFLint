@@ -1,15 +1,30 @@
 package com.cflint;
 
-import cfml.CFSCRIPTLexer;
-import cfml.CFSCRIPTParser;
-import cfml.parsing.CFMLParser;
-import cfml.parsing.CFMLSource;
-import cfml.parsing.ParserTag;
-import cfml.parsing.cfscript.*;
-import cfml.parsing.cfscript.script.*;
-import cfml.parsing.cfscript.script.CFParsedStatement;
-import cfml.parsing.reporting.IErrorReporter;
-import cfml.parsing.reporting.ParseException;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.StringReader;
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map.Entry;
+import java.util.Set;
+import java.util.Stack;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import org.antlr.runtime.BitSet;
+import org.antlr.runtime.IntStream;
+import org.antlr.runtime.RecognitionException;
+import org.antlr.v4.runtime.Parser;
+import org.antlr.v4.runtime.Recognizer;
+import org.antlr.v4.runtime.Token;
+import org.antlr.v4.runtime.atn.ATNConfigSet;
+import org.antlr.v4.runtime.dfa.DFA;
+
 import com.cflint.BugInfo.BugInfoBuilder;
 import com.cflint.config.CFLintChainedConfig;
 import com.cflint.config.CFLintConfig;
@@ -38,11 +53,13 @@ import cfml.CFSCRIPTParser;
 import cfml.parsing.CFMLParser;
 import cfml.parsing.CFMLSource;
 import cfml.parsing.ParserTag;
+import cfml.parsing.cfscript.CFArrayExpression;
 import cfml.parsing.cfscript.CFAssignmentExpression;
 import cfml.parsing.cfscript.CFExpression;
 import cfml.parsing.cfscript.CFFullVarExpression;
 import cfml.parsing.cfscript.CFFunctionExpression;
 import cfml.parsing.cfscript.CFIdentifier;
+import cfml.parsing.cfscript.CFLiteral;
 import cfml.parsing.cfscript.CFMember;
 import cfml.parsing.cfscript.CFStatement;
 import cfml.parsing.cfscript.CFStringExpression;
@@ -58,6 +75,7 @@ import cfml.parsing.cfscript.script.CFForStatement;
 import cfml.parsing.cfscript.script.CFFuncDeclStatement;
 import cfml.parsing.cfscript.script.CFFunctionParameter;
 import cfml.parsing.cfscript.script.CFIfStatement;
+import cfml.parsing.cfscript.script.CFIncludeStatement;
 import cfml.parsing.cfscript.script.CFParsedStatement;
 import cfml.parsing.cfscript.script.CFPropertyStatement;
 import cfml.parsing.cfscript.script.CFReturnStatement;
@@ -68,21 +86,6 @@ import cfml.parsing.reporting.IErrorReporter;
 import cfml.parsing.reporting.ParseException;
 import net.htmlparser.jericho.Element;
 import net.htmlparser.jericho.Source;
-import org.antlr.runtime.BitSet;
-import org.antlr.runtime.IntStream;
-import org.antlr.runtime.RecognitionException;
-import org.antlr.v4.runtime.Parser;
-import org.antlr.v4.runtime.Recognizer;
-import org.antlr.v4.runtime.Token;
-import org.antlr.v4.runtime.atn.ATNConfigSet;
-import org.antlr.v4.runtime.dfa.DFA;
-
-import java.io.*;
-import java.lang.reflect.Field;
-import java.util.*;
-import java.util.Map.Entry;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class CFLint implements IErrorReporter {
 
@@ -819,19 +822,6 @@ public class CFLint implements IErrorReporter {
         }
     }
     
-    /**
-     * Return the exception message, or its class name
-     *
-     * @param e  	The exception
-     * @return
-     */
-    private String exceptionText(final Exception e) {
-        final String msg = e.getMessage();
-        if (msg == null || msg.trim().length() == 0) {
-            return e.getClass().toString();
-        }
-        return msg;
-    }
 /**
  * 
  * @param expression	CF expression

@@ -109,6 +109,9 @@ public class CFLint implements IErrorReporter {
     final List<CFLintExceptionListener> exceptionListeners = new ArrayList<CFLintExceptionListener>();
 
     CFLintConfiguration configuration;
+    
+    // Stack to store include file depth to ensure no recursion
+    final Stack<File> includeFileStack = new Stack<File>();
 
     public CFLint(final CFLintConfiguration configFile) throws IOException {
         configuration = configFile == null ? new CFLintConfig() : configFile;
@@ -188,6 +191,7 @@ public class CFLint implements IErrorReporter {
             }
         } else if (!folderOrFile.isHidden() && FileUtil.checkExtension(folderOrFile, allowedExtensions)) {
             final String src = FileUtil.loadFile(folderOrFile);
+            includeFileStack.clear();
             try {
                 process(src, folderOrFile.getAbsolutePath());
             } catch (final Exception e) {
@@ -408,7 +412,13 @@ public class CFLint implements IErrorReporter {
             final String path = elem.getAttributeValue("template");
             final File include = new File(new File(context.getFilename()).getParentFile(), path);
             if (strictInclude || include.exists()){
-                process(FileUtil.loadFile(include), context.getFilename());
+            	if(includeFileStack.contains(include)){
+            		System.err.println("Terminated a recursive call to include file " + include);
+            	}else{
+	            	includeFileStack.push(include);
+	                process(FileUtil.loadFile(include), context.getFilename());
+	                includeFileStack.pop();
+            	}
             }
         } else {
             scanElement(elem, context);
@@ -637,11 +647,17 @@ public class CFLint implements IErrorReporter {
                 final List<CFExpression> subExpressions = ((CFStringExpression) ((CFIncludeStatement) expression)
                         .getTemplate()).getSubExpressions();
                 if (subExpressions.size() == 1 && subExpressions.get(0) instanceof CFLiteral) {
-                    String path = ((CFLiteral) subExpressions.get(0)).getVal();
-                    File include = new File(new File(context.getFilename()).getParentFile(), path);
+                    final String path = ((CFLiteral) subExpressions.get(0)).getVal();
+                    final File include = new File(new File(context.getFilename()).getParentFile(), path);
                     if(include.exists() || strictInclude){
                         try {
-                            process(FileUtil.loadFile(include), context.getFilename());
+                        	if(includeFileStack.contains(include)){
+                        		System.err.println("Terminated a recursive call to include file " + include);
+                        	}else{
+            	            	includeFileStack.push(include);
+            	                process(FileUtil.loadFile(include), context.getFilename());
+            	                includeFileStack.pop();
+                        	}
                         } catch (IOException ex) {
                             System.err.println("Invalid include file " + context.getFilename());
                             final int line = context.startLine();

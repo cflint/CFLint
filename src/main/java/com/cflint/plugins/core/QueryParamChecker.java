@@ -10,8 +10,6 @@ import com.cflint.plugins.Context;
 import cfml.parsing.cfscript.CFExpression;
 import cfml.parsing.cfscript.CFFunctionExpression;
 import net.htmlparser.jericho.Element;
-import net.htmlparser.jericho.Tag;
-import net.htmlparser.jericho.TextExtractor;
 
 public class QueryParamChecker extends CFLintScannerAdapter {
 

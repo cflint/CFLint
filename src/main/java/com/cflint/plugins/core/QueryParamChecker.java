@@ -10,6 +10,8 @@ import com.cflint.plugins.Context;
 import cfml.parsing.cfscript.CFExpression;
 import cfml.parsing.cfscript.CFFunctionExpression;
 import net.htmlparser.jericho.Element;
+import net.htmlparser.jericho.Tag;
+import net.htmlparser.jericho.TextExtractor;
 
 public class QueryParamChecker extends CFLintScannerAdapter {
 
@@ -30,9 +32,12 @@ public class QueryParamChecker extends CFLintScannerAdapter {
 
     @Override
     public void element(final Element element, final Context context, final BugList bugs) {
-        if (// element.getName().equals("cfcomponent") ||
+        if (
         element.getName().equals("cfquery") && !"query".equalsIgnoreCase(element.getAttributeValue("dbtype"))) {
-            final String content = element.getTextExtractor().toString();
+            String content = element.getTextExtractor().toString();
+            //Todo : Jericho does not support parsing out the cfqueryparam very well.
+            //   the following code will not work when there is a > sign in the expression
+            content = content.replaceAll("<cfqueryparam[^>]*>", "");
             if (content.indexOf("#") > 0) {
                 final Pattern pattern = Pattern.compile("#(.+?)#");
                 final Matcher matcher = pattern.matcher(content);

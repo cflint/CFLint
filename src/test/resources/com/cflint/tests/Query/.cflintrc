@@ -1,0 +1,16 @@
+{
+  "output" : [ ],
+  "rule" : [ ],
+  "excludes" : [ ],
+  "includes" : [ {
+    "code" : "MISSING_VAR",
+    "messageText" : null,
+    "severity" : null
+  }, {
+    "code" : "CFQUERYPARAM_REQ",
+    "messageText" : null,
+    "severity" : null
+  }],
+  "inheritParent" : false,
+  "inheritPlugins" : true
+}

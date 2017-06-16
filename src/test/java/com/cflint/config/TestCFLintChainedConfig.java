@@ -21,7 +21,7 @@ public class TestCFLintChainedConfig {
 	private CFLintChainedConfig nestConfig2;
 	private CFLintChainedConfig nestConfig2b;
 	@Before
-	public void setup() throws Exception{
+	public void setUp() throws Exception{
 		config = ConfigUtils.unmarshal(sconfig0, CFLintConfig.class);
 		config1 = ConfigUtils.unmarshal(sconfig1, CFLintConfig.class);
 		config2 = ConfigUtils.unmarshal(sconfig2, CFLintConfig.class);

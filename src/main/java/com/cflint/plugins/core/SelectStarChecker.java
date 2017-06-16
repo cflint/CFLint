@@ -14,16 +14,6 @@ public class SelectStarChecker extends CFLintScannerAdapter {
     final CharSequence selectStar = "select*";
 
     @Override
-    public void expression(final CFExpression expression, final Context context, final BugList bugs) {
-
-    }
-
-    @Override
-    public void expression(final CFScriptStatement expression, final Context context, final BugList bugs) {
-
-    }
-
-    @Override
     public void element(final Element element, final Context context, final BugList bugs) {
         final String tagName = element.getName();
         if (tagName.equals("cfquery")) {

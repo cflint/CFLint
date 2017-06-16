@@ -16,10 +16,6 @@ public class FunctionLengthChecker extends CFLintScannerAdapter {
     final String severity = "INFO";
 
     @Override
-    public void expression(final CFExpression expression, final Context context, final BugList bugs) {
-    }
-
-    @Override
     public void expression(final CFScriptStatement expression, final Context context, final BugList bugs) {
         if (expression instanceof CFFuncDeclStatement) {
             final CFFuncDeclStatement function = (CFFuncDeclStatement) expression;

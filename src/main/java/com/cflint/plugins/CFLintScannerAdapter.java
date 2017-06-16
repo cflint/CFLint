@@ -96,6 +96,7 @@ public class CFLintScannerAdapter implements CFLintScanner, CFLintStructureListe
      */
     @Override
     public void startFile(final String fileName, final BugList bugs) {
+    	//empty body for Adapter
     }
 
     /**
@@ -103,6 +104,7 @@ public class CFLintScannerAdapter implements CFLintScanner, CFLintStructureListe
      */
     @Override
     public void endFile(final String fileName, final BugList bugs) {
+    	//empty body for Adapter
     }
 
     /**
@@ -110,6 +112,7 @@ public class CFLintScannerAdapter implements CFLintScanner, CFLintStructureListe
      */
     @Override
     public void startComponent(final Context context, final BugList bugs) {
+    	//empty body for Adapter
     }
 
     /**
@@ -117,6 +120,7 @@ public class CFLintScannerAdapter implements CFLintScanner, CFLintStructureListe
      */
     @Override
     public void endComponent(final Context context, final BugList bugs) {
+    	//empty body for Adapter
     }
 
     /**
@@ -124,6 +128,7 @@ public class CFLintScannerAdapter implements CFLintScanner, CFLintStructureListe
      */
     @Override
     public void startFunction(final Context context, final BugList bugs) {
+    	//empty body for Adapter
     }
 
     /**
@@ -131,5 +136,6 @@ public class CFLintScannerAdapter implements CFLintScanner, CFLintStructureListe
      */
     @Override
     public void endFunction(final Context context, final BugList bugs) {
+    	//empty body for Adapter
     }
 }

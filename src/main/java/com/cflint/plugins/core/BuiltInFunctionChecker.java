@@ -27,7 +27,4 @@ public class BuiltInFunctionChecker extends CFLintScannerAdapter {
             }
         }
     }
-    @Override
-    public void expression(final CFScriptStatement expression, final Context context, final BugList bugs) {
-    }
 }

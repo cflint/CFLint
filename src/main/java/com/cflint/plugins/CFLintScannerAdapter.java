@@ -29,6 +29,7 @@ public class CFLintScannerAdapter implements CFLintScanner, CFLintStructureListe
      */
     @Override
     public void expression(final CFExpression expression, final Context context, final BugList bugs) {
+    	//empty body for Adapter
     }
 
     /**
@@ -36,6 +37,7 @@ public class CFLintScannerAdapter implements CFLintScanner, CFLintStructureListe
      */
     @Override
     public void element(final Element element, final Context context, final BugList bugs) {
+    	//empty body for Adapter
     }
 
     /**
@@ -43,6 +45,7 @@ public class CFLintScannerAdapter implements CFLintScanner, CFLintStructureListe
      */
     @Override
     public void expression(final CFScriptStatement expression, final Context context, final BugList bugs) {
+    	//empty body for Adapter
     }
 
     @Override

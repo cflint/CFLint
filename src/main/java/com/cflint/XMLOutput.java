@@ -12,6 +12,7 @@ import java.util.Map.Entry;
 
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.stream.StreamSource;
+import javax.xml.transform.stream.StreamResult;
 
 public class XMLOutput {
 
@@ -129,7 +130,7 @@ public class XMLOutput {
         // output to a Result object.
         System.out.println(sw.toString());
         transformer.transform(new StreamSource(new StringReader(sw.toString())),
-                new javax.xml.transform.stream.StreamResult(writer));
+                new StreamResult(writer));
         writer.close();
     }
 

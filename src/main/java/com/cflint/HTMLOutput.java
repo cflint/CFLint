@@ -9,6 +9,7 @@ import java.io.Writer;
 import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.stream.StreamSource;
+import javax.xml.transform.stream.StreamResult;
 
 public class HTMLOutput {
 
@@ -26,10 +27,10 @@ public class HTMLOutput {
         // System.out.println("Using html style:" + htmlStyle);
         try {
             final InputStream is = getClass().getResourceAsStream("/findbugs/" + htmlStyle);
-            transformer = tFactory.newTransformer(new javax.xml.transform.stream.StreamSource(is));
+            transformer = tFactory.newTransformer(new StreamSource(is));
         } catch (final TransformerConfigurationException e) {
             final InputStream is = getClass().getResourceAsStream("/" + htmlStyle);
-            transformer = tFactory.newTransformer(new javax.xml.transform.stream.StreamSource(is));
+            transformer = tFactory.newTransformer(new StreamSource(is));
         }
 
         final StringWriter sw = new StringWriter();
@@ -38,7 +39,7 @@ public class HTMLOutput {
         // 3. Use the Transformer to transform an XML Source and send the
         // output to a Result object.
         transformer.transform(new StreamSource(new StringReader(sw.toString())),
-                new javax.xml.transform.stream.StreamResult(writer));
+                new StreamResult(writer));
 
         writer.close();
     }

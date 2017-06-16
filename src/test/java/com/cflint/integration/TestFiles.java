@@ -43,9 +43,10 @@ import com.cflint.tools.FileUtil;
 @RunWith(Parameterized.class)
 public class TestFiles {
 	
-	File sourceFile;
+	private File sourceFile;
+	private String testName;
+	private boolean autoReplaceFailed = false;
 	
-	boolean autoReplaceFailed = false;
 	static String singleTestName = null;
 	static {
 		try {
@@ -57,6 +58,7 @@ public class TestFiles {
 	public TestFiles(File sourceFile,String testName) {
 		super();
 		this.sourceFile = sourceFile;
+		this.testName=testName;
 		try {
 			autoReplaceFailed = "Y".equalsIgnoreCase(ResourceBundle.getBundle("com.cflint.test").getString(
 					"AutoReplaceFailedTestResults"));

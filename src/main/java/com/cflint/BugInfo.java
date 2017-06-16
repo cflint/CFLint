@@ -118,11 +118,10 @@ public class BugInfo implements Comparable<BugInfo> {
             return this;
         }
 
-        public BugInfoBuilder setExpression(String expression) {
+        public BugInfoBuilder setExpression(final String expression) {
             if (expression == null) {
-                expression = "";
-            }
-            if (expression.length() > 200) {
+            	bugInfo.expression = "";
+            } else if (expression.length() > 200) {
                 bugInfo.expression = expression.substring(0, 200);
             } else {
                 bugInfo.expression = expression;

@@ -111,7 +111,7 @@ public class ValidName {
 
         for (final String badWord : wordsToAvoid) {
             for (final String word : words) {
-                if (word.toLowerCase().equals(badWord)) {
+                if (word.equalsIgnoreCase(badWord)) {
                     return true;
                 }
             }
@@ -134,19 +134,19 @@ public class ValidName {
 
         if (words.length > 1) {
             for (final String badName : prefixesToAvoid) {
-                if (firstWord.toLowerCase().equals(badName)) {
+                if (firstWord.equalsIgnoreCase(badName)) {
                     return true;
                 }
             }
             for (final String badName : suffixesToAvoid) {
-                if (lastWord.toLowerCase().equals(badName)) {
+                if (lastWord.equalsIgnoreCase(badName)) {
                     return true;
                 }
             }
         }
         if(requiredPrefixes != null){
             for (final String badName : requiredPrefixes) {
-                if (firstWord.toLowerCase().equals(badName)) {
+                if (firstWord.equalsIgnoreCase(badName)) {
                     return true;
                 }
             }

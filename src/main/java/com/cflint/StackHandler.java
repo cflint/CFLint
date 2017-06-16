@@ -156,17 +156,17 @@ public class StackHandler {
     }
 
     public static class Stack {
-        public Stack(final String pathName) {
-            super();
-            this.pathName = pathName;
-        }
-
         private Set<String> variables = new HashSet<String>();
         private Map<String,List<String>> queryColumns = new HashMap<String,List<String>>();
         private Set<String> reported = new HashSet<String>();
         private Map<String, Object> pluginvariables = new HashMap<String, Object>();
         private Set<String> arguments = new HashSet<String>();
         private String pathName;
+
+        public Stack(final String pathName) {
+            super();
+            this.pathName = pathName;
+        }
 
         public String getPathName() {
             return pathName;

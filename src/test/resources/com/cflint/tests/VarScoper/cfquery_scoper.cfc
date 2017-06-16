@@ -9,7 +9,7 @@
 		
 		<cfloop query="local.something">
 		    <cfscript>
-		        variables.siteDetailList[siteID] = 123;
+		        siteID = 123;
 		    </cfscript>
 		</cfloop>
 		<cfset siteID=1/>

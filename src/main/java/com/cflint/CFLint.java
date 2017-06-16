@@ -880,12 +880,20 @@ public class CFLint implements IErrorReporter {
                 if(context.isInAssignmentExpression() && new CFScopes().isScoped(fullVarExpression,"local") && fullVarExpression.getExpressions().size()>1){
                     handler.addVariable(fullVarExpression.getExpressions().get(1).Decompile(0));
                 }
+                Context subContext = context.subContext(context.getElement());
+                subContext.setInAssignmentExpression(false);
                 for (final CFExpression expr : fullVarExpression.getExpressions()) {
                     if (expr instanceof CFFunctionExpression) {
-                        process(expr, elem, context);
+                        process(expr, elem, subContext);
                     }
                     if (expr instanceof CFMember){
-                        process(((CFMember) expr).getExpression(), elem, context);
+                        process(((CFMember) expr).getExpression(), elem, subContext);
+                    }
+                    if (expr instanceof CFArrayExpression){
+                    	CFArrayExpression aryExpr = (CFArrayExpression)expr;
+                    	if(aryExpr.getElements().size()>0){
+                    		process(aryExpr.getElements().get(0), elem, subContext);
+                    	}
                     }
                 }
             } else {

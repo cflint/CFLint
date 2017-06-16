@@ -161,12 +161,12 @@ public class StackHandler {
             this.pathName = pathName;
         }
 
-        Set<String> variables = new HashSet<String>();
-        Map<String,List<String>> queryColumns = new HashMap<String,List<String>>();
-        Set<String> reported = new HashSet<String>();
-        Map<String, Object> pluginvariables = new HashMap<String, Object>();
-        Set<String> arguments = new HashSet<String>();
-        String pathName;
+        private Set<String> variables = new HashSet<String>();
+        private Map<String,List<String>> queryColumns = new HashMap<String,List<String>>();
+        private Set<String> reported = new HashSet<String>();
+        private Map<String, Object> pluginvariables = new HashMap<String, Object>();
+        private Set<String> arguments = new HashSet<String>();
+        private String pathName;
 
         public String getPathName() {
             return pathName;

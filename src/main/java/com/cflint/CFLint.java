@@ -757,8 +757,7 @@ public class CFLint implements IErrorReporter {
     }
 
     /**
-     * @param context
-     * @param functionToken Register any overrides from multi-line comments.
+     Register any overrides from multi-line comments.
      * @param context       The current context.
      * @param functionToken A token that points to the current function
      */
@@ -775,8 +774,6 @@ public class CFLint implements IErrorReporter {
     }
     
     /**
-     * @param context
-     * @param functionToken Register any overrides from single-line comments.
      * @param context       The current context.
      * @param expression the expression statement to check
      */
@@ -825,7 +822,7 @@ public class CFLint implements IErrorReporter {
     /**
      * Return the exception message, or its class name
      *
-     * @param e
+     * @param e  	The exception
      * @return
      */
     private String exceptionText(final Exception e) {
@@ -835,7 +832,12 @@ public class CFLint implements IErrorReporter {
         }
         return msg;
     }
-
+/**
+ * 
+ * @param expression	CF expression
+ * @param elem			Jericho HTML element
+ * @param oldcontext	The previous context
+ */
     private void process(final CFExpression expression, final Element elem, Context oldcontext) {
 
         if (expression != null) {
@@ -902,7 +904,11 @@ public class CFLint implements IErrorReporter {
         final String nameVar = exceptionmsg.length > 1 ? exceptionmsg[1].trim() : null;
         reportRule(elem, expression, context, plugin, new ContextMessage(msgcode, nameVar));
     }
-
+/**
+ *  Returns the previous sibling of a given element
+ * @param element   The Jericho HTML element object
+ * @return
+ */
     public static Element getPreviousSibling(final Element element) {
 
         if (element.getParentElement() != null) {
@@ -921,8 +927,11 @@ public class CFLint implements IErrorReporter {
         return null;
     }
 
-    /*
+    /**
      * Check for <!--- CFLINT-DISABLE ---> in the tag hierarchy
+     * @param element	The element to process
+     * @param msgcode	The message code to check for
+     * @return
      */
     protected boolean checkForDisabled(final Element element, final String msgcode) {
         Element elem = element;

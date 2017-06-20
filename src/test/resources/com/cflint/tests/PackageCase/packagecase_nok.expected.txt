@@ -5,8 +5,8 @@
   "category" : "CFLINT",
   "abbrev" : "PC",
   "locations" : [ {
-    "file" : "src/test/resources/com/cflint/tests/PackageCase/packagecase_nok.cfc.2",
-    "fileName" : "packagecase_nok.cfc.2",
+    "file" : "src/test/resources/com/cflint/tests/PackageCase/packagecase_nok.cfc",
+    "fileName" : "packagecase_nok.cfc",
     "function" : "",
     "column" : "1",
     "line" : "2",

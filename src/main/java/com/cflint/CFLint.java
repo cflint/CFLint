@@ -34,6 +34,7 @@ import com.cflint.config.CFLintPluginInfo.PluginInfoRule.PluginMessage;
 import com.cflint.config.ConfigUtils;
 import com.cflint.listeners.ScanProgressListener;
 import com.cflint.plugins.CFLintScanner;
+import com.cflint.plugins.CFLintSet;
 import com.cflint.plugins.CFLintStructureListener;
 import com.cflint.plugins.Context;
 import com.cflint.plugins.Context.ContextMessage;
@@ -142,6 +143,9 @@ public class CFLint implements IErrorReporter {
                 if (ruleInfo != null) {
                     ruleInfo.setPluginInstance(scanner);
                 }
+            }
+            if(scanner instanceof CFLintSet){
+            	((CFLintSet)scanner).setCFLint(this);
             }
         }
         CFLintFilter filter;
@@ -963,7 +967,7 @@ public class CFLint implements IErrorReporter {
         return false;
     }
 
-    protected void reportRule(final Element elem, final Object expression, final Context context,
+    public void reportRule(final Element elem, final Object expression, final Context context,
                               final CFLintScanner pluginParm, final ContextMessage msg) {
 
         final String msgcode = msg.getMessageCode();
@@ -1162,8 +1166,12 @@ public class CFLint implements IErrorReporter {
     }
 
     public void addScanner(final CFLintScanner plugin) {
-        if (plugin != null)
+        if (plugin != null){
             extensions.add(plugin);
+            if(plugin instanceof CFLintSet){
+            	((CFLintSet)plugin).setCFLint(this);
+            }
+        }
     }
 
     public List<CFLintScanner> getScanners() {

@@ -88,6 +88,12 @@ public class TestFiles {
 			}
 		});
 		cflint.process(inputString, sourceFile.getPath());
+		//Support the processing of a second source file in a single test
+		File nextFile = new File(sourceFile.getPath()+ ".2");
+		if(nextFile.exists()){
+			final String inputString2 = FileUtil.loadFile(nextFile);
+			cflint.process(inputString2, nextFile.getPath().replaceAll("[.]2$", ""));		
+		}
 		//List<BugInfo> result = cflint.getBugs().getFlatBugList();
 		StringWriter writer = new StringWriter();
 		new JSONOutput().output(cflint.getBugs(), writer, false);

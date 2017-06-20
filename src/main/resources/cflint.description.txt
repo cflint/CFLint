@@ -71,3 +71,4 @@ UNUSED_LOCAL_VARIABLE:Unused local variable.
 UNUSED_METHOD_ARGUMENT:Unused method argument.
 AVOID_USING_CFSETTING_DEBUG:Avoid using showDebugOutput attribute on cfsetting.
 COMPARE_INSTEAD_OF_ASSIGN:Using comparision where assignment was probably meant.
+PACKAGE_CASE_MISMATCH:Warn with package case does not match its use.

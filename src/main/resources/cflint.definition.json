@@ -921,7 +921,17 @@
           "value": "global"
         }
       ]
-    }    
+    },
+    {
+      "name": "PackageCaseChecker",
+      "message": [
+        {
+          "code": "PACKAGE_CASE_MISMATCH",
+          "messageText": "The case of the package folder and the object declaration do not match for ${variable}.",
+          "severity": "WARNING"
+        }
+      ]
+    }
   ],
   "ruleGroup" : [ {
     "name" : "BugProne",
@@ -1030,7 +1040,8 @@
 		"COMPONENT_TOO_LONG",
 		"COMPONENT_TOO_WORDY",
 		"COMPONENT_IS_TEMPORARY",
-		"COMPONENT_HAS_PREFIX_OR_POSTFIX"
+		"COMPONENT_HAS_PREFIX_OR_POSTFIX",
+		"PACKAGE_CASE_MISMATCH"
     ]
   }, 
   {

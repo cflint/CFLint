@@ -495,6 +495,10 @@ public class CFLintMain {
             final Writer jsonwriter = stdOut ? new OutputStreamWriter(System.out) : new FileWriter(jsonOutFile);
             new JSONOutput().output(cflint.getBugs(), jsonwriter, showStats);
         }
+        if (verbose) {
+            display("Total files scanned: " + cflint.getStats().getFileCount());
+            display("Total size: " + cflint.getStats().getTotalSize());
+        }
     }
 
     private CFLintConfiguration buildConfigChain() {

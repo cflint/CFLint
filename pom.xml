@@ -59,7 +59,7 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<cfparser.version>2.4.5</cfparser.version>
+		<cfparser.version>2.4.6</cfparser.version>
 	</properties>
   
 	<dependencies>
@@ -95,8 +95,7 @@
 		<dependency>
 			<groupId>org.antlr</groupId>
 			<artifactId>antlr4-runtime</artifactId>
-			<version>4.6</version>
-			<scope>compile</scope>
+			<version>4.7</version>
 		</dependency>
 		<dependency>
 			<groupId>org.antlr</groupId>
@@ -463,4 +462,5 @@
 			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2</url>
 		</repository>
 	</distributionManagement>
+	<packaging>war</packaging>
 </project>

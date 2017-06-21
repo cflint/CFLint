@@ -10,7 +10,6 @@ import org.antlr.v4.runtime.Token;
 
 import com.cflint.BugInfo;
 import com.cflint.StackHandler;
-import com.cflint.plugins.Context.ContextType;
 import com.cflint.tools.ObjectEquals;
 
 import cfml.parsing.cfscript.CFIdentifier;
@@ -38,7 +37,7 @@ public class Context {
     private Context parent = null;
     private List<String> ignores = new ArrayList<String>();
 
-    public void setInAssignmentExpression(boolean inAssignmentExpression) {
+	public void setInAssignmentExpression(boolean inAssignmentExpression) {
         this.inAssignmentExpression = inAssignmentExpression;
     }
 

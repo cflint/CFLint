@@ -106,10 +106,15 @@ public class CFLint implements IErrorReporter {
     boolean quiet = false;
     boolean showProgress = false;
     boolean progressUsesThread = true;
+    CFLintStats stats = new CFLintStats();
 
     // constants
 
-    final List<ScanProgressListener> scanProgressListeners = new ArrayList<ScanProgressListener>();
+    public CFLintStats getStats() {
+		return stats;
+	}
+
+	final List<ScanProgressListener> scanProgressListeners = new ArrayList<ScanProgressListener>();
     final List<CFLintExceptionListener> exceptionListeners = new ArrayList<CFLintExceptionListener>();
 
     CFLintConfiguration configuration;
@@ -200,6 +205,7 @@ public class CFLint implements IErrorReporter {
             final String src = FileUtil.loadFile(folderOrFile);
             includeFileStack.clear();
             try {
+            	stats.addFile(src.length());
                 process(src, folderOrFile.getAbsolutePath());
             } catch (final Exception e) {
                 printException(e);

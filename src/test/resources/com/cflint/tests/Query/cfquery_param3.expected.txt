@@ -5,13 +5,13 @@
   "category" : "CFLINT",
   "abbrev" : "CR",
   "locations" : [ {
-    "file" : "src\\test\\resources\\com\\cflint\\tests\\Query\\cfquery_param3.cfc",
+    "file" : "src/test/resources/com/cflint/tests/Query/cfquery_param3.cfc",
     "fileName" : "cfquery_param3.cfc",
     "function" : "foo",
-    "column" : "3",
-    "line" : "3",
-    "message" : "<cfquery name=\"local.something\"> should use <cfqueryparam/> for security reasons.",
-    "variable" : "local.something",
-    "expression" : "<cfquery name=\"local.something\" datasource=\"#variables.DSN#\">\r\n\t\t      SELECT top #arguments.count#\r\n\t\t      \tfooCol1, siteID, fooCol3\r\n\t\t      FROM\r\n\t\t      FooTable\r\n\t\t</cfquery>"
+    "column" : "0",
+    "line" : "4",
+    "message" : "<cfquery> should use <cfqueryparam/> for variable 'arguments.count'.",
+    "variable" : "arguments.count",
+    "expression" : "<cfquery name=/"local.something/" datasource=/"#variables.DSN#/">/r/n/t/t      SELECT top #arguments.count#/r/n/t/t      /tfooCol1, siteID, fooCol3/r/n/t/t      FROM/r/n/t/t      FooTable/r/n/t/t</cfquery>"
   } ]
 } ]

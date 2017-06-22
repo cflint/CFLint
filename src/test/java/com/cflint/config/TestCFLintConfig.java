@@ -51,18 +51,18 @@ public class TestCFLintConfig {
 		assertEquals(expected, sw.toString().trim());
 	}
 	
-	@Test
-	public void test2() throws IOException{
-    		StringWriter writer = new StringWriter();
-    	JsonFactory jsonF = new JsonFactory();
-    	JsonGenerator jg = jsonF.createGenerator(writer);
-    	jg.writeStartArray();
-    
-    	jg.writeEndArray();
-    	jg.close();
-    	writer.close();
-    	System.out.println(writer);
-    }
+//	@Test
+//	public void test2() throws IOException{
+//    		StringWriter writer = new StringWriter();
+//    	JsonFactory jsonF = new JsonFactory();
+//    	JsonGenerator jg = jsonF.createGenerator(writer);
+//    	jg.writeStartArray();
+//    
+//    	jg.writeEndArray();
+//    	jg.close();
+//    	writer.close();
+//    	System.out.println(writer);
+//    }
 	
 	@Test
 	/**

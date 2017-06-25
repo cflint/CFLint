@@ -27,10 +27,7 @@ public class TestXMLOutput {
 	public void testOutput() throws IOException {
 		BugInfo bugInfo = new BugInfo.BugInfoBuilder().setFunction("testf").setMessageCode("PARSE_ERROR").setFilename("c:\\temp\\test.cfc").build();
 		bugList.add(bugInfo);
-		CFLintStats stats = new CFLintStats();
-		stats.fileCount = 1;
-		stats.totalSize = new BigInteger("545454");
-		stats.timestamp = 123456L;
+		CFLintStats stats = new CFLintStats(123456L,1,new BigInteger("545454"));
 		outputer.output(bugList, writer, false, stats);
 		String expectedText = "<issues version=\"" + Version.getVersion() + "\" timestamp=\"123456\">\n" +
 "<issue severity=\"\" id=\"PARSE_ERROR\" message=\"PARSE_ERROR\" category=\"CFLint\" abbrev=\"PE\"><location file=\"c:\\temp\\test.cfc\" fileName=\"test.cfc\" function=\"testf\" column=\"1\" line=\"1\" message=\"\" variable=\"\"><Expression><![CDATA[]]></Expression></location>\n" +
@@ -44,10 +41,7 @@ public class TestXMLOutput {
 	public void testStats() throws IOException {
 		BugInfo bugInfo = new BugInfo.BugInfoBuilder().setFunction("testf").setMessageCode("PARSE_ERROR").setFilename("c:\\temp\\test.cfc").build();
 		bugList.add(bugInfo);
-		CFLintStats stats = new CFLintStats();
-		stats.fileCount = 1;
-		stats.totalSize = new BigInteger("545454");
-		stats.timestamp = 123456L;
+		CFLintStats stats = new CFLintStats(123456L,1,new BigInteger("545454"));
 		outputer.output(bugList, writer, true, stats);
 
 		String expectedText = "<issues version=\"" + Version.getVersion() + "\" timestamp=\"123456\">\n" +

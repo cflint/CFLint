@@ -8,6 +8,16 @@ public class CFLintStats {
 	private long fileCount;
 	//Number of lines
 	private BigInteger totalSize = BigInteger.ZERO;
+
+	public CFLintStats() {
+		super();
+	}
+	public CFLintStats(long timestamp, long fileCount, BigInteger totalSize) {
+		super();
+		this.timestamp = timestamp;
+		this.fileCount = fileCount;
+		this.totalSize = totalSize;
+	}
 	
 	public void addFile(long numberOfLines){
 		fileCount++;

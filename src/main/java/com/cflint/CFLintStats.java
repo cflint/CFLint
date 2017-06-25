@@ -4,10 +4,10 @@ import java.math.BigInteger;
 
 public class CFLintStats {
 
-	long timestamp = System.currentTimeMillis() / 1000L;
-	long fileCount;
+	private long timestamp = System.currentTimeMillis() / 1000L;
+	private long fileCount;
 	//Number of lines
-	BigInteger totalSize = BigInteger.ZERO;
+	private BigInteger totalSize = BigInteger.ZERO;
 	
 	public void addFile(long numberOfLines){
 		fileCount++;

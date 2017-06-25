@@ -34,23 +34,24 @@ public class SimpleComplexityChecker extends CFLintScannerAdapter {
     public void expression(final CFScriptStatement expression, final Context context, final BugList bugs) {
         CFFuncDeclStatement function;
 
-        if (expression instanceof CFFuncDeclStatement) {
-            function = (CFFuncDeclStatement) expression;
-            functionLineNo = function.getLine();
-            complexity = 0;
-            alreadyTooComplex = false;
-        } else if (expression == null) {
-        }
-        // Not using instanceof to avoid double counting
-        else if (expression.getClass().equals(CFIfStatement.class) || expression.getClass().equals(CFForStatement.class)
-                || expression.getClass().equals(CFForInStatement.class)
-                || expression.getClass().equals(CFSwitchStatement.class)
-                || expression.getClass().equals(CFTryCatchStatement.class)
-                || expression.getClass().equals(CFWhileStatement.class)
-                || expression.getClass().equals(CFDoWhileStatement.class)) {
-            complexity++;
-            // TODO +1 for each case statment in a switch
-            checkComplexity(context.getFunctionName(), functionLineNo, context, bugs);
+        if (expression != null){
+	        if (expression instanceof CFFuncDeclStatement) {
+	            function = (CFFuncDeclStatement) expression;
+	            functionLineNo = function.getLine();
+	            complexity = 0;
+	            alreadyTooComplex = false;
+	        }
+	        // Not using instanceof to avoid double counting
+	        else if (expression.getClass().equals(CFIfStatement.class) || expression.getClass().equals(CFForStatement.class)
+	                || expression.getClass().equals(CFForInStatement.class)
+	                || expression.getClass().equals(CFSwitchStatement.class)
+	                || expression.getClass().equals(CFTryCatchStatement.class)
+	                || expression.getClass().equals(CFWhileStatement.class)
+	                || expression.getClass().equals(CFDoWhileStatement.class)) {
+	            complexity++;
+	            // TODO +1 for each case statment in a switch
+	            checkComplexity(context.getFunctionName(), functionLineNo, context, bugs);
+	        }
         }
     }
 

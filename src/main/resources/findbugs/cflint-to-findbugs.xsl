@@ -45,6 +45,15 @@
 			<xsl:attribute name="total_size">
 				<xsl:value-of select="/issues/counts/@totalsize"/>
 			</xsl:attribute>
+			<xsl:attribute name="priority_1">
+				<xsl:value-of select="count(/issues/issue[@severity = 'FATAL' or @severity = 'Fatal' or @severity = 'CRITICAL' or @severity = 'Critical'])"/>
+			</xsl:attribute>
+			<xsl:attribute name="priority_2">
+				<xsl:value-of select="count(/issues/issue[@severity = 'ERROR' or @severity = 'Error' or @severity = 'WARNING' or @severity = 'Warning' or @severity = 'CAUTION' or @severity = 'Caution' ])"/>
+			</xsl:attribute>
+			<xsl:attribute name="priority_3">
+				<xsl:value-of select="count(/issues/issue[@severity = 'INFO' or @severity = 'Info' or @severity = 'COSMETIC' or @severity = 'Cosmetic'])"/>
+			</xsl:attribute>
 			<xsl:for-each select="/issues/issue/location[@file]">
 				<xsl:if test="count(preceding::*[./@file = current()/@file]) = 0">
 					<FileStats>
@@ -57,6 +66,7 @@
 					</FileStats>
 				</xsl:if>
 			</xsl:for-each>
+
 		</FindBugsSummary>
 	</xsl:template>
 

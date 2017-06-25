@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
+  CFLint HTML Report - style: plain
+  Based on plain.xsd from FindBugs
+-->
+
+<!--
   FindBugs - Find bugs in Java programs
   Copyright (C) 2004,2005 University of Maryland
   Copyright (C) 2005, Chris Nappin
@@ -26,8 +31,8 @@
 	method="xml"
 	omit-xml-declaration="yes"
 	standalone="yes"
-         doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"
-         doctype-public="-//W3C//DTD XHTML 1.0 Transitional//EN"
+	doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"
+    doctype-public="-//W3C//DTD XHTML 1.0 Transitional//EN"
 	indent="yes"
 	encoding="UTF-8"/>
 
@@ -64,6 +69,10 @@
 			background: #b9b9fe;
 			font-size: larger;
 		}
+
+		p {
+			margin-top: 0px;
+		}
 		</style>
 	</head>
 
@@ -72,13 +81,9 @@
 	<body>
 
 	<h1>CFLint Report</h1>
-		<p>Produced using <a href="https://github.com/ryaneberly/CFLint">CFLint</a> <xsl:value-of select="/BugCollection/@version"/>.</p>
-		<p>Project: 
-			<xsl:choose>
-				<xsl:when test='string-length(/BugCollection/Project/@projectName)>0'><xsl:value-of select="/BugCollection/Project/@projectName" /></xsl:when>
-				<xsl:otherwise><xsl:value-of select="/BugCollection/Project/@filename" /></xsl:otherwise>
-			</xsl:choose>
-		</p>
+		<p>Produced using <a href="https://github.com/cflint/CFLint">CFLint</a>&#160;<xsl:value-of select="/BugCollection/@version"/>&#160;.</p>
+		<xsl:if test='string-length(/Project/@projectName)>0'><p>Project: <xsl:value-of select="/Project/@projectName" /></p></xsl:if>
+
 	<h2>Metrics</h2>
 	<xsl:apply-templates select="/BugCollection/FindBugsSummary"/>
 
@@ -156,39 +161,40 @@
 		<td width="10%" valign="top">
 			<xsl:choose>
 				<!-- HIGH PRIORITY -->
-				<xsl:when test="@severity = 1">Fatal</xsl:when>
-				<xsl:when test="@severity = 2">Critical</xsl:when>
-				<xsl:when test="@severity = 3">Error</xsl:when>
+				<xsl:when test="@priority = 1">Fatal</xsl:when>
+				<xsl:when test="@priority = 2">Critical</xsl:when>
 
 				<!-- MEDIUM PRIORITY -->
-				<xsl:when test="@severity = 4">Warning</xsl:when>
-				
+				<xsl:when test="@priority = 3">Error</xsl:when>
+				<xsl:when test="@priority = 4">Warning</xsl:when>
+				<xsl:when test="@priority = 5">Caution</xsl:when>
+
 				<!-- LOW PRIORITY -->
-				<xsl:when test="@severity = 5">Caution</xsl:when>
-				<xsl:when test="@severity = 6">Info</xsl:when>
-				<xsl:when test="@severity = 7">Cosmetic</xsl:when>
+				<xsl:when test="@priority = 6">Info</xsl:when>
+				<xsl:when test="@priority = 7">Cosmetic</xsl:when>
+
 				<xsl:otherwise>Unknown</xsl:otherwise>
 			</xsl:choose>
 		</td>
 		<td width="70%">
 		    <p><xsl:value-of select="LongMessage"/><br/><br/>
 		    
-		    	<!--  add source filename and line number(s), if any -->
-				<xsl:if test="SourceLine">
-					<br/>In file <xsl:value-of select="SourceLine/@sourcefile"/>,
+		    	<!-- add source filename and line number(s), if any -->
+				<xsl:if test="Class/SourceLine">
+					In file <xsl:value-of select="Class/SourceLine/@sourcepath"/>,
 					<xsl:choose>
-						<xsl:when test="SourceLine/@start = SourceLine/@end">
-						line <xsl:value-of select="SourceLine/@start"/>
+						<xsl:when test="Class/SourceLine/@start = Class/SourceLine/@end">
+						line <xsl:value-of select="Class/SourceLine/@start"/>
 						</xsl:when>
 						<xsl:otherwise>
-						lines <xsl:value-of select="SourceLine/@start"/>
-						    to <xsl:value-of select="SourceLine/@end"/>
+						lines <xsl:value-of select="Class/SourceLine/@start"/>
+						    to <xsl:value-of select="Class/SourceLine/@end"/>
 						</xsl:otherwise>
 					</xsl:choose>
 				</xsl:if>
 				
-				<xsl:for-each select="./*/Message">
-					<br/><xsl:value-of select="text()"/>
+				<xsl:for-each select="./descendant::Message">
+					<br/><br/><xsl:value-of select="text()"/>
 				</xsl:for-each>
 		    </p>
 		</td>
@@ -212,7 +218,7 @@
 		<xsl:choose>
 		    <xsl:when test="count($warningSet) &gt; 0">
 				<xsl:apply-templates select="$warningSet">
-					<xsl:sort select="@severity"/>
+					<xsl:sort select="@priority"/>
 					<xsl:sort select="@abbrev"/>
 					<xsl:sort select="Class/@classname"/>
 				</xsl:apply-templates>
@@ -229,9 +235,8 @@
     <xsl:variable name="kloc" select="@total_size div 1000.0"/>
     <xsl:variable name="format" select="'#######0.00'"/>
 
-	<p><xsl:value-of select="@total_size"/> lines of code analyzed,
-	in <xsl:value-of select="@total_classes"/> classes, 
-	in <xsl:value-of select="@num_packages"/> packages.</p>
+	<p><xsl:value-of select="@total_size"/> bytes analyzed,
+	in <xsl:value-of select="@total_classes"/> files</p>
 	<table width="500" cellpadding="5" cellspacing="2">
 	    <tr class="tableheader">
 			<th align="left">Metric</th>
@@ -239,12 +244,12 @@
 			<th align="right">Density*</th>
 		</tr>
 		<tr class="tablerow0">
-			<td>High Severity Warnings</td>
-			<td align="right"><xsl:value-of select="@severity_1"/></td>
+			<td>High Priority Warnings</td>
+			<td align="right"><xsl:value-of select="@priority_1"/></td>
 			<td align="right">
                 <xsl:choose>
                     <xsl:when test= "number($kloc) &gt; 0.0">
-       			        <xsl:value-of select="format-number(@severity_1 div $kloc, $format)"/>
+       			        <xsl:value-of select="format-number(@priority_1 div $kloc, $format)"/>
                     </xsl:when>
                     <xsl:otherwise>
       		            <xsl:value-of select="format-number(0.0, $format)"/>
@@ -253,12 +258,12 @@
 			</td>
 		</tr>
 		<tr class="tablerow1">
-			<td>Medium Severity Warnings</td>
-			<td align="right"><xsl:value-of select="@severity_1"/></td>
+			<td>Medium Priority Warnings</td>
+			<td align="right"><xsl:value-of select="@priority_2"/></td>
 			<td align="right">
                 <xsl:choose>
-                    <xsl:when test= "number($kloc) &gt; 0.0">
-       			        <xsl:value-of select="format-number(@severity_1 div $kloc, $format)"/>
+                    <xsl:when test="number($kloc) &gt; 0.0">
+       			        <xsl:value-of select="format-number(@priority_2 div $kloc, $format)"/>
                     </xsl:when>
                     <xsl:otherwise>
       		            <xsl:value-of select="format-number(0.0, $format)"/>
@@ -268,14 +273,14 @@
 		</tr>
 
     <xsl:choose>
-		<xsl:when test="@severity_3">
-			<tr class="tablerow1">
-				<td>Low Severity Warnings</td>
-				<td align="right"><xsl:value-of select="@severity_1"/></td>
+		<xsl:when test="@priority_3 &gt; 0">
+			<tr class="tablerow0">
+				<td>Low Priority Warnings</td>
+				<td align="right"><xsl:value-of select="@priority_3"/></td>
 				<td align="right">
 	                <xsl:choose>
-	                    <xsl:when test= "number($kloc) &gt; 0.0">
-	       			        <xsl:value-of select="format-number(@severity_1 div $kloc, $format)"/>
+	                    <xsl:when test="number($kloc) &gt; 0.0">
+	       			        <xsl:value-of select="format-number(@priority_3 div $kloc, $format)"/>
 	                    </xsl:when>
 	                    <xsl:otherwise>
 	      		            <xsl:value-of select="format-number(0.0, $format)"/>
@@ -283,10 +288,10 @@
 			        </xsl:choose>
 				</td>
 			</tr>
-			<xsl:variable name="totalClass" select="tablerow0"/>
+			<xsl:variable name="totalClass" select="tablerow1"/>
 		</xsl:when>
 		<xsl:otherwise>
-		    <xsl:variable name="totalClass" select="tablerow1"/>
+		    <xsl:variable name="totalClass" select="tablerow0"/>
 		</xsl:otherwise>
 	</xsl:choose>
 
@@ -296,7 +301,7 @@
 			<td align="right">
 				<b>
                 <xsl:choose>
-                    <xsl:when test= "number($kloc) &gt; 0.0">
+                    <xsl:when test="number($kloc) &gt; 0.0">
        			        <xsl:value-of select="format-number(@total_bugs div $kloc, $format)"/>
                     </xsl:when>
                     <xsl:otherwise>
@@ -307,7 +312,7 @@
 			</td>
 		</tr>
 	</table>
-	<p><i>(* Defects per Thousand lines of non-commenting source statements)</i></p>
+	<p><i>(* Defects per 1000 bytes of code)</i></p>
 	<p><br/><br/></p>
 
 </xsl:template>

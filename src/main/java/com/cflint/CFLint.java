@@ -206,7 +206,8 @@ public class CFLint implements IErrorReporter {
             final String src = FileUtil.loadFile(folderOrFile);
             includeFileStack.clear();
             try {
-            	stats.addFile(src.length());
+            	//Report number of lines in the source
+            	stats.addFile(src==null||src.length()==0?0:src.split("\\R").length + 1);
                 process(src, folderOrFile.getAbsolutePath());
             } catch (final Exception e) {
                 printException(e);

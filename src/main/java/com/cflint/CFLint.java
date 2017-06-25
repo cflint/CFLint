@@ -463,8 +463,6 @@ public class CFLint implements IErrorReporter {
             }
         } else if (elem.getName().equalsIgnoreCase("cfqueryparam")) {
             scanElement(elem, context);
-            if (elem.getAttributeValue("value") != null) {
-            }
         } else if (elem.getName().equalsIgnoreCase("cfinclude")) {
             scanElement(elem, context);
             final String path = elem.getAttributeValue("template");

@@ -4,8 +4,6 @@ import com.cflint.BugList;
 import com.cflint.plugins.CFLintScannerAdapter;
 import com.cflint.plugins.Context;
 
-import cfml.parsing.cfscript.CFExpression;
-import cfml.parsing.cfscript.script.CFScriptStatement;
 import net.htmlparser.jericho.Element;
 import ro.fortsoft.pf4j.Extension;
 

@@ -6,8 +6,6 @@ import com.cflint.plugins.Context;
 
 import cfml.parsing.cfscript.CFExpression;
 import cfml.parsing.cfscript.CFFunctionExpression;
-import cfml.parsing.cfscript.script.CFAbortStatement;
-import cfml.parsing.cfscript.script.CFScriptStatement;
 import ro.fortsoft.pf4j.Extension;
 /**
  * isDate() is too permissive. Avoid it.

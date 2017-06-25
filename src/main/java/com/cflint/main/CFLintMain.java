@@ -461,7 +461,7 @@ public class CFLintMain {
                 if (verbose) {
                     display("Writing XML findbugs style" + (stdOut ? "." : " to " + xmlOutFile));
                 }
-                new XMLOutput().outputFindBugs(cflint.getBugs(), xmlwriter, showStats);
+                new XMLOutput().outputFindBugs(cflint.getBugs(), xmlwriter, showStats, cflint.getStats());
             } else {
                 if (verbose) {
                     display("Writing XML" + (stdOut ? "." : " to " + xmlOutFile));
@@ -483,7 +483,7 @@ public class CFLintMain {
                     display("Writing HTML" + (stdOut ? "." : " to " + htmlOutFile));
                 }
                 final Writer htmlwriter = stdOut ? new OutputStreamWriter(System.out) : new FileWriter(htmlOutFile);
-                new HTMLOutput(htmlStyle).output(cflint.getBugs(), htmlwriter, showStats);
+                new HTMLOutput(htmlStyle).output(cflint.getBugs(), htmlwriter, showStats, cflint.getStats());
             } catch (final TransformerException e) {
                 throw new IOException(e);
             }

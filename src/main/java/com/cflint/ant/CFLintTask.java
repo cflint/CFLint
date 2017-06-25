@@ -104,7 +104,7 @@ public class CFLintTask extends Task {
                 }
                 if ("findbugs".equalsIgnoreCase(xmlStyle)) {
                     new XMLOutput().outputFindBugs(cflint.getBugs(), createWriter(xmlFile, StandardCharsets.UTF_8),
-                            showStats);
+                            showStats, cflint.getStats());
                 } else {
                     new DefaultCFlintResultMarshaller().output(cflint.getBugs(),
                             createWriter(xmlFile, StandardCharsets.UTF_8), showStats);
@@ -118,7 +118,7 @@ public class CFLintTask extends Task {
             }
             if (htmlFile != null) {
                 try {
-                    new HTMLOutput(htmlStyle).output(cflint.getBugs(), new FileWriter(htmlFile), showStats);
+                    new HTMLOutput(htmlStyle).output(cflint.getBugs(), new FileWriter(htmlFile), showStats, cflint.getStats());
                 } catch (final TransformerException e) {
                     throw new IOException(e);
                 }

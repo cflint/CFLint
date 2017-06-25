@@ -194,7 +194,7 @@
 					</Message>
 				</SourceLine>
 			</Class>
-			<xsl:if test="@function and string-length(@function)=0">
+			<xsl:if test="@function and string-length(@function)!=0">
 				<Method signature="" isStatic="false">
 					<xsl:attribute name="classname">
 						<xsl:value-of select="@file" />

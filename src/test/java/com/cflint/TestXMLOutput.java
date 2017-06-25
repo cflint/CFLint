@@ -27,8 +27,12 @@ public class TestXMLOutput {
 	public void testOutput() throws IOException {
 		BugInfo bugInfo = new BugInfo.BugInfoBuilder().setFunction("testf").setMessageCode("PARSE_ERROR").setFilename("c:\\temp\\test.cfc").build();
 		bugList.add(bugInfo);
-		outputer.output(bugList, writer, false, null);
-		String expectedText = "<issues version=\"" + Version.getVersion() + "\">\n" +
+		CFLintStats stats = new CFLintStats();
+		stats.fileCount = 1;
+		stats.totalSize = new BigInteger("545454");
+		stats.timestamp = 123456L;
+		outputer.output(bugList, writer, false, stats);
+		String expectedText = "<issues version=\"" + Version.getVersion() + "\" timestamp=\"123456\">\n" +
 "<issue severity=\"\" id=\"PARSE_ERROR\" message=\"PARSE_ERROR\" category=\"CFLint\" abbrev=\"PE\"><location file=\"c:\\temp\\test.cfc\" fileName=\"test.cfc\" function=\"testf\" column=\"1\" line=\"1\" message=\"\" variable=\"\"><Expression><![CDATA[]]></Expression></location>\n" +
 "</issue>\n" +
 "</issues>";
@@ -43,8 +47,10 @@ public class TestXMLOutput {
 		CFLintStats stats = new CFLintStats();
 		stats.fileCount = 1;
 		stats.totalSize = new BigInteger("545454");
+		stats.timestamp = 123456L;
 		outputer.output(bugList, writer, true, stats);
-		String expectedText = "<issues version=\"" + Version.getVersion() + "\">\n" +
+
+		String expectedText = "<issues version=\"" + Version.getVersion() + "\" timestamp=\"123456\">\n" +
 "<issue severity=\"\" id=\"PARSE_ERROR\" message=\"PARSE_ERROR\" category=\"CFLint\" abbrev=\"PE\"><location file=\"c:\\temp\\test.cfc\" fileName=\"test.cfc\" function=\"testf\" column=\"1\" line=\"1\" message=\"\" variable=\"\"><Expression><![CDATA[]]></Expression></location>\n" +
 "</issue>\n" +
 "<counts totalfiles=\"1\" totalsize=\"545454\">\n" +

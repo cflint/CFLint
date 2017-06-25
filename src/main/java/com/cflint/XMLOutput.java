@@ -21,8 +21,9 @@ public class XMLOutput {
 
     public void output(final BugList bugList, final Writer writer, final boolean showStats, final CFLintStats stats) throws IOException {
         final BugCounts counts = new BugCounts();
-        // final StringBuilder sb = new StringBuilder();
-        writer.append("<issues version=\"" + Version.getVersion() + "\">").append(System.getProperty(LINE_SEPARATOR));
+        writer.append("<issues version=\"" + Version.getVersion() + "\"")
+                .append(" timestamp=\"" + Long.toString(stats.getTimestamp()) + "\">")
+                .append(System.getProperty(LINE_SEPARATOR));
         for (final Entry<String, List<BugInfo>> bugEntry : bugList.getBugList().entrySet()) {
             final Iterator<BugInfo> iterator = bugEntry.getValue().iterator();
             BugInfo bugInfo = iterator.hasNext() ? iterator.next() : null;

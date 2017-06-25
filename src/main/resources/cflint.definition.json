@@ -88,12 +88,12 @@
       "message": [
         {
           "code": "QUERYPARAM_REQ",
-          "messageText": "setSql() statement should use .addParam() instead of #'s for security.",
+          "messageText": "setSql() statement should use .addParam() instead of #'s name=\"${variable}\"",
           "severity": "WARNING"
         },
         {
           "code": "CFQUERYPARAM_REQ",
-          "messageText": "<${tag} name=\"${variable}\"> should use <cfqueryparam\/> for security reasons.",
+          "messageText": "<${tag}> should use <cfqueryparam\/> for variable '${variable}'.",
           "severity": "WARNING"
         }
       ],

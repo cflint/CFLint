@@ -86,6 +86,7 @@ import cfml.parsing.cfscript.script.CFTryCatchStatement;
 import cfml.parsing.reporting.IErrorReporter;
 import cfml.parsing.reporting.ParseException;
 import net.htmlparser.jericho.Element;
+import net.htmlparser.jericho.EndTag;
 import net.htmlparser.jericho.Source;
 
 public class CFLint implements IErrorReporter {
@@ -302,8 +303,14 @@ public class CFLint implements IErrorReporter {
         }
     }
 
+    int skipToPosition = 0;
     private void process(final Element elem, final String space, final Context context)
             throws ParseException, IOException {
+    	if (skipToPosition > elem.getBegin()) {
+			return;
+		}else{
+			skipToPosition=0;
+		}
         currentElement = elem;
         if (elem.getName().equalsIgnoreCase("cfcomponent")) {
             final Context componentContext = context.subContext(elem);
@@ -374,10 +381,23 @@ public class CFLint implements IErrorReporter {
             processStack(elem.getChildElements(), space + " ", context);
         } else if (elem.getName().equalsIgnoreCase("cfscript")) {
             scanElement(elem, context);
-            final String cfscript = elem.getContent().toString();
+            String cfscript =elem.getContent().toString();
+            if (elem.getEndTag() == null) {
+				// Hack to fetch the entire cfscript text, if cfscript is a word in the content somewhere, and causes
+				// the jericho parser to fail
+				EndTag nextTag = elem.getSource().getNextEndTag(elem.getBegin());
+				while (nextTag != null && !nextTag.getName().equalsIgnoreCase(elem.getName())) {
+					nextTag = elem.getSource().getNextEndTag(nextTag.getEnd());
+				}
+				if (nextTag.getName().equalsIgnoreCase(elem.getName())) {
+					cfscript = elem.getSource().subSequence(elem.getStartTag().getEnd(), nextTag.getBegin())
+							.toString();
+					skipToPosition = nextTag.getEnd();
+				}
+			}
             final CFScriptStatement scriptStatement = cfmlParser.parseScript(cfscript);
 
-            Context subcontext = context.subContext(elem);
+            final Context subcontext = context.subContext(elem);
             process(scriptStatement, subcontext);
             processStack(elem.getChildElements(), space + " ", context);
         } else if (elem.getName().equalsIgnoreCase("cffunction")) {

@@ -1,0 +1,17 @@
+[ {
+  "severity" : "ERROR",
+  "id" : "MISSING_VAR",
+  "message" : "MISSING_VAR",
+  "category" : "CFLINT",
+  "abbrev" : "MV",
+  "locations" : [ {
+    "file" : "src\\test\\resources\\com\\cflint\\tests\\Parsing\\parsing253.cfm",
+    "fileName" : "parsing253.cfm",
+    "function" : "foo",
+    "column" : "11",
+    "line" : "4",
+    "message" : "Variable removeTagList is not declared with a var statement.",
+    "variable" : "removeTagList",
+    "expression" : "removeTagList"
+  } ]
+} ]

@@ -353,9 +353,13 @@ public class Context {
     public void setContextType(ContextType contextType) {
         this.contextType = contextType;
         if(contextType == ContextType.Component && componentName==null){
-            if(filename != null && filename.trim().length()>0){
-                componentName= new File(filename.trim()).getName().replaceAll("[.]\\w+", "");
-            }
+            assignComponentNameFromFile();
         }
     }
+
+	private void assignComponentNameFromFile() {
+		if(filename != null && filename.trim().length()>0){
+		    componentName= new File(filename.trim()).getName().replaceAll("[.]\\w+", "");
+		}
+	}
 }

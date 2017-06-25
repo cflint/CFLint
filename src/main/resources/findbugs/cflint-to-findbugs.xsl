@@ -8,7 +8,15 @@
 
 	<xsl:template match="/">
 		<xsl:variable name="version" select="/issues/@version"/>
-		<BugCollection sequence="0" release="" timestamp="0" analysisTimestamp="0">
+		<xsl:variable name="timestamp" select="/issues/@timestamp"/>
+
+		<BugCollection sequence="0" release="">
+			<xsl:attribute name="timestamp">
+				<xsl:value-of select="$timestamp"/>
+			</xsl:attribute>
+			<xsl:attribute name="analysisTimestamp">
+				<xsl:value-of select="$timestamp"/>
+			</xsl:attribute>
 			<xsl:attribute name="version">
 				<xsl:value-of select="$version"/>
 			</xsl:attribute>
@@ -25,6 +33,9 @@
 
 	<xsl:template name="summary">
 		<FindBugsSummary timestamp="" num_packages="0">
+			<xsl:attribute name="timestamp">
+				<xsl:value-of select="/issues/@timestamp"/>
+			</xsl:attribute>
 			<xsl:attribute name="total_bugs">
 				<xsl:value-of select="sum(/issues/counts/count[@code]/@count)"/>
 			</xsl:attribute>

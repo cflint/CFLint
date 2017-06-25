@@ -29,10 +29,10 @@
 				<xsl:value-of select="sum(/issues/counts/count[@code]/@count)"/>
 			</xsl:attribute>
 			<xsl:attribute name="total_classes">
-				<xsl:value-of select="0"/>
+				<xsl:value-of select="/issues/counts/@totalfiles"/>
 			</xsl:attribute>
 			<xsl:attribute name="total_size">
-				<xsl:value-of select="0"/>
+				<xsl:value-of select="/issues/counts/@totalsize"/>
 			</xsl:attribute>
 			<xsl:for-each select="/issues/issue/location[@file]">
 				<xsl:if test="count(preceding::*[./@file = current()/@file]) = 0">

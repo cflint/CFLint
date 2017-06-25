@@ -14,17 +14,14 @@ public class TestCFLintChainedConfig {
 	final String sconfig1 = "<config><includes code=\"COMPONENT_HINT_MISSING\"/></config>";
 	final String sconfig2 = "<config inheritParent=\"false\"><includes code=\"FUNCTION_HINT_MISSING\"/></config>";
 	final String sconfig3 = "<config><includes code=\"ARG_HINT_MISSING\"/></config>";
-	private CFLintConfig config;
-	private CFLintConfig config1;
-	private CFLintConfig config2;
 	private CFLintChainedConfig nestConfig1;
 	private CFLintChainedConfig nestConfig2;
 	private CFLintChainedConfig nestConfig2b;
 	@Before
 	public void setUp() throws Exception{
-		config = ConfigUtils.unmarshal(sconfig0, CFLintConfig.class);
-		config1 = ConfigUtils.unmarshal(sconfig1, CFLintConfig.class);
-		config2 = ConfigUtils.unmarshal(sconfig2, CFLintConfig.class);
+		final CFLintConfig config = ConfigUtils.unmarshal(sconfig0, CFLintConfig.class);
+		final CFLintConfig config1 = ConfigUtils.unmarshal(sconfig1, CFLintConfig.class);
+		final CFLintConfig config2 = ConfigUtils.unmarshal(sconfig2, CFLintConfig.class);
 		nestConfig1 = new CFLintChainedConfig(config);
 		nestConfig2 = nestConfig1.createNestedConfig(config1);
 		nestConfig2b = nestConfig1.createNestedConfig(config2);

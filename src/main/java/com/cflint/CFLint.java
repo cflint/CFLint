@@ -1126,15 +1126,7 @@ public class CFLint implements IErrorReporter {
 
     @Override
     public void reportError(final String arg0) {
-    }
-
-    public void reportError(final RecognitionException arg0) {
-    }
-
-    public void reportError(final String[] arg0, final RecognitionException arg1) {
-    }
-
-    public void reportError(final IntStream arg0, final RecognitionException arg1, final BitSet arg2) {
+    	//Empty implementation
     }
 
     public void setVerbose(final boolean verbose) {
@@ -1261,29 +1253,35 @@ public class CFLint implements IErrorReporter {
     @Override
     public void reportAmbiguity(final Parser recognizer, final DFA dfa, final int startIndex, final int stopIndex,
                                 final boolean exact, final java.util.BitSet ambigAlts, final ATNConfigSet configs) {
+    	//Empty implementation
     }
 
     @Override
     public void reportAttemptingFullContext(final Parser recognizer, final DFA dfa, final int startIndex,
                                             final int stopIndex, final java.util.BitSet conflictingAlts, final ATNConfigSet configs) {
+    	//Empty implementation
     }
 
     @Override
     public void reportContextSensitivity(final Parser recognizer, final DFA dfa, final int startIndex,
                                          final int stopIndex, final int prediction, final ATNConfigSet configs) {
+    	//Empty implementation
     }
 
     @Override
     public void reportError(final org.antlr.v4.runtime.RecognitionException re) {
+    	//Empty implementation
     }
 
     @Override
     public void reportError(final String[] tokenNames, final org.antlr.v4.runtime.RecognitionException re) {
+    	//Empty implementation
     }
 
     @Override
     public void reportError(final org.antlr.v4.runtime.IntStream input,
                             final org.antlr.v4.runtime.RecognitionException re, final BitSet follow) {
+    	//Empty implementation
     }
 
     public void setStrictIncludes(boolean strictInclude) {

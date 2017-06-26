@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  CFLint HTML Report - style: default
+  CFLint HTML Report - style: plain
   Based on plain.xsd from FindBugs
 -->
 

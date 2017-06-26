@@ -81,7 +81,7 @@
             <body>
 
                 <h1>CFLint Report</h1>
-                <p>Produced using <a href="https://github.com/cflint/CFLint">CFLint</a>&#160;<xsl:value-of select="/BugCollection/@version"/>&#160;.</p>
+                <p>Produced using <a href="https://github.com/cflint/CFLint">CFLint</a>&#160;(<xsl:value-of select="/BugCollection/@version"/>).</p>
                 <xsl:if test='string-length(/Project/@projectName)>0'><p>Project: <xsl:value-of select="/Project/@projectName" /></p></xsl:if>
 
                 <h2>Metrics</h2>
@@ -235,7 +235,7 @@
         <xsl:variable name="kloc" select="@total_size div 1000.0"/>
         <xsl:variable name="format" select="'#######0.00'"/>
 
-        <p><xsl:value-of select="@total_size"/> bytes analyzed,
+        <p><xsl:value-of select="@total_size"/> lines of code analyzed,
             in <xsl:value-of select="@total_classes"/> files</p>
         <table width="500" cellpadding="5" cellspacing="2">
             <tr class="tableheader">
@@ -271,31 +271,21 @@
                     </xsl:choose>
                 </td>
             </tr>
-
-            <xsl:choose>
-                <xsl:when test="@priority_3 &gt; 0">
-                    <tr class="tablerow0">
-                        <td>Low Priority Warnings</td>
-                        <td align="right"><xsl:value-of select="@priority_3"/></td>
-                        <td align="right">
-                            <xsl:choose>
-                                <xsl:when test="number($kloc) &gt; 0.0">
-                                    <xsl:value-of select="format-number(@priority_3 div $kloc, $format)"/>
-                                </xsl:when>
-                                <xsl:otherwise>
-                                    <xsl:value-of select="format-number(0.0, $format)"/>
-                                </xsl:otherwise>
-                            </xsl:choose>
-                        </td>
-                    </tr>
-                    <xsl:variable name="totalClass" select="tablerow1"/>
-                </xsl:when>
-                <xsl:otherwise>
-                    <xsl:variable name="totalClass" select="tablerow0"/>
-                </xsl:otherwise>
-            </xsl:choose>
-
-            <tr class="$totalClass">
+            <tr class="tablerow0">
+                <td>Low Priority Warnings</td>
+                <td align="right"><xsl:value-of select="@priority_3"/></td>
+                <td align="right">
+                    <xsl:choose>
+                        <xsl:when test="number($kloc) &gt; 0.0">
+                            <xsl:value-of select="format-number(@priority_3 div $kloc, $format)"/>
+                        </xsl:when>
+                        <xsl:otherwise>
+                            <xsl:value-of select="format-number(0.0, $format)"/>
+                        </xsl:otherwise>
+                    </xsl:choose>
+                </td>
+            </tr>
+            <tr class="tablerow1">
                 <td><b>Total Warnings</b></td>
                 <td align="right"><b><xsl:value-of select="@total_bugs"/></b></td>
                 <td align="right">
@@ -312,7 +302,7 @@
                 </td>
             </tr>
         </table>
-        <p><i>(* Defects per 1000 bytes of code)</i></p>
+        <p><i>(* Defects per Thousand lines of non-commenting source statements)</i></p>
         <p><br/><br/></p>
 
     </xsl:template>

@@ -4,14 +4,17 @@ import java.math.BigInteger;
 
 public class CFLintStats {
 
+	// Epoch timestamp for XML format output
 	private long timestamp = System.currentTimeMillis() / 1000L;
+	// Number of files
 	private long fileCount;
-	//Number of lines
+	// Number of lines
 	private BigInteger totalSize = BigInteger.ZERO;
 
 	public CFLintStats() {
 		super();
 	}
+
 	public CFLintStats(long timestamp, long fileCount, BigInteger totalSize) {
 		super();
 		this.timestamp = timestamp;
@@ -26,11 +29,8 @@ public class CFLintStats {
 
 	public long getTimestamp() { return timestamp; }
 
-	public long getFileCount() {
-		return fileCount;
-	}
+	public long getFileCount() { return fileCount; }
 
-	//Number of lines
 	public BigInteger getTotalSize() {
 		return totalSize;
 	}

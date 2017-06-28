@@ -1,0 +1,9 @@
+{
+  "output" : [ ],
+  "rule" : [ ],
+  "excludes" : [ ],
+  "includes" : [ {
+    "code" : "MISSING_SEMI"
+  } ],
+  "inheritParent" : false
+}

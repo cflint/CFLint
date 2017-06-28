@@ -1,0 +1,17 @@
+[ {
+  "severity" : "ERROR",
+  "id" : "MISSING_SEMI",
+  "message" : "MISSING_SEMI",
+  "category" : "CFLINT",
+  "abbrev" : "MS",
+  "locations" : [ {
+    "file" : "src/test/resources/com/cflint/tests/MissingSemiColon/missingSemis1.cfc",
+    "fileName" : "missingSemis1.cfc",
+    "function" : "",
+    "column" : "0",
+    "line" : "4",
+    "message" : "End of statement(;) expected instead of name2",
+    "variable" : "name2",
+    "expression" : ""
+  } ]
+} ]

@@ -1003,7 +1003,13 @@ public class CFLint implements IErrorReporter {
             throw new NullPointerException("Configuration is null");
         }
         PluginInfoRule ruleInfo;
-        if ("PLUGIN_ERROR".equals(msgcode)) {
+        if ("MISSING_SEMI".equals(msgcode)) {
+            ruleInfo = new PluginInfoRule();
+            final PluginMessage msgInfo = new PluginMessage("MISSING_SEMI");
+            msgInfo.setMessageText("End of statement(;) expected instead of ${variable}");
+            msgInfo.setSeverity("ERROR");
+            ruleInfo.getMessages().add(msgInfo);
+        }else if ("PLUGIN_ERROR".equals(msgcode)) {
             ruleInfo = new PluginInfoRule();
             final PluginMessage msgInfo = new PluginMessage("PLUGIN_ERROR");
             msgInfo.setMessageText("Error in plugin: ${variable}");
@@ -1237,9 +1243,9 @@ public class CFLint implements IErrorReporter {
             }
         }
         if (recognizer instanceof Parser && ((Parser) recognizer).isExpectedToken(CFSCRIPTParser.SEMICOLON)) {
-            bugs.add(new BugInfo.BugInfoBuilder().setMessageCode("MISSING_SEMI").setFilename(file)
-                    .setMessage("End of statement(;) expected instead of " + expression).setSeverity("ERROR")
-                    .setExpression(expression).setLine(line).setColumn(charPositionInLine).build());
+        	final Context context = new Context(currentFile,currentElement,null,true,null,null);
+        	final ContextMessage cm = new ContextMessage("MISSING_SEMI", expression,null,line);
+        	reportRule(currentElement,null,context,null, cm);
 
         } else {
             fireCFLintException(e, PARSE_ERROR, file, line, charPositionInLine, "", msg);

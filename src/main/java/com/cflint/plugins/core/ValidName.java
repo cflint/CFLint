@@ -128,6 +128,10 @@ public class ValidName {
     public boolean hasPrefixOrPostfix(final String name) {
         String sentence = name.replaceAll("_", " ");
         sentence = sentence.replaceAll("(\\p{Ll})(\\p{Lu})", "$1 $2");
+        // handles _
+        if(sentence.trim().length()==0){
+        	return false;
+        }
         final String[] words = sentence.split(" ");
         final String firstWord = words[0];
         final String lastWord = words[words.length - 1];

@@ -16,6 +16,7 @@ import java.util.Stack;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.cflint.config.*;
 import org.antlr.runtime.BitSet;
 import org.antlr.v4.runtime.Parser;
 import org.antlr.v4.runtime.Recognizer;
@@ -24,12 +25,8 @@ import org.antlr.v4.runtime.atn.ATNConfigSet;
 import org.antlr.v4.runtime.dfa.DFA;
 
 import com.cflint.BugInfo.BugInfoBuilder;
-import com.cflint.config.CFLintChainedConfig;
-import com.cflint.config.CFLintConfig;
-import com.cflint.config.CFLintConfiguration;
 import com.cflint.config.CFLintPluginInfo.PluginInfoRule;
 import com.cflint.config.CFLintPluginInfo.PluginInfoRule.PluginMessage;
-import com.cflint.config.ConfigUtils;
 import com.cflint.listeners.ScanProgressListener;
 import com.cflint.plugins.CFLintScanner;
 import com.cflint.plugins.CFLintSet;
@@ -1021,6 +1018,12 @@ public class CFLint implements IErrorReporter {
             msgInfo.setMessageText("CF file is empty: ${file}");
             msgInfo.setSeverity("WARNING");
             ruleInfo.getMessages().add(msgInfo);
+        }else if ("PARSE_ERROR".equals(msgcode)) {
+            ruleInfo = new CFLintPluginInfo.PluginInfoRule();
+            final CFLintPluginInfo.PluginInfoRule.PluginMessage msgInfo = new CFLintPluginInfo.PluginInfoRule.PluginMessage("PARSE_ERROR");
+            msgInfo.setMessageText("Unable to parse");
+            msgInfo.setSeverity("ERROR");
+            ruleInfo.getMessages().add(msgInfo);
         } else {
             if (plugin == null) {
                 throw new NullPointerException(
@@ -1246,9 +1249,11 @@ public class CFLint implements IErrorReporter {
         	final Context context = new Context(currentFile,currentElement,null,true,null,null);
         	final ContextMessage cm = new ContextMessage("MISSING_SEMI", expression,null,line);
         	reportRule(currentElement,null,context,null, cm);
-
         } else {
-            fireCFLintException(e, PARSE_ERROR, file, line, charPositionInLine, "", msg);
+            //fireCFLintException(e, PARSE_ERROR, file, line, charPositionInLine, "", msg);
+            final Context context = new Context(currentFile,currentElement,null,true,null,null);
+            final ContextMessage cm = new ContextMessage("PARSE_ERROR", expression,null,line);
+            reportRule(currentElement,null,context,null, cm);
         }
     }
 

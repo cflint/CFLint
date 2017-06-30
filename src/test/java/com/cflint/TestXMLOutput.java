@@ -30,9 +30,9 @@ public class TestXMLOutput {
 		CFLintStats stats = new CFLintStats(123456L,1,new BigInteger("545454"));
 		outputer.output(bugList, writer, false, stats);
 		String expectedText = "<issues version=\"" + Version.getVersion() + "\" timestamp=\"123456\">\n" +
-"<issue severity=\"\" id=\"PARSE_ERROR\" message=\"PARSE_ERROR\" category=\"CFLint\" abbrev=\"PE\"><location file=\"c:\\temp\\test.cfc\" fileName=\"test.cfc\" function=\"testf\" column=\"1\" line=\"1\" message=\"\" variable=\"\"><Expression><![CDATA[]]></Expression></location>\n" +
-"</issue>\n" +
-"</issues>";
+			"<issue severity=\"\" id=\"PARSE_ERROR\" message=\"PARSE_ERROR\" category=\"CFLint\" abbrev=\"PE\"><location file=\"c:\\temp\\test.cfc\" fileName=\"test.cfc\" function=\"testf\" column=\"1\" line=\"1\" message=\"\" variable=\"\"><Expression><![CDATA[]]></Expression></location>\n" +
+			"</issue>\n" +
+			"</issues>";
 		//remove the version 
 		assertEquals(expectedText.replace("\n", "").replace("\r", ""),writer.toString().replace("\n", "").replace("\r", ""));
 	}
@@ -41,16 +41,38 @@ public class TestXMLOutput {
 	public void testStats() throws IOException {
 		BugInfo bugInfo = new BugInfo.BugInfoBuilder().setFunction("testf").setMessageCode("PARSE_ERROR").setFilename("c:\\temp\\test.cfc").build();
 		bugList.add(bugInfo);
-		CFLintStats stats = new CFLintStats(123456L,1,new BigInteger("545454"));
+		BugCounts counts = new BugCounts();
+		counts.add("PARSE_ERROR", null);
+		CFLintStats stats = new CFLintStats(123456L,1,new BigInteger("545454"), counts);
 		outputer.output(bugList, writer, true, stats);
 
 		String expectedText = "<issues version=\"" + Version.getVersion() + "\" timestamp=\"123456\">\n" +
-"<issue severity=\"\" id=\"PARSE_ERROR\" message=\"PARSE_ERROR\" category=\"CFLint\" abbrev=\"PE\"><location file=\"c:\\temp\\test.cfc\" fileName=\"test.cfc\" function=\"testf\" column=\"1\" line=\"1\" message=\"\" variable=\"\"><Expression><![CDATA[]]></Expression></location>\n" +
-"</issue>\n" +
-"<counts totalfiles=\"1\" totalsize=\"545454\">\n" +
-"<count code=\"PARSE_ERROR\" count=\"1\" />\n" +
-"</counts>" +
-"</issues>";
+			"<issue severity=\"\" id=\"PARSE_ERROR\" message=\"PARSE_ERROR\" category=\"CFLint\" abbrev=\"PE\"><location file=\"c:\\temp\\test.cfc\" fileName=\"test.cfc\" function=\"testf\" column=\"1\" line=\"1\" message=\"\" variable=\"\"><Expression><![CDATA[]]></Expression></location>\n" +
+			"</issue>\n" +
+			"<counts totalfiles=\"1\" totalsize=\"545454\">\n" +
+			"<count code=\"PARSE_ERROR\" count=\"1\" />\n" +
+			"</counts>" +
+			"</issues>";
+		assertEquals(expectedText.replace("\n", "").replace("\r", ""),writer.toString().replace("\n", "").replace("\r", ""));
+	}
+
+	@Test
+	public void testStatsAndSeverity() throws IOException {
+		BugInfo bugInfo = new BugInfo.BugInfoBuilder().setFunction("testf").setMessageCode("PARSE_ERROR").setSeverity("ERROR").setFilename("c:\\temp\\test.cfc").build();
+		bugList.add(bugInfo);
+		BugCounts counts = new BugCounts();
+		counts.add("PARSE_ERROR", "ERROR");
+		CFLintStats stats = new CFLintStats(123456L,1,new BigInteger("545454"), counts);
+		outputer.output(bugList, writer, true, stats);
+
+		String expectedText = "<issues version=\"" + Version.getVersion() + "\" timestamp=\"123456\">\n" +
+			"<issue severity=\"ERROR\" id=\"PARSE_ERROR\" message=\"PARSE_ERROR\" category=\"CFLint\" abbrev=\"PE\"><location file=\"c:\\temp\\test.cfc\" fileName=\"test.cfc\" function=\"testf\" column=\"1\" line=\"1\" message=\"\" variable=\"\"><Expression><![CDATA[]]></Expression></location>\n" +
+			"</issue>\n" +
+			"<counts totalfiles=\"1\" totalsize=\"545454\">\n" +
+			"<count code=\"PARSE_ERROR\" count=\"1\" />\n" +
+			"<count severity=\"ERROR\" count=\"1\" />" +
+			"</counts>" +
+			"</issues>";
 		assertEquals(expectedText.replace("\n", "").replace("\r", ""),writer.toString().replace("\n", "").replace("\r", ""));
 	}
 	

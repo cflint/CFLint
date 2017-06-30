@@ -23,6 +23,14 @@ public class CFLintStats {
 		this.fileCount = fileCount;
 		this.totalSize = totalSize;
 	}
+
+	public CFLintStats(long timestamp, long fileCount, BigInteger totalSize, BugCounts counts) {
+		super();
+		this.timestamp = timestamp;
+		this.fileCount = fileCount;
+		this.totalSize = totalSize;
+		this.counts = counts;
+	}
 	
 	public void addFile(long numberOfLines){
 		fileCount++;

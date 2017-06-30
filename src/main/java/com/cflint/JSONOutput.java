@@ -46,7 +46,6 @@ public class JSONOutput {
             while (bugInfo != null) {
                 final String severity = currentList.get(0).getSeverity();
                 final String code = currentList.get(0).getMessageCode();
-                counts.add(code, severity);
 
                 jg.writeStartObject();
                 jg.writeStringField("severity", notNull(severity));

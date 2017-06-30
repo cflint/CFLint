@@ -41,9 +41,6 @@ public class DefaultCFlintResultMarshaller implements CFLintResultMarshaller {
         BugCounts counts = stats.getCounts();
 
         for (BugInfo bug : bugList) {
-
-            counts.add(bug.getMessageCode(), bug.getSeverity());
-
             writeIssue(xtw, bug);
         }
 

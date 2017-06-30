@@ -31,7 +31,6 @@ public class XMLOutput {
             while (bugInfo != null) {
                 final String severity = bugEntry.getValue().get(0).getSeverity();
                 final String code = bugEntry.getValue().get(0).getMessageCode();
-                counts.add(code, severity);
                 writer.append("<issue");
                 writer.append(" severity=\"").append(xmlEscapeText(severity)).append("\"");
                 writer.append(" id=\"").append(xmlEscapeText(code)).append("\"");

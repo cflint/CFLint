@@ -18,7 +18,6 @@ public class TextOutput {
             for (final BugInfo bugInfo : bugEntry.getValue()) {
                 final String severity = bugEntry.getValue().get(0).getSeverity();
                 final String code = bugEntry.getValue().get(0).getMessageCode();
-                counts.add(code, severity);
                 sb.append(newLine).append("Severity:").append(severity);
                 sb.append(newLine).append("Message code:").append(code);
                 sb.append(newLine).append("\tFile:").append(bugInfo.getFilename());

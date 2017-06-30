@@ -7,10 +7,7 @@ import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 
-import com.cflint.BugCounts;
-import com.cflint.BugInfo;
-import com.cflint.BugList;
-import com.cflint.Version;
+import com.cflint.*;
 import com.cflint.xml.CFLintResultMarshaller;
 import com.cflint.xml.MarshallerException;
 
@@ -22,13 +19,13 @@ import javanet.staxutils.IndentingXMLStreamWriter;
 public class DefaultCFlintResultMarshaller implements CFLintResultMarshaller {
 
     @Override
-    public void output(BugList bugList, Writer writer, boolean showStats) throws MarshallerException {
+    public void output(BugList bugList, Writer writer, boolean showStats, CFLintStats stats) throws MarshallerException {
 
         try {
             final XMLOutputFactory xmlOutputFactory = XMLOutputFactory.newInstance();
             XMLStreamWriter xtw = new IndentingXMLStreamWriter(xmlOutputFactory.createXMLStreamWriter(writer));
 
-            writeIssues(bugList, xtw, showStats);
+            writeIssues(bugList, xtw, showStats, stats);
 
             xtw.flush();
 
@@ -37,11 +34,11 @@ public class DefaultCFlintResultMarshaller implements CFLintResultMarshaller {
         }
     }
 
-    private void writeIssues(BugList bugList, XMLStreamWriter xtw, boolean showStats) throws XMLStreamException {
+    private void writeIssues(BugList bugList, XMLStreamWriter xtw, boolean showStats, CFLintStats stats) throws XMLStreamException {
         xtw.writeStartElement("issues");
         xtw.writeAttribute("version", Version.getVersion());
 
-        BugCounts counts = new BugCounts();
+        BugCounts counts = stats.getCounts();
 
         for (BugInfo bug : bugList) {
 

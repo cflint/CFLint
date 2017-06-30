@@ -466,7 +466,7 @@ public class CFLintMain {
                 if (verbose) {
                     display("Writing XML" + (stdOut ? "." : " to " + xmlOutFile));
                 }
-                new DefaultCFlintResultMarshaller().output(cflint.getBugs(), xmlwriter, showStats);
+                new DefaultCFlintResultMarshaller().output(cflint.getBugs(), xmlwriter, showStats, cflint.getStats());
             }
         }
         if (textOutput) {
@@ -475,7 +475,7 @@ public class CFLintMain {
             }
             final Writer textwriter = stdOut || textOutFile == null ? new OutputStreamWriter(System.out)
                     : new FileWriter(textOutFile);
-            new TextOutput().output(cflint.getBugs(), textwriter, showStats);
+            new TextOutput().output(cflint.getBugs(), textwriter, showStats,cflint.getStats());
         }
         if (htmlOutput) {
             try {
@@ -493,7 +493,7 @@ public class CFLintMain {
                 display("Writing JSON" + (stdOut ? "." : " to " + jsonOutFile));
             }
             final Writer jsonwriter = stdOut ? new OutputStreamWriter(System.out) : new FileWriter(jsonOutFile);
-            new JSONOutput().output(cflint.getBugs(), jsonwriter, showStats);
+            new JSONOutput().output(cflint.getBugs(), jsonwriter, showStats, cflint.getStats());
         }
         if (verbose) {
             display("Total files scanned: " + cflint.getStats().getFileCount());

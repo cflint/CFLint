@@ -10,8 +10,8 @@ public class TextOutput {
 
     final static String newLine = System.getProperty("line.separator");
 
-    public void output(final BugList bugList, final Writer sb, final boolean showStats) throws IOException {
-        final BugCounts counts = new BugCounts();
+    public void output(final BugList bugList, final Writer sb, final boolean showStats, CFLintStats stats) throws IOException {
+        final BugCounts counts = stats.getCounts();
 
         for (final Entry<String, List<BugInfo>> bugEntry : bugList.getBugList().entrySet()) {
             sb.append("Issue");

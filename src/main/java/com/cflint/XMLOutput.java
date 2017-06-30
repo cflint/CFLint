@@ -19,7 +19,7 @@ public class XMLOutput {
     public static final String LINE_SEPARATOR = "line.separator";
 
     public void output(final BugList bugList, final Writer writer, final boolean showStats, final CFLintStats stats) throws IOException {
-        final BugCounts counts = new BugCounts();
+        final BugCounts counts = stats.getCounts();
         writer.append("<issues version=\"" + Version.getVersion() + "\"")
                 .append(" timestamp=\"" + Long.toString(stats.getTimestamp()) + "\">")
                 .append(System.getProperty(LINE_SEPARATOR));

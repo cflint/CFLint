@@ -26,8 +26,8 @@ public class JSONOutput {
         this.prettyPrint = prettyPrint;
     }
 
-    public void output(final BugList bugList, final Writer writer, final boolean showStats) throws IOException {
-        final BugCounts counts = new BugCounts();
+    public void output(final BugList bugList, final Writer writer, final boolean showStats, CFLintStats stats) throws IOException {
+        final BugCounts counts = stats.getCounts();
         // final StringBuilder sb = new StringBuilder();
         final JsonFactory jsonF = new JsonFactory();
         final JsonGenerator jg = jsonF.createGenerator(writer);
@@ -122,12 +122,6 @@ public class JSONOutput {
 
     private boolean safeEquals(final String a, final String b) {
         return a != null && b != null && a.equals(b);
-    }
-
-    public void outputFindBugs(final BugList bugList, final Writer writer, final boolean showStats)
-            throws IOException, TransformerException {
-        final StringWriter sw = new StringWriter();
-        output(bugList, sw, showStats);
     }
 
     private String filename(final String filename) {

@@ -1,0 +1,33 @@
+[ {
+  "severity" : "WARNING",
+  "id" : "GLOBAL_LITERAL_VALUE_USED_TOO_OFTEN",
+  "message" : "GLOBAL_LITERAL_VALUE_USED_TOO_OFTEN",
+  "category" : "CFLINT",
+  "abbrev" : "GL",
+  "locations" : [ {
+    "file" : "src\\test\\resources\\com\\cflint\\tests\\LiteralChecker\\literal_checker_326.cfm",
+    "fileName" : "literal_checker_326.cfm",
+    "function" : "",
+    "column" : "130",
+    "line" : "7",
+    "message" : "Literal 3 occurs several times in one or more files. Consider giving it a name and not hard coding values.",
+    "variable" : "3",
+    "expression" : "3"
+  } ]
+}, {
+  "severity" : "WARNING",
+  "id" : "GLOBAL_LITERAL_VALUE_USED_TOO_OFTEN",
+  "message" : "GLOBAL_LITERAL_VALUE_USED_TOO_OFTEN",
+  "category" : "CFLINT",
+  "abbrev" : "GL",
+  "locations" : [ {
+    "file" : "src\\test\\resources\\com\\cflint\\tests\\LiteralChecker\\literal_checker_326.cfm",
+    "fileName" : "literal_checker_326.cfm",
+    "function" : "",
+    "column" : "135",
+    "line" : "7",
+    "message" : "Literal , occurs several times in one or more files. Consider giving it a name and not hard coding values.",
+    "variable" : ",",
+    "expression" : "','"
+  } ]
+} ]

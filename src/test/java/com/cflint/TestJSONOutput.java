@@ -5,6 +5,7 @@ import static org.junit.Assert.assertEquals;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
+import java.math.BigInteger;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -27,7 +28,8 @@ public class TestJSONOutput {
 	public void testOutput() throws IOException {
 		BugInfo bugInfo = new BugInfo.BugInfoBuilder().setFunction("testf").setMessageCode("PARSE_ERROR").setFilename("c:\\temp\\test.cfc").build();
 		bugList.add(bugInfo);
-		outputer.output(bugList, writer, false);
+		CFLintStats stats = new CFLintStats(123456L,1,new BigInteger("545454"));
+		outputer.output(bugList, writer, false, stats);
 		String expectedText = "[{\"severity\":\"\",\"id\":\"PARSE_ERROR\",\"message\":\"PARSE_ERROR\",\"category\":\"CFLINT\",\"abbrev\":\"PE\",\"locations\":[{\"file\":\"c:\\\\temp\\\\test.cfc\",\"fileName\":\"test.cfc\",\"function\":\"testf\",\"column\":\"1\",\"line\":\"1\",\"message\":\"\",\"variable\":\"\",\"expression\":\"\"}]}]";
 //		assertEquals(JSONValue.parse(expectedText),JSONValue.parse(writer.toString()));
 		assertEquals(expectedText,writer.toString());
@@ -37,8 +39,23 @@ public class TestJSONOutput {
 	public void testStats() throws IOException {
 		BugInfo bugInfo = new BugInfo.BugInfoBuilder().setFunction("testf").setMessageCode("PARSE_ERROR").setFilename("c:\\temp\\test.cfc").build();
 		bugList.add(bugInfo);
-		outputer.output(bugList, writer, true);
+		BugCounts counts = new BugCounts();
+		counts.add("PARSE_ERROR", null);
+		CFLintStats stats = new CFLintStats(123456L,1,new BigInteger("545454"),counts);
+		outputer.output(bugList, writer, true, stats);
 		String expectedText = "[{\"severity\":\"\",\"id\":\"PARSE_ERROR\",\"message\":\"PARSE_ERROR\",\"category\":\"CFLINT\",\"abbrev\":\"PE\",\"locations\":[{\"file\":\"c:\\\\temp\\\\test.cfc\",\"fileName\":\"test.cfc\",\"function\":\"testf\",\"column\":\"1\",\"line\":\"1\",\"message\":\"\",\"variable\":\"\",\"expression\":\"\"}]},{\"code\":\"PARSE_ERROR\",\"count\":\"1\"}]";
+		assertEquals(expectedText,writer.toString());
+	}
+
+	@Test
+	public void testStatsWithSeverity() throws IOException {
+		BugInfo bugInfo = new BugInfo.BugInfoBuilder().setFunction("testf").setMessageCode("PARSE_ERROR").setSeverity("ERROR").setFilename("c:\\temp\\test.cfc").build();
+		bugList.add(bugInfo);
+		BugCounts counts = new BugCounts();
+		counts.add("PARSE_ERROR", "ERROR");
+		CFLintStats stats = new CFLintStats(123456L,1,new BigInteger("545454"),counts);
+		outputer.output(bugList, writer, true, stats);
+		String expectedText = "[{\"severity\":\"ERROR\",\"id\":\"PARSE_ERROR\",\"message\":\"PARSE_ERROR\",\"category\":\"CFLINT\",\"abbrev\":\"PE\",\"locations\":[{\"file\":\"c:\\\\temp\\\\test.cfc\",\"fileName\":\"test.cfc\",\"function\":\"testf\",\"column\":\"1\",\"line\":\"1\",\"message\":\"\",\"variable\":\"\",\"expression\":\"\"}]},{\"code\":\"PARSE_ERROR\",\"count\":\"1\"},{\"severity\":\"ERROR\",\"count\":\"1\"}]";
 		assertEquals(expectedText,writer.toString());
 	}
 	

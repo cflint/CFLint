@@ -107,13 +107,13 @@ public class CFLintTask extends Task {
                             showStats, cflint.getStats());
                 } else {
                     new DefaultCFlintResultMarshaller().output(cflint.getBugs(),
-                            createWriter(xmlFile, StandardCharsets.UTF_8), showStats);
+                            createWriter(xmlFile, StandardCharsets.UTF_8), showStats,cflint.getStats());
                 }
             }
             if (textFile != null) {
                 final Writer textwriter = textFile != null ? new FileWriter(textFile)
                         : new OutputStreamWriter(System.out);
-                new TextOutput().output(cflint.getBugs(), textwriter, showStats);
+                new TextOutput().output(cflint.getBugs(), textwriter, showStats,cflint.getStats());
 
             }
             if (htmlFile != null) {

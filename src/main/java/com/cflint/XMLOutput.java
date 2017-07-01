@@ -19,7 +19,7 @@ public class XMLOutput {
     public static final String LINE_SEPARATOR = "line.separator";
 
     public void output(final BugList bugList, final Writer writer, final boolean showStats, final CFLintStats stats) throws IOException {
-        final BugCounts counts = new BugCounts();
+        final BugCounts counts = stats.getCounts();
         writer.append("<issues version=\"" + Version.getVersion() + "\"")
                 .append(" timestamp=\"" + Long.toString(stats.getTimestamp()) + "\">")
                 .append(System.getProperty(LINE_SEPARATOR));
@@ -31,7 +31,6 @@ public class XMLOutput {
             while (bugInfo != null) {
                 final String severity = bugEntry.getValue().get(0).getSeverity();
                 final String code = bugEntry.getValue().get(0).getMessageCode();
-                counts.add(code, severity);
                 writer.append("<issue");
                 writer.append(" severity=\"").append(xmlEscapeText(severity)).append("\"");
                 writer.append(" id=\"").append(xmlEscapeText(code)).append("\"");

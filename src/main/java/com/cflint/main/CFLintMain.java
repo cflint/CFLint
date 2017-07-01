@@ -25,18 +25,13 @@ import javax.swing.JOptionPane;
 import javax.xml.bind.JAXBException;
 import javax.xml.transform.TransformerException;
 
+import com.cflint.*;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.GnuParser;
 import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Options;
 
-import com.cflint.CFLint;
-import com.cflint.HTMLOutput;
-import com.cflint.JSONOutput;
-import com.cflint.TextOutput;
-import com.cflint.Version;
-import com.cflint.XMLOutput;
 import com.cflint.config.CFLintChainedConfig;
 import com.cflint.config.CFLintConfig;
 import com.cflint.config.CFLintConfiguration;
@@ -454,6 +449,9 @@ public class CFLintMain {
             scanner.close();
             cflint.process(source.toString(), stdInFile);
         }
+        for (BugInfo bug : cflint.getBugs()) {
+            cflint.getStats().getCounts().add(bug.getMessageCode(), bug.getSeverity());
+        }
         if (xmlOutput) {
             final Writer xmlwriter = stdOut ? new OutputStreamWriter(System.out)
                     : createWriter(xmlOutFile, StandardCharsets.UTF_8);
@@ -466,7 +464,7 @@ public class CFLintMain {
                 if (verbose) {
                     display("Writing XML" + (stdOut ? "." : " to " + xmlOutFile));
                 }
-                new DefaultCFlintResultMarshaller().output(cflint.getBugs(), xmlwriter, showStats);
+                new DefaultCFlintResultMarshaller().output(cflint.getBugs(), xmlwriter, showStats, cflint.getStats());
             }
         }
         if (textOutput) {
@@ -475,7 +473,7 @@ public class CFLintMain {
             }
             final Writer textwriter = stdOut || textOutFile == null ? new OutputStreamWriter(System.out)
                     : new FileWriter(textOutFile);
-            new TextOutput().output(cflint.getBugs(), textwriter, showStats);
+            new TextOutput().output(cflint.getBugs(), textwriter, showStats,cflint.getStats());
         }
         if (htmlOutput) {
             try {
@@ -493,7 +491,7 @@ public class CFLintMain {
                 display("Writing JSON" + (stdOut ? "." : " to " + jsonOutFile));
             }
             final Writer jsonwriter = stdOut ? new OutputStreamWriter(System.out) : new FileWriter(jsonOutFile);
-            new JSONOutput().output(cflint.getBugs(), jsonwriter, showStats);
+            new JSONOutput().output(cflint.getBugs(), jsonwriter, showStats, cflint.getStats());
         }
         if (verbose) {
             display("Total files scanned: " + cflint.getStats().getFileCount());

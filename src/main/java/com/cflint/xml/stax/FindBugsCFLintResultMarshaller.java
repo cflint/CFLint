@@ -11,17 +11,18 @@ import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
 import com.cflint.BugList;
+import com.cflint.CFLintStats;
 import com.cflint.xml.CFLintResultMarshaller;
 import com.cflint.xml.MarshallerException;
 
 public class FindBugsCFLintResultMarshaller implements CFLintResultMarshaller {
 
     @Override
-    public void output(BugList bugList, Writer writer, boolean showStats) throws MarshallerException {
+    public void output(BugList bugList, Writer writer, boolean showStats, CFLintStats stats) throws MarshallerException {
         try {
             StringWriter sw = new StringWriter();
             DefaultCFlintResultMarshaller marshaller = new DefaultCFlintResultMarshaller();
-            marshaller.output(bugList, sw, showStats);
+            marshaller.output(bugList, sw, showStats, stats);
             sw.flush();
 
             final Transformer transformer = TransformerFactory.newInstance().newTransformer(

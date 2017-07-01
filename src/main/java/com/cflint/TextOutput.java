@@ -10,15 +10,14 @@ public class TextOutput {
 
     final static String newLine = System.getProperty("line.separator");
 
-    public void output(final BugList bugList, final Writer sb, final boolean showStats) throws IOException {
-        final BugCounts counts = new BugCounts();
+    public void output(final BugList bugList, final Writer sb, final boolean showStats, CFLintStats stats) throws IOException {
+        final BugCounts counts = stats.getCounts();
 
         for (final Entry<String, List<BugInfo>> bugEntry : bugList.getBugList().entrySet()) {
             sb.append("Issue");
             for (final BugInfo bugInfo : bugEntry.getValue()) {
                 final String severity = bugEntry.getValue().get(0).getSeverity();
                 final String code = bugEntry.getValue().get(0).getMessageCode();
-                counts.add(code, severity);
                 sb.append(newLine).append("Severity:").append(severity);
                 sb.append(newLine).append("Message code:").append(code);
                 sb.append(newLine).append("\tFile:").append(bugInfo.getFilename());

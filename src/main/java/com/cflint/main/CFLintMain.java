@@ -91,7 +91,6 @@ public class CFLintMain {
     private String stdInFile = "source.cfc";
     private Boolean stdOut = false;
     // private String configfile = null;
-    boolean showStats = false;
     private boolean strictInclude;
 
     public static void main(final String[] args) throws Exception {
@@ -128,7 +127,6 @@ public class CFLintMain {
         options.addOption(JSONFILE, true, "specify the output json file (default: cflint-results.json)");
         options.addOption("text", false, "output in plain text");
         options.addOption(TEXTFILE, true, "specify the output text file (default: cflint-results.txt)");
-        options.addOption("stats", false, "show bug count statstics");
         options.addOption(EXTENSIONS, true, "specify the extensions of the CF source files (default: .cfm,.cfc)");
         options.addOption(CONFIGFILE, true, "specify the location of the config file");
         options.addOption(STDIN, true, "use stdin for file input (default: source.cfc)");
@@ -199,7 +197,6 @@ public class CFLintMain {
         main.xmlOutput = cmd.hasOption("xml") || cmd.hasOption(XMLSTYLE) || cmd.hasOption(XMLFILE);
         main.textOutput = cmd.hasOption("text") || cmd.hasOption(TEXTFILE);
         main.jsonOutput = cmd.hasOption("json") || cmd.hasOption("jsonFile");
-        main.showStats = cmd.hasOption("stats");
 
         if (cmd.hasOption("ui")) {
             main.ui();
@@ -459,12 +456,12 @@ public class CFLintMain {
                 if (verbose) {
                     display("Writing XML findbugs style" + (stdOut ? "." : " to " + xmlOutFile));
                 }
-                new XMLOutput().outputFindBugs(cflint.getBugs(), xmlwriter, showStats, cflint.getStats());
+                new XMLOutput().outputFindBugs(cflint.getBugs(), xmlwriter, cflint.getStats());
             } else {
                 if (verbose) {
                     display("Writing XML" + (stdOut ? "." : " to " + xmlOutFile));
                 }
-                new DefaultCFlintResultMarshaller().output(cflint.getBugs(), xmlwriter, showStats, cflint.getStats());
+                new DefaultCFlintResultMarshaller().output(cflint.getBugs(), xmlwriter, cflint.getStats());
             }
         }
         if (textOutput) {
@@ -473,7 +470,7 @@ public class CFLintMain {
             }
             final Writer textwriter = stdOut || textOutFile == null ? new OutputStreamWriter(System.out)
                     : new FileWriter(textOutFile);
-            new TextOutput().output(cflint.getBugs(), textwriter, showStats,cflint.getStats());
+            new TextOutput().output(cflint.getBugs(), textwriter,cflint.getStats());
         }
         if (htmlOutput) {
             try {
@@ -481,7 +478,7 @@ public class CFLintMain {
                     display("Writing HTML" + (stdOut ? "." : " to " + htmlOutFile));
                 }
                 final Writer htmlwriter = stdOut ? new OutputStreamWriter(System.out) : new FileWriter(htmlOutFile);
-                new HTMLOutput(htmlStyle).output(cflint.getBugs(), htmlwriter, showStats, cflint.getStats());
+                new HTMLOutput(htmlStyle).output(cflint.getBugs(), htmlwriter, cflint.getStats());
             } catch (final TransformerException e) {
                 throw new IOException(e);
             }
@@ -491,7 +488,7 @@ public class CFLintMain {
                 display("Writing JSON" + (stdOut ? "." : " to " + jsonOutFile));
             }
             final Writer jsonwriter = stdOut ? new OutputStreamWriter(System.out) : new FileWriter(jsonOutFile);
-            new JSONOutput().output(cflint.getBugs(), jsonwriter, showStats, cflint.getStats());
+            new JSONOutput().output(cflint.getBugs(), jsonwriter, cflint.getStats());
         }
         if (verbose) {
             display("Total files scanned: " + cflint.getStats().getFileCount());

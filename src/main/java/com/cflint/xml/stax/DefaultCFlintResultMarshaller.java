@@ -19,13 +19,13 @@ import javanet.staxutils.IndentingXMLStreamWriter;
 public class DefaultCFlintResultMarshaller implements CFLintResultMarshaller {
 
     @Override
-    public void output(BugList bugList, Writer writer, boolean showStats, CFLintStats stats) throws MarshallerException {
+    public void output(BugList bugList, Writer writer, CFLintStats stats) throws MarshallerException {
 
         try {
             final XMLOutputFactory xmlOutputFactory = XMLOutputFactory.newInstance();
             XMLStreamWriter xtw = new IndentingXMLStreamWriter(xmlOutputFactory.createXMLStreamWriter(writer));
 
-            writeIssues(bugList, xtw, showStats, stats);
+            writeIssues(bugList, xtw, stats);
 
             xtw.flush();
 
@@ -34,7 +34,7 @@ public class DefaultCFlintResultMarshaller implements CFLintResultMarshaller {
         }
     }
 
-    private void writeIssues(BugList bugList, XMLStreamWriter xtw, boolean showStats, CFLintStats stats) throws XMLStreamException {
+    private void writeIssues(BugList bugList, XMLStreamWriter xtw, CFLintStats stats) throws XMLStreamException {
         xtw.writeStartElement("issues");
         xtw.writeAttribute("version", Version.getVersion());
 
@@ -44,9 +44,7 @@ public class DefaultCFlintResultMarshaller implements CFLintResultMarshaller {
             writeIssue(xtw, bug);
         }
 
-        if (showStats) {
-            writeCounts(xtw, counts);
-        }
+        writeCounts(xtw, counts);
 
         xtw.writeEndElement();
     }

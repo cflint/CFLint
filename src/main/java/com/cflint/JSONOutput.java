@@ -26,7 +26,7 @@ public class JSONOutput {
         this.prettyPrint = prettyPrint;
     }
 
-    public void output(final BugList bugList, final Writer writer, final boolean showStats, CFLintStats stats) throws IOException {
+    public void output(final BugList bugList, final Writer writer, CFLintStats stats) throws IOException {
         final BugCounts counts = stats.getCounts();
         // final StringBuilder sb = new StringBuilder();
         final JsonFactory jsonF = new JsonFactory();
@@ -74,20 +74,18 @@ public class JSONOutput {
             }
         }
 
-        if (showStats) {
-            for (final String code : counts.bugTypes()) {
+        for (final String code : counts.bugTypes()) {
+            jg.writeStartObject();
+            jg.writeStringField("code", code);
+            jg.writeNumberField("count", counts.getCode(code));
+            jg.writeEndObject();
+        }
+        for (final String severity : BugCounts.levels) {
+            if (counts.getSeverity(severity) > 0) {
                 jg.writeStartObject();
-                jg.writeStringField("code", code);
-                jg.writeNumberField("count", counts.getCode(code));
+                jg.writeStringField("severity", severity);
+                jg.writeNumberField("count", counts.getSeverity(severity));
                 jg.writeEndObject();
-            }
-            for (final String severity : BugCounts.levels) {
-                if (counts.getSeverity(severity) > 0) {
-                    jg.writeStartObject();
-                    jg.writeStringField("severity", severity);
-                    jg.writeNumberField("count", counts.getSeverity(severity));
-                    jg.writeEndObject();
-                }
             }
         }
 

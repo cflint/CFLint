@@ -62,4 +62,13 @@
     "variable" : "getStringFromStruct",
     "expression" : "public string function getStringFromStruct(interestingVar)   {\n    return interestingVar;\n\n  }"
   } ]
+}, {
+  "code" : "FUNCTION_HINT_MISSING",
+  "count" : 3
+}, {
+  "code" : "COMPONENT_INVALID_NAME",
+  "count" : 1
+}, {
+  "severity" : "INFO",
+  "count" : 4
 } ]

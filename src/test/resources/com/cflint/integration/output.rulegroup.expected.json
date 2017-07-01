@@ -14,4 +14,10 @@
     "variable" : "",
     "expression" : "component {\n  public string function getStringFromStruct(interestingVar)     {\n      return interestingVar;\n\n    }\n}"
   } ]
+}, {
+  "code" : "COMPONENT_INVALID_NAME",
+  "count" : 1
+}, {
+  "severity" : "INFO",
+  "count" : 1
 } ]

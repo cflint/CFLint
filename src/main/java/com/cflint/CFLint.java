@@ -181,7 +181,9 @@ public class CFLint implements IErrorReporter {
                 for (final File file : folderOrFile.listFiles()) {
                     if (file.getName().toLowerCase().startsWith(".cflintrc")) {
                         try {
-                            System.out.println("read config " + file);
+                        	if(verbose){
+                        		System.out.println("read config " + file);
+                        	}
                             CFLintConfiguration newConfig = file.getName().toLowerCase().endsWith(".xml") ?
                                     ConfigUtils.unmarshal(new FileInputStream(file), CFLintConfig.class) :
                                     ConfigUtils.unmarshalJson(new FileInputStream(file), CFLintConfig.class);
@@ -502,7 +504,6 @@ public class CFLint implements IErrorReporter {
             } catch (final Exception e) {
                 printException(e);
                 reportRule(elem, null, context, plugin, PLUGIN_ERROR);
-                fireCFLintException(e, PLUGIN_ERROR, context.getFilename(), null, null, null, null);
             }
         }
     }
@@ -784,7 +785,6 @@ public class CFLint implements IErrorReporter {
             } catch (final Exception e) {
                 printException(e);
                 reportRule(elem, expression, context, plugin, PLUGIN_ERROR);
-                fireCFLintException(e, PLUGIN_ERROR, context.getFilename(), null, null, null, null);
             }
         }
     }
@@ -816,8 +816,7 @@ public class CFLint implements IErrorReporter {
     	}
         Iterable<Token> tokens = expression.getTokens().getTokens();
         for (Token currentTok : tokens) {
-        	System.out.println(currentTok.toString());
-            if (currentTok.getLine() == expression.getExpression().getLine()) {
+        	if (currentTok.getLine() == expression.getExpression().getLine()) {
                 if (currentTok.getChannel() == Token.HIDDEN_CHANNEL && currentTok.getType() == CFSCRIPTLexer.LINE_COMMENT) {
                 	final String commentText = currentTok.getText().replaceFirst("^//\\s*", "").trim();
                 	if (commentText.startsWith("cflint ")) {
@@ -873,7 +872,6 @@ public class CFLint implements IErrorReporter {
                 } catch (final Exception e) {
                     printException(e);
                     reportRule(elem, expression, context, plugin, PLUGIN_ERROR);
-                    fireCFLintException(e, PLUGIN_ERROR, context.getFilename(), null, null, null, null);
                 }
             }
             // Handle a few expression types in a special fashion.

@@ -126,7 +126,6 @@ public class XMLOutput {
         final javax.xml.transform.Transformer transformer = tFactory.newTransformer(new javax.xml.transform.stream.StreamSource(is));
 
         // 3. Use the Transformer to transform an XML Source and send the output to a Result object.
-        System.out.println(sw.toString());
         transformer.transform(new StreamSource(new StringReader(sw.toString())), new StreamResult(writer));
 
         writer.close();

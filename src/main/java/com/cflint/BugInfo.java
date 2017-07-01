@@ -155,7 +155,13 @@ public class BugInfo implements Comparable<BugInfo> {
                 elemColumn = elem.getSource().getColumn(elem.getBegin());
             }
             bugInfo.setLine(elemLine + Math.max(expression == null ? 0 : expression.getLine() - 1, 0));
-            bugInfo.setColumn(elemColumn + Math.max(expression == null ? 0 : expression.getColumn() - 1, 0));
+            if(expression == null || expression.getColumn() < 1){
+            	bugInfo.setColumn(elemColumn);
+            }else if (expression.getLine()>1){
+            	bugInfo.setColumn(expression.getColumn());
+            }else{
+            	bugInfo.setColumn(elemColumn + expression.getColumn() - 1);
+            }
             doMessageText(elem);
             return bugInfo;
         }

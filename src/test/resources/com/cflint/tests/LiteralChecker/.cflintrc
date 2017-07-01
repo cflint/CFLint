@@ -1,0 +1,7 @@
+{
+  "includes" : [ 
+    {"code" : "LOCAL_LITERAL_VALUE_USED_TOO_OFTEN"}
+    ,{"code" : "GLOBAL_LITERAL_VALUE_USED_TOO_OFTEN"}
+     ],
+  "inheritParent" : false
+}

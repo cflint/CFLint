@@ -184,7 +184,9 @@ public class CFLint implements IErrorReporter {
                 for (final File file : folderOrFile.listFiles()) {
                     if (file.getName().toLowerCase().startsWith(".cflintrc")) {
                         try {
-                            System.out.println("read config " + file);
+                        	if(verbose){
+                        		System.out.println("read config " + file);
+                        	}
                             CFLintConfiguration newConfig = file.getName().toLowerCase().endsWith(".xml") ?
                                     ConfigUtils.unmarshal(new FileInputStream(file), CFLintConfig.class) :
                                     ConfigUtils.unmarshalJson(new FileInputStream(file), CFLintConfig.class);

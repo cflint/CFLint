@@ -18,7 +18,7 @@ public class XMLOutput {
 
     public static final String LINE_SEPARATOR = "line.separator";
 
-    public void output(final BugList bugList, final Writer writer, final boolean showStats, final CFLintStats stats) throws IOException {
+    public void output(final BugList bugList, final Writer writer, final CFLintStats stats) throws IOException {
         final BugCounts counts = stats.getCounts();
         writer.append("<issues version=\"" + Version.getVersion() + "\"")
                 .append(" timestamp=\"" + Long.toString(stats.getTimestamp()) + "\">")
@@ -62,29 +62,27 @@ public class XMLOutput {
             }
         }
 
-        if (showStats) {
-            writer.append("<counts");
-            writer.append(" totalfiles=\"").append(Long.toString(stats.getFileCount())).append("\"");
-            writer.append(" totalsize=\"").append(stats.getTotalSize().toString()).append("\">").append(System.getProperty(LINE_SEPARATOR));
+        writer.append("<counts");
+        writer.append(" totalfiles=\"").append(Long.toString(stats.getFileCount())).append("\"");
+        writer.append(" totalsize=\"").append(stats.getTotalSize().toString()).append("\">").append(System.getProperty(LINE_SEPARATOR));
 
-            for (final String code : counts.bugTypes()) {
+        for (final String code : counts.bugTypes()) {
+            writer.append("<count");
+            writer.append(" code=\"").append(code).append("\"");
+            writer.append(" count=\"").append(Integer.toString(counts.getCode(code))).append("\" />");
+            writer.append(System.getProperty(LINE_SEPARATOR));
+        }
+
+        for (final String severity : BugCounts.levels) {
+            if (counts.getSeverity(severity) > 0) {
                 writer.append("<count");
-                writer.append(" code=\"").append(code).append("\"");
-                writer.append(" count=\"").append(Integer.toString(counts.getCode(code))).append("\" />");
+                writer.append(" severity=\"").append(severity).append("\"");
+                writer.append(" count=\"").append(Integer.toString(counts.getSeverity(severity))).append("\" />");
                 writer.append(System.getProperty(LINE_SEPARATOR));
             }
-
-            for (final String severity : BugCounts.levels) {
-                if (counts.getSeverity(severity) > 0) {
-                    writer.append("<count");
-                    writer.append(" severity=\"").append(severity).append("\"");
-                    writer.append(" count=\"").append(Integer.toString(counts.getSeverity(severity))).append("\" />");
-                    writer.append(System.getProperty(LINE_SEPARATOR));
-                }
-            }
-
-            writer.append("</counts>").append(System.getProperty(LINE_SEPARATOR));
         }
+
+        writer.append("</counts>").append(System.getProperty(LINE_SEPARATOR));
 
         writer.append("</issues>");
         writer.close();
@@ -114,11 +112,11 @@ public class XMLOutput {
         return a != null && b != null && a.equals(b);
     }
 
-    public void outputFindBugs(final BugList bugList, final Writer writer, final boolean showStats, final CFLintStats stats)
+    public void outputFindBugs(final BugList bugList, final Writer writer, final CFLintStats stats)
             throws IOException, TransformerException {
 
         final StringWriter sw = new StringWriter();
-        output(bugList, sw, showStats, stats);
+        output(bugList, sw, stats);
 
         // 1. Instantiate a TransformerFactory.
         final javax.xml.transform.TransformerFactory tFactory = javax.xml.transform.TransformerFactory.newInstance();

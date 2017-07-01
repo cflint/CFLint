@@ -46,7 +46,6 @@ public class CFLintTask extends Task {
     private String extensions;
     private boolean verbose;
     private boolean quiet;
-    private boolean showStats;
     private final List<FileSet> filesets = new ArrayList<FileSet>();
 
     @Override
@@ -103,22 +102,20 @@ public class CFLintTask extends Task {
                     System.out.println("Style:" + xmlStyle);
                 }
                 if ("findbugs".equalsIgnoreCase(xmlStyle)) {
-                    new XMLOutput().outputFindBugs(cflint.getBugs(), createWriter(xmlFile, StandardCharsets.UTF_8),
-                            showStats, cflint.getStats());
+                    new XMLOutput().outputFindBugs(cflint.getBugs(), createWriter(xmlFile, StandardCharsets.UTF_8), cflint.getStats());
                 } else {
-                    new DefaultCFlintResultMarshaller().output(cflint.getBugs(),
-                            createWriter(xmlFile, StandardCharsets.UTF_8), showStats,cflint.getStats());
+                    new DefaultCFlintResultMarshaller().output(cflint.getBugs(), createWriter(xmlFile, StandardCharsets.UTF_8),cflint.getStats());
                 }
             }
             if (textFile != null) {
                 final Writer textwriter = textFile != null ? new FileWriter(textFile)
                         : new OutputStreamWriter(System.out);
-                new TextOutput().output(cflint.getBugs(), textwriter, showStats,cflint.getStats());
+                new TextOutput().output(cflint.getBugs(), textwriter, cflint.getStats());
 
             }
             if (htmlFile != null) {
                 try {
-                    new HTMLOutput(htmlStyle).output(cflint.getBugs(), new FileWriter(htmlFile), showStats, cflint.getStats());
+                    new HTMLOutput(htmlStyle).output(cflint.getBugs(), new FileWriter(htmlFile), cflint.getStats());
                 } catch (final TransformerException e) {
                     throw new IOException(e);
                 }

@@ -15,7 +15,7 @@ public class HTMLOutput {
 
     final String htmlStyle;
 
-    public void output(final BugList bugList, final Writer writer, final boolean showStats,final CFLintStats stats)
+    public void output(final BugList bugList, final Writer writer, final CFLintStats stats)
             throws IOException, TransformerException {
 
         // 1. Instantiate a TransformerFactory.
@@ -34,7 +34,7 @@ public class HTMLOutput {
         }
 
         final StringWriter sw = new StringWriter();
-        new XMLOutput().outputFindBugs(bugList, sw, showStats, stats);
+        new XMLOutput().outputFindBugs(bugList, sw, stats);
 
         // 3. Use the Transformer to transform an XML Source and send the
         // output to a Result object.

@@ -18,11 +18,11 @@ import com.cflint.xml.MarshallerException;
 public class FindBugsCFLintResultMarshaller implements CFLintResultMarshaller {
 
     @Override
-    public void output(BugList bugList, Writer writer, boolean showStats, CFLintStats stats) throws MarshallerException {
+    public void output(BugList bugList, Writer writer, CFLintStats stats) throws MarshallerException {
         try {
             StringWriter sw = new StringWriter();
             DefaultCFlintResultMarshaller marshaller = new DefaultCFlintResultMarshaller();
-            marshaller.output(bugList, sw, showStats, stats);
+            marshaller.output(bugList, sw, stats);
             sw.flush();
 
             final Transformer transformer = TransformerFactory.newInstance().newTransformer(

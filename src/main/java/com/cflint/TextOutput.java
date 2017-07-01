@@ -10,7 +10,7 @@ public class TextOutput {
 
     final static String newLine = System.getProperty("line.separator");
 
-    public void output(final BugList bugList, final Writer sb, final boolean showStats, CFLintStats stats) throws IOException {
+    public void output(final BugList bugList, final Writer sb, CFLintStats stats) throws IOException {
         final BugCounts counts = stats.getCounts();
 
         for (final Entry<String, List<BugInfo>> bugEntry : bugList.getBugList().entrySet()) {
@@ -31,19 +31,17 @@ public class TextOutput {
             }
         }
 
-        if (showStats) {
-            sb.append(newLine).append(newLine).append("Issue counts:" + counts.noBugTypes());
+        sb.append(newLine).append(newLine).append("Issue counts:" + counts.noBugTypes());
 
-            for (final String code : counts.bugTypes()) {
-                sb.append(newLine).append(code + ":" + counts.getCode(code));
-            }
+        for (final String code : counts.bugTypes()) {
+            sb.append(newLine).append(code + ":" + counts.getCode(code));
+        }
 
-            sb.append(newLine).append(newLine).append("Total issues:" + counts.noBugs());
+        sb.append(newLine).append(newLine).append("Total issues:" + counts.noBugs());
 
-            for (final String severity : BugCounts.levels) {
-                if (counts.getSeverity(severity) > 0) {
-                    sb.append(newLine).append("Total " + severity.toLowerCase() + "s:" + counts.getSeverity(severity));
-                }
+        for (final String severity : BugCounts.levels) {
+            if (counts.getSeverity(severity) > 0) {
+                sb.append(newLine).append("Total " + severity.toLowerCase() + "s:" + counts.getSeverity(severity));
             }
         }
 

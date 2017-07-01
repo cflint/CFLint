@@ -16,6 +16,7 @@ import java.util.Stack;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.cflint.config.*;
 import org.antlr.runtime.BitSet;
 import org.antlr.v4.runtime.Parser;
 import org.antlr.v4.runtime.Recognizer;
@@ -24,12 +25,8 @@ import org.antlr.v4.runtime.atn.ATNConfigSet;
 import org.antlr.v4.runtime.dfa.DFA;
 
 import com.cflint.BugInfo.BugInfoBuilder;
-import com.cflint.config.CFLintChainedConfig;
-import com.cflint.config.CFLintConfig;
-import com.cflint.config.CFLintConfiguration;
 import com.cflint.config.CFLintPluginInfo.PluginInfoRule;
 import com.cflint.config.CFLintPluginInfo.PluginInfoRule.PluginMessage;
-import com.cflint.config.ConfigUtils;
 import com.cflint.listeners.ScanProgressListener;
 import com.cflint.plugins.CFLintScanner;
 import com.cflint.plugins.CFLintSet;
@@ -366,7 +363,8 @@ public class CFLint implements IErrorReporter {
                     }
                 } catch (final Exception npe) {
                     printException(npe, elem);
-                    fireCFLintException(npe, PARSE_ERROR, context.getFilename(), null, null, null, null);
+                    final ContextMessage cm = new ContextMessage("PARSE_ERROR", null,null,context.startLine());
+                    reportRule(currentElement,null,context,null, cm);
                 }
             }
             processStack(elem.getChildElements(), space + " ", context);
@@ -420,7 +418,8 @@ public class CFLint implements IErrorReporter {
                     functionContext.getMessages().clear();
                 } catch (final Exception e) {
                     printException(e);
-                    fireCFLintException(e, PARSE_ERROR, context.getFilename(), null, null, null, null);
+                    final ContextMessage cm = new ContextMessage("PARSE_ERROR", null,null,context.startLine());
+                    reportRule(currentElement,null,context,null, cm);
                 }
             }
             handler.pop();
@@ -442,7 +441,8 @@ public class CFLint implements IErrorReporter {
                     componentContext.getMessages().clear();
                 } catch (final Exception e) {
                     printException(e);
-                    fireCFLintException(e, PARSE_ERROR, context.getFilename(), null, null, null, null);
+                    final ContextMessage cm = new ContextMessage("PARSE_ERROR", null,null,context.startLine());
+                    reportRule(currentElement,null,context,null, cm);
                 }
             }
             handler.pop();
@@ -626,7 +626,8 @@ public class CFLint implements IErrorReporter {
                         componentContext.getMessages().clear();
                     } catch (final Exception e) {
                         printException(e);
-                        fireCFLintException(e, PARSE_ERROR, context.getFilename(), null, null, null, null);
+                        final ContextMessage cm = new ContextMessage("PARSE_ERROR", null,null,context.startLine());
+                        reportRule(currentElement,null,context,null, cm);
                     }
                 }
             } else if (expression instanceof CFForStatement) {
@@ -698,7 +699,8 @@ public class CFLint implements IErrorReporter {
                         functionContext.getMessages().clear();
                     } catch (final Exception e) {
                         printException(e);
-                        fireCFLintException(e, PARSE_ERROR, context.getFilename(), null, null, null, null);
+                        final ContextMessage cm = new ContextMessage("PARSE_ERROR", null,null,context.startLine());
+                        reportRule(currentElement,null,context,null, cm);
                     }
                 }
                 handler.pop();
@@ -721,15 +723,15 @@ public class CFLint implements IErrorReporter {
                         } catch (IOException ex) {
                             System.err.println("Invalid include file " + context.getFilename());
                             final int line = context.startLine();
-                            fireCFLintException(ex, PARSE_ERROR, context.getFilename(), line, 1, "",
-                                    "Invalid include file " + expression.getClass());
+                            final ContextMessage cm = new ContextMessage("PARSE_ERROR", null,null,line);
+                            reportRule(currentElement,"Invalid include file " + expression.getClass(),context,null, cm);
                         }
                     }
                 } else if(strictInclude){
                     System.err.println("Unable to resolve template value " + context.getFilename());
                     final int line = context.startLine();
-                    fireCFLintException(new Exception(), PARSE_ERROR, context.getFilename(), line, 1, "",
-                            "Unable to resolve template value " + expression.getClass());
+                    final ContextMessage cm = new ContextMessage("PARSE_ERROR", null,null,line);
+                    reportRule(currentElement,"Unable to resolve template value " + expression.getClass(),context,null, cm);
                 }
             } else {
                 scanExpression(expression, context, elem);
@@ -737,8 +739,8 @@ public class CFLint implements IErrorReporter {
         } catch (final StackOverflowError soe) {
             System.err.println("Stack overflow in " + context.getFilename());
             final int line = context.startLine();
-            fireCFLintException(soe, PARSE_ERROR, context.getFilename(), line, 1, "",
-                    "Stack overflow on " + expression.getClass());
+            final ContextMessage cm = new ContextMessage("PARSE_ERROR", null,null,line);
+            reportRule(currentElement,"Stack overflow on " + expression.getClass(),context,null, cm);
         }
         // Process any messages added by downstream parsing.
         for (final ContextMessage message : context.getMessages()) {
@@ -763,7 +765,8 @@ public class CFLint implements IErrorReporter {
                 context.getMessages().clear();
             } catch (final Exception e) {
                 printException(e);
-                fireCFLintException(e, PARSE_ERROR, context.getFilename(), null, null, null, null);
+                final ContextMessage cm = new ContextMessage("PARSE_ERROR", null,null,context.startLine());
+                reportRule(currentElement,null,context,null, cm);
             }
         }
     }
@@ -1021,6 +1024,12 @@ public class CFLint implements IErrorReporter {
             msgInfo.setMessageText("CF file is empty: ${file}");
             msgInfo.setSeverity("WARNING");
             ruleInfo.getMessages().add(msgInfo);
+        }else if ("PARSE_ERROR".equals(msgcode)) {
+            ruleInfo = new CFLintPluginInfo.PluginInfoRule();
+            final CFLintPluginInfo.PluginInfoRule.PluginMessage msgInfo = new CFLintPluginInfo.PluginInfoRule.PluginMessage("PARSE_ERROR");
+            msgInfo.setMessageText("Unable to parse");
+            msgInfo.setSeverity("ERROR");
+            ruleInfo.getMessages().add(msgInfo);
         } else {
             if (plugin == null) {
                 throw new NullPointerException(
@@ -1157,7 +1166,9 @@ public class CFLint implements IErrorReporter {
                 structurePlugin.startFile(srcidentifier, bugs);
             } catch (final Exception e) {
                 printException(e);
-                fireCFLintException(e, PARSE_ERROR, srcidentifier, null, null, null, null);
+                final Context context = new Context(currentFile,currentElement,null,true,null,null);
+                final ContextMessage cm = new ContextMessage("PARSE_ERROR", null,null,context.startLine());
+                reportRule(currentElement,null,context,null, cm);
             }
         }
         for (final ScanProgressListener p : scanProgressListeners) {
@@ -1171,7 +1182,9 @@ public class CFLint implements IErrorReporter {
                 structurePlugin.endFile(srcidentifier, bugs);
             } catch (final Exception e) {
                 printException(e);
-                fireCFLintException(e, PARSE_ERROR, srcidentifier, null, null, null, null);
+                final Context context = new Context(currentFile,currentElement,null,true,null,null);
+                final ContextMessage cm = new ContextMessage("PARSE_ERROR", null,null,context.startLine());
+                reportRule(currentElement,null,context,null, cm);
             }
         }
         for (final ScanProgressListener p : scanProgressListeners) {
@@ -1246,9 +1259,10 @@ public class CFLint implements IErrorReporter {
         	final Context context = new Context(currentFile,currentElement,null,true,null,null);
         	final ContextMessage cm = new ContextMessage("MISSING_SEMI", expression,null,line);
         	reportRule(currentElement,null,context,null, cm);
-
         } else {
-            fireCFLintException(e, PARSE_ERROR, file, line, charPositionInLine, "", msg);
+            final Context context = new Context(currentFile,currentElement,null,true,null,null);
+            final ContextMessage cm = new ContextMessage("PARSE_ERROR", expression,null,line);
+            reportRule(currentElement,null,context,null, cm);
         }
     }
 

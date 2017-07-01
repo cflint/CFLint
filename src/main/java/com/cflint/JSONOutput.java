@@ -60,8 +60,8 @@ public class JSONOutput {
                     jg.writeStringField("file", notNull(bugInfo.getFilename()));
                     jg.writeStringField("fileName", filename(bugInfo.getFilename()));
                     jg.writeStringField("function", filename(bugInfo.getFunction()));
-                    jg.writeStringField("column", Integer.valueOf(bugInfo.getColumn()).toString());
-                    jg.writeStringField("line", Integer.valueOf(bugInfo.getLine()).toString());
+                    jg.writeNumberField("column", bugInfo.getColumn());
+                    jg.writeNumberField("line", bugInfo.getLine());
                     jg.writeStringField("message", notNull(bugInfo.getMessage()));
                     jg.writeStringField("variable", notNull(bugInfo.getVariable()));
                     jg.writeStringField("expression", notNull(bugInfo.getExpression()));
@@ -78,14 +78,14 @@ public class JSONOutput {
             for (final String code : counts.bugTypes()) {
                 jg.writeStartObject();
                 jg.writeStringField("code", code);
-                jg.writeStringField("count", Integer.toString(counts.getCode(code)));
+                jg.writeNumberField("count", counts.getCode(code));
                 jg.writeEndObject();
             }
             for (final String severity : BugCounts.levels) {
                 if (counts.getSeverity(severity) > 0) {
                     jg.writeStartObject();
                     jg.writeStringField("severity", severity);
-                    jg.writeStringField("count", Integer.toString(counts.getSeverity(severity)));
+                    jg.writeNumberField("count", counts.getSeverity(severity));
                     jg.writeEndObject();
                 }
             }

@@ -91,7 +91,7 @@ public class CFLintMain {
     private String stdInFile = "source.cfc";
     private Boolean stdOut = false;
     // private String configfile = null;
-    boolean showStats = false;
+    boolean showStats = true;
     private boolean strictInclude;
 
     public static void main(final String[] args) throws Exception {
@@ -128,7 +128,6 @@ public class CFLintMain {
         options.addOption(JSONFILE, true, "specify the output json file (default: cflint-results.json)");
         options.addOption("text", false, "output in plain text");
         options.addOption(TEXTFILE, true, "specify the output text file (default: cflint-results.txt)");
-        options.addOption("stats", false, "show bug count statstics");
         options.addOption(EXTENSIONS, true, "specify the extensions of the CF source files (default: .cfm,.cfc)");
         options.addOption(CONFIGFILE, true, "specify the location of the config file");
         options.addOption(STDIN, true, "use stdin for file input (default: source.cfc)");
@@ -199,7 +198,6 @@ public class CFLintMain {
         main.xmlOutput = cmd.hasOption("xml") || cmd.hasOption(XMLSTYLE) || cmd.hasOption(XMLFILE);
         main.textOutput = cmd.hasOption("text") || cmd.hasOption(TEXTFILE);
         main.jsonOutput = cmd.hasOption("json") || cmd.hasOption("jsonFile");
-        main.showStats = cmd.hasOption("stats");
 
         if (cmd.hasOption("ui")) {
             main.ui();

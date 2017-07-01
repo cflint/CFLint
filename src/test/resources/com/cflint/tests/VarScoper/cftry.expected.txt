@@ -8,8 +8,8 @@
     "file" : "src\\test\\resources\\com\\cflint\\tests\\VarScoper\\cftry.cfc",
     "fileName" : "cftry.cfc",
     "function" : "init",
-    "column" : "7",
-    "line" : "5",
+    "column" : 7,
+    "line" : 5,
     "message" : "Variable tryVar is not declared with a var statement.",
     "variable" : "tryVar",
     "expression" : "tryVar"
@@ -24,8 +24,8 @@
     "file" : "src\\test\\resources\\com\\cflint\\tests\\VarScoper\\cftry.cfc",
     "fileName" : "cftry.cfc",
     "function" : "init",
-    "column" : "4",
-    "line" : "7",
+    "column" : 4,
+    "line" : 7,
     "message" : "Variable catchVar is not declared with a var statement.",
     "variable" : "catchVar",
     "expression" : "catchVar"
@@ -40,8 +40,8 @@
     "file" : "src\\test\\resources\\com\\cflint\\tests\\VarScoper\\cftry.cfc",
     "fileName" : "cftry.cfc",
     "function" : "init",
-    "column" : "4",
-    "line" : "9",
+    "column" : 4,
+    "line" : 9,
     "message" : "Variable finallyVar is not declared with a var statement.",
     "variable" : "finallyVar",
     "expression" : "finallyVar"

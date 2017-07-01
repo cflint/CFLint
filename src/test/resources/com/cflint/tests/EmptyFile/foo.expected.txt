@@ -8,8 +8,8 @@
     "file" : "src\\test\\resources\\com\\cflint\\tests\\EmptyFile\\foo.cfc",
     "fileName" : "foo.cfc",
     "function" : "",
-    "column" : "1",
-    "line" : "1",
+    "column" : 1,
+    "line" : 1,
     "message" : "CF file is empty: ${file}",
     "variable" : "",
     "expression" : ""

@@ -8,8 +8,8 @@
     "file" : "src/test/resources/com/cflint/tests/Naming/nameEndsInNumberScript.cfc",
     "fileName" : "nameEndsInNumberScript.cfc",
     "function" : "test",
-    "column" : "0",
-    "line" : "3",
+    "column" : 0,
+    "line" : 3,
     "message" : "Variable name_1 is not a valid name. Please use CamelCase or underscores.",
     "variable" : "name_1",
     "expression" : ""
@@ -24,8 +24,8 @@
     "file" : "src/test/resources/com/cflint/tests/Naming/nameEndsInNumberScript.cfc",
     "fileName" : "nameEndsInNumberScript.cfc",
     "function" : "test",
-    "column" : "0",
-    "line" : "4",
+    "column" : 0,
+    "line" : 4,
     "message" : "Variable name2 is not a valid name. Please use CamelCase or underscores.",
     "variable" : "name2",
     "expression" : ""
@@ -40,8 +40,8 @@
     "file" : "src/test/resources/com/cflint/tests/Naming/nameEndsInNumberScript.cfc",
     "fileName" : "nameEndsInNumberScript.cfc",
     "function" : "test",
-    "column" : "0",
-    "line" : "5",
+    "column" : 0,
+    "line" : 5,
     "message" : "Variable name1 is not a valid name. Please use CamelCase or underscores.",
     "variable" : "name1",
     "expression" : ""

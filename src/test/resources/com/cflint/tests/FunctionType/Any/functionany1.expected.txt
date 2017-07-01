@@ -8,8 +8,8 @@
     "file" : "src\\test\\resources\\com\\cflint\\tests\\FunctionType\\Any\\functionany1.cfc",
     "fileName" : "functionany1.cfc",
     "function" : "x",
-    "column" : "11",
-    "line" : "3",
+    "column" : 11,
+    "line" : 3,
     "message" : "Function x return type is any. Please change to be the correct type.",
     "variable" : "x",
     "expression" : "public any function x()   {\nx = 123;\n\n  }"

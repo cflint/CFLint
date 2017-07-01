@@ -8,8 +8,8 @@
     "file" : "src\\test\\resources\\com\\cflint\\tests\\CFIncludeChecker\\lonelyCfinclude.cfc",
     "fileName" : "lonelyCfinclude.cfc",
     "function" : "",
-    "column" : "3",
-    "line" : "3",
+    "column" : 3,
+    "line" : 3,
     "message" : "Avoid using <cfinclude> tags. Use components instead.",
     "variable" : "cfinclude",
     "expression" : "<cfinclude template=\"functions.cfm\">"

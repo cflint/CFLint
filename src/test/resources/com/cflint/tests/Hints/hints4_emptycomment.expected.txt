@@ -8,8 +8,8 @@
     "file" : "src\\test\\resources\\com\\cflint\\tests\\Hints\\hints4_emptycomment.cfc",
     "fileName" : "hints4_emptycomment.cfc",
     "function" : "",
-    "column" : "1",
-    "line" : "4",
+    "column" : 1,
+    "line" : 4,
     "message" : "Component hints4_emptycomment is missing a hint.",
     "variable" : "hints4_emptycomment",
     "expression" : "component {\n  public void function function1()     {\nsomeVar = '';\n\n    }\n}"
@@ -24,8 +24,8 @@
     "file" : "src\\test\\resources\\com\\cflint\\tests\\Hints\\hints4_emptycomment.cfc",
     "fileName" : "hints4_emptycomment.cfc",
     "function" : "function1",
-    "column" : "13",
-    "line" : "9",
+    "column" : 13,
+    "line" : 9,
     "message" : "Function function1 is missing a hint.",
     "variable" : "function1",
     "expression" : "public void function function1()   {\nsomeVar = '';\n\n  }"

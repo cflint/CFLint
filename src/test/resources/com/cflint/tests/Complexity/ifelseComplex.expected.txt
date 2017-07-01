@@ -8,8 +8,8 @@
     "file" : "src\\test\\resources\\com\\cflint\\tests\\Complexity\\ifelseComplex.cfc",
     "fileName" : "ifelseComplex.cfc",
     "function" : "foo",
-    "column" : "0",
-    "line" : "2",
+    "column" : 0,
+    "line" : 2,
     "message" : "Function foo is too complex. Consider breaking the function into smaller functions.",
     "variable" : "",
     "expression" : "if(something )   {\ndoSomethingElse();\n\n  }"

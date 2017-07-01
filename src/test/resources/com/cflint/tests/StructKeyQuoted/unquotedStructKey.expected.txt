@@ -8,8 +8,8 @@
     "file" : "src\\test\\resources\\com\\cflint\\tests\\StructKeyQuoted\\unquotedStructKey.cfc",
     "fileName" : "unquotedStructKey.cfc",
     "function" : "x",
-    "column" : "16",
-    "line" : "4",
+    "column" : 16,
+    "line" : 4,
     "message" : "Unquoted struct key myKey is not case-sensitive.  Quoting it is recommended.",
     "variable" : "myKey",
     "expression" : "{myKey:'myValue'}"

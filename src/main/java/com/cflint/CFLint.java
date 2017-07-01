@@ -813,8 +813,7 @@ public class CFLint implements IErrorReporter {
     	}
         Iterable<Token> tokens = expression.getTokens().getTokens();
         for (Token currentTok : tokens) {
-        	System.out.println(currentTok.toString());
-            if (currentTok.getLine() == expression.getExpression().getLine()) {
+        	if (currentTok.getLine() == expression.getExpression().getLine()) {
                 if (currentTok.getChannel() == Token.HIDDEN_CHANNEL && currentTok.getType() == CFSCRIPTLexer.LINE_COMMENT) {
                 	final String commentText = currentTok.getText().replaceFirst("^//\\s*", "").trim();
                 	if (commentText.startsWith("cflint ")) {

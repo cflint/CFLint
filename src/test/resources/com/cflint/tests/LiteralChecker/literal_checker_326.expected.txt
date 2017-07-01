@@ -8,8 +8,8 @@
     "file" : "src\\test\\resources\\com\\cflint\\tests\\LiteralChecker\\literal_checker_326.cfm",
     "fileName" : "literal_checker_326.cfm",
     "function" : "",
-    "column" : "125",
-    "line" : "7",
+    "column" : 125,
+    "line" : 7,
     "message" : "Literal 3 occurs several times in one or more files. Consider giving it a name and not hard coding values.",
     "variable" : "3",
     "expression" : "3"
@@ -24,8 +24,8 @@
     "file" : "src\\test\\resources\\com\\cflint\\tests\\LiteralChecker\\literal_checker_326.cfm",
     "fileName" : "literal_checker_326.cfm",
     "function" : "",
-    "column" : "130",
-    "line" : "7",
+    "column" : 130,
+    "line" : 7,
     "message" : "Literal , occurs several times in one or more files. Consider giving it a name and not hard coding values.",
     "variable" : ",",
     "expression" : "','"

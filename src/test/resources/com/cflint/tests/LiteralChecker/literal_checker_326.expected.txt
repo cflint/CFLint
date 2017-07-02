@@ -5,7 +5,7 @@
   "category" : "CFLINT",
   "abbrev" : "GL",
   "locations" : [ {
-    "file" : "src\\test\\resources\\com\\cflint\\tests\\LiteralChecker\\literal_checker_326.cfm",
+    "file" : "src/test/resources/com/cflint/tests/LiteralChecker/literal_checker_326.cfm",
     "fileName" : "literal_checker_326.cfm",
     "function" : "",
     "column" : 125,
@@ -21,7 +21,7 @@
   "category" : "CFLINT",
   "abbrev" : "GL",
   "locations" : [ {
-    "file" : "src\\test\\resources\\com\\cflint\\tests\\LiteralChecker\\literal_checker_326.cfm",
+    "file" : "src/test/resources/com/cflint/tests/LiteralChecker/literal_checker_326.cfm",
     "fileName" : "literal_checker_326.cfm",
     "function" : "",
     "column" : 130,
@@ -30,4 +30,14 @@
     "variable" : ",",
     "expression" : "','"
   } ]
+}, {
+  "totalfiles" : 0
+}, {
+  "totalsize" : 0
+}, {
+  "code" : "GLOBAL_LITERAL_VALUE_USED_TOO_OFTEN",
+  "count" : 2
+}, {
+  "severity" : "WARNING",
+  "count" : 2
 } ]

@@ -5,7 +5,7 @@
   "category" : "CFLINT",
   "abbrev" : "US",
   "locations" : [ {
-    "file" : "src\\test\\resources\\com\\cflint\\tests\\StructKeyQuoted\\unquotedStructKeyNested.cfc",
+    "file" : "src/test/resources/com/cflint/tests/StructKeyQuoted/unquotedStructKeyNested.cfc",
     "fileName" : "unquotedStructKeyNested.cfc",
     "function" : "x",
     "column" : 15,
@@ -14,4 +14,14 @@
     "variable" : "mySubKey",
     "expression" : "{mySubKey:'123'}"
   } ]
+}, {
+  "totalfiles" : 0
+}, {
+  "totalsize" : 0
+}, {
+  "code" : "UNQUOTED_STRUCT_KEY",
+  "count" : 1
+}, {
+  "severity" : "WARNING",
+  "count" : 1
 } ]

@@ -5,7 +5,7 @@
   "category" : "CFLINT",
   "abbrev" : "CR",
   "locations" : [ {
-    "file" : "src\\test\\resources\\com\\cflint\\tests\\Query\\cfquery_param_byline.cfc",
+    "file" : "src/test/resources/com/cflint/tests/Query/cfquery_param_byline.cfc",
     "fileName" : "cfquery_param_byline.cfc",
     "function" : "foo",
     "column" : 0,
@@ -14,4 +14,14 @@
     "variable" : "application.linkedServerName",
     "expression" : "<cfquery name=\"fooQry\" datasource=\"#arguments.siteDomain#com\" cachedwithin=\"#createTimeSpan(0,0,5,0)#\">\r\n            SELECT\r\n                M.firstName\r\n                <!--- @CFLintIgnore CFQUERYPAR"
   } ]
+}, {
+  "totalfiles" : 0
+}, {
+  "totalsize" : 0
+}, {
+  "code" : "CFQUERYPARAM_REQ",
+  "count" : 1
+}, {
+  "severity" : "WARNING",
+  "count" : 1
 } ]

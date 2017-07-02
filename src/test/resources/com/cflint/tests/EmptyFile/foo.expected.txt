@@ -5,7 +5,7 @@
   "category" : "CFLINT",
   "abbrev" : "AE",
   "locations" : [ {
-    "file" : "src\\test\\resources\\com\\cflint\\tests\\EmptyFile\\foo.cfc",
+    "file" : "src/test/resources/com/cflint/tests/EmptyFile/foo.cfc",
     "fileName" : "foo.cfc",
     "function" : "",
     "column" : 1,
@@ -14,4 +14,14 @@
     "variable" : "",
     "expression" : ""
   } ]
+}, {
+  "totalfiles" : 0
+}, {
+  "totalsize" : 0
+}, {
+  "code" : "AVOID_EMPTY_FILES",
+  "count" : 1
+}, {
+  "severity" : "WARNING",
+  "count" : 1
 } ]

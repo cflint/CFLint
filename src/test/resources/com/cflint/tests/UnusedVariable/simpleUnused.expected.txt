@@ -5,7 +5,7 @@
   "category" : "CFLINT",
   "abbrev" : "UL",
   "locations" : [ {
-    "file" : "src\\test\\resources\\com\\cflint\\tests\\UnusedVariable\\simpleUnused.cfc",
+    "file" : "src/test/resources/com/cflint/tests/UnusedVariable/simpleUnused.cfc",
     "fileName" : "simpleUnused.cfc",
     "function" : "save",
     "column" : 0,
@@ -14,4 +14,14 @@
     "variable" : "foo",
     "expression" : ""
   } ]
+}, {
+  "totalfiles" : 0
+}, {
+  "totalsize" : 0
+}, {
+  "code" : "UNUSED_LOCAL_VARIABLE",
+  "count" : 1
+}, {
+  "severity" : "INFO",
+  "count" : 1
 } ]

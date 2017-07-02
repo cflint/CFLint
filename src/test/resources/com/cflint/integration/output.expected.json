@@ -63,6 +63,10 @@
     "expression" : "public string function getStringFromStruct(interestingVar)   {\n    return interestingVar;\n\n  }"
   } ]
 }, {
+  "totalfiles" : 3
+}, {
+  "totalsize" : 18
+}, {
   "code" : "FUNCTION_HINT_MISSING",
   "count" : 3
 }, {

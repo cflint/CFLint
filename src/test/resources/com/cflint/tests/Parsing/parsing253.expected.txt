@@ -5,7 +5,7 @@
   "category" : "CFLINT",
   "abbrev" : "MV",
   "locations" : [ {
-    "file" : "src\\test\\resources\\com\\cflint\\tests\\Parsing\\parsing253.cfm",
+    "file" : "src/test/resources/com/cflint/tests/Parsing/parsing253.cfm",
     "fileName" : "parsing253.cfm",
     "function" : "foo",
     "column" : 7,
@@ -14,4 +14,14 @@
     "variable" : "removeTagList",
     "expression" : "removeTagList"
   } ]
+}, {
+  "totalfiles" : 0
+}, {
+  "totalsize" : 0
+}, {
+  "code" : "MISSING_VAR",
+  "count" : 1
+}, {
+  "severity" : "ERROR",
+  "count" : 1
 } ]

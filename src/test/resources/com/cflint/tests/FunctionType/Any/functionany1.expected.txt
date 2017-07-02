@@ -5,7 +5,7 @@
   "category" : "CFLINT",
   "abbrev" : "FT",
   "locations" : [ {
-    "file" : "src\\test\\resources\\com\\cflint\\tests\\FunctionType\\Any\\functionany1.cfc",
+    "file" : "src/test/resources/com/cflint/tests/FunctionType/Any/functionany1.cfc",
     "fileName" : "functionany1.cfc",
     "function" : "x",
     "column" : 11,
@@ -14,4 +14,14 @@
     "variable" : "x",
     "expression" : "public any function x()   {\nx = 123;\n\n  }"
   } ]
+}, {
+  "totalfiles" : 0
+}, {
+  "totalsize" : 0
+}, {
+  "code" : "FUNCTION_TYPE_ANY",
+  "count" : 1
+}, {
+  "severity" : "INFO",
+  "count" : 1
 } ]

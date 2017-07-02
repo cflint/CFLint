@@ -46,4 +46,17 @@
     "variable" : "z",
     "expression" : ""
   } ]
+}, {
+  "totalfiles" : 0
+}, {
+  "totalsize" : 0
+}, {
+  "code" : "VAR_TOO_SHORT",
+  "count" : 2
+}, {
+  "code" : "VAR_TOO_LONG",
+  "count" : 1
+}, {
+  "severity" : "INFO",
+  "count" : 3
 } ]

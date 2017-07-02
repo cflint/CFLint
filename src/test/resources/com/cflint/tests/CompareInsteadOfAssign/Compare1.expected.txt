@@ -30,4 +30,14 @@
     "variable" : "EQ",
     "expression" : "x.x EQ 6"
   } ]
+}, {
+  "totalfiles" : 0
+}, {
+  "totalsize" : 0
+}, {
+  "code" : "COMPARE_INSTEAD_OF_ASSIGN",
+  "count" : 2
+}, {
+  "severity" : "WARNING",
+  "count" : 2
 } ]

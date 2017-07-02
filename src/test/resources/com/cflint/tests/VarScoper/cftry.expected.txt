@@ -5,7 +5,7 @@
   "category" : "CFLINT",
   "abbrev" : "MV",
   "locations" : [ {
-    "file" : "src\\test\\resources\\com\\cflint\\tests\\VarScoper\\cftry.cfc",
+    "file" : "src/test/resources/com/cflint/tests/VarScoper/cftry.cfc",
     "fileName" : "cftry.cfc",
     "function" : "init",
     "column" : 7,
@@ -21,7 +21,7 @@
   "category" : "CFLINT",
   "abbrev" : "MV",
   "locations" : [ {
-    "file" : "src\\test\\resources\\com\\cflint\\tests\\VarScoper\\cftry.cfc",
+    "file" : "src/test/resources/com/cflint/tests/VarScoper/cftry.cfc",
     "fileName" : "cftry.cfc",
     "function" : "init",
     "column" : 4,
@@ -37,7 +37,7 @@
   "category" : "CFLINT",
   "abbrev" : "MV",
   "locations" : [ {
-    "file" : "src\\test\\resources\\com\\cflint\\tests\\VarScoper\\cftry.cfc",
+    "file" : "src/test/resources/com/cflint/tests/VarScoper/cftry.cfc",
     "fileName" : "cftry.cfc",
     "function" : "init",
     "column" : 4,
@@ -46,4 +46,14 @@
     "variable" : "finallyVar",
     "expression" : "finallyVar"
   } ]
+}, {
+  "totalfiles" : 0
+}, {
+  "totalsize" : 0
+}, {
+  "code" : "MISSING_VAR",
+  "count" : 3
+}, {
+  "severity" : "ERROR",
+  "count" : 3
 } ]

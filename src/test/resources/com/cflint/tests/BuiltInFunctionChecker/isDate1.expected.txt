@@ -5,7 +5,7 @@
   "category" : "CFLINT",
   "abbrev" : "AU",
   "locations" : [ {
-    "file" : "src\\test\\resources\\com\\cflint\\tests\\BuiltInFunctionChecker\\isDate1.cfm",
+    "file" : "src/test/resources/com/cflint/tests/BuiltInFunctionChecker/isDate1.cfm",
     "fileName" : "isDate1.cfm",
     "function" : "foo",
     "column" : 17,
@@ -14,4 +14,14 @@
     "variable" : "",
     "expression" : "isDate(1.5)"
   } ]
+}, {
+  "totalfiles" : 0
+}, {
+  "totalsize" : 0
+}, {
+  "code" : "AVOID_USING_ISDATE",
+  "count" : 1
+}, {
+  "severity" : "WARNING",
+  "count" : 1
 } ]

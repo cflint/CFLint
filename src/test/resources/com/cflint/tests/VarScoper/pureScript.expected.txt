@@ -5,7 +5,7 @@
   "category" : "CFLINT",
   "abbrev" : "MV",
   "locations" : [ {
-    "file" : "src\\test\\resources\\com\\cflint\\tests\\VarScoper\\pureScript.cfc",
+    "file" : "src/test/resources/com/cflint/tests/VarScoper/pureScript.cfc",
     "fileName" : "pureScript.cfc",
     "function" : "init",
     "column" : 6,
@@ -14,4 +14,14 @@
     "variable" : "someVar",
     "expression" : "someVar"
   } ]
+}, {
+  "totalfiles" : 0
+}, {
+  "totalsize" : 0
+}, {
+  "code" : "MISSING_VAR",
+  "count" : 1
+}, {
+  "severity" : "ERROR",
+  "count" : 1
 } ]

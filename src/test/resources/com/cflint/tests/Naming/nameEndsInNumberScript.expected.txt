@@ -46,4 +46,14 @@
     "variable" : "name1",
     "expression" : ""
   } ]
+}, {
+  "totalfiles" : 0
+}, {
+  "totalsize" : 0
+}, {
+  "code" : "VAR_INVALID_NAME",
+  "count" : 3
+}, {
+  "severity" : "INFO",
+  "count" : 3
 } ]

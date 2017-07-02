@@ -5,7 +5,7 @@
   "category" : "CFLINT",
   "abbrev" : "MV",
   "locations" : [ {
-    "file" : "src\\test\\resources\\com\\cflint\\tests\\VarScoper\\scriptSample186.cfc",
+    "file" : "src/test/resources/com/cflint/tests/VarScoper/scriptSample186.cfc",
     "fileName" : "scriptSample186.cfc",
     "function" : "leakMemory",
     "column" : 6,
@@ -21,7 +21,7 @@
   "category" : "CFLINT",
   "abbrev" : "MV",
   "locations" : [ {
-    "file" : "src\\test\\resources\\com\\cflint\\tests\\VarScoper\\scriptSample186.cfc",
+    "file" : "src/test/resources/com/cflint/tests/VarScoper/scriptSample186.cfc",
     "fileName" : "scriptSample186.cfc",
     "function" : "leakMemory",
     "column" : 6,
@@ -30,4 +30,14 @@
     "variable" : "leakier_variable",
     "expression" : "leakier_variable"
   } ]
+}, {
+  "totalfiles" : 0
+}, {
+  "totalsize" : 0
+}, {
+  "code" : "MISSING_VAR",
+  "count" : 2
+}, {
+  "severity" : "ERROR",
+  "count" : 2
 } ]

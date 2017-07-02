@@ -93,7 +93,7 @@ public class CFLintChainedConfig implements CFLintConfiguration {
     }
 
     public Collection<PluginInfoRule> getAllRules() {
-        if (parent == null || !config.isInheritPlugins()) {
+        if (parent == null) {
             return config.getRules();
         }
         final HashSet<PluginInfoRule> retval = new HashSet<PluginInfoRule>();

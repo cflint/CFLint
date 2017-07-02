@@ -454,7 +454,7 @@ public class CFLintMain {
                     : createWriter(xmlOutFile, StandardCharsets.UTF_8);
             if ("findbugs".equalsIgnoreCase(xmlstyle)) {
                 if (verbose) {
-                    display("Writing XML findbugs style" + (stdOut ? "." : " to " + xmlOutFile));
+                    display("Writing XML (style: findbugs)" + (stdOut ? "." : " to " + xmlOutFile));
                 }
                 new XMLOutput().outputFindBugs(cflint.getBugs(), xmlwriter, cflint.getStats());
             } else {
@@ -475,7 +475,7 @@ public class CFLintMain {
         if (htmlOutput) {
             try {
                 if (verbose) {
-                    display("Writing HTML" + (stdOut ? "." : " to " + htmlOutFile));
+                    display("Writing HTML (style: " + htmlStyle + ")" + (stdOut ? "." : " to " + htmlOutFile));
                 }
                 final Writer htmlwriter = stdOut ? new OutputStreamWriter(System.out) : new FileWriter(htmlOutFile);
                 new HTMLOutput(htmlStyle).output(cflint.getBugs(), htmlwriter, cflint.getStats());

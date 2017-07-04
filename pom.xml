@@ -60,6 +60,10 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+		<maven.compiler.source>1.7</maven.compiler.source>
+		<maven.compiler.target>1.7</maven.compiler.target>
+
 		<cfparser.version>2.4.6</cfparser.version>
 	</properties>
   
@@ -200,15 +204,6 @@
 
 	<build>
 		<plugins>
-		    <plugin>
-		      <groupId>org.apache.maven.plugins</groupId>
-		      <artifactId>maven-compiler-plugin</artifactId>
-		      <version>3.3</version>
-		       <configuration>
-		        <source>1.7</source>
-		        <target>1.7</target>
-		       </configuration>
-		    </plugin>
 			<plugin>
 				<artifactId>maven-dependency-plugin</artifactId>
 				<executions>

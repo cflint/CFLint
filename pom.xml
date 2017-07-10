@@ -64,7 +64,7 @@
 		<maven.compiler.source>1.7</maven.compiler.source>
 		<maven.compiler.target>1.7</maven.compiler.target>
 
-		<cfparser.version>2.4.6</cfparser.version>
+		<cfparser.version>2.4.8</cfparser.version>
 		<jackson.version>2.8.6</jackson.version>
 		<slf4j.version>1.7.21</slf4j.version>
 	</properties>

@@ -15,6 +15,10 @@
     "expression" : "component {\n  public string function getStringFromStruct(interestingVar)     {\n      return interestingVar;\n\n    }\n}"
   } ]
 }, {
+  "totalfiles" : 3
+}, {
+  "totalsize" : 18
+}, {
   "code" : "COMPONENT_INVALID_NAME",
   "count" : 1
 }, {

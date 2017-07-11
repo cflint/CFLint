@@ -5,7 +5,7 @@
   "category" : "CFLINT",
   "abbrev" : "AU",
   "locations" : [ {
-    "file" : "src\\test\\resources\\com\\cflint\\tests\\CFIncludeChecker\\lonelyCfinclude.cfc",
+    "file" : "src/test/resources/com/cflint/tests/CFIncludeChecker/lonelyCfinclude.cfc",
     "fileName" : "lonelyCfinclude.cfc",
     "function" : "",
     "column" : 3,
@@ -14,4 +14,14 @@
     "variable" : "cfinclude",
     "expression" : "<cfinclude template=\"functions.cfm\">"
   } ]
+}, {
+  "totalfiles" : 0
+}, {
+  "totalsize" : 0
+}, {
+  "code" : "AVOID_USING_CFINCLUDE_TAG",
+  "count" : 1
+}, {
+  "severity" : "WARNING",
+  "count" : 1
 } ]

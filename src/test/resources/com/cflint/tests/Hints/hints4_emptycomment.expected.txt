@@ -5,7 +5,7 @@
   "category" : "CFLINT",
   "abbrev" : "CH",
   "locations" : [ {
-    "file" : "src\\test\\resources\\com\\cflint\\tests\\Hints\\hints4_emptycomment.cfc",
+    "file" : "src/test/resources/com/cflint/tests/Hints/hints4_emptycomment.cfc",
     "fileName" : "hints4_emptycomment.cfc",
     "function" : "",
     "column" : 1,
@@ -21,7 +21,7 @@
   "category" : "CFLINT",
   "abbrev" : "FH",
   "locations" : [ {
-    "file" : "src\\test\\resources\\com\\cflint\\tests\\Hints\\hints4_emptycomment.cfc",
+    "file" : "src/test/resources/com/cflint/tests/Hints/hints4_emptycomment.cfc",
     "fileName" : "hints4_emptycomment.cfc",
     "function" : "function1",
     "column" : 13,
@@ -30,4 +30,20 @@
     "variable" : "function1",
     "expression" : "public void function function1()   {\nsomeVar = '';\n\n  }"
   } ]
+}, {
+  "totalfiles" : 0
+}, {
+  "totalsize" : 0
+}, {
+  "code" : "COMPONENT_HINT_MISSING",
+  "count" : 1
+}, {
+  "code" : "FUNCTION_HINT_MISSING",
+  "count" : 1
+}, {
+  "severity" : "WARNING",
+  "count" : 1
+}, {
+  "severity" : "INFO",
+  "count" : 1
 } ]

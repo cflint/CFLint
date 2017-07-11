@@ -37,6 +37,7 @@ public class DefaultCFlintResultMarshaller implements CFLintResultMarshaller {
     private void writeIssues(BugList bugList, XMLStreamWriter xtw, CFLintStats stats) throws XMLStreamException {
         xtw.writeStartElement("issues");
         xtw.writeAttribute("version", Version.getVersion());
+        xtw.writeAttribute("timestamp", Long.toString(stats.getTimestamp()));
 
         BugCounts counts = stats.getCounts();
 
@@ -44,13 +45,15 @@ public class DefaultCFlintResultMarshaller implements CFLintResultMarshaller {
             writeIssue(xtw, bug);
         }
 
-        writeCounts(xtw, counts);
+        writeCounts(xtw, counts, stats);
 
         xtw.writeEndElement();
     }
 
-    private void writeCounts(XMLStreamWriter xtw, BugCounts counts) throws XMLStreamException {
+    private void writeCounts(XMLStreamWriter xtw, BugCounts counts, CFLintStats stats) throws XMLStreamException {
         xtw.writeStartElement("counts");
+        xtw.writeAttribute("totalfiles", Long.toString(stats.getFileCount()));
+        xtw.writeAttribute("totalsize", stats.getTotalSize().toString());
 
         for (String code : counts.bugTypes()) {
             xtw.writeStartElement("count");

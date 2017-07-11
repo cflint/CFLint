@@ -20,6 +20,7 @@ import java.util.ResourceBundle;
 import javax.xml.bind.JAXBException;
 import javax.xml.transform.TransformerException;
 
+import com.cflint.BugInfo;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -93,6 +94,9 @@ public class TestFiles {
 		if(nextFile.exists()){
 			final String inputString2 = FileUtil.loadFile(nextFile);
 			cflint.process(inputString2, nextFile.getPath().replaceAll("[.]2$", ""));		
+		}
+		for (BugInfo bug : cflint.getBugs()) {
+			cflint.getStats().getCounts().add(bug.getMessageCode(), bug.getSeverity());
 		}
 		//List<BugInfo> result = cflint.getBugs().getFlatBugList();
 		StringWriter writer = new StringWriter();

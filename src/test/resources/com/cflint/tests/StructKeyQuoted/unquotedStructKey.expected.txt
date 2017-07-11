@@ -5,7 +5,7 @@
   "category" : "CFLINT",
   "abbrev" : "US",
   "locations" : [ {
-    "file" : "src\\test\\resources\\com\\cflint\\tests\\StructKeyQuoted\\unquotedStructKey.cfc",
+    "file" : "src/test/resources/com/cflint/tests/StructKeyQuoted/unquotedStructKey.cfc",
     "fileName" : "unquotedStructKey.cfc",
     "function" : "x",
     "column" : 16,
@@ -14,4 +14,14 @@
     "variable" : "myKey",
     "expression" : "{myKey:'myValue'}"
   } ]
+}, {
+  "totalfiles" : 0
+}, {
+  "totalsize" : 0
+}, {
+  "code" : "UNQUOTED_STRUCT_KEY",
+  "count" : 1
+}, {
+  "severity" : "WARNING",
+  "count" : 1
 } ]

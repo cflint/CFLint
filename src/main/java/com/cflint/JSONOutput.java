@@ -3,6 +3,7 @@ package com.cflint;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -73,6 +74,15 @@ public class JSONOutput {
                 jg.writeEndObject();
             }
         }
+
+        jg.writeStartObject();
+        jg.writeNumberField("totalfiles", stats.getFileCount());
+        jg.writeEndObject();
+
+        jg.writeStartObject();
+        jg.writeFieldName("totalsize");
+        jg.writeNumber(stats.getTotalSize());
+        jg.writeEndObject();
 
         for (final String code : counts.bugTypes()) {
             jg.writeStartObject();

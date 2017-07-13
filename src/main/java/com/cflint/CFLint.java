@@ -997,7 +997,10 @@ public class CFLint implements IErrorReporter {
 
     public void reportRule(final Element elem, final Object expression, final Context context,
                               final CFLintScanner pluginParm, final ContextMessage msg) {
-
+    	//If we are processing includes, do NOT report any errors
+    	if(!includeFileStack.isEmpty()){
+    		return;
+    	}
         final String msgcode = msg.getMessageCode();
         final String nameVar = msg.getVariable();
         final CFLintScanner plugin = msg.getSource() == null ? pluginParm : msg.getSource();

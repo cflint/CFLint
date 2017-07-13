@@ -93,10 +93,10 @@ public class LiteralChecker extends CFLintScannerAdapter {
     }
 
     public void magicLocalValue(final String name, final int lineNo, final Context context, final BugList bugs) {
-        context.addMessage("LOCAL_LITERAL_VALUE_USED_TOO_OFTEN", name, this, lineNo);
+        context.addUniqueMessage("LOCAL_LITERAL_VALUE_USED_TOO_OFTEN", name, this, lineNo);
     }
 
     public void magicGlobalValue(final String name, final int lineNo, final Context context, final BugList bugs) {
-        context.addMessage("GLOBAL_LITERAL_VALUE_USED_TOO_OFTEN", name, this, lineNo);
+        context.addUniqueMessage("GLOBAL_LITERAL_VALUE_USED_TOO_OFTEN", name, this, lineNo);
     }
 }

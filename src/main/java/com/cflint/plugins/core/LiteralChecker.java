@@ -1,7 +1,6 @@
 package com.cflint.plugins.core;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import com.cflint.BugList;

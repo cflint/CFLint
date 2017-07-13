@@ -919,6 +919,10 @@
         {
           "name": "WarningScope",
           "value": "global"
+        },
+        {
+          "name": "IgnoreWords",
+          "value": "numeric,text,textnocase,asc,desc"
         }
       ]
     },

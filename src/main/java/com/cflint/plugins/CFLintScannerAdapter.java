@@ -1,6 +1,8 @@
 package com.cflint.plugins;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.cflint.BugList;
@@ -81,6 +83,14 @@ public class CFLintScannerAdapter implements CFLintScanner, CFLintStructureListe
             }
         }
         return "";
+    }
+    /**
+     * Return parameter split by comma
+     * @param name
+     * @return
+     */
+    public List<String> getParameterAsList(final String name){
+    	return Arrays.asList(getParameterNotNull(name).split(","));
     }
 
     public int currentLine(final CFExpression expression, final Context context) {

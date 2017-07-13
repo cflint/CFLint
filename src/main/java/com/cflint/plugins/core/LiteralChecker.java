@@ -1,6 +1,7 @@
 package com.cflint.plugins.core;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.cflint.BugList;
@@ -32,8 +33,7 @@ public class LiteralChecker extends CFLintScannerAdapter {
     public void expression(final CFExpression expression, final Context context, final BugList bugs) {
         final String repeatThreshold = getParameter("Maximum");
         final String maxWarnings = getParameter("MaxWarnings");
-        final String warningScope = getParameter("WarningScope");
-
+        final String warningScope = getParameter("WarningScope");        
         if (repeatThreshold != null) {
             threshold = Integer.parseInt(repeatThreshold);
         }
@@ -93,10 +93,14 @@ public class LiteralChecker extends CFLintScannerAdapter {
     }
 
     public void magicLocalValue(final String name, final int lineNo, final Context context, final BugList bugs) {
-        context.addUniqueMessage("LOCAL_LITERAL_VALUE_USED_TOO_OFTEN", name, this, lineNo);
+    	if (!getParameterAsList("IgnoreWords").contains(name.toLowerCase())){
+    		context.addUniqueMessage("LOCAL_LITERAL_VALUE_USED_TOO_OFTEN", name, this, lineNo);
+    	}
     }
 
     public void magicGlobalValue(final String name, final int lineNo, final Context context, final BugList bugs) {
-        context.addUniqueMessage("GLOBAL_LITERAL_VALUE_USED_TOO_OFTEN", name, this, lineNo);
+    	if (!getParameterAsList("IgnoreWords").contains(name.toLowerCase())){
+        	context.addUniqueMessage("GLOBAL_LITERAL_VALUE_USED_TOO_OFTEN", name, this, lineNo);
+    	}
     }
 }

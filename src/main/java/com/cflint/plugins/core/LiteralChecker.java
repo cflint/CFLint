@@ -93,14 +93,19 @@ public class LiteralChecker extends CFLintScannerAdapter {
     }
 
     public void magicLocalValue(final String name, final int lineNo, final Context context, final BugList bugs) {
-    	if (!getParameterAsList("IgnoreWords").contains(name.toLowerCase())){
+    	if (!isSpecial(name.toLowerCase()) ){
     		context.addUniqueMessage("LOCAL_LITERAL_VALUE_USED_TOO_OFTEN", name, this, lineNo);
     	}
     }
 
-    public void magicGlobalValue(final String name, final int lineNo, final Context context, final BugList bugs) {
-    	if (!getParameterAsList("IgnoreWords").contains(name.toLowerCase())){
-        	context.addUniqueMessage("GLOBAL_LITERAL_VALUE_USED_TOO_OFTEN", name, this, lineNo);
+    private boolean isSpecial(String name) {
+		return getParameterAsList("IgnoreWords").contains(name.toLowerCase())
+				|| name.startsWith("cf_sql_");
+	}
+
+	public void magicGlobalValue(final String name, final int lineNo, final Context context, final BugList bugs) {
+		if (!isSpecial(name.toLowerCase()) ){
+	    	context.addUniqueMessage("GLOBAL_LITERAL_VALUE_USED_TOO_OFTEN", name, this, lineNo);
     	}
     }
 }

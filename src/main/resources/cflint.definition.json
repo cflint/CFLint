@@ -922,7 +922,7 @@
         },
         {
           "name": "IgnoreWords",
-          "value": "numeric,text,textnocase,asc,desc"
+          "value": "numeric,text,textnocase,asc,desc,in,out,inout"
         }
       ]
     },

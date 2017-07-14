@@ -97,9 +97,26 @@ public class LiteralChecker extends CFLintScannerAdapter {
     	}
     }
 
+    /**
+     * Checks if the literal is a special case that should not fire the literal checker rule
+     * @param name
+     * @return
+     */
     private boolean isSpecial(String name) {
-		return getParameterAsList("IgnoreWords").contains(name.toLowerCase())
-				|| name.startsWith("cf_sql_");
+    	//Empty literals do not flag
+    	if(name == null || name.length()==0){
+    		return true;
+    	}
+    	//Punctuation literals excepted (Look for absense of a word character)
+    	if(!name.matches(".*\\w.*")){
+    		return true;
+    	}
+    	//Exclude datatype for cfquery/cfproc
+    	if(name.startsWith("cf_sql_")){
+    		return true;
+    	}
+    	//Check ignore words list from the configuration
+    	return getParameterAsList("IgnoreWords").contains(name.toLowerCase());
 	}
 
 	public void magicGlobalValue(final String name, final int lineNo, final Context context, final BugList bugs) {

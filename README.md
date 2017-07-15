@@ -5,15 +5,19 @@ CFLint
 
 A static code analysis tool for ColdFusion.
 
-License:[BSD](http://www.opensource.org/licenses/bsd-license.html)
+License: [BSD](http://www.opensource.org/licenses/bsd-license.html)
 
 Current Version: 1.2.0 (Jul xx 2017)
+
+## Versions
+
+See CHANGELOG.md for further information.
 
 ## Project and library organisation
 
 CFLint is a project developed and worked on by volunteers. When logging issues please be nice and considerate, we're here to help. We really appreciate fixes and improvements, feel free to talk to us and/or provide pull requests.
 
-/src/main contains the source code. Tests can be found in /src/test. CFLint relies heavily on the[CFParser](https://github.com/cfparser/cfparser)project as well as a bunch of 3rd party Java libraries.
+/src/main contains the source code. Tests can be found in /src/test. CFLint relies heavily on the [CFParser](https://github.com/cfparser/cfparser) project as well as a bunch of 3rd party Java libraries.
 
 The master branch is considered our stable codebase. Most of the development happens in the dev branch resp. local development branches for specific issues.
  
@@ -40,7 +44,7 @@ The master branch is considered our stable codebase. Most of the development hap
  
 ### Quickstart
 
-Get the latest version from[Maven Central](http://search.maven.org/#search%7Cga%7C1%7Ccflint)or the[CFLint Github release page](https://github.com/cflint/CFLint/releases)or build the project.
+Get the latest version from [Maven Central](http://search.maven.org/#search%7Cga%7C1%7Ccflint) or the [CFLint Github release page](https://github.com/cflint/CFLint/releases) or build the project.
 
 Use the "-all"-version of the jar-file: 
 

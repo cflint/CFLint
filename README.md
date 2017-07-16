@@ -111,23 +111,19 @@ An example .cflintrc file is shown below:
        "rule" : [ ],
        "excludes" : [ ],
        "includes" : [ {
-         "code" : "FUNCTION_HINT_MISSING",
-         "messageText" : null,
-         "severity" : null
+         "code" : "FUNCTION_HINT_MISSING"
        } ],
        "inheritParent" : false,
        "inheritPlugins" : true
      }
 
-- ---TO DO START Ryan, what does output do? ---TO DO END
+- rule allows you add a plugin for this folder that is not listed in the global configuration.  See ruleImpl in cflint.definition.json for examples.  
 
-- ---TO DO START Ryan, what does rule do? ---TO DO END
-
-- excludes and includes allow you to specify an array ob objects describing rules you want to be applied for this directory and its children. In the example above, the only rule to be checked for will be FUNCTION_HINT_MISSING. The messageText and severity properties allow you to customise those values for this specific part of your CFLint run. ---TO DO START Ryan, is that correct? ---TO DO END
+- excludes and includes allow you to specify an array of objects describing rules you want to be applied for this directory and its children. In the example above, the only rule to be checked for will be FUNCTION_HINT_MISSING. The messageText and severity properties allow you to customise those values for this specific part of your CFLint run. 
 
 - inheritParent configures if the rules set in the global or any parent configuration should be inherited as a base set of rules. ---TO DO START Is this correct, Ryan? ---TO DO END
 
-- Please note: inheritPlugins has been marked deprecated in CFLint 1.2.0 and will be removed in 1.3.0. If you are using .cflintrc files now, please remove the inheritPlugins property as soon as possible. Plugin inheritance will going forward always be treated as true, the team can not see a use case in which it should be disabled.
+- Please note: inheritPlugins and output have been marked deprecated in CFLint 1.2.0 and will be removed in 1.3.0. If you are using .cflintrc files now, please remove the inheritPlugins and output property as soon as possible. Plugin inheritance will going forward always be treated as true, the team can not see a use case in which it should be disabled.  The value of the output attribute is ignored.
 
 ### Annotation-based configuration
 
@@ -135,11 +131,18 @@ Annotation-based configuration allows you to ignore ... more to come from Kai
 
 ### Precendence of configuration settings
 
----TO DO START  
-I believe code-annotations go over and above everything, right?
+Configuration of which plugins are run and which rules are included starts with the global configuration and flows through the command line parameters, folder level rules, and down to the annotations within the source.
 
-Ryan, could you provide a quick summary of how precedence is managed? Also in particular when I think about includes/excludes on various levels.  
----TO DO END
+- global configuration
+- custom configuration file  (--configfile)
+- rule groups (--rulegroups,  default behaviour is --rulegroups !Experimental)
+- includes/excludes from the command line (--includeRule and --excludeRule)
+- .cflintrc - folder level configuration, mostly for including/excluding specific messages
+- annotations - explicitly exclude messages in the source code at the tag or line level.
+
+The configuration rule that is closest to the rule is the one that takes effect.
+* If an annotation excludes a message, it will not fire regardless of any configuration above it.
+* If you exclude a rule at the command line level, but a .cflintrc adds it back in, it will fire for source files in that part of the source tree.
 
 
 ## Creating reports

@@ -121,7 +121,7 @@ An example .cflintrc file is shown below:
 
 - excludes and includes allow you to specify an array of objects describing rules you want to be applied for this directory and its children. In the example above, the only rule to be checked for will be FUNCTION_HINT_MISSING. The messageText and severity properties allow you to customise those values for this specific part of your CFLint run. 
 
-- inheritParent configures if the rules set in the global or any parent configuration should be inherited as a base set of rules. ---TO DO START Is this correct, Ryan? ---TO DO END
+- inheritParent configures if the rules set in the global or any parent configuration should be inherited as a base set of rules. 
 
 - Please note: inheritPlugins and output have been marked deprecated in CFLint 1.2.0 and will be removed in 1.3.0. If you are using .cflintrc files now, please remove the inheritPlugins and output property as soon as possible. Plugin inheritance will going forward always be treated as true, the team can not see a use case in which it should be disabled.  The value of the output attribute is ignored.
 

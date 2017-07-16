@@ -96,13 +96,9 @@ When CFLint executes, it scans and parses your code (using CFParser). The syntax
 
 ### Global configuration
 
-The -config and -configfile options can be used to supply an XML-based global configuration file.
+The -configfile options can be used to replace the standard global configuration file.
 
----TO DO START   
-I think this is about the approach described here: https://github.com/cflint/CFLint/wiki/Include-Exclude-Rules-Using-External-XML-File
-
-I have no idea how this works, Ryan, can you please chime in here?   
----TO DO END
+The standard configuration is src/main/resources/cflint.definition.json.  Normal usage of CFLint does not normally require replacing this file.
 
 ### Folder-based configuration
 

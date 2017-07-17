@@ -178,6 +178,7 @@ public class CFLint implements IErrorReporter {
         }
         if(!folderOrFile.exists()){
         	System.err.println("File " + folderOrFile + " does not exist.");
+        	return;
         }
         if (folderOrFile.isDirectory()) {
             final CFLintConfiguration saveConfig = configuration;

@@ -45,7 +45,7 @@ public class VarScoper extends CFLintScannerAdapter {
     public void expression(final CFScriptStatement expression, final Context context, final BugList bugs) {
         if(expression instanceof CFPropertyStatement ){
             final CFPropertyStatement propertyStatement = (CFPropertyStatement)expression;
-            
+            //TODO - handle properties?
         }
     }
 

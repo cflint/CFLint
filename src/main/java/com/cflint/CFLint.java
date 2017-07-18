@@ -1287,7 +1287,6 @@ public class CFLint implements IErrorReporter {
     @Override
     public void syntaxError(final Recognizer<?, ?> recognizer, final Object offendingSymbol, int line,
                             int charPositionInLine, final String msg, final org.antlr.v4.runtime.RecognitionException e) {
-        final String file = currentFile == null ? "" : currentFile + "\r\n";
         String expression = null;
         if (offendingSymbol instanceof Token) {
             expression = ((Token) offendingSymbol).getText();

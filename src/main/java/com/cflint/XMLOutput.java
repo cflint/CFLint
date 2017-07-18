@@ -123,7 +123,7 @@ public class XMLOutput {
 
         // 2. Use the TransformerFactory to process the stylesheet Source and generate a Transformer.
         final InputStream is = getClass().getResourceAsStream("/findbugs/cflint-to-findbugs.xsl");
-        final javax.xml.transform.Transformer transformer = tFactory.newTransformer(new javax.xml.transform.stream.StreamSource(is));
+        final javax.xml.transform.Transformer transformer = tFactory.newTransformer(new StreamSource(is));
 
         // 3. Use the Transformer to transform an XML Source and send the output to a Result object.
         transformer.transform(new StreamSource(new StringReader(sw.toString())), new StreamResult(writer));

@@ -10,10 +10,13 @@ import javax.xml.bind.annotation.XmlRootElement;
 import com.cflint.config.CFLintPluginInfo.PluginInfoRule;
 import com.cflint.config.CFLintPluginInfo.PluginInfoRule.PluginMessage;
 import com.cflint.plugins.CFLintScanner;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @XmlRootElement(name = "config")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class CFLintConfig implements CFLintConfiguration {
 
+	@Deprecated
     private List<ConfigOutput> output = new ArrayList<CFLintConfig.ConfigOutput>();
     private List<CFLintPluginInfo.PluginInfoRule> rules = new ArrayList<CFLintPluginInfo.PluginInfoRule>();
     private List<PluginMessage> excludes = new ArrayList<PluginMessage>();
@@ -27,11 +30,13 @@ public class CFLintConfig implements CFLintConfiguration {
      * 
      * @see com.cflint.config.CFLintConfiguration#getOutput()
      */
+    @Deprecated
     public List<ConfigOutput> getOutput() {
         return output;
     }
 
     @XmlElement(name = "output")
+    @Deprecated
     public void setOutput(final List<ConfigOutput> output) {
         this.output = output;
     }

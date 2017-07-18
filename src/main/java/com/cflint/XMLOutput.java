@@ -178,6 +178,7 @@ public class XMLOutput {
                 } else {
                     sb.append(c);
                 }
+                break;
             }
         }
         return sb.toString();

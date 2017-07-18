@@ -511,7 +511,7 @@ public class CFLint implements IErrorReporter {
     	}
     	//Explicitly unpack cfloop
     	if (elem.getName().equalsIgnoreCase("cfloop")){
-    		List<String> attributes = Arrays.asList("from","to","step","condition","array","list","delimiters");
+    		List<String> attributes = Arrays.asList("from","to","step","condition","array","list");
 			for(Attribute attr: elem.getAttributes()){
 				if(attributes.contains(attr.getName().toLowerCase()) && attr.getValue().trim().length()>0){
 					try {

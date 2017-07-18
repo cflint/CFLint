@@ -456,6 +456,11 @@ public class CFLint implements IErrorReporter {
             handler.pop();
         } else if (elem.getName().equalsIgnoreCase("cfquery")) {
             scanElement(elem, context);
+            for(final CFExpression expression : unpackTagExpressions(elem)){
+	            if (expression != null) {
+	                process(expression, elem, context);
+	            }
+        	}
             final List<Element> list = elem.getAllElements();
             processStack(list.subList(1, list.size()), space + " ", context);
             //Save any columns from the cfquery

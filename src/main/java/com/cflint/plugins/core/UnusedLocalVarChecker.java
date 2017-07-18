@@ -12,6 +12,7 @@ import cfml.parsing.cfscript.CFFullVarExpression;
 import cfml.parsing.cfscript.CFIdentifier;
 import cfml.parsing.cfscript.CFMember;
 import cfml.parsing.cfscript.CFVarDeclExpression;
+import net.htmlparser.jericho.Element;
 
 public class UnusedLocalVarChecker extends CFLintScannerAdapter {
     final String severity = "INFO";
@@ -23,7 +24,6 @@ public class UnusedLocalVarChecker extends CFLintScannerAdapter {
 
     @Override
     public void expression(final CFExpression expression, final Context context, final BugList bugs) {
-    	System.out.println("::" + expression.Decompile(0));
     	if (expression instanceof CFFullVarExpression) {
             final CFFullVarExpression fullVarExpression = (CFFullVarExpression) expression;
             final CFExpression variable = fullVarExpression.getExpressions().get(0);
@@ -97,6 +97,31 @@ public class UnusedLocalVarChecker extends CFLintScannerAdapter {
         public VarInfo(String name, Boolean used){
             this.name=name;
             this.used=used;
+        }
+    }
+    
+    @Override
+    public void element(final Element element, final Context context, final BugList bugs) {
+        //cfquery/@name usage is enough
+        if(element.getName()!= null && "cfquery".equals(element.getName().toLowerCase())){
+            final String name = element.getAttributeValue("name");
+            if(name!= null && localVariables.containsKey(name.toLowerCase())){
+                localVariables.put(name.toLowerCase(), new VarInfo(name, true));
+            }
+        }
+        //cfloop/@index usage is enough
+        if(element.getName()!= null && "cfloop".equals(element.getName().toLowerCase())){
+            final String name = element.getAttributeValue("index");
+            if(name!= null && localVariables.containsKey(name.toLowerCase())){
+                localVariables.put(name.toLowerCase(), new VarInfo(name, true));
+            }
+        }
+        //cfloop/@item usage is enough
+        if(element.getName()!= null && "cfloop".equals(element.getName().toLowerCase())){
+            final String name = element.getAttributeValue("item");
+            if(name!= null && localVariables.containsKey(name.toLowerCase())){
+                localVariables.put(name.toLowerCase(), new VarInfo(name, true));
+            }
         }
     }
 }

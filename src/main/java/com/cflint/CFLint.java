@@ -528,7 +528,7 @@ public class CFLint implements IErrorReporter {
 			}
     	}else{ //Unpack any attributes that have a hash expression
     		for(Attribute attr: elem.getAttributes()){
-				if(attr.getValue().contains("#") && !attr.getValue().startsWith("'") && !attr.getValue().startsWith("\"")){
+				if(attr.getValue() != null && attr.getValue().contains("#") && !attr.getValue().startsWith("'") && !attr.getValue().startsWith("\"")){
 					try {
 						CFExpression exp = cfmlParser.parseCFExpression("'" +attr.getValue() + "'", this);
 						expressions.add(exp);

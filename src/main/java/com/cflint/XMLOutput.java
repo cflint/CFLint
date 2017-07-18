@@ -17,6 +17,7 @@ import javax.xml.transform.stream.StreamSource;
 public class XMLOutput {
 
     public static final String LINE_SEPARATOR = "line.separator";
+    final List<String> CODE_GROUPBY_FUNCTION = Arrays.asList("PARSE_ERROR");
 
     public void output(final BugList bugList, final Writer writer, final CFLintStats stats) throws IOException {
         final BugCounts counts = stats.getCounts();
@@ -87,8 +88,6 @@ public class XMLOutput {
         writer.append("</issues>");
         writer.close();
     }
-
-    List<String> CODE_GROUPBY_FUNCTION = Arrays.asList("PARSE_ERROR");
 
     private boolean isGrouped(final BugInfo prevbugInfo, final BugInfo bugInfo) {
         if (prevbugInfo == null || bugInfo == null) {

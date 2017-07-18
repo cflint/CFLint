@@ -90,13 +90,13 @@ public class UnusedLocalVarChecker extends CFLintScannerAdapter {
     }
 
     public static class VarInfo{
+        Boolean used;
+        Integer lineNumber;
+        String name;
         
         public VarInfo(String name, Boolean used){
             this.name=name;
             this.used=used;
         }
-        Boolean used;
-        Integer lineNumber;
-        String name;
     }
 }

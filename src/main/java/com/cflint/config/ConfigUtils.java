@@ -29,6 +29,8 @@ import com.fasterxml.jackson.module.jaxb.JaxbAnnotationModule;
 
 public class ConfigUtils {
 
+	static final String PLUGIN_PACKAGE = "com.cflint.plugins.core";
+
     private final static Logger log = LoggerFactory.getLogger(ConfigUtils.class);
     private static JAXBContext CFLintConfigContext = null;
 
@@ -164,8 +166,6 @@ public class ConfigUtils {
 
         return descriptions;
     }
-
-    static final String PLUGIN_PACKAGE = "com.cflint.plugins.core";
 
     public static CFLintScanner loadPlugin(final PluginInfoRule ruleInfo) {
         final String shortClassName = ruleInfo.getClassName() != null && ruleInfo.getClassName().trim().length() > 0

@@ -13,6 +13,7 @@ import com.fasterxml.jackson.core.JsonGenerator;
 
 public class JSONOutput {
 
+    final List<String> CODE_GROUPBY_FUNCTION = Arrays.asList("PARSE_ERROR");
     boolean prettyPrint = true;
 
     public boolean isPrettyPrint() {
@@ -99,8 +100,6 @@ public class JSONOutput {
         jg.close();
         writer.close();
     }
-
-    List<String> CODE_GROUPBY_FUNCTION = Arrays.asList("PARSE_ERROR");
 
     private boolean isGrouped(final BugInfo prevbugInfo, final BugInfo bugInfo) {
         if (prevbugInfo == null || bugInfo == null) {

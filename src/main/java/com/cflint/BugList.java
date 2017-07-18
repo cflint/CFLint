@@ -11,6 +11,9 @@ import com.cflint.tools.CFLintFilter;
 public class BugList implements Iterable<BugInfo> {
 
     Map<String, List<BugInfo>> bugList = new HashMap<String, List<BugInfo>>();
+    CFLintFilter filter;
+    CFLintFilter fileFilter;
+
     /**
      *
      */
@@ -21,9 +24,6 @@ public class BugList implements Iterable<BugInfo> {
         super();
         this.filter = filter;
     }
-
-    CFLintFilter filter;
-    CFLintFilter fileFilter;
 
     public CFLintFilter getFileFilter() {
         return fileFilter;

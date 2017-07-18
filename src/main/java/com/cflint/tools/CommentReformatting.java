@@ -4,6 +4,9 @@ import java.util.Stack;
 
 public class CommentReformatting {
 
+    private static final String COMMENT_TEXT = "<!---";
+    private static final String COMMENT_END_TEXT = "--->";
+
     public static String wrap(String value) {
         Stack<Integer> stack = new Stack<>();
         StringBuilder sb = new StringBuilder(value);
@@ -26,6 +29,4 @@ public class CommentReformatting {
         return sb.toString();
     }
 
-    static String COMMENT_TEXT = "<!---";
-    static String COMMENT_END_TEXT = "--->";
 }

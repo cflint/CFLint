@@ -80,6 +80,7 @@ import cfml.parsing.cfscript.script.CFSwitchStatement;
 import cfml.parsing.cfscript.script.CFTryCatchStatement;
 import cfml.parsing.reporting.IErrorReporter;
 import cfml.parsing.reporting.ParseException;
+import net.htmlparser.jericho.Attribute;
 import net.htmlparser.jericho.Element;
 import net.htmlparser.jericho.EndTag;
 import net.htmlparser.jericho.Source;
@@ -177,6 +178,7 @@ public class CFLint implements IErrorReporter {
         }
         if(!folderOrFile.exists()){
         	System.err.println("File " + folderOrFile + " does not exist.");
+        	return;
         }
         if (folderOrFile.isDirectory()) {
             final CFLintConfiguration saveConfig = configuration;
@@ -454,6 +456,11 @@ public class CFLint implements IErrorReporter {
             handler.pop();
         } else if (elem.getName().equalsIgnoreCase("cfquery")) {
             scanElement(elem, context);
+            for(final CFExpression expression : unpackTagExpressions(elem)){
+	            if (expression != null) {
+	                process(expression, elem, context);
+	            }
+        	}
             final List<Element> list = elem.getAllElements();
             processStack(list.subList(1, list.size()), space + " ", context);
             //Save any columns from the cfquery
@@ -488,6 +495,11 @@ public class CFLint implements IErrorReporter {
             handler.pop();
         } else {
             scanElement(elem, context);
+        	for(final CFExpression expression : unpackTagExpressions(elem)){
+	            if (expression != null) {
+	                process(expression, elem, context);
+	            }
+        	}
             processStack(elem.getChildElements(), space + " ", context);
         }
         // Process any messages added by downstream parsing.
@@ -497,7 +509,39 @@ public class CFLint implements IErrorReporter {
         context.getMessages().clear();
     }
 
-    protected void scanElement(final Element elem, final Context context) {
+    private List<CFExpression> unpackTagExpressions(final Element elem) {
+    	final List<CFExpression> expressions = new ArrayList<CFExpression>();
+    	if(elem.getAttributes()==null){
+    		return expressions;
+    	}
+    	//Explicitly unpack cfloop
+    	if (elem.getName().equalsIgnoreCase("cfloop")){
+    		List<String> attributes = Arrays.asList("from","to","step","condition","array","list");
+			for(Attribute attr: elem.getAttributes()){
+				if(attributes.contains(attr.getName().toLowerCase()) && attr.getValue().trim().length()>0){
+					try {
+						expressions.add(cfmlParser.parseCFExpression(attr.getValue(), this));
+					} catch (Exception e) {
+						System.err.println("Error in parsing : " + attr.getValue() + " on tag " + elem.getName());
+					}
+				}
+			}
+    	}else{ //Unpack any attributes that have a hash expression
+    		for(Attribute attr: elem.getAttributes()){
+				if(attr.getValue() != null && attr.getValue().contains("#") && !attr.getValue().startsWith("'") && !attr.getValue().startsWith("\"")){
+					try {
+						CFExpression exp = cfmlParser.parseCFExpression("'" +attr.getValue() + "'", this);
+						expressions.add(exp);
+					} catch (Exception e) {
+						System.err.println("Error in parsing : " + attr.getValue() + " on tag " + elem.getName());
+					}
+				}
+			}
+    	}
+    	return expressions;
+	}
+
+	protected void scanElement(final Element elem, final Context context) {
         for (final CFLintScanner plugin : extensions) {
             try {
                 plugin.element(elem, context, bugs);
@@ -1243,7 +1287,6 @@ public class CFLint implements IErrorReporter {
     @Override
     public void syntaxError(final Recognizer<?, ?> recognizer, final Object offendingSymbol, int line,
                             int charPositionInLine, final String msg, final org.antlr.v4.runtime.RecognitionException e) {
-        final String file = currentFile == null ? "" : currentFile + "\r\n";
         String expression = null;
         if (offendingSymbol instanceof Token) {
             expression = ((Token) offendingSymbol).getText();

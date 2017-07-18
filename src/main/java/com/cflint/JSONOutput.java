@@ -1,22 +1,19 @@
 package com.cflint;
 
 import java.io.IOException;
-import java.io.StringWriter;
 import java.io.Writer;
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
-import javax.xml.transform.TransformerException;
-
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonGenerator;
 
 public class JSONOutput {
 
+    final List<String> CODE_GROUPBY_FUNCTION = Arrays.asList("PARSE_ERROR");
     boolean prettyPrint = true;
 
     public boolean isPrettyPrint() {
@@ -103,8 +100,6 @@ public class JSONOutput {
         jg.close();
         writer.close();
     }
-
-    List<String> CODE_GROUPBY_FUNCTION = Arrays.asList("PARSE_ERROR");
 
     private boolean isGrouped(final BugInfo prevbugInfo, final BugInfo bugInfo) {
         if (prevbugInfo == null || bugInfo == null) {

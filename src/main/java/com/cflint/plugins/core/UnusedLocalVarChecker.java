@@ -23,14 +23,15 @@ public class UnusedLocalVarChecker extends CFLintScannerAdapter {
 
     @Override
     public void expression(final CFExpression expression, final Context context, final BugList bugs) {
-        if (expression instanceof CFFullVarExpression) {
+    	System.out.println("::" + expression.Decompile(0));
+    	if (expression instanceof CFFullVarExpression) {
             final CFFullVarExpression fullVarExpression = (CFFullVarExpression) expression;
             final CFExpression variable = fullVarExpression.getExpressions().get(0);
             if (variable instanceof CFIdentifier) {
                 final String name = ((CFIdentifier) variable).getName();
                 if (!scopes.isCFScoped(name)) {
                     localVariables.put(name.toLowerCase(), new VarInfo(name, true));
-                } else if (scopes.isLocalScoped(name) && fullVarExpression.getExpressions().size() > 1) {
+                } else if ((scopes.isLocalScoped(name) || scopes.isVariablesScoped(name)) && fullVarExpression.getExpressions().size() > 1) {
                     final CFExpression variable2 = fullVarExpression.getExpressions().get(1);
                     if (variable2 instanceof CFIdentifier) {
                         final String namepart=((CFIdentifier) variable2).getName();
@@ -89,13 +90,13 @@ public class UnusedLocalVarChecker extends CFLintScannerAdapter {
     }
 
     public static class VarInfo{
+        Boolean used;
+        Integer lineNumber;
+        String name;
         
         public VarInfo(String name, Boolean used){
             this.name=name;
             this.used=used;
         }
-        Boolean used;
-        Integer lineNumber;
-        String name;
     }
 }

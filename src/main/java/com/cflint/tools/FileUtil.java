@@ -36,9 +36,7 @@ public class FileUtil {
                 if (fis != null) {
                     fis.close();
                 }
-            } catch (final IOException e) {
-                return null;
-            }
+            } catch (final IOException e) {}
         }
     }
 

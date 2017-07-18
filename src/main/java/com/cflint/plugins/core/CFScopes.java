@@ -52,6 +52,9 @@ public class CFScopes {
     public boolean isLocalScoped(final String variable) {
         return isScoped(variable, LOCAL);
     }
+    public boolean isVariablesScoped(final String variable) {
+        return isScoped(variable, "variables");
+    }
 
     public boolean isFunctionScoped(final String variable) {
         return isScoped(variable, LOCAL) || isScoped(variable, "variables") || isScoped(variable, "arguments") || isScoped(variable, "cfcatch");

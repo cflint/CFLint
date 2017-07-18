@@ -13,7 +13,8 @@ import java.util.Set;
 
 public class StackHandler {
 
-    Deque<Stack> varStack = new ArrayDeque<Stack>();
+    final Deque<Stack> varStack = new ArrayDeque<Stack>();
+    final Set<String> excludes = new HashSet<String>();
 
     public StackHandler() {
         super();
@@ -26,9 +27,6 @@ public class StackHandler {
         excludes.add("LOCAL");
         varStack.push(new Stack(""));
     }
-
-    // Set<String> variables = new HashSet<String>();
-    Set<String> excludes = new HashSet<String>();
 
     public void addVariable(final String name) {
         varStack.peek().getVariables().add(name.toUpperCase());

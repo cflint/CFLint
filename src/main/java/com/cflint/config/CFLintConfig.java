@@ -10,16 +10,20 @@ import javax.xml.bind.annotation.XmlRootElement;
 import com.cflint.config.CFLintPluginInfo.PluginInfoRule;
 import com.cflint.config.CFLintPluginInfo.PluginInfoRule.PluginMessage;
 import com.cflint.plugins.CFLintScanner;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @XmlRootElement(name = "config")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class CFLintConfig implements CFLintConfiguration {
 
+	@Deprecated
     private List<ConfigOutput> output = new ArrayList<CFLintConfig.ConfigOutput>();
     private List<CFLintPluginInfo.PluginInfoRule> rules = new ArrayList<CFLintPluginInfo.PluginInfoRule>();
     private List<PluginMessage> excludes = new ArrayList<PluginMessage>();
     private List<PluginMessage> includes = new ArrayList<PluginMessage>();
 
     private boolean inheritParent = true;
+    @Deprecated
     private boolean inheritPlugins = true;
 
     /*
@@ -27,11 +31,13 @@ public class CFLintConfig implements CFLintConfiguration {
      * 
      * @see com.cflint.config.CFLintConfiguration#getOutput()
      */
+    @Deprecated
     public List<ConfigOutput> getOutput() {
         return output;
     }
 
     @XmlElement(name = "output")
+    @Deprecated
     public void setOutput(final List<ConfigOutput> output) {
         this.output = output;
     }
@@ -88,11 +94,13 @@ public class CFLintConfig implements CFLintConfiguration {
         this.inheritParent = inheritParent;
     }
 
+    @Deprecated
     public boolean isInheritPlugins() {
         return inheritPlugins;
     }
 
     @XmlAttribute(name = "inheritPlugins")
+    @Deprecated
     public void setInheritPlugins(boolean inheritPlugins) {
         // #315 --- inheritPlugins can not be overwritten to false in 1.2.0 --- will be fully removed in 1.3.0 (but will then break people's setup if the setting remains in .cflintrc or the xml config
         this.inheritPlugins = true;

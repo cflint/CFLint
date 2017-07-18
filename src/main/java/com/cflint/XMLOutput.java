@@ -17,6 +17,7 @@ import javax.xml.transform.stream.StreamSource;
 public class XMLOutput {
 
     public static final String LINE_SEPARATOR = "line.separator";
+    final List<String> CODE_GROUPBY_FUNCTION = Arrays.asList("PARSE_ERROR");
 
     public void output(final BugList bugList, final Writer writer, final CFLintStats stats) throws IOException {
         final BugCounts counts = stats.getCounts();
@@ -88,8 +89,6 @@ public class XMLOutput {
         writer.close();
     }
 
-    List<String> CODE_GROUPBY_FUNCTION = Arrays.asList("PARSE_ERROR");
-
     private boolean isGrouped(final BugInfo prevbugInfo, final BugInfo bugInfo) {
         if (prevbugInfo == null || bugInfo == null) {
             return false;
@@ -123,7 +122,7 @@ public class XMLOutput {
 
         // 2. Use the TransformerFactory to process the stylesheet Source and generate a Transformer.
         final InputStream is = getClass().getResourceAsStream("/findbugs/cflint-to-findbugs.xsl");
-        final javax.xml.transform.Transformer transformer = tFactory.newTransformer(new javax.xml.transform.stream.StreamSource(is));
+        final javax.xml.transform.Transformer transformer = tFactory.newTransformer(new StreamSource(is));
 
         // 3. Use the Transformer to transform an XML Source and send the output to a Result object.
         transformer.transform(new StreamSource(new StringReader(sw.toString())), new StreamResult(writer));
@@ -179,6 +178,7 @@ public class XMLOutput {
                 } else {
                     sb.append(c);
                 }
+                break;
             }
         }
         return sb.toString();

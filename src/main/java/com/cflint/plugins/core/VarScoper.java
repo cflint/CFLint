@@ -22,6 +22,13 @@ public class VarScoper extends CFLintScannerAdapter {
     public static final String VARIABLE = "variable";
     public static final String RESULT = "result";
 
+    final Map<String, List<String>> CHECK_ELEMENT_ATTRIBUTES = new HashMap<String, List<String>>();
+    final List<String> CHECK_NAMES = Arrays.asList(new String[] { "cfquery", "cfstoredproc", "cffeed", "cfdirectory",
+            "cfform", "cfftp", "cfobject", "cfsearch", "cfprocresult", "cfpop", "cfregistry", "cfreport", "cfdbinfo",
+            "cfdocument", "cfcollection", "cfpdf", "cfzip", "cfldap" });
+    final static Collection<String> variables = Arrays.asList("APPLICATION", "CGI", "COOKIE", "FORM", "REQUEST",
+            "SERVER", "SESSION", "URL");
+
     @Override
     public void expression(final CFExpression expression, final Context context, final BugList bugs) {
         if (expression instanceof CFIdentifier) {
@@ -45,7 +52,7 @@ public class VarScoper extends CFLintScannerAdapter {
     public void expression(final CFScriptStatement expression, final Context context, final BugList bugs) {
         if(expression instanceof CFPropertyStatement ){
             final CFPropertyStatement propertyStatement = (CFPropertyStatement)expression;
-            
+            //TODO - handle properties?
         }
     }
 
@@ -65,11 +72,6 @@ public class VarScoper extends CFLintScannerAdapter {
         CHECK_ELEMENT_ATTRIBUTES.put("cfxml", Arrays.asList(VARIABLE));
 
     }
-
-    Map<String, List<String>> CHECK_ELEMENT_ATTRIBUTES = new HashMap<String, List<String>>();
-    List<String> CHECK_NAMES = Arrays.asList(new String[] { "cfquery", "cfstoredproc", "cffeed", "cfdirectory",
-            "cfform", "cfftp", "cfobject", "cfsearch", "cfprocresult", "cfpop", "cfregistry", "cfreport", "cfdbinfo",
-            "cfdocument", "cfcollection", "cfpdf", "cfzip", "cfldap" });
 
     @Override
     public void element(final Element element, final Context context, final BugList bugs) {
@@ -105,9 +107,6 @@ public class VarScoper extends CFLintScannerAdapter {
             context.addMessage("MISSING_VAR", inameVar);
         }
     }
-
-    final static Collection<String> variables = Arrays.asList("APPLICATION", "CGI", "COOKIE", "FORM", "REQUEST",
-            "SERVER", "SESSION", "URL");
 
     private boolean isGlobal(final String nameVar) {
         return nameVar != null && variables.contains(nameVar.toUpperCase().trim());

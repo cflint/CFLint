@@ -24,6 +24,11 @@ public class ValidName {
     protected int maxLength = MAX_VAR_LENGTH;
     protected int maxWords = MAX_VAR_WORDS;
 
+    final String[] DEFAULT_PREFIXES_TO_AVOID = { "s", "st", "str", "o", "obj", "b", "q", "a", "arr", "this", "my","stu" };
+    String[] prefixesToAvoid = DEFAULT_PREFIXES_TO_AVOID;
+    String[] suffixesToAvoid = DEFAULT_PREFIXES_TO_AVOID;
+    private String[] requiredPrefixes = null;;
+    
     public ValidName() {
     }
 
@@ -120,11 +125,6 @@ public class ValidName {
         return false;
     }
 
-    final String[] DEFAULT_PREFIXES_TO_AVOID = { "s", "st", "str", "o", "obj", "b", "q", "a", "arr", "this", "my","stu" };
-    String[] prefixesToAvoid = DEFAULT_PREFIXES_TO_AVOID;
-    String[] suffixesToAvoid = DEFAULT_PREFIXES_TO_AVOID;
-    private String[] requiredPrefixes = null;;
-    
     public boolean hasPrefixOrPostfix(final String name) {
         String sentence = name.replaceAll("_", " ");
         sentence = sentence.replaceAll("(\\p{Ll})(\\p{Lu})", "$1 $2");

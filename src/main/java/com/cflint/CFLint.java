@@ -856,7 +856,6 @@ public class CFLint implements IErrorReporter {
     
     /**
      * @param context       The current context.
-<<<<<<< HEAD
      * @param expression    The expression statement to check
      */
     protected void registerRuleOverrides(Context context, final CFExpressionStatement expression) {
@@ -866,17 +865,6 @@ public class CFLint implements IErrorReporter {
         Iterable<Token> tokens = expression.getTokens().getTokens();
         for (Token currentTok : tokens) {
             if (currentTok.getLine() == expression.getExpression().getLine()) {
-=======
-     * @param expression the expression statement to check
-     */
-    protected void registerRuleOverrides(Context context, final CFExpressionStatement expression) {
-    	if(expression.getTokens() == null) {
-    		return;
-    	}
-        Iterable<Token> tokens = expression.getTokens().getTokens();
-        for (Token currentTok : tokens) {
-        	if (currentTok.getLine() == expression.getExpression().getLine()) {
->>>>>>> refs/heads/dev
                 if (currentTok.getChannel() == Token.HIDDEN_CHANNEL && currentTok.getType() == CFSCRIPTLexer.LINE_COMMENT) {
                 	final String commentText = currentTok.getText().replaceFirst("^//\\s*", "").trim();
                 	if (commentText.startsWith("cflint ")) {
@@ -910,30 +898,13 @@ public class CFLint implements IErrorReporter {
             }
         }
     }
-    
-<<<<<<< HEAD
-    /**
-     * Return the exception message, or its class name
-     * 
-     * @param e
-     * @return
-     */
-    private String exceptionText(final Exception e) {
-        final String msg = e.getMessage();
-        if (msg == null || msg.trim().length() == 0) {
-            return e.getClass().toString();
-        }
-        return msg;
-    }
 
-=======
 /**
  * 
  * @param expression	CF expression
  * @param elem			Jericho HTML element
  * @param oldcontext	The previous context
  */
->>>>>>> refs/heads/dev
     private void process(final CFExpression expression, final Element elem, Context oldcontext) {
 
         if (expression != null) {

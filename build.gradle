@@ -28,8 +28,8 @@ apply plugin: 'maven'
 apply from: 'cobertura.gradle'
 apply from: 'deploy.gradle'
 
-sourceCompatibility = 1.7
-targetCompatibility = 1.7
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
 
 repositories {
     maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
@@ -37,12 +37,12 @@ repositories {
     maven { url "http://cfmlprojects.org/artifacts" }
 }
 dependencies {
-    compile group: 'com.github.cfparser', name: 'cfparser', version:'2.4.5'
-    compile group: 'com.github.cfparser', name: 'cfml.parsing', version:'2.4.5'
-    compile group: 'com.github.cfparser', name: 'cfml.dictionary', version:'2.4.5'
+    compile group: 'com.github.cfparser', name: 'cfparser', version:'2.4.9'
+    compile group: 'com.github.cfparser', name: 'cfml.parsing', version:'2.4.9'
+    compile group: 'com.github.cfparser', name: 'cfml.dictionary', version:'2.4.9'
     compile group: 'junit', name: 'junit', version:'4.12'
     compile group: 'org.jdom', name: 'jdom', version:'1.1.3'
-    compile group: 'org.antlr', name: 'antlr4-runtime', version:'4.6'
+    compile group: 'org.antlr', name: 'antlr4-runtime', version:'4.7'
     compile group: 'org.antlr', name: 'stringtemplate', version:'4.0.2'
     compile group: 'org.antlr', name: 'antlr4', version:'4.6'
     compile group: 'net.htmlparser.jericho', name: 'jericho-html', version:'3.4'

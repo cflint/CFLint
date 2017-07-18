@@ -4,8 +4,6 @@ import com.cflint.BugList;
 import com.cflint.plugins.CFLintScannerAdapter;
 import com.cflint.plugins.Context;
 
-import cfml.parsing.cfscript.CFExpression;
-import cfml.parsing.cfscript.script.CFScriptStatement;
 import net.htmlparser.jericho.Element;
 import ro.fortsoft.pf4j.Extension;
 
@@ -14,16 +12,6 @@ import ro.fortsoft.pf4j.Extension;
 public class ScriptTagChecker extends CFLintScannerAdapter {
     final String message = "Don't use inline <script> tags";
     final String severity = "ERROR";
-
-    @Override
-    public void expression(final CFExpression expression, final Context context, final BugList bugs) {
-
-    }
-
-    @Override
-    public void expression(final CFScriptStatement expression, final Context context, final BugList bugs) {
-
-    }
 
     // rule: don't use inline javascript in cfm and cfc files
     @Override

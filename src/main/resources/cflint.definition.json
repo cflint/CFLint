@@ -88,12 +88,12 @@
       "message": [
         {
           "code": "QUERYPARAM_REQ",
-          "messageText": "setSql() statement should use .addParam() instead of #'s for security.",
+          "messageText": "setSql() statement should use .addParam() instead of #'s name=\"${variable}\"",
           "severity": "WARNING"
         },
         {
           "code": "CFQUERYPARAM_REQ",
-          "messageText": "<${tag} name=\"${variable}\"> should use <cfqueryparam\/> for security reasons.",
+          "messageText": "<${tag}> should use <cfqueryparam\/> for variable '${variable}'.",
           "severity": "WARNING"
         }
       ],
@@ -158,6 +158,17 @@
         {
           "name": "tagName",
           "value": "cfexecute"
+        }
+      ]
+    },
+    {
+      "name": "CFBuiltInFunctionChecker",
+      "className": "BuiltInFunctionChecker",
+      "message": [
+        {
+          "code": "AVOID_USING_ISDATE",
+          "messageText": "Avoid using the isDate built-in function.  It is too permissive.  Using isValid() instead.",
+          "severity": "WARNING"
         }
       ]
     },
@@ -908,9 +919,23 @@
         {
           "name": "WarningScope",
           "value": "global"
+        },
+        {
+          "name": "IgnoreWords",
+          "value": "numeric,text,textnocase,asc,desc,in,out,inout,one,all,bigdecimal,boolean,byte,char,int,long,float,double,short,string,null"
         }
       ]
-    }    
+    },
+    {
+      "name": "PackageCaseChecker",
+      "message": [
+        {
+          "code": "PACKAGE_CASE_MISMATCH",
+          "messageText": "The case of the package folder and the object declaration do not match for ${variable}.",
+          "severity": "WARNING"
+        }
+      ]
+    }
   ],
   "ruleGroup" : [ {
     "name" : "BugProne",
@@ -919,7 +944,8 @@
     	"NESTED_CFOUTPUT",
     	"OUTPUT_ATTR",
     	"MISSING_VAR",
-    	"COMPARE_INSTEAD_OF_ASSIGN"
+        "COMPARE_INSTEAD_OF_ASSIGN",
+        "AVOID_USING_ISDATE"
      ]
   }, {
     "name" : "Correctness",
@@ -1018,7 +1044,8 @@
 		"COMPONENT_TOO_LONG",
 		"COMPONENT_TOO_WORDY",
 		"COMPONENT_IS_TEMPORARY",
-		"COMPONENT_HAS_PREFIX_OR_POSTFIX"
+		"COMPONENT_HAS_PREFIX_OR_POSTFIX",
+		"PACKAGE_CASE_MISMATCH"
     ]
   }, 
   {

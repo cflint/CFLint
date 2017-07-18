@@ -3,6 +3,7 @@ package com.cflint;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -26,8 +27,8 @@ public class JSONOutput {
         this.prettyPrint = prettyPrint;
     }
 
-    public void output(final BugList bugList, final Writer writer, final boolean showStats) throws IOException {
-        final BugCounts counts = new BugCounts();
+    public void output(final BugList bugList, final Writer writer, CFLintStats stats) throws IOException {
+        final BugCounts counts = stats.getCounts();
         // final StringBuilder sb = new StringBuilder();
         final JsonFactory jsonF = new JsonFactory();
         final JsonGenerator jg = jsonF.createGenerator(writer);
@@ -46,7 +47,6 @@ public class JSONOutput {
             while (bugInfo != null) {
                 final String severity = currentList.get(0).getSeverity();
                 final String code = currentList.get(0).getMessageCode();
-                counts.add(code, severity);
 
                 jg.writeStartObject();
                 jg.writeStringField("severity", notNull(severity));
@@ -61,8 +61,8 @@ public class JSONOutput {
                     jg.writeStringField("file", notNull(bugInfo.getFilename()));
                     jg.writeStringField("fileName", filename(bugInfo.getFilename()));
                     jg.writeStringField("function", filename(bugInfo.getFunction()));
-                    jg.writeStringField("column", Integer.valueOf(bugInfo.getColumn()).toString());
-                    jg.writeStringField("line", Integer.valueOf(bugInfo.getLine()).toString());
+                    jg.writeNumberField("column", bugInfo.getColumn());
+                    jg.writeNumberField("line", bugInfo.getLine());
                     jg.writeStringField("message", notNull(bugInfo.getMessage()));
                     jg.writeStringField("variable", notNull(bugInfo.getVariable()));
                     jg.writeStringField("expression", notNull(bugInfo.getExpression()));
@@ -75,20 +75,27 @@ public class JSONOutput {
             }
         }
 
-        if (showStats) {
-            for (final String code : counts.bugTypes()) {
+        jg.writeStartObject();
+        jg.writeNumberField("totalfiles", stats.getFileCount());
+        jg.writeEndObject();
+
+        jg.writeStartObject();
+        jg.writeFieldName("totalsize");
+        jg.writeNumber(stats.getTotalSize());
+        jg.writeEndObject();
+
+        for (final String code : counts.bugTypes()) {
+            jg.writeStartObject();
+            jg.writeStringField("code", code);
+            jg.writeNumberField("count", counts.getCode(code));
+            jg.writeEndObject();
+        }
+        for (final String severity : BugCounts.levels) {
+            if (counts.getSeverity(severity) > 0) {
                 jg.writeStartObject();
-                jg.writeStringField("code", code);
-                jg.writeStringField("count", Integer.toString(counts.getCode(code)));
+                jg.writeStringField("severity", severity);
+                jg.writeNumberField("count", counts.getSeverity(severity));
                 jg.writeEndObject();
-            }
-            for (final String severity : BugCounts.levels) {
-                if (counts.getSeverity(severity) > 0) {
-                    jg.writeStartObject();
-                    jg.writeStringField("severity", severity);
-                    jg.writeStringField("count", Integer.toString(counts.getSeverity(severity)));
-                    jg.writeEndObject();
-                }
             }
         }
 
@@ -122,12 +129,6 @@ public class JSONOutput {
 
     private boolean safeEquals(final String a, final String b) {
         return a != null && b != null && a.equals(b);
-    }
-
-    public void outputFindBugs(final BugList bugList, final Writer writer, final boolean showStats)
-            throws IOException, TransformerException {
-        final StringWriter sw = new StringWriter();
-        output(bugList, sw, showStats);
     }
 
     private String filename(final String filename) {

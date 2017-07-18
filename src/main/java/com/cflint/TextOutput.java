@@ -10,15 +10,14 @@ public class TextOutput {
 
     final static String newLine = System.getProperty("line.separator");
 
-    public void output(final BugList bugList, final Writer sb, final boolean showStats) throws IOException {
-        final BugCounts counts = new BugCounts();
+    public void output(final BugList bugList, final Writer sb, CFLintStats stats) throws IOException {
+        final BugCounts counts = stats.getCounts();
 
         for (final Entry<String, List<BugInfo>> bugEntry : bugList.getBugList().entrySet()) {
             sb.append("Issue");
             for (final BugInfo bugInfo : bugEntry.getValue()) {
                 final String severity = bugEntry.getValue().get(0).getSeverity();
                 final String code = bugEntry.getValue().get(0).getMessageCode();
-                counts.add(code, severity);
                 sb.append(newLine).append("Severity:").append(severity);
                 sb.append(newLine).append("Message code:").append(code);
                 sb.append(newLine).append("\tFile:").append(bugInfo.getFilename());
@@ -32,19 +31,20 @@ public class TextOutput {
             }
         }
 
-        if (showStats) {
-            sb.append(newLine).append(newLine).append("Issue counts:" + counts.noBugTypes());
+        sb.append(newLine).append(newLine).append("Total files:" + stats.getFileCount());
+        sb.append(newLine).append("Total size " + stats.getTotalSize());
 
-            for (final String code : counts.bugTypes()) {
-                sb.append(newLine).append(code + ":" + counts.getCode(code));
-            }
+        sb.append(newLine).append(newLine).append("Issue counts:" + counts.noBugTypes());
 
-            sb.append(newLine).append(newLine).append("Total issues:" + counts.noBugs());
+        for (final String code : counts.bugTypes()) {
+            sb.append(newLine).append(code + ":" + counts.getCode(code));
+        }
 
-            for (final String severity : BugCounts.levels) {
-                if (counts.getSeverity(severity) > 0) {
-                    sb.append(newLine).append("Total " + severity.toLowerCase() + "s:" + counts.getSeverity(severity));
-                }
+        sb.append(newLine).append(newLine).append("Total issues:" + counts.noBugs());
+
+        for (final String severity : BugCounts.levels) {
+            if (counts.getSeverity(severity) > 0) {
+                sb.append(newLine).append("Total " + severity.toLowerCase() + "s:" + counts.getSeverity(severity));
             }
         }
 

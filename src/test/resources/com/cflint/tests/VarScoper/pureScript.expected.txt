@@ -5,13 +5,23 @@
   "category" : "CFLINT",
   "abbrev" : "MV",
   "locations" : [ {
-    "file" : "src\\test\\resources\\com\\cflint\\tests\\VarScoper\\pureScript.cfc",
+    "file" : "src/test/resources/com/cflint/tests/VarScoper/pureScript.cfc",
     "fileName" : "pureScript.cfc",
     "function" : "init",
-    "column" : "6",
-    "line" : "6",
+    "column" : 6,
+    "line" : 6,
     "message" : "Variable someVar is not declared with a var statement.",
     "variable" : "someVar",
     "expression" : "someVar"
   } ]
+}, {
+  "totalfiles" : 0
+}, {
+  "totalsize" : 0
+}, {
+  "code" : "MISSING_VAR",
+  "count" : 1
+}, {
+  "severity" : "ERROR",
+  "count" : 1
 } ]

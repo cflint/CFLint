@@ -1,0 +1,27 @@
+[ {
+  "severity" : "WARNING",
+  "id" : "PACKAGE_CASE_MISMATCH",
+  "message" : "PACKAGE_CASE_MISMATCH",
+  "category" : "CFLINT",
+  "abbrev" : "PC",
+  "locations" : [ {
+    "file" : "src/test/resources/com/cflint/tests/PackageCase/packagecase_nok.cfc",
+    "fileName" : "packagecase_nok.cfc",
+    "function" : "",
+    "column" : 1,
+    "line" : 2,
+    "message" : "The case of the package folder and the object declaration do not match for tests.PackageCase.packagecase_nok.",
+    "variable" : "tests.PackageCase.packagecase_nok",
+    "expression" : "new tests.packagecase.packagecase_nok()"
+  } ]
+}, {
+  "totalfiles" : 0
+}, {
+  "totalsize" : 0
+}, {
+  "code" : "PACKAGE_CASE_MISMATCH",
+  "count" : 1
+}, {
+  "severity" : "WARNING",
+  "count" : 1
+} ]

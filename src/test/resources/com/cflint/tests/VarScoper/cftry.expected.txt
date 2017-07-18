@@ -5,11 +5,11 @@
   "category" : "CFLINT",
   "abbrev" : "MV",
   "locations" : [ {
-    "file" : "src\\test\\resources\\com\\cflint\\tests\\VarScoper\\cftry.cfc",
+    "file" : "src/test/resources/com/cflint/tests/VarScoper/cftry.cfc",
     "fileName" : "cftry.cfc",
     "function" : "init",
-    "column" : "7",
-    "line" : "5",
+    "column" : 7,
+    "line" : 5,
     "message" : "Variable tryVar is not declared with a var statement.",
     "variable" : "tryVar",
     "expression" : "tryVar"
@@ -21,11 +21,11 @@
   "category" : "CFLINT",
   "abbrev" : "MV",
   "locations" : [ {
-    "file" : "src\\test\\resources\\com\\cflint\\tests\\VarScoper\\cftry.cfc",
+    "file" : "src/test/resources/com/cflint/tests/VarScoper/cftry.cfc",
     "fileName" : "cftry.cfc",
     "function" : "init",
-    "column" : "4",
-    "line" : "7",
+    "column" : 4,
+    "line" : 7,
     "message" : "Variable catchVar is not declared with a var statement.",
     "variable" : "catchVar",
     "expression" : "catchVar"
@@ -37,13 +37,23 @@
   "category" : "CFLINT",
   "abbrev" : "MV",
   "locations" : [ {
-    "file" : "src\\test\\resources\\com\\cflint\\tests\\VarScoper\\cftry.cfc",
+    "file" : "src/test/resources/com/cflint/tests/VarScoper/cftry.cfc",
     "fileName" : "cftry.cfc",
     "function" : "init",
-    "column" : "4",
-    "line" : "9",
+    "column" : 4,
+    "line" : 9,
     "message" : "Variable finallyVar is not declared with a var statement.",
     "variable" : "finallyVar",
     "expression" : "finallyVar"
   } ]
+}, {
+  "totalfiles" : 0
+}, {
+  "totalsize" : 0
+}, {
+  "code" : "MISSING_VAR",
+  "count" : 3
+}, {
+  "severity" : "ERROR",
+  "count" : 3
 } ]

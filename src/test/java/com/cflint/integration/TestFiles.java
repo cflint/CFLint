@@ -20,6 +20,7 @@ import java.util.ResourceBundle;
 import javax.xml.bind.JAXBException;
 import javax.xml.transform.TransformerException;
 
+import com.cflint.BugInfo;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -43,9 +44,10 @@ import com.cflint.tools.FileUtil;
 @RunWith(Parameterized.class)
 public class TestFiles {
 	
-	File sourceFile;
+	private File sourceFile;
+	private String testName;
+	private boolean autoReplaceFailed = false;
 	
-	boolean autoReplaceFailed = false;
 	static String singleTestName = null;
 	static {
 		try {
@@ -57,6 +59,7 @@ public class TestFiles {
 	public TestFiles(File sourceFile,String testName) {
 		super();
 		this.sourceFile = sourceFile;
+		this.testName=testName;
 		try {
 			autoReplaceFailed = "Y".equalsIgnoreCase(ResourceBundle.getBundle("com.cflint.test").getString(
 					"AutoReplaceFailedTestResults"));
@@ -79,14 +82,25 @@ public class TestFiles {
 			@Override
 			public void exceptionOccurred(Throwable exception, String messageCode, String filename, Integer line,
 					Integer column, String functionName, String expression) {
-				exception.printStackTrace();
+				if(exception != null){
+					exception.printStackTrace();
+				}
 				fail("Error scanning " + filename);
 			}
 		});
 		cflint.process(inputString, sourceFile.getPath());
+		//Support the processing of a second source file in a single test
+		File nextFile = new File(sourceFile.getPath()+ ".2");
+		if(nextFile.exists()){
+			final String inputString2 = FileUtil.loadFile(nextFile);
+			cflint.process(inputString2, nextFile.getPath().replaceAll("[.]2$", ""));		
+		}
+		for (BugInfo bug : cflint.getBugs()) {
+			cflint.getStats().getCounts().add(bug.getMessageCode(), bug.getSeverity());
+		}
 		//List<BugInfo> result = cflint.getBugs().getFlatBugList();
 		StringWriter writer = new StringWriter();
-		new JSONOutput().output(cflint.getBugs(), writer, false);
+		new JSONOutput().output(cflint.getBugs(), writer, cflint.getStats());
 		
 		String actualTree=writer.toString();
 		if (expectedText == null || expectedText.trim().length() == 0) {

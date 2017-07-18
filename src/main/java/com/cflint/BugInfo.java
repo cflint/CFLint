@@ -11,21 +11,20 @@ import net.htmlparser.jericho.Element;
 
 public class BugInfo implements Comparable<BugInfo> {
 
-    String filename;
-    int line = 1; // Default to non-zero task #230
-    int column = 1;
-    String message;
-    String messageCode;
-    String expression;
-    String function;
-    String variable;
-    String component;
+    private String filename;
+    private int line = 1; // Default to non-zero task #230
+    private int column = 1;
+    private String message;
+    private String messageCode;
+    private String expression;
+    private String function;
+    private String variable;
+    private String component;
+    private String severity;
 
     public BugInfo() {
         super();
     }
-
-    String severity;
 
     public int getLine() {
         return line;
@@ -119,11 +118,10 @@ public class BugInfo implements Comparable<BugInfo> {
             return this;
         }
 
-        public BugInfoBuilder setExpression(String expression) {
+        public BugInfoBuilder setExpression(final String expression) {
             if (expression == null) {
-                expression = "";
-            }
-            if (expression.length() > 200) {
+            	bugInfo.expression = "";
+            } else if (expression.length() > 200) {
                 bugInfo.expression = expression.substring(0, 200);
             } else {
                 bugInfo.expression = expression;
@@ -157,7 +155,13 @@ public class BugInfo implements Comparable<BugInfo> {
                 elemColumn = elem.getSource().getColumn(elem.getBegin());
             }
             bugInfo.setLine(elemLine + Math.max(expression == null ? 0 : expression.getLine() - 1, 0));
-            bugInfo.setColumn(elemColumn + Math.max(expression == null ? 0 : expression.getColumn() - 1, 0));
+            if(expression == null || expression.getColumn() < 1){
+            	bugInfo.setColumn(elemColumn);
+            }else if (expression.getLine()>1){
+            	bugInfo.setColumn(expression.getColumn());
+            }else{
+            	bugInfo.setColumn(elemColumn + expression.getColumn() - 1);
+            }
             doMessageText(elem);
             return bugInfo;
         }

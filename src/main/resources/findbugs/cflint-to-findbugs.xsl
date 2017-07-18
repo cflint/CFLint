@@ -8,7 +8,15 @@
 
 	<xsl:template match="/">
 		<xsl:variable name="version" select="/issues/@version"/>
-		<BugCollection sequence="0" release="" timestamp="0" analysisTimestamp="0">
+		<xsl:variable name="timestamp" select="/issues/@timestamp"/>
+
+		<BugCollection sequence="0" release="">
+			<xsl:attribute name="timestamp">
+				<xsl:value-of select="$timestamp"/>
+			</xsl:attribute>
+			<xsl:attribute name="analysisTimestamp">
+				<xsl:value-of select="$timestamp"/>
+			</xsl:attribute>
 			<xsl:attribute name="version">
 				<xsl:value-of select="$version"/>
 			</xsl:attribute>
@@ -25,14 +33,26 @@
 
 	<xsl:template name="summary">
 		<FindBugsSummary timestamp="" num_packages="0">
+			<xsl:attribute name="timestamp">
+				<xsl:value-of select="/issues/@timestamp"/>
+			</xsl:attribute>
 			<xsl:attribute name="total_bugs">
 				<xsl:value-of select="sum(/issues/counts/count[@code]/@count)"/>
 			</xsl:attribute>
 			<xsl:attribute name="total_classes">
-				<xsl:value-of select="0"/>
+				<xsl:value-of select="/issues/counts/@totalfiles"/>
 			</xsl:attribute>
 			<xsl:attribute name="total_size">
-				<xsl:value-of select="0"/>
+				<xsl:value-of select="/issues/counts/@totalsize"/>
+			</xsl:attribute>
+			<xsl:attribute name="priority_1">
+				<xsl:value-of select="count(/issues/issue[@severity = 'FATAL' or @severity = 'Fatal' or @severity = 'CRITICAL' or @severity = 'Critical'])"/>
+			</xsl:attribute>
+			<xsl:attribute name="priority_2">
+				<xsl:value-of select="count(/issues/issue[@severity = 'ERROR' or @severity = 'Error' or @severity = 'WARNING' or @severity = 'Warning' or @severity = 'CAUTION' or @severity = 'Caution' ])"/>
+			</xsl:attribute>
+			<xsl:attribute name="priority_3">
+				<xsl:value-of select="count(/issues/issue[@severity = 'INFO' or @severity = 'Info' or @severity = 'COSMETIC' or @severity = 'Cosmetic'])"/>
 			</xsl:attribute>
 			<xsl:for-each select="/issues/issue/location[@file]">
 				<xsl:if test="count(preceding::*[./@file = current()/@file]) = 0">
@@ -46,6 +66,7 @@
 					</FileStats>
 				</xsl:if>
 			</xsl:for-each>
+
 		</FindBugsSummary>
 	</xsl:template>
 
@@ -173,7 +194,7 @@
 					</Message>
 				</SourceLine>
 			</Class>
-			<xsl:if test="@function">
+			<xsl:if test="@function and string-length(@function)!=0">
 				<Method signature="" isStatic="false">
 					<xsl:attribute name="classname">
 						<xsl:value-of select="@file" />

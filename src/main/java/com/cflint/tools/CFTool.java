@@ -12,12 +12,12 @@ import net.htmlparser.jericho.Element;
 
 public class CFTool {
 
-    public static Element getNamedParent(Element elem, final String tagName) {
-        elem = elem.getParentElement();
-        while (elem != null && !elem.getName().equals(tagName)) {
-            elem = elem.getParentElement();
+    public static Element getNamedParent(final Element elem, final String tagName) {
+    	Element parentElem = elem.getParentElement();
+        while (parentElem != null && !parentElem.getName().equals(tagName)) {
+        	parentElem = parentElem.getParentElement();
         }
-        return elem;
+        return parentElem;
     }
 
     public static boolean toBoolean(final String value) {
@@ -34,8 +34,8 @@ public class CFTool {
         return null;
     }
 
-    public static Map<String, CFExpression> convertMap(Map<? extends CFExpression, CFExpression> map) {
-        Map<String, CFExpression> retval = new HashMap<String, CFExpression>();
+    public static Map<String, CFExpression> convertMap(final Map<? extends CFExpression, CFExpression> map) {
+        final Map<String, CFExpression> retval = new HashMap<String, CFExpression>();
         for (Entry<? extends CFExpression, CFExpression> entry : map.entrySet()) {
             retval.put(entry.getKey().toString().toLowerCase(), entry.getValue());
         }

@@ -10,7 +10,6 @@ import org.antlr.v4.runtime.Token;
 
 import com.cflint.BugInfo;
 import com.cflint.StackHandler;
-import com.cflint.plugins.Context.ContextType;
 import com.cflint.tools.ObjectEquals;
 
 import cfml.parsing.cfscript.CFIdentifier;
@@ -20,28 +19,27 @@ import net.htmlparser.jericho.Element;
 public class Context {
 
     public static enum ContextType {
-        Component, Function, Other
+        Component, Function, Other, QueryLoop
     }
 
-    String filename;
-    String componentName;
-    final Element element;
-    CFFuncDeclStatement functionInfo;
-    ContextType contextType;
+    private String filename;
+    private String componentName;
+    final private Element element;
+    private CFFuncDeclStatement functionInfo;
+    private ContextType contextType;
+    private String functionName;
+    private boolean inAssignmentExpression;
 
-    String functionName;
-    boolean inAssignmentExpression;
+    private boolean inComponent;
+    private final StackHandler callStack;
+    private final CommonTokenStream tokens;
+    private final List<ContextMessage> messages = new ArrayList<ContextMessage>();
+    private Context parent = null;
+    private List<String> ignores = new ArrayList<String>();
 
-    public void setInAssignmentExpression(boolean inAssignmentExpression) {
+	public void setInAssignmentExpression(boolean inAssignmentExpression) {
         this.inAssignmentExpression = inAssignmentExpression;
     }
-
-    boolean inComponent;
-    final StackHandler callStack;
-    final CommonTokenStream tokens;
-    final List<ContextMessage> messages = new ArrayList<ContextMessage>();
-    Context parent = null;
-    List<String> ignores = new ArrayList<String>();
 
     public Context(final String filename, final Element element, final CFIdentifier functionName,
             final boolean inAssignmentExpression, final StackHandler handler) {
@@ -178,10 +176,10 @@ public class Context {
     }
 
     public static class ContextMessage {
-        String messageCode;
-        String variable;
-        Integer line;
-        CFLintScanner source;
+        private String messageCode;
+        private String variable;
+        private Integer line;
+        private CFLintScanner source;
 
         public CFLintScanner getSource() {
             return source;
@@ -355,9 +353,13 @@ public class Context {
     public void setContextType(ContextType contextType) {
         this.contextType = contextType;
         if(contextType == ContextType.Component && componentName==null){
-            if(filename != null && filename.trim().length()>0){
-                componentName= new File(filename.trim()).getName().replaceAll("[.]\\w+", "");
-            }
+            assignComponentNameFromFile();
         }
     }
+
+	private void assignComponentNameFromFile() {
+		if(filename != null && filename.trim().length()>0){
+		    componentName= new File(filename.trim()).getName().replaceAll("[.]\\w+", "");
+		}
+	}
 }

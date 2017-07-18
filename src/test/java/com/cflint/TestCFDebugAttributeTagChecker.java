@@ -22,7 +22,7 @@ public class TestCFDebugAttributeTagChecker {
 	}
 
 	@Test
-	public void test_debugNoVal() throws ParseException, IOException {
+	public void testDebugNoVal() throws ParseException, IOException {
 		final String cfcSrc = "<cfquery name=\"TestQuery\" datasource=\"cfdocexamples\" debug> \n" + 
 				"    SELECT * FROM TestTable \n" + 
 				"</cfquery>";
@@ -31,7 +31,7 @@ public class TestCFDebugAttributeTagChecker {
 	}
 
 	@Test
-	public void test_debugNoValCASE() throws ParseException, IOException {
+	public void testDebugNoValCASE() throws ParseException, IOException {
 		final String cfcSrc = "<cfquery name=\"TestQuery\" datasource=\"cfdocexamples\" DEBUG> \n" + 
 				"    SELECT * FROM TestTable \n" + 
 				"</cfquery>";
@@ -40,7 +40,7 @@ public class TestCFDebugAttributeTagChecker {
 	}
 
 	@Test
-	public void test_debugWithVal() throws ParseException, IOException {
+	public void testDebugWithVal() throws ParseException, IOException {
 		final String cfcSrc = "<cfquery name=\"TestQuery\" datasource=\"cfdocexamples\" debug=false> \n" + 
 				"    SELECT * FROM TestTable \n" + 
 				"</cfquery>";
@@ -49,7 +49,7 @@ public class TestCFDebugAttributeTagChecker {
 	}
 
 	@Test
-	public void test_debugWithQuotedVal() throws ParseException, IOException {
+	public void testDebugWithQuotedVal() throws ParseException, IOException {
 		final String cfcSrc = "<cfquery name=\"TestQuery\" datasource=\"cfdocexamples\" debug=\"false\"> \n" + 
 				"    SELECT * FROM TestTable \n" + 
 				"</cfquery>";
@@ -59,14 +59,14 @@ public class TestCFDebugAttributeTagChecker {
 	
 
 	@Test
-	public void test_cfsetting_debug_no() throws ParseException, IOException {
+	public void testCfsettingDebugNo() throws ParseException, IOException {
 		final String cfcSrc = "<cfsetting showDebugOutput=\"No\">";
 		cfBugs.process(cfcSrc, "test");
 		assertEquals(0, cfBugs.getBugs().getBugList().size());
 	}
 
 	@Test
-	public void test_cfsetting_debug_yes() throws ParseException, IOException {
+	public void testCfsettingDebugYes() throws ParseException, IOException {
 		final String cfcSrc = "<cfsetting showDebugOutput=\"Yes\">";
 		cfBugs.process(cfcSrc, "test");
 		assertEquals(1, cfBugs.getBugs().getBugList().get("AVOID_USING_CFSETTING_DEBUG").size());
@@ -74,7 +74,7 @@ public class TestCFDebugAttributeTagChecker {
 
 
 	@Test
-	public void test_cfsetting_no_attributes() throws ParseException, IOException {
+	public void testCfsettingNoAttributes() throws ParseException, IOException {
 		final String cfcSrc = "<cfset var a = 1>";
 		cfBugs.process(cfcSrc, "test");
 		assertEquals(0, cfBugs.getBugs().getBugList().size());

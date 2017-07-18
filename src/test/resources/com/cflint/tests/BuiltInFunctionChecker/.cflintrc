@@ -3,7 +3,7 @@
   "rule" : [ ],
   "excludes" : [ ],
   "includes" : [ {
-    "code" : "MISSING_VAR",
+    "code" : "AVOID_USING_ISDATE",
     "messageText" : null,
     "severity" : null
   } ],

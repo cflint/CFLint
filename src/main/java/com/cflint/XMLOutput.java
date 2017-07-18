@@ -11,16 +11,18 @@ import java.util.List;
 import java.util.Map.Entry;
 
 import javax.xml.transform.TransformerException;
+import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
 public class XMLOutput {
 
     public static final String LINE_SEPARATOR = "line.separator";
 
-    public void output(final BugList bugList, final Writer writer, final boolean showStats) throws IOException {
-        final BugCounts counts = new BugCounts();
-        // final StringBuilder sb = new StringBuilder();
-        writer.append("<issues version=\"" + Version.getVersion() + "\">").append(System.getProperty(LINE_SEPARATOR));
+    public void output(final BugList bugList, final Writer writer, final CFLintStats stats) throws IOException {
+        final BugCounts counts = stats.getCounts();
+        writer.append("<issues version=\"" + Version.getVersion() + "\"")
+                .append(" timestamp=\"" + Long.toString(stats.getTimestamp()) + "\">")
+                .append(System.getProperty(LINE_SEPARATOR));
         for (final Entry<String, List<BugInfo>> bugEntry : bugList.getBugList().entrySet()) {
             final Iterator<BugInfo> iterator = bugEntry.getValue().iterator();
             BugInfo bugInfo = iterator.hasNext() ? iterator.next() : null;
@@ -29,7 +31,6 @@ public class XMLOutput {
             while (bugInfo != null) {
                 final String severity = bugEntry.getValue().get(0).getSeverity();
                 final String code = bugEntry.getValue().get(0).getMessageCode();
-                counts.add(code, severity);
                 writer.append("<issue");
                 writer.append(" severity=\"").append(xmlEscapeText(severity)).append("\"");
                 writer.append(" id=\"").append(xmlEscapeText(code)).append("\"");
@@ -61,27 +62,27 @@ public class XMLOutput {
             }
         }
 
-        if (showStats) {
-            writer.append("<counts>").append(System.getProperty(LINE_SEPARATOR));
+        writer.append("<counts");
+        writer.append(" totalfiles=\"").append(Long.toString(stats.getFileCount())).append("\"");
+        writer.append(" totalsize=\"").append(stats.getTotalSize().toString()).append("\">").append(System.getProperty(LINE_SEPARATOR));
 
-            for (final String code : counts.bugTypes()) {
+        for (final String code : counts.bugTypes()) {
+            writer.append("<count");
+            writer.append(" code=\"").append(code).append("\"");
+            writer.append(" count=\"").append(Integer.toString(counts.getCode(code))).append("\" />");
+            writer.append(System.getProperty(LINE_SEPARATOR));
+        }
+
+        for (final String severity : BugCounts.levels) {
+            if (counts.getSeverity(severity) > 0) {
                 writer.append("<count");
-                writer.append(" code=\"").append(code).append("\"");
-                writer.append(" count=\"").append(Integer.toString(counts.getCode(code))).append("\" />");
+                writer.append(" severity=\"").append(severity).append("\"");
+                writer.append(" count=\"").append(Integer.toString(counts.getSeverity(severity))).append("\" />");
                 writer.append(System.getProperty(LINE_SEPARATOR));
             }
-
-            for (final String severity : BugCounts.levels) {
-                if (counts.getSeverity(severity) > 0) {
-                    writer.append("<count");
-                    writer.append(" severity=\"").append(severity).append("\"");
-                    writer.append(" count=\"").append(Integer.toString(counts.getSeverity(severity))).append("\" />");
-                    writer.append(System.getProperty(LINE_SEPARATOR));
-                }
-            }
-
-            writer.append("</counts>").append(System.getProperty(LINE_SEPARATOR));
         }
+
+        writer.append("</counts>").append(System.getProperty(LINE_SEPARATOR));
 
         writer.append("</issues>");
         writer.close();
@@ -103,36 +104,30 @@ public class XMLOutput {
         }
         // Some message codes (such as parse error are grouped at the function
         // level
-        if (CODE_GROUPBY_FUNCTION.contains(bugInfo.getMessageCode())
-                && safeEquals(prevbugInfo.getFunction(), bugInfo.getFunction())) {
-            return true;
-        }
-        return false;
+        return (CODE_GROUPBY_FUNCTION.contains(bugInfo.getMessageCode())
+                && safeEquals(prevbugInfo.getFunction(), bugInfo.getFunction()));
     }
 
     private boolean safeEquals(final String a, final String b) {
         return a != null && b != null && a.equals(b);
     }
 
-    public void outputFindBugs(final BugList bugList, final Writer writer, final boolean showStats)
+    public void outputFindBugs(final BugList bugList, final Writer writer, final CFLintStats stats)
             throws IOException, TransformerException {
+
         final StringWriter sw = new StringWriter();
-        output(bugList, sw, showStats);
+        output(bugList, sw, stats);
+
         // 1. Instantiate a TransformerFactory.
         final javax.xml.transform.TransformerFactory tFactory = javax.xml.transform.TransformerFactory.newInstance();
 
-        // 2. Use the TransformerFactory to process the stylesheet Source and
-        // generate a Transformer.
-
+        // 2. Use the TransformerFactory to process the stylesheet Source and generate a Transformer.
         final InputStream is = getClass().getResourceAsStream("/findbugs/cflint-to-findbugs.xsl");
-        final javax.xml.transform.Transformer transformer = tFactory
-                .newTransformer(new javax.xml.transform.stream.StreamSource(is));
+        final javax.xml.transform.Transformer transformer = tFactory.newTransformer(new javax.xml.transform.stream.StreamSource(is));
 
-        // 3. Use the Transformer to transform an XML Source and send the
-        // output to a Result object.
-        System.out.println(sw.toString());
-        transformer.transform(new StreamSource(new StringReader(sw.toString())),
-                new javax.xml.transform.stream.StreamResult(writer));
+        // 3. Use the Transformer to transform an XML Source and send the output to a Result object.
+        transformer.transform(new StreamSource(new StringReader(sw.toString())), new StreamResult(writer));
+
         writer.close();
     }
 

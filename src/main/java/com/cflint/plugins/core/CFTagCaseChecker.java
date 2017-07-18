@@ -4,23 +4,12 @@ import com.cflint.BugList;
 import com.cflint.plugins.CFLintScannerAdapter;
 import com.cflint.plugins.Context;
 
-import cfml.parsing.cfscript.CFExpression;
-import cfml.parsing.cfscript.script.CFScriptStatement;
 import net.htmlparser.jericho.Element;
 import ro.fortsoft.pf4j.Extension;
 
 @Extension
 public class CFTagCaseChecker extends CFLintScannerAdapter {
     final String messageCode = "CFTAG_PREFERRED_CASE";
-
-    @Override
-    public void expression(final CFExpression expression, final Context context, final BugList bugs) {
-
-    }
-
-    @Override
-    public void expression(final CFScriptStatement expression, final Context context, final BugList bugs) {
-    }
 
     // rule: tag should be lowercase or camelCase
     @Override

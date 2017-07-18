@@ -8,8 +8,8 @@
     "file" : "C:\\Users\\Ryan\\git\\CFLint\\src\\test\\resources\\com\\cflint\\integration\\inherit\\test.cfc",
     "fileName" : "test.cfc",
     "function" : "",
-    "column" : "0",
-    "line" : "1",
+    "column" : 0,
+    "line" : 1,
     "message" : "Component name test is not a valid name. Please use CamelCase and start with a capital letter.",
     "variable" : "",
     "expression" : "component {\n  public string function getStringFromStruct(interestingVar)     {\n      return interestingVar;\n\n    }\n}"
@@ -24,8 +24,8 @@
     "file" : "C:\\Users\\Ryan\\git\\CFLint\\src\\test\\resources\\com\\cflint\\integration\\inherit\\test.cfc",
     "fileName" : "test.cfc",
     "function" : "getStringFromStruct",
-    "column" : "16",
-    "line" : "2",
+    "column" : 16,
+    "line" : 2,
     "message" : "Function getStringFromStruct is missing a hint.",
     "variable" : "getStringFromStruct",
     "expression" : "public string function getStringFromStruct(interestingVar)   {\n    return interestingVar;\n\n  }"
@@ -40,8 +40,8 @@
     "file" : "C:\\Users\\Ryan\\git\\CFLint\\src\\test\\resources\\com\\cflint\\integration\\standalone\\test.cfc",
     "fileName" : "test.cfc",
     "function" : "getStringFromStruct",
-    "column" : "16",
-    "line" : "2",
+    "column" : 16,
+    "line" : 2,
     "message" : "Function getStringFromStruct is missing a hint.",
     "variable" : "getStringFromStruct",
     "expression" : "public string function getStringFromStruct(interestingVar)   {\n    return interestingVar;\n\n  }"
@@ -56,10 +56,23 @@
     "file" : "C:\\Users\\Ryan\\git\\CFLint\\src\\test\\resources\\com\\cflint\\integration\\test.cfc",
     "fileName" : "test.cfc",
     "function" : "getStringFromStruct",
-    "column" : "16",
-    "line" : "2",
+    "column" : 16,
+    "line" : 2,
     "message" : "Function getStringFromStruct is missing a hint.",
     "variable" : "getStringFromStruct",
     "expression" : "public string function getStringFromStruct(interestingVar)   {\n    return interestingVar;\n\n  }"
   } ]
+}, {
+  "totalfiles" : 3
+}, {
+  "totalsize" : 18
+}, {
+  "code" : "FUNCTION_HINT_MISSING",
+  "count" : 3
+}, {
+  "code" : "COMPONENT_INVALID_NAME",
+  "count" : 1
+}, {
+  "severity" : "INFO",
+  "count" : 4
 } ]

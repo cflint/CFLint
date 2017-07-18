@@ -9,8 +9,8 @@ import com.cflint.plugins.CFLintScanner;
 
 public class CFLintChainedConfig implements CFLintConfiguration {
 
-    final CFLintConfig config;
-    final CFLintConfiguration parent;
+    final private CFLintConfig config;
+    final private CFLintConfiguration parent;
 
     public CFLintChainedConfig(CFLintConfiguration config) {
         super();
@@ -93,7 +93,7 @@ public class CFLintChainedConfig implements CFLintConfiguration {
     }
 
     public Collection<PluginInfoRule> getAllRules() {
-        if (parent == null || !config.isInheritPlugins()) {
+        if (parent == null) {
             return config.getRules();
         }
         final HashSet<PluginInfoRule> retval = new HashSet<PluginInfoRule>();

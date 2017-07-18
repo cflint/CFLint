@@ -33,20 +33,19 @@ import com.cflint.xml.stax.DefaultCFlintResultMarshaller;
 
 public class CFLintTask extends Task {
 
-    boolean showProgress;
-    String includeRule;
-    String excludeRule;
-    File filterFile;
-    File xmlFile;
-    File htmlFile;
-    File textFile;
-    File configFile;
-    String xmlStyle = "cflint";
-    String htmlStyle = "plain.xsl";
-    String extensions;
-    boolean verbose;
-    boolean quiet;
-    boolean showStats;
+    private boolean showProgress;
+    private String includeRule;
+    private String excludeRule;
+    private File filterFile;
+    private File xmlFile;
+    private File htmlFile;
+    private File textFile;
+    private File configFile;
+    private String xmlStyle = "cflint";
+    private String htmlStyle = "plain.xsl";
+    private String extensions;
+    private boolean verbose;
+    private boolean quiet;
     private final List<FileSet> filesets = new ArrayList<FileSet>();
 
     @Override
@@ -103,22 +102,20 @@ public class CFLintTask extends Task {
                     System.out.println("Style:" + xmlStyle);
                 }
                 if ("findbugs".equalsIgnoreCase(xmlStyle)) {
-                    new XMLOutput().outputFindBugs(cflint.getBugs(), createWriter(xmlFile, StandardCharsets.UTF_8),
-                            showStats);
+                    new XMLOutput().outputFindBugs(cflint.getBugs(), createWriter(xmlFile, StandardCharsets.UTF_8), cflint.getStats());
                 } else {
-                    new DefaultCFlintResultMarshaller().output(cflint.getBugs(),
-                            createWriter(xmlFile, StandardCharsets.UTF_8), showStats);
+                    new DefaultCFlintResultMarshaller().output(cflint.getBugs(), createWriter(xmlFile, StandardCharsets.UTF_8),cflint.getStats());
                 }
             }
             if (textFile != null) {
                 final Writer textwriter = textFile != null ? new FileWriter(textFile)
                         : new OutputStreamWriter(System.out);
-                new TextOutput().output(cflint.getBugs(), textwriter, showStats);
+                new TextOutput().output(cflint.getBugs(), textwriter, cflint.getStats());
 
             }
             if (htmlFile != null) {
                 try {
-                    new HTMLOutput(htmlStyle).output(cflint.getBugs(), new FileWriter(htmlFile), showStats);
+                    new HTMLOutput(htmlStyle).output(cflint.getBugs(), new FileWriter(htmlFile), cflint.getStats());
                 } catch (final TransformerException e) {
                     throw new IOException(e);
                 }

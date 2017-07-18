@@ -1,0 +1,5 @@
+{
+  "includes" : [ {"code" : "GLOBAL_LITERAL_VALUE_USED_TOO_OFTEN"}
+     ],
+  "inheritParent" : false
+}

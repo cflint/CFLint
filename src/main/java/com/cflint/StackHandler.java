@@ -33,6 +33,16 @@ public class StackHandler {
     public void addVariable(final String name) {
         varStack.peek().getVariables().add(name.toUpperCase());
     }
+    public void addVariables(final List<String> names) {
+    	if(names != null){
+	    	for(String name: names){
+	    		varStack.peek().getVariables().add(name.toUpperCase());
+	    	}
+    	}
+    }
+    public void addQueryColumnSet(final String name, final List<String> columns) {
+        varStack.peek().getQueryColumns().put(name.toUpperCase(),columns);
+    }
 
     public void addArgument(final String name) {
         varStack.peek().getArguments().add(name.toUpperCase());
@@ -46,8 +56,8 @@ public class StackHandler {
         varStack.push(new Stack(pathName));
     }
 
-    public void pop() {
-        varStack.pop();
+    public Stack pop() {
+        return varStack.pop();
     }
 
     public Object getPluginVar(final Class<?> clazz, final String var) {
@@ -96,6 +106,17 @@ public class StackHandler {
         }
         return false;
     }
+    
+    public List<String> getQueryColumns(final String name) {
+        final Iterator<Stack> iter = varStack.iterator();
+        while (iter.hasNext()) {
+            final Stack vars = iter.next();
+            if (vars.getQueryColumns().containsKey(name.toUpperCase())) {
+                return vars.getQueryColumns().get(name.toUpperCase());
+            }
+        }
+        return null;
+    }
 
     public boolean isArgument(final String name) {
         final Iterator<Stack> iter = varStack.iterator();
@@ -109,7 +130,7 @@ public class StackHandler {
     }
 
     public boolean checkVariable(final String name) {
-        if (excludes.contains(name.toUpperCase())) {
+    	if (excludes.contains(name.toUpperCase())) {
             return true;
         }
         final Iterator<Stack> iter = varStack.iterator();
@@ -135,16 +156,17 @@ public class StackHandler {
     }
 
     public static class Stack {
+        private Set<String> variables = new HashSet<String>();
+        private Map<String,List<String>> queryColumns = new HashMap<String,List<String>>();
+        private Set<String> reported = new HashSet<String>();
+        private Map<String, Object> pluginvariables = new HashMap<String, Object>();
+        private Set<String> arguments = new HashSet<String>();
+        private String pathName;
+
         public Stack(final String pathName) {
             super();
             this.pathName = pathName;
         }
-
-        Set<String> variables = new HashSet<String>();
-        Set<String> reported = new HashSet<String>();
-        Map<String, Object> pluginvariables = new HashMap<String, Object>();
-        Set<String> arguments = new HashSet<String>();
-        String pathName;
 
         public String getPathName() {
             return pathName;
@@ -158,7 +180,11 @@ public class StackHandler {
             return variables;
         }
 
-        public Set<String> getArguments() {
+        public Map<String, List<String>> getQueryColumns() {
+			return queryColumns;
+		}
+
+		public Set<String> getArguments() {
             return arguments;
         }
 

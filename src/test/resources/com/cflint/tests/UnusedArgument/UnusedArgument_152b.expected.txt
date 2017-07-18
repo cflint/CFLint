@@ -8,10 +8,20 @@
     "file" : "src/test/resources/com/cflint/tests/UnusedArgument/UnusedArgument_152b.cfc",
     "fileName" : "UnusedArgument_152b.cfc",
     "function" : "helloWorld",
-    "column" : "0",
-    "line" : "6",
+    "column" : 0,
+    "line" : 6,
     "message" : "Argument xyzzy is not used in function, consider removing it.",
     "variable" : "xyzzy",
-    "expression" : "<cffunction name=/"helloWorld/" access=/"public/" returntype=/"string/">/r/n  <cfargument name=/"name/" type=/"string/" required=/"false/" default=/"/">/r/n  <cfargument name=/"xyzzy/" type=/"string/" required=/"false/" defa"
+    "expression" : "<cffunction name=\"helloWorld\" access=\"public\" returntype=\"string\">\r\n  <cfargument name=\"name\" type=\"string\" required=\"false\" default=\"\">\r\n  <cfargument name=\"xyzzy\" type=\"string\" required=\"false\" defa"
   } ]
+}, {
+  "totalfiles" : 0
+}, {
+  "totalsize" : 0
+}, {
+  "code" : "UNUSED_METHOD_ARGUMENT",
+  "count" : 1
+}, {
+  "severity" : "INFO",
+  "count" : 1
 } ]

@@ -14,10 +14,10 @@ import com.cflint.plugins.CFLintScanner;
 @XmlRootElement(name = "config")
 public class CFLintConfig implements CFLintConfiguration {
 
-    List<ConfigOutput> output = new ArrayList<CFLintConfig.ConfigOutput>();
-    List<CFLintPluginInfo.PluginInfoRule> rules = new ArrayList<CFLintPluginInfo.PluginInfoRule>();
-    List<PluginMessage> excludes = new ArrayList<PluginMessage>();
-    List<PluginMessage> includes = new ArrayList<PluginMessage>();
+    private List<ConfigOutput> output = new ArrayList<CFLintConfig.ConfigOutput>();
+    private List<CFLintPluginInfo.PluginInfoRule> rules = new ArrayList<CFLintPluginInfo.PluginInfoRule>();
+    private List<PluginMessage> excludes = new ArrayList<PluginMessage>();
+    private List<PluginMessage> includes = new ArrayList<PluginMessage>();
 
     private boolean inheritParent = true;
     private boolean inheritPlugins = true;
@@ -94,7 +94,8 @@ public class CFLintConfig implements CFLintConfiguration {
 
     @XmlAttribute(name = "inheritPlugins")
     public void setInheritPlugins(boolean inheritPlugins) {
-        this.inheritPlugins = inheritPlugins;
+        // #315 --- inheritPlugins can not be overwritten to false in 1.2.0 --- will be fully removed in 1.3.0 (but will then break people's setup if the setting remains in .cflintrc or the xml config
+        this.inheritPlugins = true;
     }
 
     public static class ConfigOutput {

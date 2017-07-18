@@ -19,8 +19,8 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 @JsonInclude(Include.NON_NULL)
 public class CFLintPluginInfo {
 
-    List<PluginInfoRule> rules = new ArrayList<CFLintPluginInfo.PluginInfoRule>();
-    List<RuleGroup> ruleGroups = new ArrayList<CFLintPluginInfo.RuleGroup>();
+    private List<PluginInfoRule> rules = new ArrayList<CFLintPluginInfo.PluginInfoRule>();
+    private List<RuleGroup> ruleGroups = new ArrayList<CFLintPluginInfo.RuleGroup>();
 
     public List<PluginInfoRule> getRules() {
         return rules;
@@ -61,6 +61,10 @@ public class CFLintPluginInfo {
     @JsonInclude(Include.NON_NULL)
     public static class RuleGroup {
 
+        private String name;
+        private List<PluginMessage> messages = new ArrayList<PluginMessage>();
+        private String defaultSeverity;
+
         public RuleGroup(String name) {
             super();
             this.name = name;
@@ -69,10 +73,6 @@ public class CFLintPluginInfo {
         public RuleGroup() {
             super();
         }
-
-        String name;
-        List<PluginMessage> messages = new ArrayList<PluginMessage>();
-        String defaultSeverity;
 
         public String getDefaultSeverity() {
             return defaultSeverity;
@@ -218,8 +218,8 @@ public class CFLintPluginInfo {
         }
 
         public static class PluginParameter {
-            String name;
-            String value;
+            private String name;
+            private String value;
 
             public String getName() {
                 return name;
@@ -242,7 +242,9 @@ public class CFLintPluginInfo {
 
         @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "code")
         public static class PluginMessage {
-            String code;
+            private String code;
+            private String messageText;
+            private String severity;
 
             public PluginMessage(final String code) {
                 super();
@@ -253,9 +255,7 @@ public class CFLintPluginInfo {
                 super();
             }
 
-            String messageText;
-            String severity;
-
+            
             public String getCode() {
                 return code;
             }

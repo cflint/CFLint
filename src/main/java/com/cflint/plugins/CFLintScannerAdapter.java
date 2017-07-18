@@ -1,6 +1,8 @@
 package com.cflint.plugins;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.cflint.BugList;
@@ -24,16 +26,28 @@ public class CFLintScannerAdapter implements CFLintScanner, CFLintStructureListe
         super();
     }
 
+    /**
+     * Empty implementation
+     */
     @Override
     public void expression(final CFExpression expression, final Context context, final BugList bugs) {
+    	//empty body for Adapter
     }
 
+    /**
+     * Empty implementation
+     */
     @Override
     public void element(final Element element, final Context context, final BugList bugs) {
+    	//empty body for Adapter
     }
 
+    /**
+     * Empty implementation
+     */
     @Override
     public void expression(final CFScriptStatement expression, final Context context, final BugList bugs) {
+    	//empty body for Adapter
     }
 
     @Override
@@ -70,6 +84,14 @@ public class CFLintScannerAdapter implements CFLintScanner, CFLintStructureListe
         }
         return "";
     }
+    /**
+     * Return parameter split by comma
+     * @param name
+     * @return
+     */
+    public List<String> getParameterAsList(final String name){
+    	return Arrays.asList(getParameterNotNull(name).split(","));
+    }
 
     public int currentLine(final CFExpression expression, final Context context) {
         return expression.getLine() + context.startLine() - 1;
@@ -84,6 +106,7 @@ public class CFLintScannerAdapter implements CFLintScanner, CFLintStructureListe
      */
     @Override
     public void startFile(final String fileName, final BugList bugs) {
+    	//empty body for Adapter
     }
 
     /**
@@ -91,6 +114,7 @@ public class CFLintScannerAdapter implements CFLintScanner, CFLintStructureListe
      */
     @Override
     public void endFile(final String fileName, final BugList bugs) {
+    	//empty body for Adapter
     }
 
     /**
@@ -98,6 +122,7 @@ public class CFLintScannerAdapter implements CFLintScanner, CFLintStructureListe
      */
     @Override
     public void startComponent(final Context context, final BugList bugs) {
+    	//empty body for Adapter
     }
 
     /**
@@ -105,6 +130,7 @@ public class CFLintScannerAdapter implements CFLintScanner, CFLintStructureListe
      */
     @Override
     public void endComponent(final Context context, final BugList bugs) {
+    	//empty body for Adapter
     }
 
     /**
@@ -112,6 +138,7 @@ public class CFLintScannerAdapter implements CFLintScanner, CFLintStructureListe
      */
     @Override
     public void startFunction(final Context context, final BugList bugs) {
+    	//empty body for Adapter
     }
 
     /**
@@ -119,5 +146,6 @@ public class CFLintScannerAdapter implements CFLintScanner, CFLintStructureListe
      */
     @Override
     public void endFunction(final Context context, final BugList bugs) {
+    	//empty body for Adapter
     }
 }

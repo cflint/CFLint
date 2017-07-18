@@ -79,7 +79,7 @@ public class TestCFBugs {
 	}
 	
 	@Test
-	public void testSimpleCFSET_FirstOffenseOnly() throws ParseException, IOException{
+	public void testSimpleCFSETFirstOffenseOnly() throws ParseException, IOException{
 		final String cfcSrc = "<cfcomponent>\r\n" +
 				"<cffunction name=\"test\">\r\n" +
 				"	<cfif 1 EQ 1>\r\n" +
@@ -104,7 +104,7 @@ public class TestCFBugs {
 	}
 
 	@Test
-	public void testSimpleCF_ReadVar() throws ParseException, IOException{
+	public void testSimpleCFReadVar() throws ParseException, IOException{
 		final String cfcSrc = "<cfcomponent>\r\n" +
 				"<cffunction name=\"test\">\r\n" +
 				"	<cfif trim(Privilege) EQ \"\" or isUserInRole('#Privilege#')>\r\n" +
@@ -119,7 +119,7 @@ public class TestCFBugs {
 	}
 
 	@Test
-	public void testSimpleCFSET_Arg() throws ParseException, IOException{
+	public void testSimpleCFSETArg() throws ParseException, IOException{
 		final String cfcSrc = "<cfcomponent>\r\n" +
 				"<cffunction name=\"test\">\r\n" +
 				"<cfargument name=\"x\" default=\"\">\r\n" +
@@ -135,7 +135,7 @@ public class TestCFBugs {
 	}	
 
 	@Test
-	public void testSimpleCFSET_NoParse() throws ParseException, IOException{
+	public void testSimpleCFSETNoParse() throws ParseException, IOException{
 		final String cfcSrc = "<cfcomponent>\r\n" +
 				"<cffunction name=\"test\">\r\n" +
 				"	<cfset x=123/>" +
@@ -150,7 +150,7 @@ public class TestCFBugs {
 	}
 
 	@Test
-	public void testSimpleCFSCRIPT_CommentInScript() throws ParseException, IOException{
+	public void testSimpleCFSCRIPTCommentInScript() throws ParseException, IOException{
 		final String cfcSrc = "<cfcomponent>\r\n" +
 				"<cffunction name=\"test\">\r\n" +
 				"	<cfscript>\r\n" +
@@ -168,7 +168,7 @@ public class TestCFBugs {
 	}
 	
 	@Test
-	public void testSimpleCFQUERY_nested() throws ParseException, IOException{
+	public void testSimpleCFQUERYNested() throws ParseException, IOException{
 		final String cfcSrc = "<cfcomponent>\r\n" +
 				"<cffunction name=\"test\">\r\n" +
 				"	<cfoutput query=\"q123\">\r\n" +
@@ -185,7 +185,7 @@ public class TestCFBugs {
 	}
 	
 	@Test
-	public void testSimpleCFQUERY_Issue30() throws ParseException, IOException{
+	public void testSimpleCFQUERYIssue30() throws ParseException, IOException{
 		final String cfcSrc = "<cfcomponent>\r\n" +
 				"<cffunction name=\"test\">\r\n" +
 				"	<cfoutput query=\"qryPopups\" group=\"id\">\n" + 
@@ -202,7 +202,7 @@ public class TestCFBugs {
 	}
 	
 	@Test
-	public void testSimpleCFQUERY_Issue30b_OK() throws ParseException, IOException{
+	public void testSimpleCFQUERYIssue30b_OK() throws ParseException, IOException{
 		final String cfcSrc = 
 				"	<cfoutput query=\"qryPopups\" group=\"id\">\n" + 
 				"	<cfoutput group=\"id2\">\n" + 
@@ -217,7 +217,7 @@ public class TestCFBugs {
 		assertEquals(0,cfBugs.getBugs().size());
 	}
 	@Test
-	public void testSimpleCFQUERY_Issue30b_NotOK() throws ParseException, IOException{
+	public void testSimpleCFQUERYIssue30bNotOK() throws ParseException, IOException{
 		final String cfcSrc = 
 				"	<cfoutput query=\"qryPopups\" group=\"id\">\n" + 
 				"	<cfoutput>\n" + 
@@ -238,7 +238,7 @@ public class TestCFBugs {
 
 
 	@Test
-	public void testSimpleCFQUERY_nestedWithGroup() throws ParseException, IOException{
+	public void testSimpleCFQUERYNestedWithGroup() throws ParseException, IOException{
 		final String cfcSrc = "<cfcomponent>\r\n" +
 				"<cffunction name=\"test\">\r\n" +
 				"	<cfoutput query=\"q123\" group=\"x\">\r\n" +
@@ -252,7 +252,7 @@ public class TestCFBugs {
 	}
 	
 	@Test
-	public void testCFScript_Cfc() throws ParseException, IOException{
+	public void testCFScriptCfc() throws ParseException, IOException{
 		final String cfcSrc="/** \r\n" + 
 				"* Simple Component. \r\n" + 
 				"*/ \r\n" + 
@@ -272,7 +272,7 @@ public class TestCFBugs {
 	}
 	
 	@Test
-	public void testCFScript_Cfc_ArgOk() throws ParseException, IOException{
+	public void testCFScriptCfcArgOk() throws ParseException, IOException{
 		final String cfcSrc="/** \r\n" + 
 				"* Simple Component. \r\n" + 
 				"*/ \r\n" + 
@@ -290,7 +290,7 @@ public class TestCFBugs {
 	}
 
 	@Test
-	public void testCFScript_If() throws ParseException, IOException{
+	public void testCFScriptIf() throws ParseException, IOException{
 		final String cfcSrc="<cfcomponent>\r\n" +
 				"<cffunction name=\"rateBop\" >\r\n" + 
 				"<cfargument name=\"quote\">\r\n" + 
@@ -311,7 +311,7 @@ public class TestCFBugs {
 	
 	
 	@Test
-	public void testCFScript_For() throws ParseException, IOException{
+	public void testCFScriptFor() throws ParseException, IOException{
 		final String cfcSrc="<cfcomponent>\r\n" +
 				"<cffunction name=\"rateBop\" >\r\n" + 
 				"<cfargument name=\"quote\">\r\n" + 
@@ -329,7 +329,7 @@ public class TestCFBugs {
 	}
 	
 	@Test
-	public void testCFScript_DOT() throws ParseException, IOException{
+	public void testCFScriptDOT() throws ParseException, IOException{
 		final String cfcSrc="<cfcomponent>\r\n" +
 				"<cffunction name=\"rateBop\" >\r\n" + 
 				"<cfscript>\r\n" + 
@@ -344,7 +344,7 @@ public class TestCFBugs {
 	}
 	
 	@Test
-	public void testCFScript_QueryNew() throws ParseException, IOException{
+	public void testCFScriptQueryNew() throws ParseException, IOException{
 		final String cfcSrc="<cfcomponent>\r\n" +
 				"<cffunction name=\"test\" >\r\n" + 
 				"</cffunction>\r\n" +
@@ -362,7 +362,7 @@ public class TestCFBugs {
 	}
 	
 	@Test
-	public void testCFScript_ForDeclare() throws ParseException, IOException{
+	public void testCFScriptForDeclare() throws ParseException, IOException{
 		final String cfcSrc="<cfcomponent>\r\n" +
 				"<cffunction name=\"func1\">\r\n" + 
 				"	<cfscript>\r\n" + 
@@ -379,7 +379,7 @@ public class TestCFBugs {
 	}
 
 	@Test
-	public void testCFScript_ForUnVarred() throws ParseException, IOException{
+	public void testCFScriptForUnVarred() throws ParseException, IOException{
 		final String cfcSrc="<cfcomponent>\r\n" +
 				"<cffunction name=\"func1\">\r\n" + 
 				"	<cfscript>\r\n" + 
@@ -400,7 +400,7 @@ public class TestCFBugs {
 
 	@Test
 	@Ignore
-	public void testCFScript_a_struct() throws ParseException, IOException{
+	public void testCFScriptAStruct() throws ParseException, IOException{
 		final String cfcSrc="<cfcomponent>\r\n" +
 				"<cffunction name=\"func1\">\r\n" + 
 				"	<cfscript>\r\n" + 

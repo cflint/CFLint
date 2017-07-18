@@ -75,10 +75,10 @@ public class TestCFBugs_QueryParams {
 		final List<BugInfo> result = cfBugs.getBugs().getFlatBugList();
 		assertEquals(2, result.size());
 		assertEquals("CFQUERYPARAM_REQ", result.get(0).getMessageCode());
-		assertEquals(3, result.get(0).getLine());
-		assertEquals("LOCAL.categories", result.get(0).getVariable());
+		assertEquals(5, result.get(0).getLine());
+		assertEquals("LOCAL.id", result.get(0).getVariable());
 		assertEquals("CFQUERYPARAM_REQ", result.get(1).getMessageCode());
-		assertEquals(3, result.get(1).getLine());
+		assertEquals(6, result.get(1).getLine());
 	}
 
 	@Test
@@ -89,10 +89,10 @@ public class TestCFBugs_QueryParams {
 		final List<BugInfo> result = cfBugs.getBugs().getFlatBugList();
 		assertEquals(2, result.size());
 		assertEquals("CFQUERYPARAM_REQ", result.get(0).getMessageCode());
-		assertEquals(1, result.get(0).getLine());
-		assertEquals("LOCAL.categories", result.get(0).getVariable());
+		assertEquals(3, result.get(0).getLine());
+		assertEquals("LOCAL.id", result.get(0).getVariable());
 		assertEquals("CFQUERYPARAM_REQ", result.get(1).getMessageCode());
-		assertEquals(1, result.get(1).getLine());
+		assertEquals(4, result.get(1).getLine());
 	}
 	
 	@Test
@@ -137,6 +137,6 @@ public class TestCFBugs_QueryParams {
 		final List<BugInfo> result = cfBugs.getBugs().getFlatBugList();
 		assertEquals(1, result.size());
 		assertEquals("CFQUERYPARAM_REQ", result.get(0).getMessageCode());
-		assertEquals("queryName", result.get(0).getVariable());
+		assertEquals("tableName", result.get(0).getVariable());
 	}
 }

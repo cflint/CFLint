@@ -7,10 +7,7 @@ import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 
-import com.cflint.BugCounts;
-import com.cflint.BugInfo;
-import com.cflint.BugList;
-import com.cflint.Version;
+import com.cflint.*;
 import com.cflint.xml.CFLintResultMarshaller;
 import com.cflint.xml.MarshallerException;
 
@@ -22,13 +19,13 @@ import javanet.staxutils.IndentingXMLStreamWriter;
 public class DefaultCFlintResultMarshaller implements CFLintResultMarshaller {
 
     @Override
-    public void output(BugList bugList, Writer writer, boolean showStats) throws MarshallerException {
+    public void output(BugList bugList, Writer writer, CFLintStats stats) throws MarshallerException {
 
         try {
             final XMLOutputFactory xmlOutputFactory = XMLOutputFactory.newInstance();
             XMLStreamWriter xtw = new IndentingXMLStreamWriter(xmlOutputFactory.createXMLStreamWriter(writer));
 
-            writeIssues(bugList, xtw, showStats);
+            writeIssues(bugList, xtw, stats);
 
             xtw.flush();
 
@@ -37,28 +34,26 @@ public class DefaultCFlintResultMarshaller implements CFLintResultMarshaller {
         }
     }
 
-    private void writeIssues(BugList bugList, XMLStreamWriter xtw, boolean showStats) throws XMLStreamException {
+    private void writeIssues(BugList bugList, XMLStreamWriter xtw, CFLintStats stats) throws XMLStreamException {
         xtw.writeStartElement("issues");
         xtw.writeAttribute("version", Version.getVersion());
+        xtw.writeAttribute("timestamp", Long.toString(stats.getTimestamp()));
 
-        BugCounts counts = new BugCounts();
+        BugCounts counts = stats.getCounts();
 
         for (BugInfo bug : bugList) {
-
-            counts.add(bug.getMessageCode(), bug.getSeverity());
-
             writeIssue(xtw, bug);
         }
 
-        if (showStats) {
-            writeCounts(xtw, counts);
-        }
+        writeCounts(xtw, counts, stats);
 
         xtw.writeEndElement();
     }
 
-    private void writeCounts(XMLStreamWriter xtw, BugCounts counts) throws XMLStreamException {
+    private void writeCounts(XMLStreamWriter xtw, BugCounts counts, CFLintStats stats) throws XMLStreamException {
         xtw.writeStartElement("counts");
+        xtw.writeAttribute("totalfiles", Long.toString(stats.getFileCount()));
+        xtw.writeAttribute("totalsize", stats.getTotalSize().toString());
 
         for (String code : counts.bugTypes()) {
             xtw.writeStartElement("count");

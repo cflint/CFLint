@@ -8,8 +8,8 @@
     "file" : "src/test/resources/com/cflint/tests/CompareInsteadOfAssign/Compare1.cfm",
     "fileName" : "Compare1.cfm",
     "function" : "",
-    "column" : "5",
-    "line" : "5",
+    "column" : 5,
+    "line" : 5,
     "message" : "CWE-482: Comparing instead of Assigning",
     "variable" : "==",
     "expression" : "x.x == 2"
@@ -24,10 +24,20 @@
     "file" : "src/test/resources/com/cflint/tests/CompareInsteadOfAssign/Compare1.cfm",
     "fileName" : "Compare1.cfm",
     "function" : "",
-    "column" : "5",
-    "line" : "9",
+    "column" : 5,
+    "line" : 9,
     "message" : "CWE-482: Comparing instead of Assigning",
     "variable" : "EQ",
     "expression" : "x.x EQ 6"
   } ]
+}, {
+  "totalfiles" : 0
+}, {
+  "totalsize" : 0
+}, {
+  "code" : "COMPARE_INSTEAD_OF_ASSIGN",
+  "count" : 2
+}, {
+  "severity" : "WARNING",
+  "count" : 2
 } ]

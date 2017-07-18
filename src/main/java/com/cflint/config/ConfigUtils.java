@@ -29,8 +29,8 @@ import com.fasterxml.jackson.module.jaxb.JaxbAnnotationModule;
 
 public class ConfigUtils {
 
-    final static Logger log = LoggerFactory.getLogger(ConfigUtils.class);
-    static JAXBContext CFLintConfigContext = null;
+    private final static Logger log = LoggerFactory.getLogger(ConfigUtils.class);
+    private static JAXBContext CFLintConfigContext = null;
 
     public static Marshaller createMarshaller() throws JAXBException {
         if (CFLintConfigContext == null) {

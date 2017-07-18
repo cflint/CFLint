@@ -8,13 +8,14 @@ import java.io.Writer;
 
 import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
+import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
 public class HTMLOutput {
 
     final String htmlStyle;
 
-    public void output(final BugList bugList, final Writer writer, final boolean showStats)
+    public void output(final BugList bugList, final Writer writer, final CFLintStats stats)
             throws IOException, TransformerException {
 
         // 1. Instantiate a TransformerFactory.
@@ -23,22 +24,21 @@ public class HTMLOutput {
         // 2. Use the TransformerFactory to process the stylesheet Source and
         // generate a Transformer.
         javax.xml.transform.Transformer transformer;
-        // System.out.println("Using html style:" + htmlStyle);
         try {
             final InputStream is = getClass().getResourceAsStream("/findbugs/" + htmlStyle);
-            transformer = tFactory.newTransformer(new javax.xml.transform.stream.StreamSource(is));
+            transformer = tFactory.newTransformer(new StreamSource(is));
         } catch (final TransformerConfigurationException e) {
             final InputStream is = getClass().getResourceAsStream("/" + htmlStyle);
-            transformer = tFactory.newTransformer(new javax.xml.transform.stream.StreamSource(is));
+            transformer = tFactory.newTransformer(new StreamSource(is));
         }
 
         final StringWriter sw = new StringWriter();
-        new XMLOutput().outputFindBugs(bugList, sw, showStats);
+        new XMLOutput().outputFindBugs(bugList, sw, stats);
 
         // 3. Use the Transformer to transform an XML Source and send the
         // output to a Result object.
         transformer.transform(new StreamSource(new StringReader(sw.toString())),
-                new javax.xml.transform.stream.StreamResult(writer));
+                new StreamResult(writer));
 
         writer.close();
     }

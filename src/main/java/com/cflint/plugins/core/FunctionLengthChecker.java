@@ -4,7 +4,6 @@ import com.cflint.BugList;
 import com.cflint.plugins.CFLintScannerAdapter;
 import com.cflint.plugins.Context;
 
-import cfml.parsing.cfscript.CFExpression;
 import cfml.parsing.cfscript.script.CFFuncDeclStatement;
 import cfml.parsing.cfscript.script.CFScriptStatement;
 import net.htmlparser.jericho.Element;
@@ -14,10 +13,6 @@ import ro.fortsoft.pf4j.Extension;
 public class FunctionLengthChecker extends CFLintScannerAdapter {
     final int LENGTH_THRESHOLD = 100;
     final String severity = "INFO";
-
-    @Override
-    public void expression(final CFExpression expression, final Context context, final BugList bugs) {
-    }
 
     @Override
     public void expression(final CFScriptStatement expression, final Context context, final BugList bugs) {

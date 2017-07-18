@@ -32,8 +32,7 @@ public class LiteralChecker extends CFLintScannerAdapter {
     public void expression(final CFExpression expression, final Context context, final BugList bugs) {
         final String repeatThreshold = getParameter("Maximum");
         final String maxWarnings = getParameter("MaxWarnings");
-        final String warningScope = getParameter("WarningScope");
-
+        final String warningScope = getParameter("WarningScope");        
         if (repeatThreshold != null) {
             threshold = Integer.parseInt(repeatThreshold);
         }
@@ -93,10 +92,36 @@ public class LiteralChecker extends CFLintScannerAdapter {
     }
 
     public void magicLocalValue(final String name, final int lineNo, final Context context, final BugList bugs) {
-        context.addMessage("LOCAL_LITERAL_VALUE_USED_TOO_OFTEN", name, this, lineNo);
+    	if (!isSpecial(name.toLowerCase()) ){
+    		context.addUniqueMessage("LOCAL_LITERAL_VALUE_USED_TOO_OFTEN", name, this, lineNo);
+    	}
     }
 
-    public void magicGlobalValue(final String name, final int lineNo, final Context context, final BugList bugs) {
-        context.addMessage("GLOBAL_LITERAL_VALUE_USED_TOO_OFTEN", name, this, lineNo);
+    /**
+     * Checks if the literal is a special case that should not fire the literal checker rule
+     * @param name
+     * @return
+     */
+    private boolean isSpecial(String name) {
+    	//Empty literals do not flag
+    	if(name == null || name.length()==0){
+    		return true;
+    	}
+    	//Punctuation literals excepted (Look for absense of a word character)
+    	if(!name.matches(".*\\w.*")){
+    		return true;
+    	}
+    	//Exclude datatype for cfquery/cfproc
+    	if(name.startsWith("cf_sql_")){
+    		return true;
+    	}
+    	//Check ignore words list from the configuration
+    	return getParameterAsList("IgnoreWords").contains(name.toLowerCase());
+	}
+
+	public void magicGlobalValue(final String name, final int lineNo, final Context context, final BugList bugs) {
+		if (!isSpecial(name.toLowerCase()) ){
+	    	context.addUniqueMessage("GLOBAL_LITERAL_VALUE_USED_TOO_OFTEN", name, this, lineNo);
+    	}
     }
 }

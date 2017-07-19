@@ -13,6 +13,7 @@ import com.cflint.plugins.CFLintScanner;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @XmlRootElement(name = "CFLint-Plugin")
@@ -234,7 +235,7 @@ public class CFLintPluginInfo {
                 return value;
             }
 
-            @XmlAttribute(name = "value")
+            @JsonProperty(value="value")
             public void setValue(final Object value) {
                 this.value = value;
             }

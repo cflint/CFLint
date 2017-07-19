@@ -1,6 +1,7 @@
 package com.cflint.plugins.core;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.cflint.BugList;
@@ -21,7 +22,9 @@ public class UnusedLocalVarChecker extends CFLintScannerAdapter {
     // LinkedHashMap is ordered.
     protected Map<String, VarInfo> localVariables = new LinkedHashMap<String, VarInfo>();
     //protected Map<String, Integer> variableLineNo = new HashMap<String, Integer>();
-
+    
+    protected List<String> usedTagAttributes=null;
+    
     @Override
     public void expression(final CFExpression expression, final Context context, final BugList bugs) {
     	if (expression instanceof CFFullVarExpression) {
@@ -102,26 +105,26 @@ public class UnusedLocalVarChecker extends CFLintScannerAdapter {
     
     @Override
     public void element(final Element element, final Context context, final BugList bugs) {
-        //cfquery/@name usage is enough
-        if(element.getName()!= null && "cfquery".equals(element.getName().toLowerCase())){
-            final String name = element.getAttributeValue("name");
-            if(name!= null && localVariables.containsKey(name.toLowerCase())){
-                localVariables.put(name.toLowerCase(), new VarInfo(name, true));
+        try{
+            for(String tagInfo: usedTagAttributes){
+                final String parts[] = (tagInfo + "//").split("/");
+                if(element.getName()!= null && parts[0].equals(element.getName().toLowerCase())){
+                    final String name = element.getAttributeValue(parts[1]);
+                    if(name!= null && localVariables.containsKey(name.toLowerCase())){
+                        localVariables.put(name.toLowerCase(), new VarInfo(name, true));
+                    }
+                }
             }
+        }catch(Exception e){
+            System.err.println(e.getMessage() + " in UnusedLocalVarChecker");
         }
-        //cfloop/@index usage is enough
-        if(element.getName()!= null && "cfloop".equals(element.getName().toLowerCase())){
-            final String name = element.getAttributeValue("index");
-            if(name!= null && localVariables.containsKey(name.toLowerCase())){
-                localVariables.put(name.toLowerCase(), new VarInfo(name, true));
-            }
-        }
-        //cfloop/@item usage is enough
-        if(element.getName()!= null && "cfloop".equals(element.getName().toLowerCase())){
-            final String name = element.getAttributeValue("item");
-            if(name!= null && localVariables.containsKey(name.toLowerCase())){
-                localVariables.put(name.toLowerCase(), new VarInfo(name, true));
-            }
+    }
+
+    @Override
+    public void setParameter(String name, Object value) {
+        super.setParameter(name, value);
+        if("UsedTagAttributes".equals(name)){
+            usedTagAttributes = getParameter("UsedTagAttributes",List.class);
         }
     }
 }

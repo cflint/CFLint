@@ -20,7 +20,7 @@ import net.htmlparser.jericho.Element;
  */
 public class CFLintScannerAdapter implements CFLintScanner, CFLintStructureListener {
 
-    Map<String, String> params = new HashMap<String, String>();
+    Map<String, Object> params = new HashMap<String, Object>();
 
     public CFLintScannerAdapter() {
         super();
@@ -51,7 +51,7 @@ public class CFLintScannerAdapter implements CFLintScanner, CFLintStructureListe
     }
 
     @Override
-    public void setParameter(final String name, final String value) {
+    public void setParameter(final String name, final Object value) {
         if (name != null) {
             params.put(name.toLowerCase(), value);
             params.put(name, value);
@@ -69,20 +69,37 @@ public class CFLintScannerAdapter implements CFLintScanner, CFLintStructureListe
         if(propertyForName!=null && propertyForName.trim().length()>0){
             return propertyForName;
         }
-        if (name != null) {
-            return params.get(name.toLowerCase());
+        if (name != null && params.get(name.toLowerCase()) != null) {
+            return params.get(name.toLowerCase()).toString();
         }
         
         return null;
     }
     public String getParameterNotNull(final String name) {
         if (name != null) {
-            String retval = params.get(name.toLowerCase());
+            Object retval = params.get(name.toLowerCase());
             if(retval != null){
-                return retval;
+                return retval.toString();
             }
         }
         return "";
+    }
+    public <E> E getParameter(final String name, final Class<E> clazz) {
+        final String propertyForName = System.getProperty(getClass().getSimpleName() + "." + name);
+        if(propertyForName!=null && propertyForName.trim().length()>0){
+            if(clazz.equals(String.class)){
+                return (E)propertyForName;
+            }
+            if(List.class.isAssignableFrom(clazz)){
+                return (E)Arrays.asList(propertyForName.split(","));
+            }
+            System.err.println("Cannot associate property " + getClass().getSimpleName() + "." + name + " as a " + clazz.getName());
+        }
+        if (name != null && params.get(name.toLowerCase()) != null) {
+            return (E)params.get(name.toLowerCase());
+        }
+        
+        return null;
     }
     /**
      * Return parameter split by comma
@@ -97,7 +114,7 @@ public class CFLintScannerAdapter implements CFLintScanner, CFLintStructureListe
         return expression.getLine() + context.startLine() - 1;
     }
 
-    public Map<String, String> getParams() {
+    public Map<String, Object> getParams() {
         return params;
     }
 

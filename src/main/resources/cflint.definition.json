@@ -823,7 +823,28 @@
           "messageText": "Local variable ${variable} is not used in function ${function}, consider removing it."
          }
       ],
-      "parameter": []
+      "parameter": [
+        {
+          "name": "UsedTagAttributes",
+          "value": ["cfquery/name",
+          			"cfloop/index",
+          			"cfloop/item",
+          			"cfchart/name",
+          			"cfdocument/name",
+          			"cfftp/name",
+          			"cfhtmltopdf/name",
+          			"cfhttp/resultname",
+          			"cfimage/name",
+          			"cfimap/name",
+          			"cfldap/name",
+          			"cfoutput/query",
+          			"cfpdf/name",
+          			"cfreport/name",
+          			"cfsavecontent/name",
+          			"cfstoreproc/result",
+          			"cfxml/variable"]
+        }
+      ]
     },
     {
       "name": "UnusedArgumentChecker",

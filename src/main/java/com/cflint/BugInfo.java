@@ -166,11 +166,11 @@ public class BugInfo implements Comparable<BugInfo> {
             return bugInfo;
         }
 
-        private final String notNull(final String in) {
+        private final String notNull(final Object in) {
             if (in == null) {
                 return "";
             }
-            return in.trim();
+            return in.toString().trim();
         }
 
         private void doMessageText(final Element elem) {

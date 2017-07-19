@@ -219,7 +219,7 @@ public class CFLintPluginInfo {
 
         public static class PluginParameter {
             private String name;
-            private String value;
+            private Object value;
 
             public String getName() {
                 return name;
@@ -230,12 +230,12 @@ public class CFLintPluginInfo {
                 this.name = name;
             }
 
-            public String getValue() {
+            public Object getValue() {
                 return value;
             }
 
             @XmlAttribute(name = "value")
-            public void setValue(final String value) {
+            public void setValue(final Object value) {
                 this.value = value;
             }
         }

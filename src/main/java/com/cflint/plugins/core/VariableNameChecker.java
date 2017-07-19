@@ -57,7 +57,7 @@ public class VariableNameChecker extends CFLintScannerAdapter {
     }
 
     @Override
-    public void setParameter(String name, String value) {
+    public void setParameter(String name, Object value) {
         super.setParameter(name, value);
 
         populateExclusions();

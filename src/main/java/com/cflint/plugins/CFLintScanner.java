@@ -14,7 +14,7 @@ public interface CFLintScanner {
 
     void expression(CFScriptStatement expression, Context context, BugList bugs);
 
-    void setParameter(String name, String value);
+    void setParameter(String name, Object value);
 
     void startFile(String fileName, BugList bugs);
 

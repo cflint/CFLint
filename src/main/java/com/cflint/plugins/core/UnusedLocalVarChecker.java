@@ -53,7 +53,9 @@ public class UnusedLocalVarChecker extends CFLintScannerAdapter {
         } else if (expression instanceof CFVarDeclExpression) {
             final String name = ((CFVarDeclExpression) expression).getName();
             final int lineNo = expression.getLine() + context.startLine() - 1;
-            addLocalVariable(name, lineNo);
+            if(!scopes.isCFScoped(name)){
+                addLocalVariable(name, lineNo);
+            }
         } else if (expression instanceof CFIdentifier) {
             final String name = ((CFIdentifier) expression).getName();
             if(name != null){

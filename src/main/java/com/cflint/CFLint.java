@@ -363,16 +363,18 @@ public class CFLint implements IErrorReporter {
                 // final String cfscript =
                 // elem.toString().substring(elem.getName().length() + 1,
                 // Math.min(endPos,elem.toString().length()-1));
-                final String cfscript = m.group(1);
-                try {
-                    final CFExpression expression = cfmlParser.parseCFExpression(cfscript, this);
-                    if (expression != null) {
-                        process(expression, elem, context);
+                final String cfscript = m.group(1).trim();
+                if(!cfscript.isEmpty()){
+                    try {
+                        final CFExpression expression = cfmlParser.parseCFExpression(cfscript, this);
+                        if (expression != null) {
+                            process(expression, elem, context);
+                        }
+                    } catch (final Exception npe) {
+                        printException(npe, elem);
+                        final ContextMessage cm = new ContextMessage("PARSE_ERROR", null,null,context.startLine());
+                        reportRule(currentElement,null,context,null, cm);
                     }
-                } catch (final Exception npe) {
-                    printException(npe, elem);
-                    final ContextMessage cm = new ContextMessage("PARSE_ERROR", null,null,context.startLine());
-                    reportRule(currentElement,null,context,null, cm);
                 }
             }
             processStack(elem.getChildElements(), space + " ", context);

@@ -518,28 +518,35 @@ public class CFLint implements IErrorReporter {
     	}
     	//Explicitly unpack cfloop
     	if (elem.getName().equalsIgnoreCase("cfloop")){
-    		List<String> attributes = Arrays.asList("from","to","step","condition","array","list");
-			for(Attribute attr: elem.getAttributes()){
-				if(attributes.contains(attr.getName().toLowerCase()) && attr.getValue().trim().length()>0){
-					try {
-						expressions.add(cfmlParser.parseCFExpression(attr.getValue(), this));
-					} catch (Exception e) {
-						System.err.println("Error in parsing : " + attr.getValue() + " on tag " + elem.getName());
-					}
-				}
-			}
+            List<String> attributes = Arrays.asList("from", "to", "step", "condition", "array", "list");
+            for (Attribute attr : elem.getAttributes()) {
+                if (attributes.contains(attr.getName().toLowerCase()) && attr.getValue().trim().length() > 0) {
+                    try {
+                        expressions.add(cfmlParser.parseCFExpression(attr.getValue(), this));
+                    } catch (Exception e) {
+                        System.err.println("Error in parsing : " + attr.getValue() + " on tag " + elem.getName());
+                    }
+                }
+            }
     	}else{ //Unpack any attributes that have a hash expression
-    		for(Attribute attr: elem.getAttributes()){
-				if(attr.getValue() != null && attr.getValue().contains("#") && !attr.getValue().startsWith("'") && !attr.getValue().startsWith("\"")){
-					try {
-						CFExpression exp = cfmlParser.parseCFExpression("'" +attr.getValue() + "'", this);
-						expressions.add(exp);
-					} catch (Exception e) {
-						System.err.println("Error in parsing : " + attr.getValue() + " on tag " + elem.getName());
-					}
-				}
-			}
-    	}
+            for (Attribute attr : elem.getAttributes()) {
+                if (attr.getValue() != null && attr.getValue().contains("#") && !attr.getValue().startsWith("'")
+                        && !attr.getValue().startsWith("\"")) {
+                    try {
+                        final CFExpression exp = cfmlParser.parseCFExpression("\"" + attr.getValue() + "\"", this);
+                        expressions.add(exp);
+                    } catch (Exception e) {
+                        // Try single quotes before reporting a failure
+                        try {
+                            final CFExpression exp = cfmlParser.parseCFExpression("'" + attr.getValue() + "'", this);
+                            expressions.add(exp);
+                        } catch (Exception e2) {
+                            System.err.println("Error in parsing : " + attr.getValue() + " on tag " + elem.getName());
+                        }
+                    }
+                }
+            }
+        }
     	return expressions;
 	}
 

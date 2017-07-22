@@ -18,6 +18,7 @@ import java.util.regex.Pattern;
 
 import com.cflint.config.*;
 import org.antlr.runtime.BitSet;
+import org.antlr.v4.runtime.ANTLRErrorListener;
 import org.antlr.v4.runtime.Parser;
 import org.antlr.v4.runtime.Recognizer;
 import org.antlr.v4.runtime.Token;
@@ -78,6 +79,7 @@ import cfml.parsing.cfscript.script.CFReturnStatement;
 import cfml.parsing.cfscript.script.CFScriptStatement;
 import cfml.parsing.cfscript.script.CFSwitchStatement;
 import cfml.parsing.cfscript.script.CFTryCatchStatement;
+import cfml.parsing.reporting.ArrayErrorListener;
 import cfml.parsing.reporting.IErrorReporter;
 import cfml.parsing.reporting.ParseException;
 import net.htmlparser.jericho.Attribute;
@@ -532,17 +534,25 @@ public class CFLint implements IErrorReporter {
             for (Attribute attr : elem.getAttributes()) {
                 if (attr.getValue() != null && attr.getValue().contains("#") && !attr.getValue().startsWith("'")
                         && !attr.getValue().startsWith("\"")) {
+                    //Try wrapping the expression in single or double quotes for parsing.
+                    List<String> literalChar = attr.getValue().contains("'")?Arrays.asList("\"","'"):Arrays.asList("'","\"");
                     try {
-                        final CFExpression exp = cfmlParser.parseCFExpression("\"" + attr.getValue() + "\"", this);
-                        expressions.add(exp);
-                    } catch (Exception e) {
-                        // Try single quotes before reporting a failure
-                        try {
-                            final CFExpression exp = cfmlParser.parseCFExpression("'" + attr.getValue() + "'", this);
+                        
+                        List<String> errors = new ArrayList<String>();
+                        ANTLRErrorListener errorReporter = new ArrayErrorListener(errors );
+                        final CFExpression exp = cfmlParser.parseCFExpression(literalChar.get(0) + attr.getValue() + literalChar.get(0), errorReporter);
+                        if(errors.size()==0){
                             expressions.add(exp);
-                        } catch (Exception e2) {
-                            System.err.println("Error in parsing : " + attr.getValue() + " on tag " + elem.getName());
+                            continue;
                         }
+                    } catch (Exception e) {
+                    }
+                    // Try other quotes before reporting a failure
+                    try {
+                        final CFExpression exp = cfmlParser.parseCFExpression(literalChar.get(1) + attr.getValue() + literalChar.get(1), this);
+                        expressions.add(exp);
+                    } catch (Exception e2) {
+                        System.err.println("Error in parsing : " + attr.getValue() + " on tag " + elem.getName());
                     }
                 }
             }

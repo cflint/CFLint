@@ -8,6 +8,7 @@ import java.io.StringReader;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map.Entry;
@@ -170,8 +171,41 @@ public class CFLint implements IErrorReporter {
         if (showProgress) {
             ScanningProgressMonitorLookAhead.createInstance(this, folderName, progressUsesThread).startPreScan();
         }
-        scan(new File(folderName));
+        final File starterFile = new File(folderName);
+        setupConfigAncestry(starterFile.getParentFile());
+        scan(starterFile);
         fireClose();
+    }
+    
+    private void setupConfigAncestry(File folder){
+        Stack<CFLintConfig> configFiles = new Stack<CFLintConfig>();
+        fileLoop:
+        while(folder != null && folder.exists()){
+            for (final File file : folder.listFiles()) {
+                if (file.getName().toLowerCase().startsWith(".cflintrc")) {
+                    if (verbose) {
+                        System.out.println("read config " + file);
+                    }
+                    System.out.println(
+                            "DEPRECATED: The use of \"inheritPlugins\" has been marked as deprecated in CFLint 1.2.x and support for it will be fully removed in CFLint 1.3.0. Please remove the setting from your configuration file(s). Run CFLint in verbose mode for config file location details.");
+                    try {
+                        CFLintConfig newConfig = file.getName().toLowerCase().endsWith(".xml")
+                                ? ConfigUtils.unmarshal(new FileInputStream(file), CFLintConfig.class)
+                                : ConfigUtils.unmarshalJson(new FileInputStream(file), CFLintConfig.class);
+                        configFiles.push(newConfig);
+                        if (!newConfig.isInheritParent()) {
+                            break fileLoop;
+                        }
+                    } catch (Exception e) {
+                        System.err.println("Could not read config file " + file);
+                    }
+                }
+            }
+            folder = folder.getParentFile();
+        }
+        for(CFLintConfig newConfig: configFiles){
+            configuration = new CFLintChainedConfig(newConfig,configuration);
+        }
     }
 
     public void scan(final File folderOrFile) {

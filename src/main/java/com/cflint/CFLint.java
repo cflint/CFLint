@@ -514,8 +514,9 @@ public class CFLint implements IErrorReporter {
     }
 
     private List<CFExpression> unpackTagExpressions(final Element elem) {
-    	final List<CFExpression> expressions = new ArrayList<CFExpression>();
-    	if(elem.getAttributes()==null){
+        
+        final List<CFExpression> expressions = new ArrayList<CFExpression>();
+    	if(!elem.getName().toLowerCase().startsWith("cf") || elem.getAttributes()==null){
     		return expressions;
     	}
     	//Unpack any attributes that have a hash expression

@@ -401,7 +401,7 @@ public class CFLintMain {
                         return (CFLintConfig) configObj;
                     }
                 } else {
-                    pluginInfo= ConfigUtils.unmarshalJson(new FileInputStream(configfile), CFLintPluginInfo.class);
+                    return ConfigUtils.unmarshalJson(new FileInputStream(configfile), CFLintConfig.class);
                 }
                 CFLintConfig returnVal = new CFLintConfig();
                 returnVal.setRules(pluginInfo.getRules());

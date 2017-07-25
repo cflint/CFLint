@@ -475,11 +475,7 @@ The [CFML Slack team](http://cfml-slack.herokuapp.com/) has a #cflint channel yo
 
 # How to contribute?
 
-The main repository of this project is https://github.com/cflint/CFLint.
-
-Please fork from there, create a local dev branch from origin/dev (named so that it explains the work in the branch), and submit a pull request against the main repository's dev branch. Even better, get in touch with us here on Github before you undertake any work so that it can be coordinated with what we're doing.
-
-If you're interested in contributing on a regular basis, get in touch with [Ryan](https://github.com/ryaneberly) and we can add you to the internal CFLint Slack team.
+See CONTRIBUTING.md for further information
 
 
 # Interesting 3rd-party projects

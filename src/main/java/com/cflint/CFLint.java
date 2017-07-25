@@ -187,7 +187,7 @@ public class CFLint implements IErrorReporter {
                         System.out.println("read config " + file);
                     }
                     System.out.println(
-                            "DEPRECATED: The use of \"inheritPlugins\" has been marked as deprecated in CFLint 1.2.x and support for it will be fully removed in CFLint 1.3.0. Please remove the setting from your configuration file(s). Run CFLint in verbose mode for config file location details.");
+                            "DEPRECATED: The uses of \"inheritPlugins\" and \"output\" have been marked as deprecated in CFLint 1.2.x and support for them will be fully removed in CFLint 1.3.0. Please remove the settings from your configuration file(s). Run CFLint in verbose mode for config file location details.");
                     try {
                         CFLintConfig newConfig = file.getName().toLowerCase().endsWith(".xml")
                                 ? ConfigUtils.unmarshal(new FileInputStream(file), CFLintConfig.class)

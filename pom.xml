@@ -256,7 +256,10 @@
 	          <configuration>
 	              <dateFormat>yyyyMMdd-HHmmss</dateFormat>
 	              <dotGitDirectory>${project.basedir}/.git</dotGitDirectory>
+	              <generateGitPropertiesFilename>${project.build.outputDirectory}/git.properties</generateGitPropertiesFilename>
 	              <generateGitPropertiesFile>true</generateGitPropertiesFile>
+	              <failOnNoGitDirectory>false</failOnNoGitDirectory>
+                  <failOnUnableToExtractRepoInfo>false</failOnUnableToExtractRepoInfo>
 	          </configuration>
 	      	</plugin>				
 			<plugin>

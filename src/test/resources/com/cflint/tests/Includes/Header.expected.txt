@@ -1,59 +1,63 @@
-[ {
-  "severity" : "WARNING",
-  "id" : "GLOBAL_LITERAL_VALUE_USED_TOO_OFTEN",
-  "message" : "GLOBAL_LITERAL_VALUE_USED_TOO_OFTEN",
-  "category" : "CFLINT",
-  "abbrev" : "GL",
-  "locations" : [ {
-    "file" : "src\\test\\resources\\com\\cflint\\tests\\Includes\\Header.cfm",
-    "fileName" : "Header.cfm",
-    "function" : "",
-    "column" : 71,
-    "line" : 2,
-    "message" : "Literal companyName occurs several times in one or more files. Consider giving it a name and not hard coding values.",
-    "variable" : "companyName",
-    "expression" : "'companyName'"
-  } ]
-}, {
-  "severity" : "WARNING",
-  "id" : "GLOBAL_LITERAL_VALUE_USED_TOO_OFTEN",
-  "message" : "GLOBAL_LITERAL_VALUE_USED_TOO_OFTEN",
-  "category" : "CFLINT",
-  "abbrev" : "GL",
-  "locations" : [ {
-    "file" : "src\\test\\resources\\com\\cflint\\tests\\Includes\\Header.cfm",
-    "fileName" : "Header.cfm",
-    "function" : "",
-    "column" : 33,
-    "line" : 3,
-    "message" : "Literal companyName occurs several times in one or more files. Consider giving it a name and not hard coding values.",
-    "variable" : "companyName",
-    "expression" : "'companyName'"
-  } ]
-}, {
-  "severity" : "WARNING",
-  "id" : "GLOBAL_LITERAL_VALUE_USED_TOO_OFTEN",
-  "message" : "GLOBAL_LITERAL_VALUE_USED_TOO_OFTEN",
-  "category" : "CFLINT",
-  "abbrev" : "GL",
-  "locations" : [ {
-    "file" : "src\\test\\resources\\com\\cflint\\tests\\Includes\\Header.cfm",
-    "fileName" : "Header.cfm",
-    "function" : "",
-    "column" : 71,
-    "line" : 3,
-    "message" : "Literal companyName occurs several times in one or more files. Consider giving it a name and not hard coding values.",
-    "variable" : "companyName",
-    "expression" : "'companyName'"
-  } ]
-}, {
-  "totalfiles" : 0
-}, {
-  "totalsize" : 0
-}, {
-  "code" : "GLOBAL_LITERAL_VALUE_USED_TOO_OFTEN",
-  "count" : 3
-}, {
-  "severity" : "WARNING",
-  "count" : 3
-} ]
+{
+  "issues" : [ {
+    "severity" : "WARNING",
+    "id" : "GLOBAL_LITERAL_VALUE_USED_TOO_OFTEN",
+    "message" : "GLOBAL_LITERAL_VALUE_USED_TOO_OFTEN",
+    "category" : "CFLINT",
+    "abbrev" : "GL",
+    "locations" : [ {
+      "file" : "src/test/resources/com/cflint/tests/Includes/Header.cfm",
+      "fileName" : "Header.cfm",
+      "function" : "",
+      "column" : 71,
+      "line" : 2,
+      "message" : "Literal companyName occurs several times in one or more files. Consider giving it a name and not hard coding values.",
+      "variable" : "companyName",
+      "expression" : "'companyName'"
+    } ]
+  }, {
+    "severity" : "WARNING",
+    "id" : "GLOBAL_LITERAL_VALUE_USED_TOO_OFTEN",
+    "message" : "GLOBAL_LITERAL_VALUE_USED_TOO_OFTEN",
+    "category" : "CFLINT",
+    "abbrev" : "GL",
+    "locations" : [ {
+      "file" : "src/test/resources/com/cflint/tests/Includes/Header.cfm",
+      "fileName" : "Header.cfm",
+      "function" : "",
+      "column" : 33,
+      "line" : 3,
+      "message" : "Literal companyName occurs several times in one or more files. Consider giving it a name and not hard coding values.",
+      "variable" : "companyName",
+      "expression" : "'companyName'"
+    } ]
+  }, {
+    "severity" : "WARNING",
+    "id" : "GLOBAL_LITERAL_VALUE_USED_TOO_OFTEN",
+    "message" : "GLOBAL_LITERAL_VALUE_USED_TOO_OFTEN",
+    "category" : "CFLINT",
+    "abbrev" : "GL",
+    "locations" : [ {
+      "file" : "src/test/resources/com/cflint/tests/Includes/Header.cfm",
+      "fileName" : "Header.cfm",
+      "function" : "",
+      "column" : 71,
+      "line" : 3,
+      "message" : "Literal companyName occurs several times in one or more files. Consider giving it a name and not hard coding values.",
+      "variable" : "companyName",
+      "expression" : "'companyName'"
+    } ]
+  } ],
+  "summary" : {
+    "totalfiles" : 0,
+    "totalsize" : 0,
+    "countByCode" : [ {
+      "code" : "GLOBAL_LITERAL_VALUE_USED_TOO_OFTEN",
+      "count" : 3
+    } ],
+    "countBySeverity" : [ {
+      "severity" : "WARNING",
+      "count" : 3
+    } ]
+  }
+}

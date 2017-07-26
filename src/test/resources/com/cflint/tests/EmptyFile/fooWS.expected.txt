@@ -1,27 +1,31 @@
-[ {
-  "severity" : "WARNING",
-  "id" : "AVOID_EMPTY_FILES",
-  "message" : "AVOID_EMPTY_FILES",
-  "category" : "CFLINT",
-  "abbrev" : "AE",
-  "locations" : [ {
-    "file" : "src/test/resources/com/cflint/tests/EmptyFile/fooWS.cfc",
-    "fileName" : "fooWS.cfc",
-    "function" : "",
-    "column" : 1,
-    "line" : 1,
-    "message" : "CF file is empty: ${file}",
-    "variable" : "",
-    "expression" : ""
-  } ]
-}, {
-  "totalfiles" : 0
-}, {
-  "totalsize" : 0
-}, {
-  "code" : "AVOID_EMPTY_FILES",
-  "count" : 1
-}, {
-  "severity" : "WARNING",
-  "count" : 1
-} ]
+{
+  "issues" : [ {
+    "severity" : "WARNING",
+    "id" : "AVOID_EMPTY_FILES",
+    "message" : "AVOID_EMPTY_FILES",
+    "category" : "CFLINT",
+    "abbrev" : "AE",
+    "locations" : [ {
+      "file" : "src/test/resources/com/cflint/tests/EmptyFile/fooWS.cfc",
+      "fileName" : "fooWS.cfc",
+      "function" : "",
+      "column" : 1,
+      "line" : 1,
+      "message" : "CF file is empty: ${file}",
+      "variable" : "",
+      "expression" : ""
+    } ]
+  } ],
+  "summary" : {
+    "totalfiles" : 0,
+    "totalsize" : 0,
+    "countByCode" : [ {
+      "code" : "AVOID_EMPTY_FILES",
+      "count" : 1
+    } ],
+    "countBySeverity" : [ {
+      "severity" : "WARNING",
+      "count" : 1
+    } ]
+  }
+}

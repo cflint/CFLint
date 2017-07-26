@@ -1,27 +1,31 @@
-[ {
-  "severity" : "INFO",
-  "id" : "VAR_IS_TEMPORARY",
-  "message" : "VAR_IS_TEMPORARY",
-  "category" : "CFLINT",
-  "abbrev" : "VI",
-  "locations" : [ {
-    "file" : "src/test/resources/com/cflint/tests/Naming/tempVar.cfc",
-    "fileName" : "tempVar.cfc",
-    "function" : "foo",
-    "column" : 0,
-    "line" : 3,
-    "message" : "Temporary variable tempStruct could be named better.",
-    "variable" : "tempStruct",
-    "expression" : ""
-  } ]
-}, {
-  "totalfiles" : 0
-}, {
-  "totalsize" : 0
-}, {
-  "code" : "VAR_IS_TEMPORARY",
-  "count" : 1
-}, {
-  "severity" : "INFO",
-  "count" : 1
-} ]
+{
+  "issues" : [ {
+    "severity" : "INFO",
+    "id" : "VAR_IS_TEMPORARY",
+    "message" : "VAR_IS_TEMPORARY",
+    "category" : "CFLINT",
+    "abbrev" : "VI",
+    "locations" : [ {
+      "file" : "src/test/resources/com/cflint/tests/Naming/tempVar.cfc",
+      "fileName" : "tempVar.cfc",
+      "function" : "foo",
+      "column" : 0,
+      "line" : 3,
+      "message" : "Temporary variable tempStruct could be named better.",
+      "variable" : "tempStruct",
+      "expression" : ""
+    } ]
+  } ],
+  "summary" : {
+    "totalfiles" : 0,
+    "totalsize" : 0,
+    "countByCode" : [ {
+      "code" : "VAR_IS_TEMPORARY",
+      "count" : 1
+    } ],
+    "countBySeverity" : [ {
+      "severity" : "INFO",
+      "count" : 1
+    } ]
+  }
+}

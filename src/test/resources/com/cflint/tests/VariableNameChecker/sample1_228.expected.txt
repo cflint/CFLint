@@ -1,27 +1,31 @@
-[ {
-  "severity" : "INFO",
-  "id" : "VAR_INVALID_NAME",
-  "message" : "VAR_INVALID_NAME",
-  "category" : "CFLINT",
-  "abbrev" : "VI",
-  "locations" : [ {
-    "file" : "src/test/resources/com/cflint/tests/VariableNameChecker/sample1_228.cfc",
-    "fileName" : "sample1_228.cfc",
-    "function" : "getStringFromStruct",
-    "column" : 0,
-    "line" : 3,
-    "message" : "Variable LocalData is not a valid name. Please use CamelCase or underscores.",
-    "variable" : "LocalData",
-    "expression" : ""
-  } ]
-}, {
-  "totalfiles" : 0
-}, {
-  "totalsize" : 0
-}, {
-  "code" : "VAR_INVALID_NAME",
-  "count" : 1
-}, {
-  "severity" : "INFO",
-  "count" : 1
-} ]
+{
+  "issues" : [ {
+    "severity" : "INFO",
+    "id" : "VAR_INVALID_NAME",
+    "message" : "VAR_INVALID_NAME",
+    "category" : "CFLINT",
+    "abbrev" : "VI",
+    "locations" : [ {
+      "file" : "src/test/resources/com/cflint/tests/VariableNameChecker/sample1_228.cfc",
+      "fileName" : "sample1_228.cfc",
+      "function" : "getStringFromStruct",
+      "column" : 0,
+      "line" : 3,
+      "message" : "Variable LocalData is not a valid name. Please use CamelCase or underscores.",
+      "variable" : "LocalData",
+      "expression" : ""
+    } ]
+  } ],
+  "summary" : {
+    "totalfiles" : 0,
+    "totalsize" : 0,
+    "countByCode" : [ {
+      "code" : "VAR_INVALID_NAME",
+      "count" : 1
+    } ],
+    "countBySeverity" : [ {
+      "severity" : "INFO",
+      "count" : 1
+    } ]
+  }
+}

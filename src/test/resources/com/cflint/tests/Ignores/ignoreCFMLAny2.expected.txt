@@ -1,27 +1,31 @@
-[ {
-  "severity" : "ERROR",
-  "id" : "MISSING_VAR",
-  "message" : "MISSING_VAR",
-  "category" : "CFLINT",
-  "abbrev" : "MV",
-  "locations" : [ {
-    "file" : "src/test/resources/com/cflint/tests/Ignores/ignoreCFMLAny2.cfc",
-    "fileName" : "ignoreCFMLAny2.cfc",
-    "function" : "testFunction",
-    "column" : 6,
-    "line" : 14,
-    "message" : "Variable someVar is not declared with a var statement.",
-    "variable" : "someVar",
-    "expression" : "someVar"
-  } ]
-}, {
-  "totalfiles" : 0
-}, {
-  "totalsize" : 0
-}, {
-  "code" : "MISSING_VAR",
-  "count" : 1
-}, {
-  "severity" : "ERROR",
-  "count" : 1
-} ]
+{
+  "issues" : [ {
+    "severity" : "ERROR",
+    "id" : "MISSING_VAR",
+    "message" : "MISSING_VAR",
+    "category" : "CFLINT",
+    "abbrev" : "MV",
+    "locations" : [ {
+      "file" : "src/test/resources/com/cflint/tests/Ignores/ignoreCFMLAny2.cfc",
+      "fileName" : "ignoreCFMLAny2.cfc",
+      "function" : "testFunction",
+      "column" : 6,
+      "line" : 14,
+      "message" : "Variable someVar is not declared with a var statement.",
+      "variable" : "someVar",
+      "expression" : "someVar"
+    } ]
+  } ],
+  "summary" : {
+    "totalfiles" : 0,
+    "totalsize" : 0,
+    "countByCode" : [ {
+      "code" : "MISSING_VAR",
+      "count" : 1
+    } ],
+    "countBySeverity" : [ {
+      "severity" : "ERROR",
+      "count" : 1
+    } ]
+  }
+}

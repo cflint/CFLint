@@ -26,77 +26,99 @@ public class JSONOutput {
 
     public void output(final BugList bugList, final Writer writer, CFLintStats stats) throws IOException {
         final BugCounts counts = stats.getCounts();
-        // final StringBuilder sb = new StringBuilder();
         final JsonFactory jsonF = new JsonFactory();
         final JsonGenerator jg = jsonF.createGenerator(writer);
+
         if (prettyPrint) {
             jg.useDefaultPrettyPrinter();
         }
-        jg.writeStartArray();
-        List<String> keys = new ArrayList<String>(bugList.getBugList().keySet());
-        Collections.sort(keys);
-        for (final String key : keys) {
-            List<BugInfo> currentList = bugList.getBugList().get(key);
-            final Iterator<BugInfo> iterator = currentList.iterator();
-            BugInfo bugInfo = iterator.hasNext() ? iterator.next() : null;
-            BugInfo prevbugInfo;
 
-            while (bugInfo != null) {
-                final String severity = currentList.get(0).getSeverity();
-                final String code = currentList.get(0).getMessageCode();
+        // start global object
+        jg.writeStartObject();
 
-                jg.writeStartObject();
-                jg.writeStringField("severity", notNull(severity));
-                jg.writeStringField("id", code);
-                jg.writeStringField("message", code);
-                jg.writeStringField("category", "CFLINT");
-                jg.writeStringField("abbrev", abbrev(code));
-                jg.writeFieldName("locations");
-                jg.writeStartArray();
-                do {
+            // start issues array
+            jg.writeFieldName("issues");
+            jg.writeStartArray();
+
+            List<String> keys = new ArrayList<String>(bugList.getBugList().keySet());
+            Collections.sort(keys);
+
+            for (final String key : keys) {
+                List<BugInfo> currentList = bugList.getBugList().get(key);
+                final Iterator<BugInfo> iterator = currentList.iterator();
+                BugInfo bugInfo = iterator.hasNext() ? iterator.next() : null;
+                BugInfo prevbugInfo;
+
+                while (bugInfo != null) {
+                    final String severity = currentList.get(0).getSeverity();
+                    final String code = currentList.get(0).getMessageCode();
+
                     jg.writeStartObject();
-                    jg.writeStringField("file", notNull(bugInfo.getFilename()));
-                    jg.writeStringField("fileName", filename(bugInfo.getFilename()));
-                    jg.writeStringField("function", filename(bugInfo.getFunction()));
-                    jg.writeNumberField("column", bugInfo.getColumn());
-                    jg.writeNumberField("line", bugInfo.getLine());
-                    jg.writeStringField("message", notNull(bugInfo.getMessage()));
-                    jg.writeStringField("variable", notNull(bugInfo.getVariable()));
-                    jg.writeStringField("expression", notNull(bugInfo.getExpression()));
+                        jg.writeStringField("severity", notNull(severity));
+                        jg.writeStringField("id", code);
+                        jg.writeStringField("message", code);
+                        jg.writeStringField("category", "CFLINT");
+                        jg.writeStringField("abbrev", abbrev(code));
+                        jg.writeFieldName("locations");
+                        jg.writeStartArray();
+                            do {
+                                jg.writeStartObject();
+                                jg.writeStringField("file", notNull(bugInfo.getFilename()));
+                                jg.writeStringField("fileName", filename(bugInfo.getFilename()));
+                                jg.writeStringField("function", filename(bugInfo.getFunction()));
+                                jg.writeNumberField("column", bugInfo.getColumn());
+                                jg.writeNumberField("line", bugInfo.getLine());
+                                jg.writeStringField("message", notNull(bugInfo.getMessage()));
+                                jg.writeStringField("variable", notNull(bugInfo.getVariable()));
+                                jg.writeStringField("expression", notNull(bugInfo.getExpression()));
+                                jg.writeEndObject();
+                                prevbugInfo = bugInfo;
+                                bugInfo = iterator.hasNext() ? iterator.next() : null;
+                            } while (isGrouped(prevbugInfo, bugInfo));
+                        jg.writeEndArray();
                     jg.writeEndObject();
-                    prevbugInfo = bugInfo;
-                    bugInfo = iterator.hasNext() ? iterator.next() : null;
-                } while (isGrouped(prevbugInfo, bugInfo));
-                jg.writeEndArray();
-                jg.writeEndObject();
+                }
             }
-        }
 
-        jg.writeStartObject();
-        jg.writeNumberField("totalfiles", stats.getFileCount());
-        jg.writeEndObject();
+            // end issues array
+            jg.writeEndArray();
 
-        jg.writeStartObject();
-        jg.writeFieldName("totalsize");
-        jg.writeNumber(stats.getTotalSize());
-        jg.writeEndObject();
-
-        for (final String code : counts.bugTypes()) {
+            // start summary object
+            jg.writeFieldName("summary");
             jg.writeStartObject();
-            jg.writeStringField("code", code);
-            jg.writeNumberField("count", counts.getCode(code));
+                jg.writeNumberField("totalfiles", stats.getFileCount());
+                jg.writeFieldName("totalsize");
+                jg.writeNumber(stats.getTotalSize());
+                // start countByCode array
+                jg.writeFieldName("countByCode");
+                jg.writeStartArray();
+                    for (final String code : counts.bugTypes()) {
+                        jg.writeStartObject();
+                        jg.writeStringField("code", code);
+                        jg.writeNumberField("count", counts.getCode(code));
+                        jg.writeEndObject();
+                    }
+                // end countByCode array
+                jg.writeEndArray();
+                // start countBySeverity array
+                jg.writeFieldName("countBySeverity");
+                jg.writeStartArray();
+                    for (final String severity : BugCounts.levels) {
+                        if (counts.getSeverity(severity) > 0) {
+                            jg.writeStartObject();
+                            jg.writeStringField("severity", severity);
+                            jg.writeNumberField("count", counts.getSeverity(severity));
+                            jg.writeEndObject();
+                        }
+                    }
+                // end countBySeverity array
+                jg.writeEndArray();
+            // end summary object
             jg.writeEndObject();
-        }
-        for (final String severity : BugCounts.levels) {
-            if (counts.getSeverity(severity) > 0) {
-                jg.writeStartObject();
-                jg.writeStringField("severity", severity);
-                jg.writeNumberField("count", counts.getSeverity(severity));
-                jg.writeEndObject();
-            }
-        }
 
-        jg.writeEndArray();
+        // end global object
+        jg.writeEndObject();
+
         jg.close();
         writer.close();
     }

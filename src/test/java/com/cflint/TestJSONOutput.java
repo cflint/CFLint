@@ -30,8 +30,8 @@ public class TestJSONOutput {
 		bugList.add(bugInfo);
 		CFLintStats stats = new CFLintStats(123456L,1,new BigInteger("545454"));
 		outputer.output(bugList, writer, stats);
-		String expectedText = "[{\"severity\":\"\",\"id\":\"PARSE_ERROR\",\"message\":\"PARSE_ERROR\",\"category\":\"CFLINT\",\"abbrev\":\"PE\",\"locations\":[{\"file\":\"c:\\\\temp\\\\test.cfc\",\"fileName\":\"test.cfc\",\"function\":\"testf\",\"column\":1,\"line\":1,\"message\":\"\",\"variable\":\"\",\"expression\":\"\"}]},{\"totalfiles\":1},{\"totalsize\":545454}]";
-//		assertEquals(JSONValue.parse(expectedText),JSONValue.parse(writer.toString()));
+		String expectedText = "{\"issues\":[{\"severity\":\"\",\"id\":\"PARSE_ERROR\",\"message\":\"PARSE_ERROR\",\"category\":\"CFLINT\",\"abbrev\":\"PE\",\"locations\":[{\"file\":\"c:\\\\temp\\\\test.cfc\",\"fileName\":\"test.cfc\",\"function\":\"testf\",\"column\":1,\"line\":1,\"message\":\"\",\"variable\":\"\",\"expression\":\"\"}]}],\"summary\":{\"totalfiles\":1,\"totalsize\":545454,\"countByCode\":[],\"countBySeverity\":[]}}";
+
 		assertEquals(expectedText,writer.toString());
 	}
 
@@ -43,7 +43,8 @@ public class TestJSONOutput {
 		counts.add("PARSE_ERROR", null);
 		CFLintStats stats = new CFLintStats(123456L,1,new BigInteger("545454"),counts);
 		outputer.output(bugList, writer, stats);
-		String expectedText = "[{\"severity\":\"\",\"id\":\"PARSE_ERROR\",\"message\":\"PARSE_ERROR\",\"category\":\"CFLINT\",\"abbrev\":\"PE\",\"locations\":[{\"file\":\"c:\\\\temp\\\\test.cfc\",\"fileName\":\"test.cfc\",\"function\":\"testf\",\"column\":1,\"line\":1,\"message\":\"\",\"variable\":\"\",\"expression\":\"\"}]},{\"totalfiles\":1},{\"totalsize\":545454},{\"code\":\"PARSE_ERROR\",\"count\":1}]";
+		String expectedText = "{\"issues\":[{\"severity\":\"\",\"id\":\"PARSE_ERROR\",\"message\":\"PARSE_ERROR\",\"category\":\"CFLINT\",\"abbrev\":\"PE\",\"locations\":[{\"file\":\"c:\\\\temp\\\\test.cfc\",\"fileName\":\"test.cfc\",\"function\":\"testf\",\"column\":1,\"line\":1,\"message\":\"\",\"variable\":\"\",\"expression\":\"\"}]}],\"summary\":{\"totalfiles\":1,\"totalsize\":545454,\"countByCode\":[{\"code\":\"PARSE_ERROR\",\"count\":1}],\"countBySeverity\":[]}}";
+
 		assertEquals(expectedText,writer.toString());
 	}
 
@@ -55,7 +56,8 @@ public class TestJSONOutput {
 		counts.add("PARSE_ERROR", "ERROR");
 		CFLintStats stats = new CFLintStats(123456L,1,new BigInteger("545454"),counts);
 		outputer.output(bugList, writer, stats);
-		String expectedText = "[{\"severity\":\"ERROR\",\"id\":\"PARSE_ERROR\",\"message\":\"PARSE_ERROR\",\"category\":\"CFLINT\",\"abbrev\":\"PE\",\"locations\":[{\"file\":\"c:\\\\temp\\\\test.cfc\",\"fileName\":\"test.cfc\",\"function\":\"testf\",\"column\":1,\"line\":1,\"message\":\"\",\"variable\":\"\",\"expression\":\"\"}]},{\"totalfiles\":1},{\"totalsize\":545454},{\"code\":\"PARSE_ERROR\",\"count\":1},{\"severity\":\"ERROR\",\"count\":1}]";
+		String expectedText = "{\"issues\":[{\"severity\":\"ERROR\",\"id\":\"PARSE_ERROR\",\"message\":\"PARSE_ERROR\",\"category\":\"CFLINT\",\"abbrev\":\"PE\",\"locations\":[{\"file\":\"c:\\\\temp\\\\test.cfc\",\"fileName\":\"test.cfc\",\"function\":\"testf\",\"column\":1,\"line\":1,\"message\":\"\",\"variable\":\"\",\"expression\":\"\"}]}],\"summary\":{\"totalfiles\":1,\"totalsize\":545454,\"countByCode\":[{\"code\":\"PARSE_ERROR\",\"count\":1}],\"countBySeverity\":[{\"severity\":\"ERROR\",\"count\":1}]}}";
+
 		assertEquals(expectedText,writer.toString());
 	}
 	

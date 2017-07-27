@@ -53,7 +53,7 @@ public class DefaultCFlintResultMarshaller implements CFLintResultMarshaller {
     private void writeCounts(XMLStreamWriter xtw, BugCounts counts, CFLintStats stats) throws XMLStreamException {
         xtw.writeStartElement("counts");
         xtw.writeAttribute("totalfiles", Long.toString(stats.getFileCount()));
-        xtw.writeAttribute("totalsize", stats.getTotalSize().toString());
+        xtw.writeAttribute("totallines", stats.getTotalLines().toString());
 
         for (String code : counts.bugTypes()) {
             xtw.writeStartElement("count");

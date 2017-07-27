@@ -86,9 +86,10 @@ public class JSONOutput {
             // start summary object
             jg.writeFieldName("summary");
             jg.writeStartObject();
-                jg.writeNumberField("totalfiles", stats.getFileCount());
-                jg.writeFieldName("totalsize");
-                jg.writeNumber(stats.getTotalSize());
+                jg.writeNumberField("totalFiles", stats.getFileCount());
+                // totalLines has to be separated into writing the field name and the number - .writeNumberField() can't deal with BigInt
+                jg.writeFieldName("totalLines");
+                jg.writeNumber(stats.getTotalLines());
                 // start countByCode array
                 jg.writeFieldName("countByCode");
                 jg.writeStartArray();

@@ -9,7 +9,7 @@ public class CFLintStats {
 	// Number of files
 	private long fileCount;
 	// Number of lines
-	private BigInteger totalSize = BigInteger.ZERO;
+	private BigInteger totalLines = BigInteger.ZERO;
 	// Bug counts for current execution
 	private BugCounts counts = new BugCounts();
 
@@ -17,32 +17,32 @@ public class CFLintStats {
 		super();
 	}
 
-	public CFLintStats(long timestamp, long fileCount, BigInteger totalSize) {
+	public CFLintStats(long timestamp, long fileCount, BigInteger totalLines) {
 		super();
 		this.timestamp = timestamp;
 		this.fileCount = fileCount;
-		this.totalSize = totalSize;
+		this.totalLines = totalLines;
 	}
 
-	public CFLintStats(long timestamp, long fileCount, BigInteger totalSize, BugCounts counts) {
+	public CFLintStats(long timestamp, long fileCount, BigInteger totalLines, BugCounts counts) {
 		super();
 		this.timestamp = timestamp;
 		this.fileCount = fileCount;
-		this.totalSize = totalSize;
+		this.totalLines = totalLines;
 		this.counts = counts;
 	}
 	
 	public void addFile(long numberOfLines){
 		fileCount++;
-		totalSize = totalSize.add(BigInteger.valueOf(numberOfLines));
+		totalLines = totalLines.add(BigInteger.valueOf(numberOfLines));
 	}
 
 	public long getTimestamp() { return timestamp; }
 
 	public long getFileCount() { return fileCount; }
 
-	public BigInteger getTotalSize() {
-		return totalSize;
+	public BigInteger getTotalLines() {
+		return totalLines;
 	}
 
 	public BugCounts getCounts() { return counts; }

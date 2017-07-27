@@ -492,7 +492,7 @@ public class CFLintMain {
         }
         if (verbose) {
             display("Total files scanned: " + cflint.getStats().getFileCount());
-            display("Total size: " + cflint.getStats().getTotalSize());
+            display("Total LOC scanned: " + cflint.getStats().getTotalLines());
         }
     }
 

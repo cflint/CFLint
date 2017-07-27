@@ -32,7 +32,7 @@ public class TextOutput {
         }
 
         sb.append(newLine).append(newLine).append("Total files:" + stats.getFileCount());
-        sb.append(newLine).append("Total size " + stats.getTotalSize());
+        sb.append(newLine).append("Total size " + stats.getTotalLines());
 
         sb.append(newLine).append(newLine).append("Issue counts:" + counts.noBugTypes());
 

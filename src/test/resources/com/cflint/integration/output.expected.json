@@ -6,7 +6,7 @@
     "category" : "CFLINT",
     "abbrev" : "CI",
     "locations" : [ {
-           "fileName" : "test.cfc",
+      "fileName" : "test.cfc",
       "function" : "",
       "column" : 0,
       "line" : 1,
@@ -21,7 +21,7 @@
     "category" : "CFLINT",
     "abbrev" : "FH",
     "locations" : [ {
-           "fileName" : "test.cfc",
+      "fileName" : "test.cfc",
       "function" : "getStringFromStruct",
       "column" : 16,
       "line" : 2,
@@ -36,7 +36,7 @@
     "category" : "CFLINT",
     "abbrev" : "FH",
     "locations" : [ {
-           "fileName" : "test.cfc",
+      "fileName" : "test.cfc",
       "function" : "getStringFromStruct",
       "column" : 16,
       "line" : 2,
@@ -51,7 +51,7 @@
     "category" : "CFLINT",
     "abbrev" : "FH",
     "locations" : [ {
-           "fileName" : "test.cfc",
+      "fileName" : "test.cfc",
       "function" : "getStringFromStruct",
       "column" : 16,
       "line" : 2,

@@ -113,8 +113,8 @@ public class TestFiles {
 				writeExpectFile(expectedFile, actualTree);
 			}
 			assertEquals( 
-					expectedText.replaceAll("\\\\","/").replaceAll("/+","/").replaceAll("\r\n", "\n"),
-					actualTree.replaceAll("\\\\","/").replaceAll("/+","/").replaceAll("\r\n", "\n"));
+					expectedText.replaceAll("\\\\","/").replaceAll("/+","/").replaceAll("\r\n", "\n").replaceAll("\"timestamp\" : \"\\d+\"", "\"timestamp\" : \"0\""),
+					actualTree.replaceAll("\\\\","/").replaceAll("/+","/").replaceAll("\r\n", "\n").replaceAll("\"timestamp\" : \"\\d+\"", "\"timestamp\" : \"0\""));
 		}
 	}
 	

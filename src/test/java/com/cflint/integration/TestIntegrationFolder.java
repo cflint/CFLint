@@ -26,8 +26,8 @@ public class TestIntegrationFolder {
         final String expected = loadFile(new File("src/test/resources/com/cflint/integration/output.expected.json"));
         final String actual = loadFile(new File("src/test/resources/com/cflint/integration/output.json"));
         assertEquals( 
-                expected.replaceAll("\\\\","/").replaceAll("/+","/").replaceAll("\r\n", "\n").replaceAll("\\s\"file\".+\n", ""),
-                actual.replaceAll("\\\\","/").replaceAll("/+","/").replaceAll("\r\n", "\n").replaceAll("\\s\"file\".+\n", ""));
+                expected.replaceAll("\\\\","/").replaceAll("/+","/").replaceAll("\r\n", "\n").replaceAll("\\s\"file\".+\n", "").replaceAll("\"timestamp\" : \"\\d+\"", "\"timestamp\" : \"0\""),
+                actual.replaceAll("\\\\","/").replaceAll("/+","/").replaceAll("\r\n", "\n").replaceAll("\\s\"file\".+\n", "").replaceAll("\"timestamp\" : \"\\d+\"", "\"timestamp\" : \"0\""));
 	}
 
 	   @Test
@@ -45,8 +45,8 @@ public class TestIntegrationFolder {
 	        final String expected = loadFile(new File("src/test/resources/com/cflint/integration/output.rulegroup.expected.json"));
 	        final String actual = loadFile(new File("src/test/resources/com/cflint/integration/output.rulegroup.json"));
 	        assertEquals( 
-	                expected.replaceAll("\\\\","/").replaceAll("/+","/").replaceAll("\r\n", "\n").replaceAll("\\s\"file\".+\n", ""),
-	                actual.replaceAll("\\\\","/").replaceAll("/+","/").replaceAll("\r\n", "\n").replaceAll("\\s\"file\".+\n", ""));
+	                expected.replaceAll("\\\\","/").replaceAll("/+","/").replaceAll("\r\n", "\n").replaceAll("\\s\"file\".+\n", "").replaceAll("\"timestamp\" : \"\\d+\"", "\"timestamp\" : \"0\""),
+	                actual.replaceAll("\\\\","/").replaceAll("/+","/").replaceAll("\r\n", "\n").replaceAll("\\s\"file\".+\n", "").replaceAll("\"timestamp\" : \"\\d+\"", "\"timestamp\" : \"0\""));
 	    }
 
 	   
@@ -68,8 +68,8 @@ public class TestIntegrationFolder {
 	        final String actual = loadFile(tempFile);
 	        tempFile.delete();
 	        assertEquals( 
-	                expected.replaceAll("\\\\","/").replaceAll("/+","/").replaceAll("\r\n", "\n").replaceAll("\\s\"file\".+\n", ""),
-	                actual.replaceAll("\\\\","/").replaceAll("/+","/").replaceAll("\r\n", "\n").replaceAll("\\s\"file\".+\n", ""));
+	                expected.replaceAll("\\\\","/").replaceAll("/+","/").replaceAll("\r\n", "\n").replaceAll("\\s\"file\".+\n", "").replaceAll("\"timestamp\" : \"\\d+\"", "\"timestamp\" : \"0\""),
+	                actual.replaceAll("\\\\","/").replaceAll("/+","/").replaceAll("\r\n", "\n").replaceAll("\\s\"file\".+\n", "").replaceAll("\"timestamp\" : \"\\d+\"", "\"timestamp\" : \"0\""));
 	   }
 	   public static String loadFile(File file) throws IOException {
 	        InputStream is = new FileInputStream(file);

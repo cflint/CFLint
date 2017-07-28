@@ -1,4 +1,6 @@
 {
+  "version" : "",
+  "timestamp" : "1501202124",
   "issues" : [ {
     "severity" : "WARNING",
     "id" : "AVOID_USING_ISDATE",
@@ -16,9 +18,9 @@
       "expression" : "isDate(1.5)"
     } ]
   } ],
-  "summary" : {
-    "totalfiles" : 0,
-    "totalsize" : 0,
+  "counts" : {
+    "totalFiles" : 0,
+    "totalLines" : 0,
     "countByCode" : [ {
       "code" : "AVOID_USING_ISDATE",
       "count" : 1

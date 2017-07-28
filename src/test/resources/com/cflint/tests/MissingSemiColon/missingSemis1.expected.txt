@@ -1,4 +1,6 @@
 {
+  "version" : "",
+  "timestamp" : "1501202130",
   "issues" : [ {
     "severity" : "ERROR",
     "id" : "MISSING_SEMI",
@@ -16,9 +18,9 @@
       "expression" : ""
     } ]
   } ],
-  "summary" : {
-    "totalfiles" : 0,
-    "totalsize" : 0,
+  "counts" : {
+    "totalFiles" : 0,
+    "totalLines" : 0,
     "countByCode" : [ {
       "code" : "MISSING_SEMI",
       "count" : 1

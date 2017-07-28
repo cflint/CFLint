@@ -1,4 +1,6 @@
 {
+  "version" : "",
+  "timestamp" : "1501202127",
   "issues" : [ {
     "severity" : "INFO",
     "id" : "FUNCTION_TYPE_ANY",
@@ -16,9 +18,9 @@
       "expression" : "public any function x()   {\nx = 123;\n\n  }"
     } ]
   } ],
-  "summary" : {
-    "totalfiles" : 0,
-    "totalsize" : 0,
+  "counts" : {
+    "totalFiles" : 0,
+    "totalLines" : 0,
     "countByCode" : [ {
       "code" : "FUNCTION_TYPE_ANY",
       "count" : 1

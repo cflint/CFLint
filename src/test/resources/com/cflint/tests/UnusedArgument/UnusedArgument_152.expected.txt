@@ -1,8 +1,10 @@
 {
+  "version" : "",
+  "timestamp" : "1501202133",
   "issues" : [ ],
-  "summary" : {
-    "totalfiles" : 0,
-    "totalsize" : 0,
+  "counts" : {
+    "totalFiles" : 0,
+    "totalLines" : 0,
     "countByCode" : [ ],
     "countBySeverity" : [ ]
   }

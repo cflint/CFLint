@@ -1,4 +1,6 @@
 {
+  "version" : "",
+  "timestamp" : "1501202135",
   "issues" : [ {
     "severity" : "INFO",
     "id" : "VAR_INVALID_NAME",
@@ -16,9 +18,9 @@
       "expression" : ""
     } ]
   } ],
-  "summary" : {
-    "totalfiles" : 0,
-    "totalsize" : 0,
+  "counts" : {
+    "totalFiles" : 0,
+    "totalLines" : 0,
     "countByCode" : [ {
       "code" : "VAR_INVALID_NAME",
       "count" : 1

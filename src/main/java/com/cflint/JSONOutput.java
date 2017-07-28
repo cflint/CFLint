@@ -36,6 +36,10 @@ public class JSONOutput {
         // start global object
         jg.writeStartObject();
 
+            // timestamp and version
+            jg.writeStringField("version",Version.getVersion());
+            jg.writeStringField("timestamp",Long.toString(stats.getTimestamp()));
+
             // start issues array
             jg.writeFieldName("issues");
             jg.writeStartArray();

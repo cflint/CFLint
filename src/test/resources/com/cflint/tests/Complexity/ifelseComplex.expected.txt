@@ -1,4 +1,6 @@
 {
+  "version" : "",
+  "timestamp" : "1501202126",
   "issues" : [ {
     "severity" : "WARNING",
     "id" : "FUNCTION_TOO_COMPLEX",
@@ -16,9 +18,9 @@
       "expression" : "if(something )   {\ndoSomethingElse();\n\n  }"
     } ]
   } ],
-  "summary" : {
-    "totalfiles" : 0,
-    "totalsize" : 0,
+  "counts" : {
+    "totalFiles" : 0,
+    "totalLines" : 0,
     "countByCode" : [ {
       "code" : "FUNCTION_TOO_COMPLEX",
       "count" : 1

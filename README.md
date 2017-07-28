@@ -11,7 +11,7 @@ Current Version: 1.2.0 (Jul xx 2017)
 
 # Versions
 
-See CHANGELOG.md for further information.
+See [CHANGELOG.md](CHANGELOG.md) for further information.
 
 # Project and library organisation
 

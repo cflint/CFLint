@@ -83,8 +83,8 @@ public class JSONOutput {
             // end issues array
             jg.writeEndArray();
 
-            // start summary object
-            jg.writeFieldName("summary");
+            // start counts object
+            jg.writeFieldName("counts");
             jg.writeStartObject();
                 jg.writeNumberField("totalFiles", stats.getFileCount());
                 // totalLines has to be separated into writing the field name and the number - .writeNumberField() can't deal with BigInt
@@ -114,7 +114,7 @@ public class JSONOutput {
                     }
                 // end countBySeverity array
                 jg.writeEndArray();
-            // end summary object
+            // end counts object
             jg.writeEndObject();
 
         // end global object

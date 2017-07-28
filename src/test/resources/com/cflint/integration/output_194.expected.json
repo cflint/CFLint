@@ -8,7 +8,7 @@
     "category" : "CFLINT",
     "abbrev" : "CI",
     "locations" : [ {
-           "fileName" : "test.cfc",
+      "fileName" : "test.cfc",
       "function" : "",
       "column" : 0,
       "line" : 1,

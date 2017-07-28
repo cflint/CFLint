@@ -43,7 +43,7 @@
 				<xsl:value-of select="/issues/counts/@totalfiles"/>
 			</xsl:attribute>
 			<xsl:attribute name="total_size">
-				<xsl:value-of select="/issues/counts/@totalsize"/>
+				<xsl:value-of select="/issues/counts/@totallines"/>
 			</xsl:attribute>
 			<xsl:attribute name="priority_1">
 				<xsl:value-of select="count(/issues/issue[@severity = 'FATAL' or @severity = 'Fatal' or @severity = 'CRITICAL' or @severity = 'Critical'])"/>

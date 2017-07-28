@@ -1,4 +1,6 @@
 {
+  "version" : "",
+  "timestamp" : "1501202131",
   "issues" : [ {
     "severity" : "WARNING",
     "id" : "PACKAGE_CASE_MISMATCH",
@@ -16,9 +18,9 @@
       "expression" : "CreateObject('component', 'tests.packagecase.packagecase_nok_b')"
     } ]
   } ],
-  "summary" : {
-    "totalfiles" : 0,
-    "totalsize" : 0,
+  "counts" : {
+    "totalFiles" : 0,
+    "totalLines" : 0,
     "countByCode" : [ {
       "code" : "PACKAGE_CASE_MISMATCH",
       "count" : 1

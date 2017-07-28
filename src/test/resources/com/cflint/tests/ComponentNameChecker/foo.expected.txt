@@ -1,4 +1,6 @@
 {
+  "version" : "",
+  "timestamp" : "1501202126",
   "issues" : [ {
     "severity" : "INFO",
     "id" : "COMPONENT_INVALID_NAME",
@@ -16,9 +18,9 @@
       "expression" : "component {\n}"
     } ]
   } ],
-  "summary" : {
-    "totalfiles" : 0,
-    "totalsize" : 0,
+  "counts" : {
+    "totalFiles" : 0,
+    "totalLines" : 0,
     "countByCode" : [ {
       "code" : "COMPONENT_INVALID_NAME",
       "count" : 1

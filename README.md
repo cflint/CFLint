@@ -214,7 +214,7 @@ Example of CFLint XML:
         </location>
       </issue>
     ...
-      <counts totalfiles="108" totalsize="55596">
+      <counts totallines="108" totalsize="55596">
         <count code="CFQUERYPARAM_REQ" count="39"></count>
         <count severity="WARNING" count="39"></count>
       </counts>
@@ -236,51 +236,39 @@ JSON output can be created with
 
 Example of CFLint JSON:
 
-    [ {
-      "severity" : "WARNING",
-      "id" : "CFQUERYPARAM_REQ",
-      "message" : "CFQUERYPARAM_REQ",
-      "category" : "CFLINT",
-      "abbrev" : "CR",
-      "locations" : [ {
-        "file" : "/Users/kai/Documents/Code/paypal.cfc",
-        "fileName" : "qrySearch.cfm",
-        "function" : "",
-        "column" : 0,
-        "line" : 79,
-        "message" : "<cfquery> should use <cfqueryparam/> for variable 'arguments.something'.",
-        "variable" : "arguments.something",
-        "expression" : "<cfquery name=\"qry\" datasource=\"#variables.dsn#\" cachedwithin=\"#createTimeSpan(0,0,arguments.cacheInMins,0)#\">\r\n...some Details..."
-      } ]
-    }, {
-      "severity" : "WARNING",
-      "id" : "CFQUERYPARAM_REQ",
-      "message" : "CFQUERYPARAM_REQ",
-      "category" : "CFLINT",
-      "abbrev" : "CR",
-      "locations" : [ {
-        "file" : "/Users/kai/Documents/Code/paypal.cfc",
-        "fileName" : "qrySearch.cfm",
-        "function" : "",
-        "column" : 0,
-        "line" : 145,
-        "message" : "<cfquery> should use <cfqueryparam/> for variable 'arguments.something'.",
-        "variable" : "arguments.something",
-        "expression" : "<cfquery name=\"qry\" datasource=\"#variables.dsn#\" cachedwithin=\"#createTimeSpan(0,0,arguments.cacheInMins,0)#\">\r\n...some Details..."
-      } ]
-    }, 
-    ...
-    , {
-      "totalfiles" : 108
-    }, {
-      "totalsize" : 55690
-    }, {
-      "code" : "CFQUERYPARAM_REQ",
-      "count" : 4
-    }, {
-      "severity" : "WARNING",
-      "count" : 4
-    } ]
+    {
+      "version" : "",
+      "timestamp" : "1501202128",
+      "issues" : [ {
+        "severity" : "ERROR",
+        "id" : "MISSING_VAR",
+        "message" : "MISSING_VAR",
+        "category" : "CFLINT",
+        "abbrev" : "MV",
+        "locations" : [ {
+          "file" : "src/test/resources/com/cflint/tests/Ignores/ignoreCFMLAny2.cfc",
+          "fileName" : "ignoreCFMLAny2.cfc",
+          "function" : "testFunction",
+          "column" : 6,
+          "line" : 14,
+          "message" : "Variable someVar is not declared with a var statement.",
+          "variable" : "someVar",
+          "expression" : "someVar"
+        } ]
+      } ],
+      "counts" : {
+        "totalFiles" : 7,
+        "totalLines" : 49,
+        "countByCode" : [ {
+          "code" : "MISSING_VAR",
+          "count" : 1
+        } ],
+        "countBySeverity" : [ {
+          "severity" : "ERROR",
+          "count" : 1
+        } ]
+      }
+    }
 
 ### Text
 
@@ -313,7 +301,7 @@ Example of plain text output:
     
      
     Total files:108
-    Total size 55690
+    Total lines:55690
     
     Issue counts:1
     CFQUERYPARAM_REQ:4

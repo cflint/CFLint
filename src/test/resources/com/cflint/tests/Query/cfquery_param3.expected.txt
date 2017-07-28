@@ -1,4 +1,6 @@
 {
+  "version" : "",
+  "timestamp" : "1501202132",
   "issues" : [ {
     "severity" : "WARNING",
     "id" : "CFQUERYPARAM_REQ",
@@ -16,9 +18,9 @@
       "expression" : "<cfquery name=\"local.something\" datasource=\"#variables.DSN#\">\r\n\t\t      SELECT top #arguments.count#\r\n\t\t      \tfooCol1, siteID, fooCol3\r\n\t\t      FROM\r\n\t\t      FooTable\r\n\t\t</cfquery>"
     } ]
   } ],
-  "summary" : {
-    "totalfiles" : 0,
-    "totalsize" : 0,
+  "counts" : {
+    "totalFiles" : 0,
+    "totalLines" : 0,
     "countByCode" : [ {
       "code" : "CFQUERYPARAM_REQ",
       "count" : 1

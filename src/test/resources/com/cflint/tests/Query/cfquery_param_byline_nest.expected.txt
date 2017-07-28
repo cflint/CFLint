@@ -1,4 +1,6 @@
 {
+  "version" : "",
+  "timestamp" : "1501202133",
   "issues" : [ {
     "severity" : "WARNING",
     "id" : "CFQUERYPARAM_REQ",
@@ -16,9 +18,9 @@
       "expression" : "<cfquery name=\"fooQry\" datasource=\"#arguments.siteDomain#com\" cachedwithin=\"#createTimeSpan(0,0,5,0)#\">\r\n            SELECT\r\n                M.firstName\r\n                <cfif>\r\n                <!--- "
     } ]
   } ],
-  "summary" : {
-    "totalfiles" : 0,
-    "totalsize" : 0,
+  "counts" : {
+    "totalFiles" : 0,
+    "totalLines" : 0,
     "countByCode" : [ {
       "code" : "CFQUERYPARAM_REQ",
       "count" : 1

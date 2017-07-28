@@ -1,4 +1,6 @@
 {
+  "version" : "",
+  "timestamp" : "1501202126",
   "issues" : [ {
     "severity" : "WARNING",
     "id" : "AVOID_EMPTY_FILES",
@@ -16,9 +18,9 @@
       "expression" : ""
     } ]
   } ],
-  "summary" : {
-    "totalfiles" : 0,
-    "totalsize" : 0,
+  "counts" : {
+    "totalFiles" : 0,
+    "totalLines" : 0,
     "countByCode" : [ {
       "code" : "AVOID_EMPTY_FILES",
       "count" : 1

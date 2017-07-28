@@ -1,4 +1,6 @@
 {
+  "version" : "",
+  "timestamp" : "1501202137",
   "issues" : [ {
     "severity" : "INFO",
     "id" : "AVOID_USING_WRITEDUMP",
@@ -16,9 +18,9 @@
       "expression" : "writeDump(name)"
     } ]
   } ],
-  "summary" : {
-    "totalfiles" : 0,
-    "totalsize" : 0,
+  "counts" : {
+    "totalFiles" : 0,
+    "totalLines" : 0,
     "countByCode" : [ {
       "code" : "AVOID_USING_WRITEDUMP",
       "count" : 1

@@ -1,4 +1,6 @@
 {
+  "version" : "",
+  "timestamp" : "1501202130",
   "issues" : [ {
     "severity" : "WARNING",
     "id" : "GLOBAL_LITERAL_VALUE_USED_TOO_OFTEN",
@@ -16,9 +18,9 @@
       "expression" : "3"
     } ]
   } ],
-  "summary" : {
-    "totalfiles" : 0,
-    "totalsize" : 0,
+  "counts" : {
+    "totalFiles" : 0,
+    "totalLines" : 0,
     "countByCode" : [ {
       "code" : "GLOBAL_LITERAL_VALUE_USED_TOO_OFTEN",
       "count" : 1

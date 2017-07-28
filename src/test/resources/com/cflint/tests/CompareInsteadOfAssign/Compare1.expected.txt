@@ -1,4 +1,6 @@
 {
+  "version" : "",
+  "timestamp" : "1501202125",
   "issues" : [ {
     "severity" : "WARNING",
     "id" : "COMPARE_INSTEAD_OF_ASSIGN",
@@ -32,9 +34,9 @@
       "expression" : "x.x EQ 6"
     } ]
   } ],
-  "summary" : {
-    "totalfiles" : 0,
-    "totalsize" : 0,
+  "counts" : {
+    "totalFiles" : 0,
+    "totalLines" : 0,
     "countByCode" : [ {
       "code" : "COMPARE_INSTEAD_OF_ASSIGN",
       "count" : 2

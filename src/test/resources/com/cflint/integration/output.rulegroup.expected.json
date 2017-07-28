@@ -1,4 +1,6 @@
 {
+  "version" : "",
+  "timestamp" : "0",
   "issues" : [ {
     "severity" : "INFO",
     "id" : "COMPONENT_INVALID_NAME",
@@ -15,9 +17,9 @@
       "expression" : "component {/n  public string function getStringFromStruct(interestingVar)     {/n      return interestingVar;/n/n    }/n}"
     } ]
   } ],
-  "summary" : {
-    "totalfiles" : 3,
-    "totalsize" : 18,
+  "counts" : {
+    "totalFiles" : 3,
+    "totalLines" : 18,
     "countByCode" : [ {
       "code" : "COMPONENT_INVALID_NAME",
       "count" : 1

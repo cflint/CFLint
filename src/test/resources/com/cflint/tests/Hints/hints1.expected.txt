@@ -1,4 +1,6 @@
 {
+  "version" : "",
+  "timestamp" : "1501202127",
   "issues" : [ {
     "severity" : "WARNING",
     "id" : "COMPONENT_HINT_MISSING",
@@ -16,9 +18,9 @@
       "expression" : "component {\n  public void function function1(arg1, arg2) hint='test hint attribute'    {\nsomeVar = '';\n\n    }\n}"
     } ]
   } ],
-  "summary" : {
-    "totalfiles" : 0,
-    "totalsize" : 0,
+  "counts" : {
+    "totalFiles" : 0,
+    "totalLines" : 0,
     "countByCode" : [ {
       "code" : "COMPONENT_HINT_MISSING",
       "count" : 1

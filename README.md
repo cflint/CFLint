@@ -3,7 +3,7 @@
 CFLint
 ======
 
-A static code analysis tool for ColdFusion.
+A static code analysis tool for CFML.
 
 License: [BSD](http://www.opensource.org/licenses/bsd-license.html)
 
@@ -11,38 +11,38 @@ Current Version: 1.2.0 (Jul xx 2017)
 
 # Versions
 
-See CHANGELOG.md for further information.
+See [CHANGELOG.md](./CHANGELOG.md) for further information.
 
 # Project and library organisation
 
-CFLint is a project developed and worked on by volunteers. When logging issues please be nice and considerate, we're here to help. We really appreciate fixes and improvements, feel free to talk to us and/or provide pull requests.
+CFLint is a project developed and worked on by volunteers. When logging issues please, be nice and considerate. We're here to help. We really appreciate fixes and improvements, so feel free to talk to us and/or provide pull requests.
 
-/src/main contains the source code. Tests can be found in /src/test. CFLint relies heavily on the [CFParser](https://github.com/cfparser/cfparser) project as well as a bunch of 3rd party Java libraries.
+`/src/main` contains the source code. Tests can be found in `/src/test`. CFLint relies heavily on the [CFParser](https://github.com/cfparser/cfparser) project as well as a bunch of third-party Java libraries.
 
 The master branch is considered our stable codebase. Most of the development happens in the dev branch resp. local development branches for specific issues.
- 
+
 # Building CFLint
 
 1. Fork the repository into your account and clone or download the codebase as a zip-file.
-2. Install the tooling of your choice and build via Gradle or Maven (deprecated). CFlint requires Java 8.
+2. Install the tooling of your choice and build via Gradle or Maven (deprecated). CFLint requires Java 8.
 
     a. Gradle: execute
-        
+
         gradlew build
-        
+
     in the cflint directory
 
     b. Maven: execute
-    
-        mvn clean install
-        
-    in the cflint directory
-    
-    Alternatively import the CFLint codebase into the IDE of your choice and use its respectively Gradle/Maven integration. This should work out of the box for Eclipse and IntelliJ users.
-    
-# Using CFLint - Quickstart
 
-Get the latest version from [Maven Central](http://search.maven.org/#search%7Cga%7C1%7Ccflint) or the [CFLint Github release page](https://github.com/cflint/CFLint/releases) or build the project.
+        mvn clean install
+
+    in the cflint directory
+
+    Alternatively, import the CFLint codebase into the IDE of your choice and use its respectively Gradle/Maven integration. This should work out of the box for Eclipse and IntelliJ users.
+
+# Using CFLint - Quickstart Guide
+
+Get the latest version from [Maven Central](http://search.maven.org/#search%7Cga%7C1%7Ccflint) or the [CFLint GitHub release page](https://github.com/cflint/CFLint/releases) or build the project.
 
 If you want to use CFLint from within another Maven project, use:
 
@@ -59,10 +59,10 @@ Or always use the latest:
         <artifactId>CFLint</artifactId>
         <version>LATEST</version>
     </dependency>
-    
+
 With the binaries retrieved one or the other way, you can now use CFLint on the command line.
 
-#### Use the "-all"-version of the jar-file: 
+#### Use the "-all"-version of the jar-file:
 
     CFLint-1.2.0-all.jar
 
@@ -71,9 +71,9 @@ With the binaries retrieved one or the other way, you can now use CFLint on the 
     java -jar CFLint-1.2.0-all.jar -folder <baseFolder>
 
 #### Scan a folder with the complete set of rules:
-    
+
     java -jar CFLint-1.2.0-all.jar -file <fullPathToFile>
-        
+
 #### See parameters and help:
 
     java -jar CFLint-1.2.0-all.jar -help
@@ -84,30 +84,30 @@ With the binaries retrieved one or the other way, you can now use CFLint on the 
 
 ## Introduction
 
-The most simple options for executing CFLint is via the command line. CFLint currently has a UI mode (triggered by -ui on the command line) which will be removed by the latest for CFLint 2.0 - see [issue 316](https://github.com/cflint/CFLint/issues/316). If you rely on the UI mode, you're unfortunately on your own - no more work will go into this from here onwards.
+The simplest options for executing CFLint is via the command line. CFLint currently has a UI mode (triggered by -ui on the command line) which will be removed by the latest for CFLint 2.0 - see [Issue #316](https://github.com/cflint/CFLint/issues/316). If you rely on the UI mode, you're unfortunately on your own - no more work will go into this from here onwards.
 
 ## Configuration
 
-Alternatively to the commannd line you can supply a global configuration via the -configfile switch or put .cflintrc files into certain directories. Configuring CFLint this way conceptually allows you to run specific rules in specific parts of your application.
+Alternatively to the command line, you can supply a global configuration via the `-configfile` switch or put `.cflintrc` files into certain directories. Configuring CFLint this way conceptually allows you to run specific rules in specific parts of your application.
 
-CFlint currently supports XML- and JSON-based configuration. XML-based configuration will be deprecated in CFLint 1.3.0 and removed in CFLint 2.0.
+CFLint currently supports XML- and JSON-based configuration. XML-based configuration will be deprecated in CFLint 1.3.0 and removed in CFLint 2.0.
 
 ### Rules
 
-When CFLint executes, it scans and parses your code (using CFParser). The syntax tree is then being examined against a set of built-in rules. In CFLint those rules are called and implemented as plugins (they live in /src/main/java/com/cflint/plugins). By default all rules will be used against your codebase. This is what a lot of people will do, but using configuration allows you to build a custom scenario to test your code against. See RULES.md for more information on rules and their meaning.
+When CFLint executes, it scans and parses your code (using CFParser). The syntax tree is then being examined against a set of built-in rules. In CFLint, those rules are called and implemented as plugins (they live in `/src/main/java/com/cflint/plugins`). By default, all rules will be used against your codebase. This is what a lot of people will do, but using configuration allows you to build a custom scenario to test your code against. See [RULES.md](./RULES.md) for more information on rules and their meaning.
 
 ### Global configuration
 
-The -configfile options can be used to replace the standard global configuration file.
+The `-configfile` options can be used to replace the standard global configuration file.
 
-The standard configuration is src/main/resources/cflint.definition.json. Common usage of CFLint usually does not require replacing this file.
+The standard configuration is `src/main/resources/cflint.definition.json`. Common usage of CFLint usually does not require replacing this file.
 
 ### Folder-based configuration
 
-Putting a .cflintrc file into a directory allows you to specify certain rules that should be executed for this directory and its children. Additionally you can specify a handful of other properties.
+Putting a `.cflintrc` file into a directory allows you to specify certain rules that should be executed for this directory and its children. Additionally, you can specify a handful of other properties.
 
-An example .cflintrc file is shown below:
- 
+An example `.cflintrc` file is shown below:
+
      {
        "output" : [ ],
        "rule" : [ ],
@@ -119,19 +119,19 @@ An example .cflintrc file is shown below:
        "inheritPlugins" : true
      }
 
-- rule allows you add a plugin for this folder that is not listed in the global configuration.  See ruleImpl in cflint.definition.json for examples.  
+* `rule` allows you add a plugin for this folder that is not listed in the global configuration.  See `ruleImpl` in `cflint.definition.json` for examples.
 
-- excludes and includes allow you to specify an array of objects describing rules you want to be applied for this directory and its children. In the example above, the only rule to be checked for will be FUNCTION_HINT_MISSING.
+* `excludes` and `includes` allow you to specify an array of objects describing rules you want to be applied for this directory and its children. In the example above, the only rule to be checked for will be FUNCTION_HINT_MISSING.
 
-- inheritParent configures if the rules set in the global or any parent configuration should be inherited as a base set of rules. 
+* `inheritParent` configures if the rules set in the global or any parent configuration should be inherited as a base set of rules.
 
-- Please note: inheritPlugins and output have been marked deprecated in CFLint 1.2.0 and will be removed in 1.3.0. If you are using .cflintrc files now, please remove the inheritPlugins and output properties as soon as possible. Plugin inheritance will going forward always be treated as true, the team can not see a use case in which it should be disabled. The value of the output attribute is ignored.
+* Please note: `inheritPlugins` and `output` have been marked deprecated in CFLint 1.2.0 and will be removed in 1.3.0. If you are using `.cflintrc` files now, please remove the inheritPlugins and output properties as soon as possible. Plugin inheritance will going forward always be treated as true, the team can not see a use case in which it should be disabled. The value of the output attribute is ignored.
 
 ### Annotation-based configuration
 
 Quite often there are scenarios in which you would generally want to run a certain set of rules against your code but in specific cases need to ignore an otherwise valid violation.
 
-A common example are violations of CFQUERYPARAM_REQ that can't be fixed by applying <CFQUERYPARAM...> because your DB server doesn't allow <CFQUERPARAM> in a certain position (for instance in a SELECT TOP #arguments.numberOfRecords# ... scenario). See [#282](https://github.com/cflint/CFLint/issues/282) for more examples.
+A common example are violations of CFQUERYPARAM_REQ that can't be fixed by applying <CFQUERYPARAM...> because your DB server doesn't allow <CFQUERPARAM> in a certain position (for instance in a SELECT TOP #arguments.numberOfRecords# ... scenario). See [Issue #282](https://github.com/cflint/CFLint/issues/282) for more examples.
 
 CFLint offers an annotation-based configuration to deal with this and similar scenarios. Annotations can be placed on the component- or function-level in a CFC or inline with code.
 
@@ -141,16 +141,16 @@ CFLint offers an annotation-based configuration to deal with this and similar sc
 	@CFLintIgnore SOMETHINGELSE,MISSING_VAR,ANOTHERTHINGTOIGNORE
 	--->
 
-#### CFSCRIPT:
+#### CFScript:
 
 Ignoring all rules on the current line:
 
     //cflint ignore:line
-    
+
 Ignoring a specific rule (or a comma-separated list of rules) on the current line:
-    
+
     //cflint ignore:MISSING_VAR
-    
+
 Multiline ignore annotation:
 
     /*
@@ -161,19 +161,19 @@ Multiline ignore annotation:
 Within SQL, you can also use
 
     <!--- @CFLintIgnore CFQUERYPARAM_REQ --->
-    
+
 to ignore a rule violation on the next line.
 
 ### Precendence of configuration settings
 
 Configuration of which plugins are run and which rules are included starts with the global configuration and flows through the command line parameters, folder level rules, and down to the annotations within the source.
 
-- global configuration
-- custom configuration file  (--configfile)
-- rule groups (--rulegroups,  default behaviour is --rulegroups !Experimental)
-- includes/excludes from the command line (--includeRule and --excludeRule)
-- .cflintrc - folder level configuration, mostly for including/excluding specific messages
-- annotations - explicitly exclude messages in the source code at the tag or line level.
+* global configuration
+* custom configuration file  (--configfile)
+* rule groups (--rulegroups,  default behaviour is --rulegroups !Experimental)
+* includes/excludes from the command line (--includeRule and --excludeRule)
+* .cflintrc - folder level configuration, mostly for including/excluding specific messages
+* annotations - explicitly exclude messages in the source code at the tag or line level.
 
 The configuration rule that is closest to the rule is the one that takes effect.
 * If an annotation excludes a message, it will not fire regardless of any configuration above it.
@@ -181,24 +181,24 @@ The configuration rule that is closest to the rule is the one that takes effect.
 
 ## Creating reports
 
-CFLint supports a variety of output options that you can control via command-line flags. If youy want more information about the inner workings of CFLint during execution you can run CFLint in verbose mode by supplying -verbose or -v at the command line.
+CFLint supports a variety of output options that you can control via command-line flags. If you want more information about the inner workings of CFLint during execution you can run CFLint in verbose mode by supplying `-verbose` or `-v` at the command line.
 
 ### XML
 
-The flag -xml instructs CFLint to create XML. There are two options for XML reporting. 
+The flag `-xml` instructs CFLint to create XML. There are two options for XML reporting.
 
-The first option is what we call CFlint XML. It's an internal format that adheres to a basic schema. You could then use this format as-is or to do further processing of your choice. 
+The first option is what we call CFLint XML. It's an internal format that adheres to a basic schema found [here](/src/main/resources/schemas/cflint-result.xsd). You could then use this format as-is or to do further processing of your choice.
 
-The seconds option is Findbugs XML. The resulting XML document adheres to the current version of the Findbugs Bugcollection XML Schema Definition (src/main/resources/findbugs/bugcollection.xsd) and can be used in most CI-/Build-Server products. Jetbrains Team City 10+ can import this format out of the box.
+The seconds option is FindBugs XML. The resulting XML document adheres to the current version of the FindBugs BugCollection [XML Schema Definition](src/main/resources/findbugs/bugcollection.xsd) and can be used in most CI-/Build-Server products. JetBrains TeamCity 10+ can import this format out of the box.
 
-Please note: Currently it's not possible to produce BOTH flavours of XML reports at the same time. This is a known limitation. If you feel this hinders your use of CFLint, please raise an issue.
+*Please note*: Currently it's not possible to produce BOTH flavours of XML reports at the same time. This is a known limitation. If you feel this hinders your use of CFLint, please raise an issue.
 
 #### CFLint XML
 
 To create CFLint XML provide the following command-line arguments:
 
     -xml -xmlstyle cflint -xmlfile <outputFileName>
-    
+
 Example of CFLint XML:
 
     <?xml version="1.0" encoding="UTF-8" ?>
@@ -214,19 +214,19 @@ Example of CFLint XML:
         </location>
       </issue>
     ...
-      <counts totallines="108" totalsize="55596">
+      <counts totalfiles="108" totallines="55596">
         <count code="CFQUERYPARAM_REQ" count="39"></count>
         <count severity="WARNING" count="39"></count>
       </counts>
     </issues>
 
-#### Findbugs XML
+#### FindBugs XML
 
-To create Findbugs XML provide the following command-line arguments:
+To create FindBugs XML provide the following command-line arguments:
 
     -xml -xmlstyle findbugs -xmlfile <outputFileName>
-    
-The Findbugs XML format is currently created using an XSLT document, transforming the CFLint report to Findbugs XML (src/main/resources/findbugs/cflint-to-findbugs.xsl).
+
+The FindBugs XML format is currently created using an XSLT document, transforming the CFLint report to FindBugs XML (`src/main/resources/findbugs/cflint-to-findbugs.xsl`).
 
 ### JSON
 
@@ -237,7 +237,7 @@ JSON output can be created with
 Example of CFLint JSON:
 
     {
-      "version" : "",
+      "version" : "1.2.0",
       "timestamp" : "1501202128",
       "issues" : [ {
         "severity" : "ERROR",
@@ -270,12 +270,14 @@ Example of CFLint JSON:
       }
     }
 
+The JSON schema is available [here](/src/main/resources/schemas/cflint-result.schema.json).
+
 ### Text
 
 Plain text output can be created with
 
     -text -textfile <outputFileName>
-    
+
 Example of plain text output:
 
     Issue
@@ -285,27 +287,27 @@ Example of plain text output:
         Column:0
         Line:79
             Message:<cfquery> should use <cfqueryparam/> for variable 'arguments.something'.
-            Variable:'arguments.something' in function: 
+            Variable:'arguments.something' in function:
             Expression:<cfquery name=\"qry\" datasource=\"#variables.dsn#\" cachedwithin=\"#createTimeSpan(0,0,arguments.cacheInMins,0)#\">\r\n...some Details...
-     
+
     Severity:WARNING
     Message code:CFQUERYPARAM_REQ
         File:/Users/kai/Documents/Code/paypal.cfc
         Column:0
         Line:145
             Message:<cfquery> should use <cfqueryparam/> for variable 'arguments.something'.
-            Variable:'arguments.something' in function: 
+            Variable:'arguments.something' in function:
             Expression:<cfquery name=\"qry\" datasource=\"#variables.dsn#\" cachedwithin=\"#createTimeSpan(0,0,arguments.cacheInMins,0)#\">\r\n...some Details...
-      
-    ...   
-    
-     
+
+    ...
+
+
     Total files:108
     Total lines:55690
-    
+
     Issue counts:1
     CFQUERYPARAM_REQ:4
-    
+
     Total issues:4
     Total warnings:4
 
@@ -313,25 +315,27 @@ Example of plain text output:
 
 ## Integration server support
 
-For Jenkins, please look at the Jenkins/Hudson plugin mentioned further below. 
+For Jenkins, please look at the Jenkins/Hudson plugin mentioned further below.
 
-Jetbrains' TeamCity has support for Findbugs XML code inspection reports. They can be produced out of the box with CFLint from 1.2.0 onwards (see above in the Findbugs XML section).
+JetBrains' TeamCity has support for FindBugs XML code inspection reports. They can be produced out of the box with CFLint from 1.2.0 onwards (see above in the [FindBugs XML section](#findbugs-xml)).
 
-There is support for SonarQube through Stepstone's Sonar ColdFusion plugin mentioned further below.
+There is support for SonarQube through StepStone's Sonar ColdFusion plugin mentioned further below.
 
-There's an NPM wrapper for CLint below. Please be aware that the wrapper seems to come with its own bundled CFLint binary which might not be up to date, which is outside of our control.
+There's an NPM wrapper for CFLint below. Please be aware that the wrapper seems to come with its own bundled CFLint binary which might not be up-to-date, which is outside of our control.
 
-Other products in the integeration/build server category might work, too. If you're using a specific product that works for you with CFLint please let us know. If you can't get CFLint to work in an environment you use, please let us know as well - we might be able to help.
+Other products in the integration/build server category might work, too. If you're using a specific product that works for you with CFLint please let us know. If you can't get CFLint to work in an environment you use, please let us know as well - we might be able to help.
 
 ## IDE support
 
-Currently there is IDE support for Sublime through a 3rd-party project (see below). 
+Currently there is IDE support for Sublime Text through a third-party project (see below).
 
-There is also support for Adobe's CFBuilder through a 3rd-party project (see below). Users of CFBuilder, please also see the discussion in issue [#327](https://github.com/cflint/CFLint/issues/327).
+There is also support for Adobe's ColdFusion Builder through a third-party project (see below). Users of CFBuilder, please also see the discussion in issue [#327](https://github.com/cflint/CFLint/issues/327).
 
-Users of Atom can integrate with AtomLinter through a 3rd-party project (see below).
+Users of Atom can integrate with AtomLinter through a third-party project (see below).
 
-Support for Jetbrains' IntelliJ is planned; talk to [@TheRealAgentK](https://github.com/TheRealAgentK) for more info if you're interested.
+Support for JetBrains' IntelliJ is planned; talk to [@TheRealAgentK](https://github.com/TheRealAgentK) for more info if you're interested.
+
+An extension for Visual Studio Code will be released in the near future.
 
 ## Extending CFLint
 
@@ -343,14 +347,14 @@ Support for Jetbrains' IntelliJ is planned; talk to [@TheRealAgentK](https://git
     import cfml.parsing.cfscript.script.CFFuncDeclStatement;
     import cfml.parsing.cfscript.script.CFFunctionParameter;
     import cfml.parsing.cfscript.script.CFScriptStatement;
-      
+
     import com.cflint.BugList;
     import com.cflint.plugins.CFLintScannerAdapter;
     import com.cflint.plugins.Context;
     import com.cflint.tools.CFTool;
-     
+
     public class ArgDefChecker extends CFLintScannerAdapter {
-     
+
         @Override
         public void expression(final CFScriptStatement expression, final Context context, final BugList bugs) {
             if (expression instanceof CFFuncDeclStatement) {
@@ -366,7 +370,7 @@ Support for Jetbrains' IntelliJ is planned; talk to [@TheRealAgentK](https://git
                 }
             }
         }
-     
+
         @Override
         public void element(final Element element, final Context context, final BugList bugs) {
             if (element.getName().equals("cfargument")) {
@@ -387,19 +391,19 @@ Looking at the function `element`, the arguments are:
 * context - the current file being checked
 * bugs - the appending object of violations
 
-# Receipes
+# Recipes
 
 ## Ignoring a directory for processing
 
-The easiest way to achieve this is with a custom .cflintrc file:
+The easiest way to achieve this is with a custom `.cflintrc` file:
 
-The includes field is ignored if it is an empty list, so simply add a single item to it for which nothing matches.
+The `includes` field is ignored if it is an empty list, so simply add a single item to it for which nothing matches.
 
     {
         "code" : "NOTHING"
     }
 
-or simply:
+or more simply:
 
     {}
 
@@ -410,13 +414,13 @@ The following will ignore all rules in the current folder and below.
       "output" : [ ],
       "rule" : [ ],
       "excludes" : [ ],
-      "includes" : [ {}],
+      "includes" : [ {} ],
       "inheritParent" : false,
       "inheritPlugins" : true
     }
 
 
-This can be simplified using the default values of a .cflintrc file:
+This can be simplified using the default values of a `.cflintrc` file:
 
     {
       "includes" : [{}],
@@ -428,10 +432,10 @@ See the discussion in [#290](https://github.com/cflint/CFLint/issues/290) for mo
 
 ## Filtering out specific processing results in specific folders
 
-Supply a cflintexclude.json file in ???  
----TO DO START  
-Where would such a file go?  
----TO DO END  
+Supply a `cflintexclude.json` file in ???
+---TO DO START
+Where would such a file go?
+---TO DO END
 
 #### Example
 
@@ -456,27 +460,27 @@ Note: The back slashes must be escaped twice, once for JSON, once for regular ex
 
 # Support
 
-Raise issues here on Github and we will look at them.
+Raise issues here on GitHub and we will look at them.
 
-The [CFML Slack team](http://cfml-slack.herokuapp.com/) has a #cflint channel you can join and talk to most of the regular contributors and other users.
+The [CFML Slack team](http://cfml-slack.herokuapp.com/) has a `#cflint` channel you can join and talk to most of the regular contributors and other users.
 
 
 # How to contribute?
 
-See CONTRIBUTING.md for further information
+See [CONTRIBUTING.md](./CONTRIBUTING.md) for further information.
 
 
-# Interesting 3rd-party projects
+# Interesting third-party projects
 
 Please note that the majority of the libraries and projects mentioned here are not directly related to and maintained by the CFLint team. Please see the authors and maintainers of the respective project for support using their libraries first.
 
-- [Jenkins/Hudson plugin](https://github.com/jenkinsci/CFLint-plugin) for CFLint
-- [SublimeLinter plugin](https://github.com/ckaznocha/SublimeLinter-contrib-CFLint) for CFlint
-- [CFBuilder plugin](https://github.com/cfjedimaster/CFLint-Extension) for CFLint
-- [Atom plugin](https://github.com/ditinc/linter-cflint) for CFLint
-- [Sonar plugin](https://github.com/stepstone-tech/sonar-coldfusion)
-- [NPM wrapper](https://github.com/morgdenn/npm-cflint)
-- Vim [Syntastic support for CFLint](https://github.com/cflint/cflint-syntastic)
+* [Jenkins/Hudson plugin](https://github.com/jenkinsci/CFLint-plugin)
+* [Sublime Text plugin](https://github.com/ckaznocha/SublimeLinter-contrib-CFLint)
+* [ColdFusion Builder plugin](https://github.com/cfjedimaster/CFLint-Extension)
+* [Atom plugin](https://github.com/ditinc/linter-cflint)
+* [Sonar plugin](https://github.com/stepstone-tech/sonar-coldfusion)
+* [NPM wrapper](https://github.com/morgdenn/npm-cflint)
+* Vim [Syntastic support for CFLint](https://github.com/cflint/cflint-syntastic)
 
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/6f4b01d4d2cb4860b60ac666452071f1)](https://www.codacy.com/app/ryaneberly/CFLint?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=cflint/CFLint&amp;utm_campaign=Badge_Grade)

@@ -11,7 +11,7 @@ Current Version: 1.2.0 (Jul xx 2017)
 
 # Versions
 
-See [CHANGELOG.md](./CHANGELOG.md) for further information.
+See [CHANGELOG.md](/CHANGELOG.md) for further information.
 
 # Project and library organisation
 
@@ -94,7 +94,7 @@ CFLint currently supports XML- and JSON-based configuration. XML-based configura
 
 ### Rules
 
-When CFLint executes, it scans and parses your code (using CFParser). The syntax tree is then being examined against a set of built-in rules. In CFLint, those rules are called and implemented as plugins (they live in `/src/main/java/com/cflint/plugins`). By default, all rules will be used against your codebase. This is what a lot of people will do, but using configuration allows you to build a custom scenario to test your code against. See [RULES.md](./RULES.md) for more information on rules and their meaning.
+When CFLint executes, it scans and parses your code (using CFParser). The syntax tree is then being examined against a set of built-in rules. In CFLint, those rules are called and implemented as plugins (they live in `/src/main/java/com/cflint/plugins`). By default, all rules will be used against your codebase. This is what a lot of people will do, but using configuration allows you to build a custom scenario to test your code against. See [RULES.md](/RULES.md) for more information on rules and their meaning.
 
 ### Global configuration
 
@@ -467,7 +467,7 @@ The [CFML Slack team](http://cfml-slack.herokuapp.com/) has a `#cflint` channel 
 
 # How to contribute?
 
-See [CONTRIBUTING.md](./CONTRIBUTING.md) for further information.
+See [CONTRIBUTING.md](/CONTRIBUTING.md) for further information.
 
 
 # Interesting third-party projects

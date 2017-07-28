@@ -1,6 +1,6 @@
 ![CFLint](/src/main/resources/CFLint-logo.jpg)
 
-CFLint
+CFLint [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.github.cflint/CFLint/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.github.cflint/CFLint) [![License](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/6f4b01d4d2cb4860b60ac666452071f1)](https://www.codacy.com/app/ryaneberly/CFLint?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=cflint/CFLint&amp;utm_campaign=Badge_Grade) [![Build Status](https://travis-ci.org/cflint/CFLint.svg?branch=master)](https://travis-ci.org/cflint/CFLint)
 ======
 
 A static code analysis tool for ColdFusion.
@@ -393,11 +393,3 @@ Check out the new [wiki!](https://github.com/cflint/CFLint/wiki) where you can:
 
 
 ---TO DO END
-
-
-
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/6f4b01d4d2cb4860b60ac666452071f1)](https://www.codacy.com/app/ryaneberly/CFLint?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=cflint/CFLint&amp;utm_campaign=Badge_Grade)
-
-[![Build Status](https://travis-ci.org/cflint/CFLint.svg?branch=master)](https://travis-ci.org/cflint/CFLint)
-
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.github.cflint/CFLint/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.github.cflint/CFLint)

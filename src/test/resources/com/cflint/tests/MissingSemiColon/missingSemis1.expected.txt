@@ -1,27 +1,33 @@
-[ {
-  "severity" : "ERROR",
-  "id" : "MISSING_SEMI",
-  "message" : "MISSING_SEMI",
-  "category" : "CFLINT",
-  "abbrev" : "MS",
-  "locations" : [ {
-    "file" : "src/test/resources/com/cflint/tests/MissingSemiColon/missingSemis1.cfc",
-    "fileName" : "missingSemis1.cfc",
-    "function" : "",
-    "column" : 0,
-    "line" : 4,
-    "message" : "End of statement(;) expected instead of name2",
-    "variable" : "name2",
-    "expression" : ""
-  } ]
-}, {
-  "totalfiles" : 0
-}, {
-  "totalsize" : 0
-}, {
-  "code" : "MISSING_SEMI",
-  "count" : 1
-}, {
-  "severity" : "ERROR",
-  "count" : 1
-} ]
+{
+  "version" : "",
+  "timestamp" : "1501202130",
+  "issues" : [ {
+    "severity" : "ERROR",
+    "id" : "MISSING_SEMI",
+    "message" : "MISSING_SEMI",
+    "category" : "CFLINT",
+    "abbrev" : "MS",
+    "locations" : [ {
+      "file" : "src/test/resources/com/cflint/tests/MissingSemiColon/missingSemis1.cfc",
+      "fileName" : "missingSemis1.cfc",
+      "function" : "",
+      "column" : 0,
+      "line" : 4,
+      "message" : "End of statement(;) expected instead of name2",
+      "variable" : "name2",
+      "expression" : ""
+    } ]
+  } ],
+  "counts" : {
+    "totalFiles" : 0,
+    "totalLines" : 0,
+    "countByCode" : [ {
+      "code" : "MISSING_SEMI",
+      "count" : 1
+    } ],
+    "countBySeverity" : [ {
+      "severity" : "ERROR",
+      "count" : 1
+    } ]
+  }
+}

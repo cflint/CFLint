@@ -1,27 +1,33 @@
-[ {
-  "severity" : "WARNING",
-  "id" : "PACKAGE_CASE_MISMATCH",
-  "message" : "PACKAGE_CASE_MISMATCH",
-  "category" : "CFLINT",
-  "abbrev" : "PC",
-  "locations" : [ {
-    "file" : "src/test/resources/com/cflint/tests/PackageCase/packagecase_nok_b.cfc",
-    "fileName" : "packagecase_nok_b.cfc",
-    "function" : "",
-    "column" : 1,
-    "line" : 4,
-    "message" : "The case of the package folder and the object declaration do not match for tests.PackageCase.packagecase_nok_b.",
-    "variable" : "tests.PackageCase.packagecase_nok_b",
-    "expression" : "CreateObject('component', 'tests.packagecase.packagecase_nok_b')"
-  } ]
-}, {
-  "totalfiles" : 0
-}, {
-  "totalsize" : 0
-}, {
-  "code" : "PACKAGE_CASE_MISMATCH",
-  "count" : 1
-}, {
-  "severity" : "WARNING",
-  "count" : 1
-} ]
+{
+  "version" : "",
+  "timestamp" : "1501202131",
+  "issues" : [ {
+    "severity" : "WARNING",
+    "id" : "PACKAGE_CASE_MISMATCH",
+    "message" : "PACKAGE_CASE_MISMATCH",
+    "category" : "CFLINT",
+    "abbrev" : "PC",
+    "locations" : [ {
+      "file" : "src/test/resources/com/cflint/tests/PackageCase/packagecase_nok_b.cfc",
+      "fileName" : "packagecase_nok_b.cfc",
+      "function" : "",
+      "column" : 1,
+      "line" : 4,
+      "message" : "The case of the package folder and the object declaration do not match for tests.PackageCase.packagecase_nok_b.",
+      "variable" : "tests.PackageCase.packagecase_nok_b",
+      "expression" : "CreateObject('component', 'tests.packagecase.packagecase_nok_b')"
+    } ]
+  } ],
+  "counts" : {
+    "totalFiles" : 0,
+    "totalLines" : 0,
+    "countByCode" : [ {
+      "code" : "PACKAGE_CASE_MISMATCH",
+      "count" : 1
+    } ],
+    "countBySeverity" : [ {
+      "severity" : "WARNING",
+      "count" : 1
+    } ]
+  }
+}

@@ -65,7 +65,7 @@ public class XMLOutput {
 
         writer.append("<counts");
         writer.append(" totalfiles=\"").append(Long.toString(stats.getFileCount())).append("\"");
-        writer.append(" totalsize=\"").append(stats.getTotalSize().toString()).append("\">").append(System.getProperty(LINE_SEPARATOR));
+        writer.append(" totallines=\"").append(stats.getTotalLines().toString()).append("\">").append(System.getProperty(LINE_SEPARATOR));
 
         for (final String code : counts.bugTypes()) {
             writer.append("<count");

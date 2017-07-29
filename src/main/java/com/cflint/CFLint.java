@@ -8,6 +8,7 @@ import java.io.StringReader;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map.Entry;
@@ -18,6 +19,7 @@ import java.util.regex.Pattern;
 
 import com.cflint.config.*;
 import org.antlr.runtime.BitSet;
+import org.antlr.v4.runtime.ANTLRErrorListener;
 import org.antlr.v4.runtime.Parser;
 import org.antlr.v4.runtime.Recognizer;
 import org.antlr.v4.runtime.Token;
@@ -78,6 +80,7 @@ import cfml.parsing.cfscript.script.CFReturnStatement;
 import cfml.parsing.cfscript.script.CFScriptStatement;
 import cfml.parsing.cfscript.script.CFSwitchStatement;
 import cfml.parsing.cfscript.script.CFTryCatchStatement;
+import cfml.parsing.reporting.ArrayErrorListener;
 import cfml.parsing.reporting.IErrorReporter;
 import cfml.parsing.reporting.ParseException;
 import net.htmlparser.jericho.Attribute;
@@ -168,8 +171,41 @@ public class CFLint implements IErrorReporter {
         if (showProgress) {
             ScanningProgressMonitorLookAhead.createInstance(this, folderName, progressUsesThread).startPreScan();
         }
-        scan(new File(folderName));
+        final File starterFile = new File(folderName);
+        setupConfigAncestry(starterFile.getParentFile());
+        scan(starterFile);
         fireClose();
+    }
+    
+    private void setupConfigAncestry(File folder){
+        Stack<CFLintConfig> configFiles = new Stack<CFLintConfig>();
+        fileLoop:
+        while(folder != null && folder.exists()){
+            for (final File file : folder.listFiles()) {
+                if (file.getName().toLowerCase().startsWith(".cflintrc")) {
+                    if (verbose) {
+                        System.out.println("read config " + file);
+                    }
+                    System.out.println(
+                            "DEPRECATED: The uses of \"inheritPlugins\" and \"output\" have been marked as deprecated in CFLint 1.2.x and support for them will be fully removed in CFLint 1.3.0. Please remove the settings from your configuration file(s). Run CFLint in verbose mode for config file location details.");
+                    try {
+                        CFLintConfig newConfig = file.getName().toLowerCase().endsWith(".xml")
+                                ? ConfigUtils.unmarshal(new FileInputStream(file), CFLintConfig.class)
+                                : ConfigUtils.unmarshalJson(new FileInputStream(file), CFLintConfig.class);
+                        configFiles.push(newConfig);
+                        if (!newConfig.isInheritParent()) {
+                            break fileLoop;
+                        }
+                    } catch (Exception e) {
+                        System.err.println("Could not read config file " + file);
+                    }
+                }
+            }
+            folder = folder.getParentFile();
+        }
+        for(CFLintConfig newConfig: configFiles){
+            configuration = new CFLintChainedConfig(newConfig,configuration);
+        }
     }
 
     public void scan(final File folderOrFile) {
@@ -512,34 +548,37 @@ public class CFLint implements IErrorReporter {
     }
 
     private List<CFExpression> unpackTagExpressions(final Element elem) {
-    	final List<CFExpression> expressions = new ArrayList<CFExpression>();
-    	if(elem.getAttributes()==null){
+        
+        final List<CFExpression> expressions = new ArrayList<CFExpression>();
+    	if(!elem.getName().toLowerCase().startsWith("cf") || elem.getAttributes()==null){
     		return expressions;
     	}
-    	//Explicitly unpack cfloop
-    	if (elem.getName().equalsIgnoreCase("cfloop")){
-    		List<String> attributes = Arrays.asList("from","to","step","condition","array","list");
-			for(Attribute attr: elem.getAttributes()){
-				if(attributes.contains(attr.getName().toLowerCase()) && attr.getValue().trim().length()>0){
-					try {
-						expressions.add(cfmlParser.parseCFExpression(attr.getValue(), this));
-					} catch (Exception e) {
-						System.err.println("Error in parsing : " + attr.getValue() + " on tag " + elem.getName());
-					}
-				}
-			}
-    	}else{ //Unpack any attributes that have a hash expression
-    		for(Attribute attr: elem.getAttributes()){
-				if(attr.getValue() != null && attr.getValue().contains("#") && !attr.getValue().startsWith("'") && !attr.getValue().startsWith("\"")){
-					try {
-						CFExpression exp = cfmlParser.parseCFExpression("'" +attr.getValue() + "'", this);
-						expressions.add(exp);
-					} catch (Exception e) {
-						System.err.println("Error in parsing : " + attr.getValue() + " on tag " + elem.getName());
-					}
-				}
-			}
-    	}
+    	//Unpack any attributes that have a hash expression
+            for (Attribute attr : elem.getAttributes()) {
+                if (attr.getValue() != null && attr.getValue().contains("#") && !attr.getValue().startsWith("'")
+                        && !attr.getValue().startsWith("\"")) {
+                    //Try wrapping the expression in single or double quotes for parsing.
+                    List<String> literalChar = attr.getValue().contains("'")?Arrays.asList("\"","'"):Arrays.asList("'","\"");
+                    try {
+                        
+                        List<String> errors = new ArrayList<String>();
+                        ANTLRErrorListener errorReporter = new ArrayErrorListener(errors );
+                        final CFExpression exp = cfmlParser.parseCFExpression(literalChar.get(0) + attr.getValue() + literalChar.get(0), errorReporter);
+                        if(errors.size()==0){
+                            expressions.add(exp);
+                            continue;
+                        }
+                    } catch (Exception e) {
+                    }
+                    // Try other quotes before reporting a failure
+                    try {
+                        final CFExpression exp = cfmlParser.parseCFExpression(literalChar.get(1) + attr.getValue() + literalChar.get(1), this);
+                        expressions.add(exp);
+                    } catch (Exception e2) {
+                        System.err.println("Error in parsing : " + attr.getValue() + " on tag " + elem.getName());
+                    }
+                }
+            }
     	return expressions;
 	}
 

@@ -181,17 +181,134 @@ The configuration rule that is closest to the rule is the one that takes effect.
 
 ## Creating reports
 
-More to come on this and the subsections from Kai
+CFLint supports a variety of output options that you can control via command-line flags. If youy want more information about the inner workings of CFLint during execution you can run CFLint in verbose mode by supplying -verbose or -v at the command line.
 
 ### XML
 
+The flag -xml instructs CFLint to create XML. There are two options for XML reporting. 
+
+The first option is what we call CFlint XML. It's an internal format that adheres to a basic schema. You could then use this format as-is or to do further processing of your choice. 
+
+The seconds option is Findbugs XML. The resulting XML document adheres to the current version of the Findbugs Bugcollection XML Schema Definition (src/main/resources/findbugs/bugcollection.xsd) and can be used in most CI-/Build-Server products. Jetbrains Team City 10+ can import this format out of the box.
+
+Please note: Currently it's not possible to produce BOTH flavours of XML reports at the same time. This is a known limitation. If you feel this hinders your use of CFLint, please raise an issue.
+
 #### CFLint XML
+
+To create CFLint XML provide the following command-line arguments:
+
+    -xml -xmlstyle cflint -xmlfile <outputFileName>
+    
+Example of CFLint XML:
+
+    <?xml version="1.0" encoding="UTF-8" ?>
+    <issues version="1.2.0" timestamp="1500107134">
+      <issue severity="WARNING" id="CFQUERYPARAM_REQ" message="CFQUERYPARAM_REQ" category="CFLint" abbrev="CR">
+        <location file="/Users/kai/Documents/Code/paypal.cfc" fileName="paypal.cfc" function="doSomething" column="0" line="325" message="&lt;cfquery&gt; should use &lt;cfqueryparam/&gt; for variable 'arguments.PaymentType'." variable="arguments.PaymentType">
+          <Expression><![CDATA[<cfquery name="doPayment" datasource="#paymentDatasource#">...some more Details...]]></Expression>
+        </location>
+      </issue>
+      <issue severity="WARNING" id="CFQUERYPARAM_REQ" message="CFQUERYPARAM_REQ" category="CFLint" abbrev="CR">
+        <location file="/Users/kai/Documents/Code/paypal.cfc" fileName="paypal.cfc" function="doSomethingElse" column="0" line="432" message="&lt;cfquery&gt; should use &lt;cfqueryparam/&gt; for variable 'arguments.something'." variable="arguments.something">
+          <Expression><![CDATA[<cfquery name="doPayment" datasource="#paymentDatasource#">...some more Details...]]></Expression>
+        </location>
+      </issue>
+    ...
+      <counts totallines="108" totalsize="55596">
+        <count code="CFQUERYPARAM_REQ" count="39"></count>
+        <count severity="WARNING" count="39"></count>
+      </counts>
+    </issues>
 
 #### Findbugs XML
 
+To create Findbugs XML provide the following command-line arguments:
+
+    -xml -xmlstyle findbugs -xmlfile <outputFileName>
+    
+The Findbugs XML format is currently created using an XSLT document, transforming the CFLint report to Findbugs XML (src/main/resources/findbugs/cflint-to-findbugs.xsl).
+
 ### JSON
 
+JSON output can be created with
+
+    -json -jsonfile <outputFileName>
+
+Example of CFLint JSON:
+
+    {
+      "version" : "",
+      "timestamp" : "1501202128",
+      "issues" : [ {
+        "severity" : "ERROR",
+        "id" : "MISSING_VAR",
+        "message" : "MISSING_VAR",
+        "category" : "CFLINT",
+        "abbrev" : "MV",
+        "locations" : [ {
+          "file" : "src/test/resources/com/cflint/tests/Ignores/ignoreCFMLAny2.cfc",
+          "fileName" : "ignoreCFMLAny2.cfc",
+          "function" : "testFunction",
+          "column" : 6,
+          "line" : 14,
+          "message" : "Variable someVar is not declared with a var statement.",
+          "variable" : "someVar",
+          "expression" : "someVar"
+        } ]
+      } ],
+      "counts" : {
+        "totalFiles" : 7,
+        "totalLines" : 49,
+        "countByCode" : [ {
+          "code" : "MISSING_VAR",
+          "count" : 1
+        } ],
+        "countBySeverity" : [ {
+          "severity" : "ERROR",
+          "count" : 1
+        } ]
+      }
+    }
+
 ### Text
+
+Plain text output can be created with
+
+    -text -textfile <outputFileName>
+    
+Example of plain text output:
+
+    Issue
+    Severity:WARNING
+    Message code:CFQUERYPARAM_REQ
+        File:/Users/kai/Documents/Code/paypal.cfc
+        Column:0
+        Line:79
+            Message:<cfquery> should use <cfqueryparam/> for variable 'arguments.something'.
+            Variable:'arguments.something' in function: 
+            Expression:<cfquery name=\"qry\" datasource=\"#variables.dsn#\" cachedwithin=\"#createTimeSpan(0,0,arguments.cacheInMins,0)#\">\r\n...some Details...
+     
+    Severity:WARNING
+    Message code:CFQUERYPARAM_REQ
+        File:/Users/kai/Documents/Code/paypal.cfc
+        Column:0
+        Line:145
+            Message:<cfquery> should use <cfqueryparam/> for variable 'arguments.something'.
+            Variable:'arguments.something' in function: 
+            Expression:<cfquery name=\"qry\" datasource=\"#variables.dsn#\" cachedwithin=\"#createTimeSpan(0,0,arguments.cacheInMins,0)#\">\r\n...some Details...
+      
+    ...   
+    
+     
+    Total files:108
+    Total lines:55690
+    
+    Issue counts:1
+    CFQUERYPARAM_REQ:4
+    
+    Total issues:4
+    Total warnings:4
+
 
 
 ## Integration server support
@@ -346,16 +463,12 @@ The [CFML Slack team](http://cfml-slack.herokuapp.com/) has a #cflint channel yo
 
 # How to contribute?
 
-The main repository of this project is https://github.com/cflint/CFLint.
-
-Please fork from there, create a local dev branch from origin/dev (named so that it explains the work in the branch), and submit a pull request against the main repository's dev branch. Even better, get in touch with us here on Github before you undertake any work so that it can be coordinated with what we're doing.
-
-If you're interested in contributing on a regular basis, get in touch with [Ryan](https://github.com/ryaneberly) and we can add you to the internal CFLint Slack team.
+See CONTRIBUTING.md for further information
 
 
 # Interesting 3rd-party projects
 
-Please note that the majority of the libraries and projects mentioned here are not directly related and maintainedby the CFLint team. Please see the authors and maintainers of those projects for support using their libraries first.
+Please note that the majority of the libraries and projects mentioned here are not directly related to and maintained by the CFLint team. Please see the authors and maintainers of the respective project for support using their libraries first.
 
 - [Jenkins/Hudson plugin](https://github.com/jenkinsci/CFLint-plugin) for CFLint
 - [SublimeLinter plugin](https://github.com/ckaznocha/SublimeLinter-contrib-CFLint) for CFlint
@@ -364,17 +477,6 @@ Please note that the majority of the libraries and projects mentioned here are n
 - [Sonar plugin](https://github.com/stepstone-tech/sonar-coldfusion)
 - [NPM wrapper](https://github.com/morgdenn/npm-cflint)
 - Vim [Syntastic support for CFLint](https://github.com/cflint/cflint-syntastic)
-
-
-
-
-
-
-
-
-
-
-
 
 
 

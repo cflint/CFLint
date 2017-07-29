@@ -1,0 +1,113 @@
+{
+  "$schema": "http://json-schema.org/schema#",
+  "definitions": {
+    "pluginMessage": {
+      "title": "Plugin Message",
+      "type": "object",
+      "properties": {
+        "code": {
+          "title": "Code",
+          "description": "The code that represents the rule or type of issue",
+          "type": "string"
+        },
+        "messageText": {
+          "title": "Message Text",
+          "description": "The message text to be displayed for this issue",
+          "type": "string"
+        },
+        "severity": {
+          "title": "Severity",
+          "description": "The severity level of the issue",
+          "type": "string",
+          "enum": [
+            "FATAL",
+            "CRITICAL",
+            "ERROR",
+            "WARNING",
+            "CAUTION",
+            "INFO",
+            "COSMETIC"
+          ]
+        }
+      }
+    }
+  },
+  "title": "Rules Configuration",
+  "description": "A set of rules configuration options for CFLint",
+  "type": "object",
+  "properties": {
+    "rule": {
+      "title": "Rules",
+      "description": "Allows you to add a plugin for this folder that is not listed in the global configuration",
+      "type": "array",
+      "minItems": 0,
+      "items": {
+        "title": "Rule",
+        "type": "object",
+        "properties": {
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "className": {
+            "title": "Class Name",
+            "type": "string"
+          },
+          "message": {
+            "title": "Messages",
+            "type": "array",
+            "minItems": 0,
+            "items": {
+              "$ref": "#/definitions/pluginMessage"
+            }
+          },
+          "parameter": {
+            "title": "Parameters",
+            "type": "array",
+            "minItems": 0,
+            "items": {
+              "title": "Parameter",
+              "type": "object",
+              "properties": {
+                "name": {
+                  "title": "Name",
+                  "type": "string"
+                },
+                "value": {
+                  "title": "Value"
+                }
+              }
+            }
+          }
+        }
+      },
+      "default": []
+    },
+    "excludes": {
+      "title": "Excludes",
+      "description": "An array of objects describing rules you want to be excluded from this directory and its children",
+      "type": "array",
+      "minItems": 0,
+      "items": {
+        "$ref": "#/definitions/pluginMessage"
+      },
+      "default": []
+    },
+    "includes": {
+      "title": "Includes",
+      "description": "An array of objects describing rules you want to be applied for this directory and its children",
+      "type": "array",
+      "minItems": 0,
+      "items": {
+        "$ref": "#/definitions/pluginMessage"
+      },
+      "default": []
+    },
+    "inheritParent": {
+      "title": "Inherit Parent",
+      "description": "Configures if the rules set in the global or any parent configuration should be inherited as a base set of rules",
+      "type": "boolean",
+      "default": true
+    }
+  }
+}

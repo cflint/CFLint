@@ -156,7 +156,7 @@
           <xs:documentation>The version of CFLint that products these results</xs:documentation>
         </xs:annotation>
       </xs:attribute>
-      <xs:attribute type="xs:integer" name="timestamp" use="required">
+      <xs:attribute type="xs:string" name="timestamp" use="required">
         <xs:annotation>
           <xs:documentation>A timestamp representing the Unix epoch time when these results were generated</xs:documentation>
         </xs:annotation>

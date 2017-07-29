@@ -7,7 +7,7 @@ A static code analysis tool for CFML.
 
 License: [BSD](http://www.opensource.org/licenses/bsd-license.html)
 
-Current Version: 1.2.0 (Jul xx 2017)
+Current Version: 1.2.0 (Jul 29 2017)
 
 # Versions
 
@@ -100,7 +100,7 @@ When CFLint executes, it scans and parses your code (using CFParser). The syntax
 
 The `-configfile` options can be used to replace the standard global configuration file.
 
-The standard configuration is `src/main/resources/cflint.definition.json`. Common usage of CFLint usually does not require replacing this file.
+The standard configuration is [`/src/main/resources/cflint.definition.json`](/src/main/resources/cflint.definition.json). Common usage of CFLint usually does not require replacing this file.
 
 ### Folder-based configuration
 
@@ -127,11 +127,13 @@ An example `.cflintrc` file is shown below:
 
 * Please note: `inheritPlugins` and `output` have been marked deprecated in CFLint 1.2.0 and will be removed in 1.3.0. If you are using `.cflintrc` files now, please remove the inheritPlugins and output properties as soon as possible. Plugin inheritance will going forward always be treated as true, the team can not see a use case in which it should be disabled. The value of the output attribute is ignored.
 
+You can find a schema with the deprecated properties excluded [here](/src/main/resources/schemas/.cflintrc.schema.json).
+
 ### Annotation-based configuration
 
 Quite often there are scenarios in which you would generally want to run a certain set of rules against your code but in specific cases need to ignore an otherwise valid violation.
 
-A common example are violations of CFQUERYPARAM_REQ that can't be fixed by applying <CFQUERYPARAM...> because your DB server doesn't allow <CFQUERPARAM> in a certain position (for instance in a SELECT TOP #arguments.numberOfRecords# ... scenario). See [Issue #282](https://github.com/cflint/CFLint/issues/282) for more examples.
+A common example are violations of CFQUERYPARAM_REQ that can't be fixed by applying `<CFQUERYPARAM...>` because your DB server doesn't allow `<CFQUERPARAM>` in a certain position (for instance in a `SELECT TOP #arguments.numberOfRecords# ...` scenario). See [Issue #282](https://github.com/cflint/CFLint/issues/282) for more examples.
 
 CFLint offers an annotation-based configuration to deal with this and similar scenarios. Annotations can be placed on the component- or function-level in a CFC or inline with code.
 
@@ -226,7 +228,7 @@ To create FindBugs XML provide the following command-line arguments:
 
     -xml -xmlstyle findbugs -xmlfile <outputFileName>
 
-The FindBugs XML format is currently created using an XSLT document, transforming the CFLint report to FindBugs XML (`src/main/resources/findbugs/cflint-to-findbugs.xsl`).
+The FindBugs XML format is currently created using an XSLT document, transforming the CFLint report to FindBugs XML ([`/src/main/resources/findbugs/cflint-to-findbugs.xsl`](/src/main/resources/findbugs/cflint-to-findbugs.xsl)).
 
 ### JSON
 

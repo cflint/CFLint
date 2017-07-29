@@ -11,11 +11,7 @@ Current Version: 1.2.0 (Jul 29 2017)
 
 # Versions
 
-<<<<<<< HEAD
-See [CHANGELOG.md](CHANGELOG.md) for further information.
-=======
 See [CHANGELOG.md](/CHANGELOG.md) for further information.
->>>>>>> 8a7a538...  Added .cflintrc schema and output schemas for JSON and XML. Tweaked README. (#377)
 
 # Project and library organisation
 

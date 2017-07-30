@@ -1,0 +1,21 @@
+History
+
+=======
+
+
+{{#tags}}
+## {{name}} {{date}}
+ {{#issues}}
+  {{#hasIssue}}
+   {{#hasLink}}
+##### {{name}} [{{issue}}]({{link}}) {{title}}
+   {{/hasLink}}
+   {{^hasLink}}
+##### {{name}} {{issue}} {{title}}
+   {{/hasLink}}
+  {{/hasIssue}}
+  {{^hasIssue}}
+##### {{name}}
+  {{/hasIssue}}
+ {{/issues}}
+{{/tags}}

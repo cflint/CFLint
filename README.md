@@ -240,7 +240,7 @@ Example of CFLint JSON:
 
     {
       "version" : "1.2.0",
-      "timestamp" : "1501202128",
+      "timestamp" : 1501202128,
       "issues" : [ {
         "severity" : "ERROR",
         "id" : "MISSING_VAR",

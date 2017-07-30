@@ -1,6 +1,6 @@
 {
   "version" : "",
-  "timestamp" : "0",
+  "timestamp" : 0,
   "issues" : [ {
     "severity" : "INFO",
     "id" : "COMPONENT_INVALID_NAME",

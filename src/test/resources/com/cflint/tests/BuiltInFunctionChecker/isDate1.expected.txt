@@ -1,6 +1,6 @@
 {
   "version" : "",
-  "timestamp" : "1501202123",
+  "timestamp" : 1501392717,
   "issues" : [ {
     "severity" : "WARNING",
     "id" : "AVOID_USING_ISDATE",

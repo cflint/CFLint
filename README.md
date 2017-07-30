@@ -127,7 +127,7 @@ An example `.cflintrc` file is shown below:
 
 * Please note: `inheritPlugins` and `output` have been marked deprecated in CFLint 1.2.0 and will be removed in 1.3.0. If you are using `.cflintrc` files now, please remove the inheritPlugins and output properties as soon as possible. Plugin inheritance will going forward always be treated as true, the team can not see a use case in which it should be disabled. The value of the output attribute is ignored.
 
-You can find a schema with the deprecated properties excluded [here](/src/main/resources/schemas/.cflintrc.schema.json).
+We provide a [schema with the deprecated properties excluded](/src/main/resources/schemas/.cflintrc.schema.json).
 
 ### Annotation-based configuration
 
@@ -484,7 +484,3 @@ Please note that the majority of the libraries and projects mentioned here are n
 * [NPM wrapper](https://github.com/morgdenn/npm-cflint)
 * Vim [Syntastic support for CFLint](https://github.com/cflint/cflint-syntastic)
 
-
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/6f4b01d4d2cb4860b60ac666452071f1)](https://www.codacy.com/app/ryaneberly/CFLint?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=cflint/CFLint&amp;utm_campaign=Badge_Grade)
-
-[![Build Status](https://travis-ci.org/cflint/CFLint.svg?branch=master)](https://travis-ci.org/cflint/CFLint)

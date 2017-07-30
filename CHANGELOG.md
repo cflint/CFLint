@@ -1,7 +1,5 @@
 History
-
 =======
-
 
 ## CFLint1.2.0 
 ##### GitHub [#152](https://github.com/cflint/CFLint/issues/152) UNUSED_METHOD_ARGUMENT ignores scoped arguments

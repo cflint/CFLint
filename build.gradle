@@ -5,12 +5,15 @@ buildscript {
          jcenter {
             url "http://jcenter.bintray.com/"
         }
-        maven { url "http://oss.sonatype.org/content/repositories/snapshots/" }
+        maven { url "http://oss.sonatype.org/content/repositories/snapshots/" 
+            url "https://plugins.gradle.org/m2/"
+        }
      }
      dependencies {
          classpath 'com.bmuschko:gradle-nexus-plugin:2.3'
          classpath "io.codearte.gradle.nexus:gradle-nexus-staging-plugin:0.5.3"
-     }
+      classpath "gradle.plugin.se.bjurr.gitchangelog:git-changelog-gradle-plugin:1.50"
+   }
  }
 
 plugins {
@@ -27,6 +30,8 @@ apply plugin: 'java'
 apply plugin: 'maven'
 apply from: 'cobertura.gradle'
 apply from: 'deploy.gradle'
+apply plugin: "se.bjurr.gitchangelog.git-changelog-gradle-plugin"
+
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
@@ -100,3 +105,8 @@ task fatJar(type: Jar) {
 artifacts {
     archives fatJar
 }
+
+task gitChangelogTask(type: se.bjurr.gitchangelog.plugin.gradle.GitChangelogTask) {
+    file = new File("CHANGELOG.md");
+    templateContent = file('src/main/resources/changelog.mustache').getText('UTF-8');
+   }

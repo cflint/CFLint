@@ -12,7 +12,7 @@
     "timestamp": {
       "title": "Timestamp",
       "description": "A timestamp representing the Unix epoch time when these results were generated",
-      "type": "string"
+      "type": "number"
     },
     "issues": {
       "title": "Issues",

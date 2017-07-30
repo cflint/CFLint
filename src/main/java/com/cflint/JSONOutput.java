@@ -38,7 +38,7 @@ public class JSONOutput {
 
             // timestamp and version
             jg.writeStringField("version",Version.getVersion());
-            jg.writeStringField("timestamp",Long.toString(stats.getTimestamp()));
+            jg.writeNumberField("timestamp",stats.getTimestamp());
 
             // start issues array
             jg.writeFieldName("issues");

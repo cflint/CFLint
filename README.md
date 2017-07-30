@@ -7,7 +7,7 @@ A static code analysis tool for CFML.
 
 License: [BSD](http://www.opensource.org/licenses/bsd-license.html)
 
-Current Version: 1.2.0 (Jul 29 2017)
+Current Version: 1.2.1 (Aug xx 2017)
 
 # Versions
 
@@ -49,7 +49,7 @@ If you want to use CFLint from within another Maven project, use:
     <dependency>
         <groupId>com.github.cflint</groupId>
         <artifactId>CFLint</artifactId>
-        <version>1.2.0</version>
+        <version>1.2.1</version>
     </dependency>
 
 Or always use the latest:
@@ -64,19 +64,19 @@ With the binaries retrieved one or the other way, you can now use CFLint on the 
 
 #### Use the "-all"-version of the jar-file:
 
-    CFLint-1.2.0-all.jar
+    CFLint-1.2.1-all.jar
 
 #### Scan a folder with the complete set of rules:
 
-    java -jar CFLint-1.2.0-all.jar -folder <baseFolder>
+    java -jar CFLint-1.2.1-all.jar -folder <baseFolder>
 
 #### Scan a folder with the complete set of rules:
 
-    java -jar CFLint-1.2.0-all.jar -file <fullPathToFile>
+    java -jar CFLint-1.2.1-all.jar -file <fullPathToFile>
 
 #### See parameters and help:
 
-    java -jar CFLint-1.2.0-all.jar -help
+    java -jar CFLint-1.2.1-all.jar -help
 
 # User manual
 
@@ -204,7 +204,7 @@ To create CFLint XML provide the following command-line arguments:
 Example of CFLint XML:
 
     <?xml version="1.0" encoding="UTF-8" ?>
-    <issues version="1.2.0" timestamp="1500107134">
+    <issues version="1.2.1" timestamp="1500107134">
       <issue severity="WARNING" id="CFQUERYPARAM_REQ" message="CFQUERYPARAM_REQ" category="CFLint" abbrev="CR">
         <location file="/Users/kai/Documents/Code/paypal.cfc" fileName="paypal.cfc" function="doSomething" column="0" line="325" message="&lt;cfquery&gt; should use &lt;cfqueryparam/&gt; for variable 'arguments.PaymentType'." variable="arguments.PaymentType">
           <Expression><![CDATA[<cfquery name="doPayment" datasource="#paymentDatasource#">...some more Details...]]></Expression>
@@ -239,7 +239,7 @@ JSON output can be created with
 Example of CFLint JSON:
 
     {
-      "version" : "1.2.0",
+      "version" : "1.2.1",
       "timestamp" : 1501202128,
       "issues" : [ {
         "severity" : "ERROR",

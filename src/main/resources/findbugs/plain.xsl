@@ -177,11 +177,11 @@
 				</xsl:choose>
 			</td>
 			<td width="70%">
-				<p><xsl:value-of select="LongMessage"/><br/><br/>
+				<p>
 
 					<!-- add source filename and line number(s), if any -->
 					<xsl:if test="Class/SourceLine">
-						In file <xsl:value-of select="Class/SourceLine/@sourcepath"/>,
+						<xsl:value-of select="Class/SourceLine/@sourcepath"/>,
 						<xsl:choose>
 							<xsl:when test="Class/SourceLine/@start = Class/SourceLine/@end">
 								line <xsl:value-of select="Class/SourceLine/@start"/>

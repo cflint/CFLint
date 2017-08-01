@@ -6,7 +6,12 @@ public class Version {
 
     public static String getVersion() {
         try {
-            return CFLintMain.class.getPackage().getImplementationVersion();
+            String version = CFLintMain.class.getPackage().getImplementationVersion();
+            if (version != null) {
+                return version;
+            } else {
+                return "";
+            }
         } catch (Exception e) {
             return "";
         }

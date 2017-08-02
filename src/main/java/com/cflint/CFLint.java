@@ -728,7 +728,9 @@ public class CFLint implements IErrorReporter {
                 process(((CFForStatement) expression).getBody(), context);
             } else if (expression instanceof CFForInStatement) {
                 scanExpression(expression, context, elem);
-                process(((CFForInStatement) expression).getVariable(), elem, context);
+                final Context forInitContext = context.subContext(elem);
+                forInitContext.setInAssignmentExpression(true);
+                process(((CFForInStatement) expression).getVariable(), elem, forInitContext);
                 process(((CFForInStatement) expression).getStructure(), elem, context);
                 process(((CFForInStatement) expression).getBody(), context);
             } else if (expression instanceof CFIfStatement) {

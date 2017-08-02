@@ -166,7 +166,7 @@ Within SQL, you can also use
 
 to ignore a rule violation on the next line.
 
-### Precendence of configuration settings
+### Precedence of configuration settings
 
 Configuration of which plugins are run and which rules are included starts with the global configuration and flows through the command line parameters, folder level rules, and down to the annotations within the source.
 
@@ -180,6 +180,7 @@ Configuration of which plugins are run and which rules are included starts with 
 The configuration rule that is closest to the rule is the one that takes effect.
 * If an annotation excludes a message, it will not fire regardless of any configuration above it.
 * If you exclude a rule at the command line level, but a .cflintrc adds it back in, it will fire for source files in that part of the source tree.
+* If you are passing in multiple parameters at the command line level, in Windows Powershell the parameters must be included in "double quotes", e.g. --includeRule "MISSING_VAR,CFQUERYPARAM_REQ"
 
 ## Creating reports
 

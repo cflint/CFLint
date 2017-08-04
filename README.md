@@ -133,7 +133,7 @@ We provide a [schema with the deprecated properties excluded](/src/main/resource
 
 Quite often there are scenarios in which you would generally want to run a certain set of rules against your code but in specific cases need to ignore an otherwise valid violation.
 
-A common example are violations of CFQUERYPARAM_REQ that can't be fixed by applying `<CFQUERYPARAM...>` because your DB server doesn't allow `<CFQUERPARAM>` in a certain position (for instance in a `SELECT TOP #arguments.numberOfRecords# ...` scenario). See [Issue #282](https://github.com/cflint/CFLint/issues/282) for more examples.
+A common example are violations of CFQUERYPARAM_REQ that can't be fixed by applying `<cfqueryparam>` because your DB server doesn't allow params in certain positions (for instance in a `SELECT something FROM #application.config.linkedServerName#.DefaultDatabase.dbo.Comment` scenario). See [Issue #282](https://github.com/cflint/CFLint/issues/282) for more examples.
 
 CFLint offers an annotation-based configuration to deal with this and similar scenarios. Annotations can be placed on the component- or function-level in a CFC or inline with code.
 
@@ -158,6 +158,7 @@ Multiline ignore annotation:
     /*
         @CFLintIgnore SOMETHINGELSE,MISSING_VAR,ANOTHERTHINGTOIGNORE
     */
+
 #### Ignoring within SQL:
 
 Within SQL, you can also use
@@ -171,16 +172,16 @@ to ignore a rule violation on the next line.
 Configuration of which plugins are run and which rules are included starts with the global configuration and flows through the command line parameters, folder level rules, and down to the annotations within the source.
 
 * global configuration
-* custom configuration file  (--configfile)
-* rule groups (--rulegroups,  default behaviour is --rulegroups !Experimental)
-* includes/excludes from the command line (--includeRule and --excludeRule)
+* custom configuration file  (`-configfile`)
+* rule groups (`-rulegroups`,  default behaviour is --rulegroups !Experimental)
+* includes/excludes from the command line (`-includeRule` and `-excludeRule`)
 * .cflintrc - folder level configuration, mostly for including/excluding specific messages
 * annotations - explicitly exclude messages in the source code at the tag or line level.
 
 The configuration rule that is closest to the rule is the one that takes effect.
 * If an annotation excludes a message, it will not fire regardless of any configuration above it.
-* If you exclude a rule at the command line level, but a .cflintrc adds it back in, it will fire for source files in that part of the source tree.
-* If you are passing in multiple parameters at the command line level, in Windows Powershell the parameters must be included in "double quotes", e.g. --includeRule "MISSING_VAR,CFQUERYPARAM_REQ"
+* If you exclude a rule at the command line level, but a `.cflintrc` adds it back in, it will fire for source files in that part of the source tree.
+* If you are passing in multiple parameters at the command line level, in Windows Powershell the parameters must be included in "double quotes", e.g. `-includeRule "MISSING_VAR,CFQUERYPARAM_REQ"`
 
 ## Creating reports
 
@@ -190,7 +191,7 @@ CFLint supports a variety of output options that you can control via command-lin
 
 The flag `-xml` instructs CFLint to create XML. There are two options for XML reporting.
 
-The first option is what we call CFLint XML. It's an internal format that adheres to a basic schema found [here](/src/main/resources/schemas/cflint-result.xsd). You could then use this format as-is or to do further processing of your choice.
+The first option is what we call CFLint XML. It's an internal format that adheres to a basic schema provided [here](/src/main/resources/schemas/cflint-result.xsd). You could then use this format as-is or to do further processing of your choice.
 
 The seconds option is FindBugs XML. The resulting XML document adheres to the current version of the FindBugs BugCollection [XML Schema Definition](src/main/resources/findbugs/bugcollection.xsd) and can be used in most CI-/Build-Server products. JetBrains TeamCity 10+ can import this format out of the box.
 
@@ -318,27 +319,29 @@ Example of plain text output:
 
 ## Integration server support
 
-For Jenkins, please look at the Jenkins/Hudson plugin mentioned further below.
+For **Jenkins**, please look at the Jenkins/Hudson plugin mentioned further below.
 
-JetBrains' TeamCity has support for FindBugs XML code inspection reports. They can be produced out of the box with CFLint from 1.2.0 onwards (see above in the [FindBugs XML section](#findbugs-xml)).
+JetBrains' **TeamCity** has support for FindBugs XML code inspection reports. They can be produced out of the box with CFLint from 1.2.0 onwards (see above in the [FindBugs XML section](#findbugs-xml)).
 
-There is support for SonarQube through StepStone's Sonar ColdFusion plugin mentioned further below.
+There is support for **SonarQube** through StepStone's Sonar ColdFusion plugin mentioned further below.
 
 There's an NPM wrapper for CFLint below. Please be aware that the wrapper seems to come with its own bundled CFLint binary which might not be up-to-date, which is outside of our control.
 
-Other products in the integration/build server category might work, too. If you're using a specific product that works for you with CFLint please let us know. If you can't get CFLint to work in an environment you use, please let us know as well - we might be able to help.
+Other products in the integration/build server category might work, too. If you're using a specific product that works for you with CFLint, please let us know. If you can't get CFLint to work in an environment you use, please let us know as well - we might be able to help.
 
 ## IDE support
 
-Currently there is IDE support for Sublime Text through a third-party project (see below).
+There are several IDE integrations for CFLint that are available. Below are some brief descriptions, but if you'd like to know more, see [Interesting third-party projects](#interesting-third-party-projects).
 
-There is also support for Adobe's ColdFusion Builder through a third-party project (see below). Users of CFBuilder, please also see the discussion in issue [#327](https://github.com/cflint/CFLint/issues/327).
+There is IDE support for **Sublime Text 3** through a third-party project utilizing SublimeLinter.
 
-Users of Atom can integrate with AtomLinter through a third-party project (see below).
+There is also support for **Adobe ColdFusion Builder** through a third-party project. Users of CFBuilder, please also see the discussion in [Issue #327](https://github.com/cflint/CFLint/issues/327).
 
-Support for JetBrains' IntelliJ is planned; talk to [@TheRealAgentK](https://github.com/TheRealAgentK) for more info if you're interested.
+Users of **Atom** can integrate via AtomLinter through a third-party project.
 
-An extension for Visual Studio Code will be released in the near future.
+An extension for **Visual Studio Code** is also available as a third-party project.
+
+Support for JetBrains' **IntelliJ** is planned; talk to [@TheRealAgentK](https://github.com/TheRealAgentK) for more info if you're interested.
 
 ## Extending CFLint
 
@@ -430,7 +433,7 @@ This can be simplified using the default values of a `.cflintrc` file:
       "inheritParent" : false
     }
 
-See the discussion in [#290](https://github.com/cflint/CFLint/issues/290) for more info.
+See the discussion in [Issue #290](https://github.com/cflint/CFLint/issues/290) for more info.
 
 
 ## Filtering out specific processing results in specific folders
@@ -478,10 +481,11 @@ See [CONTRIBUTING.md](/CONTRIBUTING.md) for further information.
 Please note that the majority of the libraries and projects mentioned here are not directly related to and maintained by the CFLint team. Please see the authors and maintainers of the respective project for support using their libraries first.
 
 * [Jenkins/Hudson plugin](https://github.com/jenkinsci/CFLint-plugin)
-* [Sublime Text plugin](https://github.com/ckaznocha/SublimeLinter-contrib-CFLint)
-* [ColdFusion Builder plugin](https://github.com/cfjedimaster/CFLint-Extension)
-* [Atom plugin](https://github.com/ditinc/linter-cflint)
-* [Sonar plugin](https://github.com/stepstone-tech/sonar-coldfusion)
+* [Sublime Text package](https://github.com/ckaznocha/SublimeLinter-contrib-CFLint)
+* [ColdFusion Builder extension](https://github.com/cfjedimaster/CFLint-Extension)
+* [Atom package](https://github.com/ditinc/linter-cflint)
+* [Visual Studio Code extension](https://github.com/ditinc/linter-cflint)
+* [SonarQube plugin](https://github.com/stepstone-tech/sonar-coldfusion)
 * [NPM wrapper](https://github.com/morgdenn/npm-cflint)
 * Vim [Syntastic support for CFLint](https://github.com/cflint/cflint-syntastic)
 

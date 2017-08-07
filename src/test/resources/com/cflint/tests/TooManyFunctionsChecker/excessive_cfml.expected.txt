@@ -13,7 +13,7 @@
       "function" : "",
       "column" : 0,
       "line" : 1,
-      "message" : "Component excessive_cfml has too many functions. Should be less than 10.",
+      "message" : "Component excessive_cfml has too many functions. Should be fewer than 10.",
       "variable" : "",
       "expression" : "<cfcomponent>\r\n\t<cffunction name=\\\"functionOne\\\" />\r\n\t<cffunction name=\\\"functionTwo\\\" />\r\n\t<cffunction name=\\\"functionThree\\\" />\r\n\t<cffunction name=\\\"functionFour\\\" />\r\n\t<cffunction name=\\\"functionFi"
     } ]

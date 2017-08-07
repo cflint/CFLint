@@ -444,6 +444,10 @@ public class CFLintMain {
                 source.append(System.lineSeparator());
             }
             scanner.close();
+            final File starterFile = new File(stdInFile);
+            if (starterFile.exists() && starterFile.getParentFile().exists()){
+                cflint.setupConfigAncestry(starterFile.getParentFile());
+            }
             cflint.process(source.toString(), stdInFile);
         }
         for (BugInfo bug : cflint.getBugs()) {

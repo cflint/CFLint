@@ -177,7 +177,7 @@ public class CFLint implements IErrorReporter {
         fireClose();
     }
     
-    private void setupConfigAncestry(File folder){
+    public void setupConfigAncestry(File folder){
         Stack<CFLintConfig> configFiles = new Stack<CFLintConfig>();
         fileLoop:
         while(folder != null && folder.exists()){

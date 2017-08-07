@@ -346,205 +346,211 @@ public class CFLint implements IErrorReporter {
     int skipToPosition = 0;
     private void process(final Element elem, final String space, final Context context)
             throws ParseException, IOException {
-    	if (skipToPosition > elem.getBegin()) {
-			return;
-		}else{
-			skipToPosition=0;
-		}
-        currentElement = elem;
-        if (elem.getName().equalsIgnoreCase("cfcomponent")) {
-            final Context componentContext = context.subContext(elem);
-            componentContext.setInComponent(true);
-            componentContext.setComponentName(elem.getAttributeValue("displayname"));
-            componentContext.setContextType(ContextType.Component);
-            handler.push("component");
-            doStructureStart(elem, componentContext, CFCompDeclStatement.class);
-        } else if (elem.getName().equalsIgnoreCase("cffunction")) {
-            final Context functionContext = context.subContext(elem);
-            functionContext.setFunctionName(elem.getAttributeValue("name"));
-            functionContext.setContextType(ContextType.Function);
-            handler.push("function");
-            doStructureStart(elem, functionContext, CFFuncDeclStatement.class);
-        } else if (elem.getName().equalsIgnoreCase("cfloop") && elem.getAttributeValue("query")!=null) {
-        	//Give a cfloop for query its own context and set the column names as variables if they are available
-        	final Context loopContext = context.subContext(elem);
-            loopContext.setContextType(ContextType.QueryLoop);
-            handler.push("cfloop");
-            
-            final String qryName = elem.getAttributeValue("query");
-        	handler.addVariables(handler.getQueryColumns(qryName));
-        	doStructureStart(elem, loopContext, CFFuncDeclStatement.class);
+        if (skipToPosition > elem.getBegin()) {
+            return;
+        } else {
+            skipToPosition = 0;
         }
-
-        if (elem.getName().equalsIgnoreCase("cfset") || elem.getName().equalsIgnoreCase("cfif")
-                || elem.getName().equalsIgnoreCase("cfelseif") || elem.getName().equalsIgnoreCase("cfreturn")) {
-            scanElement(elem, context);
-            final Pattern p = Pattern.compile("<\\w+\\s(.*[^/])/?>", Pattern.MULTILINE | Pattern.DOTALL);
-            final String expr = elem.getFirstStartTag().toString();
-            final Matcher m = p.matcher(expr);
-            if (m.matches()) {
-
-                // TODO if LUCEE?
-                // final int uglyNotPos = elem.toString().lastIndexOf("<>");
-                // int endPos = elem.getStartTag().getEnd() - 1;
-                //
-                // if (uglyNotPos > 0) {
-                // final int nextPos = elem.toString().indexOf(">", uglyNotPos +
-                // 2);
-                // if (nextPos > 0 && nextPos < elem.getEndTag().getBegin()) {
-                // endPos = nextPos;
-                // }
-                // }
-
-                // final String cfscript =
-                // elem.toString().substring(elem.getName().length() + 1,
-                // Math.min(endPos,elem.toString().length()-1));
-                final String cfscript = m.group(1).trim();
-                if(!cfscript.isEmpty()){
-                    try {
-                        final CFExpression expression = cfmlParser.parseCFExpression(cfscript, this);
-                        if (expression != null) {
-                            process(expression, elem, context);
+        try{
+            currentElement = elem;
+            if (elem.getName().equalsIgnoreCase("cfcomponent")) {
+                final Context componentContext = context.subContext(elem);
+                componentContext.setInComponent(true);
+                componentContext.setComponentName(elem.getAttributeValue("displayname"));
+                componentContext.setContextType(ContextType.Component);
+                handler.push("component");
+                doStructureStart(elem, componentContext, CFCompDeclStatement.class);
+            } else if (elem.getName().equalsIgnoreCase("cffunction")) {
+                final Context functionContext = context.subContext(elem);
+                functionContext.setFunctionName(elem.getAttributeValue("name"));
+                functionContext.setContextType(ContextType.Function);
+                handler.push("function");
+                doStructureStart(elem, functionContext, CFFuncDeclStatement.class);
+            } else if (elem.getName().equalsIgnoreCase("cfloop") && elem.getAttributeValue("query")!=null) {
+            	//Give a cfloop for query its own context and set the column names as variables if they are available
+            	final Context loopContext = context.subContext(elem);
+                loopContext.setContextType(ContextType.QueryLoop);
+                handler.push("cfloop");
+                
+                final String qryName = elem.getAttributeValue("query");
+            	handler.addVariables(handler.getQueryColumns(qryName));
+            	doStructureStart(elem, loopContext, CFFuncDeclStatement.class);
+            }
+    
+            if (elem.getName().equalsIgnoreCase("cfset") || elem.getName().equalsIgnoreCase("cfif")
+                    || elem.getName().equalsIgnoreCase("cfelseif") || elem.getName().equalsIgnoreCase("cfreturn")) {
+                scanElement(elem, context);
+                final Pattern p = Pattern.compile("<\\w+\\s(.*[^/])/?>", Pattern.MULTILINE | Pattern.DOTALL);
+                final String expr = elem.getFirstStartTag().toString();
+                final Matcher m = p.matcher(expr);
+                if (m.matches()) {
+    
+                    // TODO if LUCEE?
+                    // final int uglyNotPos = elem.toString().lastIndexOf("<>");
+                    // int endPos = elem.getStartTag().getEnd() - 1;
+                    //
+                    // if (uglyNotPos > 0) {
+                    // final int nextPos = elem.toString().indexOf(">", uglyNotPos +
+                    // 2);
+                    // if (nextPos > 0 && nextPos < elem.getEndTag().getBegin()) {
+                    // endPos = nextPos;
+                    // }
+                    // }
+    
+                    // final String cfscript =
+                    // elem.toString().substring(elem.getName().length() + 1,
+                    // Math.min(endPos,elem.toString().length()-1));
+                    final String cfscript = m.group(1).trim();
+                    if(!cfscript.isEmpty()){
+                        try {
+                            final CFExpression expression = cfmlParser.parseCFExpression(cfscript, this);
+                            if (expression != null) {
+                                process(expression, elem, context);
+                            }
+                        } catch (final Exception npe) {
+                            printException(npe, elem);
+                            final ContextMessage cm = new ContextMessage("PARSE_ERROR", null,null,context.startLine());
+                            reportRule(currentElement,null,context,null, cm);
                         }
-                    } catch (final Exception npe) {
-                        printException(npe, elem);
+                    }
+                }
+                processStack(elem.getChildElements(), space + " ", context);
+    
+            } else if (elem.getName().equalsIgnoreCase("cfargument")) {
+                scanElement(elem, context);
+                final String name = elem.getAttributeValue("name");
+                if (name != null) {
+                    handler.addArgument(name);
+                }
+                processStack(elem.getChildElements(), space + " ", context);
+            } else if (elem.getName().equalsIgnoreCase("cfscript")) {
+                scanElement(elem, context);
+                String cfscript =elem.getContent().toString();
+                if (elem.getEndTag() == null) {
+    				// Hack to fetch the entire cfscript text, if cfscript is a word in the content somewhere, and causes
+    				// the jericho parser to fail
+    				EndTag nextTag = elem.getSource().getNextEndTag(elem.getBegin());
+    				while (nextTag != null && !nextTag.getName().equalsIgnoreCase(elem.getName())) {
+    					nextTag = elem.getSource().getNextEndTag(nextTag.getEnd());
+    				}
+    				if (nextTag.getName().equalsIgnoreCase(elem.getName())) {
+    					cfscript = elem.getSource().subSequence(elem.getStartTag().getEnd(), nextTag.getBegin())
+    							.toString();
+    					skipToPosition = nextTag.getEnd();
+    				}
+    			}
+                final CFScriptStatement scriptStatement = cfmlParser.parseScript(cfscript);
+    
+                final Context subcontext = context.subContext(elem);
+                process(scriptStatement, subcontext);
+                processStack(elem.getChildElements(), space + " ", context);
+            } else if (elem.getName().equalsIgnoreCase("cffunction")) {
+                final Context functionContext = context.subContext(elem);
+                functionContext.setFunctionName(elem.getAttributeValue("name"));
+                functionContext.setContextType(ContextType.Function);
+                scanElement(elem, functionContext);
+                processStack(elem.getChildElements(), space + " ", functionContext);
+                // Process any messages added by downstream parsing.
+                for (final ContextMessage message : functionContext.getMessages()) {
+                    reportRule(elem, null, functionContext, message.getSource(), message);
+                }
+                functionContext.getMessages().clear();
+    
+                for (final CFLintStructureListener structurePlugin : getStructureListeners(extensions)) {
+                    try {
+                        structurePlugin.endFunction(functionContext, bugs);
+                        for (final ContextMessage message : functionContext.getMessages()) {
+                            reportRule(elem, null, functionContext, (CFLintScanner) structurePlugin, message);
+                        }
+                        functionContext.getMessages().clear();
+                    } catch (final Exception e) {
+                        printException(e);
                         final ContextMessage cm = new ContextMessage("PARSE_ERROR", null,null,context.startLine());
                         reportRule(currentElement,null,context,null, cm);
                     }
                 }
-            }
-            processStack(elem.getChildElements(), space + " ", context);
-
-        } else if (elem.getName().equalsIgnoreCase("cfargument")) {
-            scanElement(elem, context);
-            final String name = elem.getAttributeValue("name");
-            if (name != null) {
-                handler.addArgument(name);
-            }
-            processStack(elem.getChildElements(), space + " ", context);
-        } else if (elem.getName().equalsIgnoreCase("cfscript")) {
-            scanElement(elem, context);
-            String cfscript =elem.getContent().toString();
-            if (elem.getEndTag() == null) {
-				// Hack to fetch the entire cfscript text, if cfscript is a word in the content somewhere, and causes
-				// the jericho parser to fail
-				EndTag nextTag = elem.getSource().getNextEndTag(elem.getBegin());
-				while (nextTag != null && !nextTag.getName().equalsIgnoreCase(elem.getName())) {
-					nextTag = elem.getSource().getNextEndTag(nextTag.getEnd());
-				}
-				if (nextTag.getName().equalsIgnoreCase(elem.getName())) {
-					cfscript = elem.getSource().subSequence(elem.getStartTag().getEnd(), nextTag.getBegin())
-							.toString();
-					skipToPosition = nextTag.getEnd();
-				}
-			}
-            final CFScriptStatement scriptStatement = cfmlParser.parseScript(cfscript);
-
-            final Context subcontext = context.subContext(elem);
-            process(scriptStatement, subcontext);
-            processStack(elem.getChildElements(), space + " ", context);
-        } else if (elem.getName().equalsIgnoreCase("cffunction")) {
-            final Context functionContext = context.subContext(elem);
-            functionContext.setFunctionName(elem.getAttributeValue("name"));
-            functionContext.setContextType(ContextType.Function);
-            scanElement(elem, functionContext);
-            processStack(elem.getChildElements(), space + " ", functionContext);
-            // Process any messages added by downstream parsing.
-            for (final ContextMessage message : functionContext.getMessages()) {
-                reportRule(elem, null, functionContext, message.getSource(), message);
-            }
-            functionContext.getMessages().clear();
-
-            for (final CFLintStructureListener structurePlugin : getStructureListeners(extensions)) {
-                try {
-                    structurePlugin.endFunction(functionContext, bugs);
-                    for (final ContextMessage message : functionContext.getMessages()) {
-                        reportRule(elem, null, functionContext, (CFLintScanner) structurePlugin, message);
+                handler.pop();
+            } else if (elem.getName().equalsIgnoreCase("cfcomponent")) {
+                final Context componentContext = context.subContext(elem);
+                componentContext.setInComponent(true);
+                componentContext.setComponentName(elem.getAttributeValue("displayname"));
+                componentContext.setContextType(ContextType.Component);
+    
+                scanElement(elem, componentContext);
+    
+                processStack(elem.getChildElements(), space + " ", componentContext);
+                for (final CFLintStructureListener structurePlugin : getStructureListeners(extensions)) {
+                    try {
+                        structurePlugin.endComponent(componentContext, bugs);
+                        for (final ContextMessage message : componentContext.getMessages()) {
+                            reportRule(elem, null, componentContext, (CFLintScanner) structurePlugin, message);
+                        }
+                        componentContext.getMessages().clear();
+                    } catch (final Exception e) {
+                        printException(e);
+                        final ContextMessage cm = new ContextMessage("PARSE_ERROR", null,null,context.startLine());
+                        reportRule(currentElement,null,context,null, cm);
                     }
-                    functionContext.getMessages().clear();
-                } catch (final Exception e) {
-                    printException(e);
-                    final ContextMessage cm = new ContextMessage("PARSE_ERROR", null,null,context.startLine());
-                    reportRule(currentElement,null,context,null, cm);
                 }
-            }
-            handler.pop();
-        } else if (elem.getName().equalsIgnoreCase("cfcomponent")) {
-            final Context componentContext = context.subContext(elem);
-            componentContext.setInComponent(true);
-            componentContext.setComponentName(elem.getAttributeValue("displayname"));
-            componentContext.setContextType(ContextType.Component);
-
-            scanElement(elem, componentContext);
-
-            processStack(elem.getChildElements(), space + " ", componentContext);
-            for (final CFLintStructureListener structurePlugin : getStructureListeners(extensions)) {
-                try {
-                    structurePlugin.endComponent(componentContext, bugs);
-                    for (final ContextMessage message : componentContext.getMessages()) {
-                        reportRule(elem, null, componentContext, (CFLintScanner) structurePlugin, message);
-                    }
-                    componentContext.getMessages().clear();
-                } catch (final Exception e) {
-                    printException(e);
-                    final ContextMessage cm = new ContextMessage("PARSE_ERROR", null,null,context.startLine());
-                    reportRule(currentElement,null,context,null, cm);
-                }
-            }
-            handler.pop();
-        } else if (elem.getName().equalsIgnoreCase("cfquery")) {
-            scanElement(elem, context);
-            for(final CFExpression expression : unpackTagExpressions(elem)){
-	            if (expression != null) {
-	                process(expression, elem, context);
-	            }
-        	}
-            final List<Element> list = elem.getAllElements();
-            processStack(list.subList(1, list.size()), space + " ", context);
-            //Save any columns from the cfquery
-            final String qryName = elem.getAttributeValue("name");
-            if(qryName!=null && qryName.trim().length()>0){
-	            final String qryText = elem.getTextExtractor().toString().toUpperCase();
-	            final Matcher m = Pattern.compile(".*SELECT\\s(\\w+(\\s*,\\s*\\w+)+)\\s+FROM\\s+.*").matcher(qryText);
-	            final List<String> cols = new ArrayList<String>();
-	            if(m.matches()){
-	            	cols.addAll(Arrays.asList(m.group(1).trim().split("\\s*,\\s*")));
-		            handler.addQueryColumnSet(qryName,cols);
-	            }
-            }
-        } else if (elem.getName().equalsIgnoreCase("cfqueryparam")) {
-            scanElement(elem, context);
-        } else if (elem.getName().equalsIgnoreCase("cfinclude")) {
-            scanElement(elem, context);
-            final String path = elem.getAttributeValue("template");
-            final File include = new File(new File(context.getFilename()).getParentFile(), path);
-            if (strictInclude || include.exists()){
-            	if(includeFileStack.contains(include)){
-            		System.err.println("Terminated a recursive call to include file " + include);
-            	}else{
-	            	includeFileStack.push(include);
-	                process(FileUtil.loadFile(include), context.getFilename());
-	                includeFileStack.pop();
+                handler.pop();
+            } else if (elem.getName().equalsIgnoreCase("cfquery")) {
+                scanElement(elem, context);
+                for(final CFExpression expression : unpackTagExpressions(elem)){
+    	            if (expression != null) {
+    	                process(expression, elem, context);
+    	            }
             	}
+                final List<Element> list = elem.getAllElements();
+                processStack(list.subList(1, list.size()), space + " ", context);
+                //Save any columns from the cfquery
+                final String qryName = elem.getAttributeValue("name");
+                if(qryName!=null && qryName.trim().length()>0){
+    	            final String qryText = elem.getTextExtractor().toString().toUpperCase();
+    	            final Matcher m = Pattern.compile(".*SELECT\\s(\\w+(\\s*,\\s*\\w+)+)\\s+FROM\\s+.*").matcher(qryText);
+    	            final List<String> cols = new ArrayList<String>();
+    	            if(m.matches()){
+    	            	cols.addAll(Arrays.asList(m.group(1).trim().split("\\s*,\\s*")));
+    		            handler.addQueryColumnSet(qryName,cols);
+    	            }
+                }
+            } else if (elem.getName().equalsIgnoreCase("cfqueryparam")) {
+                scanElement(elem, context);
+            } else if (elem.getName().equalsIgnoreCase("cfinclude")) {
+                scanElement(elem, context);
+                final String path = elem.getAttributeValue("template");
+                final File include = new File(new File(context.getFilename()).getParentFile(), path);
+                if (strictInclude || include.exists()){
+                	if(includeFileStack.contains(include)){
+                		System.err.println("Terminated a recursive call to include file " + include);
+                	}else{
+    	            	includeFileStack.push(include);
+    	                process(FileUtil.loadFile(include), context.getFilename());
+    	                includeFileStack.pop();
+                	}
+                }
+            } else if (elem.getName().equalsIgnoreCase("cfloop") && elem.getAttributeValue("query")!=null) {
+                scanElement(elem, context);
+                processStack(elem.getChildElements(), space + " ", context);
+                handler.pop();
+            } else {
+                scanElement(elem, context);
+            	for(final CFExpression expression : unpackTagExpressions(elem)){
+    	            if (expression != null) {
+    	                process(expression, elem, context);
+    	            }
+            	}
+                processStack(elem.getChildElements(), space + " ", context);
             }
-        } else if (elem.getName().equalsIgnoreCase("cfloop") && elem.getAttributeValue("query")!=null) {
-            scanElement(elem, context);
-            processStack(elem.getChildElements(), space + " ", context);
-            handler.pop();
-        } else {
-            scanElement(elem, context);
-        	for(final CFExpression expression : unpackTagExpressions(elem)){
-	            if (expression != null) {
-	                process(expression, elem, context);
-	            }
-        	}
-            processStack(elem.getChildElements(), space + " ", context);
+            // Process any messages added by downstream parsing.
+            for (final ContextMessage message : context.getMessages()) {
+                reportRule(elem, null, context, message.getSource(), message);
+            }
+            context.getMessages().clear();
+        }catch(NullPointerException npe){
+            printException(npe);
+            final ContextMessage cm = new ContextMessage("PARSE_ERROR", null,null,context.startLine());
+            reportRule(currentElement,null,context,null, cm);
         }
-        // Process any messages added by downstream parsing.
-        for (final ContextMessage message : context.getMessages()) {
-            reportRule(elem, null, context, message.getSource(), message);
-        }
-        context.getMessages().clear();
     }
 
     private List<CFExpression> unpackTagExpressions(final Element elem) {

@@ -416,7 +416,7 @@
       "className": "TooManyFunctionsChecker",
       "message": [
         {
-          "messageText": "Component ${filename} has too many functions. Should be less than ${maximum}.",
+          "messageText": "Component ${component} has too many functions. Should be less than ${maximum}.",
           "code": "EXCESSIVE_FUNCTIONS",
           "severity": "WARNING"
         }

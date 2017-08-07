@@ -224,6 +224,7 @@ public class Context {
                 isInAssignmentExpression(), callStack, tokens);
         context2.setInComponent(isInComponent());
         context2.parent = this;
+        context2.componentName=componentName;
         return context2;
     }
 

@@ -403,7 +403,7 @@ public class CFLint implements IErrorReporter {
                     final String cfscript = m.group(1).trim();
                     if(!cfscript.isEmpty()){
                         try {
-                            final CFExpression expression = cfmlParser.parseCFExpression(cfscript, this);
+                            final CFExpression expression = cfmlParser.parseCFMLExpression(cfscript, this);
                             if (expression != null) {
                                 process(expression, elem, context);
                             }
@@ -569,7 +569,7 @@ public class CFLint implements IErrorReporter {
                         
                         List<String> errors = new ArrayList<String>();
                         ANTLRErrorListener errorReporter = new ArrayErrorListener(errors );
-                        final CFExpression exp = cfmlParser.parseCFExpression(literalChar.get(0) + attr.getValue() + literalChar.get(0), errorReporter);
+                        final CFExpression exp = cfmlParser.parseCFMLExpression(literalChar.get(0) + attr.getValue() + literalChar.get(0), errorReporter);
                         if(errors.size()==0){
                             expressions.add(exp);
                             continue;
@@ -578,7 +578,7 @@ public class CFLint implements IErrorReporter {
                     }
                     // Try other quotes before reporting a failure
                     try {
-                        final CFExpression exp = cfmlParser.parseCFExpression(literalChar.get(1) + attr.getValue() + literalChar.get(1), this);
+                        final CFExpression exp = cfmlParser.parseCFMLExpression(literalChar.get(1) + attr.getValue() + literalChar.get(1), this);
                         expressions.add(exp);
                     } catch (Exception e2) {
                         System.err.println("Error in parsing : " + attr.getValue() + " on tag " + elem.getName());

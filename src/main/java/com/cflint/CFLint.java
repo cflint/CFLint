@@ -9,8 +9,11 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.Stack;
@@ -41,6 +44,7 @@ import com.cflint.plugins.exceptions.CFLintExceptionListener;
 import com.cflint.plugins.exceptions.DefaultCFLintExceptionListener;
 import com.cflint.tools.AllowedExtensionsLoader;
 import com.cflint.tools.CFLintFilter;
+import com.cflint.tools.CFMLTagInfo;
 import com.cflint.tools.CommentReformatting;
 import com.cflint.tools.FileUtil;
 import com.cflint.tools.PrecedingCommentReader;
@@ -93,6 +97,7 @@ public class CFLint implements IErrorReporter {
     static final String FILE_ERROR = "FILE_ERROR";
     static final String PARSE_ERROR = "PARSE_ERROR";
     static final String PLUGIN_ERROR = "PLUGIN_ERROR";
+    CFMLTagInfo tagInfo;
 
     static final String RESOURCE_BUNDLE_NAME = "com.cflint.cflint";
 
@@ -134,6 +139,7 @@ public class CFLint implements IErrorReporter {
         }
         allowedExtensions.addAll(AllowedExtensionsLoader.init(RESOURCE_BUNDLE_NAME));
         cfmlParser.setErrorReporter(this);
+        tagInfo = new CFMLTagInfo();
     }
 
     @Deprecated
@@ -165,6 +171,7 @@ public class CFLint implements IErrorReporter {
         }
         allowedExtensions.addAll(AllowedExtensionsLoader.init(RESOURCE_BUNDLE_NAME));
         cfmlParser.setErrorReporter(this);
+        tagInfo = new CFMLTagInfo();
     }
 
     public void scan(final String folderName) {
@@ -495,9 +502,9 @@ public class CFLint implements IErrorReporter {
                 handler.pop();
             } else if (elem.getName().equalsIgnoreCase("cfquery")) {
                 scanElement(elem, context);
-                for(final CFExpression expression : unpackTagExpressions(elem)){
+                for(final Entry<String, CFExpression> expression : unpackTagExpressions(elem).entrySet()){
     	            if (expression != null) {
-    	                process(expression, elem, context);
+    	                process(expression.getValue(), elem, context);
     	            }
             	}
                 final List<Element> list = elem.getAllElements();
@@ -534,9 +541,9 @@ public class CFLint implements IErrorReporter {
                 handler.pop();
             } else {
                 scanElement(elem, context);
-            	for(final CFExpression expression : unpackTagExpressions(elem)){
+            	for(final Entry<String, CFExpression> expression : unpackTagExpressions(elem).entrySet()){
     	            if (expression != null) {
-    	                process(expression, elem, context);
+    	                process(expression.getValue(), elem, tagInfo.isAssignmentAttribute(elem,expression.getKey())?context.subContextInAssignment():context);
     	            }
             	}
                 processStack(elem.getChildElements(), space + " ", context);
@@ -553,16 +560,24 @@ public class CFLint implements IErrorReporter {
         }
     }
 
-    private List<CFExpression> unpackTagExpressions(final Element elem) {
+    private Map<String,CFExpression> unpackTagExpressions(final Element elem) {
         
-        final List<CFExpression> expressions = new ArrayList<CFExpression>();
+        //Use LinkedHashMap  to preserve the order
+        final Map<String,CFExpression> expressions = new LinkedHashMap<String,CFExpression>();
     	if(!elem.getName().toLowerCase().startsWith("cf") || elem.getAttributes()==null){
     		return expressions;
     	}
     	//Unpack any attributes that have a hash expression
             for (Attribute attr : elem.getAttributes()) {
-                if (attr.getValue() != null && attr.getValue().contains("#") && !attr.getValue().startsWith("'")
-                        && !attr.getValue().startsWith("\"")) {
+                if(tagInfo.isAssignmentAttribute(elem, attr.getName())){
+                    try{
+                        final CFExpression exp = cfmlParser.parseCFMLExpression(attr.getValue(), this);
+                        expressions.put(attr.getName().toLowerCase(),exp);
+                    } catch (Exception e2) {
+                        System.err.println("Error in parsing : " + attr.getValue() + " on tag " + elem.getName());
+                    }
+                }
+                else if (detectScript(attr)) {
                     //Try wrapping the expression in single or double quotes for parsing.
                     List<String> literalChar = attr.getValue().contains("'")?Arrays.asList("\"","'"):Arrays.asList("'","\"");
                     try {
@@ -571,7 +586,7 @@ public class CFLint implements IErrorReporter {
                         ANTLRErrorListener errorReporter = new ArrayErrorListener(errors );
                         final CFExpression exp = cfmlParser.parseCFMLExpression(literalChar.get(0) + attr.getValue() + literalChar.get(0), errorReporter);
                         if(errors.size()==0){
-                            expressions.add(exp);
+                            expressions.put(attr.getName().toLowerCase(),exp);
                             continue;
                         }
                     } catch (Exception e) {
@@ -579,7 +594,7 @@ public class CFLint implements IErrorReporter {
                     // Try other quotes before reporting a failure
                     try {
                         final CFExpression exp = cfmlParser.parseCFMLExpression(literalChar.get(1) + attr.getValue() + literalChar.get(1), this);
-                        expressions.add(exp);
+                        expressions.put(attr.getName().toLowerCase(),exp);
                     } catch (Exception e2) {
                         System.err.println("Error in parsing : " + attr.getValue() + " on tag " + elem.getName());
                     }
@@ -587,6 +602,11 @@ public class CFLint implements IErrorReporter {
             }
     	return expressions;
 	}
+
+    private boolean detectScript(Attribute attr) {
+        return attr.getValue() != null && attr.getValue().contains("#") && !attr.getValue().startsWith("'")
+                && !attr.getValue().startsWith("\"");
+    }
 
 	protected void scanElement(final Element elem, final Context context) {
         for (final CFLintScanner plugin : extensions) {

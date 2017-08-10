@@ -85,18 +85,6 @@ public class VarScoper extends CFLintScannerAdapter {
                     assertVariable(element, context, bugs, element.getAttributeValue(attrName));
                 }
             }
-            if (name.equalsIgnoreCase("cfprocparam")) {
-                final String typeVar = element.getAttributeValue("type");
-                if (typeVar != null && (typeVar.equalsIgnoreCase("out") || typeVar.equalsIgnoreCase("inout"))) {
-                    assertVariable(element, context, bugs, element.getAttributeValue(VARIABLE));
-                }
-            }
-            if (name.equalsIgnoreCase("cffeed")) {
-                final String typeVar = element.getAttributeValue("action");
-                if (typeVar != null && typeVar.equalsIgnoreCase("read")) {
-                    assertVariable(element, context, bugs, element.getAttributeValue("query"));
-                }
-            }
         }
     }
 

@@ -37,7 +37,7 @@ public class Context {
     private Context parent = null;
     private List<String> ignores = new ArrayList<String>();
 
-	public void setInAssignmentExpression(boolean inAssignmentExpression) {
+    public void setInAssignmentExpression(boolean inAssignmentExpression) {
         this.inAssignmentExpression = inAssignmentExpression;
     }
 
@@ -225,6 +225,15 @@ public class Context {
         context2.setInComponent(isInComponent());
         context2.parent = this;
         context2.componentName=componentName;
+        return context2;
+    }
+    public Context subContextInAssignment() {
+        final Context context2 = new Context(getFilename(), this.element, getFunctionName(),
+                isInAssignmentExpression(), callStack, tokens);
+        context2.setInComponent(isInComponent());
+        context2.parent = this;
+        context2.componentName=componentName;
+        context2.setInAssignmentExpression(true);
         return context2;
     }
 

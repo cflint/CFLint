@@ -1,6 +1,25 @@
 History
-
 =======
+
+## Overview of major changes in CFLint 1.2.0
+
+### Parsing
+
+* Numerous fixes for parsing CFML code, update to CFParser 2.4.10
+* Upgrade to ANTLR 4.7
+
+### Linting
+
+* Bugfixes for rule processing
+* Added annotation-based ignoring of rules inline in code.
+* JSON-based configuration has undergone a few changes and configuration properties have been deprecated.
+
+### Output
+
+* Support for -showStats has been removed - scanning statistics are now always produced and displayed/included 
+* Findbugs XML output now matches the requirements for Findbugs' bugcollection.xsd and has undergone major changes from earlier versions.
+* CFLint XML output has some additional attributes for some XML elements in the output structure (no breaking changes)
+* JSON output has undergone a rework of the existing data structure to cater for the output of additional information (breaking changes)
 
 
 ## CFLint1.2.0 
@@ -73,7 +92,6 @@ History
 ##### GitHub [#363](https://github.com/cflint/CFLint/issues/363) Maven build fails using the ZIP file from GitHub since it needs the `.git` folder
 ##### GitHub [#366](https://github.com/cflint/CFLint/issues/366) ANTLR Tool version 4.6 mismatch
 ##### GitHub [#370](https://github.com/cflint/CFLint/pull/370) #323 - Changing JSON structure and changing expected test results
-##### No issue
 ## CFLint-1.0.1 
 ##### GitHub [#103](https://github.com/cflint/CFLint/issues/103) Enhancement: Enable default config file when parsing similar to other linters
 ##### GitHub [#114](https://github.com/cflint/CFLint/issues/114) Group and decide which linting rules to include by default.
@@ -96,9 +114,7 @@ History
 ##### GitHub [#247](https://github.com/cflint/CFLint/pull/247) Update SureFire argLine
 ##### GitHub [#248](https://github.com/cflint/CFLint/issues/248) Component name missing from message for COMPONENT_INVALID_NAME
 ##### GitHub [#250](https://github.com/cflint/CFLint/issues/250) Analysis tripped up over UTF-8 files with BOM
-##### No issue
 ## CFLint-0.6.1 
-##### No issue
 ## v0.6.0 
 ##### GitHub [#104](https://github.com/cflint/CFLint/issues/104) Weird messaging for missing semicolon
 ##### GitHub [#105](https://github.com/cflint/CFLint/issues/105) Warnings for non-existing errors and non-lint errors before output.
@@ -106,14 +122,12 @@ History
 ##### GitHub [#67](https://github.com/cflint/CFLint/issues/67) Gradle Install
 ##### GitHub [#80](https://github.com/cflint/CFLint/issues/80) Gradle Deployment
 ##### GitHub [#95](https://github.com/cflint/CFLint/issues/95) support json config instead of xml
-##### No issue
 ## CFLint0.5.1 
 ##### GitHub [#65](https://github.com/cflint/CFLint/issues/65) Problem with dynamic table and field names
 ##### GitHub [#66](https://github.com/cflint/CFLint/issues/66) cflint-disable / cflint-enable ?
 ##### GitHub [#71](https://github.com/cflint/CFLint/issues/71) Unable to exclude rules
 ##### GitHub [#89](https://github.com/cflint/CFLint/pull/89) Rule to check for writeDump in cfset tags and script blocks
 ##### GitHub [#97](https://github.com/cflint/CFLint/issues/97) Release 0.5.1-SNAPSHOT
-##### No issue
 ## v0.5 
 ##### GitHub [#33](https://github.com/cflint/CFLint/issues/33) no cflint version could be extracted with SublimeLinter
 ##### GitHub [#35](https://github.com/cflint/CFLint/issues/35) CFLint Should Download Latest Version of CFParser
@@ -129,7 +143,6 @@ History
 ##### GitHub [#60](https://github.com/cflint/CFLint/issues/60) Having trouble using filterFile
 ##### GitHub [#62](https://github.com/cflint/CFLint/issues/62) JSON output
 ##### GitHub [#63](https://github.com/cflint/CFLint/issues/63) Release v0.5.0
-##### No issue
 ## CFLint-0.4-release 
 ##### GitHub [#19](https://github.com/cflint/CFLint/issues/19) Convert bugs.add() to a plugin format.
 ##### GitHub [#21](https://github.com/cflint/CFLint/issues/21) &lt;cfset/&gt; on multiple lines does not process
@@ -139,7 +152,6 @@ History
 ##### GitHub [#27](https://github.com/cflint/CFLint/issues/27) Maven build fails with error.
 ##### GitHub [#30](https://github.com/cflint/CFLint/issues/30) NESTED_CFOUTPUT false positive
 ##### GitHub [#31](https://github.com/cflint/CFLint/issues/31) Trying out the configfile from the command line and getting errors
-##### No issue
 ## CFLint-0.4 
 ##### No issue
 ## CFLint-0.3.0 
@@ -151,12 +163,10 @@ History
 ##### GitHub [#6](https://github.com/cflint/CFLint/issues/6) Add -version flag
 ##### GitHub [#7](https://github.com/cflint/CFLint/issues/7) Add severity level to each issue in stdout
 ##### GitHub [#8](https://github.com/cflint/CFLint/issues/8) does not support tagless components
-##### No issue
 ## CFLint-0.1.8 
 ##### No issue
 ## CFLint-0.1.6 
 ##### GitHub [#1](https://github.com/cflint/CFLint/issues/1) ignore .cfm~ files
-##### No issue
 ## CFLint-0.1.5 
 ##### No issue
 ## CFLint-0.1.4 

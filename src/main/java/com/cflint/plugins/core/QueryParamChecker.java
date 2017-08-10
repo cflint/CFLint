@@ -33,11 +33,11 @@ public class QueryParamChecker extends CFLintScannerAdapter {
     @Override
     public void element(final Element element, final Context context, final BugList bugs) {
         if (
-        element.getName().equals("cfquery") && !"query".equalsIgnoreCase(element.getAttributeValue("dbtype"))) {
+        element.getName().equalsIgnoreCase("cfquery") && !"query".equalsIgnoreCase(element.getAttributeValue("dbtype"))) {
             String content = element.getContent().toString();
              //Todo : cfparser/Jericho does not support parsing out the cfqueryparam very well.
             //   the following code will not work when there is a > sign in the expression
-            content = content.replaceAll("<cfqueryparam[^>]*>", "");
+            content = content.replaceAll("<[cC][fF][qQ][uU][eE][rR][yY][pP][aA][rR][aA][mM][^>]*>", "");
             if (content.indexOf("#") > 0) {
             	final List<Integer> ignoreLines = determineIgnoreLines(element);
             	final Matcher matcher = Pattern.compile("#([^#]+?)#").matcher(content);

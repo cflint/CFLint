@@ -75,19 +75,19 @@ public class TestCFBugs_VarScoper {
 		assertEquals(5,result.get(0).getLine());
 	}
 	
-	@Test
-	public void testCFProcParam_In() throws ParseException, IOException{
-		final String cfcSrc = "<cfcomponent>\r\n" +
-				"<cffunction name=\"test\">\r\n" +
-				"   <cfset var yy=\"\"/>\r\n" +
-				"	<cfstoredproc name=\"yy\" >\r\n" +
-				"	   <cfprocparam variable=\"xx\" type=\"in\">\r\n" +
-				"	</cfstoredproc>\r\n" +
-				"</cffunction>\r\n" +
-				"</cfcomponent>";
-		cfBugs.process(cfcSrc,"test");
-		assertEquals(0,cfBugs.getBugs().getBugList().size());
-	}	
+//	@Test
+//	public void testCFProcParam_In() throws ParseException, IOException{
+//		final String cfcSrc = "<cfcomponent>\r\n" +
+//				"<cffunction name=\"test\">\r\n" +
+//				"   <cfset var yy=\"\"/>\r\n" +
+//				"	<cfstoredproc name=\"yy\" >\r\n" +
+//				"	   <cfprocparam variable=\"xx\" type=\"in\">\r\n" +
+//				"	</cfstoredproc>\r\n" +
+//				"</cffunction>\r\n" +
+//				"</cfcomponent>";
+//		cfBugs.process(cfcSrc,"test");
+//		assertEquals(0,cfBugs.getBugs().getBugList().size());
+//	}	
 	
 	@Test
 	public void testCFFeed_Read_Vard() throws ParseException, IOException{

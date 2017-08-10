@@ -18,9 +18,7 @@ public class TooManyFunctionsChecker extends CFLintScannerAdapter {
 
     @Override
     public void expression(final CFScriptStatement expression, final Context context, final BugList bugs) {
-        if (expression instanceof CFCompDeclStatement) {
-            functionCount = 0;
-        } else if (expression instanceof CFFuncDeclStatement) {
+        if (expression instanceof CFFuncDeclStatement) {
 
             if (!trivalFunction(context.getFunctionName())) {
                 functionCount++;
@@ -31,9 +29,7 @@ public class TooManyFunctionsChecker extends CFLintScannerAdapter {
 
     @Override
     public void element(final Element element, final Context context, final BugList bugs) {
-        if (element.getName().equals("cfcomponent")) {
-            functionCount = 0;
-        } else if (element.getName().equals("cffunction") && !trivalFunction(context.getFunctionName())) {
+        if (element.getName().equals("cffunction") && !trivalFunction(context.getFunctionName())) {
             functionCount++;
             checkNumberFunctions(functionCount, 1, context, bugs);
         }
@@ -55,10 +51,14 @@ public class TooManyFunctionsChecker extends CFLintScannerAdapter {
             threshold = Integer.parseInt(functionThreshold);
         }
 
-        if (functionCount > threshold) {
-            context.getParent(ContextType.Component).addUniqueMessage("EXCESSIVE_FUNCTIONS", context.getFilename(),
+        if (functionCount == threshold+1) {
+            context.getParent(ContextType.Component).addUniqueMessage("EXCESSIVE_FUNCTIONS", null,
                     this, atLine);
         }
+    }
+    
+    public void startComponent(Context context, BugList bugs) {
+        functionCount = 0;
     }
 
 }

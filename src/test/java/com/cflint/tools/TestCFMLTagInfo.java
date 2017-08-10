@@ -22,7 +22,7 @@ public class TestCFMLTagInfo {
     }
     @Test
     public void testCffeedAction(){
-        assertTrue(tagInfo.isAssignmentAttribute("cffeed", "action"));
+        assertTrue(tagInfo.isAssignmentAttribute("cffeed", "query"));
     }
     @Test
     public void testCfloopIndex(){

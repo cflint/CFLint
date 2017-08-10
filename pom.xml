@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.github.cflint</groupId>
 	<artifactId>CFLint</artifactId>
-	<version>1.2.1-SNAPSHOT</version>
+	<version>1.3.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
 	<name>CFLint</name>
@@ -383,6 +383,7 @@
 	       </profile>
 	</profiles>
 
+	<!-- mvn versions:set -DnewVersion=1.2.1 -->
 	<!-- Sonatype: mvn clean package -P deploy -->
 	<!-- Sonatype: mvn verify gpg:sign -DskipTests -P deploy -->
 	<!-- Sonatype: mvn deploy -DskipTests -P deploy -->

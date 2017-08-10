@@ -113,10 +113,6 @@ public class CFLint implements IErrorReporter {
 
     // constants
 
-    public CFLintStats getStats() {
-		return stats;
-	}
-
 	final List<ScanProgressListener> scanProgressListeners = new ArrayList<ScanProgressListener>();
     final List<CFLintExceptionListener> exceptionListeners = new ArrayList<CFLintExceptionListener>();
 
@@ -171,6 +167,10 @@ public class CFLint implements IErrorReporter {
         cfmlParser.setErrorReporter(this);
         tagInfo = new CFMLTagInfo();
     }
+    
+    public CFLintStats getStats() {
+		return stats;
+	}
 
     public void scan(final String folderName) {
         if (showProgress) {

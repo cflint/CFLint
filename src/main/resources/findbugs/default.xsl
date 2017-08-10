@@ -76,7 +76,7 @@
                 </style>
             </head>
 
-            <xsl:variable name="unique-catkey" select="/BugCollection/BugCategory/@category"/>
+            <xsl:variable name="unique-patternkey" select="/BugCollection/BugPattern/@type"/>
 
             <body>
 
@@ -94,10 +94,10 @@
                         <th align="right">Number</th>
                     </tr>
 
-                    <xsl:for-each select="$unique-catkey">
+                    <xsl:for-each select="$unique-patternkey">
                         <xsl:sort select="." order="ascending"/>
-                        <xsl:variable name="catkey" select="."/>
-                        <xsl:variable name="catdesc" select="/BugCollection/BugCategory[@category=$catkey]/Description"/>
+                        <xsl:variable name="patternkey" select="."/>
+                        <xsl:variable name="patterndesc" select="/BugCollection/BugPattern[@type=$patternkey]/ShortDescription"/>
                         <xsl:variable name="styleclass">
                             <xsl:choose><xsl:when test="position() mod 2 = 1">tablerow0</xsl:when>
                                 <xsl:otherwise>tablerow1</xsl:otherwise>
@@ -105,13 +105,13 @@
                         </xsl:variable>
 
                         <tr class="{$styleclass}">
-                            <td><a href="#Warnings_{$catkey}"><xsl:value-of select="$catdesc"/> Warnings</a></td>
-                            <td align="right"><xsl:value-of select="count(/BugCollection/BugInstance[(@category=$catkey) and (not(@last))])"/></td>
+                            <td><a href="#Warnings_{$patternkey}"><xsl:value-of select="$patterndesc"/> Warnings</a></td>
+                            <td align="right"><xsl:value-of select="count(/BugCollection/BugInstance[(@type=$patternkey) and (not(@last))])"/></td>
                         </tr>
                     </xsl:for-each>
 
                     <xsl:variable name="styleclass">
-                        <xsl:choose><xsl:when test="count($unique-catkey) mod 2 = 0">tablerow0</xsl:when>
+                        <xsl:choose><xsl:when test="count($unique-patternkey) mod 2 = 0">tablerow0</xsl:when>
                             <xsl:otherwise>tablerow1</xsl:otherwise>
                         </xsl:choose>
                     </xsl:variable>
@@ -127,15 +127,14 @@
                 <p>Click on each warning link to see a full description of the issue, and
                     details of how to resolve it.</p>
 
-                <xsl:for-each select="$unique-catkey">
+                <xsl:for-each select="$unique-patternkey">
                     <xsl:sort select="." order="ascending"/>
-                    <xsl:variable name="catkey" select="."/>
-                    <xsl:variable name="catdesc" select="/BugCollection/BugCategory[@category=$catkey]/Description"/>
-
+                    <xsl:variable name="patternkey" select="."/>
+                    <xsl:variable name="patterndesc" select="/BugCollection/BugPattern[@type=$patternkey]/ShortDescription"/>
                     <xsl:call-template name="generateWarningTable">
-                        <xsl:with-param name="warningSet" select="/BugCollection/BugInstance[(@category=$catkey) and (not(@last))]"/>
-                        <xsl:with-param name="sectionTitle"><xsl:value-of select="$catdesc"/> Warnings</xsl:with-param>
-                        <xsl:with-param name="sectionId">Warnings_<xsl:value-of select="$catkey"/></xsl:with-param>
+                        <xsl:with-param name="warningSet" select="/BugCollection/BugInstance[(@type=$patternkey) and (not(@last))]"/>
+                        <xsl:with-param name="sectionTitle"><xsl:value-of select="$patterndesc"/> Warnings</xsl:with-param>
+                        <xsl:with-param name="sectionId">Warnings_<xsl:value-of select="$patternkey"/></xsl:with-param>
                     </xsl:call-template>
                 </xsl:for-each>
 
@@ -177,11 +176,10 @@
                 </xsl:choose>
             </td>
             <td width="70%">
-                <p><xsl:value-of select="LongMessage"/><br/><br/>
-
+                <p>
                     <!-- add source filename and line number(s), if any -->
                     <xsl:if test="Class/SourceLine">
-                        In file <xsl:value-of select="Class/SourceLine/@sourcepath"/>,
+                        <xsl:value-of select="Class/SourceLine/@sourcepath"/>,
                         <xsl:choose>
                             <xsl:when test="Class/SourceLine/@start = Class/SourceLine/@end">
                                 line <xsl:value-of select="Class/SourceLine/@start"/>

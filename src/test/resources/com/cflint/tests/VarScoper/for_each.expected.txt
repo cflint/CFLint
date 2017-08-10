@@ -1,0 +1,33 @@
+{
+  "version" : "",
+  "timestamp" : 0,
+  "issues" : [ {
+    "severity" : "ERROR",
+    "id" : "MISSING_VAR",
+    "message" : "MISSING_VAR",
+    "category" : "CFLINT",
+    "abbrev" : "MV",
+    "locations" : [ {
+      "file" : "src/test/resources/com/cflint/tests/VarScoper/for_each.cfc",
+      "fileName" : "for_each.cfc",
+      "function" : "ffoo",
+      "column" : 9,
+      "line" : 3,
+      "message" : "Variable Fixeld is not declared with a var statement.",
+      "variable" : "Fixeld",
+      "expression" : "Fixeld"
+    } ]
+  } ],
+  "counts" : {
+    "totalFiles" : 0,
+    "totalLines" : 0,
+    "countByCode" : [ {
+      "code" : "MISSING_VAR",
+      "count" : 1
+    } ],
+    "countBySeverity" : [ {
+      "severity" : "ERROR",
+      "count" : 1
+    } ]
+  }
+}

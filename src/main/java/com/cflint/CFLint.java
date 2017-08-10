@@ -1165,7 +1165,7 @@ public class CFLint implements IErrorReporter {
             throw new NullPointerException("Rule not found for " + plugin.getClass().getSimpleName());
         }
         final PluginMessage msgInfo = ruleInfo.getMessageByCode(msgcode);
-        if (configuration == null) {
+        if (msgInfo == null) {
             throw new NullPointerException(
                     "Message definition not found for [" + msgcode + "] in " + plugin.getClass().getSimpleName());
         }

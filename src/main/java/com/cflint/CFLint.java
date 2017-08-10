@@ -1130,9 +1130,9 @@ public class CFLint implements IErrorReporter {
             msgInfo.setMessageText("End of statement(;) expected instead of ${variable}");
             msgInfo.setSeverity("ERROR");
             ruleInfo.getMessages().add(msgInfo);
-        }else if ("PLUGIN_ERROR".equals(msgcode)) {
+        }else if (PLUGIN_ERROR.equals(msgcode)) {
             ruleInfo = new PluginInfoRule();
-            final PluginMessage msgInfo = new PluginMessage("PLUGIN_ERROR");
+            final PluginMessage msgInfo = new PluginMessage(PLUGIN_ERROR);
             msgInfo.setMessageText("Error in plugin: ${variable}");
             msgInfo.setSeverity("ERROR");
             ruleInfo.getMessages().add(msgInfo);

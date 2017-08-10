@@ -95,6 +95,11 @@ public class CFLint implements IErrorReporter {
     static final String FILE_ERROR = "FILE_ERROR";
     static final String PARSE_ERROR = "PARSE_ERROR";
     static final String PLUGIN_ERROR = "PLUGIN_ERROR";
+    static final String MISSING_SEMI = "MISSING_SEMI";
+    static final String AVOID_EMPTY_FILES = "AVOID_EMPTY_FILES";
+    static final String ERROR = "ERROR";
+    static final String WARNING = "WARNING";
+
     CFMLTagInfo tagInfo;
 
     static final String RESOURCE_BUNDLE_NAME = "com.cflint.cflint";
@@ -282,7 +287,7 @@ public class CFLint implements IErrorReporter {
     	fireStartedProcessing(filename);
     	if(src==null || src.trim().length() == 0){
             final Context context = new Context(filename, null, null, false, handler);
-    		reportRule(null, null, context,null, new ContextMessage("AVOID_EMPTY_FILES", null));
+    		reportRule(null, null, context,null, new ContextMessage(AVOID_EMPTY_FILES, null));
     	}else{
 	        final CFMLSource cfmlSource = new CFMLSource(
 	                src.contains("<!---") ? CommentReformatting.wrap(src) : src);
@@ -1122,29 +1127,29 @@ public class CFLint implements IErrorReporter {
             throw new NullPointerException("Configuration is null");
         }
         PluginInfoRule ruleInfo;
-        if ("MISSING_SEMI".equals(msgcode)) {
+        if (MISSING_SEMI.equals(msgcode)) {
             ruleInfo = new PluginInfoRule();
-            final PluginMessage msgInfo = new PluginMessage("MISSING_SEMI");
+            final PluginMessage msgInfo = new PluginMessage(MISSING_SEMI);
             msgInfo.setMessageText("End of statement(;) expected instead of ${variable}");
-            msgInfo.setSeverity("ERROR");
+            msgInfo.setSeverity(ERROR);
             ruleInfo.getMessages().add(msgInfo);
         }else if (PLUGIN_ERROR.equals(msgcode)) {
             ruleInfo = new PluginInfoRule();
             final PluginMessage msgInfo = new PluginMessage(PLUGIN_ERROR);
             msgInfo.setMessageText("Error in plugin: ${variable}");
-            msgInfo.setSeverity("ERROR");
+            msgInfo.setSeverity(ERROR);
             ruleInfo.getMessages().add(msgInfo);
-        }else if ("AVOID_EMPTY_FILES".equals(msgcode)) {
+        }else if (AVOID_EMPTY_FILES.equals(msgcode)) {
             ruleInfo = new PluginInfoRule();
-            final PluginMessage msgInfo = new PluginMessage("AVOID_EMPTY_FILES");
+            final PluginMessage msgInfo = new PluginMessage(AVOID_EMPTY_FILES);
             msgInfo.setMessageText("CF file is empty: ${file}");
-            msgInfo.setSeverity("WARNING");
+            msgInfo.setSeverity(WARNING);
             ruleInfo.getMessages().add(msgInfo);
         }else if (PARSE_ERROR.equals(msgcode)) {
             ruleInfo = new CFLintPluginInfo.PluginInfoRule();
             final CFLintPluginInfo.PluginInfoRule.PluginMessage msgInfo = new CFLintPluginInfo.PluginInfoRule.PluginMessage(PARSE_ERROR);
             msgInfo.setMessageText("Unable to parse");
-            msgInfo.setSeverity("ERROR");
+            msgInfo.setSeverity(ERROR);
             ruleInfo.getMessages().add(msgInfo);
         } else {
             if (plugin == null) {
@@ -1171,7 +1176,7 @@ public class CFLint implements IErrorReporter {
         } else {
             String errMessage = "Message code: " + msgcode + " is not configured correctly.";
             fireCFLintException(new NullPointerException(errMessage), PLUGIN_ERROR, "", null, null, null, null);
-            bldr.setSeverity("WARNING");
+            bldr.setSeverity(WARNING);
             bldr.setMessage(msgcode);
         }
         if (expression instanceof CFStatement) {
@@ -1372,7 +1377,7 @@ public class CFLint implements IErrorReporter {
         }
         if (recognizer instanceof Parser && ((Parser) recognizer).isExpectedToken(CFSCRIPTParser.SEMICOLON)) {
         	final Context context = new Context(currentFile,currentElement,null,true,null,null);
-        	final ContextMessage cm = new ContextMessage("MISSING_SEMI", expression,null,line);
+        	final ContextMessage cm = new ContextMessage(MISSING_SEMI, expression,null,line);
         	reportRule(currentElement,null,context,null, cm);
         } else {
             final Context context = new Context(currentFile,currentElement,null,true,null,null);

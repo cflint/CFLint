@@ -691,8 +691,10 @@ public class CFLint implements IErrorReporter {
                             }
                         }
                     }
-                    String name = value.Decompile(0);
-                    handler.addVariable(name.substring(1, name.length() - 1));
+                    if (value != null) {
+                        String name = value.Decompile(0);
+                        handler.addVariable(name.substring(1, name.length() - 1));
+                    }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

@@ -11,7 +11,7 @@ public class CFMLTagInfo {
     /**
      * 
      * @param elem
-     * @param key
+     * @param attributeName
      * @return true when the tag/attribute combination represents a variable assignment.
      */
     public boolean isAssignmentAttribute(final Element elem, final String attributeName) {

@@ -1,0 +1,33 @@
+{
+  "version" : "",
+  "timestamp" : 1502072960,
+  "issues" : [ {
+    "severity" : "WARNING",
+    "id" : "EXCESSIVE_FUNCTIONS",
+    "message" : "EXCESSIVE_FUNCTIONS",
+    "category" : "CFLINT",
+    "abbrev" : "EF",
+    "locations" : [ {
+      "file" : "src\\test\\resources\\com\\cflint\\tests\\TooManyFunctionsChecker\\excessive_cfml.cfc",
+      "fileName" : "excessive_cfml.cfc",
+      "function" : "",
+      "column" : 0,
+      "line" : 1,
+      "message" : "Component excessive_cfml has too many functions. Should be fewer than 10.",
+      "variable" : "",
+      "expression" : "<cfcomponent>\r\n\t<cffunction name=\\\"functionOne\\\" />\r\n\t<cffunction name=\\\"functionTwo\\\" />\r\n\t<cffunction name=\\\"functionThree\\\" />\r\n\t<cffunction name=\\\"functionFour\\\" />\r\n\t<cffunction name=\\\"functionFi"
+    } ]
+  } ],
+  "counts" : {
+    "totalFiles" : 0,
+    "totalLines" : 0,
+    "countByCode" : [ {
+      "code" : "EXCESSIVE_FUNCTIONS",
+      "count" : 1
+    } ],
+    "countBySeverity" : [ {
+      "severity" : "WARNING",
+      "count" : 1
+    } ]
+  }
+}

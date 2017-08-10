@@ -1,6 +1,6 @@
 {
   "version" : "",
-  "timestamp" : "1501202133",
+  "timestamp" : 0,
   "issues" : [ {
     "severity" : "WARNING",
     "id" : "UNQUOTED_STRUCT_KEY",
@@ -8,14 +8,14 @@
     "category" : "CFLINT",
     "abbrev" : "US",
     "locations" : [ {
-      "file" : "src/test/resources/com/cflint/tests/StructKeyQuoted/unquotedStructKeyNested.cfc",
-      "fileName" : "unquotedStructKeyNested.cfc",
+      "file" : "src/test/resources/com/cflint/tests/TooManyFunctionsChecker/StructKeyQuoted/unquotedStructKey.cfc",
+      "fileName" : "unquotedStructKey.cfc",
       "function" : "x",
-      "column" : 15,
-      "line" : 5,
-      "message" : "Unquoted struct key mySubKey is not case-sensitive.  Quoting it is recommended.",
-      "variable" : "mySubKey",
-      "expression" : "{mySubKey:'123'}"
+      "column" : 16,
+      "line" : 4,
+      "message" : "Unquoted struct key myKey is not case-sensitive.  Quoting it is recommended.",
+      "variable" : "myKey",
+      "expression" : "{myKey:'myValue'}"
     } ]
   } ],
   "counts" : {

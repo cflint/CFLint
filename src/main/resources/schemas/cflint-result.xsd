@@ -1,0 +1,166 @@
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <xs:annotation>
+    <xs:documentation>This schema describes the XML format used by CFLint to store the results of analysis.</xs:documentation>
+  </xs:annotation>
+
+  <xs:simpleType name="severityType">
+    <xs:annotation>
+      <xs:documentation>The severity level of an issue</xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="FATAL" />
+      <xs:enumeration value="CRITICAL" />
+      <xs:enumeration value="ERROR" />
+      <xs:enumeration value="WARNING" />
+      <xs:enumeration value="CAUTION" />
+      <xs:enumeration value="INFO" />
+      <xs:enumeration value="COSMETIC" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:element name="issues">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="issue" minOccurs="0" maxOccurs="unbounded">
+          <xs:annotation>
+            <xs:documentation>Represents each issue found</xs:documentation>
+          </xs:annotation>
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="location" minOccurs="1">
+                <xs:annotation>
+                  <xs:documentation>Properties of the individual issue reported</xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element type="xs:string" name="Expression" minOccurs="1" maxOccurs="1">
+                      <xs:annotation>
+                        <xs:documentation>The expression in which the issue was found</xs:documentation>
+                      </xs:annotation>
+                    </xs:element>
+                  </xs:sequence>
+                  <xs:attribute type="xs:string" name="file" use="required">
+                    <xs:annotation>
+                      <xs:documentation>Full file path to the file in which the issue was found</xs:documentation>
+                    </xs:annotation>
+                  </xs:attribute>
+                  <xs:attribute type="xs:string" name="fileName" use="required">
+                    <xs:annotation>
+                      <xs:documentation>Just the file name in which the issue was found</xs:documentation>
+                    </xs:annotation>
+                  </xs:attribute>
+                  <xs:attribute type="xs:string" name="function" use="required">
+                    <xs:annotation>
+                      <xs:documentation>The function in which or for which the issue was found</xs:documentation>
+                    </xs:annotation>
+                  </xs:attribute>
+                  <xs:attribute type="xs:integer" name="column" use="required">
+                    <xs:annotation>
+                      <xs:documentation>The column number of the starting position at which the issue was found</xs:documentation>
+                    </xs:annotation>
+                  </xs:attribute>
+                  <xs:attribute type="xs:integer" name="line" use="required">
+                    <xs:annotation>
+                      <xs:documentation>The line number of the starting position at which the issue was found</xs:documentation>
+                    </xs:annotation>
+                  </xs:attribute>
+                  <xs:attribute type="xs:string" name="message" use="required">
+                    <xs:annotation>
+                      <xs:documentation>A message describing this specific issue</xs:documentation>
+                    </xs:annotation>
+                  </xs:attribute>
+                  <xs:attribute type="xs:string" name="variable" use="required">
+                    <xs:annotation>
+                      <xs:documentation>The variable name for which the issue was found</xs:documentation>
+                    </xs:annotation>
+                  </xs:attribute>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+            <xs:attribute type="severityType" name="severity" use="required">
+              <xs:annotation>
+                <xs:documentation>The severity level of the issue</xs:documentation>
+              </xs:annotation>
+            </xs:attribute>
+            <xs:attribute type="xs:string" name="id" use="required">
+              <xs:annotation>
+                <xs:documentation>Unique identifier of the rule used to find the issue</xs:documentation>
+              </xs:annotation>
+            </xs:attribute>
+            <xs:attribute type="xs:string" name="message" use="required">
+              <xs:annotation>
+                <xs:documentation>Same as ID</xs:documentation>
+              </xs:annotation>
+            </xs:attribute>
+            <xs:attribute type="xs:string" name="category" use="required" fixed="CFLint">
+              <xs:annotation>
+                <xs:documentation>Currently always set to CFLint</xs:documentation>
+              </xs:annotation>
+            </xs:attribute>
+            <xs:attribute type="xs:string" name="abbrev" use="required">
+              <xs:annotation>
+                <xs:documentation>An abbreviation of the rule used to find the issue</xs:documentation>
+              </xs:annotation>
+            </xs:attribute>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="counts" minOccurs="1" maxOccurs="1">
+          <xs:annotation>
+            <xs:documentation>Provides counts for the results of running CFLint</xs:documentation>
+          </xs:annotation>
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="count" maxOccurs="unbounded" minOccurs="0">
+                <xs:annotation>
+                  <xs:documentation>Provides counts grouped by code or severity</xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                  <xs:simpleContent>
+                    <xs:extension base="xs:string">
+                      <xs:attribute type="xs:string" name="code" use="optional">
+                        <xs:annotation>
+                          <xs:documentation>The current issue code being counted</xs:documentation>
+                        </xs:annotation>
+                      </xs:attribute>
+                      <xs:attribute type="severityType" name="severity" use="optional">
+                        <xs:annotation>
+                          <xs:documentation>The current issue severity being counted</xs:documentation>
+                        </xs:annotation>
+                      </xs:attribute>
+                      <xs:attribute type="xs:integer" name="count" use="required">
+                        <xs:annotation>
+                          <xs:documentation>The issue count for the current code or severity</xs:documentation>
+                        </xs:annotation>
+                      </xs:attribute>
+                    </xs:extension>
+                  </xs:simpleContent>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+            <xs:attribute type="xs:integer" name="totalfiles" default="0">
+              <xs:annotation>
+                <xs:documentation>The total number of files read during this scan</xs:documentation>
+              </xs:annotation>
+            </xs:attribute>
+            <xs:attribute type="xs:integer" name="totallines" default="0">
+              <xs:annotation>
+                <xs:documentation>The total number of lines of code scanned</xs:documentation>
+              </xs:annotation>
+            </xs:attribute>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute type="xs:string" name="version" use="required">
+        <xs:annotation>
+          <xs:documentation>The version of CFLint that products these results</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute type="xs:integer" name="timestamp" use="required">
+        <xs:annotation>
+          <xs:documentation>A timestamp representing the Unix epoch time when these results were generated</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

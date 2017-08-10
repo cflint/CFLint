@@ -3,7 +3,7 @@
 Code of Conduct
 ===============
 
-###TL;DR 
+### TL;DR 
 Don't be a dick!
 
 ### What we stand for

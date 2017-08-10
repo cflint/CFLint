@@ -1,0 +1,9 @@
+{
+  "output" : [ ],
+  "rule" : [ ],
+  "excludes" : [ ],
+  "includes" : [ {
+    "code" : "EXCESSIVE_FUNCTIONS"} 
+    ],
+  "inheritParent" : false
+}

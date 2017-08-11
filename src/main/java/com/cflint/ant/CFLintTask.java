@@ -127,7 +127,7 @@ public class CFLintTask extends Task {
                         ? new ProgressMonitor(null, "CFLint", "", 1, ds.getIncludedFilesCount()) : null;
                 final String[] includedFiles = ds.getIncludedFiles();
                 for (final String includedFile : includedFiles) {
-                    if (progressMonitor.isCanceled()) {
+                    if (progressMonitor != null && progressMonitor.isCanceled()) {
                         throw new RuntimeException("CFLint scan cancelled");
                     }
                     final String filename = ds.getBasedir() + File.separator + includedFile;

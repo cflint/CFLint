@@ -250,4 +250,26 @@ public class TestUnusedLocalVarChecker {
 		assertEquals(7, result.get(2).getLine());
 	}
 
+
+    @Test
+  	public void testUsedVarInQuaryParam() throws ParseException, IOException {
+  		final String tagSrc = "<cfcomponent>\r\n"
+  			+ "<cffunction name=\"changePassword\">\r\n"
+  			+ "<cfscript>\r\n"
+  			+ "var salt = createUUID();\r\n"
+  			+ "var hash = hash(password & salt);\r\n"
+  			+ "var update = \"\";\r\n"
+  			+ "</cfscript>\r\n"
+            + "<cfquery name=\"update\">\r\n"
+            + "update logins\r\n"
+            + "set hash = <cfqueryparam value=\"#hash#\" cfsqltype=\"CF_SQL_VARCHAR\">\r\n"
+            + "</cfquery>\r\n"
+  			+ "</cffunction>\r\n"
+  			+ "</cfcomponent>";
+
+        cfBugs.process(tagSrc, "test");
+      		final List<BugInfo> result = cfBugs.getBugs().getBugList().get("UNUSED_LOCAL_VARIABLE");
+  		assertEquals(0, result.size());
+  	}
+
 }

@@ -392,11 +392,11 @@ public class CFLintMain {
     private static CFLintConfig loadConfig(final String configfile) {
         if (configfile != null) {
             try {
-                CFLintPluginInfo pluginInfo=null;
+                CFLintPluginInfo pluginInfo = null;
                 if (configfile.toLowerCase().endsWith(".xml")) {
                     final Object configObj = ConfigUtils.unmarshal(new FileInputStream(configfile));
                     if (configObj instanceof CFLintPluginInfo)
-                        pluginInfo= (CFLintPluginInfo) configObj;
+                        pluginInfo = (CFLintPluginInfo) configObj;
                     else if(configObj instanceof CFLintConfig ){
                         return (CFLintConfig) configObj;
                     }
@@ -404,7 +404,8 @@ public class CFLintMain {
                     return ConfigUtils.unmarshalJson(new FileInputStream(configfile), CFLintConfig.class);
                 }
                 CFLintConfig returnVal = new CFLintConfig();
-                returnVal.setRules(pluginInfo.getRules());
+                if (pluginInfo != null)
+                    returnVal.setRules(pluginInfo.getRules());
                 return returnVal;
             } catch (final Exception e) {
                 System.err.println("Unable to load config file. " + e.getMessage());

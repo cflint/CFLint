@@ -1,33 +1,11 @@
 {
   "version" : "",
-  "timestamp" : 0,
-  "issues" : [ {
-    "severity" : "ERROR",
-    "id" : "PARSE_ERROR",
-    "message" : "PARSE_ERROR",
-    "category" : "CFLINT",
-    "abbrev" : "PE",
-    "locations" : [ {
-      "file" : "src/test/resources/com/cflint/tests/Parsing/npe_408.cfc",
-      "fileName" : "npe_408.cfc",
-      "function" : "",
-      "column" : 0,
-      "line" : 1,
-      "message" : "Unable to parse",
-      "variable" : "",
-      "expression" : "<cfscript>/r/n/t/ Loop over each CSS pair./r/n/tfor (/r/n/t/tlocal.PairIterator = local.Pairs.Iterator() ;/r/n/t/tlocal.PairIterator.HasNext() ;/r/n/t/t){/r/n/t}/r/n</cfscript>"
-    } ]
-  } ],
+  "timestamp" : 1502421504,
+  "issues" : [ ],
   "counts" : {
     "totalFiles" : 0,
     "totalLines" : 0,
-    "countByCode" : [ {
-      "code" : "PARSE_ERROR",
-      "count" : 1
-    } ],
-    "countBySeverity" : [ {
-      "severity" : "ERROR",
-      "count" : 1
-    } ]
+    "countByCode" : [ ],
+    "countBySeverity" : [ ]
   }
 }

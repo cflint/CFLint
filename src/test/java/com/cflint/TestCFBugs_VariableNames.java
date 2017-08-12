@@ -237,8 +237,8 @@ public class TestCFBugs_VariableNames {
 				+ "and p.name = <cfqueryparam value=\"abc\"/>\r\n" + "</cfquery>\r\n" + "</cffunction>"
 				+ "</cfcomponent>";
 		cfBugs.process(cfcSrc, "test");
-		final List<BugInfo> result = cfBugs.getBugs().getFlatBugList();
-		assertEquals(1, result.size());
+		final List<BugInfo> result = cfBugs.getBugs().getBugList().get("VAR_INVALID_NAME");
+		assertEquals(result.toString(),1, result.size());
 		assertEquals("VAR_INVALID_NAME", result.get(0).getMessageCode());
 		assertEquals(3, result.get(0).getLine());
 	}

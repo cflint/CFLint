@@ -13,12 +13,17 @@ import org.junit.Test;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 
+import cfml.dictionary.Parameter;
+import cfml.dictionary.SyntaxDictionary;
+import cfml.dictionary.Tag;
+import cfml.parsing.CFMLParser;
+
 public class TestCFMLTagInfo {
 
     private CFMLTagInfo tagInfo;
     @Before
     public void setUp() throws JsonParseException, JsonMappingException, IOException{
-        tagInfo = new CFMLTagInfo();
+        tagInfo = new CFMLTagInfo(new CFMLParser().getDictionary());
     }
     @Test
     public void testCffeedAction(){

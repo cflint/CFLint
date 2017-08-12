@@ -97,8 +97,6 @@ public class CFLint implements IErrorReporter {
     static final String PLUGIN_ERROR = "PLUGIN_ERROR";
     static final String MISSING_SEMI = "MISSING_SEMI";
     static final String AVOID_EMPTY_FILES = "AVOID_EMPTY_FILES";
-    static final String ERROR = "ERROR";
-    static final String WARNING = "WARNING";
 
     CFMLTagInfo tagInfo;
 
@@ -1133,25 +1131,25 @@ public class CFLint implements IErrorReporter {
             ruleInfo = new PluginInfoRule();
             final PluginMessage msgInfo = new PluginMessage(MISSING_SEMI);
             msgInfo.setMessageText("End of statement(;) expected instead of ${variable}");
-            msgInfo.setSeverity(ERROR);
+            msgInfo.setSeverity(Levels.ERROR);
             ruleInfo.getMessages().add(msgInfo);
         }else if (PLUGIN_ERROR.equals(msgcode)) {
             ruleInfo = new PluginInfoRule();
             final PluginMessage msgInfo = new PluginMessage(PLUGIN_ERROR);
             msgInfo.setMessageText("Error in plugin: ${variable}");
-            msgInfo.setSeverity(ERROR);
+            msgInfo.setSeverity(Levels.ERROR);
             ruleInfo.getMessages().add(msgInfo);
         }else if (AVOID_EMPTY_FILES.equals(msgcode)) {
             ruleInfo = new PluginInfoRule();
             final PluginMessage msgInfo = new PluginMessage(AVOID_EMPTY_FILES);
             msgInfo.setMessageText("CF file is empty: ${file}");
-            msgInfo.setSeverity(WARNING);
+            msgInfo.setSeverity(Levels.WARNING);
             ruleInfo.getMessages().add(msgInfo);
         }else if (PARSE_ERROR.equals(msgcode)) {
             ruleInfo = new CFLintPluginInfo.PluginInfoRule();
             final CFLintPluginInfo.PluginInfoRule.PluginMessage msgInfo = new CFLintPluginInfo.PluginInfoRule.PluginMessage(PARSE_ERROR);
             msgInfo.setMessageText("Unable to parse");
-            msgInfo.setSeverity(ERROR);
+            msgInfo.setSeverity(Levels.ERROR);
             ruleInfo.getMessages().add(msgInfo);
         } else {
             if (plugin == null) {
@@ -1178,7 +1176,7 @@ public class CFLint implements IErrorReporter {
         } else {
             String errMessage = "Message code: " + msgcode + " is not configured correctly.";
             fireCFLintException(new NullPointerException(errMessage), PLUGIN_ERROR, "", null, null, null, null);
-            bldr.setSeverity(WARNING);
+            bldr.setSeverity(Levels.WARNING);
             bldr.setMessage(msgcode);
         }
         if (expression instanceof CFStatement) {

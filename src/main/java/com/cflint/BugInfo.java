@@ -20,7 +20,7 @@ public class BugInfo implements Comparable<BugInfo> {
     private String function;
     private String variable;
     private String component;
-    private Levels severity;
+    private Levels severity = Levels.UNKNOWN;
 
     public BugInfo() {
         super();

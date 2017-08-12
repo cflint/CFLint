@@ -65,7 +65,7 @@ public class CFLintPluginInfo {
 
         private String name;
         private List<PluginMessage> messages = new ArrayList<PluginMessage>();
-        private String defaultSeverity;
+        private Levels defaultSeverity;
 
         public RuleGroup(String name) {
             super();
@@ -76,15 +76,19 @@ public class CFLintPluginInfo {
             super();
         }
 
-        public String getDefaultSeverity() {
+        public Levels getDefaultSeverity() {
             return defaultSeverity;
         }
 
         @XmlAttribute(name = "defaultSeverity")
         public void setDefaultSeverity(String defaultSeverity) {
-            this.defaultSeverity = defaultSeverity;
+            this.defaultSeverity = Levels.fromString(defaultSeverity);
         }
 
+        public void setDefaultSeverity(Levels defaultSeverity) {
+            this.defaultSeverity = defaultSeverity;
+        }
+        
         public String getName() {
             return name;
         }
@@ -281,6 +285,10 @@ public class CFLintPluginInfo {
             }
 
             @XmlElement(name = "severity")
+            public void setSeverity(final String severity) {
+                this.severity = Levels.fromString(severity);
+            }
+
             public void setSeverity(final Levels severity) {
                 this.severity = severity;
             }

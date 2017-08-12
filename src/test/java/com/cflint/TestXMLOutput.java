@@ -60,10 +60,10 @@ public class TestXMLOutput {
 
 	@Test
 	public void testStatsAndSeverity() throws IOException {
-		BugInfo bugInfo = new BugInfo.BugInfoBuilder().setFunction("testf").setMessageCode("PARSE_ERROR").setSeverity("ERROR").setFilename("c:\\temp\\test.cfc").build();
+		BugInfo bugInfo = new BugInfo.BugInfoBuilder().setFunction("testf").setMessageCode("PARSE_ERROR").setSeverity(Levels.ERROR).setFilename("c:\\temp\\test.cfc").build();
 		bugList.add(bugInfo);
 		BugCounts counts = new BugCounts();
-		counts.add("PARSE_ERROR", "ERROR");
+		counts.add("PARSE_ERROR", Levels.ERROR);
 		CFLintStats stats = new CFLintStats(123456L,1,new BigInteger("545454"), counts);
 		outputer.output(bugList, writer, stats);
 

@@ -5,6 +5,7 @@ import static org.junit.Assert.assertEquals;
 import java.io.IOException;
 import java.util.List;
 
+import com.cflint.Levels;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -39,7 +40,7 @@ public class TestCLintConfigXml {
 		assertEquals(1, result.size());
 		assertEquals("AVOID_USING_CFINSERT_TAG", result.get(0).getMessageCode());
 		assertEquals("Avoid using <cfinsert> tags. Use cfquery and cfstoredproc instead.", result.get(0).getMessage());
-		assertEquals("WARNING", result.get(0).getSeverity());
+		assertEquals(Levels.WARNING, result.get(0).getSeverity());
 	}
 	@Test
 	/**

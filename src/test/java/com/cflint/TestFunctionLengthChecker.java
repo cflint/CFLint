@@ -25,7 +25,7 @@ public class TestFunctionLengthChecker {
 		pluginRule.setName("FunctionLengthChecker");
 		conf.getRules().add(pluginRule);
 		PluginMessage pluginMessage = new PluginMessage("EXCESSIVE_FUNCTION_LENGTH");
-		pluginMessage.setSeverity("INFO");
+		pluginMessage.setSeverity(Levels.INFO);
 		pluginMessage.setMessageText("Variable ${variable} is not declared with a var statement.");
 		pluginRule.getMessages().add(pluginMessage);
 		cfBugs = new CFLint(conf, new FunctionLengthChecker());

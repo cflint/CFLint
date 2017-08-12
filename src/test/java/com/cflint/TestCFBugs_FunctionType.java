@@ -26,11 +26,11 @@ public class TestCFBugs_FunctionType {
 		pluginRule.setName("FunctionTypeChecker");
 		conf.getRules().add(pluginRule);
 		final PluginMessage pluginMessageMissing = new PluginMessage("FUNCTION_TYPE_MISSING");
-		pluginMessageMissing.setSeverity("WARNING");
+		pluginMessageMissing.setSeverity(Levels.WARNING);
 		pluginMessageMissing.setMessageText("Function ${variable} is missing a hint.");
 		pluginRule.getMessages().add(pluginMessageMissing);
 		final PluginMessage pluginMessageAny = new PluginMessage("FUNCTION_TYPE_ANY");
-		pluginMessageAny.setSeverity("INFO");
+		pluginMessageAny.setSeverity(Levels.INFO);
 		pluginMessageAny.setMessageText("Function ${variable} is any, please use correct type.");
 		pluginRule.getMessages().add(pluginMessageAny);
 

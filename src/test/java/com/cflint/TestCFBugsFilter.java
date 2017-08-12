@@ -31,32 +31,32 @@ public class TestCFBugsFilter {
 	}
 	@Test
 	public void testIncludeSeverity() throws IOException {
-		BugInfo bugInfo = new BugInfo.BugInfoBuilder().setFunction("testf").setMessageCode("PARSE_ERROR").setSeverity("INFO").build();
+		BugInfo bugInfo = new BugInfo.BugInfoBuilder().setFunction("testf").setMessageCode("PARSE_ERROR").setSeverity(Levels.INFO).build();
 		CFLintFilter filter = CFLintFilter.createFilter("[{\"severity\":\"INFO\"}]");
 		assertFalse(filter.include(bugInfo));
 	}
 	@Test
 	public void testIncludeSeverity2() throws IOException {
-		BugInfo bugInfo = new BugInfo.BugInfoBuilder().setFunction("testf").setMessageCode("PARSE_ERROR").setSeverity("WARNING").build();
+		BugInfo bugInfo = new BugInfo.BugInfoBuilder().setFunction("testf").setMessageCode("PARSE_ERROR").setSeverity(Levels.WARNING).build();
 		CFLintFilter filter = CFLintFilter.createFilter("[{\"severity\":\"INFO\"}]");
 		assertTrue(filter.include(bugInfo));
 	}
 	
 	@Test
 	public void testIncludeCompound() throws IOException {
-		BugInfo bugInfo = new BugInfo.BugInfoBuilder().setFunction("testf").setMessageCode("PARSE_ERROR").setSeverity("INFO").build();
+		BugInfo bugInfo = new BugInfo.BugInfoBuilder().setFunction("testf").setMessageCode("PARSE_ERROR").setSeverity(Levels.INFO).build();
 		CFLintFilter filter = CFLintFilter.createFilter("[{\"severity\":\"INFO\",\"code\":\"OTH_ERROR\"}]");
 		assertTrue(filter.include(bugInfo));
 	}
 	@Test
 	public void testIncludeCompound2() throws IOException {
-		BugInfo bugInfo = new BugInfo.BugInfoBuilder().setFunction("testf").setMessageCode("PARSE_ERROR").setSeverity("WARNING").build();
+		BugInfo bugInfo = new BugInfo.BugInfoBuilder().setFunction("testf").setMessageCode("PARSE_ERROR").setSeverity(Levels.WARNING).build();
 		CFLintFilter filter = CFLintFilter.createFilter("[{\"severity\":\"INFO\",\"code\":\"PARSE_ERROR\"}]");
 		assertTrue(filter.include(bugInfo));
 	}
 	@Test
 	public void testIncludeCompound3() throws IOException {
-		BugInfo bugInfo = new BugInfo.BugInfoBuilder().setFunction("testf").setMessageCode("PARSE_ERROR").setSeverity("WARNING").build();
+		BugInfo bugInfo = new BugInfo.BugInfoBuilder().setFunction("testf").setMessageCode("PARSE_ERROR").setSeverity(Levels.WARNING).build();
 		CFLintFilter filter = CFLintFilter.createFilter("[{\"severity\":\"WARNING\",\"code\":\"PARSE_ERROR\"}]");
 		assertFalse(filter.include(bugInfo));
 	}

@@ -27,7 +27,7 @@ public class TestCFBugs_ArgsHint {
 		pluginRule.setName("ArgHintChecker");
 		conf.getRules().add(pluginRule);
 		final PluginMessage pluginMessage = new PluginMessage("ARG_HINT_MISSING");
-		pluginMessage.setSeverity("WARNING");
+		pluginMessage.setSeverity(Levels.WARNING);
 		pluginMessage.setMessageText("Argument ${variable} is missing a hint.");
 		pluginRule.getMessages().add(pluginMessage);
 

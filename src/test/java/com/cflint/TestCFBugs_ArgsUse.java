@@ -27,11 +27,11 @@ public class TestCFBugs_ArgsUse {
 		pluginRule.setName("ArgVarChecker");
 		conf.getRules().add(pluginRule);
 		final PluginMessage pluginMessage = new PluginMessage("ARG_VAR_CONFLICT");
-		pluginMessage.setSeverity("ERROR");
+		pluginMessage.setSeverity(Levels.ERROR);
 		pluginMessage.setMessageText("Variable ${variable} should not be declared in both var and argument scopes.");
 		pluginRule.getMessages().add(pluginMessage);
 		final PluginMessage pluginMessage2 = new PluginMessage("ARG_VAR_MIXED");
-		pluginMessage2.setSeverity("INFO");
+		pluginMessage2.setSeverity(Levels.INFO);
 		pluginMessage2.setMessageText("Argument ${variable} should not be referenced in local and argument scope.");
 		pluginRule.getMessages().add(pluginMessage2);
 		

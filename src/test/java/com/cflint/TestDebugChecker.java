@@ -28,7 +28,7 @@ public class TestDebugChecker {
 		pluginRule.addParameter("functionName", "IsDebugMode");
 		conf.getRules().add(pluginRule);
 		final PluginMessage pluginMessage = new PluginMessage("AVOID_USING_ISDEBUGMODE");
-		pluginMessage.setSeverity("WARN");
+		pluginMessage.setSeverity(Levels.WARNING);
 		pluginMessage.setMessageText("Avoid using the ${functionName} function in production code.");
 		pluginRule.getMessages().add(pluginMessage);
 		

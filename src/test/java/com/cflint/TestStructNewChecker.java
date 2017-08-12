@@ -28,7 +28,7 @@ public class TestStructNewChecker {
 		pluginRule.addParameter("functionName", "structnew");
 		conf.getRules().add(pluginRule);
 		final PluginMessage pluginMessage = new PluginMessage("AVOID_USING_STRUCTNEW");
-		pluginMessage.setSeverity("INFO");
+		pluginMessage.setSeverity(Levels.INFO);
 		pluginMessage
 				.setMessageText("Avoid using the ${functionName} function. Use implict structure construction instead (= {}).");
 		pluginRule.getMessages().add(pluginMessage);

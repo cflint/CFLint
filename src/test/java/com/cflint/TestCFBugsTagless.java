@@ -24,7 +24,7 @@ public class TestCFBugsTagless {
 		pluginRule.setName("VarScoper");
 		conf.getRules().add(pluginRule);
 		PluginMessage pluginMessage = new PluginMessage("MISSING_VAR");
-		pluginMessage.setSeverity("ERROR");
+		pluginMessage.setSeverity(Levels.ERROR);
 		pluginMessage.setMessageText("Variable ${variable} is not declared with a var statement.");
 		pluginRule.getMessages().add(pluginMessage);
 		

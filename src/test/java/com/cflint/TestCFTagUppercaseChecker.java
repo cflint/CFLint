@@ -25,7 +25,7 @@ public class TestCFTagUppercaseChecker {
         pluginRule.setName("CFTagCaseChecker");
         conf.getRules().add(pluginRule);
         PluginMessage pluginMessage = new PluginMessage("CFTAG_PREFERRED_CASE");
-        pluginMessage.setSeverity("ERROR");
+        pluginMessage.setSeverity(Levels.ERROR);
         pluginMessage.setMessageText("Tag <${variable}> should be written in lowercase or camelCase for consistency in code.");
         pluginRule.getMessages().add(pluginMessage);
         

@@ -26,11 +26,11 @@ public class TestCFBugs_ArgsType {
 		pluginRule.setName("ArgTypeChecker");
 		conf.getRules().add(pluginRule);
 		final PluginMessage pluginMessageMissing = new PluginMessage("ARG_TYPE_MISSING");
-		pluginMessageMissing.setSeverity("WARNING");
+		pluginMessageMissing.setSeverity(Levels.WARNING);
 		pluginMessageMissing.setMessageText("Argument ${variable} is missing a type.");
 		pluginRule.getMessages().add(pluginMessageMissing);
 		final PluginMessage pluginMessageAny = new PluginMessage("ARG_TYPE_ANY");
-		pluginMessageAny.setSeverity("WARNING");
+		pluginMessageAny.setSeverity(Levels.WARNING);
 		pluginMessageAny.setMessageText("Argument ${variable} is any. Please change to be the correct type.");
 		pluginRule.getMessages().add(pluginMessageAny);
 
@@ -49,7 +49,7 @@ public class TestCFBugs_ArgsType {
 		assertEquals(1, result.size());
 		assertEquals("ARG_TYPE_MISSING", result.get(0).getMessageCode());
 		assertEquals(3, result.get(0).getLine());
-		assertEquals("WARNING", result.get(0).getSeverity());
+		assertEquals(Levels.WARNING, result.get(0).getSeverity());
 		assertEquals("Argument xyz is missing a type.", result.get(0).getMessage());
 	}
 
@@ -64,7 +64,7 @@ public class TestCFBugs_ArgsType {
 		assertEquals(1, result.size());
 		assertEquals("ARG_TYPE_MISSING", result.get(0).getMessageCode());
 		assertEquals(2, result.get(0).getLine());
-		assertEquals("WARNING", result.get(0).getSeverity());
+		assertEquals(Levels.WARNING, result.get(0).getSeverity());
 		assertEquals("Argument arg1 is missing a type.", result.get(0).getMessage());
 	}
 
@@ -80,7 +80,7 @@ public class TestCFBugs_ArgsType {
 		assertEquals(1, result.size());
 		assertEquals("ARG_TYPE_ANY", result.get(0).getMessageCode());
 		assertEquals(3, result.get(0).getLine());
-		assertEquals("WARNING", result.get(0).getSeverity());
+		assertEquals(Levels.WARNING, result.get(0).getSeverity());
 		assertEquals("Argument xyz is any. Please change to be the correct type.", result.get(0).getMessage());
 	}
 
@@ -95,7 +95,7 @@ public class TestCFBugs_ArgsType {
 		assertEquals(1, result.size());
 		assertEquals("ARG_TYPE_ANY", result.get(0).getMessageCode());
 		assertEquals(2, result.get(0).getLine());
-		assertEquals("WARNING", result.get(0).getSeverity());
+		assertEquals(Levels.WARNING, result.get(0).getSeverity());
 		assertEquals("Argument arg1 is any. Please change to be the correct type.", result.get(0).getMessage());
 	}
 

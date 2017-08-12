@@ -26,7 +26,7 @@ public class TestCFBugs {
 		pluginRule.setName("VarScoper");
 		conf.getRules().add(pluginRule);
 		PluginMessage pluginMessage = new PluginMessage("MISSING_VAR");
-		pluginMessage.setSeverity("ERROR");
+		pluginMessage.setSeverity(Levels.ERROR);
 		pluginMessage.setMessageText("Variable ${variable} is not declared with a var statement.");
 		pluginRule.getMessages().add(pluginMessage);
 		
@@ -34,7 +34,7 @@ public class TestCFBugs {
 		pluginRule.setName("GlobalVarChecker");
 		conf.getRules().add(pluginRule);
 		pluginMessage = new PluginMessage("GLOBAL_VAR");
-		pluginMessage.setSeverity("WARNING");
+		pluginMessage.setSeverity(Levels.WARNING);
 		pluginMessage
 				.setMessageText("Identifier ${variable} is global, referencing in a CFC or function should be avoided.");
 		pluginRule.getMessages().add(pluginMessage);
@@ -43,7 +43,7 @@ public class TestCFBugs {
 		pluginRule.setName("NestedCFOutput");
 		conf.getRules().add(pluginRule);
 		pluginMessage = new PluginMessage("NESTED_CFOUTPUT");
-		pluginMessage.setSeverity("ERROR");
+		pluginMessage.setSeverity(Levels.ERROR);
 		pluginMessage
 				.setMessageText("Nested CFOutput, outer CFOutput has @query.");
 		pluginRule.getMessages().add(pluginMessage);
@@ -52,7 +52,7 @@ public class TestCFBugs {
 		pluginRule.setName("TypedQueryNew");
 		conf.getRules().add(pluginRule);
 		pluginMessage = new PluginMessage("QUERYNEW_DATATYPE");
-		pluginMessage.setSeverity("WARNING");
+		pluginMessage.setSeverity(Levels.WARNING);
 		pluginMessage
 				.setMessageText("QueryNew statement should specify datatypes.");
 		pluginRule.getMessages().add(pluginMessage);

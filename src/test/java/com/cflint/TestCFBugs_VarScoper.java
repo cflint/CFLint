@@ -30,7 +30,7 @@ public class TestCFBugs_VarScoper {
 		pluginRule.setName("VarScoper");
 		conf.getRules().add(pluginRule);
 		PluginMessage pluginMessage = new PluginMessage("MISSING_VAR");
-		pluginMessage.setSeverity("ERROR");
+		pluginMessage.setSeverity(Levels.ERROR);
 		pluginMessage.setMessageText("Variable ${variable} is not declared with a var statement.");
 		pluginRule.getMessages().add(pluginMessage);
 		
@@ -135,7 +135,7 @@ public class TestCFBugs_VarScoper {
 		assertEquals("MISSING_VAR",result.get(0).getMessageCode());
 		assertEquals("yy",result.get(0).getVariable());
 		assertEquals(4,result.get(0).getLine());
-		assertEquals("ERROR",result.get(0).getSeverity());
+		assertEquals(Levels.ERROR,result.get(0).getSeverity());
 		assertEquals("Variable yy is not declared with a var statement.",result.get(0).getMessage());
 	}
 	

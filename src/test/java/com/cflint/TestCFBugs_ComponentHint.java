@@ -27,7 +27,7 @@ public class TestCFBugs_ComponentHint {
 		pluginRule.setName("ComponentHintChecker");
 		conf.getRules().add(pluginRule);
 		final PluginMessage pluginMessage = new PluginMessage("COMPONENT_HINT_MISSING");
-		pluginMessage.setSeverity("WARNING");
+		pluginMessage.setSeverity(Levels.WARNING);
 		pluginMessage.setMessageText("Component ${variable} is missing a hint.");
 		pluginRule.getMessages().add(pluginMessage);
 

@@ -26,7 +26,7 @@ public class TestCFBugs_GLobalVarChecker {
 		pluginRule.setName("GlobalVarChecker");
 		conf.getRules().add(pluginRule);
 		final PluginMessage pluginMessage = new PluginMessage("GLOBAL_VAR");
-		pluginMessage.setSeverity("WARNING");
+		pluginMessage.setSeverity(Levels.WARNING);
 		pluginMessage
 				.setMessageText("Identifier ${variable} is global, referencing in a CFC or function should be avoided.");
 		pluginRule.getMessages().add(pluginMessage);

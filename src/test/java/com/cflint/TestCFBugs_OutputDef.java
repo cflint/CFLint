@@ -26,7 +26,7 @@ public class TestCFBugs_OutputDef {
 		pluginRule.setName("OutputParmMissing");
 		conf.getRules().add(pluginRule);
 		final PluginMessage pluginMessage = new PluginMessage("OUTPUT_ATTR");
-		pluginMessage.setSeverity("INFO");
+		pluginMessage.setSeverity(Levels.INFO);
 		pluginMessage.setMessageText("<${tag} name=\"${variable}\"> should have @output='false' ");
 		pluginRule.getMessages().add(pluginMessage);
 

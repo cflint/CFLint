@@ -35,7 +35,7 @@ public class TestArrayNewChecker {
 		assertEquals(1, result.size());
 		assertEquals("AVOID_USING_ARRAYNEW", result.get(0).getMessageCode());
 		assertEquals(3, result.get(0).getLine());
-		assertEquals("INFO", result.get(0).getSeverity());
+		assertEquals(Levels.INFO, result.get(0).getSeverity());
 		assertEquals("Use implict array construction instead (= []).", result.get(0).getMessage());
 	}
 
@@ -60,7 +60,7 @@ public class TestArrayNewChecker {
 		assertEquals(1, result.size());
 		assertEquals("AVOID_USING_ARRAYNEW", result.get(0).getMessageCode());
 		assertEquals(2, result.get(0).getLine());
-		assertEquals("INFO", result.get(0).getSeverity());
+		assertEquals(Levels.INFO, result.get(0).getSeverity());
 		assertEquals("Use implict array construction instead (= []).", result.get(0).getMessage());
 	}
 

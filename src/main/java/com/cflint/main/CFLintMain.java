@@ -455,45 +455,80 @@ public class CFLintMain {
             cflint.getStats().getCounts().add(bug.getMessageCode(), bug.getSeverity());
         }
         if (xmlOutput) {
-            final Writer xmlwriter = stdOut ? new OutputStreamWriter(System.out)
-                    : createWriter(xmlOutFile, StandardCharsets.UTF_8);
-            if ("findbugs".equalsIgnoreCase(xmlstyle)) {
-                if (verbose) {
-                    display("Writing XML (style: findbugs)" + (stdOut ? "." : " to " + xmlOutFile));
+            Writer xmlwriter = null;
+            try {
+                xmlwriter = stdOut ? new OutputStreamWriter(System.out) : createWriter(xmlOutFile, StandardCharsets.UTF_8);
+                if ("findbugs".equalsIgnoreCase(xmlstyle)) {
+                    if (verbose) {
+                        display("Writing XML (style: findbugs)" + (stdOut ? "." : " to " + xmlOutFile));
+                    }
+                    new XMLOutput().outputFindBugs(cflint.getBugs(), xmlwriter, cflint.getStats());
+                } else {
+                    if (verbose) {
+                        display("Writing XML" + (stdOut ? "." : " to " + xmlOutFile));
+                    }
+                    new DefaultCFlintResultMarshaller().output(cflint.getBugs(), xmlwriter, cflint.getStats());
                 }
-                new XMLOutput().outputFindBugs(cflint.getBugs(), xmlwriter, cflint.getStats());
-            } else {
-                if (verbose) {
-                    display("Writing XML" + (stdOut ? "." : " to " + xmlOutFile));
-                }
-                new DefaultCFlintResultMarshaller().output(cflint.getBugs(), xmlwriter, cflint.getStats());
-            }
+            } catch (final TransformerException e) {
+                throw new TransformerException(e);
+            } catch (final IOException e) {
+                throw new IOException(e);
+            } finally {
+               if (xmlwriter != null) {
+                   xmlwriter.close();
+               }
+           }
         }
         if (textOutput) {
-            if (textOutFile != null && verbose) {
-                display("Writing text" + (stdOut ? "." : " to " + textOutFile));
+            Writer textwriter = null;
+            try {
+                if (textOutFile != null && verbose) {
+                    display("Writing text" + (stdOut ? "." : " to " + textOutFile));
+                }
+                textwriter = stdOut || textOutFile == null ? new OutputStreamWriter(System.out)
+                        : new FileWriter(textOutFile);
+                new TextOutput().output(cflint.getBugs(), textwriter,cflint.getStats());
+            } catch (final IOException e) {
+                throw new IOException(e);
+            } finally {
+                if (textwriter != null) {
+                    textwriter.close();
+                }
             }
-            final Writer textwriter = stdOut || textOutFile == null ? new OutputStreamWriter(System.out)
-                    : new FileWriter(textOutFile);
-            new TextOutput().output(cflint.getBugs(), textwriter,cflint.getStats());
         }
         if (htmlOutput) {
+            Writer htmlwriter = null;
             try {
+                htmlwriter = stdOut ? new OutputStreamWriter(System.out) : new FileWriter(htmlOutFile);
                 if (verbose) {
                     display("Writing HTML (style: " + htmlStyle + ")" + (stdOut ? "." : " to " + htmlOutFile));
                 }
-                final Writer htmlwriter = stdOut ? new OutputStreamWriter(System.out) : new FileWriter(htmlOutFile);
                 new HTMLOutput(htmlStyle).output(cflint.getBugs(), htmlwriter, cflint.getStats());
             } catch (final TransformerException e) {
+                throw new TransformerException(e);
+            } catch (final IOException e) {
                 throw new IOException(e);
+            } finally {
+                if (htmlwriter != null) {
+                    htmlwriter.close();
+                }
             }
         }
         if (jsonOutput) {
-            if (verbose) {
-                display("Writing JSON" + (stdOut ? "." : " to " + jsonOutFile));
+            Writer jsonwriter = null;
+            try {
+                jsonwriter = stdOut ? new OutputStreamWriter(System.out) : new FileWriter(jsonOutFile);
+                if (verbose) {
+                    display("Writing JSON" + (stdOut ? "." : " to " + jsonOutFile));
+                }
+                new JSONOutput().output(cflint.getBugs(), jsonwriter, cflint.getStats());
+            } catch (final IOException e) {
+                throw new IOException(e);
+            } finally {
+                if (jsonwriter != null) {
+                    jsonwriter.close();
+                }
             }
-            final Writer jsonwriter = stdOut ? new OutputStreamWriter(System.out) : new FileWriter(jsonOutFile);
-            new JSONOutput().output(cflint.getBugs(), jsonwriter, cflint.getStats());
         }
         if (verbose) {
             display("Total files scanned: " + cflint.getStats().getFileCount());
@@ -513,10 +548,18 @@ public class CFLintMain {
             final File ffile = new File(filterFile);
             if (ffile.exists()) {
                 final FileInputStream fis = new FileInputStream(ffile);
-                final byte b[] = new byte[fis.available()];
-                fis.read(b);
-                fis.close();
-                filter = CFLintFilter.createFilter(new String(b), verbose);
+                try {
+                    final byte b[] = new byte[fis.available()];
+                    fis.read(b);
+                    fis.close();
+                    filter = CFLintFilter.createFilter(new String(b), verbose);
+                } catch (final IOException e) {
+                    throw new IOException(e);
+                } finally {
+                    if (fis != null) {
+                        fis.close();
+                    }
+                }
             }
         }
         return filter;
@@ -537,8 +580,16 @@ public class CFLintMain {
     }
 
     private Writer createWriter(final String xmlOutFile, final Charset encoding) throws IOException {
-        final OutputStreamWriter out = new OutputStreamWriter(new FileOutputStream(xmlOutFile), encoding);
-        out.append(String.format("<?xml version=\"1.0\" encoding=\"%s\" ?>%n", encoding));
+        OutputStreamWriter out = new OutputStreamWriter(new FileOutputStream(xmlOutFile), encoding);
+        try {
+            out.append(String.format("<?xml version=\"1.0\" encoding=\"%s\" ?>%n", encoding));
+        } catch (final IOException e) {
+            throw new IOException(e);
+        } finally {
+          if (out != null) {
+              out.close();
+          }
+        }
         return out;
     }
 }

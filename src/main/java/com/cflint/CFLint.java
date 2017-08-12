@@ -525,6 +525,11 @@ public class CFLint implements IErrorReporter {
                 }
             } else if (elem.getName().equalsIgnoreCase("cfqueryparam")) {
                 scanElement(elem, context);
+                for(final Entry<String, CFExpression> expression : unpackTagExpressions(elem).entrySet()){
+                    if (expression != null) {
+                        process(expression.getValue(), elem, context);
+                    }
+                }
             } else if (elem.getName().equalsIgnoreCase("cfinclude")) {
                 scanElement(elem, context);
                 final String path = elem.getAttributeValue("template");

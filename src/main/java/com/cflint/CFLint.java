@@ -643,7 +643,7 @@ public class CFLint implements IErrorReporter {
         try {
             sr = new BufferedReader(new StringReader(source.toString()));
             for (int i = 1; i < line; i++) {
-                sr.readLine();
+                String skip = sr.readLine();
             }
             String sLine = sr.readLine();
             return sLine == null ? null : sLine.replaceAll("\t", " ");

@@ -1,5 +1,6 @@
 package com.cflint.plugins.core;
 
+import com.cflint.Levels;
 import com.cflint.BugList;
 import com.cflint.plugins.CFLintScannerAdapter;
 import com.cflint.plugins.Context;
@@ -11,7 +12,7 @@ import ro.fortsoft.pf4j.Extension;
 @Extension
 public class ScriptTagChecker extends CFLintScannerAdapter {
     final String message = "Don't use inline <script> tags";
-    final String severity = "ERROR";
+    final Levels severity = Levels.ERROR;
 
     // rule: don't use inline javascript in cfm and cfc files
     @Override

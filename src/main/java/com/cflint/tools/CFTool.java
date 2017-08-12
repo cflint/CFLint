@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import com.cflint.Levels;
 import com.cflint.config.CFLintPluginInfo.PluginInfoRule.PluginMessage;
 
 import cfml.parsing.cfscript.CFExpression;
@@ -49,7 +50,7 @@ public class CFTool {
         if (!isEmpty(cfgMsg.getMessageText())) {
             msg.setMessageText(cfgMsg.getMessageText());
         }
-        if (!isEmpty(cfgMsg.getSeverity())) {
+        if (cfgMsg.getSeverity() != Levels.UNKNOWN) {
             msg.setSeverity(cfgMsg.getSeverity());
         }
     }

@@ -1,6 +1,7 @@
 package com.cflint.plugins.core;
 
 import com.cflint.BugInfo;
+import com.cflint.Levels;
 import com.cflint.BugList;
 import com.cflint.plugins.CFLintScannerAdapter;
 
@@ -8,7 +9,7 @@ import ro.fortsoft.pf4j.Extension;
 
 @Extension
 public class FileCaseChecker extends CFLintScannerAdapter {
-    final String severity = "INFO";
+    final Levels severity = Levels.INFO;
 
     @Override
     public void startFile(final String fileName, final BugList bugs) {

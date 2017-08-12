@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.Token;
@@ -305,6 +306,9 @@ public class Context {
 
         @Override
         public Token next() {
+            if (!hasNext()) {
+                throw new NoSuchElementException();
+            }
             if (tokens != null && tokenIndex >= 0) {
                 Token retval = tokens.getTokens().get(tokenIndex);
                 tokenIndex += direction;

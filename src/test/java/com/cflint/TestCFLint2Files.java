@@ -27,7 +27,7 @@ public class TestCFLint2Files {
 		pluginRule.setName("ArgDefChecker");
 		conf.getRules().add(pluginRule);
 		PluginMessage pluginMessage = new PluginMessage("ARG_DEFAULT_MISSING");
-		pluginMessage.setSeverity("WARNING");
+		pluginMessage.setSeverity(Levels.WARNING);
 		pluginMessage.setMessageText("Argument ${variable} is not required and does not define a default value.");
 		pluginRule.getMessages().add(pluginMessage);
 
@@ -35,7 +35,7 @@ public class TestCFLint2Files {
 		pluginRule.setName("QueryParamChecker");
 		conf.getRules().add(pluginRule);
 		pluginMessage = new PluginMessage("QUERYPARAM_REQ");
-		pluginMessage.setSeverity("WARNING");
+		pluginMessage.setSeverity(Levels.WARNING);
 		pluginMessage.setMessageText("setSql() statement should use .addParam() instead of #'s for security.");
 		pluginRule.getMessages().add(pluginMessage);
 		

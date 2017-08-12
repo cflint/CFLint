@@ -25,7 +25,7 @@ public class TestCFAbortChecker {
 		pluginRule.addParameter("tagName", "cfabort");
 		conf.getRules().add(pluginRule);
 		final PluginMessage pluginMessage = new PluginMessage("AVOID_USING_CFABORT_TAG");
-		pluginMessage.setSeverity("INFO");
+		pluginMessage.setSeverity(Levels.INFO);
 		pluginMessage.setMessageText("Avoid Leaving <${tagName}> tags in committed code.");
 		pluginRule.getMessages().add(pluginMessage);
 		cfBugs = new CFLint(conf);

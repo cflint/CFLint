@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
+import org.junit.Ignore;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -371,8 +372,7 @@ public class TestUnusedArgumentChecker {
     }
     
     @Test
-
- public void testArgumentsUsedInTagWithArgumentsScope5() throws ParseException, IOException {
+    public void testArgumentsUsedInTagWithArgumentsScope5() throws ParseException, IOException {
         final String tagSrc = "component displayname=\"ServerErrorController\" accessors=\"true\" extends=\"_BaseController\"\r\n"
                 + "{\r\n"
                 + "// ------------------------ DEPENDENCY INJECTION ------------------------ //\r\n"
@@ -392,4 +392,20 @@ public class TestUnusedArgumentChecker {
         assertEquals(0, result.size());
     }
 
+    @Ignore("Not fixed yet")
+    public void testArgumentsUsedInQueryParam() throws ParseException, IOException {
+        final String tagSrc = "<cffunction name=\"lookup\" access=\"public\" output=\"false\" returntype=\"void\">\r\n"
+                + "<cfargument name=\"domain\" type=\"string\" required=\"true\" />\r\n"
+                + "<cfset var details = \"\">\r\n"
+          		+ "<cfquery name=\"details\" datasource=\"#request.datasource#\" cachedwithin=\"#request.cachetime#\">\r\n"
+                + "select *\r\n"
+                + "from domains\r\n"
+                + "where domain = <cfqueryparam value=\"#domain#\" cfsqltype=\"CF_SQL_VARCHAR\">\r\n"
+          		+ "</cfquery>\r\n"
+                + "</cffunction>";
+
+        cfBugs.process(tagSrc, "test");
+        final Map<String, List<BugInfo>> result = cfBugs.getBugs().getBugList();
+        assertEquals(0, result.size());
+    }
 }

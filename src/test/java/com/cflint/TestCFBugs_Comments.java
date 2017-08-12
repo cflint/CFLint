@@ -27,7 +27,7 @@ public class TestCFBugs_Comments {
 		pluginRule.setName("ArgDefChecker");
 		conf.getRules().add(pluginRule);
 		final PluginMessage pluginMessage = new PluginMessage("ARG_DEFAULT_MISSING");
-		pluginMessage.setSeverity("WARNING");
+		pluginMessage.setSeverity(Levels.WARNING);
 		pluginMessage.setMessageText("Argument ${variable} is not required and does not define a default value.");
 		pluginRule.getMessages().add(pluginMessage);
 

@@ -8,6 +8,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
+import com.cflint.Levels;
 import com.cflint.config.CFLintPluginInfo.PluginInfoRule.PluginMessage;
 import com.cflint.plugins.CFLintScanner;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
@@ -64,7 +65,7 @@ public class CFLintPluginInfo {
 
         private String name;
         private List<PluginMessage> messages = new ArrayList<PluginMessage>();
-        private String defaultSeverity;
+        private Levels defaultSeverity;
 
         public RuleGroup(String name) {
             super();
@@ -75,15 +76,19 @@ public class CFLintPluginInfo {
             super();
         }
 
-        public String getDefaultSeverity() {
+        public Levels getDefaultSeverity() {
             return defaultSeverity;
         }
 
         @XmlAttribute(name = "defaultSeverity")
         public void setDefaultSeverity(String defaultSeverity) {
-            this.defaultSeverity = defaultSeverity;
+            this.defaultSeverity = Levels.fromString(defaultSeverity);
         }
 
+        public void setDefaultSeverity(Levels defaultSeverity) {
+            this.defaultSeverity = defaultSeverity;
+        }
+        
         public String getName() {
             return name;
         }
@@ -245,7 +250,7 @@ public class CFLintPluginInfo {
         public static class PluginMessage {
             private String code;
             private String messageText;
-            private String severity;
+            private Levels severity;
 
             public PluginMessage(final String code) {
                 super();
@@ -275,12 +280,16 @@ public class CFLintPluginInfo {
                 this.messageText = messageText;
             }
 
-            public String getSeverity() {
+            public Levels getSeverity() {
                 return severity;
             }
 
             @XmlElement(name = "severity")
             public void setSeverity(final String severity) {
+                this.severity = Levels.fromString(severity);
+            }
+
+            public void setSeverity(final Levels severity) {
                 this.severity = severity;
             }
 

@@ -88,8 +88,10 @@ public class CFLintTask extends Task {
                 if (ffile.exists()) {
                     fis = new FileInputStream(ffile);
                     final byte b[] = new byte[fis.available()];
-                    fis.read(b);
-                    filter = CFLintFilter.createFilter(new String(b), verbose);
+                    if (fis.read(b) > 0) {
+                        fis.close();
+                        filter = CFLintFilter.createFilter(new String(b), verbose);
+                    }
                 }
             }
 
@@ -146,14 +148,24 @@ public class CFLintTask extends Task {
                     fis.close();
                 }
             } catch (final IOException e) {
-
             }
         }
     }
 
     private Writer createWriter(final File xmlFile2, final Charset encoding) throws IOException {
-        final OutputStreamWriter out = new OutputStreamWriter(new FileOutputStream(xmlFile2), encoding);
-        out.append(String.format("<?xml version=\"1.0\" encoding=\"%s\" ?>%n", encoding));
+        OutputStreamWriter out = null;
+        FileOutputStream fos = null;
+        try {
+            fos = new FileOutputStream(xmlFile2);
+            out = new OutputStreamWriter(fos, encoding);
+            out.append(String.format("<?xml version=\"1.0\" encoding=\"%s\" ?>%n", encoding));
+        } catch (final Exception e) {
+            throw new RuntimeException(e);
+        } finally {
+            if (fos != null) {
+                fos.close();
+            }
+        }
         return out;
     }
 

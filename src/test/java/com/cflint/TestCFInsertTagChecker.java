@@ -26,7 +26,7 @@ public class TestCFInsertTagChecker {
 		pluginRuleX.addParameter("tagName", "cfinsert");
 		conf.getRules().add(pluginRuleX);
 		final PluginMessage pluginMessageX = new PluginMessage("AVOID_USING_CFINSERT_TAG");
-		pluginMessageX.setSeverity("WARNING");
+		pluginMessageX.setSeverity(Levels.WARNING);
 		pluginMessageX
 				.setMessageText("Avoid Leaving <${tagName}> tags in committed code. Debug information should be ommited from release code");
 		pluginRuleX.getMessages().add(pluginMessageX);

@@ -28,7 +28,7 @@ public class TestWriteDumpChecker {
 		pluginRule.addParameter("functionName", "writedump");
 		conf.getRules().add(pluginRule);
 		final PluginMessage pluginMessage = new PluginMessage("AVOID_USING_WRITEDUMP");
-		pluginMessage.setSeverity("INFO");
+		pluginMessage.setSeverity(Levels.INFO);
 		pluginMessage.setMessageText("Avoid using the ${functionName} function in production code.");
 		pluginRule.getMessages().add(pluginMessage);
 		

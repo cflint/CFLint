@@ -3,6 +3,7 @@ package com.cflint.plugins.core;
 import java.util.Arrays;
 import java.util.List;
 
+import com.cflint.Levels;
 import com.cflint.BugList;
 import com.cflint.plugins.CFLintScannerAdapter;
 import com.cflint.plugins.Context;
@@ -15,7 +16,7 @@ import ro.fortsoft.pf4j.Extension;
 
 @Extension
 public class CFCompareVsAssignChecker extends CFLintScannerAdapter {
-    final String severity = "INFO";
+    final Levels severity = Levels.INFO;
 
     List<Integer> TOKENS = Arrays.asList(CFSCRIPTLexer.EQUALSEQUALSOP, CFSCRIPTLexer.LT, CFSCRIPTLexer.LTE,
             CFSCRIPTLexer.GT, CFSCRIPTLexer.GTE, CFSCRIPTLexer.OR, CFSCRIPTLexer.OROPERATOR, CFSCRIPTLexer.EQV,

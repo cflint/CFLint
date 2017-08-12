@@ -26,11 +26,11 @@ public class TestCFBugs_QueryParams {
 		PluginInfoRule pluginRule = new PluginInfoRule();
 		pluginRule.setName("QueryParamChecker");
 		PluginMessage pluginMessage = new PluginMessage("QUERYPARAM_REQ");
-		pluginMessage.setSeverity("WARNING");
+		pluginMessage.setSeverity(Levels.WARNING);
 		pluginMessage.setMessageText("setSql() statement should use .addParam() instead of #'s for security.");
 		pluginRule.getMessages().add(pluginMessage);
 		pluginMessage = new PluginMessage("CFQUERYPARAM_REQ");
-		pluginMessage.setSeverity("WARNING");
+		pluginMessage.setSeverity(Levels.WARNING);
 		pluginMessage.setMessageText("<${tag} name=\"${variable}\"> should use <cfqueryparam/> for security reasons.");
 		pluginRule.getMessages().add(pluginMessage);
 		conf.getRules().add(pluginRule);
@@ -131,7 +131,7 @@ public class TestCFBugs_QueryParams {
 	public void testCFScript_QueryParams_DynamicTableName() throws ParseException, IOException {
 		final String cfcSrc = "<cfquery name=\"queryName\" datasource=\"#datasourceName#\">\n" + 
 				"    update #tableName#\n" + 
-				"    set fieldName = 'foo';\n" + 
+				"    set fieldName = 'foo'\n" +
 				"</cfquery>";
 		cfBugs.process(cfcSrc, "test");
 		final List<BugInfo> result = cfBugs.getBugs().getFlatBugList();

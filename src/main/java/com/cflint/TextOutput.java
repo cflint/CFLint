@@ -16,7 +16,7 @@ public class TextOutput {
         for (final Entry<String, List<BugInfo>> bugEntry : bugList.getBugList().entrySet()) {
             sb.append("Issue");
             for (final BugInfo bugInfo : bugEntry.getValue()) {
-                final String severity = bugEntry.getValue().get(0).getSeverity();
+                final String severity = bugEntry.getValue().get(0).getSeverity().toString();
                 final String code = bugEntry.getValue().get(0).getMessageCode();
                 sb.append(newLine).append("Severity:").append(severity);
                 sb.append(newLine).append("Message code:").append(code);
@@ -42,9 +42,9 @@ public class TextOutput {
 
         sb.append(newLine).append(newLine).append("Total issues:" + counts.noBugs());
 
-        for (final String severity : BugCounts.levels) {
+        for (final Levels severity : Levels.values()) {
             if (counts.getSeverity(severity) > 0) {
-                sb.append(newLine).append("Total " + severity.toLowerCase() + "s:" + counts.getSeverity(severity));
+                sb.append(newLine).append("Total " + severity.toString().toLowerCase() + "s:" + counts.getSeverity(severity));
             }
         }
 

@@ -1,5 +1,6 @@
 package com.cflint.plugins.core;
 
+import com.cflint.Levels;
 import com.cflint.BugList;
 import com.cflint.plugins.CFLintScannerAdapter;
 import com.cflint.plugins.Context;
@@ -9,8 +10,8 @@ import cfml.parsing.cfscript.script.CFScriptStatement;
 import net.htmlparser.jericho.Element;
 
 public class TooManyArgumentsChecker extends CFLintScannerAdapter {
-    final String severity = "WARNING";
     final int ARGUMENT_THRESHOLD = 10;
+    final Levels severity = Levels.WARNING;
 
     protected int argumentCount = 0;
     protected int functionLine = 0;

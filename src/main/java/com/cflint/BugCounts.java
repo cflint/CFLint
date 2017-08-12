@@ -6,14 +6,15 @@ import java.util.Map;
 import java.util.Set;
 
 public class BugCounts {
-    final public static String[] levels = new String[] { "FATAL", "CRITICAL", "ERROR", "WARNING", "CAUTION", "INFO",
-            "COSMETIC" };
-
-    protected Map<String, Integer> severityCounts = new HashMap<String, Integer>();
+    protected Map<Levels, Integer> severityCounts = new HashMap<Levels, Integer>();
     protected Map<String, Integer> bugCounts = new HashMap<String, Integer>();
     protected int noBugs = 0;
 
-    public void add(final String code, final String severity) {
+    public void add(final String code, final Levels severity) {
+        if (severity == Levels.UNKNOWN) {
+            return;
+        }
+
         if (bugCounts.get(code) == null) {
             bugCounts.put(code, 1);
         } else {
@@ -48,7 +49,7 @@ public class BugCounts {
         return 0;
     }
 
-    public int getSeverity(final String severity) {
+    public int getSeverity(final Levels severity) {
         if (severityCounts.get(severity) != null) {
             return severityCounts.get(severity);
         }

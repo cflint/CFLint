@@ -54,11 +54,11 @@ public class JSONOutput {
                 BugInfo prevbugInfo;
 
                 while (bugInfo != null) {
-                    final String severity = currentList.get(0).getSeverity();
+                    final Levels severity = currentList.get(0).getSeverity();
                     final String code = currentList.get(0).getMessageCode();
 
                     jg.writeStartObject();
-                        jg.writeStringField("severity", notNull(severity));
+                        jg.writeStringField("severity", severity.toString());
                         jg.writeStringField("id", code);
                         jg.writeStringField("message", code);
                         jg.writeStringField("category", "CFLINT");
@@ -108,10 +108,10 @@ public class JSONOutput {
                 // start countBySeverity array
                 jg.writeFieldName("countBySeverity");
                 jg.writeStartArray();
-                    for (final String severity : BugCounts.levels) {
+                    for (final Levels severity : Levels.values()) {
                         if (counts.getSeverity(severity) > 0) {
                             jg.writeStartObject();
-                            jg.writeStringField("severity", severity);
+                            jg.writeStringField("severity", severity.toString());
                             jg.writeNumberField("count", counts.getSeverity(severity));
                             jg.writeEndObject();
                         }

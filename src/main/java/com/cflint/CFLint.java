@@ -97,8 +97,6 @@ public class CFLint implements IErrorReporter {
     static final String PLUGIN_ERROR = "PLUGIN_ERROR";
     static final String MISSING_SEMI = "MISSING_SEMI";
     static final String AVOID_EMPTY_FILES = "AVOID_EMPTY_FILES";
-    static final String ERROR = "ERROR";
-    static final String WARNING = "WARNING";
 
     CFMLTagInfo tagInfo;
 
@@ -643,17 +641,25 @@ public class CFLint implements IErrorReporter {
 
     private String shortSource(final Source source, final int line) {
         final String retval = source == null ? "" : source.toString().trim();
-        if (retval.length() < 300) {
+        if (retval.length() < 300 || source == null) {
             return retval;
         }
+        BufferedReader sr = null;
         try {
-            final BufferedReader sr = new BufferedReader(new StringReader(source.toString()));
+            sr = new BufferedReader(new StringReader(source.toString()));
             for (int i = 1; i < line; i++) {
-                sr.readLine();
+                String skip = sr.readLine();
             }
             String sLine = sr.readLine();
             return sLine == null ? null : sLine.replaceAll("\t", " ");
         } catch (final Exception e) {
+        } finally {
+            try {
+                if (sr != null) {
+                    sr.close();
+                }
+            } catch (final IOException e) {
+            }
         }
         return retval.substring(0, 300);
     }
@@ -1138,25 +1144,25 @@ public class CFLint implements IErrorReporter {
             ruleInfo = new PluginInfoRule();
             final PluginMessage msgInfo = new PluginMessage(MISSING_SEMI);
             msgInfo.setMessageText("End of statement(;) expected instead of ${variable}");
-            msgInfo.setSeverity(ERROR);
+            msgInfo.setSeverity(Levels.ERROR);
             ruleInfo.getMessages().add(msgInfo);
         }else if (PLUGIN_ERROR.equals(msgcode)) {
             ruleInfo = new PluginInfoRule();
             final PluginMessage msgInfo = new PluginMessage(PLUGIN_ERROR);
             msgInfo.setMessageText("Error in plugin: ${variable}");
-            msgInfo.setSeverity(ERROR);
+            msgInfo.setSeverity(Levels.ERROR);
             ruleInfo.getMessages().add(msgInfo);
         }else if (AVOID_EMPTY_FILES.equals(msgcode)) {
             ruleInfo = new PluginInfoRule();
             final PluginMessage msgInfo = new PluginMessage(AVOID_EMPTY_FILES);
             msgInfo.setMessageText("CF file is empty: ${file}");
-            msgInfo.setSeverity(WARNING);
+            msgInfo.setSeverity(Levels.WARNING);
             ruleInfo.getMessages().add(msgInfo);
         }else if (PARSE_ERROR.equals(msgcode)) {
             ruleInfo = new CFLintPluginInfo.PluginInfoRule();
             final CFLintPluginInfo.PluginInfoRule.PluginMessage msgInfo = new CFLintPluginInfo.PluginInfoRule.PluginMessage(PARSE_ERROR);
             msgInfo.setMessageText("Unable to parse");
-            msgInfo.setSeverity(ERROR);
+            msgInfo.setSeverity(Levels.ERROR);
             ruleInfo.getMessages().add(msgInfo);
         } else {
             if (plugin == null) {
@@ -1177,15 +1183,10 @@ public class CFLint implements IErrorReporter {
         final BugInfoBuilder bldr = new BugInfo.BugInfoBuilder().setMessageCode(msgcode).setVariable(nameVar)
                 .setFunction(context.getFunctionName()).setFilename(context.getFilename())
                 .setComponent(context.getComponentName());
-        if (msgInfo != null) {
-            bldr.setSeverity(msgInfo.getSeverity());
-            bldr.setMessage(msgInfo.getMessageText());
-        } else {
-            String errMessage = "Message code: " + msgcode + " is not configured correctly.";
-            fireCFLintException(new NullPointerException(errMessage), PLUGIN_ERROR, "", null, null, null, null);
-            bldr.setSeverity(WARNING);
-            bldr.setMessage(msgcode);
-        }
+
+        bldr.setSeverity(msgInfo.getSeverity());
+        bldr.setMessage(msgInfo.getMessageText());
+
         if (expression instanceof CFStatement) {
             bldr.setExpression(((CFStatement) expression).Decompile(0));
         } else if (expression instanceof CFScriptStatement) {

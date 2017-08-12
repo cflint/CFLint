@@ -30,7 +30,7 @@ public class XMLOutput {
             BugInfo prevbugInfo;
 
             while (bugInfo != null) {
-                final String severity = bugEntry.getValue().get(0).getSeverity();
+                final String severity = bugEntry.getValue().get(0).getSeverity().toString();
                 final String code = bugEntry.getValue().get(0).getMessageCode();
                 writer.append("<issue");
                 writer.append(" severity=\"").append(xmlEscapeText(severity)).append("\"");
@@ -74,10 +74,10 @@ public class XMLOutput {
             writer.append(System.getProperty(LINE_SEPARATOR));
         }
 
-        for (final String severity : BugCounts.levels) {
+        for (final Levels severity : Levels.values()) {
             if (counts.getSeverity(severity) > 0) {
                 writer.append("<count");
-                writer.append(" severity=\"").append(severity).append("\"");
+                writer.append(" severity=\"").append(severity.toString()).append("\"");
                 writer.append(" count=\"").append(Integer.toString(counts.getSeverity(severity))).append("\" />");
                 writer.append(System.getProperty(LINE_SEPARATOR));
             }

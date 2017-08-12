@@ -7,6 +7,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Map;
 
+import com.cflint.Levels;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -55,8 +56,10 @@ public class CFLintFilter {
             }
 
             final byte b[] = new byte[is.available()];
-            is.read(b);
-            data = new String(b);
+            if (is.read(b) > 0) {
+                is.close();
+                data = new String(b);
+            }
         } catch (final IOException ioe) {
             ioe.printStackTrace();
         }
@@ -138,8 +141,8 @@ public class CFLintFilter {
                     }
                 }
                 if (item.containsKey("severity")) {
-                    if (bugInfo.getSeverity() == null
-                            || !bugInfo.getSeverity().matches(item.get("severity").toString())) {
+                    if (bugInfo.getSeverity() == Levels.UNKNOWN
+                            || bugInfo.getSeverity() != Levels.fromString(item.get("severity").toString())) {
                         continue;
                     } else if (verbose) {
                         logger.info("Exclude matched severity " + bugInfo.getLine());

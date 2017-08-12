@@ -7,6 +7,7 @@ import java.io.StringWriter;
 
 import javax.xml.bind.Marshaller;
 
+import com.cflint.Levels;
 import org.junit.Test;
 
 import com.cflint.config.CFLintPluginInfo.PluginInfoRule;
@@ -37,7 +38,7 @@ public class TestCFLintConfig {
 		rule.getMessages().add(message);
 		message.setCode("code");
 		message.setMessageText("messageText");
-		message.setSeverity("WARNING");
+		message.setSeverity(Levels.WARNING);
 
 		Marshaller jaxbMarshaller = ConfigUtils.createMarshaller();
 
@@ -78,9 +79,9 @@ public class TestCFLintConfig {
 	        rule.getMessages().add(message);
 	        message.setCode("MyCode");
 	        message.setMessageText("messageText");
-	        message.setSeverity("WARNING");
+	        message.setSeverity(Levels.WARNING);
 	        RuleGroup ruleGroup = new RuleGroup("r1");
-	        ruleGroup.setDefaultSeverity("INFO");
+	        ruleGroup.setDefaultSeverity(Levels.INFO);
 	        ruleGroup.getMessages().add(message);
 	        config.getRuleGroups().add(ruleGroup);
             RuleGroup ruleGroup2 = new RuleGroup("r2");
@@ -92,6 +93,6 @@ public class TestCFLintConfig {
             assertEquals("messageText",backConfig.getRules().get(0).getMessages().get(0).getMessageText());
 	        assertEquals("MyCode",backConfig.getRuleGroups().get(0).getMessages().get(0).getCode());
             assertEquals("messageText",backConfig.getRuleGroups().get(0).getMessages().get(0).getMessageText());
-            assertEquals("INFO",backConfig.getRuleGroups().get(0).getDefaultSeverity());
+            assertEquals(Levels.INFO,backConfig.getRuleGroups().get(0).getDefaultSeverity());
 	}
 }

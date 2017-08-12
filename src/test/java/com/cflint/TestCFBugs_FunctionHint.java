@@ -27,7 +27,7 @@ public class TestCFBugs_FunctionHint {
 		pluginRule.setName("FunctionHintChecker");
 		conf.getRules().add(pluginRule);
 		final PluginMessage pluginMessage = new PluginMessage("FUNCTION_HINT_MISSING");
-		pluginMessage.setSeverity("WARNING");
+		pluginMessage.setSeverity(Levels.WARNING);
 		pluginMessage.setMessageText("Function ${variable} is missing a hint.");
 		pluginRule.getMessages().add(pluginMessage);
 

@@ -26,7 +26,7 @@ public class TestCFExecuteChecker {
 		pluginRule.addParameter("tagName", "cfexecute");
 		conf.getRules().add(pluginRule);
 		final PluginMessage pluginMessage = new PluginMessage("AVOID_USING_CFEXECUTE_TAG");
-		pluginMessage.setSeverity("INFO");
+		pluginMessage.setSeverity(Levels.INFO);
 		pluginMessage.setMessageText("Avoid Leaving <${tagName}> tags in committed code.");
 		pluginRule.getMessages().add(pluginMessage);
 		final CFXTagChecker checker = new CFXTagChecker();

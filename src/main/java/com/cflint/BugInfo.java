@@ -20,7 +20,7 @@ public class BugInfo implements Comparable<BugInfo> {
     private String function;
     private String variable;
     private String component;
-    private String severity;
+    private Levels severity = Levels.UNKNOWN;
 
     public BugInfo() {
         super();
@@ -113,7 +113,7 @@ public class BugInfo implements Comparable<BugInfo> {
             return this;
         }
 
-        public BugInfoBuilder setSeverity(final String severity) {
+        public BugInfoBuilder setSeverity(final Levels severity) {
             bugInfo.severity = severity;
             return this;
         }
@@ -241,11 +241,11 @@ public class BugInfo implements Comparable<BugInfo> {
         this.variable = variable;
     }
 
-    public String getSeverity() {
+    public Levels getSeverity() {
         return severity;
     }
 
-    public void setSeverity(final String severity) {
+    public void setSeverity(final Levels severity) {
         this.severity = severity;
     }
 

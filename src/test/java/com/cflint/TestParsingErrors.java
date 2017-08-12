@@ -26,7 +26,7 @@ public class TestParsingErrors {
 		pluginRule.setName("VarScoper");
 		conf.getRules().add(pluginRule);
 		PluginMessage pluginMessage = new PluginMessage("MISSING_VAR");
-		pluginMessage.setSeverity("ERROR");
+		pluginMessage.setSeverity(Levels.ERROR);
 		pluginMessage
 				.setMessageText("Variable ${variable} is not declared with a var statement.");
 		pluginRule.getMessages().add(pluginMessage);
@@ -52,7 +52,7 @@ public class TestParsingErrors {
 		assertEquals("MISSING_VAR",result2.get(0).getMessageCode());
 		assertEquals("yy",result2.get(0).getVariable());
 		assertEquals(5,result2.get(0).getLine());
-		assertEquals("ERROR",result2.get(0).getSeverity());
+		assertEquals(Levels.ERROR,result2.get(0).getSeverity());
 		assertEquals("Variable yy is not declared with a var statement.",result2.get(0).getMessage());
 	}
 }

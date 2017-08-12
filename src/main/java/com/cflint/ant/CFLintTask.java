@@ -127,13 +127,15 @@ public class CFLintTask extends Task {
                         ? new ProgressMonitor(null, "CFLint", "", 1, ds.getIncludedFilesCount()) : null;
                 final String[] includedFiles = ds.getIncludedFiles();
                 for (final String includedFile : includedFiles) {
-                    if (progressMonitor != null && progressMonitor.isCanceled()) {
-                        throw new RuntimeException("CFLint scan cancelled");
+                    if (progressMonitor != null) {
+                        if (progressMonitor.isCanceled()) {
+                            throw new RuntimeException("CFLint scan cancelled");
+                        }
+                        final String filename = ds.getBasedir() + File.separator + includedFile;
+                        progressMonitor.setNote("scanning " + includedFile);
+                        cflint.scan(filename);
+                        progressMonitor.setProgress(progress++);
                     }
-                    final String filename = ds.getBasedir() + File.separator + includedFile;
-                    progressMonitor.setNote("scanning " + includedFile);
-                    cflint.scan(filename);
-                    progressMonitor.setProgress(progress++);
                 }
             }
         } catch (final Exception e) {

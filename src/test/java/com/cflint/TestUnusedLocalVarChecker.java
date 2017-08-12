@@ -1,6 +1,7 @@
 package com.cflint;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 import java.util.List;
@@ -8,6 +9,7 @@ import java.util.Map;
 
 import org.junit.Ignore;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.cflint.config.CFLintConfig;
@@ -268,9 +270,9 @@ public class TestUnusedLocalVarChecker {
   			+ "</cffunction>\r\n"
   			+ "</cfcomponent>";
 
-        cfBugs.process(tagSrc, "test");
+  		cfBugs.process(tagSrc, "test");
       		final List<BugInfo> result = cfBugs.getBugs().getBugList().get("UNUSED_LOCAL_VARIABLE");
-  		assertEquals(0, result.size());
+  		assertTrue(result == null);
   	}
 
 }

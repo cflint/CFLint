@@ -233,7 +233,7 @@ public class TestCFBugs_VariableNames {
 	public void QueryValidNameTag() throws ParseException, IOException {
 		final String cfcSrc = "<cfcomponent>\r\n" + "<cffunction name=\"rateBop\" >\r\n"
 				+ "<cfquery name=\"Categories\">\r\n" + "SELECT * FROM product_categories p\r\n"
-				+ "WHERE p.id = <cfqueryparam value=\"#LOCAL.id#\"/>\r\n"
+				+ "WHERE p.id = <cfqueryparam value=\"#productid#\"/>\r\n"
 				+ "and p.name = <cfqueryparam value=\"abc\"/>\r\n" + "</cfquery>\r\n" + "</cffunction>"
 				+ "</cfcomponent>";
 		cfBugs.process(cfcSrc, "test");

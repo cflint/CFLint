@@ -1,8 +1,5 @@
 package com.cflint.tools;
 
-import java.util.Map;
-
-import cfml.dictionary.SyntaxDictionary;
 import net.htmlparser.jericho.Element;
 
 public class CFMLTagInfo {

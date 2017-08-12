@@ -11,6 +11,10 @@ public class BugCounts {
     protected int noBugs = 0;
 
     public void add(final String code, final Levels severity) {
+        if (severity == Levels.UNKNOWN) {
+            return;
+        }
+
         if (bugCounts.get(code) == null) {
             bugCounts.put(code, 1);
         } else {

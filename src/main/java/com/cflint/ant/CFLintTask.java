@@ -88,8 +88,10 @@ public class CFLintTask extends Task {
                 if (ffile.exists()) {
                     fis = new FileInputStream(ffile);
                     final byte b[] = new byte[fis.available()];
-                    fis.read(b);
-                    filter = CFLintFilter.createFilter(new String(b), verbose);
+                    if (fis.read(b) > 0) {
+                        fis.close();
+                        filter = CFLintFilter.createFilter(new String(b), verbose);
+                    }
                 }
             }
 

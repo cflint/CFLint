@@ -550,9 +550,10 @@ public class CFLintMain {
                 final FileInputStream fis = new FileInputStream(ffile);
                 try {
                     final byte b[] = new byte[fis.available()];
-                    fis.read(b);
-                    fis.close();
-                    filter = CFLintFilter.createFilter(new String(b), verbose);
+                    if (fis.read(b) > 0) {
+                        fis.close();
+                        filter = CFLintFilter.createFilter(new String(b), verbose);
+                    }
                 } catch (final IOException e) {
                     throw new IOException(e);
                 } finally {

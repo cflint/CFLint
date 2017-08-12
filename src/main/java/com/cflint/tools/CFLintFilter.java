@@ -56,8 +56,10 @@ public class CFLintFilter {
             }
 
             final byte b[] = new byte[is.available()];
-            is.read(b);
-            data = new String(b);
+            if (is.read(b) > 0) {
+                is.close();
+                data = new String(b);
+            }
         } catch (final IOException ioe) {
             ioe.printStackTrace();
         }

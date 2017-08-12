@@ -18,7 +18,11 @@ public enum Levels {
 
     @Override
     public String toString() {
-       return this.severity;
+        if (severity == null || this == UNKNOWN) {
+            return "";
+        }
+
+        return this.severity;
     }
 
     public static Levels fromString(String severity) {

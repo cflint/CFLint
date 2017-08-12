@@ -639,14 +639,22 @@ public class CFLint implements IErrorReporter {
         if (retval.length() < 300) {
             return retval;
         }
+        BufferedReader sr = null;
         try {
-            final BufferedReader sr = new BufferedReader(new StringReader(source.toString()));
+            sr = new BufferedReader(new StringReader(source.toString()));
             for (int i = 1; i < line; i++) {
                 sr.readLine();
             }
             String sLine = sr.readLine();
             return sLine == null ? null : sLine.replaceAll("\t", " ");
         } catch (final Exception e) {
+        } finally {
+            try {
+                if (sr != null) {
+                    sr.close();
+                }
+            } catch (final IOException e) {
+            }
         }
         return retval.substring(0, 300);
     }

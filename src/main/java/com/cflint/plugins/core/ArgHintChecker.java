@@ -54,6 +54,14 @@ public class ArgHintChecker extends CFLintScannerAdapter {
                         line = reader.readLine();
                     }
                 } catch (IOException e) {
+                    throw new RuntimeException(e);
+                } finally {
+                    try {
+                        if (reader != null) {
+                            reader.close();
+                        }
+                    } catch (IOException e) {
+                    }
                 }
 
             }

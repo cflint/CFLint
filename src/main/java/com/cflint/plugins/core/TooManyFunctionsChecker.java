@@ -1,18 +1,18 @@
 package com.cflint.plugins.core;
 
+import com.cflint.Levels;
 import com.cflint.BugList;
 import com.cflint.plugins.CFLintScannerAdapter;
 import com.cflint.plugins.Context;
 import com.cflint.plugins.Context.ContextType;
 
-import cfml.parsing.cfscript.script.CFCompDeclStatement;
 import cfml.parsing.cfscript.script.CFFuncDeclStatement;
 import cfml.parsing.cfscript.script.CFScriptStatement;
 import net.htmlparser.jericho.Element;
 
 public class TooManyFunctionsChecker extends CFLintScannerAdapter {
-    final String severity = "WARNING";
     final int FUNCTION_THRESHOLD = 10;
+    final Levels severity = Levels.WARNING;
 
     protected int functionCount = 0;
 

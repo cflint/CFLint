@@ -3,6 +3,7 @@ package com.cflint.plugins.core;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.cflint.Levels;
 import com.cflint.BugList;
 import com.cflint.plugins.CFLintScannerAdapter;
 import com.cflint.plugins.Context;
@@ -15,7 +16,7 @@ import cfml.parsing.cfscript.script.CFScriptStatement;
 import net.htmlparser.jericho.Element;
 
 public class FunctionHintChecker extends CFLintScannerAdapter {
-    final String severity = "INFO";
+    final Levels severity = Levels.INFO;
 
     @Override
     public void element(final Element element, final Context context, final BugList bugs) {

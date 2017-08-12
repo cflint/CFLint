@@ -1,6 +1,7 @@
 package com.cflint.plugins.core;
 
 import com.cflint.BugList;
+import com.cflint.Levels;
 import com.cflint.plugins.CFLintScannerAdapter;
 import com.cflint.plugins.Context;
 
@@ -8,7 +9,7 @@ import cfml.parsing.cfscript.CFBinaryExpression;
 import cfml.parsing.cfscript.CFExpression;
 
 public class ComplexBooleanExpressionChecker extends CFLintScannerAdapter {
-    final String severity = "WARNING";
+    final Levels severity = Levels.WARNING;
 
     protected int complexThreshold = 10;
 

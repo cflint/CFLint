@@ -1,5 +1,6 @@
 package com.cflint.plugins.core;
 
+import com.cflint.Levels;
 import com.cflint.BugList;
 import com.cflint.plugins.CFLintScannerAdapter;
 import com.cflint.plugins.Context;
@@ -9,7 +10,7 @@ import cfml.parsing.cfscript.script.CFScriptStatement;
 import net.htmlparser.jericho.Element;
 
 public class FunctionTypeChecker extends CFLintScannerAdapter {
-    final String severity = "WARNING";
+    final Levels severity = Levels.WARNING;
 
     @Override
     public void expression(final CFScriptStatement expression, final Context context, final BugList bugs) {

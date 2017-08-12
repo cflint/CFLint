@@ -1,6 +1,7 @@
 package com.cflint.plugins.core;
 
 import com.cflint.BugList;
+import com.cflint.Levels;
 import com.cflint.plugins.CFLintScannerAdapter;
 import com.cflint.plugins.Context;
 
@@ -10,7 +11,7 @@ import ro.fortsoft.pf4j.Extension;
 
 @Extension
 public class AbortChecker extends CFLintScannerAdapter {
-    final String severity = "WARNING";
+    final Levels severity = Levels.WARNING;
 
     @Override
     public void expression(final CFScriptStatement expression, final Context context, final BugList bugs) {

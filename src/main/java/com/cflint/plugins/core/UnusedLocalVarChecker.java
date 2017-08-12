@@ -4,6 +4,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.cflint.Levels;
 import com.cflint.BugList;
 import com.cflint.plugins.CFLintScannerAdapter;
 import com.cflint.plugins.Context;
@@ -16,7 +17,7 @@ import cfml.parsing.cfscript.CFVarDeclExpression;
 import net.htmlparser.jericho.Element;
 
 public class UnusedLocalVarChecker extends CFLintScannerAdapter {
-    final String severity = "INFO";
+    final Levels severity = Levels.INFO;
 
     protected CFScopes scopes = new CFScopes();
     // LinkedHashMap is ordered.

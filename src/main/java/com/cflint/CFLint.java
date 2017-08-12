@@ -1178,15 +1178,10 @@ public class CFLint implements IErrorReporter {
         final BugInfoBuilder bldr = new BugInfo.BugInfoBuilder().setMessageCode(msgcode).setVariable(nameVar)
                 .setFunction(context.getFunctionName()).setFilename(context.getFilename())
                 .setComponent(context.getComponentName());
-        if (msgInfo != null) {
-            bldr.setSeverity(msgInfo.getSeverity());
-            bldr.setMessage(msgInfo.getMessageText());
-        } else {
-            String errMessage = "Message code: " + msgcode + " is not configured correctly.";
-            fireCFLintException(new NullPointerException(errMessage), PLUGIN_ERROR, "", null, null, null, null);
-            bldr.setSeverity(Levels.WARNING);
-            bldr.setMessage(msgcode);
-        }
+
+        bldr.setSeverity(msgInfo.getSeverity());
+        bldr.setMessage(msgInfo.getMessageText());
+
         if (expression instanceof CFStatement) {
             bldr.setExpression(((CFStatement) expression).Decompile(0));
         } else if (expression instanceof CFScriptStatement) {

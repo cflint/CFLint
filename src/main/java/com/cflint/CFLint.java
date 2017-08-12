@@ -636,7 +636,7 @@ public class CFLint implements IErrorReporter {
 
     private String shortSource(final Source source, final int line) {
         final String retval = source == null ? "" : source.toString().trim();
-        if (retval.length() < 300) {
+        if (retval.length() < 300 || source == null) {
             return retval;
         }
         BufferedReader sr = null;

@@ -49,7 +49,7 @@ public class CFTool {
         if (!isEmpty(cfgMsg.getMessageText())) {
             msg.setMessageText(cfgMsg.getMessageText());
         }
-        if (!isEmpty(cfgMsg.getSeverity())) {
+        if (!isEmpty(cfgMsg.getSeverity().toString())) {
             msg.setSeverity(cfgMsg.getSeverity());
         }
     }

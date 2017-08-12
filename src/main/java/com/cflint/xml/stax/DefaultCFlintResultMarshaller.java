@@ -62,10 +62,10 @@ public class DefaultCFlintResultMarshaller implements CFLintResultMarshaller {
             xtw.writeEndElement();
         }
 
-        for (String severity : BugCounts.levels) {
+        for (Levels severity : Levels.values()) {
             if (counts.getSeverity(severity) > 0) {
                 xtw.writeStartElement("count");
-                xtw.writeAttribute("severity", valueOf(severity));
+                xtw.writeAttribute("severity", valueOf(severity.toString()));
                 xtw.writeAttribute("count", valueOf(counts.getSeverity(severity)));
                 xtw.writeEndElement();
             }
@@ -77,7 +77,7 @@ public class DefaultCFlintResultMarshaller implements CFLintResultMarshaller {
     private void writeIssue(XMLStreamWriter xtw, BugInfo bug) throws XMLStreamException {
 
         xtw.writeStartElement("issue");
-        xtw.writeAttribute("severity", valueOf(bug.getSeverity()));
+        xtw.writeAttribute("severity", valueOf(bug.getSeverity().toString()));
         xtw.writeAttribute("id", valueOf(bug.getMessageCode()));
         xtw.writeAttribute("message", valueOf(bug.getMessageCode()));
         xtw.writeAttribute("category", valueOf("CFLint"));

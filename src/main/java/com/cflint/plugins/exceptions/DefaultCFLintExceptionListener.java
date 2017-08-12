@@ -2,6 +2,7 @@ package com.cflint.plugins.exceptions;
 
 import com.cflint.BugInfo;
 import com.cflint.BugInfo.BugInfoBuilder;
+import com.cflint.Levels;
 import com.cflint.BugList;
 
 /**
@@ -24,7 +25,7 @@ public class DefaultCFLintExceptionListener implements CFLintExceptionListener {
     public void exceptionOccurred(final Throwable exception, final String messageCode, final String filename,
             final Integer line, final Integer column, final String functionName, final String expression) {
         final BugInfoBuilder bugInfoBuilder = new BugInfo.BugInfoBuilder();
-        bugInfoBuilder.setMessageCode(messageCode).setFilename(filename).setSeverity("ERROR");
+        bugInfoBuilder.setMessageCode(messageCode).setFilename(filename).setSeverity(Levels.ERROR);
         if ("PARSE_ERROR".equals(messageCode)) {
             bugInfoBuilder.setMessage("Unable to parse");
         } else {

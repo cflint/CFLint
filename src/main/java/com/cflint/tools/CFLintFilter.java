@@ -7,6 +7,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Map;
 
+import com.cflint.Levels;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -138,8 +139,8 @@ public class CFLintFilter {
                     }
                 }
                 if (item.containsKey("severity")) {
-                    if (bugInfo.getSeverity() == null
-                            || !bugInfo.getSeverity().matches(item.get("severity").toString())) {
+                    if (bugInfo.getSeverity() == Levels.UNKNOWN
+                            || bugInfo.getSeverity() != Levels.fromString(item.get("severity").toString())) {
                         continue;
                     } else if (verbose) {
                         logger.info("Exclude matched severity " + bugInfo.getLine());

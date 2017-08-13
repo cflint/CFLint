@@ -294,8 +294,7 @@ public class CFLint implements IErrorReporter {
 	        if (firstTag != null) {
 	            elements.addAll(cfmlSource.getChildElements());
 	        }
-	        if (src.contains("component")
-	                && (elements.isEmpty() || elements.get(0).getBegin() > src.indexOf("component"))) {
+	        if (isComponentOrInterfaceScript(src, elements)) {
 	            // Check if pure cfscript
 	            final CFScriptStatement scriptStatement = cfmlParser.parseScript(src);
 	            Context context = new Context(filename, null, null, false, handler, scriptStatement.getTokens());
@@ -307,11 +306,27 @@ public class CFLint implements IErrorReporter {
         fireFinishedProcessing(filename);
     }
 
+    /**
+     * 'Detect' if this is a pure cfscript component or interface
+     * @param src
+     * @param elements
+     * @return
+     */
+    private boolean isComponentOrInterfaceScript(final String src, final List<Element> elements) {
+        return (src.contains("component")
+                && (elements.isEmpty() || elements.get(0).getBegin() > src.indexOf("component")))
+                || (src.contains("interface")
+                        && (elements.isEmpty() || elements.get(0).getBegin() > src.indexOf("interface")));
+    }
+
     protected ParserTag getFirstTagQuietly(final CFMLSource cfmlSource) {
         try {
             return cfmlSource.getNextTag(0);
         } catch (Exception e) {
-            e.printStackTrace();
+            if(verbose){
+                System.out.println("Unable to find a CFML tag in source.  This is not a hard error.");
+                e.printStackTrace();
+            }
         }
         return null;
     }
@@ -392,22 +407,6 @@ public class CFLint implements IErrorReporter {
                 final String expr = elem.getFirstStartTag().toString();
                 final Matcher m = p.matcher(expr);
                 if (m.matches()) {
-    
-                    // TODO if LUCEE?
-                    // final int uglyNotPos = elem.toString().lastIndexOf("<>");
-                    // int endPos = elem.getStartTag().getEnd() - 1;
-                    //
-                    // if (uglyNotPos > 0) {
-                    // final int nextPos = elem.toString().indexOf(">", uglyNotPos +
-                    // 2);
-                    // if (nextPos > 0 && nextPos < elem.getEndTag().getBegin()) {
-                    // endPos = nextPos;
-                    // }
-                    // }
-    
-                    // final String cfscript =
-                    // elem.toString().substring(elem.getName().length() + 1,
-                    // Math.min(endPos,elem.toString().length()-1));
                     final String cfscript = m.group(1).trim();
                     if(!cfscript.isEmpty()){
                         try {
@@ -1015,7 +1014,7 @@ public class CFLint implements IErrorReporter {
 
 
             //CFIdentifier should not decompose
-            if (expression instanceof CFIdentifier) {
+            if (expression.getClass().equals(CFIdentifier.class)) {
                 final String name = ((CFIdentifier) expression).getName();
                 handler.checkVariable(name);
             } 

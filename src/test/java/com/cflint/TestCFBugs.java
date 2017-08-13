@@ -399,7 +399,6 @@ public class TestCFBugs {
 	}
 
 	@Test
-	@Ignore
 	public void testCFScriptAStruct() throws ParseException, IOException{
 		final String cfcSrc="<cfcomponent>\r\n" +
 				"<cffunction name=\"func1\">\r\n" + 

@@ -136,7 +136,7 @@ public class CFLint implements IErrorReporter {
         }
         allowedExtensions.addAll(AllowedExtensionsLoader.init(RESOURCE_BUNDLE_NAME));
         cfmlParser.setErrorReporter(this);
-        tagInfo = new CFMLTagInfo();
+        tagInfo = new CFMLTagInfo(cfmlParser.getDictionary());
     }
 
     @Deprecated
@@ -168,7 +168,7 @@ public class CFLint implements IErrorReporter {
         }
         allowedExtensions.addAll(AllowedExtensionsLoader.init(RESOURCE_BUNDLE_NAME));
         cfmlParser.setErrorReporter(this);
-        tagInfo = new CFMLTagInfo();
+        tagInfo = new CFMLTagInfo(cfmlParser.getDictionary());
     }
     
     public CFLintStats getStats() {
@@ -573,17 +573,9 @@ public class CFLint implements IErrorReporter {
     	if(!elem.getName().toLowerCase().startsWith("cf") || elem.getAttributes()==null){
     		return expressions;
     	}
-    	//Unpack any attributes that have a hash expression
+    	//Unpack any attributes that have a hash expression or is normally a variable attribute
             for (Attribute attr : elem.getAttributes()) {
-                if(tagInfo.isAssignmentAttribute(elem, attr.getName())){
-                    try{
-                        final CFExpression exp = cfmlParser.parseCFMLExpression(attr.getValue(), this);
-                        expressions.put(attr.getName().toLowerCase(),exp);
-                    } catch (Exception e2) {
-                        System.err.println("Error in parsing : " + attr.getValue() + " on tag " + elem.getName());
-                    }
-                }
-                else if (detectScript(attr)) {
+                if (detectScript(attr)) {
                     //Try wrapping the expression in single or double quotes for parsing.
                     List<String> literalChar = attr.getValue().contains("'")?Arrays.asList("\"","'"):Arrays.asList("'","\"");
                     try {
@@ -605,6 +597,15 @@ public class CFLint implements IErrorReporter {
                         System.err.println("Error in parsing : " + attr.getValue() + " on tag " + elem.getName());
                     }
                 }
+                else if(tagInfo.isExpressionAttribute(elem, attr.getName())){
+                    try{
+                        final CFExpression exp = cfmlParser.parseCFMLExpression(attr.getValue(), this);
+                        expressions.put(attr.getName().toLowerCase(),exp);
+                    } catch (Exception e2) {
+                        System.err.println("Error in parsing : " + attr.getValue() + " on tag " + elem.getName());
+                    }
+                }
+                
             }
     	return expressions;
 	}

@@ -25,14 +25,14 @@ public class LiteralChecker extends CFLintScannerAdapter {
     protected Map<String, Integer> functionListerals = new HashMap<String, Integer>();
 
     // May want to consider resetting literal map on new components but this way
-    // it
-    // detects duplicated literals across files which is useful
+    // it detects duplicated literals across files which is useful
 
     @Override
     public void expression(final CFExpression expression, final Context context, final BugList bugs) {
         final String repeatThreshold = getParameter("Maximum");
         final String maxWarnings = getParameter("MaxWarnings");
-        final String warningScope = getParameter("WarningScope");        
+        final String warningScope = getParameter("WarningScope");
+        
         if (repeatThreshold != null) {
             threshold = Integer.parseInt(repeatThreshold);
         }
@@ -52,9 +52,13 @@ public class LiteralChecker extends CFLintScannerAdapter {
             final int lineNo = literal.getLine() + context.startLine() - 1;
 
             if (warningScope == null || warningScope.equals("global")) {
-                literalCount(name, lineNo, globalLiterals, true, context, bugs);
+                if (!context.isInFunction()) {
+                    literalCount(name, lineNo, globalLiterals, true, context, bugs);
+                }
             } else if (warningScope.equals("local")) {
-                literalCount(name, lineNo, functionListerals, false, context, bugs);
+                if (context.isInFunction()) {
+                    literalCount(name, lineNo, functionListerals, false, context, bugs);
+                }
             }
         }
     }
@@ -91,12 +95,6 @@ public class LiteralChecker extends CFLintScannerAdapter {
         return name.equals("1") || name.equals("0") || name.equals("") || name.equals("true") || name.equals("false");
     }
 
-    public void magicLocalValue(final String name, final int lineNo, final Context context, final BugList bugs) {
-    	if (!isSpecial(name.toLowerCase()) ){
-    		context.addUniqueMessage("LOCAL_LITERAL_VALUE_USED_TOO_OFTEN", name, this, lineNo);
-    	}
-    }
-
     /**
      * Checks if the literal is a special case that should not fire the literal checker rule
      * @param name
@@ -107,7 +105,7 @@ public class LiteralChecker extends CFLintScannerAdapter {
     	if(name == null || name.length()==0){
     		return true;
     	}
-    	//Punctuation literals excepted (Look for absense of a word character)
+    	//Punctuation literals excepted (Look for absence of a word character)
     	if(!name.matches(".*\\w.*")){
     		return true;
     	}
@@ -118,6 +116,12 @@ public class LiteralChecker extends CFLintScannerAdapter {
     	//Check ignore words list from the configuration
     	return getParameterAsList("IgnoreWords").contains(name.toLowerCase());
 	}
+
+    public void magicLocalValue(final String name, final int lineNo, final Context context, final BugList bugs) {
+    	if (!isSpecial(name.toLowerCase()) ){
+    		context.addUniqueMessage("LOCAL_LITERAL_VALUE_USED_TOO_OFTEN", name, this, lineNo);
+    	}
+    }
 
 	public void magicGlobalValue(final String name, final int lineNo, final Context context, final BugList bugs) {
 		if (!isSpecial(name.toLowerCase()) ){

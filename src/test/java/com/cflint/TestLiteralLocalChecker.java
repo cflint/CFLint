@@ -14,23 +14,23 @@ import com.cflint.config.CFLintConfig;
 
 import cfml.parsing.reporting.ParseException;
 
-//TODO add literal checked to cflintdefinition
-@Ignore
 public class TestLiteralLocalChecker {
 
 	private CFLint cfBugs;
 
 	@Before
 	public void setUp() throws Exception{
-		final com.cflint.config.CFLintConfiguration conf = CFLintConfig.createDefaultLimited("LiteralChecker");
+		final com.cflint.config.CFLintConfiguration conf = CFLintConfig.createDefaultLimited("GlobalLiteralChecker", "LocalLiteralChecker");
 		cfBugs = new CFLint(conf);
 	}
 
 	@Test
 	public void testOK() throws ParseException, IOException {
 		final String scriptSrc = "<cfscript>\r\n"
+            + "function calc() {\r\n"
 			+ "var pi = 3.14;\r\n"
 			+ "var code = \"CODE\";\r\n"
+            + "}\r\n"
 			+ "</cfscript>";
 			
 		cfBugs.process(scriptSrc, "test");
@@ -39,22 +39,21 @@ public class TestLiteralLocalChecker {
 	}
 
 	@Test
-	public void testTooManyHardCodevedValues() throws ParseException, IOException {
+	public void testTooManyHardCodedValues() throws ParseException, IOException {
 		final String scriptSrc = "<cfscript>\r\n"
-			+ "pi = 3.14;\r\n"
-			+ "calc = \"AREA\";\r\n"
-			+ "if (code == \"AREA\") {\r\n"
-			+ "area = 3.14 * radius * radius;\r\n"
-			+ "circumference = 2 * 3.14 * radius;\r\n"
-			+ "volume = 4/3 * 3.14 * radius * radius * radius;\r\n"
-			+"}\r\n"
+            + "function calc() {\r\n"
+			+ "var pi = 3.14;\r\n"
+			+ "var area = 3.14 * radius * radius;\r\n"
+			+ "var circumference = 2 * 3.14 * radius;\r\n"
+			+ "var volume = 4/3 * 3.14 * radius * radius * radius;\r\n"
+            + "}\r\n"
 			+ "</cfscript>";
 			
 		cfBugs.process(scriptSrc, "test");
 		final List<BugInfo> result = cfBugs.getBugs().getBugList().values().iterator().next();
 		assertEquals(1, result.size());
 		assertEquals("LOCAL_LITERAL_VALUE_USED_TOO_OFTEN", result.get(0).getMessageCode());
-		assertEquals(7, result.get(0).getLine());
+		assertEquals(6, result.get(0).getLine());
 	}
 
 }

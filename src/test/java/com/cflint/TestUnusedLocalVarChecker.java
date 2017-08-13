@@ -252,7 +252,8 @@ public class TestUnusedLocalVarChecker {
 		assertEquals("UNUSED_LOCAL_VARIABLE", result.get(2).getMessageCode());
 		assertEquals(7, result.get(2).getLine());
 	}
-    
+
+	@Test
   	public void testUsedVarInQuaryParam() throws ParseException, IOException {
   		final String tagSrc = "<cfcomponent>\r\n"
   			+ "<cffunction name=\"changePassword\">\r\n"

@@ -392,7 +392,7 @@ public class TestUnusedArgumentChecker {
         assertEquals(0, result.size());
     }
 
-    @Ignore("Not fixed yet")
+    @Test
     public void testArgumentsUsedInQueryParam() throws ParseException, IOException {
         final String tagSrc = "<cffunction name=\"lookup\" access=\"public\" output=\"false\" returntype=\"void\">\r\n"
                 + "<cfargument name=\"domain\" type=\"string\" required=\"true\" />\r\n"

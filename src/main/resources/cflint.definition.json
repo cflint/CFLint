@@ -915,13 +915,9 @@
       "parameter": []
     },
     {
-      "name": "LiteralChecker",
+      "name": "GlobalLiteralChecker",
+      "className": "LiteralChecker",
       "message": [
-        {
-          "code": "LOCAL_LITERAL_VALUE_USED_TOO_OFTEN",
-          "messageText": "Literal ${variable} occurs several times in the same file. Consider giving it a name and not hard coding values.",
-          "severity": "WARNING"
-        },
         {
           "code": "GLOBAL_LITERAL_VALUE_USED_TOO_OFTEN",
            "messageText": "Literal ${variable} occurs several times in one or more files. Consider giving it a name and not hard coding values.",
@@ -940,6 +936,35 @@
         {
           "name": "WarningScope",
           "value": "global"
+        },
+        {
+          "name": "IgnoreWords",
+          "value": "numeric,text,textnocase,asc,desc,in,out,inout,one,all,bigdecimal,boolean,byte,char,int,long,float,double,short,string,null"
+        }
+      ]
+    },
+    {
+      "name": "LocalLiteralChecker",
+      "className": "LiteralChecker",
+      "message": [
+        {
+          "code": "LOCAL_LITERAL_VALUE_USED_TOO_OFTEN",
+          "messageText": "Literal ${variable} occurs several times in the same file. Consider giving it a name and not hard coding values.",
+          "severity": "WARNING"
+        }
+      ],
+      "parameter": [
+        {
+          "name": "Maximum",
+          "value": "3"
+        },
+        {
+          "name": "MaxWarnings",
+          "value": "5"
+        },
+        {
+          "name": "WarningScope",
+          "value": "local"
         },
         {
           "name": "IgnoreWords",

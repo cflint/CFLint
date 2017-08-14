@@ -45,48 +45,31 @@ import com.cflint.xml.MarshallerException;
 import com.cflint.xml.stax.DefaultCFlintResultMarshaller;
 
 public class CFLintMain {
+    private static final String CFLINT = "cflint";
+    private static final String FINDBUGS = "findbugs";
+    private static final String DISPLAY_THIS_HELP = "display this help";
 
-    public static final String CFLINT = "cflint";
-    public static final String RULES = "rules";
-    public static final String INCLUDE_RULE = "includeRule";
-    public static final String EXCLUDE_RULE = "excludeRule";
-    public static final String FOLDER = "folder";
-    public static final String FILTER_FILE = "filterFile";
-    public static final String VERBOSE = "verbose";
-    public static final String SHOWPROGRESS = "showprogress";
-    public static final String QUIET = "quiet";
-    public static final String DISPLAY_THIS_HELP = "display this help";
-    public static final String XMLFILE = "xmlfile";
-    public static final String XMLSTYLE = "xmlstyle";
-    public static final String HTMLFILE = "htmlfile";
-    public static final String HTMLSTYLE = "htmlstyle";
-    public static final String JSONFILE = "jsonfile";
-    public static final String TEXTFILE = "textfile";
-    public static final String EXTENSIONS = "extensions";
-    public static final String CONFIGFILE = "configfile";
-    public static final String STRICT_INCLUDE = "strictinclude";
-    public static final String STDIN = "stdin";
-    List<String> folder = new ArrayList<String>();
-    String filterFile = null;
-    boolean verbose = false;
-    boolean logerror = false;
-    boolean quiet = false;
-    boolean xmlOutput = false;
-    boolean jsonOutput = false;
-    boolean htmlOutput = true;
-    boolean textOutput = false;
-    String xmlOutFile = "cflint-result.xml";
-    String xmlstyle = CFLINT;
-    String htmlOutFile = "cflint-result.html";
-    String htmlStyle = "plain.xsl";
-    String jsonOutFile = "cflint-result.json";
-    String textOutFile = null;
-    CFLintConfig cmdLineConfig = null;
-    CFLintConfig configFileConfig = null;
-    CFLintConfig defaultConfig = null;
+    private List<String> folder = new ArrayList<String>();
+    private String filterFile = null;
+    private boolean verbose = false;
+    private boolean logerror = false;
+    private boolean quiet = false;
+    private boolean xmlOutput = false;
+    private boolean jsonOutput = false;
+    private boolean htmlOutput = true;
+    private boolean textOutput = false;
+    private String xmlOutFile = "cflint-result.xml";
+    private String xmlstyle = CFLINT;
+    private String htmlOutFile = "cflint-result.html";
+    private  String htmlStyle = "plain.xsl";
+    private String jsonOutFile = "cflint-result.json";
+    private String textOutFile = null;
+    private CFLintConfig cmdLineConfig = null;
+    private CFLintConfig configFileConfig = null;
+    private CFLintConfig defaultConfig = null;
     private String extensions;
-    boolean showprogress = false;
-    boolean progressUsesThread = true;
+    private boolean showprogress = false;
+    private boolean progressUsesThread = true;
     private Boolean stdIn = false;
     private String stdInFile = "source.cfc";
     private Boolean stdOut = false;
@@ -95,69 +78,69 @@ public class CFLintMain {
 
     public static void main(final String[] args) throws Exception {
         final Options options = new Options();
-        options.addOption(RULES, false, "list of all supported rules");
-        options.addOption("config", false, "list of rules in config file");
-        options.addOption(INCLUDE_RULE, true, "specify rules to include");
-        options.addOption(EXCLUDE_RULE, true, "specify rules to exclude");
-        options.addOption(FOLDER, true, "folder(s) to scan");
-        options.addOption("file", true, "file(s) to scan");
-        options.addOption(FILTER_FILE, true, "filter file");
-        options.addOption("v", false, VERBOSE);
-        options.addOption("version", false, "show the version number");
-        options.addOption("ui", false, "show UI");
-        options.addOption(VERBOSE, false, VERBOSE);
-        options.addOption(STRICT_INCLUDE, false, "Check every include and try to parse it");
-        options.addOption(SHOWPROGRESS, false, "show progress bar");
-        options.addOption("singlethread", false, "show progress bar");
+        options.addOption(Settings.RULES, false, "list of all supported rules");
+        options.addOption(Settings.CONFIG, false, "list of rules in config file");
+        options.addOption(Settings.INCLUDE_RULE, true, "specify rules to include");
+        options.addOption(Settings.EXCLUDE_RULE, true, "specify rules to exclude");
+        options.addOption(Settings.FOLDER, true, "folder(s) to scan");
+        options.addOption(Settings.FILE, true, "file(s) to scan");
+        options.addOption(Settings.FILTER_FILE, true, "filter file");
+        options.addOption(Settings.V, false, "verbose output");
+        options.addOption(Settings.VERSION, false, "show the version number");
+        options.addOption(Settings.UI, false, "show UI");
+        options.addOption(Settings.VERBOSE, false, "verbose output");
+        options.addOption(Settings.STRICT_INCLUDE, false, "Check every include and try to parse it");
+        options.addOption(Settings.SHOWPROGRESS, false, "show progress bar");
+        options.addOption(Settings.SINGLETHREAD, false, "show progress bar");
 
-        options.addOption("logerror", false, "log parsing errors as bugs");
-        options.addOption("e", false, "log parsing errors as bugs");
-        options.addOption("q", false, QUIET);
-        options.addOption(QUIET, false, QUIET);
-        options.addOption("?", false, DISPLAY_THIS_HELP);
-        options.addOption("h", false, DISPLAY_THIS_HELP);
-        options.addOption("help", false, DISPLAY_THIS_HELP);
-        options.addOption("xml", false, "output in xml format");
-        options.addOption(XMLFILE, true, "specify the output xml file (default: cflint-results.xml)");
-        options.addOption(XMLSTYLE, true, "cflint,findbugs");
-        options.addOption("html", false, "output in html format (default)");
-        options.addOption(HTMLFILE, true, "specify the output html file (default: cflint-results.html)");
-        options.addOption(HTMLSTYLE, true, "default,plain");// fancy,fancy-hist,summary
-        options.addOption("json", false, "output in json format");
-        options.addOption(JSONFILE, true, "specify the output json file (default: cflint-results.json)");
-        options.addOption("text", false, "output in plain text");
-        options.addOption(TEXTFILE, true, "specify the output text file (default: cflint-results.txt)");
-        options.addOption(EXTENSIONS, true, "specify the extensions of the CF source files (default: .cfm,.cfc)");
-        options.addOption(CONFIGFILE, true, "specify the location of the config file");
-        options.addOption(STDIN, true, "use stdin for file input (default: source.cfc)");
-        options.addOption("stdout", false, "output to stdout only");
-        options.addOption("listrulegroups", false, "list rule groups");
-        options.addOption("rulegroups", true, "rule groups");
+        options.addOption(Settings.LOGERROR, false, "log parsing errors as bugs");
+        options.addOption(Settings.E, false, "log parsing errors as bugs");
+        options.addOption(Settings.QUIET, false,"less output");
+        options.addOption(Settings.Q, false, "less output");
+        options.addOption(Settings.HELP, false, DISPLAY_THIS_HELP);
+        options.addOption(Settings.QUESTION_MARK, false, DISPLAY_THIS_HELP);
+        options.addOption(Settings.H, false, DISPLAY_THIS_HELP);
+        options.addOption(Settings.XML, false, "output in xml format");
+        options.addOption(Settings.XMLFILE, true, "specify the output xml file (default: cflint-results.xml)");
+        options.addOption(Settings.XMLSTYLE, true, "cflint,findbugs");
+        options.addOption(Settings.HTML, false, "output in html format (default)");
+        options.addOption(Settings.HTMLFILE, true, "specify the output html file (default: cflint-results.html)");
+        options.addOption(Settings.HTMLSTYLE, true, "default,plain");// fancy,fancy-hist,summary
+        options.addOption(Settings.JSON, false, "output in json format");
+        options.addOption(Settings.JSONFILE, true, "specify the output json file (default: cflint-results.json)");
+        options.addOption(Settings.TEXT, false, "output in plain text");
+        options.addOption(Settings.TEXTFILE, true, "specify the output text file (default: cflint-results.txt)");
+        options.addOption(Settings.EXTENSIONS, true, "specify the extensions of the CF source files (default: .cfm,.cfc)");
+        options.addOption(Settings.CONFIGFILE, true, "specify the location of the config file");
+        options.addOption(Settings.STDIN, true, "use stdin for file input (default: source.cfc)");
+        options.addOption(Settings.STDOUT, false, "output to stdout only");
+        options.addOption(Settings.LIST_RULE_GROUPS, false, "list rule groups");
+        options.addOption(Settings.RULE_GROUPS, true, "rule groups");
 
         final CommandLineParser parser = new GnuParser();
         final CommandLine cmd = parser.parse(options, args);
         final CFLintMain main = new CFLintMain();
 
-        if (cmd.hasOption('h') || cmd.hasOption("help") || cmd.hasOption("?")) {
+        if (cmd.hasOption(Settings.H) || cmd.hasOption(Settings.HELP) || cmd.hasOption(Settings.QUESTION_MARK)) {
             final HelpFormatter formatter = new HelpFormatter();
             formatter.printHelp(CFLINT, options);
             return;
         }
-        if (cmd.hasOption("version")) {
+        if (cmd.hasOption(Settings.VERSION)) {
             System.out.println("CFLint " + Version.getVersion());
             System.out.println("CFParser " + cfml.parsing.Version.getVersion());
             return;
         }
-        main.strictInclude = cmd.hasOption(STRICT_INCLUDE);
-        if (cmd.hasOption(RULES) || cmd.hasOption("config")) {
-            final CFLintPluginInfo pluginInfo = cmd.hasOption(RULES) ? ConfigUtils.loadDefaultPluginInfo()
+        main.strictInclude = cmd.hasOption(Settings.STRICT_INCLUDE);
+        if (cmd.hasOption(Settings.RULES) || cmd.hasOption(Settings.CONFIG)) {
+            final CFLintPluginInfo pluginInfo = cmd.hasOption(Settings.RULES) ? ConfigUtils.loadDefaultPluginInfo()
                     : new CFLintPluginInfo();
             main.defaultConfig = new CFLintConfig();
             main.defaultConfig.setRules(pluginInfo.getRules());
 
             CFLintChainedConfig myConfig = new CFLintChainedConfig(main.defaultConfig);
-            if (cmd.hasOption(CONFIGFILE)) {
-                final String configfile = cmd.getOptionValue(CONFIGFILE);
+            if (cmd.hasOption(Settings.CONFIGFILE)) {
+                final String configfile = cmd.getOptionValue(Settings.CONFIGFILE);
                 myConfig = myConfig.createNestedConfig(loadConfig(configfile));
             }
 
@@ -177,33 +160,33 @@ public class CFLintMain {
         main.defaultConfig = new CFLintConfig();
         main.defaultConfig.setRules(pluginInfo.getRules());
 
-        if (cmd.hasOption("listrulegroups")) {
+        if (cmd.hasOption(Settings.LIST_RULE_GROUPS)) {
             listRuleGroups(pluginInfo);
             return;
         }
         // Load the codes from the rule groups into the includes list, if rule
         // groups are specified
-        if (cmd.hasOption("rulegroups")) {
-            final String rulegroups = cmd.getOptionValue("rulegroups");
+        if (cmd.hasOption(Settings.RULE_GROUPS)) {
+            final String rulegroups = cmd.getOptionValue(Settings.RULE_GROUPS);
             applyRuleGroups(main, pluginInfo, rulegroups);
         } else {
             // Exclude the experimental by default.
             applyRuleGroups(main, pluginInfo, "!Experimental");
         }
 
-        main.verbose = (cmd.hasOption('v') || cmd.hasOption(VERBOSE));
-        main.quiet = (cmd.hasOption('q') || cmd.hasOption(QUIET));
-        main.logerror = (cmd.hasOption('e') || cmd.hasOption("logerror"));
-        main.xmlOutput = cmd.hasOption("xml") || cmd.hasOption(XMLSTYLE) || cmd.hasOption(XMLFILE);
-        main.textOutput = cmd.hasOption("text") || cmd.hasOption(TEXTFILE);
-        main.jsonOutput = cmd.hasOption("json") || cmd.hasOption("jsonFile");
+        main.verbose = (cmd.hasOption(Settings.V) || cmd.hasOption(Settings.VERBOSE));
+        main.quiet = (cmd.hasOption(Settings.Q) || cmd.hasOption(Settings.QUIET));
+        main.logerror = (cmd.hasOption(Settings.E) || cmd.hasOption(Settings.LOGERROR));
+        main.xmlOutput = cmd.hasOption(Settings.XML) || cmd.hasOption(Settings.XMLSTYLE) || cmd.hasOption(Settings.XMLFILE);
+        main.textOutput = cmd.hasOption(Settings.TEXT) || cmd.hasOption(Settings.TEXTFILE);
+        main.jsonOutput = cmd.hasOption(Settings.JSON) || cmd.hasOption(Settings.JSONFILE);
 
-        if (cmd.hasOption("ui")) {
+        if (cmd.hasOption(Settings.UI)) {
             main.ui();
         }
         // If an output is specified, htmlOutput is not defaulted to true.
         if (main.xmlOutput || main.textOutput || main.jsonOutput) {
-            main.htmlOutput = cmd.hasOption("html") || cmd.hasOption(HTMLSTYLE) || cmd.hasOption(HTMLFILE);
+            main.htmlOutput = cmd.hasOption(Settings.HTML) || cmd.hasOption(Settings.HTMLSTYLE) || cmd.hasOption(Settings.HTMLFILE);
         }
 
         if (main.verbose) {
@@ -213,74 +196,74 @@ public class CFLintMain {
             System.out.println("HTML Output " + main.htmlOutput);
         }
 
-        if (cmd.hasOption(FOLDER)) {
-            main.folder.addAll(Arrays.asList(cmd.getOptionValue(FOLDER).split(",")));
+        if (cmd.hasOption(Settings.FOLDER)) {
+            main.folder.addAll(Arrays.asList(cmd.getOptionValue(Settings.FOLDER).split(",")));
         }
-        if (cmd.hasOption("file")) {
-            main.folder.addAll(Arrays.asList(cmd.getOptionValue("file").split(",")));
+        if (cmd.hasOption(Settings.FILE)) {
+            main.folder.addAll(Arrays.asList(cmd.getOptionValue(Settings.FILE).split(",")));
         }
-        if (cmd.hasOption(HTMLSTYLE)) {
-            main.htmlStyle = cmd.getOptionValue(HTMLSTYLE);
+        if (cmd.hasOption(Settings.HTMLSTYLE)) {
+            main.htmlStyle = cmd.getOptionValue(Settings.HTMLSTYLE);
             if (!main.htmlStyle.endsWith(".xsl") && !main.htmlStyle.endsWith(".xslt")) {
                 main.htmlStyle = main.htmlStyle + ".xsl";
             }
         }
-        if (cmd.hasOption(XMLSTYLE)) {
-            main.xmlstyle = cmd.getOptionValue(XMLSTYLE);
+        if (cmd.hasOption(Settings.XMLSTYLE)) {
+            main.xmlstyle = cmd.getOptionValue(Settings.XMLSTYLE);
         }
-        if (cmd.hasOption(FILTER_FILE)) {
-            main.filterFile = cmd.getOptionValue(FILTER_FILE);
+        if (cmd.hasOption(Settings.FILTER_FILE)) {
+            main.filterFile = cmd.getOptionValue(Settings.FILTER_FILE);
         }
-        if (cmd.hasOption(XMLFILE)) {
-            main.xmlOutFile = cmd.getOptionValue(XMLFILE);
+        if (cmd.hasOption(Settings.XMLFILE)) {
+            main.xmlOutFile = cmd.getOptionValue(Settings.XMLFILE);
         }
-        if (cmd.hasOption(JSONFILE)) {
-            main.jsonOutFile = cmd.getOptionValue(JSONFILE);
+        if (cmd.hasOption(Settings.JSONFILE)) {
+            main.jsonOutFile = cmd.getOptionValue(Settings.JSONFILE);
         }
-        if (cmd.hasOption(CONFIGFILE)) {
-            final String configfile = cmd.getOptionValue(CONFIGFILE);
+        if (cmd.hasOption(Settings.CONFIGFILE)) {
+            final String configfile = cmd.getOptionValue(Settings.CONFIGFILE);
             main.configFileConfig = loadConfig(configfile);
         }
-        if (cmd.hasOption(HTMLFILE)) {
-            main.htmlOutFile = cmd.getOptionValue(HTMLFILE);
+        if (cmd.hasOption(Settings.HTMLFILE)) {
+            main.htmlOutFile = cmd.getOptionValue(Settings.HTMLFILE);
         }
-        if (cmd.hasOption(TEXTFILE)) {
-            main.textOutFile = cmd.getOptionValue(TEXTFILE);
+        if (cmd.hasOption(Settings.TEXTFILE)) {
+            main.textOutFile = cmd.getOptionValue(Settings.TEXTFILE);
         }
-        if (cmd.hasOption(JSONFILE)) {
-            main.jsonOutFile = cmd.getOptionValue(JSONFILE);
+        if (cmd.hasOption(Settings.JSONFILE)) {
+            main.jsonOutFile = cmd.getOptionValue(Settings.JSONFILE);
         }
-        if (cmd.hasOption(EXTENSIONS)) {
-            main.extensions = cmd.getOptionValue(EXTENSIONS);
+        if (cmd.hasOption(Settings.EXTENSIONS)) {
+            main.extensions = cmd.getOptionValue(Settings.EXTENSIONS);
         }
 
-        if (cmd.hasOption(INCLUDE_RULE) || cmd.hasOption(EXCLUDE_RULE)) {
+        if (cmd.hasOption(Settings.INCLUDE_RULE) || cmd.hasOption(Settings.EXCLUDE_RULE)) {
             main.cmdLineConfig = new CFLintConfig();
-            if (cmd.hasOption(INCLUDE_RULE)) {
-                for (final String code : cmd.getOptionValue(INCLUDE_RULE).split(",")) {
+            if (cmd.hasOption(Settings.INCLUDE_RULE)) {
+                for (final String code : cmd.getOptionValue(Settings.INCLUDE_RULE).split(",")) {
                     main.cmdLineConfig.addInclude(new PluginMessage(code));
                     main.cmdLineConfig.setInheritParent(false);
                 }
             }
-            if (cmd.hasOption(EXCLUDE_RULE)) {
-                for (final String code : cmd.getOptionValue(EXCLUDE_RULE).split(",")) {
+            if (cmd.hasOption(Settings.EXCLUDE_RULE)) {
+                for (final String code : cmd.getOptionValue(Settings.EXCLUDE_RULE).split(",")) {
                     main.cmdLineConfig.addExclude(new PluginMessage(code));
                 }
             }
         }
-        main.showprogress = cmd.hasOption(SHOWPROGRESS) || (!cmd.hasOption(SHOWPROGRESS) && cmd.hasOption("ui"));
-        main.progressUsesThread = !cmd.hasOption("singlethread");
-        main.stdIn = cmd.hasOption(STDIN);
+        main.showprogress = cmd.hasOption(Settings.SHOWPROGRESS) || (!cmd.hasOption(Settings.SHOWPROGRESS) && cmd.hasOption(Settings.UI));
+        main.progressUsesThread = !cmd.hasOption(Settings.SINGLETHREAD);
+        main.stdIn = cmd.hasOption(Settings.STDIN);
         if (main.stdIn) {
-            final String stdInOptionValue = cmd.getOptionValue(STDIN);
+            final String stdInOptionValue = cmd.getOptionValue(Settings.STDIN);
             if (stdInOptionValue != null) {
                 main.stdInFile = stdInOptionValue;
             }
         }
-        main.stdOut = cmd.hasOption("stdout");
+        main.stdOut = cmd.hasOption(Settings.STDOUT);
         if (main.isValid()) {
             main.execute();
-            if (cmd.hasOption("ui")) {
+            if (cmd.hasOption(Settings.UI)) {
                 main.open();
             }
         } else {
@@ -458,7 +441,7 @@ public class CFLintMain {
             Writer xmlwriter = null;
             try {
                 xmlwriter = stdOut ? new OutputStreamWriter(System.out) : createWriter(xmlOutFile, StandardCharsets.UTF_8);
-                if ("findbugs".equalsIgnoreCase(xmlstyle)) {
+                if (FINDBUGS.equalsIgnoreCase(xmlstyle)) {
                     if (verbose) {
                         display("Writing XML (style: findbugs)" + (stdOut ? "." : " to " + xmlOutFile));
                     }

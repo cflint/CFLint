@@ -91,11 +91,11 @@ public class CFLintMain {
         options.addOption(Settings.VERBOSE, false, "verbose output");
         options.addOption(Settings.STRICT_INCLUDE, false, "Check every include and try to parse it");
         options.addOption(Settings.SHOWPROGRESS, false, "show progress bar");
-        options.addOption(Settings.SINGLETHREAD, false, "show progress bar");
+        options.addOption(Settings.SINGLETHREAD, false, "run single threaded");
 
         options.addOption(Settings.LOGERROR, false, "log parsing errors as bugs");
         options.addOption(Settings.E, false, "log parsing errors as bugs");
-        options.addOption(Settings.QUIET, false,"less output");
+        options.addOption(Settings.QUIET, false, "less output");
         options.addOption(Settings.Q, false, "less output");
         options.addOption(Settings.HELP, false, DISPLAY_THIS_HELP);
         options.addOption(Settings.QUESTION_MARK, false, DISPLAY_THIS_HELP);
@@ -105,7 +105,7 @@ public class CFLintMain {
         options.addOption(Settings.XMLSTYLE, true, "cflint,findbugs");
         options.addOption(Settings.HTML, false, "output in html format (default)");
         options.addOption(Settings.HTMLFILE, true, "specify the output html file (default: cflint-results.html)");
-        options.addOption(Settings.HTMLSTYLE, true, "default,plain");// fancy,fancy-hist,summary
+        options.addOption(Settings.HTMLSTYLE, true, "default,plain"); // fancy,fancy-hist,summary
         options.addOption(Settings.JSON, false, "output in json format");
         options.addOption(Settings.JSONFILE, true, "specify the output json file (default: cflint-results.json)");
         options.addOption(Settings.TEXT, false, "output in plain text");

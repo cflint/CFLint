@@ -349,7 +349,7 @@
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>license-maven-plugin</artifactId>
-				<version>1.7</version>
+				<version>1.8</version>
 				<configuration>
 					<verbose>false</verbose>
 					<addSvnKeyWords>true</addSvnKeyWords>
@@ -380,7 +380,7 @@
 			<plugin>
 				<groupId>org.sonatype.plugins</groupId>
 				<artifactId>nexus-staging-maven-plugin</artifactId>
-				<version>1.6.7</version>
+				<version>1.6.5</version>
 				<extensions>true</extensions>
 				<configuration>
 					<serverId>ossrh</serverId>

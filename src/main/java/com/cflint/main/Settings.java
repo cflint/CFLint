@@ -47,7 +47,7 @@ public class Settings {
     public static final String FOLDER = "folder";
 
     /**
-     * TODO
+     * Filter file.
      */
     public static final String FILTER_FILE = "filterFile";
 
@@ -97,7 +97,7 @@ public class Settings {
     public static final String CONFIGFILE = "configfile";
 
     /**
-     * TODO
+     * Check every CF include and try to parse it's contents as well.
      */
     public static final String STRICT_INCLUDE = "strictinclude";
 

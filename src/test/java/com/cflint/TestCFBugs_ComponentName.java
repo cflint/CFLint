@@ -14,8 +14,6 @@ import com.cflint.config.CFLintConfig;
 
 import cfml.parsing.reporting.ParseException;
 
-@Ignore
-//TODO add this component to cflint.definition.json
 public class TestCFBugs_ComponentName {
 
 	private CFLint cfBugs;

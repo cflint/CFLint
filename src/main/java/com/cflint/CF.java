@@ -1,0 +1,90 @@
+package com.cflint;
+
+public class CF {
+    public static final String CFARGUMENT = "cfargument";
+    public static final String CFCASE = "cfcase";
+    public static final String CFCATCH = "cfcatch";
+    public static final String CFCOLLECTION = "cfcollection";
+    public static final String CFCOMPONENT = "cfcomponent";
+    public static final String CFDBINFO = "cfdbinfo";
+    public static final String CFDEFAULTCASE = "CFDEFAULTCASE";
+    public static final String CFDIRECTORY = "cfdirectory";
+    public static final String CFDOCUMENT = "cfdocument";
+    public static final String CFELSE = "cfelse";
+    public static final String CFELSEIF = "cfelseif";
+    public static final String CFEXECUTE = "cfexecute";
+    public static final String CFFEED = "cffeed";
+    public static final String CFFILE = "cffile";
+    public static final String CFFORM = "cfform";
+    public static final String CFFTP = "cfftp";
+    public static final String CFFUNCTION = "cffunction";
+    public static final String CFHTTP = "cfhttp";
+    public static final String CFIF = "cfif";
+    public static final String CFINCLUDE = "cfinclude";
+    public static final String CFINVOKE = "cfinvoke";
+    public static final String CFLDAP = "cfldap";
+    public static final String CFLOOP = "cfloop";
+    public static final String CFMAIL = "cfmail";
+    public static final String CFNTAUTHRNTICATE = "cfntauthenticate";
+    public static final String CFOBJECT = "cfobject";
+    public static final String CFOUTPUT = "cfoutput";
+    public static final String CFPDF = "cfpdf";
+    public static final String CFPOP = "cfpop";
+    public static final String CFPROCPARAM = "cfprocparam";
+    public static final String CFPROCRESULT = "cfprocresult";
+    public static final String CFQUERY = "cfquery";
+    public static final String CFQUERYPARAM = "cfqueryparam";
+    public static final String CFREGISTRY = "cfregistry";
+    public static final String CFREPORT = "cfreport";
+    public static final String CFRETURN = "cfreturn";
+    public static final String CFSAVECONTENT = "cfsavecontent";
+    public static final String CFSCRIPT = "cfscript";
+    public static final String CFSEARCH = "cfsearch";
+    public static final String CFSET = "cfset";
+    public static final String CFSETTING = "cfsetting";
+    public static final String CFSTOREDPROC = "cfstoredproc";
+    public static final String CFTRY = "cftry";
+    public static final String CFWDDX = "cfwddx";
+    public static final String CFWHILE = "cfwhile";
+    public static final String CFXML = "cfxml";
+    public static final String CFZIP = "cfzip";
+    public static final String COMMENT = "!---";
+    public static final String COMPONENT = "component";
+    public static final String DBTYPE = "dbtype";
+    public static final String DEBUG = "debug";
+    public static final String DEFAULT = "default";
+    public static final String DISPLAYNAME = "displayname";
+    public static final String FUNCTION = "function";
+    public static final String GROUP = "group";
+    public static final String HINT = "hint";
+    public static final String INDEX = "index";
+    public static final String INTERFACE = "interface";
+    public static final String ITEM = "item";
+    public static final String NAME = "name";
+    public static final String OUTPUT = "output";
+    public static final String PROPERTY_NAME = "propertyName";
+    public static final String QUERY = "query";
+    public static final String REQUIRED = "required";
+    public static final String RETURNVARIABLE = "returnvariable";
+    public static final String TEMPLATE = "template";
+    public static final String TYPE = "type";
+
+    public static final String APPLICATION = "application";
+    public static final String CGI = "cgi";
+    public static final String COOKIE = "cookie";
+    public static final String FORM = "form";
+    public static final String REQUEST = "request";
+    public static final String SERVER = "server";
+    public static final String SESSION = "session";
+    public static final String CLIENT = "client";
+    public static final String ARGUMENTS = "arguments";
+    public static final String VARIABLES = "variables";
+    public static final String LOCAL = "local";
+    public static final String THIS = "this";
+    public static final String URL = "url";
+
+    private CF() {
+      throw new IllegalStateException("CF utility class");
+    }
+}
+

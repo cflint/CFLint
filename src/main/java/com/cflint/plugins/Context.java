@@ -229,12 +229,15 @@ public class Context {
         return context2;
     }
     public Context subContextInAssignment() {
+        return subContextInAssignment(true);
+    }
+    public Context subContextInAssignment(boolean assignment) {
         final Context context2 = new Context(getFilename(), this.element, getFunctionName(),
                 isInAssignmentExpression(), callStack, tokens);
         context2.setInComponent(isInComponent());
         context2.parent = this;
         context2.componentName=componentName;
-        context2.setInAssignmentExpression(true);
+        context2.setInAssignmentExpression(assignment);
         return context2;
     }
 

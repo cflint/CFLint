@@ -78,12 +78,7 @@ public class ValidName {
 
     public boolean endsInNumber(final String name) {
         final char lastLetter = name.charAt(name.length() - 1);
-
-        if (Character.isDigit(lastLetter)) {
-            return true;
-        }
-
-        return false;
+        return Character.isDigit(lastLetter);
     }
 
     public boolean tooShort(final String name) {

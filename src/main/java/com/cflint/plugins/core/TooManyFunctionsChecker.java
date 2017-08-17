@@ -52,7 +52,7 @@ public class TooManyFunctionsChecker extends CFLintScannerAdapter {
         }
 
         if (functionCount == threshold+1) {
-            context.getParent(ContextType.Component).addUniqueMessage("EXCESSIVE_FUNCTIONS", null,
+            context.getParent(ContextType.COMPONENT).addUniqueMessage("EXCESSIVE_FUNCTIONS", null,
                     this, atLine);
         }
     }

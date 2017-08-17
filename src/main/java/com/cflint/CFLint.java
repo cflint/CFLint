@@ -381,20 +381,20 @@ public class CFLint implements IErrorReporter {
                 final Context componentContext = context.subContext(elem);
                 componentContext.setInComponent(true);
                 componentContext.setComponentName(elem.getAttributeValue("displayname"));
-                componentContext.setContextType(ContextType.Component);
+                componentContext.setContextType(ContextType.COMPONENT);
                 handler.push("component");
                 doStructureStart(elem, componentContext, CFCompDeclStatement.class);
             } else if (elem.getName().equalsIgnoreCase("cffunction")) {
                 final Context functionContext = context.subContext(elem);
                 functionContext.setFunctionName(elem.getAttributeValue("name"));
-                functionContext.setContextType(ContextType.Function);
+                functionContext.setContextType(ContextType.FUNCTION);
                 handler.push("function");
                 doStructureStart(elem, functionContext, CFFuncDeclStatement.class);
             } else if (elem.getName().equalsIgnoreCase("cfloop") && elem.getAttributeValue("query") != null) {
                 // Give a cfloop for query its own context and set the column
                 // names as variables if they are available
                 final Context loopContext = context.subContext(elem);
-                loopContext.setContextType(ContextType.QueryLoop);
+                loopContext.setContextType(ContextType.QUERY_LOOP);
                 handler.push("cfloop");
 
                 final String qryName = elem.getAttributeValue("query");
@@ -457,7 +457,7 @@ public class CFLint implements IErrorReporter {
             } else if (elem.getName().equalsIgnoreCase("cffunction")) {
                 final Context functionContext = context.subContext(elem);
                 functionContext.setFunctionName(elem.getAttributeValue("name"));
-                functionContext.setContextType(ContextType.Function);
+                functionContext.setContextType(ContextType.FUNCTION);
                 scanElement(elem, functionContext);
                 processStack(elem.getChildElements(), space + " ", functionContext);
                 // Process any messages added by downstream parsing.
@@ -484,7 +484,7 @@ public class CFLint implements IErrorReporter {
                 final Context componentContext = context.subContext(elem);
                 componentContext.setInComponent(true);
                 componentContext.setComponentName(elem.getAttributeValue("displayname"));
-                componentContext.setContextType(ContextType.Component);
+                componentContext.setContextType(ContextType.COMPONENT);
 
                 scanElement(elem, componentContext);
 
@@ -731,7 +731,7 @@ public class CFLint implements IErrorReporter {
                 final CFCompDeclStatement compDeclStatement = (CFCompDeclStatement) expression;
                 final Context componentContext = context.subContext(null);
                 componentContext.setInComponent(true);
-                componentContext.setContextType(ContextType.Component);
+                componentContext.setContextType(ContextType.COMPONENT);
                 for (final Entry<CFExpression, CFExpression> entry : compDeclStatement.getAttributes().entrySet()) {
                     if (entry.getKey() != null && entry.getKey().Decompile(0).equalsIgnoreCase("name")) {
                         componentContext.setComponentName(entry.getValue().Decompile(0));
@@ -824,7 +824,7 @@ public class CFLint implements IErrorReporter {
             } else if (expression instanceof CFFuncDeclStatement) {
                 final CFFuncDeclStatement function = (CFFuncDeclStatement) expression;
                 final Context functionContext = context.subContext(null);
-                functionContext.setContextType(ContextType.Function);
+                functionContext.setContextType(ContextType.FUNCTION);
                 functionContext.setFunctionInfo(function);
 
                 registerRuleOverrides(functionContext, function.getToken());

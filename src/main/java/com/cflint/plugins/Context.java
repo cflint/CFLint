@@ -20,7 +20,7 @@ import net.htmlparser.jericho.Element;
 public class Context {
 
     public static enum ContextType {
-        Component, Function, Other, QueryLoop
+        COMPONENT, FUNCTION, OTHER, QUERY_LOOP
     }
 
     private String filename;
@@ -369,7 +369,7 @@ public class Context {
 
     public void setContextType(ContextType contextType) {
         this.contextType = contextType;
-        if(contextType == ContextType.Component && componentName==null){
+        if(contextType == ContextType.COMPONENT && componentName==null){
             assignComponentNameFromFile();
         }
     }

@@ -154,29 +154,29 @@ public class VariableNameChecker extends CFLintScannerAdapter {
         }
 
         if (name.isInvalid(variable)) {
-            context.getParent(ContextType.Function).addUniqueMessage("VAR_INVALID_NAME", variable, this, line);
+            context.getParent(ContextType.FUNCTION).addUniqueMessage("VAR_INVALID_NAME", variable, this, line);
         }
         if (!scope.isCFScoped(variable) && name.isUpperCase(variable)) {
             if (!getParameterNotNull("IgnoreAllCapsInScopes").toLowerCase().contains(varScope))
-            context.getParent(ContextType.Function).addUniqueMessage("VAR_ALLCAPS_NAME", variable, this, line);
+            context.getParent(ContextType.FUNCTION).addUniqueMessage("VAR_ALLCAPS_NAME", variable, this, line);
         }
         if (scope.isCFScoped(variable) && name.isUpperCase(variable) && !getParameterNotNull("IgnoreUpperCaseScopes").contains(variable)) {
-            context.getParent(ContextType.Function).addUniqueMessage("SCOPE_ALLCAPS_NAME", variable, this, line);
+            context.getParent(ContextType.FUNCTION).addUniqueMessage("SCOPE_ALLCAPS_NAME", variable, this, line);
         }
         if (name.tooShort(variable)) {
-            context.getParent(ContextType.Function).addUniqueMessage("VAR_TOO_SHORT", variable, this, line);
+            context.getParent(ContextType.FUNCTION).addUniqueMessage("VAR_TOO_SHORT", variable, this, line);
         }
         if (name.tooLong(variable)) {
-            context.getParent(ContextType.Function).addUniqueMessage("VAR_TOO_LONG", variable, this, line);
+            context.getParent(ContextType.FUNCTION).addUniqueMessage("VAR_TOO_LONG", variable, this, line);
         }
         if (!name.isUpperCase(variable) && name.tooWordy(variable)) {
-            context.getParent(ContextType.Function).addUniqueMessage("VAR_TOO_WORDY", variable, this, line);
+            context.getParent(ContextType.FUNCTION).addUniqueMessage("VAR_TOO_WORDY", variable, this, line);
         }
         if (name.isTemporary(variable)) {
-            context.getParent(ContextType.Function).addUniqueMessage("VAR_IS_TEMPORARY", variable, this, line);
+            context.getParent(ContextType.FUNCTION).addUniqueMessage("VAR_IS_TEMPORARY", variable, this, line);
         }
         if (name.hasPrefixOrPostfix(variable)) {
-            context.getParent(ContextType.Function).addUniqueMessage("VAR_HAS_PREFIX_OR_POSTFIX", variable, this, line);
+            context.getParent(ContextType.FUNCTION).addUniqueMessage("VAR_HAS_PREFIX_OR_POSTFIX", variable, this, line);
         }
     }
 

@@ -1,5 +1,6 @@
 package com.cflint.plugins.core;
 
+import com.cflint.CF;
 import com.cflint.Levels;
 import com.cflint.BugList;
 import com.cflint.plugins.CFLintScannerAdapter;
@@ -30,7 +31,7 @@ public class ComponentLengthChecker extends CFLintScannerAdapter {
     public void element(final Element element, final Context context, final BugList bugs) {
         final String elementName = element.getName();
 
-        if (elementName.equals("cfcomponent")) {
+        if (elementName.equals(CF.CFCOMPONENT)) {
             // this includes whitespace-change it
             final int total = element.getAllStartTags().size();
 

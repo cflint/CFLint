@@ -1,5 +1,6 @@
 package com.cflint.plugins.core;
 
+import com.cflint.CF;
 import com.cflint.Levels;
 import com.cflint.BugList;
 import com.cflint.plugins.CFLintScannerAdapter;
@@ -60,17 +61,17 @@ public class SimpleComplexityChecker extends CFLintScannerAdapter {
     public void element(final Element element, final Context context, final BugList bugs) {
         final String name = element.getName();
 
-        if (name.equalsIgnoreCase("cffunction")) {
+        if (name.equalsIgnoreCase(CF.CFFUNCTION)) {
             functionLineNo = element.getSource().getRow(element.getBegin());
             complexity = 0;
             alreadyTooComplex = false;
         } else {
-            if (name.equalsIgnoreCase("cfif") || name.equalsIgnoreCase("cfelse") || name.equalsIgnoreCase("cfelseif")
-                    || name.equalsIgnoreCase("cfloop") || name.equalsIgnoreCase("cfwhile")
-                    || name.equalsIgnoreCase("cfoutput") // TODO could check for
+            if (name.equalsIgnoreCase(CF.CFIF) || name.equalsIgnoreCase(CF.CFELSE) || name.equalsIgnoreCase(CF.CFELSEIF)
+                    || name.equalsIgnoreCase(CF.CFLOOP) || name.equalsIgnoreCase(CF.CFWHILE)
+                    || name.equalsIgnoreCase(CF.CFOUTPUT) // TODO could check for
                                                          // query=
-                    || name.equalsIgnoreCase("cfcase") || name.equalsIgnoreCase("cfdefaultcase")
-                    || name.equalsIgnoreCase("cftry") || name.equalsIgnoreCase("cfcatch")) {
+                    || name.equalsIgnoreCase(CF.CFCASE) || name.equalsIgnoreCase(CF.CFDEFAULTCASE)
+                    || name.equalsIgnoreCase(CF.CFTRY) || name.equalsIgnoreCase(CF.CFCATCH)) {
                 complexity++;
                 checkComplexity(context.getFunctionName(), functionLineNo, context, bugs);
             }

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import com.cflint.CF;
 import com.cflint.Levels;
 import com.cflint.BugList;
 import com.cflint.plugins.CFLintScannerAdapter;
@@ -33,24 +34,24 @@ public class VariableNameChecker extends CFLintScannerAdapter {
         final String elementName = element.getName();
         final int begLine = element.getSource().getRow(element.getBegin());
 
-        if (elementName.equals("cfquery")) {
-            if (element.getAttributeValue("name") != null) {
-                final String varName = element.getAttributeValue("name") != null ? element.getAttributeValue("name")
+        if (elementName.equals(CF.CFQUERY)) {
+            if (element.getAttributeValue(CF.NAME) != null) {
+                final String varName = element.getAttributeValue(CF.NAME) != null ? element.getAttributeValue(CF.NAME)
                         : "";
                 checkNameForBugs(context, varName, varName, context.getFilename(), context.getFunctionName(), begLine,
                         bugs);
             }
-        } else if (elementName.equals("cfinvoke")) {
-            if (element.getAttributeValue("returnvariable") != null) {
-                final String varName = element.getAttributeValue("returnvariable") != null
-                        ? element.getAttributeValue("returnvariable") : "";
+        } else if (elementName.equals(CF.CFINVOKE)) {
+            if (element.getAttributeValue(CF.RETURNVARIABLE) != null) {
+                final String varName = element.getAttributeValue(CF.RETURNVARIABLE) != null
+                        ? element.getAttributeValue(CF.RETURNVARIABLE) : "";
                 checkNameForBugs(context, varName, varName, context.getFilename(), context.getFunctionName(), begLine,
                         bugs);
             }
-        } else if (elementName.equals("cfloop")) {
-            if (element.getAttributeValue("index") != null || element.getAttributeValue("item") != null) {
-                final String varName = element.getAttributeValue("index") != null ? element.getAttributeValue("index")
-                        : (element.getAttributeValue("item") != null ? element.getAttributeValue("item") : "");
+        } else if (elementName.equals(CF.CFLOOP)) {
+            if (element.getAttributeValue(CF.INDEX) != null || element.getAttributeValue(CF.ITEM) != null) {
+                final String varName = element.getAttributeValue(CF.INDEX) != null ? element.getAttributeValue(CF.INDEX)
+                        : (element.getAttributeValue(CF.ITEM) != null ? element.getAttributeValue(CF.ITEM) : "");
                 checkNameForBugs(context, varName, varName, context.getFilename(), context.getFunctionName(), begLine,
                         bugs);
             }

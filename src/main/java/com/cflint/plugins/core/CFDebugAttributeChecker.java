@@ -1,6 +1,7 @@
 package com.cflint.plugins.core;
 
 import com.cflint.BugList;
+import com.cflint.CF;
 import com.cflint.plugins.CFLintScannerAdapter;
 import com.cflint.plugins.Context;
 
@@ -18,11 +19,11 @@ public class CFDebugAttributeChecker extends CFLintScannerAdapter {
         if (attributes == null) {
             return;
         }
-        final Attribute debugAttr = attributes.get("debug");
+        final Attribute debugAttr = attributes.get(CF.DEBUG);
         if (debugAttr != null) {
             context.addMessage("AVOID_USING_DEBUG_ATTR", null);
         }
-        if (element.getName().equalsIgnoreCase("cfsetting")) {
+        if (element.getName().equalsIgnoreCase(CF.CFSETTING)) {
             final Attribute showDebugOutputAttr = element.getAttributes().get("showDebugOutput");
             if (showDebugOutputAttr != null) {
                 if ("Yes".equalsIgnoreCase(showDebugOutputAttr.getValue())

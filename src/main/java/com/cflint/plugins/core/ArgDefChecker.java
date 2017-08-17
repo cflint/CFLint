@@ -1,6 +1,7 @@
 package com.cflint.plugins.core;
 
 import com.cflint.BugList;
+import com.cflint.CF;
 import com.cflint.plugins.CFLintScannerAdapter;
 import com.cflint.plugins.Context;
 import com.cflint.tools.CFTool;
@@ -19,7 +20,7 @@ public class ArgDefChecker extends CFLintScannerAdapter {
             for (final CFFunctionParameter argument : function.getFormals()) {
                 // handler.addArgument(param.getName());
                 final String name = argument.getName();
-                if (!argument.toString().contains("required") && !argument.toString().contains("=")) {
+                if (!argument.toString().contains(CF.REQUIRED) && !argument.toString().contains("=")) {
                     context.addMessage("ARG_DEFAULT_MISSING", name);
                 }
             }
@@ -28,10 +29,10 @@ public class ArgDefChecker extends CFLintScannerAdapter {
 
     @Override
     public void element(final Element element, final Context context, final BugList bugs) {
-        if (element.getName().equals("cfargument")) {
-            final String name = element.getAttributeValue("name");
-            final boolean required = CFTool.toBoolean(element.getAttributeValue("required"));
-            final String defaultExpr = element.getAttributeValue("default");
+        if (element.getName().equals(CF.CFARGUMENT)) {
+            final String name = element.getAttributeValue(CF.NAME);
+            final boolean required = CFTool.toBoolean(element.getAttributeValue(CF.REQUIRED));
+            final String defaultExpr = element.getAttributeValue(CF.DEFAULT);
             if (!required && defaultExpr == null) {
                 element.getSource().getRow(element.getBegin());
                 element.getSource().getColumn(element.getBegin());

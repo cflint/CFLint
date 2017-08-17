@@ -1,5 +1,6 @@
 package com.cflint.plugins.core;
 
+import com.cflint.CF;
 import com.cflint.Levels;
 import com.cflint.BugList;
 import com.cflint.plugins.CFLintScannerAdapter;
@@ -12,9 +13,9 @@ public class ComponentDisplayNameChecker extends CFLintScannerAdapter {
 
     @Override
     public void element(final Element element, final Context context, final BugList bugs) {
-        if (element.getName().equals("cfcomponent")) {
+        if (element.getName().equals(CF.CFCOMPONENT)) {
             final String name = context.getComponentName();
-            final String nameAttribute = element.getAttributeValue("name");
+            final String nameAttribute = element.getAttributeValue(CF.NAME);
 
             if (nameAttribute != null) {
                 didYouMeanDisplayName(name, context, bugs);

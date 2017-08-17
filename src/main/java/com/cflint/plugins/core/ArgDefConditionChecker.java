@@ -1,6 +1,7 @@
 package com.cflint.plugins.core;
 
 import com.cflint.BugList;
+import com.cflint.CF;
 import com.cflint.plugins.CFLintScannerAdapter;
 import com.cflint.plugins.Context;
 import com.cflint.tools.CFTool;
@@ -21,7 +22,7 @@ public class ArgDefConditionChecker extends CFLintScannerAdapter {
             for (final CFFunctionParameter argument : function.getFormals()) {
                 final String name = argument.getName();
                 final boolean checked = isCheck(code, name);
-                if (!argument.toString().contains("required") && !argument.toString().contains("=") && !checked) {
+                if (!argument.toString().contains(CF.REQUIRED) && !argument.toString().contains("=") && !checked) {
                     context.addMessage("ARG_DEFAULT_MISSING", name);
                 }
             }
@@ -30,10 +31,10 @@ public class ArgDefConditionChecker extends CFLintScannerAdapter {
 
     @Override
     public void element(final Element element, final Context context, final BugList bugs) {
-        if (element.getName().equals("cfargument")) {
-            final String name = element.getAttributeValue("name");
-            final boolean required = CFTool.toBoolean(element.getAttributeValue("required"));
-            final String defaultExpr = element.getAttributeValue("default");
+        if (element.getName().equals(CF.CFARGUMENT)) {
+            final String name = element.getAttributeValue(CF.NAME);
+            final boolean required = CFTool.toBoolean(element.getAttributeValue(CF.REQUIRED));
+            final String defaultExpr = element.getAttributeValue(CF.DEFAULT);
             final String code = element.getParentElement().toString();
             final boolean checked = isCheck(code, name);
 

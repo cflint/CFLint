@@ -6,6 +6,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.cflint.BugList;
+import com.cflint.CF;
 import com.cflint.plugins.CFLintScannerAdapter;
 import com.cflint.plugins.Context;
 
@@ -33,7 +34,7 @@ public class QueryParamChecker extends CFLintScannerAdapter {
     @Override
     public void element(final Element element, final Context context, final BugList bugs) {
         if (
-        element.getName().equalsIgnoreCase("cfquery") && !"query".equalsIgnoreCase(element.getAttributeValue("dbtype"))) {
+        element.getName().equalsIgnoreCase(CF.CFQUERY) && !CF.QUERY.equalsIgnoreCase(element.getAttributeValue(CF.DBTYPE))) {
             String content = element.getContent().toString();
              //Todo : cfparser/Jericho does not support parsing out the cfqueryparam very well.
             //   the following code will not work when there is a > sign in the expression

@@ -4,6 +4,7 @@ import cfml.dictionary.Parameter;
 import cfml.dictionary.Return;
 import cfml.dictionary.SyntaxDictionary;
 import cfml.dictionary.Tag;
+import com.cflint.CF;
 import net.htmlparser.jericho.Element;
 
 public class CFMLTagInfo {
@@ -38,7 +39,7 @@ public class CFMLTagInfo {
     public boolean isAssignmentAttribute(final String elementName, final String attributeName) {
         if ((elementName != null) && (attributeName != null)) {
             // Hardcoded exceptions to the dictionary
-            if (elementName.toLowerCase().equals("cfprocparam")) {
+            if (elementName.toLowerCase().equals(CF.CFPROCPARAM)) {
                 return attributeName.equalsIgnoreCase("variable");
             }
             final Tag tag = dictionary.getTag(elementName.toLowerCase());

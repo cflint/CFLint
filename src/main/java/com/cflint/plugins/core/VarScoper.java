@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.cflint.BugList;
+import com.cflint.CF;
 import com.cflint.plugins.CFLintScannerAdapter;
 import com.cflint.plugins.Context;
 
@@ -22,12 +23,12 @@ public class VarScoper extends CFLintScannerAdapter {
     public static final String VARIABLE = "variable";
     public static final String RESULT = "result";
 
-    final Map<String, List<String>> CHECK_ELEMENT_ATTRIBUTES = new HashMap<String, List<String>>();
-    final List<String> CHECK_NAMES = Arrays.asList(new String[] { "cfquery", "cfstoredproc", "cffeed", "cfdirectory",
-            "cfform", "cfftp", "cfobject", "cfsearch", "cfprocresult", "cfpop", "cfregistry", "cfreport", "cfdbinfo",
-            "cfdocument", "cfcollection", "cfpdf", "cfzip", "cfldap" });
-    final static Collection<String> variables = Arrays.asList("APPLICATION", "CGI", "COOKIE", "FORM", "REQUEST",
-            "SERVER", "SESSION", "URL");
+    private final Map<String, List<String>> checkElementAttributes = new HashMap<String, List<String>>();
+    private final List<String> checkNames = Arrays.asList(CF.CFQUERY, CF.CFSTOREDPROC, CF.CFFEED, CF.CFDIRECTORY,
+            CF.CFFORM, CF.CFFTP, CF.CFOBJECT, CF.CFSEARCH, CF.CFPROCRESULT, CF.CFPOP, CF.CFREGISTRY, CF.CFREPORT,
+            CF.CFDBINFO, CF.CFDOCUMENT, CF.CFCOLLECTION, CF.CFPDF, CF.CFZIP, CF.CFLDAP);
+    private final Collection<String> variables = Arrays.asList(CF.APPLICATION, CF.CGI, CF.COOKIE, CF.FORM, CF.REQUEST,
+            CF.SERVER, CF.SESSION, CF.URL);
 
     @Override
     public void expression(final CFExpression expression, final Context context, final BugList bugs) {
@@ -57,19 +58,18 @@ public class VarScoper extends CFLintScannerAdapter {
     }
 
     public VarScoper() {
-        // CHECK_ELEMENT_ATTRIBUTES.put("cfloop",
-        // Arrays.asList("index","item"));
-        CHECK_ELEMENT_ATTRIBUTES.put("cfinvoke", Arrays.asList("returnvariable"));
-        CHECK_ELEMENT_ATTRIBUTES.put("cffile", Arrays.asList(VARIABLE));
-        CHECK_ELEMENT_ATTRIBUTES.put("cfsavecontent", Arrays.asList(VARIABLE));
-        CHECK_ELEMENT_ATTRIBUTES.put("cfhttp", Arrays.asList(RESULT));
-        CHECK_ELEMENT_ATTRIBUTES.put("cfquery", Arrays.asList(RESULT));
-        CHECK_ELEMENT_ATTRIBUTES.put("cfmail", Arrays.asList("query"));
-        CHECK_ELEMENT_ATTRIBUTES.put("cfftp", Arrays.asList(RESULT));
-        CHECK_ELEMENT_ATTRIBUTES.put("cfwddx", Arrays.asList("output"));
-        CHECK_ELEMENT_ATTRIBUTES.put("cfexecute", Arrays.asList(VARIABLE));
-        CHECK_ELEMENT_ATTRIBUTES.put("cfntauthenticate", Arrays.asList(RESULT));
-        CHECK_ELEMENT_ATTRIBUTES.put("cfxml", Arrays.asList(VARIABLE));
+        // checkElementAttributes.put(CF.CFLOOP, Arrays.asList(CF.index, CF.ITEM));
+        checkElementAttributes.put(CF.CFINVOKE, Arrays.asList(CF.RETURNVARIABLE));
+        checkElementAttributes.put(CF.CFFILE, Arrays.asList(VARIABLE));
+        checkElementAttributes.put(CF.CFSAVECONTENT, Arrays.asList(VARIABLE));
+        checkElementAttributes.put(CF.CFHTTP, Arrays.asList(RESULT));
+        checkElementAttributes.put(CF.CFQUERY, Arrays.asList(RESULT));
+        checkElementAttributes.put(CF.CFMAIL, Arrays.asList(CF.QUERY));
+        checkElementAttributes.put(CF.CFFTP, Arrays.asList(RESULT));
+        checkElementAttributes.put(CF.CFWDDX, Arrays.asList(CF.OUTPUT));
+        checkElementAttributes.put(CF.CFEXECUTE, Arrays.asList(VARIABLE));
+        checkElementAttributes.put(CF.CFNTAUTHRNTICATE, Arrays.asList(RESULT));
+        checkElementAttributes.put(CF.CFXML, Arrays.asList(VARIABLE));
 
     }
 
@@ -77,11 +77,11 @@ public class VarScoper extends CFLintScannerAdapter {
     public void element(final Element element, final Context context, final BugList bugs) {
         final String name = element.getName();
         if (name != null && name.trim().length() > 0 && context.isInFunction()) {
-            if (CHECK_NAMES.contains(name.toLowerCase())) {
-                assertVariable(element, context, bugs, element.getAttributeValue("name"));
+            if (checkNames.contains(name.toLowerCase())) {
+                assertVariable(element, context, bugs, element.getAttributeValue(CF.NAME));
             }
-            if (CHECK_ELEMENT_ATTRIBUTES.containsKey(name.toLowerCase())) {
-                for (final String attrName : CHECK_ELEMENT_ATTRIBUTES.get(name.toLowerCase())) {
+            if (checkElementAttributes.containsKey(name.toLowerCase())) {
+                for (final String attrName : checkElementAttributes.get(name.toLowerCase())) {
                     assertVariable(element, context, bugs, element.getAttributeValue(attrName));
                 }
             }

@@ -3,6 +3,7 @@ package com.cflint.plugins.core;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.cflint.CF;
 import com.cflint.Levels;
 import com.cflint.BugList;
 import com.cflint.plugins.CFLintScannerAdapter;
@@ -17,13 +18,14 @@ import net.htmlparser.jericho.Element;
 
 public class FunctionHintChecker extends CFLintScannerAdapter {
     final Levels severity = Levels.INFO;
+    final String functionHintMissing = "FUNCTION_HINT_MISSING";
 
     @Override
     public void element(final Element element, final Context context, final BugList bugs) {
-        if (element.getName().equals("cffunction")) {
+        if (element.getName().equals(CF.CFFUNCTION)) {
             final String hint = element.getAttributeValue("hint");
             if (hint == null || hint.trim().isEmpty()) {
-                context.addMessage("FUNCTION_HINT_MISSING", context.getFunctionName());
+                context.addMessage(functionHintMissing, context.getFunctionName());
             }
         }
     }
@@ -43,11 +45,11 @@ public class FunctionHintChecker extends CFLintScannerAdapter {
                     if (matcher.matches()) {
                         String hintText = matcher.group(1);
                         if (hintText.trim().isEmpty()) {
-                            context.addMessage("FUNCTION_HINT_MISSING", context.getFunctionName());
+                            context.addMessage(functionHintMissing, context.getFunctionName());
                         }
                     }
                 } else {
-                    context.addMessage("FUNCTION_HINT_MISSING", context.getFunctionName());
+                    context.addMessage(functionHintMissing, context.getFunctionName());
                 }
             }
         }

@@ -1,6 +1,7 @@
 package com.cflint.plugins.core;
 
 import com.cflint.BugList;
+import com.cflint.CF;
 import com.cflint.plugins.CFLintScannerAdapter;
 import com.cflint.plugins.Context;
 
@@ -14,7 +15,7 @@ public class SelectStarChecker extends CFLintScannerAdapter {
     @Override
     public void element(final Element element, final Context context, final BugList bugs) {
         final String tagName = element.getName();
-        if (tagName.equals("cfquery")) {
+        if (tagName.equals(CF.CFQUERY)) {
 
             String queryGuts = element.getContent().toString().replaceAll("\\s+", "");
             queryGuts = queryGuts.toLowerCase();

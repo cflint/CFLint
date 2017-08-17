@@ -1,6 +1,7 @@
 package com.cflint.plugins.core;
 
 import com.cflint.BugList;
+import com.cflint.CF;
 import com.cflint.plugins.CFLintScannerAdapter;
 import com.cflint.plugins.Context;
 
@@ -31,9 +32,9 @@ public class ArgTypeChecker extends CFLintScannerAdapter {
 
     @Override
     public void element(final Element element, final Context context, final BugList bugs) {
-        if (element.getName().equals("cfargument")) {
-            final String name = element.getAttributeValue("name");
-            final String variableType = element.getAttributeValue("type");
+        if (element.getName().equals(CF.CFARGUMENT)) {
+            final String name = element.getAttributeValue(CF.NAME);
+            final String variableType = element.getAttributeValue(CF.TYPE);
 
             if (variableType == null) {
                 context.addMessage("ARG_TYPE_MISSING", name);

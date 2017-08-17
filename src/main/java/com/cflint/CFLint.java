@@ -1018,14 +1018,22 @@ public class CFLint implements IErrorReporter {
                 final String name = ((CFIdentifier) expression).getName();
                 handler.checkVariable(name);
             } 
-            if (expression instanceof CFAssignmentExpression && !(expression instanceof CFTernaryExpression)) {
+            if (expression instanceof CFVarDeclExpression) {
                 final Context assignmentContext = context.subContext(elem);
                 assignmentContext.setInAssignmentExpression(true);
-                process(((CFAssignmentExpression) expression).getLeft(), elem, assignmentContext);
+                process(((CFVarDeclExpression) expression).getVar(), elem, assignmentContext);
                 // Right hand side is handled below. Left hand side gets a
                 // special context.
-                process(((CFAssignmentExpression) expression).getRight(), elem, context);
+                process(((CFVarDeclExpression) expression).getInit(), elem, context);
                 //Only process function call expressions
+            }else if (expression instanceof CFAssignmentExpression && !(expression instanceof CFTernaryExpression)) {
+                    final Context assignmentContext = context.subContext(elem);
+                    assignmentContext.setInAssignmentExpression(true);
+                    process(((CFAssignmentExpression) expression).getLeft(), elem, assignmentContext);
+                    // Right hand side is handled below. Left hand side gets a
+                    // special context.
+                    process(((CFAssignmentExpression) expression).getRight(), elem, context);
+                    //Only process function call expressions
             } else if (expression instanceof CFFullVarExpression) {
                 final CFFullVarExpression fullVarExpression = (CFFullVarExpression) expression;
                 if(context.isInAssignmentExpression() && new CFScopes().isScoped(fullVarExpression,"local") && fullVarExpression.getExpressions().size()>1){
@@ -1050,7 +1058,7 @@ public class CFLint implements IErrorReporter {
             } else {
                 // Loop into all relevant nested (child) expressions.
                 for (CFExpression child : expression.decomposeExpression()) {
-                    process(child, elem, context);
+                    process(child, elem, context.subContextInAssignment(false));
                 }
             }
         }

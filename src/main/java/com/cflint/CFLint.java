@@ -96,37 +96,33 @@ import net.htmlparser.jericho.Source;
 
 public class CFLint implements IErrorReporter {
 
+    // constants
     static final String FILE_ERROR = "FILE_ERROR";
     static final String PARSE_ERROR = "PARSE_ERROR";
     static final String PLUGIN_ERROR = "PLUGIN_ERROR";
     static final String MISSING_SEMI = "MISSING_SEMI";
     static final String AVOID_EMPTY_FILES = "AVOID_EMPTY_FILES";
-
-    CFMLTagInfo tagInfo;
-
     static final String RESOURCE_BUNDLE_NAME = "com.cflint.cflint";
 
-    CFMLParser cfmlParser = new CFMLParser();
-    StackHandler handler = new StackHandler();
-    BugList bugs;
-    final List<CFLintScanner> extensions = new ArrayList<CFLintScanner>();
-    final List<String> allowedExtensions = new ArrayList<String>();
-    boolean verbose = false;
-    boolean logError = false;
-    boolean quiet = false;
-    boolean showProgress = false;
-    boolean progressUsesThread = true;
-    CFLintStats stats = new CFLintStats();
+    private CFMLTagInfo tagInfo;
+    private CFMLParser cfmlParser = new CFMLParser();
+    private StackHandler handler = new StackHandler();
+    private BugList bugs;
+    private final List<CFLintScanner> extensions = new ArrayList<CFLintScanner>();
+    private final List<String> allowedExtensions = new ArrayList<String>();
+    private boolean verbose = false;
+    private boolean logError = false;
+    private boolean quiet = false;
+    private boolean showProgress = false;
+    private boolean progressUsesThread = true;
+    private CFLintStats stats = new CFLintStats();
 
-    // constants
-
-    final List<ScanProgressListener> scanProgressListeners = new ArrayList<ScanProgressListener>();
-    final List<CFLintExceptionListener> exceptionListeners = new ArrayList<CFLintExceptionListener>();
-
-    CFLintConfiguration configuration;
+    private final List<ScanProgressListener> scanProgressListeners = new ArrayList<ScanProgressListener>();
+    private final List<CFLintExceptionListener> exceptionListeners = new ArrayList<CFLintExceptionListener>();
+    private CFLintConfiguration configuration;
 
     // Stack to store include file depth to ensure no recursion
-    final Stack<File> includeFileStack = new Stack<File>();
+    private final Stack<File> includeFileStack = new Stack<File>();
 
     public CFLint(final CFLintConfiguration configFile) throws IOException {
         configuration = configFile == null ? new CFLintConfig() : configFile;
@@ -661,7 +657,7 @@ public class CFLint implements IErrorReporter {
         try {
             sr = new BufferedReader(new StringReader(source.toString()));
             for (int i = 1; i < line; i++) {
-                final String skip = sr.readLine();
+                sr.readLine();
             }
             final String sLine = sr.readLine();
             return sLine == null ? null : sLine.replaceAll("\t", " ");

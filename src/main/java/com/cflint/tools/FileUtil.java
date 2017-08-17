@@ -13,7 +13,7 @@ import org.apache.commons.io.input.BOMInputStream;
 
 public class FileUtil {
     
-    static final String defaultEncoding = "UTF-8";
+    static final String DEFAULT_ENCODING = "UTF-8";
     static final int BUF_SIZE = 8192;
 
     static public String loadFile(final File file) {
@@ -23,7 +23,7 @@ public class FileUtil {
             try {
                 final BOMInputStream bOMInputStream = new BOMInputStream(fis);
                 final ByteOrderMark bom = bOMInputStream.getBOM();
-                final String charsetName = bom == null ? defaultEncoding : bom.getCharsetName();
+                final String charsetName = bom == null ? DEFAULT_ENCODING : bom.getCharsetName();
                 InputStreamReader reader = new InputStreamReader(new BufferedInputStream(bOMInputStream), charsetName);
                 return readFully(reader);
             } finally {

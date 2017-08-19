@@ -287,7 +287,7 @@ public class CF {
     public static final String INDEX = "index";
 
     /**
-     * CFScript interface
+     * CFScript interface.
      */
     public static final String INTERFACE = "interface";
 

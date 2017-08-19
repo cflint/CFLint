@@ -19,8 +19,6 @@ import net.htmlparser.jericho.Element;
 
 public class SimpleComplexityChecker extends CFLintScannerAdapter {
     protected final int COMPLEXITY_THRESHOLD = 10;
-    private final Levels severity = Levels.WARNING;
-
     protected int complexity = 0;
     protected boolean alreadyTooComplex = false;
     private int functionLineNo = 1;

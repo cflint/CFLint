@@ -13,7 +13,6 @@ import net.htmlparser.jericho.Element;
 
 public class TooManyFunctionsChecker extends CFLintScannerAdapter {
     private final int FUNCTION_THRESHOLD = 10;
-    private final Levels severity = Levels.WARNING;
 
     protected int functionCount = 0;
 

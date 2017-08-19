@@ -13,8 +13,6 @@ import ro.fortsoft.pf4j.Extension;
 
 @Extension
 public class MethodNameChecker extends CFLintScannerAdapter {
-    public static final String METHOD_NAME = "Method name ";
-    private final Levels severity = Levels.INFO;
 
     @Override
     public void expression(final CFScriptStatement expression, final Context context, final BugList bugs) {

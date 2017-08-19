@@ -12,7 +12,6 @@ import net.htmlparser.jericho.Element;
 
 public class TooManyArgumentsChecker extends CFLintScannerAdapter {
     private final int ARGUMENT_THRESHOLD = 10;
-    private final Levels severity = Levels.WARNING;
 
     protected int argumentCount = 0;
     protected int functionLine = 0;

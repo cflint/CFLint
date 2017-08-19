@@ -97,9 +97,12 @@ public class VariableNameChecker extends CFLintScannerAdapter {
                 if (subexpression instanceof CFIdentifier) {
                     final String varName = ((CFIdentifier) subexpression).getName();
                     final int lineNo = ((CFIdentifier) subexpression).getLine() + context.startLine() - 1;
-
-                    checkNameForBugs(context, cfFullVarExpression.Decompile(0), varName, context.getFilename(),
-                            context.getFunctionName(), lineNo, bugs);
+                    
+                    // can be null for nested arrays if so ignore
+                    if (varName != null) {
+                        checkNameForBugs(context, cfFullVarExpression.Decompile(0), varName,
+                            context.getFilename(), context.getFunctionName(), lineNo, bugs);
+                    }
                 }
             }
         } else if (expression instanceof CFIdentifier) {

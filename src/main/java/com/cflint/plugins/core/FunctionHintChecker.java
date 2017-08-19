@@ -17,7 +17,6 @@ import cfml.parsing.cfscript.script.CFScriptStatement;
 import net.htmlparser.jericho.Element;
 
 public class FunctionHintChecker extends CFLintScannerAdapter {
-    private final Levels severity = Levels.INFO;
     private final String functionHintMissing = "FUNCTION_HINT_MISSING";
 
     @Override

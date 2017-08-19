@@ -11,7 +11,6 @@ import ro.fortsoft.pf4j.Extension;
 
 @Extension
 public class FunctionXChecker extends CFLintScannerAdapter {
-    private final Levels severity = Levels.INFO;
 
     @Override
     public void expression(final CFExpression expression, final Context context, final BugList bugs) {

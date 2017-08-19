@@ -13,9 +13,7 @@ import ro.fortsoft.pf4j.Extension;
 
 @Extension
 public class ComponentNameChecker extends CFLintScannerAdapter {
-    private static final String COMPONENT_NAME = "Component name ";
-    private final Levels severity = Levels.INFO;
-
+    
     @Override
     public void expression(final CFScriptStatement expression, final Context context, final BugList bugs) {
         if (expression instanceof CFCompDeclStatement) {

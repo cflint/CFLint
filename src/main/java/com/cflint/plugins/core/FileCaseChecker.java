@@ -9,7 +9,6 @@ import ro.fortsoft.pf4j.Extension;
 
 @Extension
 public class FileCaseChecker extends CFLintScannerAdapter {
-    private final Levels severity = Levels.INFO;
 
     @Override
     public void startFile(final String fileName, final BugList bugs) {
@@ -24,7 +23,7 @@ public class FileCaseChecker extends CFLintScannerAdapter {
         if (actualFileName.contains(".cfm")) {
             if (Character.isUpperCase(actualFileName.charAt(0))) {
                 bugs.add(new BugInfo.BugInfoBuilder().setLine(1).setMessageCode("FILE_SHOULD_START_WITH_LOWERCASE")
-                        .setSeverity(severity).setFilename(fileName)
+                        .setFilename(fileName)
                         .setMessage("File " + actualFileName
                                 + " starts with a upper case letter. Only components (.cfc files) should start with an upper case letter.")
                         .build());

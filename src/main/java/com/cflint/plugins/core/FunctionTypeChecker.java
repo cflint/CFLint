@@ -11,7 +11,6 @@ import cfml.parsing.cfscript.script.CFScriptStatement;
 import net.htmlparser.jericho.Element;
 
 public class FunctionTypeChecker extends CFLintScannerAdapter {
-    private final Levels severity = Levels.WARNING;
 
     @Override
     public void expression(final CFScriptStatement expression, final Context context, final BugList bugs) {

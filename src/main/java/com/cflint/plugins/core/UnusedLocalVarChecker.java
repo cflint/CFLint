@@ -17,8 +17,6 @@ import cfml.parsing.cfscript.CFVarDeclExpression;
 import net.htmlparser.jericho.Element;
 
 public class UnusedLocalVarChecker extends CFLintScannerAdapter {
-    private final Levels severity = Levels.INFO;
-
     protected CFScopes scopes = new CFScopes();
     // LinkedHashMap is ordered.
     protected Map<String, VarInfo> localVariables = new LinkedHashMap<String, VarInfo>();

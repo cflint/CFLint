@@ -7,7 +7,7 @@ public class CF {
     public static final String CFCOLLECTION = "cfcollection";
     public static final String CFCOMPONENT = "cfcomponent";
     public static final String CFDBINFO = "cfdbinfo";
-    public static final String CFDEFAULTCASE = "CFDEFAULTCASE";
+    public static final String CFDEFAULTCASE = "cfdefaultcase";
     public static final String CFDIRECTORY = "cfdirectory";
     public static final String CFDOCUMENT = "cfdocument";
     public static final String CFELSE = "cfelse";
@@ -25,7 +25,7 @@ public class CF {
     public static final String CFLDAP = "cfldap";
     public static final String CFLOOP = "cfloop";
     public static final String CFMAIL = "cfmail";
-    public static final String CFNTAUTHRNTICATE = "cfntauthenticate";
+    public static final String CFNTAUTENTICATE = "cfntauthenticate";
     public static final String CFOBJECT = "cfobject";
     public static final String CFOUTPUT = "cfoutput";
     public static final String CFPDF = "cfpdf";

@@ -111,12 +111,12 @@ public class CFLintPluginInfo {
     // @JsonInclude(Include.NON_NULL)
     public static class PluginInfoRule {
 
-        String name;
-        String className;
-        List<PluginMessage> messages = new ArrayList<PluginMessage>();
-        List<PluginParameter> parameters = new ArrayList<PluginParameter>();
+        private String name;
+        private String className;
+        private List<PluginMessage> messages = new ArrayList<PluginMessage>();
+        private List<PluginParameter> parameters = new ArrayList<PluginParameter>();
         // Associate the pluginInstance with the rule that created it
-        CFLintScanner pluginInstance;
+        private CFLintScanner pluginInstance;
 
         public CFLintScanner getPluginInstance() {
             return pluginInstance;

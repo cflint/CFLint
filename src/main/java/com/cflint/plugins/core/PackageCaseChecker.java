@@ -20,8 +20,8 @@ import ro.fortsoft.pf4j.Extension;
 @Extension
 public class PackageCaseChecker extends CFLintScannerAdapter implements CFLintSet {
    
-	final Map<String,List<String>> componentRegister = new HashMap<String,List<String>>();
-	final Map<String,List<PackageCaseCheckerEntry>> expressionCheckRegister = new HashMap<String,List<PackageCaseCheckerEntry>>();
+    private final Map<String,List<String>> componentRegister = new HashMap<String,List<String>>();
+    private final Map<String,List<PackageCaseCheckerEntry>> expressionCheckRegister = new HashMap<String,List<PackageCaseCheckerEntry>>();
 	private CFLint cflintRef;
    
     @Override

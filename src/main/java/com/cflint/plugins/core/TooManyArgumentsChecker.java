@@ -11,8 +11,8 @@ import cfml.parsing.cfscript.script.CFScriptStatement;
 import net.htmlparser.jericho.Element;
 
 public class TooManyArgumentsChecker extends CFLintScannerAdapter {
-    final int ARGUMENT_THRESHOLD = 10;
-    final Levels severity = Levels.WARNING;
+    private final int ARGUMENT_THRESHOLD = 10;
+    private final Levels severity = Levels.WARNING;
 
     protected int argumentCount = 0;
     protected int functionLine = 0;

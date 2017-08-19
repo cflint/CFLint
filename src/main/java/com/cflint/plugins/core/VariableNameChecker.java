@@ -27,7 +27,7 @@ public class VariableNameChecker extends CFLintScannerAdapter {
 
     private final List<String> exclusions = new ArrayList<>();
 
-    final Levels severity = Levels.INFO;
+    private final Levels severity = Levels.INFO;
 
     @Override
     public void element(final Element element, final Context context, final BugList bugs) {

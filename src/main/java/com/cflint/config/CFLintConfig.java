@@ -108,11 +108,11 @@ public class CFLintConfig implements CFLintConfiguration {
 
     public static class ConfigOutput {
 
-        String name;
-        OutputText text;
-        OutputXML html;
-        OutputXML xml;
-        OutputText json;
+        private String name;
+        private OutputText text;
+        private OutputXML html;
+        private OutputXML xml;
+        private OutputText json;
 
         public String getName() {
             return name;
@@ -173,7 +173,7 @@ public class CFLintConfig implements CFLintConfiguration {
         }
 
         public static class OutputXML extends OutputText {
-            String style;
+            private String style;
 
             public String getStyle() {
                 return style;

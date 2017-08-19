@@ -17,8 +17,8 @@ public class ArgVarChecker extends CFLintScannerAdapter {
     /**
      * Report each occurrence once per file/function
      */
-    Set<String> alreadyReported1 = new HashSet<String>();
-    Set<String> alreadyReported2 = new HashSet<String>();
+    private Set<String> alreadyReported1 = new HashSet<String>();
+    private Set<String> alreadyReported2 = new HashSet<String>();
 
     @Override
     public void expression(final CFExpression expression, final Context context, final BugList bugs) {

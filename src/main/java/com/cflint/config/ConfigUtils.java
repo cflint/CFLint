@@ -29,7 +29,7 @@ import com.fasterxml.jackson.module.jaxb.JaxbAnnotationModule;
 
 public class ConfigUtils {
 
-	static final String PLUGIN_PACKAGE = "com.cflint.plugins.core";
+	private static final String PLUGIN_PACKAGE = "com.cflint.plugins.core";
 
     private final static Logger log = LoggerFactory.getLogger(ConfigUtils.class);
     private static JAXBContext CFLintConfigContext = null;

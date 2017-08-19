@@ -97,12 +97,12 @@ import net.htmlparser.jericho.Source;
 public class CFLint implements IErrorReporter {
 
     // constants
-    static final String FILE_ERROR = "FILE_ERROR";
-    static final String PARSE_ERROR = "PARSE_ERROR";
-    static final String PLUGIN_ERROR = "PLUGIN_ERROR";
-    static final String MISSING_SEMI = "MISSING_SEMI";
-    static final String AVOID_EMPTY_FILES = "AVOID_EMPTY_FILES";
-    static final String RESOURCE_BUNDLE_NAME = "com.cflint.cflint";
+    private static final String FILE_ERROR = "FILE_ERROR";
+    private static final String PARSE_ERROR = "PARSE_ERROR";
+    private static final String PLUGIN_ERROR = "PLUGIN_ERROR";
+    private static final String MISSING_SEMI = "MISSING_SEMI";
+    private static final String AVOID_EMPTY_FILES = "AVOID_EMPTY_FILES";
+    private static final String RESOURCE_BUNDLE_NAME = "com.cflint.cflint";
 
     private CFMLTagInfo tagInfo;
     private CFMLParser cfmlParser = new CFMLParser();
@@ -116,10 +116,14 @@ public class CFLint implements IErrorReporter {
     private boolean showProgress = false;
     private boolean progressUsesThread = true;
     private CFLintStats stats = new CFLintStats();
-
     private final List<ScanProgressListener> scanProgressListeners = new ArrayList<ScanProgressListener>();
     private final List<CFLintExceptionListener> exceptionListeners = new ArrayList<CFLintExceptionListener>();
     private CFLintConfiguration configuration;
+    private int skipToPosition = 0;
+    private String currentFile = null;
+    private Element currentElement = null;
+    private boolean strictInclude;
+    private Set<List<Object>> processed = new HashSet<List<Object>>();
 
     // Stack to store include file depth to ensure no recursion
     private final Stack<File> includeFileStack = new Stack<File>();
@@ -365,8 +369,6 @@ public class CFLint implements IErrorReporter {
             }
         }
     }
-
-    int skipToPosition = 0;
 
     private void process(final Element elem, final String space, final Context context)
             throws ParseException, IOException {
@@ -672,8 +674,6 @@ public class CFLint implements IErrorReporter {
         }
         return retval.substring(0, 300);
     }
-
-    Set<List<Object>> processed = new HashSet<List<Object>>();
 
     private void process(final CFScriptStatement expression, final Context context) {
         if (expression == null) {
@@ -1403,10 +1403,6 @@ public class CFLint implements IErrorReporter {
     public void setProgressUsesThread(final boolean progressUsesThread) {
         this.progressUsesThread = progressUsesThread;
     }
-
-    String currentFile = null;
-    Element currentElement = null;
-    private boolean strictInclude;
 
     @Override
     public void syntaxError(final Recognizer<?, ?> recognizer, final Object offendingSymbol, int line,

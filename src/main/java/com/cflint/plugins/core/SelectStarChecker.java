@@ -10,7 +10,7 @@ import ro.fortsoft.pf4j.Extension;
 
 @Extension
 public class SelectStarChecker extends CFLintScannerAdapter {
-    final CharSequence selectStar = "select*";
+    private final CharSequence selectStar = "select*";
 
     @Override
     public void element(final Element element, final Context context, final BugList bugs) {

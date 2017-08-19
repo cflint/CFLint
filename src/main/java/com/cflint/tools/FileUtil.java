@@ -13,8 +13,8 @@ import org.apache.commons.io.input.BOMInputStream;
 
 public class FileUtil {
     
-    static final String DEFAULT_ENCODING = "UTF-8";
-    static final int BUF_SIZE = 8192;
+    private static final String DEFAULT_ENCODING = "UTF-8";
+    private static final int BUF_SIZE = 8192;
 
     static public String loadFile(final File file) {
         FileInputStream fis = null;

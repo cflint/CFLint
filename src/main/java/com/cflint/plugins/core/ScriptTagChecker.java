@@ -11,8 +11,8 @@ import ro.fortsoft.pf4j.Extension;
 // Deprecate?
 @Extension
 public class ScriptTagChecker extends CFLintScannerAdapter {
-    final String message = "Don't use inline <script> tags";
-    final Levels severity = Levels.ERROR;
+    private final String message = "Don't use inline <script> tags";
+    private final Levels severity = Levels.ERROR;
 
     // rule: don't use inline javascript in cfm and cfc files
     @Override

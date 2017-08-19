@@ -16,9 +16,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class CFLintFilter {
 
-    final static Logger logger = LoggerFactory.getLogger(CFLintFilter.class);
+    private final static Logger logger = LoggerFactory.getLogger(CFLintFilter.class);
     private ArrayList<Map<String, ?>> data = null;
-    boolean verbose = false;
+    private boolean verbose = false;
 
     @SuppressWarnings("unchecked")
     private CFLintFilter(final String data) throws IOException {

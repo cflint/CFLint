@@ -25,7 +25,7 @@ public class Context {
 
     private String filename;
     private String componentName;
-    final private Element element;
+    private final Element element;
     private CFFuncDeclStatement functionInfo;
     private ContextType contextType;
     private String functionName;
@@ -275,8 +275,8 @@ public class Context {
 
     public class ContextTokensIterable implements Iterable<Token> {
 
-        final Token token;
-        final int direction;
+        private final Token token;
+        private final int direction;
 
         public ContextTokensIterable(Token token, int direction) {
             this.token = token;
@@ -291,8 +291,8 @@ public class Context {
 
     public class ContextTokensIterator implements Iterator<Token> {
 
-        int tokenIndex;
-        final int direction;
+        private int tokenIndex;
+        private final int direction;
 
         public ContextTokensIterator(Token token, int direction) {
             this.tokenIndex = token.getTokenIndex() + direction;

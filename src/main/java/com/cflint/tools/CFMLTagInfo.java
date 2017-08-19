@@ -38,7 +38,7 @@ public class CFMLTagInfo {
     public boolean isAssignmentAttribute(final String elementName, final String attributeName) {
         if ((elementName != null) && (attributeName != null)) {
             // Hardcoded exceptions to the dictionary
-            if (elementName.toLowerCase().equals("cfprocparam")) {
+            if (elementName.equalsIgnoreCase("cfprocparam")) {
                 return attributeName.equalsIgnoreCase("variable");
             }
             final Tag tag = dictionary.getTag(elementName.toLowerCase());

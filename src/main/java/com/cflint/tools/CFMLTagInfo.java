@@ -39,20 +39,20 @@ public class CFMLTagInfo {
     public boolean isAssignmentAttribute(final String elementName, final String attributeName) {
         if ((elementName != null) && (attributeName != null)) {
             // Hardcoded exceptions to the dictionary
-            if (elementName.toLowerCase().equals(CF.CFPROCPARAM)) {
+            if (elementName.equalsIgnoreCase(CF.CFPROCPARAM)) {
                 return attributeName.equalsIgnoreCase("variable");
             }
             final Tag tag = dictionary.getTag(elementName.toLowerCase());
             if (tag != null) {
                 for (final Object retObj : tag.getReturns()) {
                     final Return ret = (Return) retObj;
-                    if (attributeName.toLowerCase().equals(ret.getParameterName())) {
+                    if (attributeName.equalsIgnoreCase(ret.getParameterName())) {
                         return true;
                     }
                 }
                 for (final Object paramObj : tag.getParameters()) {
                     final Parameter param = (Parameter) paramObj;
-                    if (attributeName.toLowerCase().equals(param.getName())) {
+                    if (attributeName.equalsIgnoreCase(param.getName())) {
                         return "variablename".equalsIgnoreCase(param.getReturnVarType());
                     }
                 }

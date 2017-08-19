@@ -8,9 +8,9 @@ import com.cflint.listeners.ProgressMonitorListener;
 
 public class ScanningProgressMonitorLookAhead {
 
-    final ProgressMonitorListener progressMonitorListener;
-    final boolean startNewThread;
-    final File folder;
+    private final ProgressMonitorListener progressMonitorListener;
+    private final boolean startNewThread;
+    private final File folder;
     private List<String> allowedExtensions;
 
     public static ScanningProgressMonitorLookAhead createInstance(CFLint cflint, final String folderName,

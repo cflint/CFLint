@@ -13,7 +13,7 @@ import javax.xml.transform.stream.StreamSource;
 
 public class HTMLOutput {
 
-    final String htmlStyle;
+    private final String htmlStyle;
 
     public void output(final BugList bugList, final Writer writer, final CFLintStats stats)
             throws IOException, TransformerException {

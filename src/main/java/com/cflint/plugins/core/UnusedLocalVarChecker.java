@@ -17,7 +17,7 @@ import cfml.parsing.cfscript.CFVarDeclExpression;
 import net.htmlparser.jericho.Element;
 
 public class UnusedLocalVarChecker extends CFLintScannerAdapter {
-    final Levels severity = Levels.INFO;
+    private final Levels severity = Levels.INFO;
 
     protected CFScopes scopes = new CFScopes();
     // LinkedHashMap is ordered.
@@ -80,7 +80,8 @@ public class UnusedLocalVarChecker extends CFLintScannerAdapter {
 
     @Override
     public void startFunction(final Context context, final BugList bugs) {
-        localVariables.clear();    }
+        localVariables.clear();
+    }
 
     @Override
     public void endFunction(final Context context, final BugList bugs) {
@@ -95,10 +96,10 @@ public class UnusedLocalVarChecker extends CFLintScannerAdapter {
         }
     }
 
-    public static class VarInfo{
-        Boolean used;
-        Integer lineNumber;
-        String name;
+    public static class VarInfo {
+        private Boolean used;
+        private Integer lineNumber;
+        private String name;
         
         public VarInfo(String name, Boolean used){
             this.name=name;

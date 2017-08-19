@@ -18,12 +18,12 @@ import cfml.parsing.cfscript.script.CFWhileStatement;
 import net.htmlparser.jericho.Element;
 
 public class SimpleComplexityChecker extends CFLintScannerAdapter {
-    final protected int COMPLEXITY_THRESHOLD = 10;
-    final Levels severity = Levels.WARNING;
+    protected final int COMPLEXITY_THRESHOLD = 10;
+    private final Levels severity = Levels.WARNING;
 
     protected int complexity = 0;
     protected boolean alreadyTooComplex = false;
-    int functionLineNo = 1;
+    private int functionLineNo = 1;
 
     @Override
     public void startFile(String fileName, BugList bugs) {

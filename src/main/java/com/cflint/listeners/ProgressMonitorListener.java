@@ -4,10 +4,10 @@ import javax.swing.ProgressMonitor;
 
 public class ProgressMonitorListener implements ScanProgressListener {
 
-    int fileCounter = 0;
-    int totalFileCount = 1;
-    final ProgressMonitor progressMonitor;
-    boolean indeterminate = true;
+    private int fileCounter = 0;
+    private int totalFileCount = 1;
+    private final ProgressMonitor progressMonitor;
+    private boolean indeterminate = true;
 
     public ProgressMonitorListener(final String progressLabel) {
         super();

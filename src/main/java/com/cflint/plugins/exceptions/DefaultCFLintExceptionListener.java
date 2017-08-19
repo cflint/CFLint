@@ -14,7 +14,7 @@ import com.cflint.BugList;
  */
 public class DefaultCFLintExceptionListener implements CFLintExceptionListener {
 
-    BugList bugs;
+    private BugList bugs;
 
     public DefaultCFLintExceptionListener(final BugList bugs) {
         super();

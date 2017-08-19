@@ -9,7 +9,7 @@ import ro.fortsoft.pf4j.Extension;
 
 @Extension
 public class FileCaseChecker extends CFLintScannerAdapter {
-    final Levels severity = Levels.INFO;
+    private final Levels severity = Levels.INFO;
 
     @Override
     public void startFile(final String fileName, final BugList bugs) {

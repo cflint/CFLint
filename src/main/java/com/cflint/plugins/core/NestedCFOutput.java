@@ -24,7 +24,7 @@ public class NestedCFOutput extends CFLintScannerAdapter {
         }
     }
 
-    final boolean anyContainingCFOutputHasQuery(final Element element) {
+    private final boolean anyContainingCFOutputHasQuery(final Element element) {
         if (element == null) {
             return false;
         }

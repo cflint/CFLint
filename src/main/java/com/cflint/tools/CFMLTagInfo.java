@@ -9,7 +9,7 @@ import net.htmlparser.jericho.Element;
 
 public class CFMLTagInfo {
 
-    final SyntaxDictionary dictionary;
+    private final SyntaxDictionary dictionary;
 
     public CFMLTagInfo(final SyntaxDictionary dictionary) {
         this.dictionary = dictionary;

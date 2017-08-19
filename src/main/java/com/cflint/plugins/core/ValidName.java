@@ -24,9 +24,9 @@ public class ValidName {
     protected int maxLength = MAX_VAR_LENGTH;
     protected int maxWords = MAX_VAR_WORDS;
 
-    final String[] DEFAULT_PREFIXES_TO_AVOID = { "s", "st", "str", "o", "obj", "b", "q", "a", "arr", "this", "my","stu" };
-    String[] prefixesToAvoid = DEFAULT_PREFIXES_TO_AVOID;
-    String[] suffixesToAvoid = DEFAULT_PREFIXES_TO_AVOID;
+    private final String[] DEFAULT_PREFIXES_TO_AVOID = { "s", "st", "str", "o", "obj", "b", "q", "a", "arr", "this", "my","stu" };
+    private String[] prefixesToAvoid = DEFAULT_PREFIXES_TO_AVOID;
+    private String[] suffixesToAvoid = DEFAULT_PREFIXES_TO_AVOID;
     private String[] requiredPrefixes = null;
     
     public ValidName() {

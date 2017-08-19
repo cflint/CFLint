@@ -9,7 +9,7 @@ import com.cflint.plugins.Context;
 import net.htmlparser.jericho.Element;
 
 public class ComponentDisplayNameChecker extends CFLintScannerAdapter {
-    final Levels severity = Levels.INFO;
+    private final Levels severity = Levels.INFO;
 
     @Override
     public void element(final Element element, final Context context, final BugList bugs) {

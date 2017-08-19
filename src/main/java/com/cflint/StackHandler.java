@@ -13,8 +13,8 @@ import java.util.Set;
 
 public class StackHandler {
 
-    final Deque<Stack> varStack = new ArrayDeque<Stack>();
-    final Set<String> excludes = new HashSet<String>();
+    private final Deque<Stack> varStack = new ArrayDeque<Stack>();
+    private final Set<String> excludes = new HashSet<String>();
 
     public StackHandler() {
         super();

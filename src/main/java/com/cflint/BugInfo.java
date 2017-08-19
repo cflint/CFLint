@@ -59,8 +59,8 @@ public class BugInfo implements Comparable<BugInfo> {
     }
 
     public static class BugInfoBuilder {
-        BugInfo bugInfo = new BugInfo();
-        List<PluginParameter> parameters = null;
+        private BugInfo bugInfo = new BugInfo();
+        private List<PluginParameter> parameters = null;
 
         public void setRuleParameters(final List<PluginParameter> parameters) {
             this.parameters = parameters;

@@ -1,6 +1,7 @@
 package com.cflint.plugins.core;
 
 import com.cflint.BugList;
+import com.cflint.CF;
 import com.cflint.Levels;
 import com.cflint.plugins.CFLintScannerAdapter;
 import com.cflint.plugins.Context;
@@ -10,12 +11,12 @@ import cfml.parsing.cfscript.script.CFSwitchStatement;
 import net.htmlparser.jericho.Element;
 
 public class CFSwitchDefaultChecker extends CFLintScannerAdapter {
-    final String CFML_TAG_CHECK = "cfswitch";
-    final String CFML_TAG_REQUIRED = "cfdefaultcase";
-    final String CFSCRIPT_STATEMENT_REQUIRED = "default";
-    final Levels severity = Levels.WARNING;
-    final String MESSAGE_CODE = "NO_DEFAULT_INSIDE_SWITCH";
-    final String MESSAGE = "Not having a Default statement defined for a switch could pose potential issues";
+    private final String CFML_TAG_CHECK = CF.CFSWITCH;
+    private final String CFML_TAG_REQUIRED = CF.CFDEFAULTCASE;
+    private final String CFSCRIPT_STATEMENT_REQUIRED = CF.DEFAULT;
+    private final Levels severity = Levels.WARNING;
+    private final String MESSAGE_CODE = "NO_DEFAULT_INSIDE_SWITCH";
+    private final String MESSAGE = "Not having a Default statement defined for a switch could pose potential issues";
 
     @Override
     public void expression(final CFScriptStatement expression, final Context context, final BugList bugs) {

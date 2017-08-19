@@ -17,8 +17,8 @@ import cfml.parsing.cfscript.script.CFScriptStatement;
 import net.htmlparser.jericho.Element;
 
 public class ComponentHintChecker extends CFLintScannerAdapter {
-    final Levels severity = Levels.INFO;
-    final String componentHintMissing = "COMPONENT_HINT_MISSING";
+    private final Levels severity = Levels.INFO;
+    private final String componentHintMissing = "COMPONENT_HINT_MISSING";
 
     @Override
     public void element(final Element element, final Context context, final BugList bugs) {

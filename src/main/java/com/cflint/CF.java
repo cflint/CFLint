@@ -212,6 +212,11 @@ public class CF {
     public static final String CFSTOREDPROC = "cfstoredproc";
 
     /**
+     * CFSwitch Tag.
+     */
+    public static final String CFSWITCH = "cfswitch";
+
+    /**
      * CFTry Tag.
      */
     public static final String CFTRY = "cftry";

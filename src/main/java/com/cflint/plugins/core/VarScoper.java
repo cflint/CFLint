@@ -68,7 +68,7 @@ public class VarScoper extends CFLintScannerAdapter {
         checkElementAttributes.put(CF.CFFTP, Arrays.asList(RESULT));
         checkElementAttributes.put(CF.CFWDDX, Arrays.asList(CF.OUTPUT));
         checkElementAttributes.put(CF.CFEXECUTE, Arrays.asList(VARIABLE));
-        checkElementAttributes.put(CF.CFNTAUTENTICATE, Arrays.asList(RESULT));
+        checkElementAttributes.put(CF.CFNTAUTHENTICATE, Arrays.asList(RESULT));
         checkElementAttributes.put(CF.CFXML, Arrays.asList(VARIABLE));
 
     }

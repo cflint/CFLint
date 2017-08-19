@@ -3,6 +3,7 @@ package com.cflint.plugins.core;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.cflint.CF;
 import com.cflint.Levels;
 import com.cflint.BugList;
 import com.cflint.plugins.CFLintScannerAdapter;
@@ -16,14 +17,15 @@ import cfml.parsing.cfscript.script.CFScriptStatement;
 import net.htmlparser.jericho.Element;
 
 public class ComponentHintChecker extends CFLintScannerAdapter {
-    final Levels severity = Levels.INFO;
+    private final Levels severity = Levels.INFO;
+    private final String componentHintMissing = "COMPONENT_HINT_MISSING";
 
     @Override
     public void element(final Element element, final Context context, final BugList bugs) {
-        if (element.getName().equals("cfcomponent")) {
-            final String hint = element.getAttributeValue("hint");
+        if (element.getName().equals(CF.CFCOMPONENT)) {
+            final String hint = element.getAttributeValue(CF.HINT);
             if (hint == null || hint.trim().isEmpty()) {
-                context.addMessage("COMPONENT_HINT_MISSING", context.calcComponentName());
+                context.addMessage(componentHintMissing, context.calcComponentName());
             }
         }
     }
@@ -43,11 +45,11 @@ public class ComponentHintChecker extends CFLintScannerAdapter {
                     if (matcher.matches()) {
                         String hintText = matcher.group(1);
                         if (hintText.trim().isEmpty()) {
-                            context.addMessage("COMPONENT_HINT_MISSING", context.calcComponentName());
+                            context.addMessage(componentHintMissing, context.calcComponentName());
                         }
                     }
                 } else {
-                    context.addMessage("COMPONENT_HINT_MISSING", context.calcComponentName());
+                    context.addMessage(componentHintMissing, context.calcComponentName());
                 }
             }
         }

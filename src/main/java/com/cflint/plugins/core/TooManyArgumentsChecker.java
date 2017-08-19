@@ -1,5 +1,6 @@
 package com.cflint.plugins.core;
 
+import com.cflint.CF;
 import com.cflint.Levels;
 import com.cflint.BugList;
 import com.cflint.plugins.CFLintScannerAdapter;
@@ -29,16 +30,16 @@ public class TooManyArgumentsChecker extends CFLintScannerAdapter {
 
     @Override
     public void element(final Element element, final Context context, final BugList bugs) {
-        if (element.getName().equals("cffunction")) {
+        if (element.getName().equals(CF.CFFUNCTION)) {
             functionLine = element.getSource().getRow(element.getBegin());
             argumentCount = 0;
-        } else if (element.getName().equals("cfargument")) {
+        } else if (element.getName().equals(CF.CFARGUMENT)) {
             argumentCount++;
         }
         // No easy way of detecting end tag so assumes functions will contain
         // some code
         // otherwise the argument count will be off by one
-        else if (!element.getName().equals("!---") && argumentCount > 0) {
+        else if (!element.getName().equals(CF.COMMENT) && argumentCount > 0) {
             checkNumberArguments(argumentCount, functionLine, context, bugs);
             argumentCount = 0;
             functionLine = 0;

@@ -1,6 +1,7 @@
 package com.cflint.plugins.core;
 
 import com.cflint.BugList;
+import com.cflint.CF;
 import com.cflint.plugins.CFLintScannerAdapter;
 import com.cflint.plugins.Context;
 
@@ -17,7 +18,7 @@ public class CFQueryChecker extends CFLintScannerAdapter {
         final String file = context.getFilename();
         final String ext = file.substring(file.length() - 3, file.length());
         final String tagName = element.getName();
-        if (tagName.equals("cfquery") && ext.equals("cfm")) {
+        if (tagName.equals(CF.CFQUERY) && ext.equals("cfm")) {
             final int begLine = element.getSource().getRow(element.getBegin());
             context.addMessage(messageCode, null, this, begLine);
         }

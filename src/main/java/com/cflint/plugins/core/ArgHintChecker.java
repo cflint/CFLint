@@ -9,6 +9,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.cflint.BugList;
+import com.cflint.CF;
 import com.cflint.plugins.CFLintScannerAdapter;
 import com.cflint.plugins.Context;
 import com.cflint.tools.PrecedingCommentReader;
@@ -22,9 +23,9 @@ public class ArgHintChecker extends CFLintScannerAdapter {
 
     @Override
     public void element(final Element element, final Context context, final BugList bugs) {
-        if (element.getName().equals("cfargument")) {
-            final String name = element.getAttributeValue("name");
-            final String hint = element.getAttributeValue("hint");
+        if (element.getName().equals(CF.CFARGUMENT)) {
+            final String name = element.getAttributeValue(CF.NAME);
+            final String hint = element.getAttributeValue(CF.HINT);
             if (hint == null || hint.length() == 0) {
                 context.addMessage("ARG_HINT_MISSING", name);
             }

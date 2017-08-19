@@ -5,6 +5,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import com.cflint.BugList;
+import com.cflint.CF;
 import com.cflint.plugins.CFLintScannerAdapter;
 import com.cflint.plugins.Context;
 
@@ -24,9 +25,9 @@ public class UnusedArgumentChecker extends CFLintScannerAdapter {
 
     @Override
     public void element(final Element element, final Context context, final BugList bugs) {
-    	if (element.getName().equals("cfargument")) {
-            final String name = element.getAttributeValue("name") != null
-                    ? element.getAttributeValue("name").toLowerCase() : "";
+    	if (element.getName().equals(CF.CFARGUMENT)) {
+            final String name = element.getAttributeValue(CF.NAME) != null
+                    ? element.getAttributeValue(CF.NAME).toLowerCase() : "";
             methodArguments.put(name, false);
             setArgumentLineNo(name, context.startLine());
             final String code = element.getParentElement().toString();

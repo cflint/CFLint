@@ -1,5 +1,6 @@
 package com.cflint.plugins.core;
 
+import com.cflint.CF;
 import com.cflint.Levels;
 import com.cflint.BugList;
 import com.cflint.plugins.CFLintScannerAdapter;
@@ -26,7 +27,7 @@ public class MethodNameChecker extends CFLintScannerAdapter {
 
     @Override
     public void element(final Element element, final Context context, final BugList bugs) {
-        if (element.getName().equals("cffunction")) {
+        if (element.getName().equals(CF.CFFUNCTION)) {
             final int lineNo = element.getSource().getRow(element.getBegin());
             checkNameForBugs(context, lineNo);
         }

@@ -1,6 +1,7 @@
 package com.cflint.plugins.core;
 
 import com.cflint.BugList;
+import com.cflint.CF;
 import com.cflint.plugins.CFLintScannerAdapter;
 import com.cflint.plugins.Context;
 
@@ -28,9 +29,9 @@ public class ArgumentNameChecker extends CFLintScannerAdapter {
 
     @Override
     public void element(final Element element, final Context context, final BugList bugs) {
-        if (element.getName().equals("cfargument")) {
+        if (element.getName().equals(CF.CFARGUMENT)) {
             final int lineNo = context.startLine();
-            final String name = element.getAttributeValue("name");
+            final String name = element.getAttributeValue(CF.NAME);
             if (name != null && name.length() > 0) {
                 checkNameForBugs(context, name, context.getFilename(), context.getFunctionName(), lineNo, bugs);
             } else {

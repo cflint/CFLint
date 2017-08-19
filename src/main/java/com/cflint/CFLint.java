@@ -313,10 +313,10 @@ public class CFLint implements IErrorReporter {
      * @return
      */
     private boolean isComponentOrInterfaceScript(final String src, final List<Element> elements) {
-        return (src.contains("component")
-                && (elements.isEmpty() || elements.get(0).getBegin() > src.indexOf("component")))
-                || (src.contains("interface")
-                        && (elements.isEmpty() || elements.get(0).getBegin() > src.indexOf("interface")));
+        return (src.contains(CF.COMPONENT)
+                && (elements.isEmpty() || elements.get(0).getBegin() > src.indexOf(CF.COMPONENT)))
+                || (src.contains(CF.INTERFACE)
+                        && (elements.isEmpty() || elements.get(0).getBegin() > src.indexOf(CF.INTERFACE)));
     }
 
     protected ParserTag getFirstTagQuietly(final CFMLSource cfmlSource) {
@@ -335,7 +335,7 @@ public class CFLint implements IErrorReporter {
             final CFIdentifier functionName) throws ParseException, IOException {
         Element commentElement = null;
         for (final Element elem : elements) {
-            if (elem.getName().equals("!---")) {
+            if (elem.getName().equals(CF.COMMENT)) {
                 commentElement = elem;
             } else {
                 final Context context = new Context(filename, elem, functionName, false, handler);
@@ -353,7 +353,7 @@ public class CFLint implements IErrorReporter {
             throws ParseException, IOException {
         Element commentElement = null;
         for (final Element elem : elements) {
-            if (elem.getName().equals("!---")) {
+            if (elem.getName().equals(CF.COMMENT)) {
                 commentElement = elem;
             } else {
                 final Context subContext = context.subContext(elem);
@@ -377,33 +377,33 @@ public class CFLint implements IErrorReporter {
         }
         try {
             currentElement = elem;
-            if (elem.getName().equalsIgnoreCase("cfcomponent")) {
+            if (elem.getName().equalsIgnoreCase(CF.CFCOMPONENT)) {
                 final Context componentContext = context.subContext(elem);
                 componentContext.setInComponent(true);
-                componentContext.setComponentName(elem.getAttributeValue("displayname"));
+                componentContext.setComponentName(elem.getAttributeValue(CF.DISPLAYNAME));
                 componentContext.setContextType(ContextType.COMPONENT);
-                handler.push("component");
+                handler.push(CF.COMPONENT);
                 doStructureStart(elem, componentContext, CFCompDeclStatement.class);
-            } else if (elem.getName().equalsIgnoreCase("cffunction")) {
+            } else if (elem.getName().equalsIgnoreCase(CF.CFFUNCTION)) {
                 final Context functionContext = context.subContext(elem);
-                functionContext.setFunctionName(elem.getAttributeValue("name"));
+                functionContext.setFunctionName(elem.getAttributeValue(CF.NAME));
                 functionContext.setContextType(ContextType.FUNCTION);
-                handler.push("function");
+                handler.push(CF.FUNCTION);
                 doStructureStart(elem, functionContext, CFFuncDeclStatement.class);
-            } else if (elem.getName().equalsIgnoreCase("cfloop") && elem.getAttributeValue("query") != null) {
+            } else if (elem.getName().equalsIgnoreCase(CF.CFLOOP) && elem.getAttributeValue(CF.QUERY) != null) {
                 // Give a cfloop for query its own context and set the column
                 // names as variables if they are available
                 final Context loopContext = context.subContext(elem);
                 loopContext.setContextType(ContextType.QUERY_LOOP);
-                handler.push("cfloop");
+                handler.push(CF.CFLOOP);
 
-                final String qryName = elem.getAttributeValue("query");
+                final String qryName = elem.getAttributeValue(CF.QUERY);
                 handler.addVariables(handler.getQueryColumns(qryName));
                 doStructureStart(elem, loopContext, CFFuncDeclStatement.class);
             }
 
-            if (elem.getName().equalsIgnoreCase("cfset") || elem.getName().equalsIgnoreCase("cfif")
-                    || elem.getName().equalsIgnoreCase("cfelseif") || elem.getName().equalsIgnoreCase("cfreturn")) {
+            if (elem.getName().equalsIgnoreCase(CF.CFSET) || elem.getName().equalsIgnoreCase(CF.CFIF)
+                    || elem.getName().equalsIgnoreCase(CF.CFELSEIF) || elem.getName().equalsIgnoreCase(CF.CFRETURN)) {
                 scanElement(elem, context);
                 final Pattern p = Pattern.compile("<\\w+\\s(.*[^/])/?>", Pattern.MULTILINE | Pattern.DOTALL);
                 final String expr = elem.getFirstStartTag().toString();
@@ -425,14 +425,14 @@ public class CFLint implements IErrorReporter {
                 }
                 processStack(elem.getChildElements(), space + " ", context);
 
-            } else if (elem.getName().equalsIgnoreCase("cfargument")) {
+            } else if (elem.getName().equalsIgnoreCase(CF.CFARGUMENT)) {
                 scanElement(elem, context);
-                final String name = elem.getAttributeValue("name");
+                final String name = elem.getAttributeValue(CF.NAME);
                 if (name != null) {
                     handler.addArgument(name);
                 }
                 processStack(elem.getChildElements(), space + " ", context);
-            } else if (elem.getName().equalsIgnoreCase("cfscript")) {
+            } else if (elem.getName().equalsIgnoreCase(CF.CFSCRIPT)) {
                 scanElement(elem, context);
                 String cfscript = elem.getContent().toString();
                 if (elem.getEndTag() == null) {
@@ -454,9 +454,9 @@ public class CFLint implements IErrorReporter {
                 final Context subcontext = context.subContext(elem);
                 process(scriptStatement, subcontext);
                 processStack(elem.getChildElements(), space + " ", context);
-            } else if (elem.getName().equalsIgnoreCase("cffunction")) {
+            } else if (elem.getName().equalsIgnoreCase(CF.CFFUNCTION)) {
                 final Context functionContext = context.subContext(elem);
-                functionContext.setFunctionName(elem.getAttributeValue("name"));
+                functionContext.setFunctionName(elem.getAttributeValue(CF.NAME));
                 functionContext.setContextType(ContextType.FUNCTION);
                 scanElement(elem, functionContext);
                 processStack(elem.getChildElements(), space + " ", functionContext);
@@ -480,10 +480,10 @@ public class CFLint implements IErrorReporter {
                     }
                 }
                 handler.pop();
-            } else if (elem.getName().equalsIgnoreCase("cfcomponent")) {
+            } else if (elem.getName().equalsIgnoreCase(CF.CFCOMPONENT)) {
                 final Context componentContext = context.subContext(elem);
                 componentContext.setInComponent(true);
-                componentContext.setComponentName(elem.getAttributeValue("displayname"));
+                componentContext.setComponentName(elem.getAttributeValue(CF.DISPLAYNAME));
                 componentContext.setContextType(ContextType.COMPONENT);
 
                 scanElement(elem, componentContext);
@@ -503,7 +503,7 @@ public class CFLint implements IErrorReporter {
                     }
                 }
                 handler.pop();
-            } else if (elem.getName().equalsIgnoreCase("cfquery")) {
+            } else if (elem.getName().equalsIgnoreCase(CF.CFQUERY)) {
                 scanElement(elem, context);
                 for (final Entry<String, CFExpression> expression : unpackTagExpressions(elem).entrySet()) {
                     if (expression != null) {
@@ -513,7 +513,7 @@ public class CFLint implements IErrorReporter {
                 final List<Element> list = elem.getAllElements();
                 processStack(list.subList(1, list.size()), space + " ", context);
                 // Save any columns from the cfquery
-                final String qryName = elem.getAttributeValue("name");
+                final String qryName = elem.getAttributeValue(CF.NAME);
                 if (qryName != null && qryName.trim().length() > 0) {
                     final String qryText = elem.getTextExtractor().toString().toUpperCase();
                     final Matcher m = Pattern.compile(".*SELECT\\s(\\w+(\\s*,\\s*\\w+)+)\\s+FROM\\s+.*")
@@ -524,16 +524,16 @@ public class CFLint implements IErrorReporter {
                         handler.addQueryColumnSet(qryName, cols);
                     }
                 }
-            } else if (elem.getName().equalsIgnoreCase("cfqueryparam")) {
+            } else if (elem.getName().equalsIgnoreCase(CF.CFQUERYPARAM)) {
                 scanElement(elem, context);
                 for (final Entry<String, CFExpression> expression : unpackTagExpressions(elem).entrySet()) {
                     if (expression != null) {
                         process(expression.getValue(), elem, context);
                     }
                 }
-            } else if (elem.getName().equalsIgnoreCase("cfinclude")) {
+            } else if (elem.getName().equalsIgnoreCase(CF.CFINCLUDE)) {
                 scanElement(elem, context);
-                final String path = elem.getAttributeValue("template");
+                final String path = elem.getAttributeValue(CF.TEMPLATE);
                 final File include = new File(new File(context.getFilename()).getParentFile(), path);
                 if (strictInclude || include.exists()) {
                     if (includeFileStack.contains(include)) {
@@ -544,7 +544,7 @@ public class CFLint implements IErrorReporter {
                         includeFileStack.pop();
                     }
                 }
-            } else if (elem.getName().equalsIgnoreCase("cfloop") && elem.getAttributeValue("query") != null) {
+            } else if (elem.getName().equalsIgnoreCase(CF.CFLOOP) && elem.getAttributeValue(CF.QUERY) != null) {
                 scanElement(elem, context);
                 processStack(elem.getChildElements(), space + " ", context);
                 handler.pop();
@@ -704,13 +704,13 @@ public class CFLint implements IErrorReporter {
                 try {
                     // TODO fix this to use getPropertyName() when it is
                     // available and not null.
-                    final Field field = CFPropertyStatement.class.getDeclaredField("propertyName");
+                    final Field field = CFPropertyStatement.class.getDeclaredField(CF.PROPERTY_NAME);
                     field.setAccessible(true);
                     CFExpression value = (CFExpression) field.get(expression);
                     if (value == null) {
                         for (final Entry<CFIdentifier, CFExpression> entry : ((CFPropertyStatement) expression)
                                 .getAttributes().entrySet()) {
-                            if ("name".equals(entry.getKey().getName())) {
+                            if (CF.NAME.equals(entry.getKey().getName())) {
                                 value = entry.getValue();
                             }
                         }
@@ -733,7 +733,7 @@ public class CFLint implements IErrorReporter {
                 componentContext.setInComponent(true);
                 componentContext.setContextType(ContextType.COMPONENT);
                 for (final Entry<CFExpression, CFExpression> entry : compDeclStatement.getAttributes().entrySet()) {
-                    if (entry.getKey() != null && entry.getKey().Decompile(0).equalsIgnoreCase("name")) {
+                    if (entry.getKey() != null && entry.getKey().Decompile(0).equalsIgnoreCase(CF.NAME)) {
                         componentContext.setComponentName(entry.getValue().Decompile(0));
                     }
                 }
@@ -828,7 +828,7 @@ public class CFLint implements IErrorReporter {
                 functionContext.setFunctionInfo(function);
 
                 registerRuleOverrides(functionContext, function.getToken());
-                handler.push("function");
+                handler.push(CF.FUNCTION);
                 for (final CFFunctionParameter param : function.getFormals()) {
                     handler.addArgument(param.getName());
                 }
@@ -998,7 +998,7 @@ public class CFLint implements IErrorReporter {
      */
     protected void applyRuleOverrides(final Context context, final Element commentElement) {
 
-        if (commentElement != null && "!---".equals(commentElement.getName())) {
+        if (commentElement != null && CF.COMMENT.equals(commentElement.getName())) {
             final String mlText = commentElement.toString();
             final Pattern pattern = Pattern.compile(".*\\s*@CFLintIgnore\\s+([\\w,_]+)\\s*.*", Pattern.DOTALL);
             final Matcher matcher = pattern.matcher(mlText);
@@ -1138,7 +1138,7 @@ public class CFLint implements IErrorReporter {
         Element elem = element;
         while (elem != null) {
             final Element prevSibling = getPreviousSibling(elem);
-            if (prevSibling != null && prevSibling.getName().equals("!---")) {
+            if (prevSibling != null && prevSibling.getName().equals(CF.COMMENT)) {
                 final Pattern p = Pattern.compile(".*---\\s*CFLINT-DISABLE\\s+(.*)\\s*---.*");
                 final Matcher m = p.matcher(prevSibling.toString().toUpperCase().trim());
                 if (m.matches()) {
@@ -1475,5 +1475,4 @@ public class CFLint implements IErrorReporter {
     public void setStrictIncludes(final boolean strictInclude) {
         this.strictInclude = strictInclude;
     }
-
 }

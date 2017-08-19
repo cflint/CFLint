@@ -27,7 +27,7 @@ public class VarScoper extends CFLintScannerAdapter {
     private final List<String> checkNames = Arrays.asList(CF.CFQUERY, CF.CFSTOREDPROC, CF.CFFEED, CF.CFDIRECTORY,
             CF.CFFORM, CF.CFFTP, CF.CFOBJECT, CF.CFSEARCH, CF.CFPROCRESULT, CF.CFPOP, CF.CFREGISTRY, CF.CFREPORT,
             CF.CFDBINFO, CF.CFDOCUMENT, CF.CFCOLLECTION, CF.CFPDF, CF.CFZIP, CF.CFLDAP);
-    private final Collection<String> variables = Arrays.asList(CF.APPLICATION, CF.CGI, CF.COOKIE, CF.FORM, CF.REQUEST,
+    private final Collection<String> scopes = Arrays.asList(CF.APPLICATION, CF.CGI, CF.COOKIE, CF.FORM, CF.REQUEST,
             CF.SERVER, CF.SESSION, CF.URL);
 
     @Override
@@ -68,7 +68,7 @@ public class VarScoper extends CFLintScannerAdapter {
         checkElementAttributes.put(CF.CFFTP, Arrays.asList(RESULT));
         checkElementAttributes.put(CF.CFWDDX, Arrays.asList(CF.OUTPUT));
         checkElementAttributes.put(CF.CFEXECUTE, Arrays.asList(VARIABLE));
-        checkElementAttributes.put(CF.CFNTAUTHRNTICATE, Arrays.asList(RESULT));
+        checkElementAttributes.put(CF.CFNTAUTENTICATE, Arrays.asList(RESULT));
         checkElementAttributes.put(CF.CFXML, Arrays.asList(VARIABLE));
 
     }
@@ -97,7 +97,7 @@ public class VarScoper extends CFLintScannerAdapter {
     }
 
     private boolean isGlobal(final String nameVar) {
-        return nameVar != null && variables.contains(nameVar.toUpperCase().trim());
+        return nameVar != null && scopes.contains(nameVar.toLowerCase().trim());
     }
 
 }

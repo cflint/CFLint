@@ -7,7 +7,7 @@ public class CommentReformatting {
     private static final String COMMENT_TEXT = "<!---";
     private static final String COMMENT_END_TEXT = "--->";
 
-    public static String wrap(String value) {
+    public static String wrap(final String value) {
         Stack<Integer> stack = new Stack<>();
         StringBuilder sb = new StringBuilder(value);
         int pos = sb.indexOf(COMMENT_TEXT);

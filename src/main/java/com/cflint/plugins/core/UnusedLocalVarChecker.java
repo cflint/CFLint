@@ -98,9 +98,9 @@ public class UnusedLocalVarChecker extends CFLintScannerAdapter {
         private Integer lineNumber;
         private String name;
         
-        public VarInfo(String name, Boolean used){
-            this.name=name;
-            this.used=used;
+        public VarInfo(final String name, Boolean used) {
+            this.name = name;
+            this.used = used;
         }
     }
     
@@ -122,7 +122,7 @@ public class UnusedLocalVarChecker extends CFLintScannerAdapter {
     }
 
     @Override
-    public void setParameter(String name, Object value) {
+    public void setParameter(final String name, Object value) {
         super.setParameter(name, value);
         if("UsedTagAttributes".equals(name)){
             usedTagAttributes = getParameter("UsedTagAttributes",List.class);

@@ -12,13 +12,13 @@ public class CFLintChainedConfig implements CFLintConfiguration {
     final private CFLintConfig config;
     final private CFLintConfiguration parent;
 
-    public CFLintChainedConfig(CFLintConfiguration config) {
+    public CFLintChainedConfig(final CFLintConfiguration config) {
         super();
         this.config = (CFLintConfig) config;
         parent = null;
     }
 
-    public CFLintChainedConfig(CFLintConfiguration config, CFLintConfiguration parent) {
+    public CFLintChainedConfig(final CFLintConfiguration config, CFLintConfiguration parent) {
         super();
         this.config = (CFLintConfig) config;
         this.parent = parent;
@@ -30,18 +30,18 @@ public class CFLintChainedConfig implements CFLintConfiguration {
      * @param config
      * @return
      */
-    public CFLintChainedConfig createNestedConfig(CFLintConfiguration config) {
+    public CFLintChainedConfig createNestedConfig(final CFLintConfiguration config) {
         return config == null ? this : new CFLintChainedConfig(config, this);
     }
 
     @Override
-    public boolean includes(PluginMessage pluginMessage) {
+    public boolean includes(final PluginMessage pluginMessage) {
         return config.includes(pluginMessage)
                 || (config.isInheritParent() && parent != null && parent.includes(pluginMessage));
     }
 
     @Override
-    public boolean excludes(PluginMessage pluginMessage) {
+    public boolean excludes(final PluginMessage pluginMessage) {
         return config.excludes(pluginMessage)
                 || (config.isInheritParent() && parent != null && parent.excludes(pluginMessage));
     }
@@ -51,7 +51,7 @@ public class CFLintChainedConfig implements CFLintConfiguration {
     }
 
     @Override
-    public PluginInfoRule getRuleByClass(Class<?> clazz) {
+    public PluginInfoRule getRuleByClass(final Class<?> clazz) {
         PluginInfoRule retval = config.getRuleByClass(clazz);
         if (retval != null || parent == null) {
             return retval;
@@ -69,12 +69,12 @@ public class CFLintChainedConfig implements CFLintConfiguration {
     }
 
     @Override
-    public void addInclude(PluginMessage pluginMessage) {
+    public void addInclude(final PluginMessage pluginMessage) {
         config.addInclude(pluginMessage);
     }
 
     @Override
-    public void addExclude(PluginMessage pluginMessage) {
+    public void addExclude(final PluginMessage pluginMessage) {
         config.addExclude(pluginMessage);
     }
 

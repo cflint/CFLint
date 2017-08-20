@@ -12,7 +12,7 @@ public enum Levels {
 
     private final String severity;
 
-    private Levels(String name) {
+    private Levels(final String name) {
         severity = name;
     }
 
@@ -25,7 +25,7 @@ public enum Levels {
         return this.severity;
     }
 
-    public static Levels fromString(String severity) {
+    public static Levels fromString(final String severity) {
         for (Levels level : Levels.values()) {
             if (level.toString().equals(severity)) {
                 return level;

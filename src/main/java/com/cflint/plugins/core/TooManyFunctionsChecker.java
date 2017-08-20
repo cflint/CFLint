@@ -56,7 +56,7 @@ public class TooManyFunctionsChecker extends CFLintScannerAdapter {
         }
     }
     
-    public void startComponent(Context context, BugList bugs) {
+    public void startComponent(final Context context, BugList bugs) {
         functionCount = 0;
     }
 

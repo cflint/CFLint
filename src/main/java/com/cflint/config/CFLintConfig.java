@@ -90,7 +90,7 @@ public class CFLintConfig implements CFLintConfiguration {
     }
 
     @XmlAttribute(name = "inheritParent")
-    public void setInheritParent(boolean inheritParent) {
+    public void setInheritParent(final boolean inheritParent) {
         this.inheritParent = inheritParent;
     }
 
@@ -101,7 +101,7 @@ public class CFLintConfig implements CFLintConfiguration {
 
     @XmlAttribute(name = "inheritPlugins")
     @Deprecated
-    public void setInheritPlugins(boolean inheritPlugins) {
+    public void setInheritPlugins(final boolean inheritPlugins) {
         // #315 --- inheritPlugins can not be overwritten to false in 1.2.0 --- will be fully removed in 1.3.0 (but will then break people's setup if the setting remains in .cflintrc or the xml config
         this.inheritPlugins = true;
     }

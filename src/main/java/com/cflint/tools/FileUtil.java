@@ -16,7 +16,7 @@ public class FileUtil {
     private static final String DEFAULT_ENCODING = "UTF-8";
     private static final int BUF_SIZE = 8192;
 
-    static public String loadFile(final File file) {
+    public static String loadFile(final File file) {
         FileInputStream fis = null;
         try {
             fis = new FileInputStream(file);
@@ -40,7 +40,7 @@ public class FileUtil {
         }
     }
 
-    static public boolean checkExtension(final File file, final List<String> allowedExtensions) {
+    public static boolean checkExtension(final File file, final List<String> allowedExtensions) {
         for (final String ext : allowedExtensions) {
             if (file.getName().endsWith(ext)) {
                 return true;

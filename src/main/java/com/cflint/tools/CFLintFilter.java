@@ -16,7 +16,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class CFLintFilter {
 
-    private final static Logger logger = LoggerFactory.getLogger(CFLintFilter.class);
+    private static final Logger logger = LoggerFactory.getLogger(CFLintFilter.class);
     private ArrayList<Map<String, ?>> data = null;
     private boolean verbose = false;
 

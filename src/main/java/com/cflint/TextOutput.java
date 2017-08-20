@@ -8,7 +8,7 @@ import java.util.Map.Entry;
 
 public class TextOutput {
 
-    private final static String NEW_LINE = System.getProperty("line.separator");
+    private static final String NEW_LINE = System.getProperty("line.separator");
 
     public void output(final BugList bugList, final Writer sb, CFLintStats stats) throws IOException {
         final BugCounts counts = stats.getCounts();

@@ -31,7 +31,7 @@ public class ConfigUtils {
 
 	private static final String PLUGIN_PACKAGE = "com.cflint.plugins.core";
 
-    private final static Logger log = LoggerFactory.getLogger(ConfigUtils.class);
+    private static final Logger log = LoggerFactory.getLogger(ConfigUtils.class);
     private static JAXBContext CFLintConfigContext = null;
 
     public static Marshaller createMarshaller() throws JAXBException {

@@ -102,7 +102,7 @@ public class PackageCaseChecker extends CFLintScannerAdapter implements CFLintSe
             && "'component'".equalsIgnoreCase(funcExpr.getArgs().get(0).Decompile(0));
     }
 
-    final static class PackageCaseCheckerEntry {
+    static final class PackageCaseCheckerEntry {
 
         private final Context context;
         private final String componentPath;

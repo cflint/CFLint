@@ -117,10 +117,10 @@ public class UnusedArgumentChecker extends CFLintScannerAdapter {
     
     private boolean isUsed(String content, final String name) {
     	boolean isUsed = false;
-        content = content.replace(" ", "").replace("'", "\"").toLowerCase();
-        boolean structKeyCheck = (content.contains("arguments[\"" + name + "\"]"));
-        boolean isDefinedCheck = (content.contains("arguments." + name));
-        boolean isInCollection = (content.replace(" ", "").contains("argumentcollection=arguments"));
+        String stripped = content.replace(" ", "").replace("'", "\"").toLowerCase();
+        boolean structKeyCheck = (stripped.contains("arguments[\"" + name + "\"]"));
+        boolean isDefinedCheck = (stripped.contains("arguments." + name));
+        boolean isInCollection = (stripped.contains("argumentcollection=arguments"));
         isUsed = structKeyCheck || isDefinedCheck || isInCollection;
         return isUsed;
     }

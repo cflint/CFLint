@@ -116,7 +116,7 @@ public class BugInfo implements Comparable<BugInfo> {
 
         public BugInfoBuilder setExpression(final String expression) {
             if (expression == null) {
-            	bugInfo.expression = "";
+                bugInfo.expression = "";
             } else if (expression.length() > 200) {
                 bugInfo.expression = expression.substring(0, 200);
             } else {
@@ -151,12 +151,12 @@ public class BugInfo implements Comparable<BugInfo> {
                 elemColumn = elem.getSource().getColumn(elem.getBegin());
             }
             bugInfo.setLine(elemLine + Math.max(expression == null ? 0 : expression.getLine() - 1, 0));
-            if(expression == null || expression.getColumn() < 1){
-            	bugInfo.setColumn(elemColumn);
-            }else if (expression.getLine()>1){
-            	bugInfo.setColumn(expression.getColumn());
-            }else{
-            	bugInfo.setColumn(elemColumn + expression.getColumn() - 1);
+            if (expression == null || expression.getColumn() < 1) {
+                bugInfo.setColumn(elemColumn);
+            } else if (expression.getLine() > 1) {
+                bugInfo.setColumn(expression.getColumn());
+            } else {
+                bugInfo.setColumn(elemColumn + expression.getColumn() - 1);
             }
             doMessageText(elem);
             return bugInfo;
@@ -182,7 +182,7 @@ public class BugInfo implements Comparable<BugInfo> {
 
             if (bugInfo.component != null) {
                 message = message.replace("${component}", bugInfo.component);
-            }else{
+            } else {
                 message = message.replace("${component}", "unknown");
             }
 
@@ -202,7 +202,7 @@ public class BugInfo implements Comparable<BugInfo> {
     @Override
     public String toString() {
         return "BugInfo [filename=" + filename + ", line=" + line + ", column=" + column + ", message=" + message
-                + ", messageCode=" + messageCode + ", expression=" + expression + "]";
+            + ", messageCode=" + messageCode + ", expression=" + expression + "]";
     }
 
     public String getExpression() {

@@ -20,12 +20,12 @@ public class UnusedLocalVarChecker extends CFLintScannerAdapter {
     // LinkedHashMap is ordered.
     protected Map<String, VarInfo> localVariables = new LinkedHashMap<String, VarInfo>();
     //protected Map<String, Integer> variableLineNo = new HashMap<String, Integer>();
-    
-    protected List<String> usedTagAttributes=null;
-    
+
+    protected List<String> usedTagAttributes = null;
+
     @Override
     public void expression(final CFExpression expression, final Context context, final BugList bugs) {
-    	if (expression instanceof CFFullVarExpression) {
+        if (expression instanceof CFFullVarExpression) {
             final CFFullVarExpression fullVarExpression = (CFFullVarExpression) expression;
             final CFExpression variable = fullVarExpression.getExpressions().get(0);
             if (variable instanceof CFIdentifier) {
@@ -35,7 +35,7 @@ public class UnusedLocalVarChecker extends CFLintScannerAdapter {
                 } else if ((scopes.isLocalScoped(name) || scopes.isVariablesScoped(name)) && fullVarExpression.getExpressions().size() > 1) {
                     final CFExpression variable2 = fullVarExpression.getExpressions().get(1);
                     if (variable2 instanceof CFIdentifier) {
-                        final String namepart=((CFIdentifier) variable2).getName();
+                        final String namepart = ((CFIdentifier) variable2).getName();
                         localVariables.put(namepart.toLowerCase(), new VarInfo(namepart, true));
                     }
                 }
@@ -51,12 +51,12 @@ public class UnusedLocalVarChecker extends CFLintScannerAdapter {
         } else if (expression instanceof CFVarDeclExpression) {
             final String name = ((CFVarDeclExpression) expression).getName();
             final int lineNo = expression.getLine() + context.startLine() - 1;
-            if(!scopes.isCFScoped(name)){
+            if (!scopes.isCFScoped(name)) {
                 addLocalVariable(name, lineNo);
             }
         } else if (expression instanceof CFIdentifier && !context.isInAssignmentExpression()) {
             final String name = ((CFIdentifier) expression).getName();
-            if(name != null){
+            if (name != null) {
                 localVariables.put(name.toLowerCase(), new VarInfo(name, true));
             }
         }
@@ -71,7 +71,7 @@ public class UnusedLocalVarChecker extends CFLintScannerAdapter {
 
     protected void setLocalVariableLineNo(final String variable, final Integer lineNo) {
         if (variable != null && localVariables.get(variable.toLowerCase()) != null) {
-            localVariables.get(variable.toLowerCase()).lineNumber=lineNo;
+            localVariables.get(variable.toLowerCase()).lineNumber = lineNo;
         }
     }
 
@@ -97,26 +97,26 @@ public class UnusedLocalVarChecker extends CFLintScannerAdapter {
         private Boolean used;
         private Integer lineNumber;
         private String name;
-        
+
         public VarInfo(final String name, Boolean used) {
             this.name = name;
             this.used = used;
         }
     }
-    
+
     @Override
     public void element(final Element element, final Context context, final BugList bugs) {
-        try{
-            for(String tagInfo: usedTagAttributes){
+        try {
+            for (String tagInfo : usedTagAttributes) {
                 final String parts[] = (tagInfo + "//").split("/");
-                if(element.getName()!= null && parts[0].equals(element.getName().toLowerCase())){
+                if (element.getName() != null && parts[0].equals(element.getName().toLowerCase())) {
                     final String name = element.getAttributeValue(parts[1]);
-                    if(name!= null && localVariables.containsKey(name.toLowerCase())){
+                    if (name != null && localVariables.containsKey(name.toLowerCase())) {
                         localVariables.put(name.toLowerCase(), new VarInfo(name, true));
                     }
                 }
             }
-        }catch(Exception e){
+        } catch (Exception e) {
             System.err.println(e.getMessage() + " in UnusedLocalVarChecker");
         }
     }
@@ -124,8 +124,8 @@ public class UnusedLocalVarChecker extends CFLintScannerAdapter {
     @Override
     public void setParameter(final String name, Object value) {
         super.setParameter(name, value);
-        if("UsedTagAttributes".equals(name)){
-            usedTagAttributes = getParameter("UsedTagAttributes",List.class);
+        if ("UsedTagAttributes".equals(name)) {
+            usedTagAttributes = getParameter("UsedTagAttributes", List.class);
         }
     }
 }

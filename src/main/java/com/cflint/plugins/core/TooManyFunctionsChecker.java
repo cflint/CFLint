@@ -37,12 +37,12 @@ public class TooManyFunctionsChecker extends CFLintScannerAdapter {
     protected boolean trivalFunction(final String name) {
         final int length = name.length();
         return length >= 3 && name.substring(1, 3).equalsIgnoreCase("get")
-                || length >= 3 && name.substring(1, 3).equalsIgnoreCase("set")
-                || length >= 2 && name.substring(1, 2).equalsIgnoreCase("is");
+            || length >= 3 && name.substring(1, 3).equalsIgnoreCase("set")
+            || length >= 2 && name.substring(1, 2).equalsIgnoreCase("is");
     }
 
     protected void checkNumberFunctions(final int functionCount, final int atLine, final Context context,
-            final BugList bugs) {
+                                        final BugList bugs) {
         final String functionThreshold = getParameter("maximum");
         int threshold = FUNCTION_THRESHOLD;
 
@@ -50,12 +50,12 @@ public class TooManyFunctionsChecker extends CFLintScannerAdapter {
             threshold = Integer.parseInt(functionThreshold);
         }
 
-        if (functionCount == threshold+1) {
+        if (functionCount == threshold + 1) {
             context.getParent(ContextType.COMPONENT).addUniqueMessage("EXCESSIVE_FUNCTIONS", null,
-                    this, atLine);
+                this, atLine);
         }
     }
-    
+
     public void startComponent(final Context context, BugList bugs) {
         functionCount = 0;
     }

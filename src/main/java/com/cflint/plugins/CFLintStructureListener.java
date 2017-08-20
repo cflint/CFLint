@@ -4,9 +4,9 @@ import com.cflint.BugList;
 
 /**
  * This interface supports plugins recieving structure notifications (file
- * start/end, component start/end, function start/end)
+ * start/end, component start/end, function start/end).
  *
- * Normally it is used for initialization or summarization types of behaviours
+ * Normally it is used for initialization or summarization types of behaviours.
  * 
  * @author eberlyrh
  *

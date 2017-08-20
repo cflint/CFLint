@@ -65,7 +65,7 @@ public class PackageCaseChecker extends CFLintScannerAdapter implements CFLintSe
     }
 
     @Override
-    public void startComponent(final Context context, BugList bugs) {
+    public void startComponent(final Context context, final BugList bugs) {
         final String key = context.getComponentName().toLowerCase();
         if (!componentRegister.containsKey(key)) {
             componentRegister.put(key, new ArrayList<String>());

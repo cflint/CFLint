@@ -19,7 +19,7 @@ import javanet.staxutils.IndentingXMLStreamWriter;
 public class DefaultCFlintResultMarshaller implements CFLintResultMarshaller {
 
     @Override
-    public void output(final BugList bugList, Writer writer, CFLintStats stats) throws MarshallerException {
+    public void output(final BugList bugList, final Writer writer, CFLintStats stats) throws MarshallerException {
 
         try {
             final XMLOutputFactory xmlOutputFactory = XMLOutputFactory.newInstance();
@@ -34,7 +34,7 @@ public class DefaultCFlintResultMarshaller implements CFLintResultMarshaller {
         }
     }
 
-    private void writeIssues(final BugList bugList, XMLStreamWriter xtw, CFLintStats stats) throws XMLStreamException {
+    private void writeIssues(final BugList bugList, final XMLStreamWriter xtw, CFLintStats stats) throws XMLStreamException {
         xtw.writeStartElement("issues");
         xtw.writeAttribute("version", Version.getVersion());
         xtw.writeAttribute("timestamp", Long.toString(stats.getTimestamp()));
@@ -50,7 +50,7 @@ public class DefaultCFlintResultMarshaller implements CFLintResultMarshaller {
         xtw.writeEndElement();
     }
 
-    private void writeCounts(final XMLStreamWriter xtw, BugCounts counts, CFLintStats stats) throws XMLStreamException {
+    private void writeCounts(final XMLStreamWriter xtw, final BugCounts counts, CFLintStats stats) throws XMLStreamException {
         xtw.writeStartElement("counts");
         xtw.writeAttribute("totalfiles", Long.toString(stats.getFileCount()));
         xtw.writeAttribute("totallines", stats.getTotalLines().toString());
@@ -74,7 +74,7 @@ public class DefaultCFlintResultMarshaller implements CFLintResultMarshaller {
         xtw.writeEndElement();
     }
 
-    private void writeIssue(final XMLStreamWriter xtw, BugInfo bug) throws XMLStreamException {
+    private void writeIssue(final XMLStreamWriter xtw, final BugInfo bug) throws XMLStreamException {
 
         xtw.writeStartElement("issue");
         xtw.writeAttribute("severity", valueOf(bug.getSeverity().toString()));
@@ -88,7 +88,7 @@ public class DefaultCFlintResultMarshaller implements CFLintResultMarshaller {
         xtw.writeEndElement();
     }
 
-    private void writeLocation(final XMLStreamWriter xtw, BugInfo bug) throws XMLStreamException {
+    private void writeLocation(final XMLStreamWriter xtw, final BugInfo bug) throws XMLStreamException {
         xtw.writeStartElement("location");
         xtw.writeAttribute("file", valueOf(bug.getFilename()));
         xtw.writeAttribute("fileName", valueOf(new File(bug.getFilename()).getName()));
@@ -103,7 +103,7 @@ public class DefaultCFlintResultMarshaller implements CFLintResultMarshaller {
         xtw.writeEndElement();
     }
 
-    private void writeExpression(final XMLStreamWriter xtw, BugInfo bug) throws XMLStreamException {
+    private void writeExpression(final XMLStreamWriter xtw, final BugInfo bug) throws XMLStreamException {
         xtw.writeStartElement("Expression");
 
         escapeDeep(xtw, valueOf(bug.getExpression()));
@@ -111,7 +111,7 @@ public class DefaultCFlintResultMarshaller implements CFLintResultMarshaller {
         xtw.writeEndElement();
     }
 
-    private void escapeDeep(XMLStreamWriter xtw, String data) throws XMLStreamException {
+    private void escapeDeep(XMLStreamWriter xtw, final String data) throws XMLStreamException {
         final String pattern = "]]>";
 
         final int offset = data.indexOf(pattern);

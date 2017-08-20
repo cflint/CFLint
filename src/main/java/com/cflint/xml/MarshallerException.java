@@ -14,7 +14,7 @@ public class MarshallerException extends Exception {
         super(message);
     }
 
-    public MarshallerException(final String message, Throwable cause) {
+    public MarshallerException(final String message, final Throwable cause) {
         super(message, cause);
     }
 

@@ -18,7 +18,7 @@ public class CFLintChainedConfig implements CFLintConfiguration {
         parent = null;
     }
 
-    public CFLintChainedConfig(final CFLintConfiguration config, CFLintConfiguration parent) {
+    public CFLintChainedConfig(final CFLintConfiguration config, final CFLintConfiguration parent) {
         super();
         this.config = (CFLintConfig) config;
         this.parent = parent;
@@ -60,7 +60,7 @@ public class CFLintChainedConfig implements CFLintConfiguration {
     }
 
     @Override
-    public PluginInfoRule getRuleForPlugin(CFLintScanner plugin) {
+    public PluginInfoRule getRuleForPlugin(final CFLintScanner plugin) {
         PluginInfoRule retval = config.getRuleForPlugin(plugin);
         if (retval != null || parent == null) {
             return retval;

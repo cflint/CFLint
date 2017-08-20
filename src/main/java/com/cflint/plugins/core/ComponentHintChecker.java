@@ -29,7 +29,7 @@ public class ComponentHintChecker extends CFLintScannerAdapter {
     }
 
     @Override
-    public void expression(final CFScriptStatement expression, Context context, BugList bugs) {
+    public void expression(final CFScriptStatement expression, final Context context, BugList bugs) {
         if (expression instanceof CFCompDeclStatement) {
             final CFCompDeclStatement compDeclStatement = (CFCompDeclStatement) expression;
             final CFExpression hintAttribute = CFTool.convertMap(compDeclStatement.getAttributes()).get("hint");

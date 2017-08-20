@@ -17,14 +17,14 @@ public class CFLintStats {
         super();
     }
 
-    public CFLintStats(final long timestamp, long fileCount, BigInteger totalLines) {
+    public CFLintStats(final long timestamp, final long fileCount, final BigInteger totalLines) {
         super();
         this.timestamp = timestamp;
         this.fileCount = fileCount;
         this.totalLines = totalLines;
     }
 
-    public CFLintStats(final long timestamp, long fileCount, BigInteger totalLines, BugCounts counts) {
+    public CFLintStats(final long timestamp, final long fileCount, final BigInteger totalLines, final BugCounts counts) {
         super();
         this.timestamp = timestamp;
         this.fileCount = fileCount;

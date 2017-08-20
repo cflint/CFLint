@@ -23,7 +23,7 @@ public class ArgTypeChecker extends CFLintScannerAdapter {
 
                 if (variableType == null) {
                     context.addMessage("ARG_TYPE_MISSING", name);
-                } else if (variableType.equals("any")) {
+                } else if ("any".equals(variableType)) {
                     context.addMessage("ARG_TYPE_ANY", name);
                 }
             }
@@ -38,7 +38,7 @@ public class ArgTypeChecker extends CFLintScannerAdapter {
 
             if (variableType == null) {
                 context.addMessage("ARG_TYPE_MISSING", name);
-            } else if (variableType.equals("any")) {
+            } else if ("any".equals(variableType)) {
                 context.addMessage("ARG_TYPE_ANY", name);
             }
         }

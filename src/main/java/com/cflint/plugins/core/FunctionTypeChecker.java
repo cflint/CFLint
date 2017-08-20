@@ -36,7 +36,7 @@ public class FunctionTypeChecker extends CFLintScannerAdapter {
             final BugList bugs) {
         if (functionType == null || functionType.length() == 0) {
             context.addMessage("FUNCTION_TYPE_MISSING", context.getFunctionName());
-        } else if (functionType.equals("any")) {
+        } else if ("any".equals(functionType)) {
             context.addMessage("FUNCTION_TYPE_ANY", context.getFunctionName());
         }
     }

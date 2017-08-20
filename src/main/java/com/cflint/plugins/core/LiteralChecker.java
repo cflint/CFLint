@@ -51,11 +51,11 @@ public class LiteralChecker extends CFLintScannerAdapter {
 
             final int lineNo = literal.getLine() + context.startLine() - 1;
 
-            if (warningScope == null || warningScope.equals("global")) {
+            if (warningScope == null || "global".equals(warningScope)) {
                 if (!context.isInFunction()) {
                     literalCount(name, lineNo, globalLiterals, true, context, bugs);
                 }
-            } else if (warningScope.equals("local")) {
+            } else if ("local".equals(warningScope)) {
                 if (context.isInFunction()) {
                     literalCount(name, lineNo, functionListerals, false, context, bugs);
                 }
@@ -92,7 +92,7 @@ public class LiteralChecker extends CFLintScannerAdapter {
     }
 
     protected boolean isCommon(final String name) {
-        return name.equals("1") || name.equals("0") || name.equals("") || name.equals("true") || name.equals("false");
+        return "1".equals(name) || "0".equals(name) || "".equals(name) || "true".equals(name) || "false".equals(name);
     }
 
     /**

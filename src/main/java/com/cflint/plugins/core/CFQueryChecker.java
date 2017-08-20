@@ -18,7 +18,7 @@ public class CFQueryChecker extends CFLintScannerAdapter {
         final String file = context.getFilename();
         final String ext = file.substring(file.length() - 3, file.length());
         final String tagName = element.getName();
-        if (tagName.equals(CF.CFQUERY) && ext.equals("cfm")) {
+        if (tagName.equals(CF.CFQUERY) && "cfm".equals(ext)) {
             final int begLine = element.getSource().getRow(element.getBegin());
             context.addMessage(messageCode, null, this, begLine);
         }

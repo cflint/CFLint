@@ -160,7 +160,7 @@ public class CFLintConfig implements CFLintConfiguration {
         }
 
         public static class OutputText {
-            String file;
+            private String file;
 
             public String getFile() {
                 return file;

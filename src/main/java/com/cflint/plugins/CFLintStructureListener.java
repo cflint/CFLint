@@ -21,7 +21,7 @@ public interface CFLintStructureListener {
      * @param bugs
      *            List of errors reported
      */
-    public void startFile(String fileName, BugList bugs);
+    public void startFile(final String fileName, BugList bugs);
 
     /**
      * Called when processing of current file has ended
@@ -31,7 +31,7 @@ public interface CFLintStructureListener {
      * @param bugs
      *            List of errors reported
      */
-    public void endFile(String fileName, BugList bugs);
+    public void endFile(final String fileName, BugList bugs);
 
     /**
      * Called when processing a new component has started
@@ -41,7 +41,7 @@ public interface CFLintStructureListener {
      * @param bugs
      *            List of errors reported
      */
-    public void startComponent(Context context, BugList bugs);
+    public void startComponent(final Context context, BugList bugs);
 
     /**
      * Called when processing of current component has ended
@@ -51,7 +51,7 @@ public interface CFLintStructureListener {
      * @param bugs
      *            List of errors reported
      */
-    public void endComponent(Context context, BugList bugs);
+    public void endComponent(final Context context, BugList bugs);
 
     /**
      * Called when processing of a new function has started
@@ -61,7 +61,7 @@ public interface CFLintStructureListener {
      * @param bugs
      *            List of errors reported
      */
-    public void startFunction(Context context, BugList bugs);
+    public void startFunction(final Context context, BugList bugs);
 
     /**
      * Called when processing of current function has ended
@@ -71,6 +71,6 @@ public interface CFLintStructureListener {
      * @param bugs
      *            List of errors reported
      */
-    public void endFunction(Context context, BugList bugs);
+    public void endFunction(final Context context, BugList bugs);
 
 }

@@ -298,7 +298,7 @@ public class CFLintMain {
      * 
      * @param pluginInfo
      */
-    private static void listRuleGroups(CFLintPluginInfo pluginInfo) {
+    private static void listRuleGroups(final CFLintPluginInfo pluginInfo) {
         Map<String, PluginMessage> allCodes = new LinkedHashMap<String, PluginMessage>();
         for (PluginInfoRule rule : pluginInfo.getRules()) {
             for (PluginMessage msg : rule.getMessages()) {

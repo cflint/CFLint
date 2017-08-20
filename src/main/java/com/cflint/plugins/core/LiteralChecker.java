@@ -100,7 +100,7 @@ public class LiteralChecker extends CFLintScannerAdapter {
      * @param name
      * @return
      */
-    private boolean isSpecial(String name) {
+    private boolean isSpecial(final String name) {
     	//Empty literals do not flag
     	if(name == null || name.length()==0){
     		return true;

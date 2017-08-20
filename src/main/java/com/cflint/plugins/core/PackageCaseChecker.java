@@ -65,7 +65,7 @@ public class PackageCaseChecker extends CFLintScannerAdapter implements CFLintSe
 	}
 
 	@Override
-	public void startComponent(Context context, BugList bugs) {
+	public void startComponent(final Context context, BugList bugs) {
 		final String key = context.getComponentName().toLowerCase();
 		if(!componentRegister.containsKey(key)){
 			componentRegister.put(key, new ArrayList<String>());
@@ -93,11 +93,11 @@ public class PackageCaseChecker extends CFLintScannerAdapter implements CFLintSe
 		}
 	}
 
-	private String normalize(String filename) {
+	private String normalize(final String filename) {
 		return filename.replaceAll(".[cC][fF][cC]$", "").replace("\\",".").replace("/",".");
 	}
 
-	private boolean isCreateObject(CFFunctionExpression funcExpr) {
+	private boolean isCreateObject(final CFFunctionExpression funcExpr) {
 		return "createobject".equalsIgnoreCase(funcExpr.getFunctionName()) && funcExpr.getArgs().size() > 1
 				&& "'component'".equalsIgnoreCase(funcExpr.getArgs().get(0).Decompile(0));
 	}
@@ -116,7 +116,7 @@ public class PackageCaseChecker extends CFLintScannerAdapter implements CFLintSe
 	}
 
 	@Override
-	public void setCFLint(CFLint cflint) {
+	public void setCFLint(final CFLint cflint) {
 		this.cflintRef = cflint;
 	}
 }

@@ -3,7 +3,6 @@ package com.cflint.plugins.core;
 import java.util.Arrays;
 import java.util.List;
 
-import com.cflint.Levels;
 import com.cflint.BugList;
 import com.cflint.plugins.CFLintScannerAdapter;
 import com.cflint.plugins.Context;

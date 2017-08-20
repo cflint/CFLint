@@ -5,7 +5,6 @@ import java.util.Collections;
 import java.util.List;
 
 import com.cflint.CF;
-import com.cflint.Levels;
 import com.cflint.BugList;
 import com.cflint.plugins.CFLintScannerAdapter;
 import com.cflint.plugins.Context;
@@ -26,8 +25,6 @@ public class VariableNameChecker extends CFLintScannerAdapter {
     private static final String PARAM_EXCLUSION_LIST = "ExclusionList";
 
     private final List<String> exclusions = new ArrayList<>();
-
-    private final Levels severity = Levels.INFO;
 
     @Override
     public void element(final Element element, final Context context, final BugList bugs) {

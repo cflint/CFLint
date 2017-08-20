@@ -154,15 +154,15 @@ public class ValidName {
         return false;
     }
 
-    public void setPrefixesToAvoid(String[] prefixesToAvoid) {
+    public void setPrefixesToAvoid(final String[] prefixesToAvoid) {
         this.prefixesToAvoid = prefixesToAvoid;
     }
 
-    public void setSuffixesToAvoid(String[] suffixesToAvoid) {
+    public void setSuffixesToAvoid(final String[] suffixesToAvoid) {
         this.suffixesToAvoid = suffixesToAvoid;
     }
 
-    public void setRequiredPrefixList(String[] prefixes) {
+    public void setRequiredPrefixList(final String[] prefixes) {
         this.requiredPrefixes = prefixes;
     }
 }

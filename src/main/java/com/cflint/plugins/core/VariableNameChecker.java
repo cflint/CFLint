@@ -185,7 +185,7 @@ public class VariableNameChecker extends CFLintScannerAdapter {
         return exclusions.contains(normalize(variable));
     }
 
-    protected String normalize(String name) {
+    protected String normalize(final String name) {
         if (name == null || name.trim().isEmpty()) {
             return null;
         }

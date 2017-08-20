@@ -7,6 +7,6 @@ import com.cflint.CFLintStats;
 
 public interface CFLintResultMarshaller {
 
-    public void output(final BugList bugList, final Writer writer, CFLintStats stats) throws MarshallerException;
+    public void output(final BugList bugList, final Writer writer, final CFLintStats stats) throws MarshallerException;
 
 }

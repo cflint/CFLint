@@ -44,7 +44,7 @@ public class CFScopes {
         CFExpression part1 = variable.decomposeExpression().get(0);
         return scopes.contains(part1.Decompile(0).toLowerCase());
     }
-    public boolean isScoped(final CFFullVarExpression variable,String scope) {
+    public boolean isScoped(final CFFullVarExpression variable, final String scope) {
         CFExpression part1 = variable.decomposeExpression().get(0);
         return scope != null && scope.equalsIgnoreCase(part1.Decompile(0).toLowerCase());
     }

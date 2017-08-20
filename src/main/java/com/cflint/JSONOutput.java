@@ -24,7 +24,7 @@ public class JSONOutput {
         this.prettyPrint = prettyPrint;
     }
 
-    public void output(final BugList bugList, final Writer writer, CFLintStats stats) throws IOException {
+    public void output(final BugList bugList, final Writer writer, final CFLintStats stats) throws IOException {
         final BugCounts counts = stats.getCounts();
         final JsonFactory jsonF = new JsonFactory();
         final JsonGenerator jg = jsonF.createGenerator(writer);

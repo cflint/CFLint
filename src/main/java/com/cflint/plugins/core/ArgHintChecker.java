@@ -33,7 +33,7 @@ public class ArgHintChecker extends CFLintScannerAdapter {
     }
 
     @Override
-    public void expression(final CFScriptStatement expression, final Context context, BugList bugs) {
+    public void expression(final CFScriptStatement expression, final Context context, final BugList bugs) {
         if (expression instanceof CFFuncDeclStatement) {
             final CFFuncDeclStatement funcDeclStatement = (CFFuncDeclStatement) expression;
             final String _mlText = PrecedingCommentReader.getMultiLine(context, expression.getToken());

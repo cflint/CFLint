@@ -22,10 +22,6 @@ public class CFLintScannerAdapter implements CFLintScanner, CFLintStructureListe
 
     private Map<String, Object> params = new HashMap<String, Object>();
 
-    public CFLintScannerAdapter() {
-        super();
-    }
-
     /**
      * Empty implementation
      */

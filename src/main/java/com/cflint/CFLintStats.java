@@ -4,46 +4,52 @@ import java.math.BigInteger;
 
 public class CFLintStats {
 
-	// Epoch timestamp for XML format output
-	private long timestamp = System.currentTimeMillis() / 1000L;
-	// Number of files
-	private long fileCount;
-	// Number of lines
-	private BigInteger totalLines = BigInteger.ZERO;
-	// Bug counts for current execution
-	private BugCounts counts = new BugCounts();
+    // Epoch timestamp for XML format output
+    private long timestamp = System.currentTimeMillis() / 1000L;
+    // Number of files
+    private long fileCount;
+    // Number of lines
+    private BigInteger totalLines = BigInteger.ZERO;
+    // Bug counts for current execution
+    private BugCounts counts = new BugCounts();
 
-	public CFLintStats() {
-		super();
-	}
+    public CFLintStats() {
+        super();
+    }
 
-	public CFLintStats(final long timestamp, long fileCount, BigInteger totalLines) {
-		super();
-		this.timestamp = timestamp;
-		this.fileCount = fileCount;
-		this.totalLines = totalLines;
-	}
+    public CFLintStats(final long timestamp, long fileCount, BigInteger totalLines) {
+        super();
+        this.timestamp = timestamp;
+        this.fileCount = fileCount;
+        this.totalLines = totalLines;
+    }
 
-	public CFLintStats(final long timestamp, long fileCount, BigInteger totalLines, BugCounts counts) {
-		super();
-		this.timestamp = timestamp;
-		this.fileCount = fileCount;
-		this.totalLines = totalLines;
-		this.counts = counts;
-	}
-	
-	public void addFile(final long numberOfLines){
-		fileCount++;
-		totalLines = totalLines.add(BigInteger.valueOf(numberOfLines));
-	}
+    public CFLintStats(final long timestamp, long fileCount, BigInteger totalLines, BugCounts counts) {
+        super();
+        this.timestamp = timestamp;
+        this.fileCount = fileCount;
+        this.totalLines = totalLines;
+        this.counts = counts;
+    }
 
-	public long getTimestamp() { return timestamp; }
+    public void addFile(final long numberOfLines) {
+        fileCount++;
+        totalLines = totalLines.add(BigInteger.valueOf(numberOfLines));
+    }
 
-	public long getFileCount() { return fileCount; }
+    public long getTimestamp() {
+        return timestamp;
+    }
 
-	public BigInteger getTotalLines() {
-		return totalLines;
-	}
+    public long getFileCount() {
+        return fileCount;
+    }
 
-	public BugCounts getCounts() { return counts; }
+    public BigInteger getTotalLines() {
+        return totalLines;
+    }
+
+    public BugCounts getCounts() {
+        return counts;
+    }
 }

@@ -21,7 +21,7 @@ public class CommentReformatting {
                     pos = stack.pop();
                     continue;
                 }
-            } else if (nextpos > 0 && nextpos < endpos) {// Nested
+            } else if (nextpos > 0 && nextpos < endpos) { // Nested
                 stack.push(pos);
             }
             pos = sb.indexOf(COMMENT_TEXT, pos + 1);

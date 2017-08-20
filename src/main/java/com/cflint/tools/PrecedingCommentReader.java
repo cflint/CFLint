@@ -17,7 +17,7 @@ public class PrecedingCommentReader {
             if (currentTok.getChannel() == Token.HIDDEN_CHANNEL && currentTok.getType() == CFSCRIPTLexer.ML_COMMENT) {
                 String mlText = currentTok.getText();
                 return mlText == null ? null : mlText.trim();
-            } else if (currentTok.getChannel() == Token.HIDDEN_CHANNEL && currentTok.getType() == CFSCRIPTLexer.NEWLINE){
+            } else if (currentTok.getChannel() == Token.HIDDEN_CHANNEL && currentTok.getType() == CFSCRIPTLexer.NEWLINE) {
             } else if (currentTok.getLine() < token.getLine()) {
                 break;
             }

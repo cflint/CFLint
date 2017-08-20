@@ -61,7 +61,7 @@ public class CFLintMain {
     private String xmlOutFile = "cflint-result.xml";
     private String xmlstyle = CFLINT;
     private String htmlOutFile = "cflint-result.html";
-    private  String htmlStyle = "plain.xsl";
+    private String htmlStyle = "plain.xsl";
     private String jsonOutFile = "cflint-result.json";
     private String textOutFile = null;
     private CFLintConfig cmdLineConfig = null;
@@ -134,7 +134,7 @@ public class CFLintMain {
         main.strictInclude = cmd.hasOption(Settings.STRICT_INCLUDE);
         if (cmd.hasOption(Settings.RULES) || cmd.hasOption(Settings.CONFIG)) {
             final CFLintPluginInfo pluginInfo = cmd.hasOption(Settings.RULES) ? ConfigUtils.loadDefaultPluginInfo()
-                    : new CFLintPluginInfo();
+                : new CFLintPluginInfo();
             main.defaultConfig = new CFLintConfig();
             main.defaultConfig.setRules(pluginInfo.getRules());
 
@@ -274,13 +274,13 @@ public class CFLintMain {
 
     /**
      * Apply the listed rule groups
-     * 
+     *
      * @param main
      * @param pluginInfo
      * @param rulegroups
      */
     protected static void applyRuleGroups(final CFLintMain main, final CFLintPluginInfo pluginInfo,
-            final String rulegroups) {
+                                          final String rulegroups) {
         final boolean include = !rulegroups.startsWith("!");
         for (RuleGroup rg : pluginInfo.getRuleGroups()) {
             if (rulegroups.contains(rg.getName())) {
@@ -295,7 +295,7 @@ public class CFLintMain {
 
     /**
      * List the rule groups
-     * 
+     *
      * @param pluginInfo
      */
     private static void listRuleGroups(final CFLintPluginInfo pluginInfo) {
@@ -350,7 +350,7 @@ public class CFLintMain {
             return;
         }
 
-        final String[] slist = new String[] { "xml", "html", "text", "txt", "json" };
+        final String[] slist = new String[]{"xml", "html", "text", "txt", "json"};
         final JList<String> list = new JList<String>(slist);
         JOptionPane.showMessageDialog(null, list, "Output Type", JOptionPane.PLAIN_MESSAGE);
 
@@ -380,7 +380,7 @@ public class CFLintMain {
                     final Object configObj = ConfigUtils.unmarshal(new FileInputStream(configfile));
                     if (configObj instanceof CFLintPluginInfo)
                         pluginInfo = (CFLintPluginInfo) configObj;
-                    else if(configObj instanceof CFLintConfig ){
+                    else if (configObj instanceof CFLintConfig) {
                         return (CFLintConfig) configObj;
                     }
                 } else {
@@ -410,7 +410,7 @@ public class CFLintMain {
                 cflint.setAllowedExtensions(Arrays.asList(extensions.trim().split(",")));
             } catch (final Exception e) {
                 System.err.println(
-                        "Unable to use extensions (" + extensions + ") using default instead. " + e.getMessage());
+                    "Unable to use extensions (" + extensions + ") using default instead. " + e.getMessage());
             }
         }
         final CFLintFilter filter = createBaseFilter();
@@ -429,7 +429,7 @@ public class CFLintMain {
             }
             scanner.close();
             final File starterFile = new File(stdInFile);
-            if (starterFile.exists() && starterFile.getParentFile().exists()){
+            if (starterFile.exists() && starterFile.getParentFile().exists()) {
                 cflint.setupConfigAncestry(starterFile.getParentFile());
             }
             cflint.process(source.toString(), stdInFile);
@@ -457,10 +457,10 @@ public class CFLintMain {
             } catch (final IOException e) {
                 throw new IOException(e);
             } finally {
-               if (xmlwriter != null) {
-                   xmlwriter.close();
-               }
-           }
+                if (xmlwriter != null) {
+                    xmlwriter.close();
+                }
+            }
         }
         if (textOutput) {
             Writer textwriter = null;
@@ -469,8 +469,8 @@ public class CFLintMain {
                     display("Writing text" + (stdOut ? "." : " to " + textOutFile));
                 }
                 textwriter = stdOut || textOutFile == null ? new OutputStreamWriter(System.out)
-                        : new FileWriter(textOutFile);
-                new TextOutput().output(cflint.getBugs(), textwriter,cflint.getStats());
+                    : new FileWriter(textOutFile);
+                new TextOutput().output(cflint.getBugs(), textwriter, cflint.getStats());
             } catch (final IOException e) {
                 throw new IOException(e);
             } finally {
@@ -570,9 +570,9 @@ public class CFLintMain {
         } catch (final IOException e) {
             throw new IOException(e);
         } finally {
-          if (out != null) {
-              out.close();
-          }
+            if (out != null) {
+                out.close();
+            }
         }
         return out;
     }

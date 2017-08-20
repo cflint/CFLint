@@ -111,7 +111,7 @@ public class DefaultCFlintResultMarshaller implements CFLintResultMarshaller {
         xtw.writeEndElement();
     }
 
-    void escapeDeep(XMLStreamWriter xtw, String data) throws XMLStreamException {
+    private void escapeDeep(XMLStreamWriter xtw, String data) throws XMLStreamException {
         final String pattern = "]]>";
 
         final int offset = data.indexOf(pattern);

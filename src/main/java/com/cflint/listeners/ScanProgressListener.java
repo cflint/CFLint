@@ -8,9 +8,9 @@ package com.cflint.listeners;
  */
 public interface ScanProgressListener {
 
-    public void startedProcessing(String srcidentifier);
+    void startedProcessing(String srcidentifier);
 
-    public void finishedProcessing(String srcidentifier);
+    void finishedProcessing(String srcidentifier);
 
-    public void close();
+    void close();
 }

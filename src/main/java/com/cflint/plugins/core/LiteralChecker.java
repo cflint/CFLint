@@ -15,8 +15,8 @@ import ro.fortsoft.pf4j.Extension;
 
 @Extension
 public class LiteralChecker extends CFLintScannerAdapter {
-    final protected int REPEAT_THRESHOLD = 3;
-    final protected int WARNING_THRESHOLD = 5;
+    protected static final int REPEAT_THRESHOLD = 3;
+    protected static final int WARNING_THRESHOLD = 5;
 
     protected int threshold = REPEAT_THRESHOLD;
     protected int warningThreshold = WARNING_THRESHOLD;

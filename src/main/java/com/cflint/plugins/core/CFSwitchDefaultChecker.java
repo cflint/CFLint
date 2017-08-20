@@ -10,10 +10,10 @@ import cfml.parsing.cfscript.script.CFSwitchStatement;
 import net.htmlparser.jericho.Element;
 
 public class CFSwitchDefaultChecker extends CFLintScannerAdapter {
-    private final String CFML_TAG_CHECK = CF.CFSWITCH;
-    private final String CFML_TAG_REQUIRED = CF.CFDEFAULTCASE;
-    private final String CFSCRIPT_STATEMENT_REQUIRED = CF.DEFAULT;
-    private final String MESSAGE_CODE = "NO_DEFAULT_INSIDE_SWITCH";
+    private static final String CFML_TAG_CHECK = CF.CFSWITCH;
+    private static final String CFML_TAG_REQUIRED = CF.CFDEFAULTCASE;
+    private static final String CFSCRIPT_STATEMENT_REQUIRED = CF.DEFAULT;
+    private static final String MESSAGE_CODE = "NO_DEFAULT_INSIDE_SWITCH";
 
     @Override
     public void expression(final CFScriptStatement expression, final Context context, final BugList bugs) {

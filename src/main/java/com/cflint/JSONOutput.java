@@ -13,7 +13,7 @@ import com.fasterxml.jackson.core.JsonGenerator;
 
 public class JSONOutput {
 
-    private final List<String> CODE_GROUPBY_FUNCTION = Arrays.asList("PARSE_ERROR");
+    private static final List<String> CODE_GROUPBY_FUNCTION = Arrays.asList("PARSE_ERROR");
     private boolean prettyPrint = true;
 
     public boolean isPrettyPrint() {

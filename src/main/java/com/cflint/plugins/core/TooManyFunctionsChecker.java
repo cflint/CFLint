@@ -11,7 +11,7 @@ import cfml.parsing.cfscript.script.CFScriptStatement;
 import net.htmlparser.jericho.Element;
 
 public class TooManyFunctionsChecker extends CFLintScannerAdapter {
-    private final int FUNCTION_THRESHOLD = 10;
+    private static final int FUNCTION_THRESHOLD = 10;
 
     protected int functionCount = 0;
 

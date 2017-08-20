@@ -15,7 +15,7 @@ import ro.fortsoft.pf4j.Extension;
 
 @Extension
 public class CFCompareVsAssignChecker extends CFLintScannerAdapter {
-    private List<Integer> TOKENS = Arrays.asList(CFSCRIPTLexer.EQUALSEQUALSOP, CFSCRIPTLexer.LT, CFSCRIPTLexer.LTE,
+    private static final List<Integer> TOKENS = Arrays.asList(CFSCRIPTLexer.EQUALSEQUALSOP, CFSCRIPTLexer.LT, CFSCRIPTLexer.LTE,
             CFSCRIPTLexer.GT, CFSCRIPTLexer.GTE, CFSCRIPTLexer.OR, CFSCRIPTLexer.OROPERATOR, CFSCRIPTLexer.EQV,
             CFSCRIPTLexer.XOR, CFSCRIPTLexer.AND, CFSCRIPTLexer.ANDOPERATOR, CFSCRIPTLexer.EQ, CFSCRIPTLexer.NEQ,
             CFSCRIPTLexer.CONTAINS);

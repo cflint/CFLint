@@ -17,7 +17,7 @@ import cfml.parsing.cfscript.script.CFWhileStatement;
 import net.htmlparser.jericho.Element;
 
 public class SimpleComplexityChecker extends CFLintScannerAdapter {
-    protected final int COMPLEXITY_THRESHOLD = 10;
+    protected static final int COMPLEXITY_THRESHOLD = 10;
     protected int complexity = 0;
     protected boolean alreadyTooComplex = false;
     private int functionLineNo = 1;

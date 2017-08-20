@@ -12,7 +12,7 @@ import ro.fortsoft.pf4j.Extension;
 
 @Extension
 public class ComponentLengthChecker extends CFLintScannerAdapter {
-    private final int LENGTH_THRESHOLD = 500;
+    private static final int LENGTH_THRESHOLD = 500;
 
     @Override
     public void expression(final CFScriptStatement expression, final Context context, final BugList bugs) {

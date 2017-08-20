@@ -91,7 +91,7 @@ public class CFMLTagInfo {
             if (tag != null) {
                 for (final Object paramObj : tag.getParameters()) {
                     final Parameter param = (Parameter) paramObj;
-                    if (attributeName.toLowerCase().equals(param.getName())) {
+                    if (attributeName.equalsIgnoreCase(param.getName())) {
                         return "query".equalsIgnoreCase(param.getType())
                                 || "variableName".equalsIgnoreCase(param.getType())
                                 || "array".equalsIgnoreCase(param.getType())

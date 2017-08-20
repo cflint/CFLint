@@ -33,24 +33,24 @@ public class SimpleComplexityChecker extends CFLintScannerAdapter {
     public void expression(final CFScriptStatement expression, final Context context, final BugList bugs) {
         CFFuncDeclStatement function;
 
-        if (expression != null){
-	        if (expression instanceof CFFuncDeclStatement) {
-	            function = (CFFuncDeclStatement) expression;
-	            functionLineNo = function.getLine();
-	            complexity = 0;
-	            alreadyTooComplex = false;
-	        }
-	        // Not using instanceof to avoid double counting
-	        else if (expression.getClass().equals(CFIfStatement.class) || expression.getClass().equals(CFForStatement.class)
-	                || expression.getClass().equals(CFForInStatement.class)
-	                || expression.getClass().equals(CFSwitchStatement.class)
-	                || expression.getClass().equals(CFTryCatchStatement.class)
-	                || expression.getClass().equals(CFWhileStatement.class)
-	                || expression.getClass().equals(CFDoWhileStatement.class)) {
-	            complexity++;
-	            // TODO +1 for each case statment in a switch
-	            checkComplexity(context.getFunctionName(), functionLineNo, context, bugs);
-	        }
+        if (expression != null) {
+            if (expression instanceof CFFuncDeclStatement) {
+                function = (CFFuncDeclStatement) expression;
+                functionLineNo = function.getLine();
+                complexity = 0;
+                alreadyTooComplex = false;
+            }
+            // Not using instanceof to avoid double counting
+            else if (expression.getClass().equals(CFIfStatement.class) || expression.getClass().equals(CFForStatement.class)
+                || expression.getClass().equals(CFForInStatement.class)
+                || expression.getClass().equals(CFSwitchStatement.class)
+                || expression.getClass().equals(CFTryCatchStatement.class)
+                || expression.getClass().equals(CFWhileStatement.class)
+                || expression.getClass().equals(CFDoWhileStatement.class)) {
+                complexity++;
+                // TODO +1 for each case statment in a switch
+                checkComplexity(context.getFunctionName(), functionLineNo, context, bugs);
+            }
         }
     }
 
@@ -64,11 +64,11 @@ public class SimpleComplexityChecker extends CFLintScannerAdapter {
             alreadyTooComplex = false;
         } else {
             if (name.equalsIgnoreCase(CF.CFIF) || name.equalsIgnoreCase(CF.CFELSE) || name.equalsIgnoreCase(CF.CFELSEIF)
-                    || name.equalsIgnoreCase(CF.CFLOOP) || name.equalsIgnoreCase(CF.CFWHILE)
-                    || name.equalsIgnoreCase(CF.CFOUTPUT) // TODO could check for
-                                                         // query=
-                    || name.equalsIgnoreCase(CF.CFCASE) || name.equalsIgnoreCase(CF.CFDEFAULTCASE)
-                    || name.equalsIgnoreCase(CF.CFTRY) || name.equalsIgnoreCase(CF.CFCATCH)) {
+                || name.equalsIgnoreCase(CF.CFLOOP) || name.equalsIgnoreCase(CF.CFWHILE)
+                || name.equalsIgnoreCase(CF.CFOUTPUT) // TODO could check for
+                // query=
+                || name.equalsIgnoreCase(CF.CFCASE) || name.equalsIgnoreCase(CF.CFDEFAULTCASE)
+                || name.equalsIgnoreCase(CF.CFTRY) || name.equalsIgnoreCase(CF.CFCATCH)) {
                 complexity++;
                 checkComplexity(context.getFunctionName(), functionLineNo, context, bugs);
             }

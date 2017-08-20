@@ -37,7 +37,7 @@ public class PackageCaseChecker extends CFLintScannerAdapter implements CFLintSe
             final CFNewExpression newExpr = (CFNewExpression) expression;
             final String componentPath = newExpr.getComponentPath().Decompile(0);
             final List<CFExpression> exprs = newExpr.getComponentPath().decomposeExpression();
-            final String componentName = exprs.size() == 0 ? "" : exprs.get(exprs.size() - 1).toString();
+            final String componentName = exprs.isEmpty() ? "" : exprs.get(exprs.size() - 1).toString();
             checkComponentRegister(context, componentPath, componentName);
         }
     }

@@ -593,7 +593,7 @@ public class CFLint implements IErrorReporter {
                     final ANTLRErrorListener errorReporter = new ArrayErrorListener(errors);
                     final CFExpression exp = cfmlParser.parseCFMLExpression(
                             literalChar.get(0) + attr.getValue() + literalChar.get(0), errorReporter);
-                    if (errors.size() == 0) {
+                    if (errors.isEmpty()) {
                         expressions.put(attr.getName().toLowerCase(), exp);
                         continue;
                     }

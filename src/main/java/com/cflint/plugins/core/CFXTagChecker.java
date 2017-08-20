@@ -1,6 +1,7 @@
 package com.cflint.plugins.core;
 
 import com.cflint.BugList;
+import com.cflint.CF;
 import com.cflint.plugins.CFLintScannerAdapter;
 import com.cflint.plugins.Context;
 
@@ -15,7 +16,7 @@ public class CFXTagChecker extends CFLintScannerAdapter {
         final String scope = getParameter("scope");
 
         if (cfmlTagCheck != null && tagName.matches(cfmlTagCheck)) {
-            if (scope == null || scope.equals("component") && context.isInComponent()) {
+            if (scope == null || scope.equals(CF.COMPONENT) && context.isInComponent()) {
                 context.addMessage("AVOID_USING_" + tagName.toUpperCase() + "_TAG", tagName);
             }
         }

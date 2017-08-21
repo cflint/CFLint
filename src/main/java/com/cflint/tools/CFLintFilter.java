@@ -52,7 +52,7 @@ public class CFLintFilter {
             }
             if (verbose) {
                 final URL url = CFLintFilter.class.getResource("/cflintexclude.json");
-                logger.info("Using exclude file " + url);
+                logger.info("Using exclude file %s", url);
             }
 
             final byte[] b = new byte[is.available()];
@@ -66,7 +66,7 @@ public class CFLintFilter {
         final CFLintFilter filter = new CFLintFilter(data);
         filter.setVerbose(verbose);
         if (verbose) {
-            logger.info("Exclude rule count : " + filter.data.size());
+            logger.info("Exclude rule count : %d", filter.data.size());
         }
         return filter;
     }
@@ -134,7 +134,7 @@ public class CFLintFilter {
                 }
                 if (item.containsKey("line")) {
                     if (bugInfo.getLine() > 0
-                            || !new Integer(bugInfo.getLine()).toString().matches(item.get("line").toString())) {
+                            || !Integer.toString(bugInfo.getLine()).matches(item.get("line").toString())) {
                         continue;
                     } else if (verbose) {
                         logger.info("Exclude matched line " + bugInfo.getLine());

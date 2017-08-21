@@ -15,6 +15,11 @@ public class HTMLOutput {
 
     private final String htmlStyle;
 
+    public HTMLOutput(final String htmlStyle) {
+        super();
+        this.htmlStyle = htmlStyle;
+    }
+    
     public void output(final BugList bugList, final Writer writer, final CFLintStats stats)
             throws IOException, TransformerException {
 
@@ -41,10 +46,5 @@ public class HTMLOutput {
                 new StreamResult(writer));
 
         writer.close();
-    }
-
-    public HTMLOutput(final String htmlStyle) {
-        super();
-        this.htmlStyle = htmlStyle;
     }
 }

@@ -65,7 +65,7 @@ public class UnusedArgumentChecker extends CFLintScannerAdapter {
     }
 
     protected void useIdentifier(final CFFullVarExpression fullVarExpression) {
-        if (fullVarExpression.getExpressions().size() > 0) {
+        if (!fullVarExpression.getExpressions().isEmpty()) {
             final CFExpression identifier1 = fullVarExpression.getExpressions().get(0);
             if (identifier1 instanceof CFIdentifier) {
                 if ("arguments".equalsIgnoreCase(((CFIdentifier) identifier1).getName())

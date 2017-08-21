@@ -1,0 +1,49 @@
+{
+  "version" : "",
+  "timestamp" : 1503284178,
+  "issues" : [ {
+    "severity" : "ERROR",
+    "id" : "MISSING_VAR",
+    "message" : "MISSING_VAR",
+    "category" : "CFLINT",
+    "abbrev" : "MV",
+    "locations" : [ {
+      "file" : "src\\test\\resources\\com\\cflint\\tests\\VarScoper\\structUse2_404.cfc",
+      "fileName" : "structUse2_404.cfc",
+      "function" : "foo",
+      "column" : 3,
+      "line" : 4,
+      "message" : "Variable tokenizedAddress is not declared with a var statement.",
+      "variable" : "tokenizedAddress",
+      "expression" : "tokenizedAddress['streetName']"
+    } ]
+  }, {
+    "severity" : "ERROR",
+    "id" : "MISSING_VAR",
+    "message" : "MISSING_VAR",
+    "category" : "CFLINT",
+    "abbrev" : "MV",
+    "locations" : [ {
+      "file" : "src\\test\\resources\\com\\cflint\\tests\\VarScoper\\structUse2_404.cfc",
+      "fileName" : "structUse2_404.cfc",
+      "function" : "foo",
+      "column" : 4,
+      "line" : 8,
+      "message" : "Variable tokenizedAddress2 is not declared with a var statement.",
+      "variable" : "tokenizedAddress2",
+      "expression" : "tokenizedAddress2['streetNumber']"
+    } ]
+  } ],
+  "counts" : {
+    "totalFiles" : 0,
+    "totalLines" : 0,
+    "countByCode" : [ {
+      "code" : "MISSING_VAR",
+      "count" : 2
+    } ],
+    "countBySeverity" : [ {
+      "severity" : "ERROR",
+      "count" : 2
+    } ]
+  }
+}

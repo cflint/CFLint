@@ -284,7 +284,7 @@ public class CFLint implements IErrorReporter {
         }
     }
 
-    public void process(final String src, final String filename) throws ParseException, IOException {
+    public void process(final String src, final String filename) throws IOException {
 
         fireStartedProcessing(filename);
         if (src == null || src.trim().length() == 0) {
@@ -336,7 +336,7 @@ public class CFLint implements IErrorReporter {
     }
 
     public void processStack(final List<Element> elements, final String space, final String filename,
-            final CFIdentifier functionName) throws ParseException, IOException {
+            final CFIdentifier functionName) throws IOException {
         Element commentElement = null;
         for (final Element elem : elements) {
             if (elem.getName().equals(CF.COMMENT)) {
@@ -659,7 +659,7 @@ public class CFLint implements IErrorReporter {
         try {
             sr = new BufferedReader(new StringReader(source.toString()));
             for (int i = 1; i < line; i++) {
-                sr.readLine();
+                String skip = sr.readLine();
             }
             final String sLine = sr.readLine();
             return sLine == null ? null : sLine.replaceAll("\t", " ");
@@ -1078,7 +1078,7 @@ public class CFLint implements IErrorReporter {
                     }
                     if (expr instanceof CFArrayExpression) {
                         final CFArrayExpression aryExpr = (CFArrayExpression) expr;
-                        if (aryExpr.getElements().size() > 0) {
+                        if (!aryExpr.getElements().isEmpty()) {
                             process(aryExpr.getElements().get(0), elem, subContext);
                         }
                     }

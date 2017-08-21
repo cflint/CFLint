@@ -55,6 +55,7 @@ public class BugInfo implements Comparable<BugInfo> {
     }
 
     public static class BugInfoBuilder {
+        private static final int MAX_LENGTH = 200;
         private BugInfo bugInfo = new BugInfo();
         private List<PluginParameter> parameters = null;
 
@@ -117,8 +118,8 @@ public class BugInfo implements Comparable<BugInfo> {
         public BugInfoBuilder setExpression(final String expression) {
             if (expression == null) {
                 bugInfo.expression = "";
-            } else if (expression.length() > 200) {
-                bugInfo.expression = expression.substring(0, 200);
+            } else if (expression.length() > MAX_LENGTH) {
+                bugInfo.expression = expression.substring(0, MAX_LENGTH);
             } else {
                 bugInfo.expression = expression;
             }

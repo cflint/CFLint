@@ -36,9 +36,9 @@ public class ArgHintChecker extends CFLintScannerAdapter {
     public void expression(final CFScriptStatement expression, final Context context, final BugList bugs) {
         if (expression instanceof CFFuncDeclStatement) {
             final CFFuncDeclStatement funcDeclStatement = (CFFuncDeclStatement) expression;
-            final String _mlText = PrecedingCommentReader.getMultiLine(context, expression.getToken());
-            final String mlText = _mlText == null ? null
-                    : _mlText.replaceFirst("^/\\*", "").replaceAll("\\*/$", "").trim();
+            final String multiLineText = PrecedingCommentReader.getMultiLine(context, expression.getToken());
+            final String mlText = multiLineText == null ? null
+                    : multiLineText.replaceFirst("^/\\*", "").replaceAll("\\*/$", "").trim();
 
             // Read the function comments to get the javadoc style annotations
             final Map<String, String> annotations = new HashMap<String, String>();

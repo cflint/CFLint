@@ -34,9 +34,9 @@ public class ComponentHintChecker extends CFLintScannerAdapter {
             final CFCompDeclStatement compDeclStatement = (CFCompDeclStatement) expression;
             final CFExpression hintAttribute = CFTool.convertMap(compDeclStatement.getAttributes()).get("hint");
             if (hintAttribute == null) {
-                final String _mlText = PrecedingCommentReader.getMultiLine(context, expression.getToken());
-                final String mlText = _mlText == null ? null
-                        : _mlText.replaceFirst("^/\\*", "").replaceAll("\\*/$", "").trim();
+                final String multiLineText = PrecedingCommentReader.getMultiLine(context, expression.getToken());
+                final String mlText = multiLineText == null ? null
+                        : multiLineText.replaceFirst("^/\\*", "").replaceAll("\\*/$", "").trim();
                 if (mlText != null && !mlText.isEmpty()) {
                     final Pattern pattern = Pattern.compile(".*\\s*@hint\\s+([\\w,_]+)\\s*.*", Pattern.DOTALL);
                     final Matcher matcher = pattern.matcher(mlText);

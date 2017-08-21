@@ -1280,7 +1280,7 @@ public class CFLint implements IErrorReporter {
                     final Matcher matcher = pattern.matcher(commentText);
                     if (matcher.matches() && matcher.groupCount() > 0) {
                         final String ignoreCodes = matcher.group(1);
-                        if (ignoreCodes.equalsIgnoreCase("line")) {
+                        if ("line".equalsIgnoreCase(ignoreCodes)) {
                             return true;
                         }
                         for (final String ignoreCode : ignoreCodes.split(",\\s*")) {

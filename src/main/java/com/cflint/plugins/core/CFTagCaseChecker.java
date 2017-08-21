@@ -22,7 +22,7 @@ public class CFTagCaseChecker extends CFLintScannerAdapter {
             }
         }
         final String tag = element.getStartTag().toString();
-        if (tag.substring(1, 3).equalsIgnoreCase("cf")) {
+        if ("cf".equalsIgnoreCase(tag.substring(1, 3))) {
             int index = tag.indexOf(" ");
             if (index == -1) {
                 index = tag.indexOf(">");

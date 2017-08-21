@@ -40,7 +40,7 @@ public class CFMLTagInfo {
         if ((elementName != null) && (attributeName != null)) {
             // Hardcoded exceptions to the dictionary
             if (elementName.equalsIgnoreCase(CF.CFPROCPARAM)) {
-                return attributeName.equalsIgnoreCase("variable");
+                return "variable".equalsIgnoreCase(attributeName);
             }
             final Tag tag = dictionary.getTag(elementName.toLowerCase());
             if (tag != null) {

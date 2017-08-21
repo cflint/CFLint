@@ -38,7 +38,7 @@ public class ArgVarChecker extends CFLintScannerAdapter {
             if (fullVarExpr.getExpressions().size() > 1
                     && fullVarExpr.getExpressions().get(0) instanceof CFIdentifier) {
                 final CFIdentifier cfIdentifier1 = (CFIdentifier) fullVarExpr.getExpressions().get(0);
-                if (cfIdentifier1.getName().equalsIgnoreCase("arguments")
+                if ("arguments".equalsIgnoreCase(cfIdentifier1.getName())
                         && fullVarExpr.getExpressions().get(1) instanceof CFIdentifier) {
                     final CFIdentifier cfIdentifier2 = (CFIdentifier) fullVarExpr.getExpressions().get(1);
                     final String name = cfIdentifier2.getName();

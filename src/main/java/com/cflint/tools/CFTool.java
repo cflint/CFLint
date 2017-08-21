@@ -25,7 +25,7 @@ public class CFTool {
         if (value == null) {
             return false;
         }
-        return value.trim().equalsIgnoreCase("yes") || value.trim().equalsIgnoreCase("true");
+        return "yes".equalsIgnoreCase(value.trim()) || "true".equalsIgnoreCase(value.trim());
     }
 
     public static Element getElementBefore(final Element element, final List<Element> elements) {

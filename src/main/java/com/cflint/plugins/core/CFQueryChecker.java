@@ -10,7 +10,7 @@ import ro.fortsoft.pf4j.Extension;
 
 @Extension
 public class CFQueryChecker extends CFLintScannerAdapter {
-    private static final String messageCode = "NEVER_USE_QUERY_IN_CFM";
+    private static final String NEVER_USE_QUERY_IN_CFM = "NEVER_USE_QUERY_IN_CFM";
 
     // rule: don't allow <cfquery> tag in a .cfm file
     @Override
@@ -20,7 +20,7 @@ public class CFQueryChecker extends CFLintScannerAdapter {
         final String tagName = element.getName();
         if (tagName.equals(CF.CFQUERY) && "cfm".equals(ext)) {
             final int begLine = element.getSource().getRow(element.getBegin());
-            context.addMessage(messageCode, null, this, begLine);
+            context.addMessage(NEVER_USE_QUERY_IN_CFM, null, this, begLine);
         }
     }
 }

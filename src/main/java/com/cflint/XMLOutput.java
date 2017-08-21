@@ -138,6 +138,9 @@ public class XMLOutput {
     }
 
     private CharSequence abbrev(final String messageCode) {
+        if (messageCode == null) {
+            return "";
+        }
         if (messageCode.length() <= 2) {
             return messageCode;
         }

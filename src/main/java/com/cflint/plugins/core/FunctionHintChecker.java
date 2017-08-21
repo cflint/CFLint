@@ -16,14 +16,14 @@ import cfml.parsing.cfscript.script.CFScriptStatement;
 import net.htmlparser.jericho.Element;
 
 public class FunctionHintChecker extends CFLintScannerAdapter {
-    private final String functionHintMissing = "FUNCTION_HINT_MISSING";
+    private static final String FUNCTION_HINT_MISSING = "FUNCTION_HINT_MISSING";
 
     @Override
     public void element(final Element element, final Context context, final BugList bugs) {
         if (element.getName().equals(CF.CFFUNCTION)) {
             final String hint = element.getAttributeValue("hint");
             if (hint == null || hint.trim().isEmpty()) {
-                context.addMessage(functionHintMissing, context.getFunctionName());
+                context.addMessage(FUNCTION_HINT_MISSING, context.getFunctionName());
             }
         }
     }
@@ -43,11 +43,11 @@ public class FunctionHintChecker extends CFLintScannerAdapter {
                     if (matcher.matches()) {
                         String hintText = matcher.group(1);
                         if (hintText.trim().isEmpty()) {
-                            context.addMessage(functionHintMissing, context.getFunctionName());
+                            context.addMessage(FUNCTION_HINT_MISSING, context.getFunctionName());
                         }
                     }
                 } else {
-                    context.addMessage(functionHintMissing, context.getFunctionName());
+                    context.addMessage(FUNCTION_HINT_MISSING, context.getFunctionName());
                 }
             }
         }

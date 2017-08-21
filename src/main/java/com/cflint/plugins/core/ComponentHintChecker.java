@@ -16,14 +16,14 @@ import cfml.parsing.cfscript.script.CFScriptStatement;
 import net.htmlparser.jericho.Element;
 
 public class ComponentHintChecker extends CFLintScannerAdapter {
-    private final String componentHintMissing = "COMPONENT_HINT_MISSING";
+    private static final String COMPONENT_HINT_MISSING = "COMPONENT_HINT_MISSING";
 
     @Override
     public void element(final Element element, final Context context, final BugList bugs) {
         if (element.getName().equals(CF.CFCOMPONENT)) {
             final String hint = element.getAttributeValue(CF.HINT);
             if (hint == null || hint.trim().isEmpty()) {
-                context.addMessage(componentHintMissing, context.calcComponentName());
+                context.addMessage(COMPONENT_HINT_MISSING, context.calcComponentName());
             }
         }
     }
@@ -43,11 +43,11 @@ public class ComponentHintChecker extends CFLintScannerAdapter {
                     if (matcher.matches()) {
                         String hintText = matcher.group(1);
                         if (hintText.trim().isEmpty()) {
-                            context.addMessage(componentHintMissing, context.calcComponentName());
+                            context.addMessage(COMPONENT_HINT_MISSING, context.calcComponentName());
                         }
                     }
                 } else {
-                    context.addMessage(componentHintMissing, context.calcComponentName());
+                    context.addMessage(COMPONENT_HINT_MISSING, context.calcComponentName());
                 }
             }
         }

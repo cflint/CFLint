@@ -19,7 +19,7 @@ import net.htmlparser.jericho.Element;
  */
 public class CFLintScannerAdapter implements CFLintScanner, CFLintStructureListener {
 
-    private Map<String, Object> params = new HashMap<String, Object>();
+    private Map<String, Object> params = new HashMap<>();
 
     /**
      * Empty implementation

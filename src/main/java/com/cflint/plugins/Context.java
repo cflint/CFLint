@@ -34,9 +34,9 @@ public class Context {
     private boolean inComponent;
     private final StackHandler callStack;
     private final CommonTokenStream tokens;
-    private final List<ContextMessage> messages = new ArrayList<ContextMessage>();
+    private final List<ContextMessage> messages = new ArrayList<>();
     private Context parent = null;
-    private List<String> ignores = new ArrayList<String>();
+    private List<String> ignores = new ArrayList<>();
 
     public Context(final String filename, final Element element, final CFIdentifier functionName,
             final boolean inAssignmentExpression, final StackHandler handler) {

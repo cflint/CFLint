@@ -21,8 +21,8 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 @JsonInclude(Include.NON_NULL)
 public class CFLintPluginInfo {
 
-    private List<PluginInfoRule> rules = new ArrayList<CFLintPluginInfo.PluginInfoRule>();
-    private List<RuleGroup> ruleGroups = new ArrayList<CFLintPluginInfo.RuleGroup>();
+    private List<PluginInfoRule> rules = new ArrayList<>();
+    private List<RuleGroup> ruleGroups = new ArrayList<>();
 
     public List<PluginInfoRule> getRules() {
         return rules;
@@ -64,7 +64,7 @@ public class CFLintPluginInfo {
     public static class RuleGroup {
 
         private String name;
-        private List<PluginMessage> messages = new ArrayList<PluginMessage>();
+        private List<PluginMessage> messages = new ArrayList<>();
         private Levels defaultSeverity;
 
         public RuleGroup(String name) {
@@ -113,8 +113,8 @@ public class CFLintPluginInfo {
 
         private String name;
         private String className;
-        private List<PluginMessage> messages = new ArrayList<PluginMessage>();
-        private List<PluginParameter> parameters = new ArrayList<PluginParameter>();
+        private List<PluginMessage> messages = new ArrayList<>();
+        private List<PluginParameter> parameters = new ArrayList<>();
         // Associate the pluginInstance with the rule that created it
         private CFLintScanner pluginInstance;
 

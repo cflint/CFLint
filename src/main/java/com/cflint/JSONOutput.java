@@ -44,7 +44,7 @@ public class JSONOutput {
             jg.writeFieldName("issues");
             jg.writeStartArray();
 
-            List<String> keys = new ArrayList<String>(bugList.getBugList().keySet());
+            List<String> keys = new ArrayList<>(bugList.getBugList().keySet());
             Collections.sort(keys);
 
             for (final String key : keys) {

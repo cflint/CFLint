@@ -21,8 +21,8 @@ public class LiteralChecker extends CFLintScannerAdapter {
     protected int threshold = REPEAT_THRESHOLD;
     protected int warningThreshold = WARNING_THRESHOLD;
 
-    protected Map<String, Integer> globalLiterals = new HashMap<String, Integer>();
-    protected Map<String, Integer> functionListerals = new HashMap<String, Integer>();
+    protected Map<String, Integer> globalLiterals = new HashMap<>();
+    protected Map<String, Integer> functionListerals = new HashMap<>();
 
     // May want to consider resetting literal map on new components but this way
     // it detects duplicated literals across files which is useful

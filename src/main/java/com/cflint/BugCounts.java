@@ -6,8 +6,8 @@ import java.util.Map;
 import java.util.Set;
 
 public class BugCounts {
-    protected Map<Levels, Integer> severityCounts = new HashMap<Levels, Integer>();
-    protected Map<String, Integer> codeCounts = new HashMap<String, Integer>();
+    protected Map<Levels, Integer> severityCounts = new HashMap<>();
+    protected Map<String, Integer> codeCounts = new HashMap<>();
     protected int noBugs = 0;
 
     public void add(final String code, final Levels severity) {

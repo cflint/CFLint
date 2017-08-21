@@ -23,7 +23,7 @@ public class VarScoper extends CFLintScannerAdapter {
     public static final String VARIABLE = "variable";
     public static final String RESULT = "result";
 
-    private final Map<String, List<String>> checkElementAttributes = new HashMap<String, List<String>>();
+    private final Map<String, List<String>> checkElementAttributes = new HashMap<>();
     private final List<String> checkNames = Arrays.asList(CF.CFQUERY, CF.CFSTOREDPROC, CF.CFFEED, CF.CFDIRECTORY,
         CF.CFFORM, CF.CFFTP, CF.CFOBJECT, CF.CFSEARCH, CF.CFPROCRESULT, CF.CFPOP, CF.CFREGISTRY, CF.CFREPORT,
         CF.CFDBINFO, CF.CFDOCUMENT, CF.CFCOLLECTION, CF.CFPDF, CF.CFZIP, CF.CFLDAP);

@@ -46,7 +46,7 @@ public class CFLintTask extends Task {
     private String extensions;
     private boolean verbose;
     private boolean quiet;
-    private final List<FileSet> filesets = new ArrayList<FileSet>();
+    private final List<FileSet> filesets = new ArrayList<>();
 
     @Override
     public void execute() {

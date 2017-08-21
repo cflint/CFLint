@@ -17,10 +17,10 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 public class CFLintConfig implements CFLintConfiguration {
 
 	@Deprecated
-    private List<ConfigOutput> output = new ArrayList<CFLintConfig.ConfigOutput>();
-    private List<CFLintPluginInfo.PluginInfoRule> rules = new ArrayList<CFLintPluginInfo.PluginInfoRule>();
-    private List<PluginMessage> excludes = new ArrayList<PluginMessage>();
-    private List<PluginMessage> includes = new ArrayList<PluginMessage>();
+    private List<ConfigOutput> output = new ArrayList<>();
+    private List<CFLintPluginInfo.PluginInfoRule> rules = new ArrayList<>();
+    private List<PluginMessage> excludes = new ArrayList<>();
+    private List<PluginMessage> includes = new ArrayList<>();
 
     private boolean inheritParent = true;
     @Deprecated

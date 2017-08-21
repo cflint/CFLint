@@ -148,7 +148,7 @@ public class ConfigUtils {
      * @return MapList&lt;String,String&gt; map of message codes to descriptions
      */
     public static HashMap<String, String> loadDescriptions() {
-        final HashMap<String, String> descriptions = new HashMap<String, String>();
+        final HashMap<String, String> descriptions = new HashMap<>();
         final InputStream inputStream = ConfigUtils.class.getResourceAsStream("/cflint.description.txt");
 
         try {

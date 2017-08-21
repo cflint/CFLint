@@ -26,7 +26,7 @@ public class CFLintFilter {
             final ObjectMapper mapper = new ObjectMapper();
             this.data = mapper.readValue(data, ArrayList.class);
         } else {
-            this.data = new ArrayList<Map<String, ?>>();
+            this.data = new ArrayList<>();
         }
     }
 
@@ -165,7 +165,7 @@ public class CFLintFilter {
      * @return instance of CFLintFilter
      */
     public CFLintFilter createFilePreFilter() {
-        final ArrayList<Map<String, ?>> newdata = new ArrayList<Map<String, ?>>();
+        final ArrayList<Map<String, ?>> newdata = new ArrayList<>();
         for (final Map<String, ?> map : this.data) {
             if (map.keySet().size() == 1 && map.containsKey("file")) {
                 newdata.add(map);

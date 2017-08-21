@@ -36,7 +36,7 @@ public class CFTool {
     }
 
     public static Map<String, CFExpression> convertMap(final Map<? extends CFExpression, CFExpression> map) {
-        final Map<String, CFExpression> retval = new HashMap<String, CFExpression>();
+        final Map<String, CFExpression> retval = new HashMap<>();
         for (Entry<? extends CFExpression, CFExpression> entry : map.entrySet()) {
             retval.put(entry.getKey().toString().toLowerCase(), entry.getValue());
         }

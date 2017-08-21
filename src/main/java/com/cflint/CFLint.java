@@ -108,25 +108,25 @@ public class CFLint implements IErrorReporter {
     private CFMLParser cfmlParser = new CFMLParser();
     private StackHandler handler = new StackHandler();
     private BugList bugs;
-    private final List<CFLintScanner> extensions = new ArrayList<CFLintScanner>();
-    private final List<String> allowedExtensions = new ArrayList<String>();
+    private final List<CFLintScanner> extensions = new ArrayList<>();
+    private final List<String> allowedExtensions = new ArrayList<>();
     private boolean verbose = false;
     private boolean logError = false;
     private boolean quiet = false;
     private boolean showProgress = false;
     private boolean progressUsesThread = true;
     private CFLintStats stats = new CFLintStats();
-    private final List<ScanProgressListener> scanProgressListeners = new ArrayList<ScanProgressListener>();
-    private final List<CFLintExceptionListener> exceptionListeners = new ArrayList<CFLintExceptionListener>();
+    private final List<ScanProgressListener> scanProgressListeners = new ArrayList<>();
+    private final List<CFLintExceptionListener> exceptionListeners = new ArrayList<>();
     private CFLintConfiguration configuration;
     private int skipToPosition = 0;
     private String currentFile = null;
     private Element currentElement = null;
     private boolean strictInclude;
-    private Set<List<Object>> processed = new HashSet<List<Object>>();
+    private Set<List<Object>> processed = new HashSet<>();
 
     // Stack to store include file depth to ensure no recursion
-    private final Stack<File> includeFileStack = new Stack<File>();
+    private final Stack<File> includeFileStack = new Stack<>();
 
     public CFLint(final CFLintConfiguration configFile) throws IOException {
         configuration = configFile == null ? new CFLintConfig() : configFile;
@@ -190,7 +190,7 @@ public class CFLint implements IErrorReporter {
     }
 
     public void setupConfigAncestry(File folder) {
-        final Stack<CFLintConfig> configFiles = new Stack<CFLintConfig>();
+        final Stack<CFLintConfig> configFiles = new Stack<>();
         fileLoop: while (folder != null && folder.exists()) {
             for (final File file : folder.listFiles()) {
                 if (file.getName().toLowerCase().startsWith(".cflintrc")) {
@@ -293,7 +293,7 @@ public class CFLint implements IErrorReporter {
         } else {
             final CFMLSource cfmlSource = new CFMLSource(src.contains("<!---") ? CommentReformatting.wrap(src) : src);
             final ParserTag firstTag = getFirstTagQuietly(cfmlSource);
-            final List<Element> elements = new ArrayList<Element>();
+            final List<Element> elements = new ArrayList<>();
             if (firstTag != null) {
                 elements.addAll(cfmlSource.getChildElements());
             }
@@ -520,7 +520,7 @@ public class CFLint implements IErrorReporter {
                     final String qryText = elem.getTextExtractor().toString().toUpperCase();
                     final Matcher m = Pattern.compile(".*SELECT\\s(\\w+(\\s*,\\s*\\w+)+)\\s+FROM\\s+.*")
                             .matcher(qryText);
-                    final List<String> cols = new ArrayList<String>();
+                    final List<String> cols = new ArrayList<>();
                     if (m.matches()) {
                         cols.addAll(Arrays.asList(m.group(1).trim().split("\\s*,\\s*")));
                         handler.addQueryColumnSet(qryName, cols);
@@ -575,7 +575,7 @@ public class CFLint implements IErrorReporter {
     private Map<String, CFExpression> unpackTagExpressions(final Element elem) {
 
         // Use LinkedHashMap to preserve the order
-        final Map<String, CFExpression> expressions = new LinkedHashMap<String, CFExpression>();
+        final Map<String, CFExpression> expressions = new LinkedHashMap<>();
         if (!elem.getName().toLowerCase().startsWith("cf") || elem.getAttributes() == null) {
             return expressions;
         }
@@ -589,7 +589,7 @@ public class CFLint implements IErrorReporter {
                         : Arrays.asList("'", "\"");
                 try {
 
-                    final List<String> errors = new ArrayList<String>();
+                    final List<String> errors = new ArrayList<>();
                     final ANTLRErrorListener errorReporter = new ArrayErrorListener(errors);
                     final CFExpression exp = cfmlParser.parseCFMLExpression(
                             literalChar.get(0) + attr.getValue() + literalChar.get(0), errorReporter);
@@ -641,7 +641,7 @@ public class CFLint implements IErrorReporter {
     }
 
     private List<CFLintStructureListener> getStructureListeners(final List<CFLintScanner> extensions) {
-        final List<CFLintStructureListener> retval = new ArrayList<CFLintStructureListener>();
+        final List<CFLintStructureListener> retval = new ArrayList<>();
         for (final CFLintScanner plugin : extensions) {
             if (plugin instanceof CFLintStructureListener) {
                 retval.add((CFLintStructureListener) plugin);

@@ -49,7 +49,7 @@ public class CFLintMain {
     private static final String FINDBUGS = "findbugs";
     private static final String DISPLAY_THIS_HELP = "display this help";
 
-    private List<String> folder = new ArrayList<String>();
+    private List<String> folder = new ArrayList<>();
     private String filterFile = null;
     private boolean verbose = false;
     private boolean logerror = false;
@@ -299,7 +299,7 @@ public class CFLintMain {
      * @param pluginInfo
      */
     private static void listRuleGroups(final CFLintPluginInfo pluginInfo) {
-        Map<String, PluginMessage> allCodes = new LinkedHashMap<String, PluginMessage>();
+        Map<String, PluginMessage> allCodes = new LinkedHashMap<>();
         for (PluginInfoRule rule : pluginInfo.getRules()) {
             for (PluginMessage msg : rule.getMessages()) {
                 allCodes.put(msg.getCode(), msg);
@@ -351,7 +351,7 @@ public class CFLintMain {
         }
 
         final String[] slist = new String[]{"xml", "html", "text", "txt", "json"};
-        final JList<String> list = new JList<String>(slist);
+        final JList<String> list = new JList<>(slist);
         JOptionPane.showMessageDialog(null, list, "Output Type", JOptionPane.PLAIN_MESSAGE);
 
         final int[] indxs = list.getSelectedIndices();

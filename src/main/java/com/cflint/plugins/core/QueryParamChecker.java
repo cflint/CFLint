@@ -63,7 +63,7 @@ public class QueryParamChecker extends CFLintScannerAdapter {
      * @return
      */
     private List<Integer> determineIgnoreLines(final Element element) {
-        final List<Integer> ignoreLines = new ArrayList<Integer>();
+        final List<Integer> ignoreLines = new ArrayList<>();
         for (Element comment : element.getChildElements()) {
             if ("!---".equals(comment.getName()) && comment.toString().contains("@CFLintIgnore") && comment.toString().contains("CFQUERYPARAM_REQ")) {
                 int ignoreLine = comment.getSource().getRow(comment.getEnd());

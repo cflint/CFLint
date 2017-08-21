@@ -20,8 +20,8 @@ import ro.fortsoft.pf4j.Extension;
 @Extension
 public class PackageCaseChecker extends CFLintScannerAdapter implements CFLintSet {
 
-    private final Map<String, List<String>> componentRegister = new HashMap<String, List<String>>();
-    private final Map<String, List<PackageCaseCheckerEntry>> expressionCheckRegister = new HashMap<String, List<PackageCaseCheckerEntry>>();
+    private final Map<String, List<String>> componentRegister = new HashMap<>();
+    private final Map<String, List<PackageCaseCheckerEntry>> expressionCheckRegister = new HashMap<>();
     private CFLint cflintRef;
 
     @Override
@@ -75,7 +75,7 @@ public class PackageCaseChecker extends CFLintScannerAdapter implements CFLintSe
         //if an expression already referenced this component, check it here:
         boolean matched = false;
         if (expressionCheckRegister.containsKey(key)) {
-            List<PackageCaseCheckerEntry> clonedList = new ArrayList<PackageCaseCheckerEntry>();
+            List<PackageCaseCheckerEntry> clonedList = new ArrayList<>();
             clonedList.addAll(expressionCheckRegister.get(key));
             for (final PackageCaseCheckerEntry expressionEntry : clonedList) {
                 if (checkComponentRegister(expressionEntry.context, expressionEntry.componentPath, expressionEntry.componentName)) {

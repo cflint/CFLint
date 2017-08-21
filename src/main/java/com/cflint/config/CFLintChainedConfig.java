@@ -80,7 +80,7 @@ public class CFLintChainedConfig implements CFLintConfiguration {
 
     @Override
     public Collection<PluginInfoRule> getRules() {
-        final HashSet<PluginInfoRule> activeRules = new HashSet<PluginInfoRule>();
+        final HashSet<PluginInfoRule> activeRules = new HashSet<>();
         for (PluginInfoRule rule : getAllRules()) {
             for (PluginMessage pluginMessage : rule.getMessages()) {
                 if (includes(pluginMessage) && !excludes(pluginMessage)) {
@@ -96,7 +96,7 @@ public class CFLintChainedConfig implements CFLintConfiguration {
         if (parent == null) {
             return config.getRules();
         }
-        final HashSet<PluginInfoRule> retval = new HashSet<PluginInfoRule>();
+        final HashSet<PluginInfoRule> retval = new HashSet<>();
         if (parent instanceof CFLintChainedConfig) {
             retval.addAll(((CFLintChainedConfig) parent).getAllRules());
         } else {

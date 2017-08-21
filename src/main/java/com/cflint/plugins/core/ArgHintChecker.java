@@ -41,7 +41,7 @@ public class ArgHintChecker extends CFLintScannerAdapter {
                     : multiLineText.replaceFirst("^/\\*", "").replaceAll("\\*/$", "").trim();
 
             // Read the function comments to get the javadoc style annotations
-            final Map<String, String> annotations = new HashMap<String, String>();
+            final Map<String, String> annotations = new HashMap<>();
             if (mlText != null && !mlText.isEmpty()) {
                 final Pattern pattern = Pattern.compile("^.*\\s*@(\\w+)\\s+(.*+)$");
                 BufferedReader reader = new BufferedReader(new StringReader(mlText));

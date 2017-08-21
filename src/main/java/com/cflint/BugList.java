@@ -10,7 +10,7 @@ import com.cflint.tools.CFLintFilter;
 
 public class BugList implements Iterable<BugInfo> {
 
-    private Map<String, List<BugInfo>> bugs = new HashMap<String, List<BugInfo>>();
+    private Map<String, List<BugInfo>> bugs = new HashMap<>();
     private CFLintFilter filter;
     private CFLintFilter fileFilter;
 
@@ -68,7 +68,7 @@ public class BugList implements Iterable<BugInfo> {
     }
 
     public List<BugInfo> getFlatBugList() {
-        final List<BugInfo> retval = new ArrayList<BugInfo>();
+        final List<BugInfo> retval = new ArrayList<>();
         for (final List<BugInfo> list : bugs.values()) {
             retval.addAll(list);
         }

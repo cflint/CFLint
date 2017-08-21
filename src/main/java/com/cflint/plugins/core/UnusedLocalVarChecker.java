@@ -108,7 +108,7 @@ public class UnusedLocalVarChecker extends CFLintScannerAdapter {
     public void element(final Element element, final Context context, final BugList bugs) {
         try {
             for (String tagInfo : usedTagAttributes) {
-                final String parts[] = (tagInfo + "//").split("/");
+                final String[] parts = (tagInfo + "//").split("/");
                 if (element.getName() != null && parts[0].equals(element.getName().toLowerCase())) {
                     final String name = element.getAttributeValue(parts[1]);
                     if (name != null && localVariables.containsKey(name.toLowerCase())) {

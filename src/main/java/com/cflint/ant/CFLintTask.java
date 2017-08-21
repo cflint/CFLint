@@ -87,7 +87,7 @@ public class CFLintTask extends Task {
                 final File ffile = filterFile;
                 if (ffile.exists()) {
                     fis = new FileInputStream(ffile);
-                    final byte b[] = new byte[fis.available()];
+                    final byte[] b = new byte[fis.available()];
                     if (fis.read(b) > 0) {
                         fis.close();
                         filter = CFLintFilter.createFilter(new String(b), verbose);

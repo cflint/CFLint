@@ -55,7 +55,7 @@ public class CFLintFilter {
                 logger.info("Using exclude file " + url);
             }
 
-            final byte b[] = new byte[is.available()];
+            final byte[] b = new byte[is.available()];
             if (is.read(b) > 0) {
                 is.close();
                 data = new String(b);

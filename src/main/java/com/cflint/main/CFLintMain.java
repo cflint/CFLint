@@ -532,7 +532,7 @@ public class CFLintMain {
             if (ffile.exists()) {
                 final FileInputStream fis = new FileInputStream(ffile);
                 try {
-                    final byte b[] = new byte[fis.available()];
+                    final byte[] b = new byte[fis.available()];
                     if (fis.read(b) > 0) {
                         fis.close();
                         filter = CFLintFilter.createFilter(new String(b), verbose);

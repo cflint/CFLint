@@ -411,4 +411,3 @@ public class CF {
       throw new IllegalStateException("CF utility class");
     }
 }
-

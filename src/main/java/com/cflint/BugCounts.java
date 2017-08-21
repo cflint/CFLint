@@ -7,7 +7,7 @@ import java.util.Set;
 
 public class BugCounts {
     protected Map<Levels, Integer> severityCounts = new HashMap<Levels, Integer>();
-    protected Map<String, Integer> bugCounts = new HashMap<String, Integer>();
+    protected Map<String, Integer> codeCounts = new HashMap<String, Integer>();
     protected int noBugs = 0;
 
     public void add(final String code, final Levels severity) {
@@ -15,10 +15,10 @@ public class BugCounts {
             return;
         }
 
-        if (bugCounts.get(code) == null) {
-            bugCounts.put(code, 1);
+        if (codeCounts.get(code) == null) {
+            codeCounts.put(code, 1);
         } else {
-            bugCounts.put(code, bugCounts.get(code) + 1);
+            codeCounts.put(code, codeCounts.get(code) + 1);
         }
 
         if (severityCounts.get(severity) == null) {
@@ -34,16 +34,16 @@ public class BugCounts {
     }
 
     public int noBugTypes() {
-        return bugCounts.size();
+        return codeCounts.size();
     }
 
     public Set<String> bugTypes() {
-        return bugCounts.keySet();
+        return codeCounts.keySet();
     }
 
     public int getCode(final String code) {
-        if (bugCounts.get(code) != null) {
-            return bugCounts.get(code);
+        if (codeCounts.get(code) != null) {
+            return codeCounts.get(code);
         }
 
         return 0;

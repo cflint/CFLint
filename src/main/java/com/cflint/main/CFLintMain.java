@@ -3,7 +3,6 @@ package com.cflint.main;
 import java.awt.Desktop;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -13,7 +12,6 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,7 +20,6 @@ import java.util.Scanner;
 import javax.swing.JFileChooser;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
-import javax.xml.bind.JAXBException;
 import javax.xml.transform.TransformerException;
 
 import com.cflint.*;
@@ -144,7 +141,7 @@ public class CFLintMain {
                 myConfig = myConfig.createNestedConfig(loadConfig(configfile));
             }
 
-            final HashMap<String, String> descriptions = ConfigUtils.loadDescriptions();
+            final Map<String, String> descriptions = ConfigUtils.loadDescriptions();
             System.out.println("Supported rules");
             for (final PluginInfoRule rule : myConfig.getRules()) {
                 System.out.println("  " + rule.getName());
@@ -397,7 +394,7 @@ public class CFLintMain {
         return null;
     }
 
-    private void execute() throws IOException, TransformerException, JAXBException, MarshallerException {
+    private void execute() throws IOException, TransformerException, MarshallerException {
         final CFLint cflint = new CFLint(buildConfigChain());
         cflint.setVerbose(verbose);
         cflint.setLogError(logerror);
@@ -525,7 +522,7 @@ public class CFLintMain {
         return myConfig.createNestedConfig(cmdLineConfig);
     }
 
-    protected CFLintFilter createBaseFilter() throws IOException, FileNotFoundException {
+    protected CFLintFilter createBaseFilter() throws IOException {
         CFLintFilter filter = CFLintFilter.createFilter(verbose);
         if (filterFile != null) {
             final File ffile = new File(filterFile);

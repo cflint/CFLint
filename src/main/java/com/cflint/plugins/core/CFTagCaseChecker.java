@@ -23,9 +23,9 @@ public class CFTagCaseChecker extends CFLintScannerAdapter {
         }
         final String tag = element.getStartTag().toString();
         if ("cf".equalsIgnoreCase(tag.substring(1, 3))) {
-            int index = tag.indexOf(" ");
+            int index = tag.indexOf(' ');
             if (index == -1) {
-                index = tag.indexOf(">");
+                index = tag.indexOf('>');
             }
             final String cfTag = tag.substring(1, index);
             final String nonPreferredCase = encourageUpper ? cfTag.toLowerCase() : cfTag.toUpperCase();

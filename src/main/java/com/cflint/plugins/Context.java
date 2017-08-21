@@ -250,7 +250,7 @@ public class Context {
     }
 
     protected String componentFromFile(final String filename) {
-        final int dotPosition = filename.lastIndexOf(".");
+        final int dotPosition = filename.lastIndexOf('.');
         final String separator = System.getProperty("file.separator");
         final int seperatorPosition = filename.lastIndexOf(separator);
 

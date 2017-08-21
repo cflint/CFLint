@@ -38,10 +38,6 @@ public class Context {
     private Context parent = null;
     private List<String> ignores = new ArrayList<String>();
 
-    public void setInAssignmentExpression(boolean inAssignmentExpression) {
-        this.inAssignmentExpression = inAssignmentExpression;
-    }
-
     public Context(final String filename, final Element element, final CFIdentifier functionName,
             final boolean inAssignmentExpression, final StackHandler handler) {
         super();
@@ -62,6 +58,10 @@ public class Context {
         this.inAssignmentExpression = inAssignmentExpression;
         this.callStack = handler;
         this.tokens = tokens;
+    }
+
+    public void setInAssignmentExpression(boolean inAssignmentExpression) {
+        this.inAssignmentExpression = inAssignmentExpression;
     }
 
     public String getFilename() {
@@ -182,10 +182,6 @@ public class Context {
         private Integer line;
         private CFLintScanner source;
 
-        public CFLintScanner getSource() {
-            return source;
-        }
-
         public ContextMessage(final String messageCode, final String variable) {
             super();
             this.messageCode = messageCode;
@@ -205,6 +201,10 @@ public class Context {
         public ContextMessage(final String messageCode, final String variable, final Integer line) {
             this(messageCode, variable);
             this.line = line;
+        }
+
+        public CFLintScanner getSource() {
+            return source;
         }
 
         public String getMessageCode() {

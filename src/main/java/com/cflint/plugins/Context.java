@@ -19,7 +19,7 @@ import net.htmlparser.jericho.Element;
 
 public class Context {
 
-    public static enum ContextType {
+    public enum ContextType {
         COMPONENT, FUNCTION, OTHER, QUERY_LOOP
     }
 

@@ -1,11 +1,33 @@
 {
   "version" : "",
-  "timestamp" : 1501392733,
-  "issues" : [ ],
+  "timestamp" : 0,
+  "issues" : [ {
+    "severity" : "ERROR",
+    "id" : "MISSING_VAR",
+    "message" : "MISSING_VAR",
+    "category" : "CFLINT",
+    "abbrev" : "MV",
+    "locations" : [ {
+      "file" : "src/test/resources/com/cflint/tests/VarScoper/structassignment.cfc",
+      "fileName" : "structassignment.cfc",
+      "function" : "foo",
+      "column" : 11,
+      "line" : 5,
+      "message" : "Variable foobar is not declared with a var statement.",
+      "variable" : "foobar",
+      "expression" : "foobar.foo.xyz[siteID]"
+    } ]
+  } ],
   "counts" : {
     "totalFiles" : 0,
     "totalLines" : 0,
-    "countByCode" : [ ],
-    "countBySeverity" : [ ]
+    "countByCode" : [ {
+      "code" : "MISSING_VAR",
+      "count" : 1
+    } ],
+    "countBySeverity" : [ {
+      "severity" : "ERROR",
+      "count" : 1
+    } ]
   }
 }

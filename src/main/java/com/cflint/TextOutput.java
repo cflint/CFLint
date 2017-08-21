@@ -21,8 +21,8 @@ public class TextOutput {
                 sb.append(NEW_LINE).append("Severity:").append(severity);
                 sb.append(NEW_LINE).append("Message code:").append(code);
                 sb.append(NEW_LINE).append("\tFile:").append(bugInfo.getFilename());
-                sb.append(NEW_LINE).append("\tColumn:").append(Integer.valueOf(bugInfo.getColumn()).toString());
-                sb.append(NEW_LINE).append("\tLine:").append(Integer.valueOf(bugInfo.getLine()).toString());
+                sb.append(NEW_LINE).append("\tColumn:").append(Integer.toString(bugInfo.getColumn()));
+                sb.append(NEW_LINE).append("\tLine:").append(Integer.toString(bugInfo.getLine()));
                 sb.append(NEW_LINE).append("\t\tMessage:").append(bugInfo.getMessage());
                 sb.append(NEW_LINE).append("\t\tVariable:'").append(bugInfo.getVariable());
                 sb.append("' in function: ").append(bugInfo.getFunction());

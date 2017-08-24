@@ -150,7 +150,7 @@ public class TestCFBugs_VarScoper {
 				"</cffunction>\r\n" +
 				"</cfcomponent>";
 		cfBugs.process(cfcSrc,"test");
-		assertEquals(0,cfBugs.getBugs().getFlatBugList().size());
+		assertEquals(1,cfBugs.getBugs().getFlatBugList().size());
 	}
 	
 

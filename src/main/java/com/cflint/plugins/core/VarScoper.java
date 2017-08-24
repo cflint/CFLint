@@ -35,7 +35,9 @@ public class VarScoper extends CFLintScannerAdapter {
         if (expression instanceof CFIdentifier) {
             // No issue
             if (expression instanceof CFFullVarExpression
-                && ((CFFullVarExpression) expression).getExpressions().size() > 1) {
+                    && ((CFFullVarExpression) expression).getExpressions().size() > 1) {
+                // Visit the first in the expression.
+                expression(((CFFullVarExpression) expression).getExpressions().get(0), context, bugs);
                 return;
             }
             final String name = ((CFIdentifier) expression).getName();

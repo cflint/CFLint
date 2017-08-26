@@ -8,7 +8,6 @@ import com.cflint.BugList;
  *
  * Normally it is used for initialization or summarization types of behaviours.
  * 
- * @author eberlyrh
  *
  */
 public interface CFLintStructureListener {

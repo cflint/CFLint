@@ -80,7 +80,6 @@ public class QueryParamChecker extends CFLintScannerAdapter {
     /**
      * Count the number of new lines
      *
-     * @author eberlyrh
      */
     public int countNewLinesUpTo(final String val, final int pos) {
         final String x = pos > val.length() ? val : val.substring(0, pos);

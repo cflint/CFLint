@@ -81,6 +81,7 @@ public class CFLintScannerAdapter implements CFLintScanner, CFLintStructureListe
         return "";
     }
 
+    @SuppressWarnings("unchecked")
     public <E> E getParameter(final String name, final Class<E> clazz) {
         final String propertyForName = System.getProperty(getClass().getSimpleName() + "." + name);
         if (propertyForName != null && propertyForName.trim().length() > 0) {

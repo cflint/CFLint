@@ -121,6 +121,7 @@ public class UnusedLocalVarChecker extends CFLintScannerAdapter {
         }
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public void setParameter(final String name, final Object value) {
         super.setParameter(name, value);

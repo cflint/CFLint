@@ -5,7 +5,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.StringReader;
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -132,7 +131,7 @@ public class CFLint implements IErrorReporter {
     public CFLint(final CFLintConfiguration configFile) throws IOException {
         configuration = configFile == null ? new CFLintConfig() : configFile;
         for (final PluginInfoRule ruleInfo : configuration.getRules()) {
-            addScanner(ConfigUtils.loadPlugin(ruleInfo));// TODO load them all
+            addScanner(ConfigUtils.loadPlugin(ruleInfo));
         }
         final CFLintFilter filter = CFLintFilter.createFilter(verbose);
         bugs = new BugList(filter);
@@ -666,6 +665,7 @@ public class CFLint implements IErrorReporter {
         try {
             sr = new BufferedReader(new StringReader(source.toString()));
             for (int i = 1; i < line; i++) {
+                @SuppressWarnings("unused")
                 String skip = sr.readLine();
             }
             final String sLine = sr.readLine();
@@ -709,15 +709,11 @@ public class CFLint implements IErrorReporter {
                 process(((CFExpressionStatement) expression).getExpression(), elem, context);
             } else if (expression instanceof CFPropertyStatement) {
                 try {
-                    // TODO fix this to use getPropertyName() when it is
-                    // available and not null.
-                    final Field field = CFPropertyStatement.class.getDeclaredField(CF.PROPERTY_NAME);
-                    field.setAccessible(true);
-                    CFExpression value = (CFExpression) field.get(expression);
+                    final CFPropertyStatement propertyStatement = (CFPropertyStatement) expression;
+                    CFExpression value = propertyStatement.getPropertyName();
                     if (value == null) {
-                        for (final Entry<CFIdentifier, CFExpression> entry : ((CFPropertyStatement) expression)
-                                .getAttributes().entrySet()) {
-                            if (CF.NAME.equals(entry.getKey().getName())) {
+                        for (final Entry<CFIdentifier, CFExpression> entry : propertyStatement.getAttributes().entrySet()) {
+                            if (CF.NAME.equalsIgnoreCase(entry.getKey().getName())) {
                                 value = entry.getValue();
                             }
                         }
@@ -730,10 +726,6 @@ public class CFLint implements IErrorReporter {
                     e.printStackTrace();
                 }
                 scanExpression(expression, context, elem);
-                // for(CFExpression expr: ((CFPropertyStatement)
-                // expression).decomposeExpression()){
-                // process(expr, elem, context);
-                // }
             } else if (expression instanceof CFCompDeclStatement) {
                 final CFCompDeclStatement compDeclStatement = (CFCompDeclStatement) expression;
                 final Context componentContext = context.subContext(null);

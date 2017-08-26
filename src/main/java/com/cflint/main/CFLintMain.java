@@ -28,14 +28,12 @@ import org.apache.commons.io.IOUtils;
 import com.cflint.Version;
 import com.cflint.api.CFLintAPI;
 import com.cflint.api.CFLintResult;
-import com.cflint.config.CFLintConfig;
 import com.cflint.config.CFLintConfiguration;
 import com.cflint.config.CFLintPluginInfo;
 import com.cflint.config.CFLintPluginInfo.PluginInfoRule;
 import com.cflint.config.CFLintPluginInfo.PluginInfoRule.PluginMessage;
 import com.cflint.config.CFLintPluginInfo.RuleGroup;
 import com.cflint.config.ConfigBuilder;
-import com.cflint.config.ConfigFileLoader;
 import com.cflint.config.ConfigUtils;
 import com.cflint.exception.CFLintConfigurationException;
 import com.cflint.exception.CFLintScanException;
@@ -61,8 +59,6 @@ public class CFLintMain {
     private String htmlStyle = "plain.xsl";
     private String jsonOutFile = "cflint-result.json";
     private String textOutFile = null;
-    private final CFLintConfig cmdLineConfig = null;
-    // private CFLintConfig defaultConfig = null;
     private String extensions;
     private Boolean stdIn = false;
     private String stdInFile = "source.cfc";
@@ -369,14 +365,4 @@ public class CFLintMain {
         return out;
     }
 
-    private static CFLintConfig loadConfigOrMessage(final String configfile) {
-        if (configfile != null) {
-            try {
-                ConfigFileLoader.loadConfig(configfile);
-            } catch (final CFLintConfigurationException e) {
-                System.err.println("Unable to load config file " + configfile + ".  " + e.getMessage());
-            }
-        }
-        return null;
-    }
 }

@@ -1,5 +1,4 @@
 {
-  "output" : [ ],
   "rule" : [ ],
   "excludes" : [ ],
   "includes" : [ {
@@ -32,6 +31,5 @@
     "severity" : null
   } 
   ],
-  "inheritParent" : false,
-  "inheritPlugins" : true
+  "inheritParent" : false
 }

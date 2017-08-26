@@ -52,11 +52,6 @@ public class Settings {
     public static final String FILTER_FILE = "filterFile";
 
     /**
-     * Show programs as the scan takes place.
-     */
-    public static final String SHOWPROGRESS = "showprogress";
-
-    /**
      * Output to a named XML file rather than the default cflint-results.xml.
      */
     public static final String XMLFILE = "xmlfile";
@@ -122,11 +117,6 @@ public class Settings {
     public static final String VERSION = "version";
 
     /**
-     * Only use a single thread.
-     */
-    public static final String SINGLETHREAD = "singlethread";
-
-    /**
      * Log errors.
      */
     public static final String LOGERROR = "logerror";
@@ -135,11 +125,6 @@ public class Settings {
      * Log errors (short option).
      */
     public static final String E = "E";
-
-    /**
-     * Show a simpe UI letting you select files to scan.
-     */
-    public static final String UI = "ui";
 
     /**
      * Output in XML format.

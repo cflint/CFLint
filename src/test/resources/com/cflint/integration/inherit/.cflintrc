@@ -1,5 +1,4 @@
 {
-  "output" : [ ],
   "rule" : [ ],
   "excludes" : [ ],
   "includes" : [ {
@@ -11,6 +10,5 @@
     "messageText" : null,
     "severity" : null
   } ],
-  "inheritParent" : true,
-  "inheritPlugins" : true
+  "inheritParent" : true
 }

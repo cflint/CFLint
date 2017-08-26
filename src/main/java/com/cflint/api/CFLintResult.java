@@ -3,9 +3,12 @@ package com.cflint.api;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
+import java.util.List;
+import java.util.Map;
 
 import javax.xml.transform.TransformerException;
 
+import com.cflint.BugInfo;
 import com.cflint.CFLint;
 import com.cflint.CFLintStats;
 import com.cflint.HTMLOutput;
@@ -79,5 +82,9 @@ public class CFLintResult {
 
     public CFLintStats getStats() {
         return cflint.getStats();
+    }
+    
+    public Map<String, List<BugInfo>> getIssues(){
+        return cflint.getBugs().getBugList();
     }
 }

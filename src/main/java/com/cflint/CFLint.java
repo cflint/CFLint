@@ -34,6 +34,7 @@ import com.cflint.config.CFLintPluginInfo;
 import com.cflint.config.CFLintPluginInfo.PluginInfoRule;
 import com.cflint.config.CFLintPluginInfo.PluginInfoRule.PluginMessage;
 import com.cflint.config.ConfigUtils;
+import com.cflint.exception.CFLintScanException;
 import com.cflint.listeners.ScanProgressListener;
 import com.cflint.plugins.CFLintScanner;
 import com.cflint.plugins.CFLintSet;
@@ -197,8 +198,6 @@ public class CFLint implements IErrorReporter {
                     if (verbose) {
                         System.out.println("read config " + file);
                     }
-                    System.out.println(
-                            "DEPRECATED: The uses of \"inheritPlugins\" and \"output\" have been marked as deprecated in CFLint 1.2.x and support for them will be fully removed in CFLint 1.3.0. Please remove the settings from your configuration file(s). Run CFLint in verbose mode for config file location details.");
                     try {
                         final CFLintConfig newConfig = file.getName().toLowerCase().endsWith(".xml")
                                 ? ConfigUtils.unmarshal(new FileInputStream(file), CFLintConfig.class)
@@ -236,8 +235,6 @@ public class CFLint implements IErrorReporter {
                             if (verbose) {
                                 System.out.println("read config " + file);
                             }
-                            System.out.println(
-                                    "DEPRECATED: The use of \"inheritPlugins\" has been marked as deprecated in CFLint 1.2.x and support for it will be fully removed in CFLint 1.3.0. Please remove the setting from your configuration file(s). Run CFLint in verbose mode for config file location details.");
                             final CFLintConfiguration newConfig = file.getName().toLowerCase().endsWith(".xml")
                                     ? ConfigUtils.unmarshal(new FileInputStream(file), CFLintConfig.class)
                                     : ConfigUtils.unmarshalJson(new FileInputStream(file), CFLintConfig.class);
@@ -284,29 +281,32 @@ public class CFLint implements IErrorReporter {
         }
     }
 
-    public void process(final String src, final String filename) throws IOException {
-
-        fireStartedProcessing(filename);
-        if (src == null || src.trim().length() == 0) {
-            final Context context = new Context(filename, null, null, false, handler);
-            reportRule(null, null, context, null, new ContextMessage(AVOID_EMPTY_FILES, null));
-        } else {
-            final CFMLSource cfmlSource = new CFMLSource(src.contains("<!---") ? CommentReformatting.wrap(src) : src);
-            final ParserTag firstTag = getFirstTagQuietly(cfmlSource);
-            final List<Element> elements = new ArrayList<>();
-            if (firstTag != null) {
-                elements.addAll(cfmlSource.getChildElements());
-            }
-            if (isComponentOrInterfaceScript(src, elements)) {
-                // Check if pure cfscript
-                final CFScriptStatement scriptStatement = cfmlParser.parseScript(src);
-                final Context context = new Context(filename, null, null, false, handler, scriptStatement.getTokens());
-                process(scriptStatement, context);
+    public void process(final String src, final String filename) throws CFLintScanException {
+        try{
+            fireStartedProcessing(filename);
+            if (src == null || src.trim().length() == 0) {
+                final Context context = new Context(filename, null, null, false, handler);
+                reportRule(null, null, context, null, new ContextMessage(AVOID_EMPTY_FILES, null));
             } else {
-                processStack(elements, " ", filename, null);
+                final CFMLSource cfmlSource = new CFMLSource(src.contains("<!---") ? CommentReformatting.wrap(src) : src);
+                final ParserTag firstTag = getFirstTagQuietly(cfmlSource);
+                final List<Element> elements = new ArrayList<>();
+                if (firstTag != null) {
+                    elements.addAll(cfmlSource.getChildElements());
+                }
+                if (isComponentOrInterfaceScript(src, elements)) {
+                    // Check if pure cfscript
+                    final CFScriptStatement scriptStatement = cfmlParser.parseScript(src);
+                    final Context context = new Context(filename, null, null, false, handler, scriptStatement.getTokens());
+                    process(scriptStatement, context);
+                } else {
+                    processStack(elements, " ", filename, null);
+                }
             }
+            fireFinishedProcessing(filename);
+        }catch(final Exception e){
+            throw new CFLintScanException(e);
         }
-        fireFinishedProcessing(filename);
     }
 
     /**
@@ -336,7 +336,7 @@ public class CFLint implements IErrorReporter {
     }
 
     public void processStack(final List<Element> elements, final String space, final String filename,
-            final CFIdentifier functionName) throws IOException {
+            final CFIdentifier functionName) throws IOException, ParseException, CFLintScanException {
         Element commentElement = null;
         for (final Element elem : elements) {
             if (elem.getName().equals(CF.COMMENT)) {
@@ -354,7 +354,7 @@ public class CFLint implements IErrorReporter {
     }
 
     public void processStack(final List<Element> elements, final String space, final Context context)
-            throws ParseException, IOException {
+            throws CFLintScanException {
         Element commentElement = null;
         for (final Element elem : elements) {
             if (elem.getName().equals(CF.COMMENT)) {
@@ -371,7 +371,7 @@ public class CFLint implements IErrorReporter {
     }
 
     private void process(final Element elem, final String space, final Context context)
-            throws ParseException, IOException {
+            throws CFLintScanException {
         if (skipToPosition > elem.getBegin()) {
             return;
         } else {
@@ -451,7 +451,14 @@ public class CFLint implements IErrorReporter {
                         skipToPosition = nextTag.getEnd();
                     }
                 }
-                final CFScriptStatement scriptStatement = cfmlParser.parseScript(cfscript);
+                CFScriptStatement scriptStatement;
+                try {
+                    scriptStatement = cfmlParser.parseScript(cfscript);
+                } catch (ParseException e) {
+                    throw new CFLintScanException(e);
+                } catch (IOException e) {
+                    throw new CFLintScanException(e);
+                }
 
                 final Context subcontext = context.subContext(elem);
                 process(scriptStatement, subcontext);
@@ -868,7 +875,7 @@ public class CFLint implements IErrorReporter {
                                 process(FileUtil.loadFile(include), context.getFilename());
                                 includeFileStack.pop();
                             }
-                        } catch (final IOException ex) {
+                        } catch (final CFLintScanException ex) {
                             System.err.println("Invalid include file " + context.getFilename());
                             final int line = context.startLine();
                             final ContextMessage cm = new ContextMessage(PARSE_ERROR, null, null, line);
@@ -1305,7 +1312,9 @@ public class CFLint implements IErrorReporter {
 
     public void setAllowedExtensions(final List<String> allowedExtensions) {
         this.allowedExtensions.clear();
-        this.allowedExtensions.addAll(allowedExtensions);
+        if(allowedExtensions != null){
+            this.allowedExtensions.addAll(allowedExtensions);
+        }
     }
 
     @Override

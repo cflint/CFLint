@@ -1,4 +1,4 @@
-package com.cflint.main;
+package com.cflint.cli;
 
 public class Settings {
     /**

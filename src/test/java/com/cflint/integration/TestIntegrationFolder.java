@@ -9,13 +9,13 @@ import java.io.InputStream;
 
 import org.junit.Test;
 
-import com.cflint.main.CFLintMain;
+import com.cflint.cli.CFLintCLI;
 
 public class TestIntegrationFolder {
 
     @Test
     public void testFolder() throws Exception {
-        CFLintMain.main(new String[] { "--folder", "src/test/resources/com/cflint/integration", "--json", "--jsonfile",
+        CFLintCLI.main(new String[] { "--folder", "src/test/resources/com/cflint/integration", "--json", "--jsonfile",
                 "src/test/resources/com/cflint/integration/output.json" });
         final String expected = loadFile(new File("src/test/resources/com/cflint/integration/output.expected.json"));
         final String actual = loadFile(new File("src/test/resources/com/cflint/integration/output.json"));
@@ -28,7 +28,7 @@ public class TestIntegrationFolder {
 
     @Test
     public void testRuleGroupFolder() throws Exception {
-        CFLintMain.main(new String[] { "--folder", "src/test/resources/com/cflint/integration", "--json", "--jsonfile",
+        CFLintCLI.main(new String[] { "--folder", "src/test/resources/com/cflint/integration", "--json", "--jsonfile",
                 "src/test/resources/com/cflint/integration/output.rulegroup.json", "--rulegroups", "Naming" });
         final String expected = loadFile(
                 new File("src/test/resources/com/cflint/integration/output.rulegroup.expected.json"));
@@ -44,7 +44,7 @@ public class TestIntegrationFolder {
     public void test_194() throws Exception {
         File tempFile = File.createTempFile("test_194_", "json");
         tempFile.deleteOnExit();
-        CFLintMain.main(new String[] { "--folder", "src/test/resources/com/cflint/integration", "-includeRule",
+        CFLintCLI.main(new String[] { "--folder", "src/test/resources/com/cflint/integration", "-includeRule",
                 "COMPONENT_INVALID_NAME", "--json", "--jsonfile", tempFile.getAbsolutePath() });
         final String expected = loadFile(
                 new File("src/test/resources/com/cflint/integration/output_194.expected.json"));

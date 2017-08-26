@@ -162,12 +162,12 @@
 						<configuration>
 							<programs>
 								<program>
-									<mainClass>com.cflint.main.CFLintMain</mainClass>
+									<mainClass>com.cflint.cli.CFLintCLI</mainClass>
 									<!-- the name of the bat/sh files to be generated -->
 									<name>cflint</name>
 								</program>
 								<program>
-									<mainClass>com.cflint.main.CFLintMain</mainClass>
+									<mainClass>com.cflint.cli.CFLintCLI</mainClass>
 									<commandLineArguments>
 										<commandLineArgument>--ui</commandLineArgument>
 									</commandLineArguments>
@@ -234,7 +234,7 @@
 						<configuration>
 							<transformers>
 								<transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-									<mainClass>com.cflint.main.CFLintMain</mainClass>
+									<mainClass>com.cflint.cli.CFLintCLI</mainClass>
 								</transformer>
 							</transformers>
 							<shadedArtifactAttached>true</shadedArtifactAttached>

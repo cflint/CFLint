@@ -11,7 +11,7 @@
 
 	<target name="build" depends="requiredFolder,requiredOutfile">
 		<property name="excludefile" value=""/>
-		<java classname="com.cflint.main.CFLintMain">
+		<java classname="com.cflint.cli.CFLintCLI">
 			<arg value="-folder" />
 			<arg value="${folder}" />
 			<arg value="--${outtype}" />

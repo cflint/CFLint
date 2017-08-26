@@ -1,12 +1,12 @@
 package com.cflint;
 
-import com.cflint.main.CFLintMain;
+import com.cflint.cli.CFLintCLI;
 
 public class Version {
 
     public static String getVersion() {
 
-        String version = CFLintMain.class.getPackage().getImplementationVersion();
+        String version = CFLintCLI.class.getPackage().getImplementationVersion();
         if (version != null) {
             return version;
         } else {

@@ -72,7 +72,7 @@ test {
 jar {
   manifest {
     attributes(
-      'Main-Class': 'com.cflint.main.CFLintMain',
+      'Main-Class': 'com.cflint.cli.CFLintCLI',
       'Implementation-Version': version,
     )
   }
@@ -97,4 +97,12 @@ artifacts {
 task gitChangelogTask(type: se.bjurr.gitchangelog.plugin.gradle.GitChangelogTask) {
     file = new File("CHANGELOG.md");
     templateContent = file('src/main/resources/changelog.mustache').getText('UTF-8');
- }
+}
+ 
+sourceSets {
+    main {
+        resources {
+            srcDirs 'src/main/config'
+        }
+    }
+}

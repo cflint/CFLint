@@ -14,6 +14,10 @@ import org.slf4j.LoggerFactory;
 import com.cflint.BugInfo;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+/**
+ * Filter the resulting lint issues.
+ *
+ */
 public class CFLintFilter {
 
     private static final Logger logger = LoggerFactory.getLogger(CFLintFilter.class);

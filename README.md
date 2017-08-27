@@ -315,7 +315,15 @@ Example of plain text output:
     Total issues:4
     Total warnings:4
 
+## API
+To interact directly with CFLint within the JVM use the CFLint API.
 
+    import com.cflint.api.CFLintAPI;
+    import com.cflint.api.CFLintResult;
+    
+    CFLintAPI api = new CFLintAPI();
+    CFLintResult result = api.scan(filename);
+    String jsonResult = result.getJSON();
 
 ## Integration server support
 

@@ -98,11 +98,3 @@ task gitChangelogTask(type: se.bjurr.gitchangelog.plugin.gradle.GitChangelogTask
     file = new File("CHANGELOG.md");
     templateContent = file('src/main/resources/changelog.mustache').getText('UTF-8');
 }
- 
-sourceSets {
-    main {
-        resources {
-            srcDirs 'src/main/config'
-        }
-    }
-}

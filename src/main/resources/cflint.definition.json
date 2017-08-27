@@ -329,7 +329,7 @@
         {
           "code": "ARG_TYPE_MISSING",
           "severity": "WARNING",
-          "messageText": "ARGUMENT ${variable} is missing a type."
+          "messageText": "Argument ${variable} is missing a type."
         },
         {
           "code": "ARG_TYPE_ANY",
@@ -513,7 +513,7 @@
       "className": "ComplexBooleanExpressionChecker",
       "message": [
         {
-          "messageText" : "Boolean expession is too complex. Consider simplifying or moving to a named method.",
+          "messageText" : "Boolean expression is too complex. Consider simplifying or moving to a named method.",
           "code": "COMPLEX_BOOLEAN_CHECK",
           "severity": "WARNING"
         }
@@ -525,7 +525,7 @@
       "className": "BooleanExpressionChecker",
       "message": [
         {
-          "messageText" : "Explicit check of boolean expession is not needed.",
+          "messageText" : "Explicit check of boolean expression is not needed.",
           "code": "EXPLICIT_BOOLEAN_CHECK",
           "severity": "INFO"
         }

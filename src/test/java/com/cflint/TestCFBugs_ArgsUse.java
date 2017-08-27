@@ -7,34 +7,20 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.cflint.config.CFLintConfig;
-import com.cflint.config.CFLintPluginInfo.PluginInfoRule;
-import com.cflint.config.CFLintPluginInfo.PluginInfoRule.PluginMessage;
+import com.cflint.api.CFLintAPI;
+import com.cflint.api.CFLintResult;
+import com.cflint.config.ConfigBuilder;
 import com.cflint.exception.CFLintScanException;
-import com.cflint.plugins.core.ArgVarChecker;
 
 public class TestCFBugs_ArgsUse {
 
     StackHandler handler = null;
-    private CFLint cfBugs;
+    private CFLintAPI cfBugs;
 
     @Before
     public void setUp() throws Exception {
-        handler = new StackHandler();
-        final CFLintConfig conf = new CFLintConfig();
-        final PluginInfoRule pluginRule = new PluginInfoRule();
-        pluginRule.setName("ArgVarChecker");
-        conf.getRules().add(pluginRule);
-        final PluginMessage pluginMessage = new PluginMessage("ARG_VAR_CONFLICT");
-        pluginMessage.setSeverity(Levels.ERROR);
-        pluginMessage.setMessageText("Variable ${variable} should not be declared in both var and argument scopes.");
-        pluginRule.getMessages().add(pluginMessage);
-        final PluginMessage pluginMessage2 = new PluginMessage("ARG_VAR_MIXED");
-        pluginMessage2.setSeverity(Levels.INFO);
-        pluginMessage2.setMessageText("Argument ${variable} should not be referenced in local and argument scope.");
-        pluginRule.getMessages().add(pluginMessage2);
-
-        cfBugs = new CFLint(conf, new ArgVarChecker());
+        final ConfigBuilder configBuilder = new ConfigBuilder().include("ARG_VAR_CONFLICT","ARG_VAR_MIXED");
+        cfBugs = new CFLintAPI(configBuilder.build());
     }
 
     @Test
@@ -42,8 +28,8 @@ public class TestCFBugs_ArgsUse {
         final String cfcSrc = "<cfcomponent>\r\n" + "<cffunction name=\"test\">\r\n"
                 + "	<cfargument name=\"xyz\" default=\"\">\r\n" + "	<cfset var xyz=123/>\r\n" + "</cffunction>\r\n"
                 + "</cfcomponent>";
-        cfBugs.process(cfcSrc, "test");
-        List<BugInfo> result = cfBugs.getBugs().getBugList().values().iterator().next();
+        CFLintResult lintresult = cfBugs.scan(cfcSrc, "test");
+        List<BugInfo> result = lintresult.getIssues().values().iterator().next();
         assertEquals(1, result.size());
         assertEquals("ARG_VAR_CONFLICT", result.get(0).getMessageCode());
         assertEquals(4, result.get(0).getLine());
@@ -53,8 +39,8 @@ public class TestCFBugs_ArgsUse {
     public void testVarAndArgs_Cfscript() throws CFLintScanException {
         final String cfcSrc = "component { \r\n" + "public void function foo(any arg1=\"\") { \r\n"
                 + "var arg1=123; \r\n" + "} \r\n" + "}";
-        cfBugs.process(cfcSrc, "test");
-        List<BugInfo> result = cfBugs.getBugs().getBugList().values().iterator().next();
+        CFLintResult lintresult = cfBugs.scan(cfcSrc, "test");
+        List<BugInfo> result = lintresult.getIssues().values().iterator().next();
         assertEquals(1, result.size());
         assertEquals("ARG_VAR_CONFLICT", result.get(0).getMessageCode());
         assertEquals(3, result.get(0).getLine());
@@ -65,8 +51,8 @@ public class TestCFBugs_ArgsUse {
         final String cfcSrc = "<cfcomponent>\r\n" + "<cffunction name=\"test\">\r\n"
                 + "	<cfargument name=\"xyz\" default=\"\">\r\n" + "	<cfset xyz=123/>\r\n" + "</cffunction>\r\n"
                 + "</cfcomponent>";
-        cfBugs.process(cfcSrc, "test");
-        assertEquals(0, cfBugs.getBugs().getBugList().size());
+        CFLintResult lintresult = cfBugs.scan(cfcSrc, "test");
+        assertEquals(0, lintresult.getIssues().size());
     }
 
     @Test
@@ -75,16 +61,16 @@ public class TestCFBugs_ArgsUse {
                 + "	<cfargument name=\"page\" default=\"\">\r\n"
                 + "	<cfset variables.instance.page = arguments.page />\r\n" + "</cffunction>\r\n"
                 + "</cfcomponent>";
-        cfBugs.process(cfcSrc, "test");
-        assertEquals(cfBugs.getBugs().getBugList().toString(), 0, cfBugs.getBugs().getBugList().size());
+        CFLintResult lintresult = cfBugs.scan(cfcSrc, "test");
+        assertEquals(lintresult.getIssues().toString(), 0, lintresult.getIssues().size());
     }
 
     @Test
     public void testVarAndArgs_Cfscript_OK() throws CFLintScanException {
         final String cfcSrc = "component { \r\n" + "public void function foo(any arg1=\"\") { \r\n" + "arg1=123; \r\n"
                 + "} \r\n" + "}";
-        cfBugs.process(cfcSrc, "test");
-        assertEquals(0, cfBugs.getBugs().getBugList().size());
+        CFLintResult lintresult = cfBugs.scan(cfcSrc, "test");
+        assertEquals(0, lintresult.getIssues().size());
     }
 
     @Test
@@ -92,8 +78,8 @@ public class TestCFBugs_ArgsUse {
         final String cfcSrc = "<cfcomponent>\r\n" + "<cffunction name=\"test\">\r\n"
                 + "	<cfargument name=\"xyz\" default=\"\">\r\n" + "	<cfset xyz=123/>\r\n"
                 + "	<cfset y=arguments.xyz/>\r\n" + "</cffunction>\r\n" + "</cfcomponent>";
-        cfBugs.process(cfcSrc, "test");
-        List<BugInfo> result = cfBugs.getBugs().getBugList().values().iterator().next();
+        CFLintResult lintresult = cfBugs.scan(cfcSrc, "test");
+        List<BugInfo> result = lintresult.getIssues().values().iterator().next();
         assertEquals(1, result.size());
         assertEquals("ARG_VAR_MIXED", result.get(0).getMessageCode());
         assertEquals(5, result.get(0).getLine());
@@ -105,8 +91,8 @@ public class TestCFBugs_ArgsUse {
                 + "	<cfargument name=\"xyz\" default=\"\">\r\n" + "	<cfset xyz=123/>\r\n"
                 + "	<cfset y=arguments.xyz/>\r\n" + "	<cfset z=arguments.xyz/>\r\n" + "</cffunction>\r\n"
                 + "</cfcomponent>";
-        cfBugs.process(cfcSrc, "test");
-        List<BugInfo> result = cfBugs.getBugs().getBugList().values().iterator().next();
+        CFLintResult lintresult = cfBugs.scan(cfcSrc, "test");
+        List<BugInfo> result = lintresult.getIssues().values().iterator().next();
         assertEquals(1, result.size());
         assertEquals("ARG_VAR_MIXED", result.get(0).getMessageCode());
         assertEquals(5, result.get(0).getLine());

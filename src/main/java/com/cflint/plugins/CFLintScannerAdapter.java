@@ -56,8 +56,8 @@ public class CFLintScannerAdapter implements CFLintScanner, CFLintStructureListe
      * get the property from the configuration.
      * This can be overriden with -DcheckerClass.propertyname=value
      *
-     * @param name
-     * @return
+     * @param name      the name of the parameter
+     * @return          the value of the parameter
      */
     public String getParameter(final String name) {
         final String propertyForName = System.getProperty(getClass().getSimpleName() + "." + name);
@@ -103,8 +103,8 @@ public class CFLintScannerAdapter implements CFLintScanner, CFLintStructureListe
     /**
      * Return parameter split by comma
      *
-     * @param name
-     * @return
+     * @param name      the name of the parameter
+     * @return          the value of the parameter as a list of strings
      */
     public List<String> getParameterAsList(final String name) {
         return Arrays.asList(getParameterNotNull(name).split(","));

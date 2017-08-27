@@ -7,40 +7,27 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.cflint.config.CFLintConfig;
-import com.cflint.config.CFLintPluginInfo.PluginInfoRule;
-import com.cflint.config.CFLintPluginInfo.PluginInfoRule.PluginMessage;
+import com.cflint.api.CFLintAPI;
+import com.cflint.api.CFLintResult;
+import com.cflint.config.ConfigBuilder;
 import com.cflint.exception.CFLintScanException;
-import com.cflint.plugins.core.ArgTypeChecker;
 
 public class TestCFBugs_ArgsType {
 
-    private CFLint cfBugs;
+    private CFLintAPI cfBugs;
 
     @Before
     public void setUp() throws Exception {
-        final CFLintConfig conf = new CFLintConfig();
-        final PluginInfoRule pluginRule = new PluginInfoRule();
-        pluginRule.setName("ArgTypeChecker");
-        conf.getRules().add(pluginRule);
-        final PluginMessage pluginMessageMissing = new PluginMessage("ARG_TYPE_MISSING");
-        pluginMessageMissing.setSeverity(Levels.WARNING);
-        pluginMessageMissing.setMessageText("Argument ${variable} is missing a type.");
-        pluginRule.getMessages().add(pluginMessageMissing);
-        final PluginMessage pluginMessageAny = new PluginMessage("ARG_TYPE_ANY");
-        pluginMessageAny.setSeverity(Levels.WARNING);
-        pluginMessageAny.setMessageText("Argument ${variable} is any. Please change to be the correct type.");
-        pluginRule.getMessages().add(pluginMessageAny);
-
-        cfBugs = new CFLint(conf, new ArgTypeChecker());
+        final ConfigBuilder configBuilder = new ConfigBuilder().include("ARG_TYPE_MISSING","ARG_TYPE_ANY");
+        cfBugs = new CFLintAPI(configBuilder.build());
     }
 
     @Test
     public void testMissingType() throws CFLintScanException {
         final String cfcSrc = "<cfcomponent>\r\n" + "<cffunction name=\"test\" returnType=\"void\">\r\n"
                 + "	<cfargument name=\"xyz\" default=\"123\">\r\n" + "</cffunction>\r\n" + "</cfcomponent>\r\n";
-        cfBugs.process(cfcSrc, "test");
-        final List<BugInfo> result = cfBugs.getBugs().getBugList().values().iterator().next();
+        CFLintResult lintresult = cfBugs.scan(cfcSrc, "test");
+        final List<BugInfo> result = lintresult.getIssues().values().iterator().next();
         assertEquals(1, result.size());
         assertEquals("ARG_TYPE_MISSING", result.get(0).getMessageCode());
         assertEquals(3, result.get(0).getLine());
@@ -51,8 +38,8 @@ public class TestCFBugs_ArgsType {
     @Test
     public void testMissingTypeNoTags() throws CFLintScanException {
         final String cfcSrc = "component {\r\n" + "public void function test(arg1) {\r\n" + "}\r\n" + "}\r\n";
-        cfBugs.process(cfcSrc, "test");
-        final List<BugInfo> result = cfBugs.getBugs().getBugList().values().iterator().next();
+        CFLintResult lintresult = cfBugs.scan(cfcSrc, "test");
+        final List<BugInfo> result = lintresult.getIssues().values().iterator().next();
         assertEquals(1, result.size());
         assertEquals("ARG_TYPE_MISSING", result.get(0).getMessageCode());
         assertEquals(2, result.get(0).getLine());
@@ -65,8 +52,8 @@ public class TestCFBugs_ArgsType {
         final String cfcSrc = "<cfcomponent>\r\n" + "<cffunction name=\"test\" returnType=\"void\">\r\n"
                 + "	<cfargument name=\"xyz\" default=\"123\" type=\"any\">\r\n" + "</cffunction>\r\n"
                 + "</cfcomponent>\r\n";
-        cfBugs.process(cfcSrc, "test");
-        final List<BugInfo> result = cfBugs.getBugs().getBugList().values().iterator().next();
+        CFLintResult lintresult = cfBugs.scan(cfcSrc, "test");
+        final List<BugInfo> result = lintresult.getIssues().values().iterator().next();
         assertEquals(1, result.size());
         assertEquals("ARG_TYPE_ANY", result.get(0).getMessageCode());
         assertEquals(3, result.get(0).getLine());
@@ -78,8 +65,8 @@ public class TestCFBugs_ArgsType {
     public void testTypeAnyNoTags() throws CFLintScanException {
         final String cfcSrc = "component {\r\n" + "public void function test(any arg1, numeric arg2) {\r\n" + "}\r\n"
                 + "}\r\n";
-        cfBugs.process(cfcSrc, "test");
-        final List<BugInfo> result = cfBugs.getBugs().getBugList().values().iterator().next();
+        CFLintResult lintresult = cfBugs.scan(cfcSrc, "test");
+        final List<BugInfo> result = lintresult.getIssues().values().iterator().next();
         assertEquals(1, result.size());
         assertEquals("ARG_TYPE_ANY", result.get(0).getMessageCode());
         assertEquals(2, result.get(0).getLine());

@@ -12,28 +12,20 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.cflint.config.CFLintConfig;
-import com.cflint.config.CFLintPluginInfo.PluginInfoRule;
-import com.cflint.config.CFLintPluginInfo.PluginInfoRule.PluginMessage;
+import com.cflint.api.CFLintAPI;
+import com.cflint.api.CFLintResult;
+import com.cflint.config.ConfigBuilder;
+import com.cflint.exception.CFLintConfigurationException;
 import com.cflint.exception.CFLintScanException;
-import com.cflint.plugins.core.VarScoper;
 
 public class TestCFBugs_VarScoper {
 
-    private CFLint cfBugs;
+    private CFLintAPI cfBugs;
 
     @Before
-    public void setUp() {
-        CFLintConfig conf = new CFLintConfig();
-        PluginInfoRule pluginRule = new PluginInfoRule();
-        pluginRule.setName("VarScoper");
-        conf.getRules().add(pluginRule);
-        PluginMessage pluginMessage = new PluginMessage("MISSING_VAR");
-        pluginMessage.setSeverity(Levels.ERROR);
-        pluginMessage.setMessageText("Variable ${variable} is not declared with a var statement.");
-        pluginRule.getMessages().add(pluginMessage);
-
-        cfBugs = new CFLint(conf, new VarScoper());
+    public void setUp() throws CFLintConfigurationException {
+        final ConfigBuilder configBuilder = new ConfigBuilder().include("MISSING_VAR");
+        cfBugs = new CFLintAPI(configBuilder.build());
     }
 
     @Test
@@ -41,9 +33,9 @@ public class TestCFBugs_VarScoper {
         final String cfcSrc = "<cfcomponent>\r\n" + "<cffunction name=\"test\">\r\n" + "   <cfset var yy=\"\"/>\r\n"
                 + "	<cfstoredproc name=\"yy\" >\r\n" + "	   <cfprocparam variable=\"xx\" type=\"out\">\r\n"
                 + "	</cfstoredproc>\r\n" + "</cffunction>\r\n" + "</cfcomponent>";
-        cfBugs.process(cfcSrc, "test");
-        assertEquals(1, cfBugs.getBugs().getBugList().size());
-        List<BugInfo> result = cfBugs.getBugs().getBugList().values().iterator().next();
+        CFLintResult lintresult = cfBugs.scan(cfcSrc, "test");
+        assertEquals(1, lintresult.getIssues().size());
+        List<BugInfo> result = lintresult.getIssues().values().iterator().next();
         assertEquals(1, result.size());
         assertEquals("MISSING_VAR", result.get(0).getMessageCode());
         assertEquals("xx", result.get(0).getVariable());
@@ -55,9 +47,9 @@ public class TestCFBugs_VarScoper {
         final String cfcSrc = "<cfcomponent>\r\n" + "<cffunction name=\"test\">\r\n" + "   <cfset var yy=\"\"/>\r\n"
                 + "	<cfstoredproc name=\"yy\" >\r\n" + "	   <cfprocparam variable=\"xx\" type=\"inout\">\r\n"
                 + "	</cfstoredproc>\r\n" + "</cffunction>\r\n" + "</cfcomponent>";
-        cfBugs.process(cfcSrc, "test");
-        assertEquals(1, cfBugs.getBugs().getBugList().size());
-        List<BugInfo> result = cfBugs.getBugs().getBugList().values().iterator().next();
+        CFLintResult lintresult = cfBugs.scan(cfcSrc, "test");
+        assertEquals(1, lintresult.getIssues().size());
+        List<BugInfo> result = lintresult.getIssues().values().iterator().next();
         assertEquals(1, result.size());
         assertEquals("MISSING_VAR", result.get(0).getMessageCode());
         assertEquals("xx", result.get(0).getVariable());
@@ -74,8 +66,8 @@ public class TestCFBugs_VarScoper {
     // " </cfstoredproc>\r\n" +
     // "</cffunction>\r\n" +
     // "</cfcomponent>";
-    // cfBugs.process(cfcSrc,"test");
-    // assertEquals(0,cfBugs.getBugs().getBugList().size());
+    // CFLintResult lintresult = cfBugs.scan(cfcSrc,"test");
+    // assertEquals(0,lintresult.getIssues().size());
     // }
 
     @Test
@@ -83,8 +75,8 @@ public class TestCFBugs_VarScoper {
         final String cfcSrc = "<cfcomponent>\r\n" + "<cffunction name=\"test\">\r\n" + "   <cfset var yy=\"\"/>\r\n"
                 + "	<cffeed query=\"yy\" action=\"read\">\r\n" + "	</cffeed>\r\n" + "</cffunction>\r\n"
                 + "</cfcomponent>";
-        cfBugs.process(cfcSrc, "test");
-        assertEquals(0, cfBugs.getBugs().getBugList().size());
+        CFLintResult lintresult = cfBugs.scan(cfcSrc, "test");
+        assertEquals(0, lintresult.getIssues().size());
     }
 
     @Test
@@ -92,9 +84,9 @@ public class TestCFBugs_VarScoper {
         final String cfcSrc = "<cfcomponent>\r\n" + "<cffunction name=\"test\">\r\n"
                 + "	<cffeed query=\"yy\" action=\"read\">\r\n" + "	</cffeed>\r\n" + "</cffunction>\r\n"
                 + "</cfcomponent>";
-        cfBugs.process(cfcSrc, "test");
-        assertEquals(1, cfBugs.getBugs().getBugList().size());
-        List<BugInfo> result = cfBugs.getBugs().getBugList().values().iterator().next();
+        CFLintResult lintresult = cfBugs.scan(cfcSrc, "test");
+        assertEquals(1, lintresult.getIssues().size());
+        List<BugInfo> result = lintresult.getIssues().values().iterator().next();
         assertEquals(1, result.size());
         assertEquals("MISSING_VAR", result.get(0).getMessageCode());
         assertEquals("yy", result.get(0).getVariable());
@@ -105,9 +97,9 @@ public class TestCFBugs_VarScoper {
     public void testScript_UnVard() throws CFLintScanException {
         final String cfcSrc = "<cfcomponent>\r\n" + "<cffunction name=\"test\">\r\n" + "	<cfscript>\r\n"
                 + "   yy = 123;\r\n" + "	</cfscript>\r\n" + "</cffunction>\r\n" + "</cfcomponent>";
-        cfBugs.process(cfcSrc, "test");
-        assertEquals(1, cfBugs.getBugs().getFlatBugList().size());
-        List<BugInfo> result = cfBugs.getBugs().getFlatBugList();
+        CFLintResult lintresult = cfBugs.scan(cfcSrc, "test");
+        assertEquals(1, lintresult.getIssues().size());
+        List<BugInfo> result = lintresult.getIssues().get("MISSING_VAR");
         assertEquals(1, result.size());
         assertEquals("MISSING_VAR", result.get(0).getMessageCode());
         assertEquals("yy", result.get(0).getVariable());
@@ -120,8 +112,8 @@ public class TestCFBugs_VarScoper {
     public void testScript_UnVard_Scoped() throws CFLintScanException {
         final String cfcSrc = "<cfcomponent>\r\n" + "<cffunction name=\"test\">\r\n" + "	<cfscript>\r\n"
                 + "   cfevent.yy = 123;\r\n" + "	</cfscript>\r\n" + "</cffunction>\r\n" + "</cfcomponent>";
-        cfBugs.process(cfcSrc, "test");
-        assertEquals(1, cfBugs.getBugs().getFlatBugList().size());
+        CFLintResult lintresult = cfBugs.scan(cfcSrc, "test");
+        assertEquals(1, lintresult.getIssues().size());
     }
 
     @Test
@@ -130,8 +122,8 @@ public class TestCFBugs_VarScoper {
                 + "   <cfprocresult name=\"myRet[1]\" resultset=\"1\" />\n"
                 + "   <cfprocresult name=\"myRet[2]\" resultset=\"2\" />\n"
                 + "   <cfprocresult name=\"myRet[3]\" resultset=\"3\" />\n" + "</cfstoredproc></cffunction>";
-        cfBugs.process(cfcSrc, "test");
-        assertEquals(0, cfBugs.getBugs().getFlatBugList().size());
+        CFLintResult lintresult = cfBugs.scan(cfcSrc, "test");
+        assertEquals(0, lintresult.getIssues().size());
     }
 
 }

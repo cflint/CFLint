@@ -1104,7 +1104,7 @@ public class CFLint implements IErrorReporter {
      * 
      * @param element
      *            The Jericho HTML element object
-     * @return
+     * @return the previous sibling of the given element.
      */
     public static Element getPreviousSibling(final Element element) {
 
@@ -1131,7 +1131,7 @@ public class CFLint implements IErrorReporter {
      *            The element to process
      * @param msgcode
      *            The message code to check for
-     * @return
+     * @return true if the msgcode is disabled for the given element.
      */
     protected boolean checkForDisabled(final Element element, final String msgcode) {
         Element elem = element;

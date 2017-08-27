@@ -8,17 +8,19 @@ import java.util.Map;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.cflint.config.CFLintConfig;
+import com.cflint.api.CFLintAPI;
+import com.cflint.api.CFLintResult;
+import com.cflint.config.ConfigBuilder;
 import com.cflint.exception.CFLintScanException;
 
 public class TestUnusedArgumentChecker {
 
-    private CFLint cfBugs;
+    private CFLintAPI cfBugs;
 
     @Before
     public void setUp() throws Exception {
-        final com.cflint.config.CFLintConfiguration conf = CFLintConfig.createDefaultLimited("UnusedArgumentChecker");
-        cfBugs = new CFLint(conf);
+        final ConfigBuilder configBuilder = new ConfigBuilder().include("UNUSED_METHOD_ARGUMENT");
+        cfBugs = new CFLintAPI(configBuilder.build());
     }
 
     @Test
@@ -26,8 +28,8 @@ public class TestUnusedArgumentChecker {
         final String scriptSrc = "<cfscript>\r\n" + "component {\r\n" + "function dummyFunction() {\r\n" + "}\r\n"
                 + "}\r\n" + "</cfscript>";
 
-        cfBugs.process(scriptSrc, "test");
-        final Map<String, List<BugInfo>> result = cfBugs.getBugs().getBugList();
+        CFLintResult lintresult = cfBugs.scan(scriptSrc, "test");
+        final Map<String, List<BugInfo>> result = lintresult.getIssues();
         assertEquals(0, result.size());
     }
 
@@ -36,8 +38,8 @@ public class TestUnusedArgumentChecker {
         final String scriptSrc = "<cfscript>\r\n" + "component {\r\n" + "function sum(a,b) {\r\n" + "return a + b;\r\n"
                 + "}\r\n" + "}\r\n" + "</cfscript>";
 
-        cfBugs.process(scriptSrc, "test");
-        final Map<String, List<BugInfo>> result = cfBugs.getBugs().getBugList();
+        CFLintResult lintresult = cfBugs.scan(scriptSrc, "test");
+        final Map<String, List<BugInfo>> result = lintresult.getIssues();
         assertEquals(0, result.size());
     }
 
@@ -46,8 +48,8 @@ public class TestUnusedArgumentChecker {
         final String scriptSrc = "<cfscript>\r\n" + "component {\r\n" + "function sum(a,b) {\r\n" + "c = a + b;"
                 + "return c;\r\n" + "}\r\n" + "}\r\n" + "</cfscript>";
 
-        cfBugs.process(scriptSrc, "test");
-        final Map<String, List<BugInfo>> result = cfBugs.getBugs().getBugList();
+        CFLintResult lintresult = cfBugs.scan(scriptSrc, "test");
+        final Map<String, List<BugInfo>> result = lintresult.getIssues();
         assertEquals(0, result.size());
     }
 
@@ -56,8 +58,8 @@ public class TestUnusedArgumentChecker {
         final String scriptSrc = "<cfscript>\r\n" + "component {\r\n" + "function sum(a,b) {\r\n"
                 + "return other(a,b);\r\n" + "}\r\n" + "}\r\n" + "</cfscript>";
 
-        cfBugs.process(scriptSrc, "test");
-        final Map<String, List<BugInfo>> result = cfBugs.getBugs().getBugList();
+        CFLintResult lintresult = cfBugs.scan(scriptSrc, "test");
+        final Map<String, List<BugInfo>> result = lintresult.getIssues();
         assertEquals(0, result.size());
     }
 
@@ -66,8 +68,8 @@ public class TestUnusedArgumentChecker {
         final String scriptSrc = "<cfscript>\r\n" + "component {\r\n" + "function sum(a,b) {\r\n" + "return a;\r\n"
                 + "}\r\n" + "}\r\n" + "</cfscript>";
 
-        cfBugs.process(scriptSrc, "test");
-        final List<BugInfo> result = cfBugs.getBugs().getBugList().values().iterator().next();
+        CFLintResult lintresult = cfBugs.scan(scriptSrc, "test");
+        final List<BugInfo> result = lintresult.getIssues().values().iterator().next();
         assertEquals(1, result.size());
         assertEquals("UNUSED_METHOD_ARGUMENT", result.get(0).getMessageCode());
         assertEquals(3, result.get(0).getLine());
@@ -78,8 +80,8 @@ public class TestUnusedArgumentChecker {
         final String scriptSrc = "<cfscript>\r\n" + "component {\r\n" + "function sum(a,b,c,d) {\r\n" + "return a;\r\n"
                 + "}\r\n" + "}\r\n" + "</cfscript>";
 
-        cfBugs.process(scriptSrc, "test");
-        final List<BugInfo> result = cfBugs.getBugs().getBugList().values().iterator().next();
+        CFLintResult lintresult = cfBugs.scan(scriptSrc, "test");
+        final List<BugInfo> result = lintresult.getIssues().values().iterator().next();
         assertEquals(3, result.size());
         assertEquals("UNUSED_METHOD_ARGUMENT", result.get(0).getMessageCode());
         assertEquals(3, result.get(0).getLine());
@@ -94,8 +96,8 @@ public class TestUnusedArgumentChecker {
         final String scriptSrc = "<cfscript>\r\n" + "component {\r\n" + "function sum(a,b) {\r\n"
                 + "return arguments.a + arguments.b;\r\n" + "}\r\n" + "}\r\n" + "</cfscript>";
 
-        cfBugs.process(scriptSrc, "test");
-        final Map<String, List<BugInfo>> result = cfBugs.getBugs().getBugList();
+        CFLintResult lintresult = cfBugs.scan(scriptSrc, "test");
+        final Map<String, List<BugInfo>> result = lintresult.getIssues();
         assertEquals(0, result.size());
     }
 
@@ -104,8 +106,8 @@ public class TestUnusedArgumentChecker {
         final String tagSrc = "<cfcomponent>\r\n" + "<cffunction name=\"dummyFunction\">\r\n" + "</cffunction>\r\n"
                 + "</cfcomponent>\r\n";
 
-        cfBugs.process(tagSrc, "test");
-        final Map<String, List<BugInfo>> result = cfBugs.getBugs().getBugList();
+        CFLintResult lintresult = cfBugs.scan(tagSrc, "test");
+        final Map<String, List<BugInfo>> result = lintresult.getIssues();
         assertEquals(0, result.size());
     }
 
@@ -114,8 +116,8 @@ public class TestUnusedArgumentChecker {
         final String tagSrc = "<cfcomponent>\r\n" + "<cffunction name=\"sum\">\r\n" + "<cfargument name=\"a\">\r\n"
                 + "<cfargument name=\"b\">\r\n" + "<cfreturn a + b>\r\n" + "</cffunction>\r\n" + "</cfcomponent>\r\n";
 
-        cfBugs.process(tagSrc, "test");
-        final Map<String, List<BugInfo>> result = cfBugs.getBugs().getBugList();
+        CFLintResult lintresult = cfBugs.scan(tagSrc, "test");
+        final Map<String, List<BugInfo>> result = lintresult.getIssues();
         assertEquals(0, result.size());
     }
 
@@ -125,8 +127,8 @@ public class TestUnusedArgumentChecker {
                 + "<cfargument name=\"b\">\r\n" + "<cfset c = a + b>" + "<cfreturn c>\r\n" + "</cffunction>\r\n"
                 + "</cfcomponent>\r\n";
 
-        cfBugs.process(tagSrc, "test");
-        final Map<String, List<BugInfo>> result = cfBugs.getBugs().getBugList();
+        CFLintResult lintresult = cfBugs.scan(tagSrc, "test");
+        final Map<String, List<BugInfo>> result = lintresult.getIssues();
         assertEquals(0, result.size());
     }
 
@@ -136,8 +138,8 @@ public class TestUnusedArgumentChecker {
                 + "<cfargument name=\"b\">\r\n" + "<cfreturn other(a,b)>\r\n" + "</cffunction>\r\n"
                 + "</cfcomponent>\r\n";
 
-        cfBugs.process(tagSrc, "test");
-        final Map<String, List<BugInfo>> result = cfBugs.getBugs().getBugList();
+        CFLintResult lintresult = cfBugs.scan(tagSrc, "test");
+        final Map<String, List<BugInfo>> result = lintresult.getIssues();
         assertEquals(0, result.size());
     }
 
@@ -146,8 +148,8 @@ public class TestUnusedArgumentChecker {
         final String tagSrc = "<cfcomponent>\r\n" + "<cffunction name=\"sum\">\r\n" + "<cfargument name=\"a\">\r\n"
                 + "<cfargument name=\"b\">\r\n" + "<cfreturn a>\r\n" + "</cffunction>\r\n" + "</cfcomponent>\r\n";
 
-        cfBugs.process(tagSrc, "test");
-        final List<BugInfo> result = cfBugs.getBugs().getBugList().values().iterator().next();
+        CFLintResult lintresult = cfBugs.scan(tagSrc, "test");
+        final List<BugInfo> result = lintresult.getIssues().values().iterator().next();
         assertEquals(1, result.size());
         assertEquals("UNUSED_METHOD_ARGUMENT", result.get(0).getMessageCode());
         assertEquals(4, result.get(0).getLine());
@@ -159,8 +161,8 @@ public class TestUnusedArgumentChecker {
                 + "<cfargument name=\"b\">\r\n" + "<cfargument name=\"c\">\r\n" + "<cfargument name=\"d\">\r\n"
                 + "<cfreturn a>\r\n" + "</cffunction>\r\n" + "</cfcomponent>\r\n";
 
-        cfBugs.process(tagSrc, "test");
-        final List<BugInfo> result = cfBugs.getBugs().getBugList().values().iterator().next();
+        CFLintResult lintresult = cfBugs.scan(tagSrc, "test");
+        final List<BugInfo> result = lintresult.getIssues().values().iterator().next();
         assertEquals(3, result.size());
         assertEquals("UNUSED_METHOD_ARGUMENT", result.get(0).getMessageCode());
         assertEquals(4, result.get(0).getLine());
@@ -176,8 +178,8 @@ public class TestUnusedArgumentChecker {
                 + "<cfargument name=\"b\">\r\n" + "<cfreturn arguments.a + arguments.b>\r\n" + "</cffunction>\r\n"
                 + "</cfcomponent>\r\n";
 
-        cfBugs.process(tagSrc, "test");
-        final Map<String, List<BugInfo>> result = cfBugs.getBugs().getBugList();
+        CFLintResult lintresult = cfBugs.scan(tagSrc, "test");
+        final Map<String, List<BugInfo>> result = lintresult.getIssues();
         assertEquals(0, result.size());
     }
 
@@ -190,8 +192,8 @@ public class TestUnusedArgumentChecker {
                 + "SELECT @productId as productId\r\n" + "</cfquery>\r\n" + "<cfreturn arguments.a + arguments.b>\r\n"
                 + "</cffunction>\r\n" + "</cfcomponent>\r\n";
 
-        cfBugs.process(tagSrc, "test");
-        final Map<String, List<BugInfo>> result = cfBugs.getBugs().getBugList();
+        CFLintResult lintresult = cfBugs.scan(tagSrc, "test");
+        final Map<String, List<BugInfo>> result = lintresult.getIssues();
         assertEquals(0, result.size());
     }
 
@@ -219,8 +221,8 @@ public class TestUnusedArgumentChecker {
                 + "AND CustomOptInID = @CustomOptInID\r\n" + "END\r\n" + "END\r\n" + "</cfquery>\r\n"
                 + "</cffunction>\r\n" + "\r\n" + "</cfcomponent>";
 
-        cfBugs.process(tagSrc, "test");
-        final Map<String, List<BugInfo>> result = cfBugs.getBugs().getBugList();
+        CFLintResult lintresult = cfBugs.scan(tagSrc, "test");
+        final Map<String, List<BugInfo>> result = lintresult.getIssues();
         assertEquals(0, result.size());
     }
 
@@ -239,8 +241,8 @@ public class TestUnusedArgumentChecker {
                 + "<cfargument name=\"FollowTabAllowed\" type=\"boolean\" required=\"false\" />\r\n" + "\r\n"
                 + "<cfreturn getContentBlockGateway().new(argumentCollection = arguments ) />\r\n" + "</cffunction>";
 
-        cfBugs.process(tagSrc, "test");
-        final Map<String, List<BugInfo>> result = cfBugs.getBugs().getBugList();
+        CFLintResult lintresult = cfBugs.scan(tagSrc, "test");
+        final Map<String, List<BugInfo>> result = lintresult.getIssues();
         assertEquals(0, result.size());
     }
 
@@ -262,8 +264,8 @@ public class TestUnusedArgumentChecker {
                 + "if(getFramework().getEnvironment() != \"Development\"){\r\n"
                 + "getExceptionHandler().track(request.exception);\r\n" + "}\r\n" + "}\r\n" + "}";
 
-        cfBugs.process(tagSrc, "test");
-        final Map<String, List<BugInfo>> result = cfBugs.getBugs().getBugList();
+        CFLintResult lintresult = cfBugs.scan(tagSrc, "test");
+        final Map<String, List<BugInfo>> result = lintresult.getIssues();
         assertEquals(0, result.size());
     }
 
@@ -276,8 +278,8 @@ public class TestUnusedArgumentChecker {
                 + "public void function internalError(required struct rc){\r\n"
                 + "getExceptionHandler().track(argumentCollection=arguments);\r\n" + "}\r\n" + "}\r\n" + "}";
 
-        cfBugs.process(tagSrc, "test");
-        final Map<String, List<BugInfo>> result = cfBugs.getBugs().getBugList();
+        CFLintResult lintresult = cfBugs.scan(tagSrc, "test");
+        final Map<String, List<BugInfo>> result = lintresult.getIssues();
         assertEquals(0, result.size());
     }
 
@@ -291,8 +293,8 @@ public class TestUnusedArgumentChecker {
                 + "where domain = <cfqueryparam value=\"#domain#\" cfsqltype=\"CF_SQL_VARCHAR\">\r\n" + "</cfquery>\r\n"
                 + "</cffunction>";
 
-        cfBugs.process(tagSrc, "test");
-        final Map<String, List<BugInfo>> result = cfBugs.getBugs().getBugList();
+        CFLintResult lintresult = cfBugs.scan(tagSrc, "test");
+        final Map<String, List<BugInfo>> result = lintresult.getIssues();
         assertEquals(0, result.size());
     }
 }

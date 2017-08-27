@@ -45,20 +45,20 @@ public class CFLintAPI {
     private boolean strictInclude;
 
     final CFLintConfiguration configuration;
-    CFLint cflint;
+    final CFLint cflint;
 
-    public CFLintAPI(final CFLintConfiguration configuration) {
+    public CFLintAPI(final CFLintConfiguration configuration) throws CFLintConfigurationException {
         super();
         this.configuration = configuration;
+        this.cflint = createCFLintInstance();
     }
 
-    public CFLintAPI() {
+    public CFLintAPI() throws CFLintConfigurationException {
         this(new ConfigBuilder().build());
     }
 
 
     public CFLintResult scan(final List<String> fileOrFolder) throws CFLintScanException, CFLintConfigurationException {
-        cflint = createCFLintInstance();
 
         for (final String scanfolder : fileOrFolder) {
             cflint.scan(scanfolder);
@@ -74,8 +74,7 @@ public class CFLintAPI {
     }
 
     public CFLintResult scan(final String source, final String filename)
-            throws CFLintScanException, CFLintConfigurationException {
-        cflint = createCFLintInstance();
+            throws CFLintScanException {
         final File starterFile = new File(filename);
         if (starterFile.exists() && starterFile.getParentFile().exists()) {
             cflint.setupConfigAncestry(starterFile.getParentFile());
@@ -127,7 +126,7 @@ public class CFLintAPI {
     /**
      * Return the current version of CFLint
      *
-     * @return
+     * @return  the current version of CFLint
      */
     public String getVersion() {
         return Version.getVersion();
@@ -136,7 +135,7 @@ public class CFLintAPI {
     /**
      * Return the version of CFParser used by the current CFLint
      *
-     * @return
+     * @return  the version of CFParser used by this version of CFLint
      */
     public String getCFParserVersion() {
         return cfml.parsing.Version.getVersion();
@@ -145,8 +144,7 @@ public class CFLintAPI {
     /**
      * List the rule groups
      *
-     * @param pluginInfo
-     * @return
+     * @return  the list of rule groups
      */
     public List<RuleGroup> getRuleGroups() {
         return pluginInfo.getRuleGroups();
@@ -155,7 +153,7 @@ public class CFLintAPI {
     /**
      * Limit file extensions to this list
      *
-     * @param extensions
+     * @param extensions        list of allowed extensions
      */
     public void setExtensions(final List<String> extensions) {
         this.extensions = extensions;
@@ -164,16 +162,16 @@ public class CFLintAPI {
     /**
      * Verbose output
      *
-     * @param verbose
+     * @param verbose   verbose output
      */
     public void setVerbose(final boolean verbose) {
         this.verbose = verbose;
     }
 
     /**
-     * Log errors to output
+     * Log errors to standard error.
      *
-     * @param logerror
+     * @param logerror  log errors to standard error
      */
     public void setLogError(final boolean logerror) {
         this.logError = logerror;
@@ -182,7 +180,7 @@ public class CFLintAPI {
     /**
      * Run quietly
      *
-     * @param quiet
+     * @param quiet     run quietly
      */
     public void setQuiet(final boolean quiet) {
         this.quiet = quiet;
@@ -192,16 +190,16 @@ public class CFLintAPI {
      * Follow include paths and report an error if the included file cannot be
      * found
      *
-     * @param strictInclude
+     * @param strictInclude     strict include
      */
     public void setStrictInclude(final boolean strictInclude) {
         this.strictInclude = strictInclude;
     }
 
     /**
-     * Get the configuration object
+     * Get the configuration object used by the API
      *
-     * @return
+     * @return  the configuration object
      */
     public CFLintConfiguration getConfiguration() {
         return configuration;
@@ -210,7 +208,7 @@ public class CFLintAPI {
     /**
      * Set filter file
      *
-     * @param filterFile
+     * @param filterFile        filter file
      */
     public void setFilterFile(final String filterFile) {
         this.filterFile = filterFile;
@@ -220,7 +218,7 @@ public class CFLintAPI {
      * Provide the stream to use for standard output, by default System.out is
      * used.
      *
-     * @param printStreamOut
+     * @param printStreamOut    standard out stream
      */
     public void setPrintStreamOut(final PrintStream printStreamOut) {
         this.printStreamOut = printStreamOut;
@@ -230,7 +228,7 @@ public class CFLintAPI {
      * Provide the stream to use for error output, by default System.err is
      * used.
      *
-     * @param printStreamErr
+     * @param printStreamErr    standard error stream
      */
     public void setPrintStreamErr(final PrintStream printStreamErr) {
         this.printStreamErr = printStreamErr;

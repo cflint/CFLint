@@ -17,22 +17,22 @@ public class CFMLTagInfo {
 
     /**
      * 
-     * @param elem
-     * @param attributeName
+     * @param element           the element
+     * @param attributeName     the attribute name
      * @return true when the tag/attribute combination represents a variable
      *         assignment.
      */
-    public boolean isAssignmentAttribute(final Element elem, final String attributeName) {
-        if (elem != null) {
-            return isAssignmentAttribute(elem.getName(), attributeName);
+    public boolean isAssignmentAttribute(final Element element, final String attributeName) {
+        if (element != null) {
+            return isAssignmentAttribute(element.getName(), attributeName);
         }
         return false;
     }
 
     /**
      * 
-     * @param elementName
-     * @param attributeName
+     * @param elementName       the element
+     * @param attributeName     the attribute name
      * @return true when the tag/attribute combination represents a variable
      *         assignment.
      */
@@ -63,24 +63,24 @@ public class CFMLTagInfo {
 
     /**
      * 
-     * @param elem
-     * @param attributeName
+     * @param element           the element
+     * @param attributeName     the attribute name
      * @return true when the tag/attribute combination represents a variable
-     *         refernce.
+     *         reference.
      */
-    public boolean isExpressionAttribute(final Element elem, final String attributeName) {
-        if (elem != null) {
-            return isExpressionAttribute(elem.getName(), attributeName);
+    public boolean isExpressionAttribute(final Element element, final String attributeName) {
+        if (element != null) {
+            return isExpressionAttribute(element.getName(), attributeName);
         }
         return false;
     }
 
     /**
      * 
-     * @param elementName
-     * @param attributeName
+     * @param elementName       the element
+     * @param attributeName     the attribute name
      * @return true when the tag/attribute combination represents a variable
-     *         refernce.
+     *         reference.
      */
     public boolean isExpressionAttribute(final String elementName, final String attributeName) {
         if (isAssignmentAttribute(elementName, attributeName)) {

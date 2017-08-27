@@ -7,37 +7,27 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.cflint.config.CFLintConfig;
-import com.cflint.config.CFLintPluginInfo.PluginInfoRule;
-import com.cflint.config.CFLintPluginInfo.PluginInfoRule.PluginMessage;
+import com.cflint.api.CFLintAPI;
+import com.cflint.api.CFLintResult;
+import com.cflint.config.ConfigBuilder;
 import com.cflint.exception.CFLintScanException;
-import com.cflint.plugins.core.GlobalVarChecker;
 
 public class TestCFBugs_GLobalVarChecker {
 
-    private CFLint cfBugs;
+    private CFLintAPI cfBugs;
 
     @Before
     public void setUp() throws Exception {
-        final CFLintConfig conf = new CFLintConfig();
-        final PluginInfoRule pluginRule = new PluginInfoRule();
-        pluginRule.setName("GlobalVarChecker");
-        conf.getRules().add(pluginRule);
-        final PluginMessage pluginMessage = new PluginMessage("GLOBAL_VAR");
-        pluginMessage.setSeverity(Levels.WARNING);
-        pluginMessage.setMessageText(
-                "Identifier ${variable} is global, referencing in a CFC or function should be avoided.");
-        pluginRule.getMessages().add(pluginMessage);
-
-        cfBugs = new CFLint(conf, new GlobalVarChecker());
+        final ConfigBuilder configBuilder = new ConfigBuilder().include("GLOBAL_VAR");
+        cfBugs = new CFLintAPI(configBuilder.build());
     }
 
     @Test
     public void testApplication() throws CFLintScanException {
         final String cfcSrc = "<cfcomponent>\r\n" + "<cffunction name=\"test\">\r\n"
                 + "	<cfset application.bf=\"123\">\r\n" + "</cffunction>\r\n" + "</cfcomponent>";
-        cfBugs.process(cfcSrc, "test");
-        final List<BugInfo> result = cfBugs.getBugs().getBugList().values().iterator().next();
+        CFLintResult lintresult = cfBugs.scan(cfcSrc, "test");
+        final List<BugInfo> result = lintresult.getIssues().values().iterator().next();
         assertEquals(1, result.size());
         assertEquals("GLOBAL_VAR", result.get(0).getMessageCode());
         assertEquals("application", result.get(0).getVariable());
@@ -49,8 +39,8 @@ public class TestCFBugs_GLobalVarChecker {
         final String cfcSrc = "<cfcomponent>\r\n" + "<cffunction name=\"test\">\r\n"
                 + "	<cfset application.bf=\"123\">\r\n" + "	<cfset application.another=\"123\">\r\n"
                 + "	<cfset form.id=\"123\">\r\n" + "</cffunction>\r\n" + "</cfcomponent>";
-        cfBugs.process(cfcSrc, "test");
-        final List<BugInfo> result = cfBugs.getBugs().getBugList().values().iterator().next();
+        CFLintResult lintresult = cfBugs.scan(cfcSrc, "test");
+        final List<BugInfo> result = lintresult.getIssues().values().iterator().next();
         assertEquals(2, result.size());
         assertEquals("GLOBAL_VAR", result.get(0).getMessageCode());
         assertEquals("application", result.get(0).getVariable());
@@ -64,8 +54,8 @@ public class TestCFBugs_GLobalVarChecker {
     public void testCGI() throws CFLintScanException {
         final String cfcSrc = "<cfcomponent>\r\n" + "<cffunction name=\"test\">\r\n"
                 + "	<cfset CGI.bf=\"123\">\r\n" + "</cffunction>\r\n" + "</cfcomponent>";
-        cfBugs.process(cfcSrc, "test");
-        final List<BugInfo> result = cfBugs.getBugs().getBugList().values().iterator().next();
+        CFLintResult lintresult = cfBugs.scan(cfcSrc, "test");
+        final List<BugInfo> result = lintresult.getIssues().values().iterator().next();
         assertEquals(1, result.size());
         assertEquals("GLOBAL_VAR", result.get(0).getMessageCode());
         assertEquals("CGI", result.get(0).getVariable());
@@ -76,8 +66,8 @@ public class TestCFBugs_GLobalVarChecker {
     public void testHashNestedCGI() throws CFLintScanException {
         final String cfcSrc = "<cfcomponent>\r\n" + "<cffunction name=\"test\">\r\n"
                 + "	<cfset a.books = #CGI.user.books#>\r\n" + "</cffunction>\r\n" + "</cfcomponent>";
-        cfBugs.process(cfcSrc, "test");
-        final List<BugInfo> result = cfBugs.getBugs().getBugList().values().iterator().next();
+        CFLintResult lintresult = cfBugs.scan(cfcSrc, "test");
+        final List<BugInfo> result = lintresult.getIssues().values().iterator().next();
         assertEquals(1, result.size());
         assertEquals("GLOBAL_VAR", result.get(0).getMessageCode());
         assertEquals("CGI", result.get(0).getVariable());
@@ -88,8 +78,8 @@ public class TestCFBugs_GLobalVarChecker {
     public void testHashLiteralNestedCGI() throws CFLintScanException {
         final String cfcSrc = "<cfcomponent>\r\n" + "<cffunction name=\"test\">\r\n"
                 + "	<cfset a.books = '#CGI.user.books#'>\r\n" + "</cffunction>\r\n" + "</cfcomponent>";
-        cfBugs.process(cfcSrc, "test");
-        final List<BugInfo> result = cfBugs.getBugs().getBugList().values().iterator().next();
+        CFLintResult lintresult = cfBugs.scan(cfcSrc, "test");
+        final List<BugInfo> result = lintresult.getIssues().values().iterator().next();
         assertEquals(1, result.size());
         assertEquals("GLOBAL_VAR", result.get(0).getMessageCode());
         assertEquals("CGI", result.get(0).getVariable());

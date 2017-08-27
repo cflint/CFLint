@@ -7,53 +7,28 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.cflint.config.CFLintConfig;
-import com.cflint.config.CFLintPluginInfo.PluginInfoRule;
-import com.cflint.config.CFLintPluginInfo.PluginInfoRule.PluginMessage;
+import com.cflint.api.CFLintAPI;
+import com.cflint.api.CFLintResult;
+import com.cflint.config.ConfigBuilder;
 import com.cflint.exception.CFLintScanException;
-import com.cflint.plugins.core.OutputParmMissing;
 
 public class TestCFBugs_OutputDef {
 
-    private CFLint cfBugs;
+    private CFLintAPI cfBugs;
 
     @Before
     public void setUp() throws Exception {
-        final CFLintConfig conf = new CFLintConfig();
-        final PluginInfoRule pluginRule = new PluginInfoRule();
-        pluginRule.setName("OutputParmMissing");
-        conf.getRules().add(pluginRule);
-        final PluginMessage pluginMessage = new PluginMessage("OUTPUT_ATTR");
-        pluginMessage.setSeverity(Levels.INFO);
-        pluginMessage.setMessageText("<${tag} name=\"${variable}\"> should have @output='false' ");
-        pluginRule.getMessages().add(pluginMessage);
-
-        cfBugs = new CFLint(conf, new OutputParmMissing());
+        final ConfigBuilder configBuilder = new ConfigBuilder().include("OUTPUT_ATTR");
+        cfBugs = new CFLintAPI(configBuilder.build());
     }
-
-    // @Test
-    // public void testCFCDef() throws CFLintScanException {
-    // final String cfcSrc = "<cfcomponent >\r\n" + "<cffunction name=\"test\"
-    // output=\"false\">\r\n"
-    // + " <cfargument name=\"xyz\" default=\"\">\r\n" + " <cfset var
-    // xyz=123/>\r\n" + "</cffunction>\r\n"
-    // + "</cfcomponent>";
-    // final CFBugs cfBugs = new CFBugs(new OutputParmMissing());
-    // cfBugs.process(cfcSrc, "test");
-    // final List<BugInfo> result =
-    // cfBugs.getBugs().getBugList().values().iterator().next();
-    // assertEquals(1, result.size());
-    // assertEquals("OUTPUT_ATTR", result.get(0).getMessageCode());
-    // assertEquals(2, result.get(0).getLine());
-    // }
 
     @Test
     public void testFunctionDef() throws CFLintScanException {
         final String cfcSrc = "<cfcomponent output=\"false\">\r\n" + "<cffunction name=\"test\">\r\n"
                 + "	<cfargument name=\"xyz\" default=\"\">\r\n" + "	<cfset var xyz=123/>\r\n" + "</cffunction>\r\n"
                 + "</cfcomponent>";
-        cfBugs.process(cfcSrc, "test");
-        final List<BugInfo> result = cfBugs.getBugs().getBugList().values().iterator().next();
+        CFLintResult lintresult = cfBugs.scan(cfcSrc, "test");
+        final List<BugInfo> result = lintresult.getIssues().values().iterator().next();
         assertEquals(1, result.size());
         assertEquals("OUTPUT_ATTR", result.get(0).getMessageCode());
         assertEquals(2, result.get(0).getLine());
@@ -65,8 +40,8 @@ public class TestCFBugs_OutputDef {
         final String cfcSrc = "<cfcomponent output=\"false\">\r\n" + "<cffunction name=\"test\" output=\"false\">\r\n"
                 + "	<cfargument name=\"xyz\" default=\"\">\r\n" + "	<cfset var xyz=123/>\r\n" + "</cffunction>\r\n"
                 + "</cfcomponent>";
-        cfBugs.process(cfcSrc, "test");
-        assertEquals(0, cfBugs.getBugs().getBugList().size());
+        CFLintResult lintresult = cfBugs.scan(cfcSrc, "test");
+        assertEquals(0, lintresult.getIssues().size());
     }
 
 }

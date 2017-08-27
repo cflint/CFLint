@@ -1,5 +1,6 @@
 package com.cflint.config;
 
+import java.util.Arrays;
 import java.util.List;
 
 import com.cflint.config.CFLintPluginInfo.PluginInfoRule.PluginMessage;
@@ -24,12 +25,10 @@ public class ConfigBuilder {
 
     /**
      * Apply the listed rule groups
-     *
-     * @param main
-     * @param pluginInfo
-     * @param rulegroups
+     * @param rulegroups        rule groups
+     * @return                  this ConfigBuilder
      */
-    public void ruleGroups(final String rulegroups) {
+    public ConfigBuilder ruleGroups(final String rulegroups) {
         final boolean include = !rulegroups.startsWith("!");
         for (final RuleGroup rg : pluginInfo.getRuleGroups()) {
             if (rulegroups.contains(rg.getName())) {
@@ -40,18 +39,26 @@ public class ConfigBuilder {
                 }
             }
         }
+        return this;
     }
 
     /**
      * Add a custom configuration on top of the baseline. Hint: most
      * configurations do not need this.
      * 
-     * @param fileName
+     * @param fileName          the custom config file
+     * @return                  this ConfigBuilder
+     * @throws  Exception       exception when configuration fails
      */
-    public void addCustomConfig(final String fileName) throws Exception {
+    public ConfigBuilder addCustomConfig(final String fileName) throws Exception {
         configFileConfig = ConfigFileLoader.loadConfig(fileName);
+        return this;
     }
 
+    /**
+     *  Builds the configuration object.
+     * @return                  this ConfigBuilder
+     */
     public CFLintChainedConfig build() {
         // Exclude experimental by default
         if (defaultConfig.getIncludes().isEmpty() && defaultConfig.getExcludes().isEmpty()) {
@@ -65,21 +72,24 @@ public class ConfigBuilder {
     /**
      * Exclude these rule codes
      * 
-     * @param codes
+     * @param codes             list of rule codes to exclude
+     * @return                  this ConfigBuilder
      */
-    public void exclude(final List<String> codes) {
+    public ConfigBuilder exclude(final List<String> codes) {
         if (cmdLineConfig == null) {
             cmdLineConfig = new CFLintConfig();
         }
         codes.forEach(code -> cmdLineConfig.addExclude(new PluginMessage(code)));
+        return this;
     }
 
     /**
      * Include these rule codes
      * 
-     * @param codes
+     * @param codes             list of rule codes to include
+     * @return                  this ConfigBuilder
      */
-    public void include(final List<String> codes) {
+    public ConfigBuilder include(final List<String> codes) {
         if (cmdLineConfig == null) {
             cmdLineConfig = new CFLintConfig();
         }
@@ -87,5 +97,26 @@ public class ConfigBuilder {
             cmdLineConfig.addInclude(new PluginMessage(code));
             cmdLineConfig.setInheritParent(false);
         });
+        return this;
+    }
+    
+    /**
+     * Include these rule codes
+     * 
+     * @param codes             list of rule codes to include
+     * @return                  this ConfigBuilder
+     */
+    public ConfigBuilder include(final String ... codes){
+        return include(Arrays.asList(codes));
+    }
+    
+    /**
+     * Exclude these rule codes
+     * 
+     * @param codes             list of rule codes to exclude
+     * @return                  this ConfigBuilder
+     */
+    public ConfigBuilder exclude(final String ... codes){
+        return exclude(Arrays.asList(codes));
     }
 }

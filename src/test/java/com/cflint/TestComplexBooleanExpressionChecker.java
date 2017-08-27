@@ -7,18 +7,19 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.cflint.config.CFLintConfig;
+import com.cflint.api.CFLintAPI;
+import com.cflint.api.CFLintResult;
+import com.cflint.config.ConfigBuilder;
 import com.cflint.exception.CFLintScanException;
 
 public class TestComplexBooleanExpressionChecker {
 
-    private CFLint cfBugs;
+    private CFLintAPI cfBugs;
 
     @Before
     public void setUp() throws Exception {
-        final com.cflint.config.CFLintConfiguration conf = CFLintConfig
-                .createDefaultLimited("ComplexBooleanExpressionChecker");
-        cfBugs = new CFLint(conf);
+        final ConfigBuilder configBuilder = new ConfigBuilder().include("COMPLEX_BOOLEAN_CHECK");
+        cfBugs = new CFLintAPI(configBuilder.build());
     }
 
     @Test
@@ -26,8 +27,8 @@ public class TestComplexBooleanExpressionChecker {
         final String scriptSrc = "<cfscript>\r\n" + "if (a && b || c && d || e && f) {\r\n" + "	c = 1;\r\n" + "}\r\n"
                 + "else if (a or not b and not a or b and not c) {\r\n" + "	c = 2;\r\n" + "}\r\n" + "</cfscript>";
 
-        cfBugs.process(scriptSrc, "test");
-        final List<BugInfo> result = cfBugs.getBugs().getBugList().values().iterator().next();
+        CFLintResult lintresult = cfBugs.scan(scriptSrc, "test");
+        final List<BugInfo> result = lintresult.getIssues().values().iterator().next();
         assertEquals(2, result.size());
         assertEquals("COMPLEX_BOOLEAN_CHECK", result.get(0).getMessageCode());
         assertEquals(2, result.get(0).getLine());
@@ -40,8 +41,8 @@ public class TestComplexBooleanExpressionChecker {
         final String scriptSrc = "<cfif a and b or c and d or e and f>\r\n" + "<cfset c = 1>\r\n"
                 + "<cfelseif a or not b and not a or b and not c>\r\n" + "<cfset c = 2>\r\n" + "</cfif>\r\n";
 
-        cfBugs.process(scriptSrc, "test");
-        final List<BugInfo> result = cfBugs.getBugs().getBugList().values().iterator().next();
+        CFLintResult lintresult = cfBugs.scan(scriptSrc, "test");
+        final List<BugInfo> result = lintresult.getIssues().values().iterator().next();
         assertEquals(2, result.size());
         assertEquals("COMPLEX_BOOLEAN_CHECK", result.get(0).getMessageCode());
         assertEquals(1, result.get(0).getLine());
@@ -53,8 +54,8 @@ public class TestComplexBooleanExpressionChecker {
     public void testSetBooleanExpressionInTag() throws CFLintScanException {
         final String tagSrc = "<cfset a = 23>\r\n" + "<cfset a = a and not b or c and d or not e and f>";
 
-        cfBugs.process(tagSrc, "test");
-        final List<BugInfo> result = cfBugs.getBugs().getBugList().values().iterator().next();
+        CFLintResult lintresult = cfBugs.scan(tagSrc, "test");
+        final List<BugInfo> result = lintresult.getIssues().values().iterator().next();
         assertEquals(1, result.size());
         assertEquals("COMPLEX_BOOLEAN_CHECK", result.get(0).getMessageCode());
         assertEquals(2, result.get(0).getLine());
@@ -65,8 +66,8 @@ public class TestComplexBooleanExpressionChecker {
         final String scriptSrc = "<cfscript>\r\n" + "a = 23;\r\n" + "a = a && !b || c && d || !e && f;\r\n"
                 + "</cfscript>";
 
-        cfBugs.process(scriptSrc, "test");
-        final List<BugInfo> result = cfBugs.getBugs().getBugList().values().iterator().next();
+        CFLintResult lintresult = cfBugs.scan(scriptSrc, "test");
+        final List<BugInfo> result = lintresult.getIssues().values().iterator().next();
         assertEquals(1, result.size());
         assertEquals("COMPLEX_BOOLEAN_CHECK", result.get(0).getMessageCode());
         assertEquals(3, result.get(0).getLine());
@@ -77,8 +78,8 @@ public class TestComplexBooleanExpressionChecker {
         final String tagSrc = "<cffunction name=\"test\">\r\n" + "<cfreturn a and not b or c and d or not e and f>\r\n"
                 + "</cffunction>";
 
-        cfBugs.process(tagSrc, "test");
-        final List<BugInfo> result = cfBugs.getBugs().getBugList().values().iterator().next();
+        CFLintResult lintresult = cfBugs.scan(tagSrc, "test");
+        final List<BugInfo> result = lintresult.getIssues().values().iterator().next();
         assertEquals(1, result.size());
         assertEquals("COMPLEX_BOOLEAN_CHECK", result.get(0).getMessageCode());
         assertEquals(2, result.get(0).getLine());
@@ -89,8 +90,8 @@ public class TestComplexBooleanExpressionChecker {
         final String scriptSrc = "component {\r\n" + "public function test() {\r\n"
                 + "return a && !b || c && d || !e && f;\r\n" + "}\r\n" + "}\r\n";
 
-        cfBugs.process(scriptSrc, "test");
-        final List<BugInfo> result = cfBugs.getBugs().getBugList().values().iterator().next();
+        CFLintResult lintresult = cfBugs.scan(scriptSrc, "test");
+        final List<BugInfo> result = lintresult.getIssues().values().iterator().next();
         assertEquals(1, result.size());
         assertEquals("COMPLEX_BOOLEAN_CHECK", result.get(0).getMessageCode());
         assertEquals(3, result.get(0).getLine());

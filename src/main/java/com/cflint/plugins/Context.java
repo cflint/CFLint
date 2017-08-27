@@ -332,8 +332,8 @@ public class Context {
 
     /**
      * 
-     * @param type
-     * @return the parent context of the given type OR the root context if none
+     * @param type      the type of context to retrieve from the parent tree
+     * @return          the parent context of the given type OR the root context if none
      *         matches
      */
     public Context getParent(ContextType type) {

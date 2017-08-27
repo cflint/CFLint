@@ -8,32 +8,19 @@ import java.util.Map;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.cflint.config.CFLintConfig;
-import com.cflint.config.CFLintPluginInfo.PluginInfoRule;
-import com.cflint.config.CFLintPluginInfo.PluginInfoRule.PluginMessage;
+import com.cflint.api.CFLintAPI;
+import com.cflint.api.CFLintResult;
+import com.cflint.config.ConfigBuilder;
 import com.cflint.exception.CFLintScanException;
-import com.cflint.plugins.core.QueryParamChecker;
 
 public class TestCFBugs_QueryParams {
 
-    private CFLint cfBugs;
+    private CFLintAPI cfBugs;
 
     @Before
     public void setUp() throws Exception {
-        final CFLintConfig conf = new CFLintConfig();
-        PluginInfoRule pluginRule = new PluginInfoRule();
-        pluginRule.setName("QueryParamChecker");
-        PluginMessage pluginMessage = new PluginMessage("QUERYPARAM_REQ");
-        pluginMessage.setSeverity(Levels.WARNING);
-        pluginMessage.setMessageText("setSql() statement should use .addParam() instead of #'s for security.");
-        pluginRule.getMessages().add(pluginMessage);
-        pluginMessage = new PluginMessage("CFQUERYPARAM_REQ");
-        pluginMessage.setSeverity(Levels.WARNING);
-        pluginMessage.setMessageText("<${tag} name=\"${variable}\"> should use <cfqueryparam/> for security reasons.");
-        pluginRule.getMessages().add(pluginMessage);
-        conf.getRules().add(pluginRule);
-
-        cfBugs = new CFLint(conf, new QueryParamChecker());
+        final ConfigBuilder configBuilder = new ConfigBuilder().include("QUERYPARAM_REQ","CFQUERYPARAM_REQ");
+        cfBugs = new CFLintAPI(configBuilder.build());
     }
 
     @Test
@@ -43,8 +30,8 @@ public class TestCFBugs_QueryParams {
                 + "WHERE p.id = <cfqueryparam value=\"#LOCAL.id#\"/>\r\n"
                 + "and p.name = <cfqueryparam value=\"abc\"/>\r\n" + "</cfquery>\r\n" + "</cffunction>"
                 + "</cfcomponent>";
-        cfBugs.process(cfcSrc, "test");
-        final List<BugInfo> result = cfBugs.getBugs().getFlatBugList();
+        CFLintResult lintresult = cfBugs.scan(cfcSrc, "test");
+        final Map<String, List<BugInfo>> result = lintresult.getIssues();
         assertEquals(0, result.size());
     }
 
@@ -55,8 +42,8 @@ public class TestCFBugs_QueryParams {
                 + "    SELECT id from table where id = :id\");"
                 + "local.query.addParam(name=\"id\", cfsqltype=\"CF_SQL_INTEGER\", value=arguments.id, maxlength=10);\r\n"
                 + "</cfscript>\r\n" + "</cffunction>" + "</cfcomponent>";
-        cfBugs.process(cfcSrc, "test");
-        final List<BugInfo> result = cfBugs.getBugs().getFlatBugList();
+        CFLintResult lintresult = cfBugs.scan(cfcSrc, "test");
+        final Map<String, List<BugInfo>> result = lintresult.getIssues();
         assertEquals(0, result.size());
     }
 
@@ -66,8 +53,8 @@ public class TestCFBugs_QueryParams {
                 + "<cfquery name=\"LOCAL.categories\">\r\n" + "SELECT * FROM product_categories p\r\n"
                 + "WHERE p.id = #LOCAL.id#\r\n" + "and p.name = #LOCAL.abc#\r\n" + "</cfquery>\r\n" + "</cffunction>"
                 + "</cfcomponent>";
-        cfBugs.process(cfcSrc, "test");
-        final List<BugInfo> result = cfBugs.getBugs().getFlatBugList();
+        CFLintResult lintresult = cfBugs.scan(cfcSrc, "test");
+        final List<BugInfo> result = lintresult.getIssues().values().iterator().next();
         assertEquals(2, result.size());
         assertEquals("CFQUERYPARAM_REQ", result.get(0).getMessageCode());
         assertEquals(5, result.get(0).getLine());
@@ -80,8 +67,8 @@ public class TestCFBugs_QueryParams {
     public void testCFScript_QueryParams_OutsideFunction() throws CFLintScanException {
         final String cfcSrc = "<cfquery name=\"LOCAL.categories\">\r\n" + "SELECT * FROM product_categories p\r\n"
                 + "WHERE p.id = #LOCAL.id#\r\n" + "and p.name = #LOCAL.abc#\r\n" + "</cfquery>";
-        cfBugs.process(cfcSrc, "test");
-        final List<BugInfo> result = cfBugs.getBugs().getFlatBugList();
+        CFLintResult lintresult = cfBugs.scan(cfcSrc, "test");
+        final List<BugInfo> result = lintresult.getIssues().get("CFQUERYPARAM_REQ");
         assertEquals(2, result.size());
         assertEquals("CFQUERYPARAM_REQ", result.get(0).getMessageCode());
         assertEquals(3, result.get(0).getLine());
@@ -93,8 +80,8 @@ public class TestCFBugs_QueryParams {
     @Test
     public void testCFScript_QueryParams_Qoq() throws CFLintScanException {
         final String cfcSrc = "<cfquery name=\"outDocs\" dbtype=\"query\"> Select * From arguments.documents WHERE DocumentType = 'COLD' and TransactionType IN ('1','6') #orderBy# </cfquery> ";
-        cfBugs.process(cfcSrc, "test");
-        final List<BugInfo> result = cfBugs.getBugs().getFlatBugList();
+        CFLintResult lintresult = cfBugs.scan(cfcSrc, "test");
+        final Map<String, List<BugInfo>> result = lintresult.getIssues();
         assertEquals(0, result.size());
     }
 
@@ -104,8 +91,8 @@ public class TestCFBugs_QueryParams {
                 + "local.query = new Query();" + "local.query.setSql(\"\r\n"
                 + "    SELECT id from table where id = #arguments.id#\");" + "</cfscript>\r\n" + "</cffunction>"
                 + "</cfcomponent>";
-        cfBugs.process(cfcSrc, "test");
-        final List<BugInfo> result = cfBugs.getBugs().getBugList().values().iterator().next();
+        CFLintResult lintresult = cfBugs.scan(cfcSrc, "test");
+        final List<BugInfo> result = lintresult.getIssues().get("QUERYPARAM_REQ");
         assertEquals(1, result.size());
         assertEquals("QUERYPARAM_REQ", result.get(0).getMessageCode());
         assertEquals(4, result.get(0).getLine());
@@ -117,8 +104,8 @@ public class TestCFBugs_QueryParams {
         final String cfcSrc = "<cfcomponent>\r\n" + "<cffunction name=\"rateBop\" >\r\n"
                 + "<cfquery name=\"LOCAL.categories\">\r\n" + "SELECT * FROM product_categories p\r\n"
                 + "WHERE p.##id = 1\r\n" + "</cfquery>\r\n" + "</cffunction>" + "</cfcomponent>";
-        cfBugs.process(cfcSrc, "test");
-        final Map<String, List<BugInfo>> result = cfBugs.getBugs().getBugList();
+        CFLintResult lintresult = cfBugs.scan(cfcSrc, "test");
+        final Map<String, List<BugInfo>> result = lintresult.getIssues();
         assertEquals(0, result.size());
     }
 
@@ -126,8 +113,8 @@ public class TestCFBugs_QueryParams {
     public void testCFScript_QueryParams_DynamicTableName() throws CFLintScanException {
         final String cfcSrc = "<cfquery name=\"queryName\" datasource=\"#datasourceName#\">\n"
                 + "    update #tableName#\n" + "    set fieldName = 'foo'\n" + "</cfquery>";
-        cfBugs.process(cfcSrc, "test");
-        final List<BugInfo> result = cfBugs.getBugs().getFlatBugList();
+        CFLintResult lintresult = cfBugs.scan(cfcSrc, "test");
+        final List<BugInfo> result = lintresult.getIssues().values().iterator().next();
         assertEquals(1, result.size());
         assertEquals("CFQUERYPARAM_REQ", result.get(0).getMessageCode());
         assertEquals("tableName", result.get(0).getVariable());

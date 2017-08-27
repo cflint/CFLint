@@ -9,18 +9,20 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.cflint.config.CFLintConfig;
-import com.cflint.config.CFLintConfiguration;
+import com.cflint.api.CFLintAPI;
+import com.cflint.api.CFLintResult;
+import com.cflint.config.ConfigBuilder;
+import com.cflint.exception.CFLintConfigurationException;
 import com.cflint.exception.CFLintScanException;
 
 public class Test_Switch_Default_Checker {
 
-    private CFLint cfBugs;
+    private CFLintAPI cfBugs;
 
     @Before
-    public void setUp() throws IOException {
-        final CFLintConfiguration conf = CFLintConfig.createDefaultLimited("CFSwitchDefaultChecker");
-        cfBugs = new CFLint(conf);
+    public void setUp() throws IOException, CFLintConfigurationException {
+        final ConfigBuilder configBuilder = new ConfigBuilder().include("NO_DEFAULT_INSIDE_SWITCH");
+        cfBugs = new CFLintAPI(configBuilder.build());
     }
 
     @Test
@@ -33,8 +35,8 @@ public class Test_Switch_Default_Checker {
                 + "    	#FirstName# #LastName# is in <b>administration</b><br><br>" + "	</cfcase>" + "	<cfdefaultcase>"
                 + "    	#FirstName# #LastName# is not in Sales, Accounting, or" + "        	Administration.<br><br>"
                 + "	</cfdefaultcase>" + "</cfswitch> ";
-        cfBugs.process(cfcSrc, "test");
-        Collection<List<BugInfo>> result = cfBugs.getBugs().getBugList().values();
+        CFLintResult lintresult = cfBugs.scan(cfcSrc, "test");
+        Collection<List<BugInfo>> result = lintresult.getIssues().values();
         assertEquals(0, result.size());
     }
 
@@ -45,8 +47,8 @@ public class Test_Switch_Default_Checker {
                 + "	<cfcase value=\"Accounting\">" + "    	#FirstName# #LastName# is in <b>accounting</b><br><br>"
                 + "	</cfcase> <cfcase value=\"Administration\">"
                 + "    	#FirstName# #LastName# is in <b>administration</b><br><br>" + "	</cfcase>" + "</cfswitch> ";
-        cfBugs.process(cfcSrc, "test");
-        Collection<List<BugInfo>> result = cfBugs.getBugs().getBugList().values();
+        CFLintResult lintresult = cfBugs.scan(cfcSrc, "test");
+        Collection<List<BugInfo>> result = lintresult.getIssues().values();
         assertEquals(1, result.size());
     }
 
@@ -57,8 +59,8 @@ public class Test_Switch_Default_Checker {
                 + "	case \"late\": " + "		WriteOutput(\"Reject reason: Application was late.<br>\"); "
                 + "		break; " + "	default: "
                 + "		WriteOutput(\"Rejected with invalid reason code.<br>\"); " + "}";
-        cfBugs.process(cfcSrc, "test");
-        Collection<List<BugInfo>> result = cfBugs.getBugs().getBugList().values();
+        CFLintResult lintresult = cfBugs.scan(cfcSrc, "test");
+        Collection<List<BugInfo>> result = lintresult.getIssues().values();
         assertEquals(0, result.size());
     }
 }

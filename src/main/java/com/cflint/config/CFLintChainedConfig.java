@@ -27,8 +27,8 @@ public class CFLintChainedConfig implements CFLintConfiguration {
     /**
      * Create a nested configuration.
      * 
-     * @param config
-     * @return
+     * @param config    Configuration to merge
+     * @return          Combined configuration
      */
     public CFLintChainedConfig createNestedConfig(final CFLintConfiguration config) {
         return config == null ? this : new CFLintChainedConfig(config, this);
@@ -46,6 +46,10 @@ public class CFLintChainedConfig implements CFLintConfiguration {
                 || (config.isInheritParent() && parent != null && parent.excludes(pluginMessage));
     }
 
+    /**
+     * 
+     * @return the parent configuration
+     */
     public CFLintConfiguration getParent() {
         return parent;
     }
@@ -92,6 +96,10 @@ public class CFLintChainedConfig implements CFLintConfiguration {
         return activeRules;
     }
 
+    /**
+     * List all the rules.
+     * @return the list of rules
+     */
     public Collection<PluginInfoRule> getAllRules() {
         if (parent == null) {
             return config.getRules();

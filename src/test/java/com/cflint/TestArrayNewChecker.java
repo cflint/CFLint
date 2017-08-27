@@ -7,26 +7,27 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.cflint.config.CFLintConfig;
-import com.cflint.config.CFLintConfiguration;
+import com.cflint.api.CFLintAPI;
+import com.cflint.api.CFLintResult;
+import com.cflint.config.ConfigBuilder;
 import com.cflint.exception.CFLintScanException;
 
 public class TestArrayNewChecker {
 
-    private CFLint cfBugs;
+    private CFLintAPI cfBugs;
 
     @Before
     public void setUp() throws Exception {
-        final CFLintConfiguration conf = CFLintConfig.createDefaultLimited("ArrayNewChecker");
-        cfBugs = new CFLint(conf);
+        final ConfigBuilder configBuilder = new ConfigBuilder().include("AVOID_USING_ARRAYNEW");
+        cfBugs = new CFLintAPI(configBuilder.build());
     }
 
     @Test
     public void testArrayNewInScript() throws CFLintScanException {
         final String scriptSrc = "<cfscript>\r\n" + "var a = 23;\r\n" + "var b = arrayNew(1);\r\n" + "</cfscript>";
 
-        cfBugs.process(scriptSrc, "test");
-        final List<BugInfo> result = cfBugs.getBugs().getBugList().values().iterator().next();
+        CFLintResult lintresult = cfBugs.scan(scriptSrc, "test");
+        final List<BugInfo> result = lintresult.getIssues().values().iterator().next();
         assertEquals(1, result.size());
         assertEquals("AVOID_USING_ARRAYNEW", result.get(0).getMessageCode());
         assertEquals(3, result.get(0).getLine());
@@ -38,16 +39,16 @@ public class TestArrayNewChecker {
     public void testArrayNewMultiDimentionInScript() throws CFLintScanException {
         final String scriptSrc = "<cfscript>\r\n" + "var a = 23;\r\n" + "var b = arrayNew(3);\r\n" + "</cfscript>";
 
-        cfBugs.process(scriptSrc, "test");
-        assertEquals(0, cfBugs.getBugs().getBugList().size());
+        CFLintResult lintresult = cfBugs.scan(scriptSrc, "test");
+        assertEquals(0, lintresult.getIssues().size());
     }
 
     @Test
     public void testArrayNewInTag() throws CFLintScanException {
         final String tagSrc = "<cfset a = 23>\r\n" + "<cfset b = arrayNew(1)>";
 
-        cfBugs.process(tagSrc, "test");
-        final List<BugInfo> result = cfBugs.getBugs().getBugList().values().iterator().next();
+        CFLintResult lintresult = cfBugs.scan(tagSrc, "test");
+        final List<BugInfo> result = lintresult.getIssues().values().iterator().next();
         assertEquals(1, result.size());
         assertEquals("AVOID_USING_ARRAYNEW", result.get(0).getMessageCode());
         assertEquals(2, result.get(0).getLine());

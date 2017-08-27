@@ -7,27 +7,20 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.cflint.config.CFLintConfig;
-import com.cflint.config.CFLintPluginInfo.PluginInfoRule;
-import com.cflint.config.CFLintPluginInfo.PluginInfoRule.PluginMessage;
+import com.cflint.api.CFLintAPI;
+import com.cflint.api.CFLintResult;
+import com.cflint.config.ConfigBuilder;
+import com.cflint.exception.CFLintConfigurationException;
 import com.cflint.exception.CFLintScanException;
-import com.cflint.plugins.core.FunctionLengthChecker;
 
 public class TestFunctionLengthChecker {
 
-    private CFLint cfBugs;
+    private CFLintAPI cfBugs;
 
     @Before
-    public void setUp() {
-        CFLintConfig conf = new CFLintConfig();
-        PluginInfoRule pluginRule = new PluginInfoRule();
-        pluginRule.setName("FunctionLengthChecker");
-        conf.getRules().add(pluginRule);
-        PluginMessage pluginMessage = new PluginMessage("EXCESSIVE_FUNCTION_LENGTH");
-        pluginMessage.setSeverity(Levels.INFO);
-        pluginMessage.setMessageText("Variable ${variable} is not declared with a var statement.");
-        pluginRule.getMessages().add(pluginMessage);
-        cfBugs = new CFLint(conf, new FunctionLengthChecker());
+    public void setUp() throws CFLintConfigurationException {
+        final ConfigBuilder configBuilder = new ConfigBuilder().include("EXCESSIVE_FUNCTION_LENGTH");
+        cfBugs = new CFLintAPI(configBuilder.build());
     }
 
     @Test
@@ -39,8 +32,8 @@ public class TestFunctionLengthChecker {
                 + "ORDER BY UPPER(document_num) ASC, revision_seq DESC\r\n"
                 + "\", { sourceTemplateNum = { value=\"#sourceTemplateNum#\", cfsqltype=\"cf_sql_varchar\" }});\r\n"
                 + "return result;\r\n" + "}\r\n" + "}";
-        cfBugs.process(cfcSrc, "test");
-        assertEquals(true, cfBugs.getBugs().getBugList().isEmpty());
+        CFLintResult lintresult = cfBugs.scan(cfcSrc, "test");
+        assertEquals(true, lintresult.getIssues().isEmpty());
     }
 
     @Test
@@ -128,8 +121,8 @@ public class TestFunctionLengthChecker {
                 + "ORDER BY UPPER(document_num) ASC, revision_seq DESC\r\n"
                 + "\", { sourceTemplateNum = { value=\"#sourceTemplateNum#\", cfsqltype=\"cf_sql_varchar\" }});\r\n"
                 + "return result;\r\n" + "}\r\n" + "}";
-        cfBugs.process(cfcSrc, "test");
-        final List<BugInfo> result = cfBugs.getBugs().getBugList().values().iterator().next();
+        CFLintResult lintresult = cfBugs.scan(cfcSrc, "test");
+        final List<BugInfo> result = lintresult.getIssues().values().iterator().next();
         assertEquals(1, result.size());
         assertEquals("EXCESSIVE_FUNCTION_LENGTH", result.get(0).getMessageCode());
     }

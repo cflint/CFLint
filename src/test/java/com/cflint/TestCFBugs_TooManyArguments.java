@@ -8,17 +8,19 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.cflint.config.CFLintConfig;
+import com.cflint.api.CFLintAPI;
+import com.cflint.api.CFLintResult;
+import com.cflint.config.ConfigBuilder;
 import com.cflint.exception.CFLintScanException;
 
 public class TestCFBugs_TooManyArguments {
 
-    private CFLint cfBugs;
+    private CFLintAPI cfBugs;
 
     @Before
     public void setUp() throws Exception {
-        final com.cflint.config.CFLintConfiguration conf = CFLintConfig.createDefaultLimited("TooManyArgumentsChecker");
-        cfBugs = new CFLint(conf);
+        final ConfigBuilder configBuilder = new ConfigBuilder().include("EXCESSIVE_ARGUMENTS");
+        cfBugs = new CFLintAPI(configBuilder.build());
     }
 
     @Test
@@ -27,8 +29,8 @@ public class TestCFBugs_TooManyArguments {
                 + "	<cfargument name=\"argumentOne\">\r\n" + "	<cfargument name=\"argumentTwo\">\r\n"
                 + "	<cfargument name=\"argumentThree\">\r\n" + "	<cfset var a = 1>\r\n" + "</cffunction>\r\n"
                 + "</cfcomponent>";
-        cfBugs.process(cfcSrc, "test");
-        Collection<List<BugInfo>> result = cfBugs.getBugs().getBugList().values();
+        CFLintResult lintresult = cfBugs.scan(cfcSrc, "test");
+        Collection<List<BugInfo>> result = lintresult.getIssues().values();
         assertEquals(0, result.size());
     }
 
@@ -37,8 +39,8 @@ public class TestCFBugs_TooManyArguments {
         final String cfcSrc = "component {\r\n"
                 + "public void function someFunction(argumentOne, argumentTwo, argumentThree) {\r\n"
                 + "	var a = 1;\r\n" + "}\r\n" + "}";
-        cfBugs.process(cfcSrc, "test");
-        Collection<List<BugInfo>> result = cfBugs.getBugs().getBugList().values();
+        CFLintResult lintresult = cfBugs.scan(cfcSrc, "test");
+        Collection<List<BugInfo>> result = lintresult.getIssues().values();
         assertEquals(0, result.size());
     }
 
@@ -52,8 +54,8 @@ public class TestCFBugs_TooManyArguments {
                 + "	<cfargument name=\"argumentNone\">\r\n" + "	<cfargument name=\"argumentTen\">\r\n"
                 + "	<cfargument name=\"argumentEleven\">\r\n" + "	<cfargument name=\"argumentTwelve\">\r\n"
                 + "	<cfset var a = 1>\r\n" + "</cffunction>\r\n" + "</cfcomponent>";
-        cfBugs.process(cfcSrc, "test");
-        final List<BugInfo> result = cfBugs.getBugs().getBugList().values().iterator().next();
+        CFLintResult lintresult = cfBugs.scan(cfcSrc, "test");
+        final List<BugInfo> result = lintresult.getIssues().values().iterator().next();
         assertEquals(1, result.size());
         assertEquals("EXCESSIVE_ARGUMENTS", result.get(0).getMessageCode());
         assertEquals(2, result.get(0).getLine());
@@ -66,8 +68,8 @@ public class TestCFBugs_TooManyArguments {
                 + "argumentFour, argumentFive, argumentSix, argumentSeven,"
                 + "argumentEight, argumentNine, intargumentTen, argumentEleven) {\r\n" + "	var a = 1;\r\n"
                 + "}\r\n" + "}";
-        cfBugs.process(cfcSrc, "test");
-        final List<BugInfo> result = cfBugs.getBugs().getBugList().values().iterator().next();
+        CFLintResult lintresult = cfBugs.scan(cfcSrc, "test");
+        final List<BugInfo> result = lintresult.getIssues().values().iterator().next();
         assertEquals(1, result.size());
         assertEquals("EXCESSIVE_ARGUMENTS", result.get(0).getMessageCode());
         assertEquals(2, result.get(0).getLine());

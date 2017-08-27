@@ -16,30 +16,22 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
-import com.cflint.config.CFLintConfig;
-import com.cflint.config.CFLintPluginInfo.PluginInfoRule;
-import com.cflint.config.CFLintPluginInfo.PluginInfoRule.PluginMessage;
+import com.cflint.api.CFLintAPI;
+import com.cflint.api.CFLintResult;
+import com.cflint.config.ConfigBuilder;
+import com.cflint.exception.CFLintConfigurationException;
 import com.cflint.exception.CFLintScanException;
-import com.cflint.plugins.core.VarScoper;
 
 @RunWith(Parameterized.class)
 public class TestCFBugs_VarScoper_Names {
 
     final String tagName;
-    private CFLint cfBugs;
+    private CFLintAPI cfBugs;
 
     @Before
-    public void setUp() {
-        CFLintConfig conf = new CFLintConfig();
-        PluginInfoRule pluginRule = new PluginInfoRule();
-        pluginRule.setName("VarScoper");
-        conf.getRules().add(pluginRule);
-        PluginMessage pluginMessage = new PluginMessage("MISSING_VAR");
-        pluginMessage.setSeverity(Levels.ERROR);
-        pluginMessage.setMessageText("Variable ${variable} is not declared with a var statement.");
-        pluginRule.getMessages().add(pluginMessage);
-
-        cfBugs = new CFLint(conf, new VarScoper());
+    public void setUp() throws CFLintConfigurationException {
+        final ConfigBuilder configBuilder = new ConfigBuilder().include("MISSING_VAR");
+        cfBugs = new CFLintAPI(configBuilder.build());
     }
 
     @Parameterized.Parameters(name = "{0}")
@@ -51,11 +43,6 @@ public class TestCFBugs_VarScoper_Names {
                         new String[] { "CFPop" }, new String[] { "CFRegistry" }, new String[] { "CFReport" },
                         new String[] { "CFDBInfo" }, new String[] { "CFDocument" }, new String[] { "CFCollection" },
                         new String[] { "CFPdf" }, new String[] { "CFZip" }, new String[] { "CFLdap" } });
-        // return Arrays.asList(new String[] { new String[]{"CFStoredProc",
-        // "CFFeed", "CFFtp", "CFObject", "CFSearch",
-        // "CFProcResult", "CFPop", "CFRegistry", "CFReport", "CFDBInfo",
-        // "CFDocument", "CFCollection", "CFPdf",
-        // "CFZip", "CFLdap" });
     }
 
     public TestCFBugs_VarScoper_Names(final String tagName) {
@@ -64,25 +51,25 @@ public class TestCFBugs_VarScoper_Names {
     }
 
     @Test
-    public void testScope_Name() throws CFLintScanException {
+    public void testScope_Name() throws CFLintScanException, CFLintConfigurationException {
         runTagAttrTest(tagName.toLowerCase(), "name", "xx");
         setUp();
         runTagAttrTest(tagName, "Name", "xx");
     }
 
     @Test
-    public void testScope_Name_Vard() throws CFLintScanException {
+    public void testScope_Name_Vard() throws CFLintScanException, CFLintConfigurationException {
         runTagAttrTestVard(tagName.toLowerCase(), "name", "xx");
         setUp();
         runTagAttrTestVard(tagName, "Name", "xx");
     }
 
-    public void runTagAttrTest(final String tag, final String attr, final String variable) throws CFLintScanException {
+    public void runTagAttrTest(final String tag, final String attr, final String variable) throws CFLintScanException, CFLintConfigurationException {
         final String cfcSrc = "<cfcomponent>\r\n" + "<cffunction name=\"test\">\r\n" + "   <" + tag + " " + attr + "=\""
                 + variable + "\">\r\n" + "</" + tag + ">\r\n" + "</cffunction>\r\n" + "</cfcomponent>";
-        cfBugs.process(cfcSrc, "test");
-        assertEquals(1, cfBugs.getBugs().getBugList().size());
-        List<BugInfo> result = cfBugs.getBugs().getBugList().values().iterator().next();
+        CFLintResult lintresult = cfBugs.scan(cfcSrc, "test");
+        assertEquals(1, lintresult.getIssues().size());
+        List<BugInfo> result = lintresult.getIssues().values().iterator().next();
 
         assertEquals(1, result.size());
         assertEquals("MISSING_VAR", result.get(0).getMessageCode());
@@ -97,11 +84,11 @@ public class TestCFBugs_VarScoper_Names {
     }
 
     public void runTagAttrTestVard(final String tag, final String attr, final String variable)
-            throws CFLintScanException {
+            throws CFLintScanException, CFLintConfigurationException {
         final String cfcSrc = "<cfcomponent>\r\n" + "<cffunction name=\"test\">\r\n" + "   <cfset var " + variable
                 + "=123/>\r\n" + "   <" + tag + " " + attr + "=\"" + variable + "\">\r\n" + "   </" + tag + ">\r\n"
                 + "</cffunction>\r\n" + "</cfcomponent>";
-        cfBugs.process(cfcSrc, "test");
-        assertEquals(0, cfBugs.getBugs().getBugList().size());
+        CFLintResult lintresult = cfBugs.scan(cfcSrc, "test");
+        assertEquals(0, lintresult.getIssues().size());
     }
 }

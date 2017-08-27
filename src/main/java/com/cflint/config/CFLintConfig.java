@@ -263,20 +263,4 @@ public class CFLintConfig implements CFLintConfiguration {
         return defaultConfig;
     }
 
-    /**
-     * Limit the rule set, primarily for unit test support
-     */
-    public static CFLintConfiguration createDefaultLimited(String... rulenames) {
-        final CFLintPluginInfo pluginInfo = ConfigUtils.loadDefaultPluginInfo();
-        CFLintConfig defaultConfig = new CFLintConfig();
-        for (CFLintPluginInfo.PluginInfoRule rule : pluginInfo.getRules()) {
-            for (String rulename : rulenames) {
-                if (rule.getName().equalsIgnoreCase(rulename)) {
-                    defaultConfig.getRules().add(rule);
-                }
-            }
-        }
-        return defaultConfig;
-    }
-
 }

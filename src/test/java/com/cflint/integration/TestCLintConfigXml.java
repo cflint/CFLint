@@ -11,6 +11,9 @@ import com.cflint.BugInfo;
 import com.cflint.CFLint;
 import com.cflint.Levels;
 import com.cflint.config.CFLintConfig;
+import com.cflint.config.CFLintConfiguration;
+import com.cflint.config.CFLintPluginInfo;
+import com.cflint.config.ConfigUtils;
 import com.cflint.exception.CFLintScanException;
 
 public class TestCLintConfigXml {
@@ -19,7 +22,7 @@ public class TestCLintConfigXml {
 
     @Before
     public void setUp() throws Exception {
-        final com.cflint.config.CFLintConfiguration conf = CFLintConfig.createDefaultLimited("CFInsertChecker",
+        final com.cflint.config.CFLintConfiguration conf = createDefaultLimited("CFInsertChecker",
                 "CFUpdateChecker", "CFModuleChecker");
         cflint = new CFLint(conf);
     }
@@ -69,5 +72,18 @@ public class TestCLintConfigXml {
         assertEquals(1, result.size());
         assertEquals("AVOID_USING_CFMODULE_TAG", result.get(0).getMessageCode());
         assertEquals("Avoid using <cfmodule> tags.", result.get(0).getMessage());
+    }
+    
+    public static CFLintConfiguration createDefaultLimited(final String... rulenames) {
+        final CFLintPluginInfo pluginInfo = ConfigUtils.loadDefaultPluginInfo();
+        CFLintConfig defaultConfig = new CFLintConfig();
+        for (CFLintPluginInfo.PluginInfoRule rule : pluginInfo.getRules()) {
+            for (String rulename : rulenames) {
+                if (rule.getName().equalsIgnoreCase(rulename)) {
+                    defaultConfig.getRules().add(rule);
+                }
+            }
+        }
+        return defaultConfig;
     }
 }

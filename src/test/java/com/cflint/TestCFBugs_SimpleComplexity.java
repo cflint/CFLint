@@ -8,17 +8,19 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.cflint.config.CFLintConfig;
+import com.cflint.api.CFLintAPI;
+import com.cflint.api.CFLintResult;
+import com.cflint.config.ConfigBuilder;
 import com.cflint.exception.CFLintScanException;
 
 public class TestCFBugs_SimpleComplexity {
 
-    private CFLint cfBugs;
+    private CFLintAPI cfBugs;
 
     @Before
     public void setUp() throws Exception {
-        final com.cflint.config.CFLintConfiguration conf = CFLintConfig.createDefaultLimited("SimpleComplexityChecker");
-        cfBugs = new CFLint(conf);
+        final ConfigBuilder configBuilder = new ConfigBuilder().include("FUNCTION_TOO_COMPLEX");
+        cfBugs = new CFLintAPI(configBuilder.build());
     }
 
     @Test
@@ -26,8 +28,8 @@ public class TestCFBugs_SimpleComplexity {
         final String cfcSrc = "<cfcomponent>\r\n" + "<cffunction name=\"functionOne\">\r\n" + "<cfif a is 1>\r\n"
                 + "<cfset b = 1>\r\n" + "<cfelse>\r\n" + "<cfset b = 2>\r\n" + "</cfif>\r\n" + "</cffunction>\r\n"
                 + "</cfcomponent>";
-        cfBugs.process(cfcSrc, "test");
-        Collection<List<BugInfo>> result = cfBugs.getBugs().getBugList().values();
+        CFLintResult lintresult = cfBugs.scan(cfcSrc, "test");
+        Collection<List<BugInfo>> result = lintresult.getIssues().values();
         assertEquals(0, result.size());
     }
 
@@ -40,8 +42,8 @@ public class TestCFBugs_SimpleComplexity {
                 + "<cfset b = 7>\r\n" + "<cfelseif a is 8>\r\n" + "<cfset b = 8>\r\n" + "<cfelseif a is 9>\r\n"
                 + "<cfset b = 9>\r\n" + "<cfelseif a is 10>\r\n" + "<cfset b = 10>\r\n" + "<cfelseif a is 11>\r\n"
                 + "<cfset b = 11>\r\n" + "</cfif>\r\n" + "</cffunction>\r\n" + "</cfcomponent>";
-        cfBugs.process(cfcSrc, "test");
-        final List<BugInfo> result = cfBugs.getBugs().getBugList().values().iterator().next();
+        CFLintResult lintresult = cfBugs.scan(cfcSrc, "test");
+        final List<BugInfo> result = lintresult.getIssues().values().iterator().next();
         assertEquals(1, result.size());
         assertEquals("FUNCTION_TOO_COMPLEX", result.get(0).getMessageCode());
         assertEquals(2, result.get(0).getLine());
@@ -51,8 +53,8 @@ public class TestCFBugs_SimpleComplexity {
     public void testNonComplexNameScriptBased() throws CFLintScanException {
         final String cfcSrc = "component {\r\n" + "function functionThree() {\r\n" + "if (a == 1) {" + "b = 1;\r\n"
                 + "}\r\n" + "else {\r\n" + "b = 2;\r\n" + "}\r\n" + "}\r\n" + "}";
-        cfBugs.process(cfcSrc, "test");
-        Collection<List<BugInfo>> result = cfBugs.getBugs().getBugList().values();
+        CFLintResult lintresult = cfBugs.scan(cfcSrc, "test");
+        Collection<List<BugInfo>> result = lintresult.getIssues().values();
         assertEquals(0, result.size());
     }
 
@@ -61,8 +63,8 @@ public class TestCFBugs_SimpleComplexity {
         final String cfcSrc = "component {\r\n" + "    public void function foo() {\r\n"
                 + "        if (something) {\r\n" + "            doSomething();\r\n" + "        }\r\n" + "    }\r\n"
                 + "}";
-        cfBugs.process(cfcSrc, "test");
-        Collection<List<BugInfo>> result = cfBugs.getBugs().getBugList().values();
+        CFLintResult lintresult = cfBugs.scan(cfcSrc, "test");
+        Collection<List<BugInfo>> result = lintresult.getIssues().values();
         assertEquals(0, result.size());
     }
 
@@ -75,8 +77,8 @@ public class TestCFBugs_SimpleComplexity {
                 + "}\r\n" + "else if (a == 8) {\r\n" + "b = 8;\r\n" + "}\r\n" + "else if (a == 9) {\r\n" + "b = 9;\r\n"
                 + "}\r\n" + "else if (a == 10) {\r\n" + "b = 10;\r\n" + "else if (a == 11) {\r\n" + "b = 11;\r\n"
                 + "}\r\n" + "}\r\n" + "}";
-        cfBugs.process(cfcSrc, "test");
-        final List<BugInfo> result = cfBugs.getBugs().getBugList().get("FUNCTION_TOO_COMPLEX");
+        CFLintResult lintresult = cfBugs.scan(cfcSrc, "test");
+        final List<BugInfo> result = lintresult.getIssues().get("FUNCTION_TOO_COMPLEX");
         assertEquals(1, result.size());
         assertEquals("FUNCTION_TOO_COMPLEX", result.get(0).getMessageCode());
         assertEquals(2, result.get(0).getLine());
@@ -91,8 +93,8 @@ public class TestCFBugs_SimpleComplexity {
                 + "b = 7;\r\n" + "break;\r\n" + "case 8:\r\n" + "b = 8;\r\n" + "break;\r\n" + "case 9:\r\n"
                 + "b = 9;\r\n" + "break;\r\n" + "case 10:\r\n" + "b = 10;\r\n" + "break;\r\n" + "case 11:\r\n"
                 + "b = 11;\r\n" + "break;\r\n" + "}\r\n" + "}\r\n" + "}";
-        cfBugs.process(cfcSrc, "test");
-        Collection<List<BugInfo>> result = cfBugs.getBugs().getBugList().values();
+        CFLintResult lintresult = cfBugs.scan(cfcSrc, "test");
+        Collection<List<BugInfo>> result = lintresult.getIssues().values();
         assertEquals(0, result.size());
         // TODO currently this is seen as simple code change test once fixed
         // assertEquals("FUNCTION_TOO_COMPLEX", result.get(0).getMessageCode());

@@ -7,17 +7,19 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.cflint.config.CFLintConfig;
+import com.cflint.api.CFLintAPI;
+import com.cflint.api.CFLintResult;
+import com.cflint.config.ConfigBuilder;
 import com.cflint.exception.CFLintScanException;
 
 public class TestComponentLengthChecker {
 
-    private CFLint cfBugs;
+    private CFLintAPI cfBugs;
 
     @Before
     public void setUp() throws Exception {
-        final com.cflint.config.CFLintConfiguration conf = CFLintConfig.createDefaultLimited("ComponentLengthChecker");
-        cfBugs = new CFLint(conf);
+        final ConfigBuilder configBuilder = new ConfigBuilder().include("EXCESSIVE_COMPONENT_LENGTH");
+        cfBugs = new CFLintAPI(configBuilder.build());
     }
 
     @Test
@@ -29,8 +31,8 @@ public class TestComponentLengthChecker {
                 + "ORDER BY UPPER(document_num) ASC, revision_seq DESC\r\n"
                 + "\", { sourceTemplateNum = { value=\"#sourceTemplateNum#\", cfsqltype=\"cf_sql_varchar\" }});\r\n"
                 + "return result;\r\n" + "}\r\n" + "}";
-        cfBugs.process(cfcSrc, "test");
-        assertEquals(true, cfBugs.getBugs().getBugList().isEmpty());
+        CFLintResult lintresult = cfBugs.scan(cfcSrc, "test");
+        assertEquals(true, lintresult.getIssues().isEmpty());
     }
 
     @Test
@@ -42,8 +44,8 @@ public class TestComponentLengthChecker {
                         "  }\r\n");
         }
         cfcSrc.append("}");
-        cfBugs.process(cfcSrc.toString(), "test");
-        final List<BugInfo> result = cfBugs.getBugs().getBugList().get("EXCESSIVE_COMPONENT_LENGTH");
+        CFLintResult lintresult = cfBugs.scan(cfcSrc.toString(), "test");
+        final List<BugInfo> result = lintresult.getIssues().get("EXCESSIVE_COMPONENT_LENGTH");
         assertEquals(1, result.size());
         assertEquals("EXCESSIVE_COMPONENT_LENGTH", result.get(0).getMessageCode());
     }
@@ -56,8 +58,8 @@ public class TestComponentLengthChecker {
                         " </cffunction>\r\n");
         }
         cfcSrc.append("</cfcomponent>");
-        cfBugs.process(cfcSrc.toString(), "test");
-        final List<BugInfo> result = cfBugs.getBugs().getBugList().get("EXCESSIVE_COMPONENT_LENGTH");
+        CFLintResult lintresult = cfBugs.scan(cfcSrc.toString(), "test");
+        final List<BugInfo> result = lintresult.getIssues().get("EXCESSIVE_COMPONENT_LENGTH");
         assertEquals(1, result.size());
         assertEquals("EXCESSIVE_COMPONENT_LENGTH", result.get(0).getMessageCode());
     }

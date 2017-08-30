@@ -32,6 +32,10 @@ public class ConfigUtils {
     private static final Logger log = LoggerFactory.getLogger(ConfigUtils.class);
     private static JAXBContext CFLintConfigContext = null;
 
+    private ConfigUtils() {
+        throw new IllegalStateException("ConfigUtils utility class");
+    }
+
     public static Marshaller createMarshaller() throws JAXBException {
         if (CFLintConfigContext == null) {
             init();

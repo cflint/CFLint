@@ -11,9 +11,25 @@ import cfml.parsing.cfscript.script.CFScriptStatement;
 import net.htmlparser.jericho.Element;
 import ro.fortsoft.pf4j.Extension;
 
+/**
+ * Checks that function arguments are named correctly.
+ */
 @Extension
 public class ArgumentNameChecker extends CFLintScannerAdapter {
+    private static final String MIN_LENGTH = "MinLength";
+    private static final String MAX_LENGTH = "MaxLength";
+    private static final String MAX_WORDS = "MaxWords";
+    private static final String NAME_PREFIX = "FlagArgumentNamePrefix";
+    private static final String NAME_SUFFIX = "FlagArgumentNameSuffix";
+    private static final String REQUIRED_NAME_PREFIX = "RequiredArgumentNamePrefix";
 
+    private int minArgLength = ValidName.MIN_ARGUMENT_LENGTH;
+    private int maxArgLength = ValidName.MAX_ARGUMENT_LENGTH;
+    private int maxArgWords = ValidName.MAX_ARGUMENT_WORDS;
+
+    /**
+     * Parse an CFScript function declaration to see if any of the arguments names are invalid.
+     */
     @Override
     public void expression(final CFScriptStatement expression, final Context context, final BugList bugs) {
         if (expression instanceof CFFuncDeclStatement) {
@@ -27,6 +43,9 @@ public class ArgumentNameChecker extends CFLintScannerAdapter {
         }
     }
 
+    /**
+     * Parse an CF argument tag to see if any of the arguments names are invalid.
+     */
     @Override
     public void element(final Element element, final Context context, final BugList bugs) {
         if (element.getName().equals(CF.CFARGUMENT)) {
@@ -40,44 +59,76 @@ public class ArgumentNameChecker extends CFLintScannerAdapter {
         }
     }
 
+    /**
+     * Parse rule parameters.
+     *
+     * Parameters include:
+     * - minimum length of valid name
+     * - maximum length of valid name
+     * - maximum number of words in a camel case name
+     * - name prefixes to avoid
+     * - name postfixes to avoid
+     *
+     * See @ValidName for defaults.
+     */
+    private void parseParameters(ValidName name) throws ConfigError {
+        if (getParameter(MIN_LENGTH) != null) {
+            try {
+                minArgLength = Integer.parseInt(getParameter(MIN_LENGTH));
+            } catch (final Exception e) {
+                throw new ConfigError("Minimum length need to be an integer.");
+            }
+        }
+
+        if (getParameter(MAX_LENGTH) != null) {
+            try {
+                maxArgLength = Integer.parseInt(getParameter(MAX_LENGTH));
+            } catch (final Exception e) {
+                throw new ConfigError("Maximum length need to be an integer.");
+            }
+        }
+
+        if (getParameter(MAX_WORDS) != null) {
+            try {
+                maxArgWords = Integer.parseInt(getParameter(MAX_WORDS));
+            } catch (final Exception e) {
+                throw new ConfigError("Maximum no of words need to be an integer.");
+            }
+        }
+
+        if (getParameter(NAME_PREFIX) != null) {
+            name.setPrefixesToAvoid(getParameter(NAME_PREFIX).split(","));
+        }
+        if (getParameter(NAME_SUFFIX) != null) {
+            name.setSuffixesToAvoid(getParameter(NAME_SUFFIX).split(","));
+        }
+        if (getParameter(REQUIRED_NAME_PREFIX) != null) {
+            name.setRequiredPrefixList(getParameter(REQUIRED_NAME_PREFIX).split(","));
+        }
+    }
+
+    /**
+     * Check if a function's argumnet name is "bad" is some way.
+     *
+     * Bad arguments include:
+     * - Invalid names (contains an invalid character, ends in a number, not camelCase or does not use underscores)
+     * - Names all in upper case
+     * - Names that are too short
+     * - Names that are too long
+     * - Names that are too wordy
+     * - Names that look like temporary variables
+     * - Names having a prefix or postfix
+     */
     public void checkNameForBugs(final Context context, final String argument, final String filename,
-            final String functionName, final int line, final BugList bugs) {
-        int minArgLength = ValidName.MIN_ARGUMENT_LENGTH;
-        int maxArgLength = ValidName.MAX_ARGUMENT_LENGTH;
-        int maxArgWords = ValidName.MAX_ARGUMENT_WORDS;
-
-        if (getParameter("MinLength") != null) {
-            try {
-                minArgLength = Integer.parseInt(getParameter("MinLength"));
-            } catch (final Exception e) {
-            }
-        }
-
-        if (getParameter("MaxLength") != null) {
-            try {
-                maxArgLength = Integer.parseInt(getParameter("MaxLength"));
-            } catch (final Exception e) {
-            }
-        }
-
-        if (getParameter("MaxWords") != null) {
-            try {
-                maxArgWords = Integer.parseInt(getParameter("MaxWords"));
-            } catch (final Exception e) {
-            }
-        }
-
+            final String functionName, final int line, final BugList bugs)  {
         final ValidName name = new ValidName(minArgLength, maxArgLength, maxArgWords);
-        if (getParameter("FlagArgumentNamePrefix") != null) {
-            name.setPrefixesToAvoid(getParameter("FlagArgumentNamePrefix").split(","));
+
+        try {
+            parseParameters(name);
+        } catch (ConfigError configError) {
+            // Carry on with defaults
         }
-        if (getParameter("FlagArgumentNameSuffix") != null) {
-            name.setSuffixesToAvoid(getParameter("FlagArgumentNameSuffix").split(","));
-        }
-        if (getParameter("RequiredArgumentNamePrefix") != null) {
-            name.setRequiredPrefixList(getParameter("RequiredArgumentNamePrefix").split(","));
-        }
-        
+
         if (name.isInvalid(argument)) {
             context.addMessage("ARGUMENT_INVALID_NAME", null, this, line);
         }

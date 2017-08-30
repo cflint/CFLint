@@ -19,7 +19,6 @@ public class UnusedLocalVarChecker extends CFLintScannerAdapter {
     protected CFScopes scopes = new CFScopes();
     // LinkedHashMap is ordered.
     protected Map<String, VarInfo> localVariables = new LinkedHashMap<>();
-    //protected Map<String, Integer> variableLineNo = new HashMap<>();
 
     protected List<String> usedTagAttributes = null;
 

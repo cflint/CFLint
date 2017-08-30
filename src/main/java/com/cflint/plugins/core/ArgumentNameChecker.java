@@ -16,15 +16,49 @@ import ro.fortsoft.pf4j.Extension;
  */
 @Extension
 public class ArgumentNameChecker extends CFLintScannerAdapter {
+    /**
+     * Name of minimum length parameter.
+     */
     private static final String MIN_LENGTH = "MinLength";
+
+    /**
+     * Name of maximum length parameter.
+     */
     private static final String MAX_LENGTH = "MaxLength";
+
+    /**
+     * Name of maximum words parameter.
+     */
     private static final String MAX_WORDS = "MaxWords";
+
+    /**
+     * List of disallowed prefix names.
+     */
     private static final String NAME_PREFIX = "FlagArgumentNamePrefix";
+
+    /**
+     * List of disallowed suffix names.
+     */
     private static final String NAME_SUFFIX = "FlagArgumentNameSuffix";
+
+    /**
+     * List of required prefix names.
+     */
     private static final String REQUIRED_NAME_PREFIX = "RequiredArgumentNamePrefix";
 
+    /**
+     * Minimum number of characters for an argument name.
+     */
     private int minArgLength = ValidName.MIN_ARGUMENT_LENGTH;
+
+    /**
+     * Maximum number of characters for an argument name.
+     */
     private int maxArgLength = ValidName.MAX_ARGUMENT_LENGTH;
+
+    /**
+     * Maximum number of words for an argument name.
+     */
     private int maxArgWords = ValidName.MAX_ARGUMENT_WORDS;
 
     /**
@@ -71,7 +105,7 @@ public class ArgumentNameChecker extends CFLintScannerAdapter {
      *
      * See @ValidName for defaults.
      */
-    private void parseParameters(ValidName name) throws ConfigError {
+    private void parseParameters(final ValidName name) throws ConfigError {
         if (getParameter(MIN_LENGTH) != null) {
             try {
                 minArgLength = Integer.parseInt(getParameter(MIN_LENGTH));
@@ -108,7 +142,7 @@ public class ArgumentNameChecker extends CFLintScannerAdapter {
     }
 
     /**
-     * Check if a function's argumnet name is "bad" is some way.
+     * Check if a function's argument name is "bad" is some way.
      *
      * Bad arguments include:
      * - Invalid names (contains an invalid character, ends in a number, not camelCase or does not use underscores)

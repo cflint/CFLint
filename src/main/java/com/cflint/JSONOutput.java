@@ -16,7 +16,7 @@ import com.fasterxml.jackson.core.JsonGenerator;
 public class JSONOutput extends StructuredOutput {
 
     /**
-     * Do we want pretty output?
+     * Do we want pretty output?.
      */
     private boolean prettyPrint = true;
 
@@ -82,7 +82,7 @@ public class JSONOutput extends StructuredOutput {
     /**
      * Output JSON start of global object and version info.
      */
-    private void outputStart(CFLintStats stats, JsonGenerator jg) throws IOException {
+    private void outputStart(final CFLintStats stats, final JsonGenerator jg) throws IOException {
         jg.writeStartObject();
 
         // timestamp and version
@@ -93,7 +93,7 @@ public class JSONOutput extends StructuredOutput {
     /**
      * Output JSON end of global object.
      */
-    private void outputEnd(JsonGenerator jg) throws IOException {
+    private void outputEnd(final JsonGenerator jg) throws IOException {
         // end global object
         jg.writeEndObject();
 
@@ -103,7 +103,7 @@ public class JSONOutput extends StructuredOutput {
     /**
      * Output JSON start of issues.
      */
-    private void outputStartIssues(JsonGenerator jg) throws IOException {
+    private void outputStartIssues(final JsonGenerator jg) throws IOException {
         // start issues array
         jg.writeFieldName("issues");
         jg.writeStartArray();
@@ -112,7 +112,7 @@ public class JSONOutput extends StructuredOutput {
     /**
      * Output JSON end of issues.
      */
-    private void outputCloseIssues(JsonGenerator jg) throws IOException {
+    private void outputCloseIssues(final JsonGenerator jg) throws IOException {
         // end issues array
         jg.writeEndArray();
     }
@@ -120,7 +120,7 @@ public class JSONOutput extends StructuredOutput {
     /**
      * Output JSON start of an issue.
      */
-    private void outputStartIssue(JsonGenerator jg, Levels severity, String code) throws IOException {
+    private void outputStartIssue(final JsonGenerator jg, final Levels severity, final String code) throws IOException {
         jg.writeStartObject();
         jg.writeStringField("severity", severity.toString());
         jg.writeStringField("id", code);
@@ -134,7 +134,7 @@ public class JSONOutput extends StructuredOutput {
     /**
      * Output JSON issue location.
      */
-    private void outputLocation(JsonGenerator jg, BugInfo bugInfo) throws IOException {
+    private void outputLocation(final JsonGenerator jg, final BugInfo bugInfo) throws IOException {
         jg.writeStartObject();
         jg.writeStringField("file", notNull(bugInfo.getFilename()));
         jg.writeStringField("fileName", filename(bugInfo.getFilename()));
@@ -150,7 +150,7 @@ public class JSONOutput extends StructuredOutput {
     /**
      * Output JSON end of issue.
      */
-    private void outputCloseIssue(JsonGenerator jg) throws IOException {
+    private void outputCloseIssue(final JsonGenerator jg) throws IOException {
         jg.writeEndArray();
         jg.writeEndObject();
     }
@@ -158,7 +158,7 @@ public class JSONOutput extends StructuredOutput {
     /**
      * Output JSON count statistics.
      */
-    private void outputCounts(CFLintStats stats, BugCounts counts, JsonGenerator jg) throws IOException {
+    private void outputCounts(final CFLintStats stats, final BugCounts counts, final JsonGenerator jg) throws IOException {
         // start counts object
         jg.writeFieldName("counts");
         jg.writeStartObject();

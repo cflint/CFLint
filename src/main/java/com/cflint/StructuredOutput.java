@@ -9,7 +9,7 @@ import java.util.List;
 public class StructuredOutput {
 
     /**
-     * Message codes grouped at the function level
+     * Message codes grouped at the function level.
      */
     private static final List<String> CODE_GROUPBY_FUNCTION = Arrays.asList("PARSE_ERROR");
 
@@ -29,8 +29,8 @@ public class StructuredOutput {
             return false;
         }
 
-        return (CODE_GROUPBY_FUNCTION.contains(bugInfo.getMessageCode())
-            && safeEquals(prevbugInfo.getFunction(), bugInfo.getFunction()));
+        return CODE_GROUPBY_FUNCTION.contains(bugInfo.getMessageCode())
+            && safeEquals(prevbugInfo.getFunction(), bugInfo.getFunction());
     }
 
     /**

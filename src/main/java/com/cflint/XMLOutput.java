@@ -55,7 +55,7 @@ public class XMLOutput extends StructuredOutput {
     /**
      * Output start of XML issues.
      */
-    private void outputStartIssues(Writer writer, CFLintStats stats) throws IOException {
+    private void outputStartIssues(final Writer writer, final CFLintStats stats) throws IOException {
         writer.append("<issues version=\"" + Version.getVersion() + "\"")
                 .append(" timestamp=\"" + Long.toString(stats.getTimestamp()) + "\">")
                 .append(System.getProperty(LINE_SEPARATOR));
@@ -64,14 +64,14 @@ public class XMLOutput extends StructuredOutput {
     /**
      * Output close of XML issues.
      */
-    private void outputCloseIssues(Writer writer) throws IOException {
+    private void outputCloseIssues(final Writer writer) throws IOException {
         writer.append("</issues>");
     }
 
     /**
      * Output start of XML issue.
      */
-    private void outputStartIssue(Writer writer, Entry<String, List<BugInfo>> bugEntry) throws IOException {
+    private void outputStartIssue(final Writer writer, final Entry<String, List<BugInfo>> bugEntry) throws IOException {
         final String severity = bugEntry.getValue().get(0).getSeverity().toString();
         final String code = bugEntry.getValue().get(0).getMessageCode();
         writer.append("<issue");
@@ -86,7 +86,7 @@ public class XMLOutput extends StructuredOutput {
     /**
      * Output start of XML issue location.
      */
-    private void outputLocation(Writer writer, BugInfo bugInfo) throws IOException {
+    private void outputLocation(final Writer writer, final BugInfo bugInfo) throws IOException {
         writer.append("<location");
         writer.append(" file=\"").append(xmlEscapeText(bugInfo.getFilename())).append("\"");
         writer.append(" fileName=\"").append(xmlEscapeText(filename(bugInfo.getFilename()))).append("\"");
@@ -113,7 +113,7 @@ public class XMLOutput extends StructuredOutput {
     /**
      * Output XML count statistics.
      */
-    private void outputCounts(Writer writer, CFLintStats stats, BugCounts counts) throws IOException {
+    private void outputCounts(final Writer writer, final CFLintStats stats, final BugCounts counts) throws IOException {
         writer.append("<counts");
         writer.append(" totalfiles=\"").append(Long.toString(stats.getFileCount())).append("\"");
         writer.append(" totallines=\"").append(stats.getTotalLines().toString()).append("\">").append(System.getProperty(LINE_SEPARATOR));

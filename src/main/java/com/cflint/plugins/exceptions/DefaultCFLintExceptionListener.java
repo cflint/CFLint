@@ -8,9 +8,6 @@ import com.cflint.BugList;
 /**
  * Default listener which treats Linter errors (file reading, and parsing) as
  * bugs.
- * 
- * @author ryaneberly
- *
  */
 public class DefaultCFLintExceptionListener implements CFLintExceptionListener {
 

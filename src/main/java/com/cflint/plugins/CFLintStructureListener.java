@@ -7,8 +7,6 @@ import com.cflint.BugList;
  * start/end, component start/end, function start/end).
  *
  * Normally it is used for initialization or summarization types of behaviours.
- * 
- * @author eberlyrh
  *
  */
 public interface CFLintStructureListener {

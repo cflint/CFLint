@@ -57,7 +57,7 @@ public class QueryParamChecker extends CFLintScannerAdapter {
 
     /**
      * Determine the line numbers of the <!--- @CFLintIgnore CFQUERYPARAM_REQ ---> tags
-     * Both the current and the next line are included
+     * Both the current and the next line are included.
      *
      * @param element
      * @return
@@ -78,9 +78,7 @@ public class QueryParamChecker extends CFLintScannerAdapter {
     }
 
     /**
-     * Count the number of new lines
-     *
-     * @author eberlyrh
+     * Count the number of new lines.
      */
     public int countNewLinesUpTo(final String val, final int pos) {
         final String x = pos > val.length() ? val : val.substring(0, pos);

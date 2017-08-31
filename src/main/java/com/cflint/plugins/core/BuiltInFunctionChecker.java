@@ -10,8 +10,6 @@ import ro.fortsoft.pf4j.Extension;
 
 /**
  * isDate() is too permissive. Avoid it.
- *
- * @author Ryan
  */
 @Extension
 public class BuiltInFunctionChecker extends CFLintScannerAdapter {

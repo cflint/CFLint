@@ -122,8 +122,8 @@ public class JSONOutput extends StructuredOutput {
      */
     private void outputStartIssue(final JsonGenerator jg, final Levels severity, final String code) throws IOException {
         jg.writeStartObject();
-        jg.writeStringField("severity", severity.toString());
-        jg.writeStringField("id", code);
+        jg.writeStringField(Bugs.SEVERITY, severity.toString());
+        jg.writeStringField(Bugs.ID, code);
         jg.writeStringField("message", code);
         jg.writeStringField("category", "CFLINT");
         jg.writeStringField("abbrev", abbrev(code));
@@ -171,8 +171,8 @@ public class JSONOutput extends StructuredOutput {
         jg.writeStartArray();
         for (final String code : counts.bugTypes()) {
             jg.writeStartObject();
-            jg.writeStringField("code", code);
-            jg.writeNumberField("count", counts.getCode(code));
+            jg.writeStringField(Bugs.CODE, code);
+            jg.writeNumberField(Bugs.COUNT, counts.getCode(code));
             jg.writeEndObject();
         }
         // end countByCode array
@@ -184,8 +184,8 @@ public class JSONOutput extends StructuredOutput {
         for (final Levels severity : Levels.values()) {
             if (counts.getSeverity(severity) > 0) {
                 jg.writeStartObject();
-                jg.writeStringField("severity", severity.toString());
-                jg.writeNumberField("count", counts.getSeverity(severity));
+                jg.writeStringField(Bugs.SEVERITY, severity.toString());
+                jg.writeNumberField(Bugs.COUNT, counts.getSeverity(severity));
                 jg.writeEndObject();
             }
         }

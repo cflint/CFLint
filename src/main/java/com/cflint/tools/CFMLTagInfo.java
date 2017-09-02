@@ -17,14 +17,14 @@ public class CFMLTagInfo {
 
     /**
      * 
-     * @param elem
+     * @param element
      * @param attributeName
      * @return true when the tag/attribute combination represents a variable
      *         assignment.
      */
-    public boolean isAssignmentAttribute(final Element elem, final String attributeName) {
-        if (elem != null) {
-            return isAssignmentAttribute(elem.getName(), attributeName);
+    public boolean isAssignmentAttribute(final Element element, final String attributeName) {
+        if (element != null) {
+            return isAssignmentAttribute(element.getName(), attributeName);
         }
         return false;
     }
@@ -37,7 +37,7 @@ public class CFMLTagInfo {
      *         assignment.
      */
     public boolean isAssignmentAttribute(final String elementName, final String attributeName) {
-        if ((elementName != null) && (attributeName != null)) {
+        if (elementName != null && attributeName != null) {
             // Hardcoded exceptions to the dictionary
             if (elementName.equalsIgnoreCase(CF.CFPROCPARAM)) {
                 return "variable".equalsIgnoreCase(attributeName);

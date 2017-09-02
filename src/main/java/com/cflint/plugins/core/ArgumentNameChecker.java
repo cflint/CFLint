@@ -62,7 +62,7 @@ public class ArgumentNameChecker extends CFLintScannerAdapter {
     private int maxArgWords = ValidName.MAX_ARGUMENT_WORDS;
 
     /**
-     * Parse an CFScript function declaration to see if any of the arguments names are invalid.
+     * Parse a CFScript function declaration to see if any of the arguments names are invalid.
      */
     @Override
     public void expression(final CFScriptStatement expression, final Context context, final BugList bugs) {
@@ -78,7 +78,7 @@ public class ArgumentNameChecker extends CFLintScannerAdapter {
     }
 
     /**
-     * Parse an CF argument tag to see if any of the arguments names are invalid.
+     * Parse a CF argument tag to see if any of the arguments names are invalid.
      */
     @Override
     public void element(final Element element, final Context context, final BugList bugs) {

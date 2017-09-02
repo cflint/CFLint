@@ -51,14 +51,10 @@ public class LiteralChecker extends CFLintScannerAdapter {
 
             final int lineNo = literal.getLine() + context.startLine() - 1;
 
-            if (warningScope == null || "global".equals(warningScope)) {
-                if (!context.isInFunction()) {
-                    literalCount(name, lineNo, globalLiterals, true, context, bugs);
-                }
-            } else if ("local".equals(warningScope)) {
-                if (context.isInFunction()) {
-                    literalCount(name, lineNo, functionListerals, false, context, bugs);
-                }
+            if ((warningScope == null || "global".equals(warningScope)) && !context.isInFunction()) {
+                literalCount(name, lineNo, globalLiterals, true, context, bugs);
+            } else if ("local".equals(warningScope) && context.isInFunction()) {
+                literalCount(name, lineNo, functionListerals, false, context, bugs);
             }
         }
     }

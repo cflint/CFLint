@@ -39,7 +39,7 @@ public class VariableNameChecker extends CFLintScannerAdapter {
 
     private final List<String> exclusions = new ArrayList<>();
 
-    private void checkCFName(Element element, Context context, BugList bugs, int begLine, String name) {
+    private void checkCFName(final Element element, final Context context, final BugList bugs, final int begLine, final String name) {
         if (element.getAttributeValue(name) != null) {
             final String varName = element.getAttributeValue(name) != null ? element.getAttributeValue(name)
                 : "";
@@ -48,7 +48,7 @@ public class VariableNameChecker extends CFLintScannerAdapter {
         }
     }
 
-    private void checkCFLoopName(Element element, Context context, BugList bugs, int begLine) {
+    private void checkCFLoopName(final Element element, final Context context, final BugList bugs, final int begLine) {
         if (element.getAttributeValue(CF.INDEX) != null || element.getAttributeValue(CF.ITEM) != null) {
             String varName = "";
             final String index =  element.getAttributeValue(CF.INDEX);

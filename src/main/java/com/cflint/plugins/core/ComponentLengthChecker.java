@@ -2,7 +2,6 @@ package com.cflint.plugins.core;
 
 import com.cflint.CF;
 import com.cflint.BugList;
-import com.cflint.plugins.CFLintScannerAdapter;
 import com.cflint.plugins.Context;
 
 import cfml.parsing.cfscript.script.CFCompoundStatement;
@@ -11,7 +10,7 @@ import net.htmlparser.jericho.Element;
 import ro.fortsoft.pf4j.Extension;
 
 @Extension
-public class ComponentLengthChecker extends CFLintScannerAdapter {
+public class ComponentLengthChecker extends LengthChecker {
     private static final int LENGTH_THRESHOLD = 500;
 
     @Override
@@ -21,7 +20,7 @@ public class ComponentLengthChecker extends CFLintScannerAdapter {
             final String decompile = component.Decompile(1);
             final String[] lines = decompile.split("\\n");
 
-            checkSize(context, lines.length, bugs);
+            checkSize(LENGTH_THRESHOLD, "EXCESSIVE_COMPONENT_LENGTH", context, 1, lines.length, bugs);
         }
     }
 
@@ -33,20 +32,7 @@ public class ComponentLengthChecker extends CFLintScannerAdapter {
             // this includes whitespace-change it
             final int total = element.getAllStartTags().size();
 
-            checkSize(context, total, bugs);
-        }
-    }
-
-    protected void checkSize(final Context context, final int linesLength, final BugList bugs) {
-        final String lengthThreshold = getParameter("length");
-        int length = LENGTH_THRESHOLD;
-
-        if (lengthThreshold != null) {
-            length = Integer.parseInt(lengthThreshold);
-        }
-
-        if (linesLength > length) {
-            context.addMessage("EXCESSIVE_COMPONENT_LENGTH", Integer.toString(linesLength), this, 1);
+            checkSize(LENGTH_THRESHOLD, "EXCESSIVE_COMPONENT_LENGTH", context, 1, total, bugs);
         }
     }
 }

@@ -2,7 +2,6 @@ package com.cflint.plugins.core;
 
 import com.cflint.CF;
 import com.cflint.BugList;
-import com.cflint.plugins.CFLintScannerAdapter;
 import com.cflint.plugins.Context;
 
 import cfml.parsing.cfscript.script.CFFuncDeclStatement;
@@ -11,7 +10,7 @@ import net.htmlparser.jericho.Element;
 import ro.fortsoft.pf4j.Extension;
 
 @Extension
-public class FunctionLengthChecker extends CFLintScannerAdapter {
+public class FunctionLengthChecker extends LengthChecker {
     private static final int LENGTH_THRESHOLD = 100;
 
     @Override
@@ -22,7 +21,7 @@ public class FunctionLengthChecker extends CFLintScannerAdapter {
             final int begLine = function.getLine();
             final String[] lines = decompile.split("\\n");
 
-            checkSize(context, begLine, lines.length, bugs);
+            checkSize(LENGTH_THRESHOLD, "EXCESSIVE_FUNCTION_LENGTH", context, begLine, lines.length, bugs);
         }
     }
 
@@ -33,23 +32,10 @@ public class FunctionLengthChecker extends CFLintScannerAdapter {
         if (elementName.equals(CF.CFFUNCTION)) {
             // this includes whitespace-change it
             final int begLine = element.getSource().getRow(element.getBegin());
-            // int endLine = element.getSource().getRow(element.getEnd());
             final int total = element.getAllStartTags().size();
 
-            checkSize(context, begLine, total, bugs);
+            checkSize(LENGTH_THRESHOLD, "EXCESSIVE_FUNCTION_LENGTH", context, begLine, total, bugs);
         }
     }
 
-    protected void checkSize(final Context context, final int atLine, final int linesLength, final BugList bugs) {
-        final String lengthThreshold = getParameter("length");
-        int length = LENGTH_THRESHOLD;
-
-        if (lengthThreshold != null) {
-            length = Integer.parseInt(lengthThreshold);
-        }
-
-        if (linesLength > length) {
-            context.addMessage("EXCESSIVE_FUNCTION_LENGTH", Integer.toString(linesLength), this, atLine);
-        }
-    }
 }

@@ -17,12 +17,9 @@ public class TooManyFunctionsChecker extends CFLintScannerAdapter {
 
     @Override
     public void expression(final CFScriptStatement expression, final Context context, final BugList bugs) {
-        if (expression instanceof CFFuncDeclStatement) {
-
-            if (!trivalFunction(context.getFunctionName())) {
-                functionCount++;
-                checkNumberFunctions(functionCount, 1, context, bugs);
-            }
+        if (expression instanceof CFFuncDeclStatement && !trivalFunction(context.getFunctionName())) {
+            functionCount++;
+            checkNumberFunctions(functionCount, 1, context, bugs);
         }
     }
 

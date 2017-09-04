@@ -37,8 +37,6 @@ public class CFTagCaseChecker extends CFLintScannerAdapter {
             if (cfTag.equals(nonPreferredCase)) {
                 final int begLine = element.getSource().getRow(element.getBegin());
                 context.addMessage(CFTAG_PREFERRED_CASE, cfTag, this, begLine);
-                // messageText = "Tag <${variable}> should be written in
-                // lowercase or camelCase for consistency in code.";
             }
         }
     }

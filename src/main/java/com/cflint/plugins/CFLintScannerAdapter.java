@@ -14,7 +14,6 @@ import net.htmlparser.jericho.Element;
 /**
  * Lint Rule Plugins can extend this adapter instead of implementing all the
  * methods of CFLintScanner (and CFLintStructureListener)
- *
  */
 public class CFLintScannerAdapter implements CFLintScanner, CFLintStructureListener {
 

@@ -37,7 +37,7 @@ public class CFMLTagInfo {
      *         assignment.
      */
     public boolean isAssignmentAttribute(final String elementName, final String attributeName) {
-        if ((elementName != null) && (attributeName != null)) {
+        if (elementName != null && attributeName != null) {
             // Hardcoded exceptions to the dictionary
             if (elementName.equalsIgnoreCase(CF.CFPROCPARAM)) {
                 return "variable".equalsIgnoreCase(attributeName);

@@ -34,8 +34,6 @@ import com.cflint.tools.FileUtil;
 /**
  * Run a test over each *.cf* file in src/test/resources/com/cflint/tests
  *
- * @author ryaneberly
- *
  */
 @RunWith(Parameterized.class)
 public class TestFiles {

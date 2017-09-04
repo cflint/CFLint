@@ -13,6 +13,10 @@ import net.htmlparser.jericho.Element;
 
 public class CFTool {
 
+    private CFTool() {
+        throw new IllegalStateException("CFTool utility class");
+    }
+
     public static Element getNamedParent(final Element elem, final String tagName) {
     	Element parentElem = elem.getParentElement();
         while (parentElem != null && !parentElem.getName().equals(tagName)) {

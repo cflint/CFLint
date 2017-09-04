@@ -10,6 +10,10 @@ public class AllowedExtensionsLoader {
     public static final String CFC_DEFAULT_EXTENSION = ".cfc";
     public static final String CFM_DEFAULT_EXTENSION = ".cfm";
 
+    private AllowedExtensionsLoader() {
+        throw new IllegalStateException("AllowedExtensionsLoader utility class");
+    }
+
     public static List<String> init(final String resourceBundleName) {
         List<String> allowedExtensions = new ArrayList<>();
         try {

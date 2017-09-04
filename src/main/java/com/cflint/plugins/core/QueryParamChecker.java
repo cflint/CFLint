@@ -39,7 +39,7 @@ public class QueryParamChecker extends CFLintScannerAdapter {
             //Todo : cfparser/Jericho does not support parsing out the cfqueryparam very well.
             //   the following code will not work when there is a > sign in the expression
             content = content.replaceAll("<[cC][fF][qQ][uU][eE][rR][yY][pP][aA][rR][aA][mM][^>]*>", "");
-            if (content.indexOf('#') > 0) {
+            if (content.indexOf('#') >= 0) {
                 final List<Integer> ignoreLines = determineIgnoreLines(element);
                 final Matcher matcher = Pattern.compile("#([^#]+?)#").matcher(content);
                 while (matcher.find()) {
@@ -57,7 +57,7 @@ public class QueryParamChecker extends CFLintScannerAdapter {
 
     /**
      * Determine the line numbers of the <!--- @CFLintIgnore CFQUERYPARAM_REQ ---> tags
-     * Both the current and the next line are included
+     * Both the current and the next line are included.
      *
      * @param element   the element object
      * @return          the line numbers of any @@CFLintIgnore annotations.

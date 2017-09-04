@@ -56,17 +56,17 @@ public class DefaultCFlintResultMarshaller implements CFLintResultMarshaller {
         xtw.writeAttribute("totallines", stats.getTotalLines().toString());
 
         for (String code : counts.bugTypes()) {
-            xtw.writeStartElement("count");
-            xtw.writeAttribute("code", valueOf(code));
-            xtw.writeAttribute("count", valueOf(counts.getCode(code)));
+            xtw.writeStartElement(Bugs.COUNT);
+            xtw.writeAttribute(Bugs.CODE, valueOf(code));
+            xtw.writeAttribute(Bugs.COUNT, valueOf(counts.getCode(code)));
             xtw.writeEndElement();
         }
 
         for (Levels severity : Levels.values()) {
             if (counts.getSeverity(severity) > 0) {
-                xtw.writeStartElement("count");
-                xtw.writeAttribute("severity", valueOf(severity.toString()));
-                xtw.writeAttribute("count", valueOf(counts.getSeverity(severity)));
+                xtw.writeStartElement(Bugs.COUNT);
+                xtw.writeAttribute(Bugs.SEVERITY, valueOf(severity.toString()));
+                xtw.writeAttribute(Bugs.COUNT, valueOf(counts.getSeverity(severity)));
                 xtw.writeEndElement();
             }
         }
@@ -76,9 +76,9 @@ public class DefaultCFlintResultMarshaller implements CFLintResultMarshaller {
 
     private void writeIssue(final XMLStreamWriter xtw, final BugInfo bug) throws XMLStreamException {
 
-        xtw.writeStartElement("issue");
-        xtw.writeAttribute("severity", valueOf(bug.getSeverity().toString()));
-        xtw.writeAttribute("id", valueOf(bug.getMessageCode()));
+        xtw.writeStartElement(Bugs.ISSUE);
+        xtw.writeAttribute(Bugs.SEVERITY, valueOf(bug.getSeverity().toString()));
+        xtw.writeAttribute(Bugs.ID, valueOf(bug.getMessageCode()));
         xtw.writeAttribute("message", valueOf(bug.getMessageCode()));
         xtw.writeAttribute("category", valueOf("CFLint"));
         xtw.writeAttribute("abbrev", valueOf(abbrev(bug.getMessageCode())));

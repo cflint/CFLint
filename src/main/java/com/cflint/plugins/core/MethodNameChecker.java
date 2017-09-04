@@ -10,9 +10,31 @@ import cfml.parsing.cfscript.script.CFScriptStatement;
 import net.htmlparser.jericho.Element;
 import ro.fortsoft.pf4j.Extension;
 
+/**
+ * Check if a function or method name is valid.
+ */
 @Extension
 public class MethodNameChecker extends CFLintScannerAdapter {
 
+    /**
+     * Minimum number of characters for a function name.
+     */
+    private int minMethodLength = ValidName.MIN_METHOD_LENGTH;
+
+    /**
+     * Maximum number of characters for a function name.
+     */
+    private int maxMethodLength = ValidName.MAX_METHOD_LENGTH;
+
+    /**
+     * Minimum number of words in a function name.
+     */
+    private int maxMethodWords = ValidName.MAX_METHOD_WORDS;
+
+
+    /**
+     * Parse a CFScript function declaration to see if the function name is invalid.
+     */
     @Override
     public void expression(final CFScriptStatement expression, final Context context, final BugList bugs) {
         if (expression instanceof CFFuncDeclStatement) {
@@ -22,6 +44,9 @@ public class MethodNameChecker extends CFLintScannerAdapter {
         }
     }
 
+    /**
+     * Parse CF function tag declaration to see if the function name is invalid.
+     */
     @Override
     public void element(final Element element, final Context context, final BugList bugs) {
         if (element.getName().equals(CF.CFFUNCTION)) {
@@ -30,16 +55,22 @@ public class MethodNameChecker extends CFLintScannerAdapter {
         }
     }
 
-    public void checkNameForBugs(final Context context, final int line) {
-        final String method = context.getFunctionName();
-        int minMethodLength = ValidName.MIN_METHOD_LENGTH;
-        int maxMethodLength = ValidName.MAX_METHOD_LENGTH;
-        int maxMethodWords = ValidName.MAX_METHOD_WORDS;
-
+    /**
+     * Parse rule parameters.
+     *
+     * Parameters include:
+     * - minimum length of valid name
+     * - maximum length of valid name
+     * - maximum number of words in a camel case name
+     *
+     * See @ValidName for defaults.
+     */
+    private void parseParameters()  throws ConfigError {
         if (getParameter("MinLength") != null) {
             try {
                 minMethodLength = Integer.parseInt(getParameter("MinLength"));
             } catch (final Exception e) {
+                throw new ConfigError("Minimum length need to be an integer.");
             }
         }
 
@@ -47,6 +78,7 @@ public class MethodNameChecker extends CFLintScannerAdapter {
             try {
                 maxMethodLength = Integer.parseInt(getParameter("MaxLength"));
             } catch (final Exception e) {
+                throw new ConfigError("Maximum length need to be an integer.");
             }
         }
 
@@ -54,7 +86,30 @@ public class MethodNameChecker extends CFLintScannerAdapter {
             try {
                 maxMethodWords = Integer.parseInt(getParameter("MaxWords"));
             } catch (final Exception e) {
+                throw new ConfigError("Maximum no of words need to be an integer.");
             }
+        }
+    }
+
+    /**
+     * Check if an function name is "bad" is some way.
+     *
+     * Bad argument name include:
+     * - Invalid names (contains an invalid character, ends in a number, not camelCase or does not use underscores)
+     * - Names all in upper case
+     * - Names that are too short
+     * - Names that are too long
+     * - Names that are too wordy
+     * - Names that look like temporary variables
+     * - Names having a prefix or postfix
+     */
+    public void checkNameForBugs(final Context context, final int line) {
+        final String method = context.getFunctionName();
+
+        try {
+            parseParameters();
+        } catch (ConfigError configError) {
+            // Carry on with defaults
         }
 
         final ValidName name = new ValidName(minMethodLength, maxMethodLength, maxMethodWords);

@@ -18,7 +18,6 @@ public class ArgDefChecker extends CFLintScannerAdapter {
         if (expression instanceof CFFuncDeclStatement) {
             final CFFuncDeclStatement function = (CFFuncDeclStatement) expression;
             for (final CFFunctionParameter argument : function.getFormals()) {
-                // handler.addArgument(param.getName());
                 final String name = argument.getName();
                 if (!argument.toString().contains(CF.REQUIRED) && !argument.toString().contains("=")) {
                     context.addMessage("ARG_DEFAULT_MISSING", name);

@@ -17,44 +17,55 @@ public class ArgVarChecker extends CFLintScannerAdapter {
     /**
      * Report each occurrence once per file/function
      */
-    private Set<String> alreadyReported1 = new HashSet<>();
-    private Set<String> alreadyReported2 = new HashSet<>();
+    private Set<String> alreadyReportedExpression = new HashSet<>();
+    private Set<String> alreadyReportedFullExpression = new HashSet<>();
 
     @Override
     public void expression(final CFExpression expression, final Context context, final BugList bugs) {
         if (expression instanceof CFVarDeclExpression) {
             final String name = ((CFVarDeclExpression) expression).getName();
             if (context.isInFunction() && context.getCallStack().hasArgument(name)) {
-                final String fileKey = context.fileFunctionString();
-                if (alreadyReported1.contains(fileKey)) {
-                    return;
-                } else {
-                    alreadyReported1.add(fileKey);
-                }
-                context.addMessage("ARG_VAR_CONFLICT", name);
+                checkExpression(context, name);
             }
         } else if (expression instanceof CFFullVarExpression) {
             final CFFullVarExpression fullVarExpr = (CFFullVarExpression) expression;
-            if (fullVarExpr.getExpressions().size() > 1
-                    && fullVarExpr.getExpressions().get(0) instanceof CFIdentifier) {
-                final CFIdentifier cfIdentifier1 = (CFIdentifier) fullVarExpr.getExpressions().get(0);
-                if ("arguments".equalsIgnoreCase(cfIdentifier1.getName())
-                        && fullVarExpr.getExpressions().get(1) instanceof CFIdentifier) {
-                    final CFIdentifier cfIdentifier2 = (CFIdentifier) fullVarExpr.getExpressions().get(1);
-                    final String name = cfIdentifier2.getName();
-                    if (context.getCallStack().isVariable(name)) {
-                        final String fileKey = context.fileFunctionString();
-                        if (alreadyReported2.contains(fileKey)) {
-                            return;
-                        } else {
-                            alreadyReported2.add(fileKey);
-                        }
-                        context.addMessage("ARG_VAR_MIXED", name);
-                    }
-                }
+            if (checkFullExpression(context, fullVarExpr)) {
+                return;
             }
             expression(fullVarExpr.getExpressions().get(0), context, bugs);
         }
+    }
+
+    private boolean checkFullExpression(final Context context, final CFFullVarExpression fullVarExpr) {
+        if (fullVarExpr.getExpressions().size() > 1
+                && fullVarExpr.getExpressions().get(0) instanceof CFIdentifier) {
+            final CFIdentifier cfIdentifier1 = (CFIdentifier) fullVarExpr.getExpressions().get(0);
+            if ("arguments".equalsIgnoreCase(cfIdentifier1.getName())
+                    && fullVarExpr.getExpressions().get(1) instanceof CFIdentifier) {
+                final CFIdentifier cfIdentifier2 = (CFIdentifier) fullVarExpr.getExpressions().get(1);
+                final String name = cfIdentifier2.getName();
+                if (context.getCallStack().isVariable(name)) {
+                    final String fileKey = context.fileFunctionString();
+                    if (alreadyReportedFullExpression.contains(fileKey)) {
+                        return true;
+                    } else {
+                        alreadyReportedFullExpression.add(fileKey);
+                    }
+                    context.addMessage("ARG_VAR_MIXED", name);
+                }
+            }
+        }
+        return false;
+    }
+
+    private void checkExpression(final Context context, final String name) {
+        final String fileKey = context.fileFunctionString();
+        if (alreadyReportedExpression.contains(fileKey)) {
+            return;
+        } else {
+            alreadyReportedExpression.add(fileKey);
+        }
+        context.addMessage("ARG_VAR_CONFLICT", name);
     }
 
 }

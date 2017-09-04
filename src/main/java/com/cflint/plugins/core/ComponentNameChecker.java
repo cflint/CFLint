@@ -10,9 +10,29 @@ import cfml.parsing.cfscript.script.CFScriptStatement;
 import net.htmlparser.jericho.Element;
 import ro.fortsoft.pf4j.Extension;
 
+/**
+ * Check is a component name is valid.
+ */
 @Extension
 public class ComponentNameChecker extends CFLintScannerAdapter {
-    
+    /**
+     * Minimum number of characters for an component name.
+     */
+    private int minComponentLength = ValidName.MIN_COMPONENT_LENGTH;
+
+    /**
+     * Maximum number of characters for an component name.
+     */
+    private int maxComponentLength = ValidName.MAX_COMPONENT_LENGTH;
+
+    /**
+     * Minimum number of words in an component name.
+     */
+    private int maxComponentWords = ValidName.MAX_COMPONENT_WORDS;
+
+    /**
+     * Parse a CFScript component declaration to see if the component name is invalid.
+     */
     @Override
     public void expression(final CFScriptStatement expression, final Context context, final BugList bugs) {
         if (expression instanceof CFCompDeclStatement) {
@@ -21,6 +41,9 @@ public class ComponentNameChecker extends CFLintScannerAdapter {
         }
     }
 
+    /**
+     * Parse CF component tag declaration to see if the component name is invalid.
+     */
     @Override
     public void element(final Element element, final Context context, final BugList bugs) {
         if (element.getName().equals(CF.CFCOMPONENT)) {
@@ -29,6 +52,12 @@ public class ComponentNameChecker extends CFLintScannerAdapter {
         }
     }
 
+    /**
+     * Get the file name from the path.
+     *
+     * @param fileName path of file name.
+     * @return file name.
+     */
     private String actualFileName(final String fileName) {
         String actualFileName = fileName;
         final String separator = System.getProperty("file.separator");
@@ -41,17 +70,22 @@ public class ComponentNameChecker extends CFLintScannerAdapter {
         return actualFileName;
     }
 
-    public void checkNameForBugs(final Context context, final String component, final String filename,
-            final BugList bugs) {
-        int minComponentLength = ValidName.MIN_COMPONENT_LENGTH;
-        int maxComponentLength = ValidName.MAX_COMPONENT_LENGTH;
-        int maxComponentWords = ValidName.MAX_COMPONENT_WORDS;
-        final int line = 1;
-
+    /**
+     * Parse rule parameters.
+     *
+     * Parameters include:
+     * - minimum length of valid name
+     * - maximum length of valid name
+     * - maximum number of words in a camel case name
+     *
+     * See @ValidName for defaults.
+     */
+    private void parseParameters() throws ConfigError {
         if (getParameter("MinLength") != null) {
             try {
                 minComponentLength = Integer.parseInt(getParameter("MinLength"));
             } catch (final Exception e) {
+                throw new ConfigError("Minimum length need to be an integer.");
             }
         }
 
@@ -59,6 +93,7 @@ public class ComponentNameChecker extends CFLintScannerAdapter {
             try {
                 maxComponentLength = Integer.parseInt(getParameter("MaxLength"));
             } catch (final Exception e) {
+                throw new ConfigError("Maximum length need to be an integer.");
             }
         }
 
@@ -66,10 +101,33 @@ public class ComponentNameChecker extends CFLintScannerAdapter {
             try {
                 maxComponentWords = Integer.parseInt(getParameter("MaxWords"));
             } catch (final Exception e) {
+                throw new ConfigError("Maximum no of words need to be an integer.");
             }
         }
+    }
 
+    /**
+     * Check if an argument name is "bad" is some way.
+     *
+     * Bad argument name include:
+     * - Invalid names (contains an invalid character, ends in a number, not camelCase or does not use underscores)
+     * - Names all in upper case
+     * - Names that are too short
+     * - Names that are too long
+     * - Names that are too wordy
+     * - Names that look like temporary variables
+     * - Names having a prefix or postfix
+     */
+    public void checkNameForBugs(final Context context, final String component, final String filename,
+            final BugList bugs) {
+        final int line = 1;
         final ValidName name = new ValidName(minComponentLength, maxComponentLength, maxComponentWords);
+
+        try {
+            parseParameters();
+        } catch (ConfigError configError) {
+            // Carry on with defaults
+        }
 
         // TODO check package name as well?
 

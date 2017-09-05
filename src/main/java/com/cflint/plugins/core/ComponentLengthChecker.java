@@ -4,6 +4,7 @@ import com.cflint.CF;
 import com.cflint.BugList;
 import com.cflint.plugins.Context;
 
+import cfml.parsing.cfscript.script.CFCompDeclStatement;
 import cfml.parsing.cfscript.script.CFCompoundStatement;
 import cfml.parsing.cfscript.script.CFScriptStatement;
 import net.htmlparser.jericho.Element;
@@ -15,8 +16,8 @@ public class ComponentLengthChecker extends LengthChecker {
 
     @Override
     public void expression(final CFScriptStatement expression, final Context context, final BugList bugs) {
-        if (expression instanceof CFCompoundStatement) {
-            final CFCompoundStatement component = (CFCompoundStatement) expression;
+        if (expression instanceof CFCompDeclStatement) {
+            final CFCompDeclStatement component = (CFCompDeclStatement) expression;
             final String decompile = component.Decompile(1);
             final String[] lines = decompile.split("\\n");
 
@@ -30,7 +31,7 @@ public class ComponentLengthChecker extends LengthChecker {
 
         if (elementName.equals(CF.CFCOMPONENT)) {
             // this includes whitespace-change it
-            final int total = element.getAllStartTags().size();
+            final int total = element.getContent().toString().split("\\n").length;
 
             checkSize(LENGTH_THRESHOLD, "EXCESSIVE_COMPONENT_LENGTH", context, 1, total, bugs);
         }

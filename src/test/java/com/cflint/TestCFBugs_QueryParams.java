@@ -119,4 +119,45 @@ public class TestCFBugs_QueryParams {
         assertEquals("CFQUERYPARAM_REQ", result.get(0).getMessageCode());
         assertEquals("tableName", result.get(0).getVariable());
     }
+
+    @Test
+    public void testCFScript_QueryParams_ignore_offset() throws CFLintScanException {
+        final String cfcSrc = "<cfcomponent>\n" + 
+            "	<cffunction name=\"foo\">\n" + 
+            "		<cfset var fooQry=\"\"/>\n" + 
+            "        <cfquery name=\"fooQry\" datasource=\"#arguments.siteDomain#com\" cachedwithin=\"#createTimeSpan(0,0,5,0)#\">\n" + 
+            "            SELECT\n" + 
+            "                M.firstName\n" + 
+            "                <!--- @CFLintIgnore CFQUERYPARAM_REQ --->\n" + 
+            "            FROM #application.linkedServerName#.schema.dbo.Comment C WITH (NOLOCK)\n" + 
+            "            LEFT OUTER JOIN something SM WITH (NOLOCK)\n" + 
+            "                ON C.memberID = SM.memberID\n" + 
+            "            INNER JOIN somethingelse m\n" + 
+            "                ON m.memberID = sm.memberid\n" + 
+            "            LEFT OUTER JOIN #application.linkedServerName#.schema.dbo.FooTable A WITH (NOLOCK)\n" + 
+            "                ON C.aID = A.aID\n" + 
+            "                AND C.bar = #magicVal# <!--- \n" + 
+            "                		@CFLintIgnore CFQUERYPARAM_REQ --->\n" + 
+            "            WHERE \n" + 
+            "            <!---\n" + 
+            "        @CFLintIgnore CFQUERYPARAM_REQ\n" + 
+            "        --->\n" + 
+            "                eID = #arguments.someNumber# AND\n" + 
+            "                moderated = 1\n" + 
+            "            ORDER BY\n" + 
+            "                cID\n" + 
+            "        </cfquery>\n" + 
+            "\n" + 
+            "	</cffunction>\n" + 
+            "</cfcomponent>";
+        CFLintResult lintresult = cfBugs.scan(cfcSrc, "test");
+        final List<BugInfo> result = lintresult.getIssues().values().iterator().next();
+        assertEquals(1, result.size());
+        assertEquals("CFQUERYPARAM_REQ", result.get(0).getMessageCode());
+        assertEquals("application.linkedServerName", result.get(0).getVariable());
+        assertEquals(13, result.get(0).getLine());
+        assertEquals(575, cfcSrc.indexOf("application.linkedServerName", cfcSrc.indexOf("application.linkedServerName") +1 )); // get the non-ignored one
+        assertEquals(575, result.get(0).getOffset());
+    }
+
 }

@@ -1,6 +1,7 @@
 package com.cflint;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 import java.io.IOException;
 import java.util.Collection;
@@ -21,7 +22,7 @@ public class TestCFBugs {
 
     @Before
     public void setUp() throws IOException, CFLintConfigurationException {
-        final ConfigBuilder configBuilder = new ConfigBuilder().include("MISSING_VAR","GLOBAL_VAR","NESTED_CFOUTPUT","QUERYNEW_DATATYPE");
+        final ConfigBuilder configBuilder = new ConfigBuilder().include("MISSING_VAR","GLOBAL_VAR","NESTED_CFOUTPUT","QUERYNEW_DATATYPE","MISSING_SEMI");
         cfBugs = new CFLintAPI(configBuilder.build());
     }
 
@@ -277,11 +278,57 @@ public class TestCFBugs {
 
     @Test
     public void testVarScoper() throws CFLintScanException {
-        CFLintResult lintresult = cfBugs.scan("component {\r\n" + "public any function process(){\r\n" + "x=123;\r\n" + "}\r\n" + "}", "test");
+    	String src = "component {\r\n" + "public any function process(){\r\n" + "   x=123;\r\n" + "}\r\n" + "}";
+        CFLintResult lintresult = cfBugs.scan(src, "test");
         List<BugInfo> list = lintresult.getIssues().get("MISSING_VAR");
         assertEquals(1, list.size());
         assertEquals("test", list.get(0).getFilename());
         assertEquals("process", list.get(0).getFunction());
         assertEquals(3, list.get(0).getLine());
+        assertEquals(4, list.get(0).getColumn());
+        assertEquals(48, src.indexOf("x"));
+        assertEquals(48, list.get(0).getOffset());
     }
+
+    @Test
+    public void testMissingSemi() throws CFLintScanException {
+        String src = "component {\n" + " function test() {\n" + "   name_1 \n" +  "    name2 = \"Smith\"\n" + 
+                " last.name1 = \"Fred\"\n" + " }\n" + "}";
+        CFLintResult lintresult = cfBugs.scan(src, "test");
+        List<BugInfo> list = lintresult.getIssues().get("MISSING_SEMI");
+        assertNotNull(list);
+        assertEquals(1, list.size());
+        assertEquals(3, list.get(0).getLine());
+        assertEquals(8, list.get(0).getColumn());
+        assertEquals(39, src.indexOf("name_1") + "name_1".length() -1 );
+        assertEquals(39, list.get(0).getOffset());
+    }
+
+    @Test
+    public void testMissingSemiTag() throws CFLintScanException {
+        String src = "<cfcomponent>\n" + "<cfscript> function test() {\n" + " name_1 \n" +  "    name2 = \"Smith\"\n" + 
+                " last.name1 = \"Fred\"\n" + " }\n" + "</cfscript> </component>";
+        CFLintResult lintresult = cfBugs.scan(src, "test");
+        List<BugInfo> list = lintresult.getIssues().get("MISSING_SEMI");
+        assertNotNull(list);
+        assertEquals(1, list.size());
+        assertEquals(49, src.indexOf("name_1") + "name_1".length() -1 );
+        assertEquals(49, list.get(0).getOffset());
+        assertEquals(3, list.get(0).getLine());
+        assertEquals(6, list.get(0).getColumn());
+    }
+    
+    @Test
+    public void testMissingSemiTag2() throws CFLintScanException {
+        String src = "<cfscript>   name_1 \n" +  "    name2 = \"Smith\"\n</cfscript>";
+        CFLintResult lintresult = cfBugs.scan(src, "test");
+        List<BugInfo> list = lintresult.getIssues().get("MISSING_SEMI");
+        assertNotNull(list);
+        assertEquals(1, list.size());
+        assertEquals(18, src.indexOf("name_1") + "name_1".length() -1 );
+        assertEquals(18, list.get(0).getOffset());
+        assertEquals(1, list.get(0).getLine());
+        assertEquals(18, list.get(0).getColumn());
+    }
+
 }

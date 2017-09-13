@@ -43,7 +43,7 @@ public class VarScoper extends CFLintScannerAdapter {
             final String name = ((CFIdentifier) expression).getName();
             if (context.isInFunction() && context.isInAssignmentExpression()
                 && !context.getCallStack().checkVariable(name) && !isGlobal(name)) {
-                context.addMessage("MISSING_VAR", name);
+                context.addMessage("MISSING_VAR", name, context.startLine(), context.offset() + expression.getOffset());
             } else if (expression instanceof CFFullVarExpression) {
                 final CFFullVarExpression fullVarExpr = (CFFullVarExpression) expression;
                 expression(fullVarExpr.getExpressions().get(0), context, bugs);
@@ -78,23 +78,29 @@ public class VarScoper extends CFLintScannerAdapter {
     @Override
     public void element(final Element element, final Context context, final BugList bugs) {
         final String name = element.getName();
+        final int line = element.getSource().getRow(element.getBegin());
+        int offset = element.getBegin();
         if (name != null && name.trim().length() > 0 && context.isInFunction()) {
             if (checkNames.contains(name.toLowerCase())) {
-                assertVariable(element, context, bugs, element.getAttributeValue(CF.NAME));
+                offset = element.getAttributes().get(CF.NAME) != null ? element.getAttributes().get(CF.NAME).getValueSegment().getBegin() : offset;
+                assertVariable(element, context, bugs, element.getAttributeValue(CF.NAME), line, offset);
             }
             if (checkElementAttributes.containsKey(name.toLowerCase())) {
                 for (final String attrName : checkElementAttributes.get(name.toLowerCase())) {
-                    assertVariable(element, context, bugs, element.getAttributeValue(attrName));
+                    offset = element.getAttributes().get(attrName) != null
+                            ? element.getAttributes().get(attrName).getValueSegment().getBegin()
+                            : offset;
+                    assertVariable(element, context, bugs, element.getAttributeValue(attrName), line, offset);
                 }
             }
         }
     }
 
     protected void assertVariable(final Element element, final Context context, final BugList bugs,
-                                  final String inameVar) {
+                                  final String inameVar, int line, int offset) {
         final String nameVar = inameVar == null ? null : inameVar.split("\\.")[0].split("\\[")[0];
         if (nameVar != null && !context.getCallStack().checkVariable(nameVar) && !isGlobal(nameVar)) {
-            context.addMessage("MISSING_VAR", inameVar);
+            context.addMessage("MISSING_VAR", inameVar, line, offset);
         }
     }
 

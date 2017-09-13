@@ -22,6 +22,7 @@ public class UnusedArgumentChecker extends CFLintScannerAdapter {
     // Use linked hash map to preserve the order of the elements.
     protected Map<String, Boolean> methodArguments = new LinkedHashMap<>();
     protected Map<String, Integer> argumentLineNo = new HashMap<>();
+    protected Map<String, Integer> argumentOffset = new HashMap<>();
 
     @Override
     public void element(final Element element, final Context context, final BugList bugs) {
@@ -30,6 +31,8 @@ public class UnusedArgumentChecker extends CFLintScannerAdapter {
                 ? element.getAttributeValue(CF.NAME).toLowerCase() : "";
             methodArguments.put(name, false);
             setArgumentLineNo(name, context.startLine());
+            setArgumentOffset(name, element.getAttributeValue(CF.NAME) != null 
+                    ? element.getAttributes().get(CF.NAME).getValueSegment().getBegin() : element.getBegin());
             final String code = element.getParentElement().toString();
             if (isUsed(code, name)) {
                 methodArguments.put(name, true);
@@ -42,15 +45,11 @@ public class UnusedArgumentChecker extends CFLintScannerAdapter {
         if (expression instanceof CFFuncDeclStatement) {
             final CFFuncDeclStatement function = (CFFuncDeclStatement) expression;
             for (final CFFunctionParameter argument : function.getFormals()) {
-                final String name = argument.getName().toLowerCase(); // CF
-                // variable
-                // names
-                // are
-                // not
-                // case
-                // sensitive
+                final String name = argument.getName().toLowerCase(); 
+                // CF variable names are not case sensitive
                 methodArguments.put(name, false);
-                setArgumentLineNo(name, function.getLine()); // close enough?
+                setArgumentLineNo(name, function.getLine());
+                setArgumentOffset(name, context.offset() + argument.getOffset() );
                 if (isUsed(function.Decompile(0), name)) {
                     methodArguments.put(name, true);
                 }
@@ -61,6 +60,12 @@ public class UnusedArgumentChecker extends CFLintScannerAdapter {
     protected void setArgumentLineNo(final String argument, final Integer lineNo) {
         if (argumentLineNo.get(argument) == null) {
             argumentLineNo.put(argument, lineNo);
+        }
+    }
+
+    protected void setArgumentOffset(final String argument, final Integer offset) {
+        if (argumentOffset.get(argument) == null) {
+            argumentOffset.put(argument, offset);
         }
     }
 
@@ -109,8 +114,9 @@ public class UnusedArgumentChecker extends CFLintScannerAdapter {
         for (final Map.Entry<String, Boolean> method : methodArguments.entrySet()) {
             final String name = method.getKey();
             final Boolean used = method.getValue();
+            final int offset = argumentOffset.get(name);
             if (!used) {
-                context.addMessage("UNUSED_METHOD_ARGUMENT", name, argumentLineNo.get(name));
+                context.addMessage("UNUSED_METHOD_ARGUMENT", name, argumentLineNo.get(name), offset);
             }
         }
     }

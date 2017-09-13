@@ -166,6 +166,9 @@ public class CFLintAPI {
      */
     public void setVerbose(final boolean verbose) {
         this.verbose = verbose;
+        if(cflint != null) {
+            cflint.setVerbose(verbose);
+        }
     }
 
     /**

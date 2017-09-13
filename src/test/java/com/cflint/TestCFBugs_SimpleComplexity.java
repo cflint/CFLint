@@ -1,6 +1,7 @@
 package com.cflint;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 import java.util.Collection;
 import java.util.List;
@@ -44,6 +45,7 @@ public class TestCFBugs_SimpleComplexity {
                 + "<cfset b = 11>\r\n" + "</cfif>\r\n" + "</cffunction>\r\n" + "</cfcomponent>";
         CFLintResult lintresult = cfBugs.scan(cfcSrc, "test");
         final List<BugInfo> result = lintresult.getIssues().values().iterator().next();
+        assertNotNull(result);
         assertEquals(1, result.size());
         assertEquals("FUNCTION_TOO_COMPLEX", result.get(0).getMessageCode());
         assertEquals(2, result.get(0).getLine());
@@ -79,6 +81,7 @@ public class TestCFBugs_SimpleComplexity {
                 + "}\r\n" + "}\r\n" + "}";
         CFLintResult lintresult = cfBugs.scan(cfcSrc, "test");
         final List<BugInfo> result = lintresult.getIssues().get("FUNCTION_TOO_COMPLEX");
+        assertNotNull(result);
         assertEquals(1, result.size());
         assertEquals("FUNCTION_TOO_COMPLEX", result.get(0).getMessageCode());
         assertEquals(2, result.get(0).getLine());
@@ -94,11 +97,10 @@ public class TestCFBugs_SimpleComplexity {
                 + "b = 9;\r\n" + "break;\r\n" + "case 10:\r\n" + "b = 10;\r\n" + "break;\r\n" + "case 11:\r\n"
                 + "b = 11;\r\n" + "break;\r\n" + "}\r\n" + "}\r\n" + "}";
         CFLintResult lintresult = cfBugs.scan(cfcSrc, "test");
-        Collection<List<BugInfo>> result = lintresult.getIssues().values();
-        assertEquals(0, result.size());
-        // TODO currently this is seen as simple code change test once fixed
-        // assertEquals("FUNCTION_TOO_COMPLEX", result.get(0).getMessageCode());
-        // assertEquals(1, result.get(0).getLine());
+        final List<BugInfo> result = lintresult.getIssues().get("FUNCTION_TOO_COMPLEX");
+        assertNotNull(result);
+        assertEquals(1, result.size());
+        assertEquals(cfcSrc.indexOf("function"),result.get(0).getOffset());
     }
 
 }

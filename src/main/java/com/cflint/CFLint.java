@@ -19,7 +19,9 @@ import java.util.regex.Pattern;
 
 import org.antlr.runtime.BitSet;
 import org.antlr.v4.runtime.ANTLRErrorListener;
+import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.Parser;
+import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.Recognizer;
 import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.atn.ATNConfigSet;
@@ -127,20 +129,33 @@ public class CFLint implements IErrorReporter {
 
     // Stack to store include file depth to ensure no recursion
     private final Stack<File> includeFileStack = new Stack<>();
+    private int[]                               lineOffsets;
 
     public CFLint(final CFLintConfiguration configFile) throws IOException {
-        configuration = configFile == null ? new CFLintConfig() : configFile;
-        for (final PluginInfoRule ruleInfo : configuration.getRules()) {
-            addScanner(ConfigUtils.loadPlugin(ruleInfo));
-        }
         final CFLintFilter filter = CFLintFilter.createFilter(verbose);
         bugs = new BugList(filter);
+        cfmlParser.setErrorReporter(this);
+        tagInfo = new CFMLTagInfo(cfmlParser.getDictionary());
+        setConfiguration(configFile);
         if (exceptionListeners.isEmpty()) {
             addExceptionListener(new DefaultCFLintExceptionListener(bugs));
         }
+    }
+
+    public void setConfiguration(final CFLintConfiguration configFile) throws IOException {
+        configuration = configFile == null ? new CFLintConfig() : configFile;
+        
+        extensions.clear();
+        allowedExtensions.clear();
+        scanProgressListeners.clear();
+        exceptionListeners.clear();
+        processed.clear();
+        
+        for (final PluginInfoRule ruleInfo : configuration.getRules()) {
+            addScanner(ConfigUtils.loadPlugin(ruleInfo));// TODO load them all
+        }
         allowedExtensions.addAll(AllowedExtensionsLoader.init(RESOURCE_BUNDLE_NAME));
-        cfmlParser.setErrorReporter(this);
-        tagInfo = new CFMLTagInfo(cfmlParser.getDictionary());
+        bugs.clearBugList();
     }
 
     @Deprecated
@@ -275,7 +290,7 @@ public class CFLint implements IErrorReporter {
             if (verbose) {
                 e.printStackTrace(System.err);
             } else {
-                System.err.println(e.getMessage());
+                System.err.println("Error: \"" + e.getMessage() + "\" Location: " + (e.getStackTrace().length > 0 ? e.getStackTrace()[0] : "''"));
             }
         }
     }
@@ -283,10 +298,12 @@ public class CFLint implements IErrorReporter {
     public void process(final String src, final String filename) throws CFLintScanException {
         try{
             fireStartedProcessing(filename);
+            lineOffsets = null;
             if (src == null || src.trim().length() == 0) {
                 final Context context = new Context(filename, null, null, false, handler);
                 reportRule(null, null, context, null, new ContextMessage(AVOID_EMPTY_FILES, null));
             } else {
+                lineOffsets = getLineOffsets(src.split("\n"));
                 final CFMLSource cfmlSource = new CFMLSource(src.contains("<!---") ? CommentReformatting.wrap(src) : src);
                 final ParserTag firstTag = getFirstTagQuietly(cfmlSource);
                 final List<Element> elements = new ArrayList<>();
@@ -306,6 +323,16 @@ public class CFLint implements IErrorReporter {
         }catch(final Exception e){
             throw new CFLintScanException(e);
         }
+    }
+
+    private int[] getLineOffsets(String[] lines) {
+        int[] offsets = new int[lines.length];
+        int charCount = 0;
+        for (int i = 0; i < offsets.length; i++) {
+            offsets[i] = charCount;
+            charCount += lines[i].length() + 1;
+        }
+        return offsets;
     }
 
     /**
@@ -419,7 +446,7 @@ public class CFLint implements IErrorReporter {
                             }
                         } catch (final Exception npe) {
                             printException(npe, elem);
-                            final ContextMessage cm = new ContextMessage(PARSE_ERROR, null, null, context.startLine());
+                            final ContextMessage cm = new ContextMessage(PARSE_ERROR, null, null, context.startLine(), elem.getBegin());
                             reportRule(currentElement, null, context, null, cm);
                         }
                     }
@@ -1184,7 +1211,7 @@ public class CFLint implements IErrorReporter {
         if (MISSING_SEMI.equals(msgcode)) {
             ruleInfo = new PluginInfoRule();
             final PluginMessage msgInfo = new PluginMessage(MISSING_SEMI);
-            msgInfo.setMessageText("End of statement(;) expected instead of ${variable}");
+            msgInfo.setMessageText("End of statement(;) expected after ${variable}");
             msgInfo.setSeverity(Levels.ERROR);
             ruleInfo.getMessages().add(msgInfo);
         } else if (PLUGIN_ERROR.equals(msgcode)) {
@@ -1246,10 +1273,17 @@ public class CFLint implements IErrorReporter {
                     bugs.add(bugInfo);
                 }
             } else {
-                final BugInfo bug = bldr.build((CFParsedStatement) expression, elem);
+                final BugInfo bug = bldr.build((CFScriptStatement) expression, elem);
                 if (msg.getLine() != null) {
                     bug.setLine(msg.getLine());
-                    bug.setColumn(0);
+                    if (msg.getOffset() != null) {
+                        bug.setOffset(msg.getOffset());
+                        bug.setColumn(msg.getOffset() - lineOffsets[msg.getLine() - 1]);
+                    } else {
+                        bug.setOffset(lineOffsets != null ? lineOffsets[msg.getLine() - 1] : 0);
+                        bug.setColumn(0);
+                    }
+                    bug.setLength(msg.getVariable() != null ? msg.getVariable().length() : 0);
                 }
                 if (context != null && !context.isSuppressed(bug)) {
                     bugs.add(bug);
@@ -1407,30 +1441,43 @@ public class CFLint implements IErrorReporter {
 
     @Override
     public void syntaxError(final Recognizer<?, ?> recognizer, final Object offendingSymbol, int line,
-            int charPositionInLine, final String msg, final org.antlr.v4.runtime.RecognitionException e) {
+            int charPositionInLine, final String msg, final org.antlr.v4.runtime.RecognitionException re) {
         String expression = null;
-        if (offendingSymbol instanceof Token) {
-            expression = ((Token) offendingSymbol).getText();
+        int offset = charPositionInLine;
+        int startLine = 0;
+        int startOffset = 0;
+        final Context context = new Context(currentFile, currentElement, null, true, null, null);
+        if (currentElement != null) {
+            startOffset = context.offset();
+            if(context.startLine() != 1) {
+                startLine = currentElement.getSource().getRow(startOffset) - 1;
+            }
+        }
+        if (offendingSymbol instanceof Token && re != null) {
+            // grab the first non-comment previous token, which is actually the cause of the syntax error theoretically
+            CommonTokenStream tokenStream = (CommonTokenStream)recognizer.getInputStream();
+            Token previousToken = tokenStream.get(re.getOffendingToken().getTokenIndex()-1);
+            if (previousToken != null) {
+                while(previousToken.getChannel() == Token.HIDDEN_CHANNEL && tokenStream.get(previousToken.getTokenIndex()-1) != null) {
+                    previousToken = tokenStream.get(previousToken.getTokenIndex()-1);
+                }
+                line = previousToken.getLine();
+                offset = previousToken.getStopIndex();
+                expression = previousToken.getText();
+            } else {
+                expression = re.getOffendingToken().getText();
+            }
             if (expression.length() > 50) {
                 expression = expression.substring(1, 40) + "...";
             }
         }
-        if (currentElement != null) {
-            if (line == 1) {
-                line = currentElement.getSource().getRow(currentElement.getBegin());
-                charPositionInLine = charPositionInLine
-                        + currentElement.getSource().getColumn(currentElement.getBegin());
-            } else {
-                line = currentElement.getSource().getRow(currentElement.getBegin()) + line - 1;
-            }
-        }
+        offset +=  startOffset;
+        line += startLine;
         if (recognizer instanceof Parser && ((Parser) recognizer).isExpectedToken(CFSCRIPTParser.SEMICOLON)) {
-            final Context context = new Context(currentFile, currentElement, null, true, null, null);
-            final ContextMessage cm = new ContextMessage(MISSING_SEMI, expression, null, line);
+            final ContextMessage cm = new ContextMessage(MISSING_SEMI, expression, null, line, offset);
             reportRule(currentElement, null, context, null, cm);
         } else {
-            final Context context = new Context(currentFile, currentElement, null, true, null, null);
-            final ContextMessage cm = new ContextMessage(PARSE_ERROR, expression, null, line);
+            final ContextMessage cm = new ContextMessage(PARSE_ERROR, expression, null, line, offset);
             reportRule(currentElement, null, context, null, cm);
         }
     }

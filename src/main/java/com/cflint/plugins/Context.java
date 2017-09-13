@@ -10,6 +10,7 @@ import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.Token;
 
 import com.cflint.BugInfo;
+import com.cflint.CF;
 import com.cflint.StackHandler;
 import com.cflint.tools.ObjectEquals;
 
@@ -147,11 +148,11 @@ public class Context {
     }
 
     public void addUniqueMessage(final String messageCode, final String variable, final CFLintScanner source) {
-        addUniqueMessage(messageCode, variable, source, null);
+        addUniqueMessage(messageCode, variable, source, null, null);
     }
 
     public void addUniqueMessage(final String messageCode, final String variable, final CFLintScanner source,
-            final Integer line) {
+            final Integer line, final Integer offset) {
         if (messageCode != null) {
             for (ContextMessage msg : messages) {
                 if (ObjectEquals.equals(msg.getMessageCode(), messageCode)
@@ -160,7 +161,7 @@ public class Context {
                 }
             }
         }
-        addMessage(messageCode, variable, source, line);
+        addMessage(messageCode, variable, source, line, offset);
     }
 
     public void addMessage(final String messageCode, final String variable) {
@@ -168,18 +169,20 @@ public class Context {
     }
 
     public void addMessage(final String messageCode, final String variable, final CFLintScanner source,
-            final Integer line) {
-        messages.add(new ContextMessage(messageCode, variable, source, line));
+            final Integer line, final Integer offset) {
+        messages.add(new ContextMessage(messageCode, variable, source, line, offset));
     }
 
-    public void addMessage(final String messageCode, final String variable, final Integer line) {
-        messages.add(new ContextMessage(messageCode, variable, line));
+    public void addMessage(final String messageCode, final String variable, final Integer line,
+            final Integer offset) {
+        messages.add(new ContextMessage(messageCode, variable, line, offset));
     }
 
     public static class ContextMessage {
         private String messageCode;
         private String variable;
         private Integer line;
+        private Integer offset;
         private CFLintScanner source;
 
         public ContextMessage(final String messageCode, final String variable) {
@@ -190,17 +193,19 @@ public class Context {
         }
 
         public ContextMessage(final String messageCode, final String variable, CFLintScanner source,
-                final Integer line) {
+                final Integer line, final Integer offset) {
             super();
             this.messageCode = messageCode;
             this.variable = variable;
             this.source = source;
             this.line = line;
+            this.offset = offset;
         }
 
-        public ContextMessage(final String messageCode, final String variable, final Integer line) {
+        public ContextMessage(final String messageCode, final String variable, final Integer line, final Integer offset) {
             this(messageCode, variable);
             this.line = line;
+            this.offset = offset;
         }
 
         public CFLintScanner getSource() {
@@ -217,6 +222,10 @@ public class Context {
 
         public Integer getLine() {
             return line;
+        }
+
+        public Integer getOffset() {
+        	return offset;
         }
     }
 
@@ -246,6 +255,20 @@ public class Context {
             return element.getSource().getRow(element.getBegin());
         } else {
             return 1; // not zero
+        }
+    }
+
+    public int offset() {
+        if (element != null) {
+            if (element.getName().equalsIgnoreCase(CF.CFSCRIPT)) {
+                return element.getStartTag().getEnd();
+            } else if (element.getName().equalsIgnoreCase(CF.CFSET)) {
+                return element.getStartTag().getTagContent().getBegin() + 1;
+            }
+            
+            return element.getBegin();
+        } else {
+            return 0;
         }
     }
 

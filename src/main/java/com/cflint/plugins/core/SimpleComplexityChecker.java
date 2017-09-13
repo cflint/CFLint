@@ -5,6 +5,7 @@ import com.cflint.BugList;
 import com.cflint.plugins.CFLintScannerAdapter;
 import com.cflint.plugins.Context;
 
+import cfml.parsing.cfscript.script.CFCase;
 import cfml.parsing.cfscript.script.CFDoWhileStatement;
 import cfml.parsing.cfscript.script.CFForInStatement;
 import cfml.parsing.cfscript.script.CFForStatement;
@@ -21,6 +22,7 @@ public class SimpleComplexityChecker extends CFLintScannerAdapter {
     protected int complexity = 0;
     protected boolean alreadyTooComplex = false;
     private int functionLineNo = 1;
+    private int functionOffset = 0;
 
     @Override
     public void startFile(final String fileName, final BugList bugs) {
@@ -37,6 +39,7 @@ public class SimpleComplexityChecker extends CFLintScannerAdapter {
             if (expression instanceof CFFuncDeclStatement) {
                 function = (CFFuncDeclStatement) expression;
                 functionLineNo = function.getLine();
+                functionOffset = function.getOffset();
                 complexity = 0;
                 alreadyTooComplex = false;
             }
@@ -46,10 +49,10 @@ public class SimpleComplexityChecker extends CFLintScannerAdapter {
                 || expression.getClass().equals(CFSwitchStatement.class)
                 || expression.getClass().equals(CFTryCatchStatement.class)
                 || expression.getClass().equals(CFWhileStatement.class)
+                || expression.getClass().equals(CFCase.class)
                 || expression.getClass().equals(CFDoWhileStatement.class)) {
                 complexity++;
-                // TODO +1 for each case statment in a switch
-                checkComplexity(context.getFunctionName(), functionLineNo, context, bugs);
+                checkComplexity(context.getFunctionName(), functionLineNo, functionOffset, context, bugs);
             }
         }
     }
@@ -60,6 +63,7 @@ public class SimpleComplexityChecker extends CFLintScannerAdapter {
 
         if (name.equalsIgnoreCase(CF.CFFUNCTION)) {
             functionLineNo = element.getSource().getRow(element.getBegin());
+            functionOffset = element.getBegin();
             complexity = 0;
             alreadyTooComplex = false;
         } else {
@@ -70,12 +74,12 @@ public class SimpleComplexityChecker extends CFLintScannerAdapter {
                 || name.equalsIgnoreCase(CF.CFCASE) || name.equalsIgnoreCase(CF.CFDEFAULTCASE)
                 || name.equalsIgnoreCase(CF.CFTRY) || name.equalsIgnoreCase(CF.CFCATCH)) {
                 complexity++;
-                checkComplexity(context.getFunctionName(), functionLineNo, context, bugs);
+                checkComplexity(context.getFunctionName(), functionLineNo, functionOffset, context, bugs);
             }
         }
     }
 
-    protected void checkComplexity(final String name, final int lineNo, final Context context, final BugList bugs) {
+    protected void checkComplexity(final String name, final int lineNo, final int offset, final Context context, final BugList bugs) {
         final String complexityThreshold = getParameter("maximum");
         int threshold = COMPLEXITY_THRESHOLD;
 
@@ -86,7 +90,7 @@ public class SimpleComplexityChecker extends CFLintScannerAdapter {
         if (!alreadyTooComplex && complexity > threshold) {
             alreadyTooComplex = true;
 
-            context.addMessage("FUNCTION_TOO_COMPLEX", null, lineNo);
+            context.addMessage("FUNCTION_TOO_COMPLEX", null, this, lineNo, offset);
         }
     }
 

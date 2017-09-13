@@ -20,7 +20,7 @@ public class CFQueryChecker extends CFLintScannerAdapter {
         final String tagName = element.getName();
         if (tagName.equals(CF.CFQUERY) && "cfm".equals(ext)) {
             final int begLine = element.getSource().getRow(element.getBegin());
-            context.addMessage(NEVER_USE_QUERY_IN_CFM, null, this, begLine);
+            context.addMessage(NEVER_USE_QUERY_IN_CFM, null, this, begLine, element.getBegin());
         }
     }
 }

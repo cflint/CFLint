@@ -80,4 +80,8 @@ public class BugList implements Iterable<BugInfo> {
     public Iterator<BugInfo> iterator() {
         return getFlatBugList().iterator();
     }
+
+    public void clearBugList() {
+        bugs.clear();
+    }
 }

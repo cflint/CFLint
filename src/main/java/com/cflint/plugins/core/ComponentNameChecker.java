@@ -37,7 +37,7 @@ public class ComponentNameChecker extends CFLintScannerAdapter {
     public void expression(final CFScriptStatement expression, final Context context, final BugList bugs) {
         if (expression instanceof CFCompDeclStatement) {
             final String name = context.getFilename().replace(".cfc", "");
-            checkNameForBugs(context, actualFileName(name), context.getFilename(), bugs);
+            checkNameForBugs(context, actualFileName(name), context.getFilename(), context.startLine(), ((CFCompDeclStatement) expression).getOffset(), bugs);
         }
     }
 
@@ -48,7 +48,7 @@ public class ComponentNameChecker extends CFLintScannerAdapter {
     public void element(final Element element, final Context context, final BugList bugs) {
         if (element.getName().equals(CF.CFCOMPONENT)) {
             final String name = context.getFilename().replace(".cfc", "");
-            checkNameForBugs(context, actualFileName(name), context.getFilename(), bugs);
+            checkNameForBugs(context, actualFileName(name), context.getFilename(), context.startLine(), element.getBegin(), bugs);
         }
     }
 
@@ -119,8 +119,7 @@ public class ComponentNameChecker extends CFLintScannerAdapter {
      * - Names having a prefix or postfix
      */
     public void checkNameForBugs(final Context context, final String component, final String filename,
-            final BugList bugs) {
-        final int line = 1;
+            final int line, final int offset, final BugList bugs) {
         final ValidName name = new ValidName(minComponentLength, maxComponentLength, maxComponentWords);
 
         try {
@@ -132,25 +131,25 @@ public class ComponentNameChecker extends CFLintScannerAdapter {
         // TODO check package name as well?
 
         if (name.isInvalidComponent(component)) {
-            context.addMessage("COMPONENT_INVALID_NAME", null, this, line);
+            context.addMessage("COMPONENT_INVALID_NAME", null, this, line, offset);
         }
         if (name.isUpperCase(component)) {
-            context.addMessage("COMPONENT_ALLCAPS_NAME", null, this, line);
+            context.addMessage("COMPONENT_ALLCAPS_NAME", null, this, line, offset);
         }
         if (name.tooShort(component)) {
-            context.addMessage("COMPONENT_TOO_SHORT", null, this, line);
+            context.addMessage("COMPONENT_TOO_SHORT", null, this, line, offset);
         }
         if (name.tooLong(component)) {
-            context.addMessage("COMPONENT_TOO_LONG", null, this, line);
+            context.addMessage("COMPONENT_TOO_LONG", null, this, line, offset);
         }
         if (!name.isUpperCase(component) && name.tooWordy(component)) {
-            context.addMessage("COMPONENT_TOO_WORDY", null, this, line);
+            context.addMessage("COMPONENT_TOO_WORDY", null, this, line, offset);
         }
         if (name.isTemporary(component)) {
-            context.addMessage("COMPONENT_IS_TEMPORARY", null, this, line);
+            context.addMessage("COMPONENT_IS_TEMPORARY", null, this, line, offset);
         }
         if (name.hasPrefixOrPostfix(component)) {
-            context.addMessage("COMPONENT_HAS_PREFIX_OR_POSTFIX", null, this, line);
+            context.addMessage("COMPONENT_HAS_PREFIX_OR_POSTFIX", null, this, line, offset);
         }
     }
 }

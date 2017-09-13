@@ -21,7 +21,7 @@ public class ComponentLengthChecker extends LengthChecker {
             final String decompile = component.Decompile(1);
             final String[] lines = decompile.split("\\n");
 
-            checkSize(LENGTH_THRESHOLD, "EXCESSIVE_COMPONENT_LENGTH", context, 1, lines.length, bugs);
+            checkSize(LENGTH_THRESHOLD, "EXCESSIVE_COMPONENT_LENGTH", context, 1, 0, lines.length, bugs);
         }
     }
 
@@ -33,7 +33,7 @@ public class ComponentLengthChecker extends LengthChecker {
             // this includes whitespace-change it
             final int total = element.getContent().toString().split("\\n").length;
 
-            checkSize(LENGTH_THRESHOLD, "EXCESSIVE_COMPONENT_LENGTH", context, 1, total, bugs);
+            checkSize(LENGTH_THRESHOLD, "EXCESSIVE_COMPONENT_LENGTH", context, 1, 0, total, bugs);
         }
     }
 }

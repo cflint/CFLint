@@ -11,7 +11,7 @@
       "file" : "src/test/resources/com/cflint/tests/Naming/tempVar.cfc",
       "fileName" : "tempVar.cfc",
       "function" : "foo",
-      "column" : 0,
+      "column" : 12,
       "line" : 3,
       "message" : "Temporary variable tempStruct could be named better.",
       "variable" : "tempStruct",

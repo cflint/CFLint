@@ -31,6 +31,7 @@ public class TestCreateObjectChecker {
         final List<BugInfo> result = lintresult.getIssues().values().iterator().next();
         assertEquals(1, result.size());
         assertEquals("AVOID_USING_CREATEOBJECT", result.get(0).getMessageCode());
+        assertEquals(12, result.get(0).getOffset());
         assertEquals(2, result.get(0).getLine());
     }
 

@@ -45,9 +45,10 @@ public class QueryParamChecker extends CFLintScannerAdapter {
                 while (matcher.find()) {
                     if (matcher.groupCount() >= 1) {
                         int currentline = context.startLine() + countNewLinesUpTo(content, matcher.start());
+                        int currentOffset = element.getStartTag().getEnd() + 1 + matcher.start();
                         final String variableName = matcher.group(1);
                         if (!ignoreLines.contains(currentline)) {
-                            context.addMessage("CFQUERYPARAM_REQ", variableName, currentline);
+                            context.addMessage("CFQUERYPARAM_REQ", variableName, currentline, currentOffset);
                         }
                     }
                 }

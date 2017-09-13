@@ -69,9 +69,14 @@ public class TestArgumentNames {
         CFLintResult lintresult = cfBugs.scan(tagSrc, "test");
         final List<BugInfo> result = lintresult.getIssues().values().iterator().next();
         assertEquals(2, result.size());
+
         assertEquals("ARGUMENT_INVALID_NAME", result.get(0).getMessageCode());
+        assertEquals(tagSrc.indexOf("name_1"), result.get(0).getOffset());
         assertEquals(3, result.get(0).getLine());
+        assertEquals(3, result.get(0).getLine());
+
         assertEquals("ARGUMENT_INVALID_NAME", result.get(1).getMessageCode());
+        assertEquals(tagSrc.indexOf("name2"), result.get(1).getOffset());
         assertEquals(4, result.get(1).getLine());
     }
 
@@ -201,10 +206,14 @@ public class TestArgumentNames {
         CFLintResult lintresult = cfBugs.scan(scriptSrc, "test");
         final List<BugInfo> result = lintresult.getIssues().values().iterator().next();
         assertEquals(2, result.size());
+
         assertEquals("ARGUMENT_INVALID_NAME", result.get(0).getMessageCode());
         assertEquals(2, result.get(0).getLine());
+        assertEquals(scriptSrc.indexOf("name_1"), result.get(0).getOffset());
+
         assertEquals("ARGUMENT_INVALID_NAME", result.get(1).getMessageCode());
         assertEquals(2, result.get(1).getLine());
+        assertEquals(scriptSrc.indexOf("name2"), result.get(1).getOffset());
     }
 
     @Test

@@ -11,10 +11,10 @@
       "file" : "src/test/resources/com/cflint/tests/MissingSemiColon/missingSemis1.cfc",
       "fileName" : "missingSemis1.cfc",
       "function" : "",
-      "column" : 0,
-      "line" : 4,
-      "message" : "End of statement(;) expected instead of name2",
-      "variable" : "name2",
+      "column" : 6,
+      "line" : 3,
+      "message" : "End of statement(;) expected after name_1",
+      "variable" : "name_1",
       "expression" : ""
     } ]
   } ],

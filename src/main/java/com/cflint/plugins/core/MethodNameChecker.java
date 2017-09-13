@@ -40,7 +40,8 @@ public class MethodNameChecker extends CFLintScannerAdapter {
         if (expression instanceof CFFuncDeclStatement) {
             final CFFuncDeclStatement method = (CFFuncDeclStatement) expression;
             final int lineNo = method.getLine() + context.startLine() - 1;
-            checkNameForBugs(context, lineNo);
+            final int offset = method.getOffset() + context.offset();
+            checkNameForBugs(context, lineNo, offset);
         }
     }
 
@@ -51,7 +52,7 @@ public class MethodNameChecker extends CFLintScannerAdapter {
     public void element(final Element element, final Context context, final BugList bugs) {
         if (element.getName().equals(CF.CFFUNCTION)) {
             final int lineNo = element.getSource().getRow(element.getBegin());
-            checkNameForBugs(context, lineNo);
+            checkNameForBugs(context, lineNo, element.getBegin());
         }
     }
 
@@ -103,7 +104,7 @@ public class MethodNameChecker extends CFLintScannerAdapter {
      * - Names that look like temporary variables
      * - Names having a prefix or postfix
      */
-    public void checkNameForBugs(final Context context, final int line) {
+    public void checkNameForBugs(final Context context, final int line, final int offset) {
         final String method = context.getFunctionName();
 
         try {
@@ -115,25 +116,25 @@ public class MethodNameChecker extends CFLintScannerAdapter {
         final ValidName name = new ValidName(minMethodLength, maxMethodLength, maxMethodWords);
 
         if (name.isInvalid(method)) {
-            context.addMessage("METHOD_INVALID_NAME", null, line);
+            context.addMessage("METHOD_INVALID_NAME", null, line, offset);
         }
         if (name.isUpperCase(method)) {
-            context.addMessage("METHOD_ALLCAPS_NAME", null, line);
+            context.addMessage("METHOD_ALLCAPS_NAME", null, line, offset);
         }
         if (name.tooShort(method)) {
-            context.addMessage("METHOD_TOO_SHORT", null, line);
+            context.addMessage("METHOD_TOO_SHORT", null, line, offset);
         }
         if (name.tooLong(method)) {
-            context.addMessage("METHOD_TOO_LONG", null, line);
+            context.addMessage("METHOD_TOO_LONG", null, line, offset);
         }
         if (!name.isUpperCase(method) && name.tooWordy(method)) {
-            context.addMessage("METHOD_TOO_WORDY", null, line);
+            context.addMessage("METHOD_TOO_WORDY", null, line, offset);
         }
         if (name.isTemporary(method)) {
-            context.addMessage("METHOD_IS_TEMPORARY", null, line);
+            context.addMessage("METHOD_IS_TEMPORARY", null, line, offset);
         }
         if (name.hasPrefixOrPostfix(method)) {
-            context.addMessage("METHOD_HAS_PREFIX_OR_POSTFIX", null, line);
+            context.addMessage("METHOD_HAS_PREFIX_OR_POSTFIX", null, line, offset);
         }
     }
 }

@@ -1,6 +1,7 @@
 package com.cflint;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 import java.util.List;
 
@@ -38,7 +39,7 @@ public class TestComponentLengthChecker {
     @Test
     public void testBadFunction() throws CFLintScanException {
         final StringBuilder cfcSrc = new StringBuilder("component name=\"EventQuery\" {\r\n");
-        for(int i=0;i<167;i++){
+        for(int i=0;i<505;i++){
             cfcSrc.append("  function getSourceTemplates (required sourceTemplateNum) {\r\n" + 
                         "    return 123;\r\n" +
                         "  }\r\n");
@@ -46,13 +47,14 @@ public class TestComponentLengthChecker {
         cfcSrc.append("}");
         CFLintResult lintresult = cfBugs.scan(cfcSrc.toString(), "test");
         final List<BugInfo> result = lintresult.getIssues().get("EXCESSIVE_COMPONENT_LENGTH");
+        assertNotNull(result);
         assertEquals(1, result.size());
         assertEquals("EXCESSIVE_COMPONENT_LENGTH", result.get(0).getMessageCode());
     }
     @Test
     public void testBadFunctionCFML() throws CFLintScanException {
         final StringBuilder cfcSrc = new StringBuilder("<cfcomponent> {\r\n");
-        for(int i=0;i<167;i++){
+        for(int i=0;i<505;i++){
             cfcSrc.append("<cffunction>\r\n" + 
                         "    <cfreturn 123/>\r\n" +
                         " </cffunction>\r\n");

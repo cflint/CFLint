@@ -50,11 +50,12 @@ public class LiteralChecker extends CFLintScannerAdapter {
             }
 
             final int lineNo = literal.getLine() + context.startLine() - 1;
+            final int offset = literal.getOffset() + context.offset();
 
             if ((warningScope == null || "global".equals(warningScope)) && !context.isInFunction()) {
-                literalCount(name, lineNo, globalLiterals, true, context, bugs);
+                literalCount(name, lineNo, offset, globalLiterals, true, context, bugs);
             } else if ("local".equals(warningScope) && context.isInFunction()) {
-                literalCount(name, lineNo, functionListerals, false, context, bugs);
+                literalCount(name, lineNo, offset, functionListerals, false, context, bugs);
             }
         }
     }
@@ -66,7 +67,7 @@ public class LiteralChecker extends CFLintScannerAdapter {
         }
     }
 
-    protected void literalCount(final String name, final int lineNo, final Map<String, Integer> literals,
+    protected void literalCount(final String name, final int lineNo, final int offset, final Map<String, Integer> literals,
                                 final boolean global, final Context context, final BugList bugs) {
         int count = 1;
 
@@ -80,9 +81,9 @@ public class LiteralChecker extends CFLintScannerAdapter {
 
         if (count > threshold && (warningThreshold == -1 || (count - threshold) <= warningThreshold)) {
             if (global) {
-                magicGlobalValue(name, lineNo, context, bugs);
+                magicGlobalValue(name, lineNo, offset, context, bugs);
             } else {
-                magicLocalValue(name, lineNo, context, bugs);
+                magicLocalValue(name, lineNo, offset, context, bugs);
             }
         }
     }
@@ -114,15 +115,15 @@ public class LiteralChecker extends CFLintScannerAdapter {
         return getParameterAsList("IgnoreWords").contains(name.toLowerCase());
     }
 
-    public void magicLocalValue(final String name, final int lineNo, final Context context, final BugList bugs) {
+    public void magicLocalValue(final String name, final int lineNo, final int offset, final Context context, final BugList bugs) {
         if (!isSpecial(name.toLowerCase())) {
-            context.addUniqueMessage("LOCAL_LITERAL_VALUE_USED_TOO_OFTEN", name, this, lineNo);
+            context.addUniqueMessage("LOCAL_LITERAL_VALUE_USED_TOO_OFTEN", name, this, lineNo, offset);
         }
     }
 
-    public void magicGlobalValue(final String name, final int lineNo, final Context context, final BugList bugs) {
+    public void magicGlobalValue(final String name, final int lineNo, final int offset, final Context context, final BugList bugs) {
         if (!isSpecial(name.toLowerCase())) {
-            context.addUniqueMessage("GLOBAL_LITERAL_VALUE_USED_TOO_OFTEN", name, this, lineNo);
+            context.addUniqueMessage("GLOBAL_LITERAL_VALUE_USED_TOO_OFTEN", name, this, lineNo, offset);
         }
     }
 }

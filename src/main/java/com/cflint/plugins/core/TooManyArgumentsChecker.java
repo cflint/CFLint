@@ -14,6 +14,7 @@ public class TooManyArgumentsChecker extends CFLintScannerAdapter {
 
     protected int argumentCount = 0;
     protected int functionLine = 0;
+    protected int functionOffset = 0;
 
     @Override
     public void expression(final CFScriptStatement expression, final Context context, final BugList bugs) {
@@ -22,7 +23,7 @@ public class TooManyArgumentsChecker extends CFLintScannerAdapter {
             final int begLine = function.getLine();
             final int noArguments = function.getFormals().size();
 
-            checkNumberArguments(noArguments, begLine, context, bugs);
+            checkNumberArguments(noArguments, begLine, function.getOffset(), context, bugs);
         }
     }
 
@@ -30,6 +31,7 @@ public class TooManyArgumentsChecker extends CFLintScannerAdapter {
     public void element(final Element element, final Context context, final BugList bugs) {
         if (element.getName().equals(CF.CFFUNCTION)) {
             functionLine = element.getSource().getRow(element.getBegin());
+            functionOffset = element.getBegin();
             argumentCount = 0;
         } else if (element.getName().equals(CF.CFARGUMENT)) {
             argumentCount++;
@@ -38,13 +40,13 @@ public class TooManyArgumentsChecker extends CFLintScannerAdapter {
         // some code
         // otherwise the argument count will be off by one
         else if (!element.getName().equals(CF.COMMENT) && argumentCount > 0) {
-            checkNumberArguments(argumentCount, functionLine, context, bugs);
+            checkNumberArguments(argumentCount, functionLine, functionOffset, context, bugs);
             argumentCount = 0;
             functionLine = 0;
         }
     }
 
-    protected void checkNumberArguments(final int argumentCount, final int atLine, final Context context,
+    protected void checkNumberArguments(final int argumentCount, final int atLine, int atOffset, final Context context,
             final BugList bugs) {
         final String argumentThreshold = getParameter("maximum");
         int threshold = ARGUMENT_THRESHOLD;
@@ -54,7 +56,7 @@ public class TooManyArgumentsChecker extends CFLintScannerAdapter {
         }
 
         if (argumentCount > threshold) {
-            context.addUniqueMessage("EXCESSIVE_ARGUMENTS", context.getFunctionName(), this, atLine);
+            context.addUniqueMessage("EXCESSIVE_ARGUMENTS", context.getFunctionName(), this, atLine, atOffset);
         }
     }
 

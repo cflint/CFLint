@@ -16,10 +16,11 @@ public class LengthChecker extends CFLintScannerAdapter {
      * @param message message to display.
      * @param context current context.
      * @param atLine  current line.
+     * @param atOffset current offset.
      * @param linesLength no of lines.
      * @param bugs list of bugs.
      */
-    protected void checkSize(final int maxLength, final String message, final Context context, final int atLine, final int linesLength, final BugList bugs) {
+    protected void checkSize(final int maxLength, final String message, final Context context, final int atLine, final int atOffset, final int linesLength, final BugList bugs) {
         final String lengthThreshold = getParameter("length");
         int length = maxLength;
 
@@ -28,7 +29,7 @@ public class LengthChecker extends CFLintScannerAdapter {
         }
 
         if (linesLength > length) {
-            context.addMessage(message, Integer.toString(linesLength), this, atLine);
+            context.addMessage(message, Integer.toString(linesLength), this, atLine, atOffset);
 
         }
     }

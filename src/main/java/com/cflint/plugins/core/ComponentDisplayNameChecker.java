@@ -16,13 +16,13 @@ public class ComponentDisplayNameChecker extends CFLintScannerAdapter {
             final String nameAttribute = element.getAttributeValue(CF.NAME);
 
             if (nameAttribute != null) {
-                didYouMeanDisplayName(name, context, bugs);
+                didYouMeanDisplayName(name, element.getSource().getRow(element.getBegin()), context.offset() + element.getBegin(), context, bugs);
             }
         }
     }
 
-    protected void didYouMeanDisplayName(final String name, final Context context, final BugList bugs) {
-        context.addMessage("USE_DISPLAY_NAME", name, this, 1);
+    protected void didYouMeanDisplayName(final String name, final int lineNo, final int offset, final Context context, final BugList bugs) {
+        context.addMessage("USE_DISPLAY_NAME", name, this, lineNo, offset);
     }
 
 }

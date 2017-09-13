@@ -36,7 +36,7 @@ public class CFTagCaseChecker extends CFLintScannerAdapter {
              */
             if (cfTag.equals(nonPreferredCase)) {
                 final int begLine = element.getSource().getRow(element.getBegin());
-                context.addMessage(CFTAG_PREFERRED_CASE, cfTag, this, begLine);
+                context.addMessage(CFTAG_PREFERRED_CASE, cfTag, this, begLine, element.getBegin());
             }
         }
     }

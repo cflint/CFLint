@@ -11,7 +11,7 @@
       "file" : "src/test/resources/com/cflint/tests/VariableNameChecker/sample1_228.cfc",
       "fileName" : "sample1_228.cfc",
       "function" : "getStringFromStruct",
-      "column" : 0,
+      "column" : 15,
       "line" : 3,
       "message" : "Variable LocalData is not a valid name. Please use CamelCase or underscores.",
       "variable" : "LocalData",

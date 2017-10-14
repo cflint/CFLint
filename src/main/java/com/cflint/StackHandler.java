@@ -144,7 +144,7 @@ public class StackHandler {
             if (vars.getArguments().contains(name.toUpperCase())) {
                 // Dereference of an argument without the arguments scope copies
                 // to local scope
-                vars.getVariables().add(name.toUpperCase());
+                varStack.peek().getVariables().add(name.toUpperCase());
                 return true;
             }
         }

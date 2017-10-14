@@ -252,6 +252,12 @@ public class CF {
     public static final String COMPONENT = "component";
 
     /**
+     * CFScript implicit struct.
+     */
+    public static final String STRUCT = "struct";
+
+    
+    /**
      * CFScript dbtype.
      */
     public static final String DBTYPE = "dbtype";

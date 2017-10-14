@@ -1,6 +1,6 @@
 {
   "version" : "",
-  "timestamp" : 1501392718,
+  "timestamp" : 1507944133,
   "issues" : [ {
     "severity" : "WARNING",
     "id" : "AVOID_USING_CFINCLUDE_TAG",
@@ -8,7 +8,7 @@
     "category" : "CFLINT",
     "abbrev" : "AU",
     "locations" : [ {
-      "file" : "src/test/resources/com/cflint/tests/CFIncludeChecker/lonelyCfinclude.cfc",
+      "file" : "src\\test\\resources\\com\\cflint\\tests\\CFIncludeChecker\\lonelyCfinclude.cfc",
       "fileName" : "lonelyCfinclude.cfc",
       "function" : "",
       "column" : 3,

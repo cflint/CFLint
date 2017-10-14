@@ -1,6 +1,6 @@
 {
   "version" : "",
-  "timestamp" : 1501392722,
+  "timestamp" : 1507944135,
   "issues" : [ {
     "severity" : "ERROR",
     "id" : "MISSING_VAR",
@@ -8,7 +8,7 @@
     "category" : "CFLINT",
     "abbrev" : "MV",
     "locations" : [ {
-      "file" : "src/test/resources/com/cflint/tests/Ignores/ignoreCFMLAny2.cfc",
+      "file" : "src\\test\\resources\\com\\cflint\\tests\\Ignores\\ignoreCFMLAny2.cfc",
       "fileName" : "ignoreCFMLAny2.cfc",
       "function" : "testFunction",
       "column" : 6,

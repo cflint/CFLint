@@ -6,6 +6,7 @@ import com.cflint.plugins.CFLintScannerAdapter;
 import com.cflint.plugins.Context;
 import com.cflint.plugins.Context.ContextType;
 
+import cfml.parsing.cfscript.CFExpression;
 import cfml.parsing.cfscript.script.CFFuncDeclStatement;
 import cfml.parsing.cfscript.script.CFScriptStatement;
 import net.htmlparser.jericho.Element;
@@ -19,7 +20,7 @@ public class TooManyFunctionsChecker extends CFLintScannerAdapter {
     public void expression(final CFScriptStatement expression, final Context context, final BugList bugs) {
         if (expression instanceof CFFuncDeclStatement && !trivalFunction(context.getFunctionName())) {
             functionCount++;
-            checkNumberFunctions(functionCount, 1, 0, context, bugs);
+            checkNumberFunctions(functionCount, 1, 0, context, bugs,context.getFunctionInfo().getName());
         }
     }
 
@@ -27,7 +28,7 @@ public class TooManyFunctionsChecker extends CFLintScannerAdapter {
     public void element(final Element element, final Context context, final BugList bugs) {
         if (element.getName().equals(CF.CFFUNCTION) && !trivalFunction(context.getFunctionName())) {
             functionCount++;
-            checkNumberFunctions(functionCount, 1, 0, context, bugs);
+            checkNumberFunctions(functionCount, 1, 0, context, bugs, null);
         }
     }
 
@@ -39,7 +40,7 @@ public class TooManyFunctionsChecker extends CFLintScannerAdapter {
     }
 
     protected void checkNumberFunctions(final int functionCount, final int atLine, final int atOffset, final Context context,
-                                        final BugList bugs) {
+                                        final BugList bugs, final CFExpression cfExpression) {
         final String functionThreshold = getParameter("maximum");
         int threshold = FUNCTION_THRESHOLD;
 
@@ -49,7 +50,7 @@ public class TooManyFunctionsChecker extends CFLintScannerAdapter {
 
         if (functionCount == threshold + 1) {
             context.getParent(ContextType.COMPONENT).addUniqueMessage("EXCESSIVE_FUNCTIONS", null,
-                this, atLine, atOffset);
+                this, atLine, atOffset,cfExpression);
         }
     }
 

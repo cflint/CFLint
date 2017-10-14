@@ -1,6 +1,6 @@
 {
   "version" : "",
-  "timestamp" : 1501392718,
+  "timestamp" : 1507944132,
   "issues" : [ {
     "severity" : "WARNING",
     "id" : "AVOID_USING_ISDATE",
@@ -8,7 +8,7 @@
     "category" : "CFLINT",
     "abbrev" : "AU",
     "locations" : [ {
-      "file" : "src/test/resources/com/cflint/tests/BuiltInFunctionChecker/isDate2.cfm",
+      "file" : "src\\test\\resources\\com\\cflint\\tests\\BuiltInFunctionChecker\\isDate2.cfm",
       "fileName" : "isDate2.cfm",
       "function" : "foo",
       "column" : 19,

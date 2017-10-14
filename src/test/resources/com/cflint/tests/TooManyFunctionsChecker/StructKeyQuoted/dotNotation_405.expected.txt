@@ -1,6 +1,6 @@
 {
   "version" : "",
-  "timestamp" : 0,
+  "timestamp" : 1507944140,
   "issues" : [ {
     "severity" : "WARNING",
     "id" : "STRUCT_ARRAY_NOTATION",
@@ -8,7 +8,7 @@
     "category" : "CFLINT",
     "abbrev" : "SA",
     "locations" : [ {
-      "file" : "src/test/resources/com/cflint/tests/TooManyFunctionsChecker/StructKeyQuoted/dotNotation_405.cfc",
+      "file" : "src\\test\\resources\\com\\cflint\\tests\\TooManyFunctionsChecker\\StructKeyQuoted\\dotNotation_405.cfc",
       "fileName" : "dotNotation_405.cfc",
       "function" : "x",
       "column" : 3,
@@ -24,7 +24,7 @@
     "category" : "CFLINT",
     "abbrev" : "SA",
     "locations" : [ {
-      "file" : "src/test/resources/com/cflint/tests/TooManyFunctionsChecker/StructKeyQuoted/dotNotation_405.cfc",
+      "file" : "src\\test\\resources\\com\\cflint\\tests\\TooManyFunctionsChecker\\StructKeyQuoted\\dotNotation_405.cfc",
       "fileName" : "dotNotation_405.cfc",
       "function" : "x",
       "column" : 3,
@@ -40,7 +40,7 @@
     "category" : "CFLINT",
     "abbrev" : "SA",
     "locations" : [ {
-      "file" : "src/test/resources/com/cflint/tests/TooManyFunctionsChecker/StructKeyQuoted/dotNotation_405.cfc",
+      "file" : "src\\test\\resources\\com\\cflint\\tests\\TooManyFunctionsChecker\\StructKeyQuoted\\dotNotation_405.cfc",
       "fileName" : "dotNotation_405.cfc",
       "function" : "x",
       "column" : 3,

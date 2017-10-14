@@ -1,6 +1,6 @@
 {
   "version" : "",
-  "timestamp" : 1501392733,
+  "timestamp" : 1507944145,
   "issues" : [ {
     "severity" : "INFO",
     "id" : "AVOID_USING_WRITEDUMP",
@@ -8,7 +8,7 @@
     "category" : "CFLINT",
     "abbrev" : "AU",
     "locations" : [ {
-      "file" : "src/test/resources/com/cflint/tests/WriteDumpChecker/writeDump.cfc",
+      "file" : "src\\test\\resources\\com\\cflint\\tests\\WriteDumpChecker\\writeDump.cfc",
       "fileName" : "writeDump.cfc",
       "function" : "helloWorld",
       "column" : 5,

@@ -1,6 +1,6 @@
 {
   "version" : "",
-  "timestamp" : 1501392720,
+  "timestamp" : 1507944133,
   "issues" : [ {
     "severity" : "WARNING",
     "id" : "FUNCTION_TOO_COMPLEX",
@@ -8,7 +8,7 @@
     "category" : "CFLINT",
     "abbrev" : "FT",
     "locations" : [ {
-      "file" : "src/test/resources/com/cflint/tests/Complexity/ifelseComplex.cfc",
+      "file" : "src\\test\\resources\\com\\cflint\\tests\\Complexity\\ifelseComplex.cfc",
       "fileName" : "ifelseComplex.cfc",
       "function" : "foo",
       "column" : 16,

@@ -14,6 +14,7 @@ import com.cflint.CF;
 import com.cflint.StackHandler;
 import com.cflint.tools.ObjectEquals;
 
+import cfml.parsing.cfscript.CFExpression;
 import cfml.parsing.cfscript.CFIdentifier;
 import cfml.parsing.cfscript.script.CFFuncDeclStatement;
 import net.htmlparser.jericho.Element;
@@ -148,11 +149,11 @@ public class Context {
     }
 
     public void addUniqueMessage(final String messageCode, final String variable, final CFLintScanner source) {
-        addUniqueMessage(messageCode, variable, source, null, null);
+        addUniqueMessage(messageCode, variable, source, null, null, null);
     }
 
     public void addUniqueMessage(final String messageCode, final String variable, final CFLintScanner source,
-            final Integer line, final Integer offset) {
+            final Integer line, final Integer offset, final CFExpression cfExpression) {
         if (messageCode != null) {
             for (ContextMessage msg : messages) {
                 if (ObjectEquals.equals(msg.getMessageCode(), messageCode)
@@ -161,7 +162,7 @@ public class Context {
                 }
             }
         }
-        addMessage(messageCode, variable, source, line, offset);
+        addMessage(messageCode, variable, source, line, offset, cfExpression);
     }
 
     public void addMessage(final String messageCode, final String variable) {
@@ -170,7 +171,11 @@ public class Context {
 
     public void addMessage(final String messageCode, final String variable, final CFLintScanner source,
             final Integer line, final Integer offset) {
-        messages.add(new ContextMessage(messageCode, variable, source, line, offset));
+        messages.add(new ContextMessage(messageCode, variable, source, line, offset,null));
+    }
+    public void addMessage(final String messageCode, final String variable, final CFLintScanner source,
+            final Integer line, final Integer offset, final CFExpression cfExpression) {
+        messages.add(new ContextMessage(messageCode, variable, source, line, offset,cfExpression));
     }
 
     public void addMessage(final String messageCode, final String variable, final Integer line,
@@ -184,14 +189,26 @@ public class Context {
         private Integer line;
         private Integer offset;
         private CFLintScanner source;
+        private final CFExpression cfExpression;
 
         public ContextMessage(final String messageCode, final String variable) {
             super();
             this.messageCode = messageCode;
             this.variable = variable;
             this.source = null;
+            this.cfExpression = null;
         }
 
+        public ContextMessage(final String messageCode, final String variable, CFLintScanner source,
+                final Integer line, final Integer offset, final CFExpression cfExpression) {
+            super();
+            this.messageCode = messageCode;
+            this.variable = variable;
+            this.source = source;
+            this.line = line;
+            this.offset = offset;
+            this.cfExpression = cfExpression;
+        }
         public ContextMessage(final String messageCode, final String variable, CFLintScanner source,
                 final Integer line, final Integer offset) {
             super();
@@ -200,6 +217,7 @@ public class Context {
             this.source = source;
             this.line = line;
             this.offset = offset;
+            this.cfExpression = null;
         }
 
         public ContextMessage(final String messageCode, final String variable, final Integer line, final Integer offset) {
@@ -226,6 +244,10 @@ public class Context {
 
         public Integer getOffset() {
         	return offset;
+        }
+
+        public CFExpression getCfExpression() {
+            return cfExpression;
         }
     }
 

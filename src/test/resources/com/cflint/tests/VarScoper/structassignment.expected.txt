@@ -1,6 +1,6 @@
 {
   "version" : "",
-  "timestamp" : 0,
+  "timestamp" : 1507944144,
   "issues" : [ {
     "severity" : "ERROR",
     "id" : "MISSING_VAR",
@@ -8,7 +8,7 @@
     "category" : "CFLINT",
     "abbrev" : "MV",
     "locations" : [ {
-      "file" : "src/test/resources/com/cflint/tests/VarScoper/structassignment.cfc",
+      "file" : "src\\test\\resources\\com\\cflint\\tests\\VarScoper\\structassignment.cfc",
       "fileName" : "structassignment.cfc",
       "function" : "foo",
       "column" : 11,

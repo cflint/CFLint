@@ -1,6 +1,6 @@
 {
   "version" : "",
-  "timestamp" : 1501392727,
+  "timestamp" : 1507944139,
   "issues" : [ {
     "severity" : "ERROR",
     "id" : "MISSING_VAR",
@@ -8,7 +8,7 @@
     "category" : "CFLINT",
     "abbrev" : "MV",
     "locations" : [ {
-      "file" : "src/test/resources/com/cflint/tests/Parsing/parsing253.cfm",
+      "file" : "src\\test\\resources\\com\\cflint\\tests\\Parsing\\parsing253.cfm",
       "fileName" : "parsing253.cfm",
       "function" : "foo",
       "column" : 7,

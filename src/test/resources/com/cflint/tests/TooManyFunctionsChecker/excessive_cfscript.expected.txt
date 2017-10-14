@@ -1,6 +1,6 @@
 {
   "version" : "",
-  "timestamp" : 0,
+  "timestamp" : 1507944140,
   "issues" : [ {
     "severity" : "WARNING",
     "id" : "EXCESSIVE_FUNCTIONS",
@@ -8,14 +8,14 @@
     "category" : "CFLINT",
     "abbrev" : "EF",
     "locations" : [ {
-      "file" : "src/test/resources/com/cflint/tests/TooManyFunctionsChecker/excessive_cfscript.cfc",
+      "file" : "src\\test\\resources\\com\\cflint\\tests\\TooManyFunctionsChecker\\excessive_cfscript.cfc",
       "fileName" : "excessive_cfscript.cfc",
       "function" : "",
       "column" : 0,
       "line" : 1,
       "message" : "Component excessive_cfscript has too many functions. Should be fewer than 10.",
       "variable" : "",
-      "expression" : ""
+      "expression" : "functionEleven"
     } ]
   } ],
   "counts" : {

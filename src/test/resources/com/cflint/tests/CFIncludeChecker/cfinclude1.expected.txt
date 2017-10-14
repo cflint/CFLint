@@ -1,6 +1,6 @@
 {
   "version" : "",
-  "timestamp" : 1501392718,
+  "timestamp" : 1507944132,
   "issues" : [ {
     "severity" : "WARNING",
     "id" : "AVOID_USING_CFINCLUDE_TAG",
@@ -8,7 +8,7 @@
     "category" : "CFLINT",
     "abbrev" : "AU",
     "locations" : [ {
-      "file" : "src/test/resources/com/cflint/tests/CFIncludeChecker/cfinclude1.cfc",
+      "file" : "src\\test\\resources\\com\\cflint\\tests\\CFIncludeChecker\\cfinclude1.cfc",
       "fileName" : "cfinclude1.cfc",
       "function" : "",
       "column" : 3,

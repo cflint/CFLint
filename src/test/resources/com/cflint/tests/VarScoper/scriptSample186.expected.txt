@@ -1,6 +1,6 @@
 {
   "version" : "",
-  "timestamp" : 1501392733,
+  "timestamp" : 1507944144,
   "issues" : [ {
     "severity" : "ERROR",
     "id" : "MISSING_VAR",
@@ -8,7 +8,7 @@
     "category" : "CFLINT",
     "abbrev" : "MV",
     "locations" : [ {
-      "file" : "src/test/resources/com/cflint/tests/VarScoper/scriptSample186.cfc",
+      "file" : "src\\test\\resources\\com\\cflint\\tests\\VarScoper\\scriptSample186.cfc",
       "fileName" : "scriptSample186.cfc",
       "function" : "leakMemory",
       "column" : 6,
@@ -24,7 +24,7 @@
     "category" : "CFLINT",
     "abbrev" : "MV",
     "locations" : [ {
-      "file" : "src/test/resources/com/cflint/tests/VarScoper/scriptSample186.cfc",
+      "file" : "src\\test\\resources\\com\\cflint\\tests\\VarScoper\\scriptSample186.cfc",
       "fileName" : "scriptSample186.cfc",
       "function" : "leakMemory",
       "column" : 6,

@@ -1,6 +1,6 @@
 {
   "version" : "",
-  "timestamp" : 1501392730,
+  "timestamp" : 1507944142,
   "issues" : [ {
     "severity" : "INFO",
     "id" : "UNUSED_LOCAL_VARIABLE",
@@ -8,7 +8,7 @@
     "category" : "CFLINT",
     "abbrev" : "UL",
     "locations" : [ {
-      "file" : "src/test/resources/com/cflint/tests/UnusedVariable/simpleUnused.cfc",
+      "file" : "src\\test\\resources\\com\\cflint\\tests\\UnusedVariable\\simpleUnused.cfc",
       "fileName" : "simpleUnused.cfc",
       "function" : "save",
       "column" : 5,

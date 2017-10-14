@@ -1,6 +1,6 @@
 {
   "version" : "",
-  "timestamp" : 1501392725,
+  "timestamp" : 1507944137,
   "issues" : [ {
     "severity" : "WARNING",
     "id" : "GLOBAL_LITERAL_VALUE_USED_TOO_OFTEN",
@@ -8,7 +8,7 @@
     "category" : "CFLINT",
     "abbrev" : "GL",
     "locations" : [ {
-      "file" : "src/test/resources/com/cflint/tests/LiteralChecker/literal_checker_326.cfm",
+      "file" : "src\\test\\resources\\com\\cflint\\tests\\LiteralChecker\\literal_checker_326.cfm",
       "fileName" : "literal_checker_326.cfm",
       "function" : "",
       "column" : 125,

@@ -1,6 +1,6 @@
 {
   "version" : "",
-  "timestamp" : 0,
+  "timestamp" : 1507944141,
   "issues" : [ {
     "severity" : "WARNING",
     "id" : "UNQUOTED_STRUCT_KEY",
@@ -8,7 +8,7 @@
     "category" : "CFLINT",
     "abbrev" : "US",
     "locations" : [ {
-      "file" : "src/test/resources/com/cflint/tests/TooManyFunctionsChecker/StructKeyQuoted/unquotedStructKey.cfc",
+      "file" : "src\\test\\resources\\com\\cflint\\tests\\TooManyFunctionsChecker\\StructKeyQuoted\\unquotedStructKey.cfc",
       "fileName" : "unquotedStructKey.cfc",
       "function" : "x",
       "column" : 16,

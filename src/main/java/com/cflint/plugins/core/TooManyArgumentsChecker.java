@@ -23,7 +23,7 @@ public class TooManyArgumentsChecker extends CFLintScannerAdapter {
             final int begLine = function.getLine();
             final int noArguments = function.getFormals().size();
 
-            checkNumberArguments(noArguments, begLine, function.getOffset(), context, bugs);
+            checkNumberArguments(noArguments, begLine, function.getOffset(), context, bugs, function);
         }
     }
 
@@ -40,14 +40,14 @@ public class TooManyArgumentsChecker extends CFLintScannerAdapter {
         // some code
         // otherwise the argument count will be off by one
         else if (!element.getName().equals(CF.COMMENT) && argumentCount > 0) {
-            checkNumberArguments(argumentCount, functionLine, functionOffset, context, bugs);
+            checkNumberArguments(argumentCount, functionLine, functionOffset, context, bugs,null);
             argumentCount = 0;
             functionLine = 0;
         }
     }
 
     protected void checkNumberArguments(final int argumentCount, final int atLine, int atOffset, final Context context,
-            final BugList bugs) {
+            final BugList bugs, CFFuncDeclStatement expression) {
         final String argumentThreshold = getParameter("maximum");
         int threshold = ARGUMENT_THRESHOLD;
 
@@ -56,7 +56,7 @@ public class TooManyArgumentsChecker extends CFLintScannerAdapter {
         }
 
         if (argumentCount > threshold) {
-            context.addUniqueMessage("EXCESSIVE_ARGUMENTS", context.getFunctionName(), this, atLine, atOffset);
+            context.addUniqueMessage("EXCESSIVE_ARGUMENTS", context.getFunctionName(), this, atLine, atOffset,expression==null?null:expression.getName());
         }
     }
 

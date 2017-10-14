@@ -1,6 +1,6 @@
 {
   "version" : "",
-  "timestamp" : 1501392731,
+  "timestamp" : 1507944143,
   "issues" : [ {
     "severity" : "ERROR",
     "id" : "MISSING_VAR",
@@ -8,7 +8,7 @@
     "category" : "CFLINT",
     "abbrev" : "MV",
     "locations" : [ {
-      "file" : "src/test/resources/com/cflint/tests/VarScoper/cfquery_scoper.cfc",
+      "file" : "src\\test\\resources\\com\\cflint\\tests\\VarScoper\\cfquery_scoper.cfc",
       "fileName" : "cfquery_scoper.cfc",
       "function" : "foo",
       "column" : 3,

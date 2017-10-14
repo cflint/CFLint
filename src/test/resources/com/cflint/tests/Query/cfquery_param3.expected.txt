@@ -1,6 +1,6 @@
 {
   "version" : "",
-  "timestamp" : 1501392728,
+  "timestamp" : 1507944140,
   "issues" : [ {
     "severity" : "WARNING",
     "id" : "CFQUERYPARAM_REQ",
@@ -8,7 +8,7 @@
     "category" : "CFLINT",
     "abbrev" : "CR",
     "locations" : [ {
-      "file" : "src/test/resources/com/cflint/tests/Query/cfquery_param3.cfc",
+      "file" : "src\\test\\resources\\com\\cflint\\tests\\Query\\cfquery_param3.cfc",
       "fileName" : "cfquery_param3.cfc",
       "function" : "foo",
       "column" : 20,

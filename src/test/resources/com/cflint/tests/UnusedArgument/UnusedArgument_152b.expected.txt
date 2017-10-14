@@ -1,6 +1,6 @@
 {
   "version" : "",
-  "timestamp" : 1501392728,
+  "timestamp" : 1507944141,
   "issues" : [ {
     "severity" : "INFO",
     "id" : "UNUSED_METHOD_ARGUMENT",
@@ -8,7 +8,7 @@
     "category" : "CFLINT",
     "abbrev" : "UM",
     "locations" : [ {
-      "file" : "src/test/resources/com/cflint/tests/UnusedArgument/UnusedArgument_152b.cfc",
+      "file" : "src\\test\\resources\\com\\cflint\\tests\\UnusedArgument\\UnusedArgument_152b.cfc",
       "fileName" : "UnusedArgument_152b.cfc",
       "function" : "helloWorld",
       "column" : 20,

@@ -1,6 +1,6 @@
 {
   "version" : "",
-  "timestamp" : 1501392730,
+  "timestamp" : 1507944142,
   "issues" : [ {
     "severity" : "INFO",
     "id" : "VAR_TOO_LONG",
@@ -8,14 +8,14 @@
     "category" : "CFLINT",
     "abbrev" : "VT",
     "locations" : [ {
-      "file" : "src/test/resources/com/cflint/tests/VariableNameChecker/cftry.cfc",
+      "file" : "src\\test\\resources\\com\\cflint\\tests\\VariableNameChecker\\cftry.cfc",
       "fileName" : "cftry.cfc",
       "function" : "init",
       "column" : 10,
       "line" : 8,
       "message" : "Variable asdfghjklasdfghjklasdfghjklasdfghjklasdfghjklasdfghjkl should be shorter than 20 characters.",
       "variable" : "asdfghjklasdfghjklasdfghjklasdfghjklasdfghjklasdfghjkl",
-      "expression" : ""
+      "expression" : "var asdfghjklasdfghjklasdfghjklasdfghjklasdfghjklasdfghjkl = 10"
     } ]
   }, {
     "severity" : "INFO",
@@ -24,14 +24,14 @@
     "category" : "CFLINT",
     "abbrev" : "VT",
     "locations" : [ {
-      "file" : "src/test/resources/com/cflint/tests/VariableNameChecker/cftry.cfc",
+      "file" : "src\\test\\resources\\com\\cflint\\tests\\VariableNameChecker\\cftry.cfc",
       "fileName" : "cftry.cfc",
       "function" : "init",
       "column" : 9,
       "line" : 5,
       "message" : "Variable q should be longer than 3 characters.",
       "variable" : "q",
-      "expression" : ""
+      "expression" : "var q = 123"
     } ]
   }, {
     "severity" : "INFO",
@@ -40,14 +40,14 @@
     "category" : "CFLINT",
     "abbrev" : "VT",
     "locations" : [ {
-      "file" : "src/test/resources/com/cflint/tests/VariableNameChecker/cftry.cfc",
+      "file" : "src\\test\\resources\\com\\cflint\\tests\\VariableNameChecker\\cftry.cfc",
       "fileName" : "cftry.cfc",
       "function" : "init",
       "column" : 10,
       "line" : 7,
       "message" : "Variable z should be longer than 3 characters.",
       "variable" : "z",
-      "expression" : ""
+      "expression" : "var z = 123"
     } ]
   } ],
   "counts" : {

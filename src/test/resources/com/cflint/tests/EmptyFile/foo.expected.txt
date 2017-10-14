@@ -1,6 +1,6 @@
 {
   "version" : "",
-  "timestamp" : 1501392720,
+  "timestamp" : 1507944134,
   "issues" : [ {
     "severity" : "WARNING",
     "id" : "AVOID_EMPTY_FILES",
@@ -8,7 +8,7 @@
     "category" : "CFLINT",
     "abbrev" : "AE",
     "locations" : [ {
-      "file" : "src/test/resources/com/cflint/tests/EmptyFile/foo.cfc",
+      "file" : "src\\test\\resources\\com\\cflint\\tests\\EmptyFile\\foo.cfc",
       "fileName" : "foo.cfc",
       "function" : "",
       "column" : 1,

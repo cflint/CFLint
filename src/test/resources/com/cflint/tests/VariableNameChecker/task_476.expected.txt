@@ -1,0 +1,116 @@
+{
+  "version" : "",
+  "timestamp" : 1507944143,
+  "issues" : [ {
+    "severity" : "INFO",
+    "id" : "SCOPE_ALLCAPS_NAME",
+    "message" : "SCOPE_ALLCAPS_NAME",
+    "category" : "CFLINT",
+    "abbrev" : "SA",
+    "locations" : [ {
+      "file" : "src\\test\\resources\\com\\cflint\\tests\\VariableNameChecker\\task_476.cfc",
+      "fileName" : "task_476.cfc",
+      "function" : "loadHTML",
+      "column" : 8,
+      "line" : 6,
+      "message" : "Scope LOCAL should not be upper case.",
+      "variable" : "LOCAL",
+      "expression" : "LOCAL.struResult"
+    } ]
+  }, {
+    "severity" : "INFO",
+    "id" : "VAR_HAS_PREFIX_OR_POSTFIX",
+    "message" : "VAR_HAS_PREFIX_OR_POSTFIX",
+    "category" : "CFLINT",
+    "abbrev" : "VH",
+    "locations" : [ {
+      "file" : "src\\test\\resources\\com\\cflint\\tests\\VariableNameChecker\\task_476.cfc",
+      "fileName" : "task_476.cfc",
+      "function" : "loadHTML",
+      "column" : 2,
+      "line" : 7,
+      "message" : "Variable has prefix or postfix bSuccess and could be named better.",
+      "variable" : "bSuccess",
+      "expression" : "bSuccess:false"
+    } ]
+  }, {
+    "severity" : "INFO",
+    "id" : "VAR_HAS_PREFIX_OR_POSTFIX",
+    "message" : "VAR_HAS_PREFIX_OR_POSTFIX",
+    "category" : "CFLINT",
+    "abbrev" : "VH",
+    "locations" : [ {
+      "file" : "src\\test\\resources\\com\\cflint\\tests\\VariableNameChecker\\task_476.cfc",
+      "fileName" : "task_476.cfc",
+      "function" : "loadHTML",
+      "column" : 20,
+      "line" : 7,
+      "message" : "Variable has prefix or postfix bCaught and could be named better.",
+      "variable" : "bCaught",
+      "expression" : "bCaught:false"
+    } ]
+  }, {
+    "severity" : "INFO",
+    "id" : "VAR_HAS_PREFIX_OR_POSTFIX",
+    "message" : "VAR_HAS_PREFIX_OR_POSTFIX",
+    "category" : "CFLINT",
+    "abbrev" : "VH",
+    "locations" : [ {
+      "file" : "src\\test\\resources\\com\\cflint\\tests\\VariableNameChecker\\task_476.cfc",
+      "fileName" : "task_476.cfc",
+      "function" : "loadHTML",
+      "column" : 2,
+      "line" : 8,
+      "message" : "Variable has prefix or postfix arrHTMLHead and could be named better.",
+      "variable" : "arrHTMLHead",
+      "expression" : "arrHTMLHead:[]"
+    } ]
+  }, {
+    "severity" : "INFO",
+    "id" : "VAR_HAS_PREFIX_OR_POSTFIX",
+    "message" : "VAR_HAS_PREFIX_OR_POSTFIX",
+    "category" : "CFLINT",
+    "abbrev" : "VH",
+    "locations" : [ {
+      "file" : "src\\test\\resources\\com\\cflint\\tests\\VariableNameChecker\\task_476.cfc",
+      "fileName" : "task_476.cfc",
+      "function" : "loadHTML",
+      "column" : 2,
+      "line" : 9,
+      "message" : "Variable has prefix or postfix arrHTML and could be named better.",
+      "variable" : "arrHTML",
+      "expression" : "arrHTML:[]"
+    } ]
+  }, {
+    "severity" : "INFO",
+    "id" : "VAR_HAS_PREFIX_OR_POSTFIX",
+    "message" : "VAR_HAS_PREFIX_OR_POSTFIX",
+    "category" : "CFLINT",
+    "abbrev" : "VH",
+    "locations" : [ {
+      "file" : "src\\test\\resources\\com\\cflint\\tests\\VariableNameChecker\\task_476.cfc",
+      "fileName" : "task_476.cfc",
+      "function" : "loadHTML",
+      "column" : 2,
+      "line" : 10,
+      "message" : "Variable has prefix or postfix arrHTMLFoot and could be named better.",
+      "variable" : "arrHTMLFoot",
+      "expression" : "arrHTMLFoot:[]"
+    } ]
+  } ],
+  "counts" : {
+    "totalFiles" : 0,
+    "totalLines" : 0,
+    "countByCode" : [ {
+      "code" : "SCOPE_ALLCAPS_NAME",
+      "count" : 1
+    }, {
+      "code" : "VAR_HAS_PREFIX_OR_POSTFIX",
+      "count" : 5
+    } ],
+    "countBySeverity" : [ {
+      "severity" : "INFO",
+      "count" : 6
+    } ]
+  }
+}

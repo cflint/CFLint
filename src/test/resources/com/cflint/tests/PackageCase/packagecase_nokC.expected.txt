@@ -1,6 +1,6 @@
 {
   "version" : "",
-  "timestamp" : 1501392726,
+  "timestamp" : 1507944138,
   "issues" : [ {
     "severity" : "WARNING",
     "id" : "PACKAGE_CASE_MISMATCH",
@@ -8,7 +8,7 @@
     "category" : "CFLINT",
     "abbrev" : "PC",
     "locations" : [ {
-      "file" : "src/test/resources/com/cflint/tests/PackageCase/packagecase_nokC.cfc",
+      "file" : "src\\test\\resources\\com\\cflint\\tests\\PackageCase\\packagecase_nokC.cfc",
       "fileName" : "packagecase_nokC.cfc",
       "function" : "",
       "column" : 1,

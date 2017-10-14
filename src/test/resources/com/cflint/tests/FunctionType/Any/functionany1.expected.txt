@@ -1,6 +1,6 @@
 {
   "version" : "",
-  "timestamp" : 1501392721,
+  "timestamp" : 1507944134,
   "issues" : [ {
     "severity" : "INFO",
     "id" : "FUNCTION_TYPE_ANY",
@@ -8,7 +8,7 @@
     "category" : "CFLINT",
     "abbrev" : "FT",
     "locations" : [ {
-      "file" : "src/test/resources/com/cflint/tests/FunctionType/Any/functionany1.cfc",
+      "file" : "src\\test\\resources\\com\\cflint\\tests\\FunctionType\\Any\\functionany1.cfc",
       "fileName" : "functionany1.cfc",
       "function" : "x",
       "column" : 11,

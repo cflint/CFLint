@@ -1,6 +1,6 @@
 {
   "version" : "",
-  "timestamp" : 1501392722,
+  "timestamp" : 1507944135,
   "issues" : [ {
     "severity" : "WARNING",
     "id" : "COMPONENT_HINT_MISSING",
@@ -8,7 +8,7 @@
     "category" : "CFLINT",
     "abbrev" : "CH",
     "locations" : [ {
-      "file" : "src/test/resources/com/cflint/tests/Hints/hints4_emptycomment.cfc",
+      "file" : "src\\test\\resources\\com\\cflint\\tests\\Hints\\hints4_emptycomment.cfc",
       "fileName" : "hints4_emptycomment.cfc",
       "function" : "",
       "column" : 1,
@@ -24,7 +24,7 @@
     "category" : "CFLINT",
     "abbrev" : "FH",
     "locations" : [ {
-      "file" : "src/test/resources/com/cflint/tests/Hints/hints4_emptycomment.cfc",
+      "file" : "src\\test\\resources\\com\\cflint\\tests\\Hints\\hints4_emptycomment.cfc",
       "fileName" : "hints4_emptycomment.cfc",
       "function" : "function1",
       "column" : 13,

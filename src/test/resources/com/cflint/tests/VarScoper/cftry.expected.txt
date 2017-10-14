@@ -1,6 +1,6 @@
 {
   "version" : "",
-  "timestamp" : 1501392731,
+  "timestamp" : 1507944143,
   "issues" : [ {
     "severity" : "ERROR",
     "id" : "MISSING_VAR",
@@ -8,7 +8,7 @@
     "category" : "CFLINT",
     "abbrev" : "MV",
     "locations" : [ {
-      "file" : "src/test/resources/com/cflint/tests/VarScoper/cftry.cfc",
+      "file" : "src\\test\\resources\\com\\cflint\\tests\\VarScoper\\cftry.cfc",
       "fileName" : "cftry.cfc",
       "function" : "init",
       "column" : 7,
@@ -24,7 +24,7 @@
     "category" : "CFLINT",
     "abbrev" : "MV",
     "locations" : [ {
-      "file" : "src/test/resources/com/cflint/tests/VarScoper/cftry.cfc",
+      "file" : "src\\test\\resources\\com\\cflint\\tests\\VarScoper\\cftry.cfc",
       "fileName" : "cftry.cfc",
       "function" : "init",
       "column" : 4,
@@ -40,7 +40,7 @@
     "category" : "CFLINT",
     "abbrev" : "MV",
     "locations" : [ {
-      "file" : "src/test/resources/com/cflint/tests/VarScoper/cftry.cfc",
+      "file" : "src\\test\\resources\\com\\cflint\\tests\\VarScoper\\cftry.cfc",
       "fileName" : "cftry.cfc",
       "function" : "init",
       "column" : 4,

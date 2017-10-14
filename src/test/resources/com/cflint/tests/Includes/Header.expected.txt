@@ -1,6 +1,6 @@
 {
   "version" : "",
-  "timestamp" : 1501392724,
+  "timestamp" : 1507944136,
   "issues" : [ {
     "severity" : "WARNING",
     "id" : "GLOBAL_LITERAL_VALUE_USED_TOO_OFTEN",
@@ -8,7 +8,7 @@
     "category" : "CFLINT",
     "abbrev" : "GL",
     "locations" : [ {
-      "file" : "src/test/resources/com/cflint/tests/Includes/Header.cfm",
+      "file" : "src\\test\\resources\\com\\cflint\\tests\\Includes\\Header.cfm",
       "fileName" : "Header.cfm",
       "function" : "",
       "column" : 71,
@@ -24,7 +24,7 @@
     "category" : "CFLINT",
     "abbrev" : "GL",
     "locations" : [ {
-      "file" : "src/test/resources/com/cflint/tests/Includes/Header.cfm",
+      "file" : "src\\test\\resources\\com\\cflint\\tests\\Includes\\Header.cfm",
       "fileName" : "Header.cfm",
       "function" : "",
       "column" : 33,
@@ -40,7 +40,7 @@
     "category" : "CFLINT",
     "abbrev" : "GL",
     "locations" : [ {
-      "file" : "src/test/resources/com/cflint/tests/Includes/Header.cfm",
+      "file" : "src\\test\\resources\\com\\cflint\\tests\\Includes\\Header.cfm",
       "fileName" : "Header.cfm",
       "function" : "",
       "column" : 71,

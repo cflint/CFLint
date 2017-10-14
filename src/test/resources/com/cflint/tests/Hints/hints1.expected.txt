@@ -1,6 +1,6 @@
 {
   "version" : "",
-  "timestamp" : 1501392721,
+  "timestamp" : 1507944134,
   "issues" : [ {
     "severity" : "WARNING",
     "id" : "COMPONENT_HINT_MISSING",
@@ -8,7 +8,7 @@
     "category" : "CFLINT",
     "abbrev" : "CH",
     "locations" : [ {
-      "file" : "src/test/resources/com/cflint/tests/Hints/hints1.cfc",
+      "file" : "src\\test\\resources\\com\\cflint\\tests\\Hints\\hints1.cfc",
       "fileName" : "hints1.cfc",
       "function" : "",
       "column" : 1,

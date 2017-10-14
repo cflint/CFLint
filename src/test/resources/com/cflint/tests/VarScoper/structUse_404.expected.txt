@@ -1,6 +1,6 @@
 {
   "version" : "",
-  "timestamp" : 0,
+  "timestamp" : 1507944145,
   "issues" : [ {
     "severity" : "ERROR",
     "id" : "MISSING_VAR",
@@ -8,7 +8,7 @@
     "category" : "CFLINT",
     "abbrev" : "MV",
     "locations" : [ {
-      "file" : "src/test/resources/com/cflint/tests/VarScoper/structUse_404.cfc",
+      "file" : "src\\test\\resources\\com\\cflint\\tests\\VarScoper\\structUse_404.cfc",
       "fileName" : "structUse_404.cfc",
       "function" : "foo",
       "column" : 3,
@@ -24,7 +24,7 @@
     "category" : "CFLINT",
     "abbrev" : "MV",
     "locations" : [ {
-      "file" : "src/test/resources/com/cflint/tests/VarScoper/structUse_404.cfc",
+      "file" : "src\\test\\resources\\com\\cflint\\tests\\VarScoper\\structUse_404.cfc",
       "fileName" : "structUse_404.cfc",
       "function" : "foo",
       "column" : 4,

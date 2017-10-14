@@ -1192,8 +1192,9 @@ public class CFLint implements IErrorReporter {
         return false;
     }
 
-    public void reportRule(final Element elem, final Object expression, final Context context,
+    public void reportRule(final Element elem, final Object currentExpression, final Context context,
             final CFLintScanner pluginParm, final ContextMessage msg) {
+        final Object expression = msg.getCfExpression() != null? msg.getCfExpression():currentExpression;
         // If we are processing includes, do NOT report any errors
         if (!includeFileStack.isEmpty()) {
             return;
@@ -1271,6 +1272,19 @@ public class CFLint implements IErrorReporter {
                 final Token token = ((CFExpression) expression).getToken();
                 if (!suppressed(bugInfo, token, context)) {
                     bugs.add(bugInfo);
+                }
+                //If the context expression is attached, use the context line and column
+                if( msg.getCfExpression() != null && msg.getCfExpression() != currentExpression){
+                    if (msg.getLine() != null) {
+                        bugInfo.setLine(msg.getLine());
+                        if (msg.getOffset() != null) {
+                            bugInfo.setOffset(msg.getOffset());
+                            bugInfo.setColumn(msg.getOffset() - lineOffsets[msg.getLine() - 1]);
+                        } else {
+                            bugInfo.setOffset(lineOffsets != null ? lineOffsets[msg.getLine() - 1] : 0);
+                            bugInfo.setColumn(0);
+                        }
+                    }    
                 }
             } else {
                 final BugInfo bug = bldr.build((CFScriptStatement) expression, elem);

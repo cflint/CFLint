@@ -1,6 +1,6 @@
 {
   "version" : "",
-  "timestamp" : 1501392720,
+  "timestamp" : 1507944133,
   "issues" : [ {
     "severity" : "INFO",
     "id" : "COMPONENT_INVALID_NAME",
@@ -8,7 +8,7 @@
     "category" : "CFLINT",
     "abbrev" : "CI",
     "locations" : [ {
-      "file" : "src/test/resources/com/cflint/tests/ComponentNameChecker/foo.cfc",
+      "file" : "src\\test\\resources\\com\\cflint\\tests\\ComponentNameChecker\\foo.cfc",
       "fileName" : "foo.cfc",
       "function" : "",
       "column" : 0,

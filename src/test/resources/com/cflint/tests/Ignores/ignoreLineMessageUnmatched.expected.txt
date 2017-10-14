@@ -1,6 +1,6 @@
 {
   "version" : "",
-  "timestamp" : 1501392724,
+  "timestamp" : 1507944136,
   "issues" : [ {
     "severity" : "ERROR",
     "id" : "MISSING_VAR",
@@ -8,7 +8,7 @@
     "category" : "CFLINT",
     "abbrev" : "MV",
     "locations" : [ {
-      "file" : "src/test/resources/com/cflint/tests/Ignores/ignoreLineMessageUnmatched.cfc",
+      "file" : "src\\test\\resources\\com\\cflint\\tests\\Ignores\\ignoreLineMessageUnmatched.cfc",
       "fileName" : "ignoreLineMessageUnmatched.cfc",
       "function" : "function1",
       "column" : 6,

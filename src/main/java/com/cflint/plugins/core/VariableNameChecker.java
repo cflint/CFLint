@@ -50,7 +50,7 @@ public class VariableNameChecker extends CFLintScannerAdapter {
             } else {
                 varName = "";
             }
-            checkNameForBugs(context, varName, varName, context.getFilename(), context.getFunctionName(), begLine, offset, bugs);
+            checkNameForBugs(context, varName, varName, context.getFilename(), context.getFunctionName(), begLine, offset, bugs,null);
         }
     }
 
@@ -70,7 +70,7 @@ public class VariableNameChecker extends CFLintScannerAdapter {
             }
 
             checkNameForBugs(context, varName, varName, context.getFilename(), context.getFunctionName(), begLine,
-                    offset, bugs);
+                    offset, bugs,null);
         }
     }
     
@@ -132,7 +132,8 @@ public class VariableNameChecker extends CFLintScannerAdapter {
         final int lineNo = expression.getLine() + context.startLine() - 1;
         final int offset = expression.getOffset() + context.offset();
 
-        checkNameForBugs(context, varName, varName, context.getFilename(), context.getFunctionName(), lineNo, offset, bugs);
+        CFExpression parentExpression = (expression.getParent() instanceof CFExpression)?(CFExpression)expression.getParent():null;
+        checkNameForBugs(context, varName, varName, context.getFilename(), context.getFunctionName(), lineNo, offset, bugs,parentExpression);
     }
 
     private void checkFullExpression(final CFFullVarExpression expression, final Context context, final BugList bugs) {
@@ -146,7 +147,7 @@ public class VariableNameChecker extends CFLintScannerAdapter {
                 // can be null for nested arrays if so ignore
                 if (varName != null) {
                     checkNameForBugs(context, cfFullVarExpression.Decompile(0), varName,
-                        context.getFilename(), context.getFunctionName(), lineNo, offset, bugs);
+                        context.getFilename(), context.getFunctionName(), lineNo, offset, bugs,expression);
                 }
             }
         }
@@ -157,7 +158,7 @@ public class VariableNameChecker extends CFLintScannerAdapter {
         final int lineNo = expression.getLine() + context.startLine() - 1;
         final int offset = expression.getOffset() + context.offset() + 4; // 'var ' == 4 chars
         final String varName = cfVarDeclExpression.getName();
-        checkNameForBugs(context, varName, varName, context.getFilename(), context.getFunctionName(), lineNo, offset, bugs);
+        checkNameForBugs(context, varName, varName, context.getFilename(), context.getFunctionName(), lineNo, offset, bugs,expression);
     }
 
     private void parseParameters(final ValidName name) throws ConfigError {
@@ -197,7 +198,8 @@ public class VariableNameChecker extends CFLintScannerAdapter {
     }
 
     public void checkNameForBugs(final Context context, final String fullVariable, final String variable,
-            final String filename, final String functionName, final int line, final int offset, final BugList bugs) {
+            final String filename, final String functionName, final int line, final int offset, final BugList bugs,
+            final CFExpression cfExpression) {
         if (excludeFromAnalyse(variable)) {
             return;
         }
@@ -215,28 +217,28 @@ public class VariableNameChecker extends CFLintScannerAdapter {
         Context parent = context.getParent(ContextType.FUNCTION);
         
         if (name.isInvalid(variable)) {
-            parent.addUniqueMessage("VAR_INVALID_NAME", variable, this, line, offset);
+            parent.addUniqueMessage("VAR_INVALID_NAME", variable, this, line, offset, cfExpression);
         }
         if (!scope.isCFScoped(variable) && name.isUpperCase(variable) && !getParameterNotNull("IgnoreAllCapsInScopes").toLowerCase().contains(varScope)) {
-            parent.addUniqueMessage("VAR_ALLCAPS_NAME", variable, this, line, offset);
+            parent.addUniqueMessage("VAR_ALLCAPS_NAME", variable, this, line, offset, cfExpression);
         }
         if (scope.isCFScoped(variable) && name.isUpperCase(variable) && !getParameterNotNull("IgnoreUpperCaseScopes").contains(variable)) {
-            parent.addUniqueMessage("SCOPE_ALLCAPS_NAME", variable, this, line, offset);
+            parent.addUniqueMessage("SCOPE_ALLCAPS_NAME", variable, this, line, offset, cfExpression);
         }
         if (name.tooShort(variable)) {
-            parent.addUniqueMessage("VAR_TOO_SHORT", variable, this, line, offset);
+            parent.addUniqueMessage("VAR_TOO_SHORT", variable, this, line, offset, cfExpression);
         }
         if (name.tooLong(variable)) {
-            parent.addUniqueMessage("VAR_TOO_LONG", variable, this, line, offset);
+            parent.addUniqueMessage("VAR_TOO_LONG", variable, this, line, offset, cfExpression);
         }
         if (!name.isUpperCase(variable) && name.tooWordy(variable)) {
-            parent.addUniqueMessage("VAR_TOO_WORDY", variable, this, line, offset);
+            parent.addUniqueMessage("VAR_TOO_WORDY", variable, this, line, offset, cfExpression);
         }
         if (name.isTemporary(variable)) {
-            parent.addUniqueMessage("VAR_IS_TEMPORARY", variable, this, line, offset);
+            parent.addUniqueMessage("VAR_IS_TEMPORARY", variable, this, line, offset, cfExpression);
         }
         if (name.hasPrefixOrPostfix(variable)) {
-            parent.addUniqueMessage("VAR_HAS_PREFIX_OR_POSTFIX", variable, this, line, offset);
+            parent.addUniqueMessage("VAR_HAS_PREFIX_OR_POSTFIX", variable, this, line, offset, cfExpression);
         }
     }
 

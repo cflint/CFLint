@@ -13,6 +13,7 @@ import com.cflint.plugins.Context.ContextType;
 import cfml.parsing.cfscript.CFExpression;
 import cfml.parsing.cfscript.CFFullVarExpression;
 import cfml.parsing.cfscript.CFIdentifier;
+import cfml.parsing.cfscript.CFNewExpression;
 import cfml.parsing.cfscript.CFVarDeclExpression;
 import net.htmlparser.jericho.Attribute;
 import net.htmlparser.jericho.Element;
@@ -122,7 +123,7 @@ public class VariableNameChecker extends CFLintScannerAdapter {
             checkExpression(expression, context, bugs);
         } else if (expression instanceof CFFullVarExpression) {
             checkFullExpression((CFFullVarExpression) expression, context, bugs);
-        } else if (expression instanceof CFIdentifier) {
+        } else if (expression instanceof CFIdentifier && !(expression.getParent() instanceof CFNewExpression )) {
             checkIdentifier((CFIdentifier) expression, context, bugs);
         }
     }

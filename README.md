@@ -70,7 +70,7 @@ With the binaries retrieved one or the other way, you can now use CFLint on the 
 
     java -jar CFLint-1.2.1-all.jar -folder <baseFolder>
 
-#### Scan a folder with the complete set of rules:
+#### Scan a file with the complete set of rules:
 
     java -jar CFLint-1.2.1-all.jar -file <fullPathToFile>
 
@@ -128,6 +128,8 @@ An example `.cflintrc` file is shown below:
 * Please note: `inheritPlugins` and `output` have been marked deprecated in CFLint 1.2.0 and will be removed in 1.3.0. If you are using `.cflintrc` files now, please remove the inheritPlugins and output properties as soon as possible. Plugin inheritance will going forward always be treated as true, the team can not see a use case in which it should be disabled. The value of the output attribute is ignored.
 
 We provide a [schema with the deprecated properties excluded](/src/main/resources/schemas/.cflintrc.schema.json).
+
+More examples of `.cflintrc` files can be found by browsing the [project test files](/src/test/resources/com/cflint/tests).
 
 ### Annotation-based configuration
 

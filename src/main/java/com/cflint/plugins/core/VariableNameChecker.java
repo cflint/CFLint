@@ -238,7 +238,7 @@ public class VariableNameChecker extends CFLintScannerAdapter {
         if (name.isTemporary(variable)) {
             parent.addUniqueMessage("VAR_IS_TEMPORARY", variable, this, line, offset, cfExpression);
         }
-        if (name.hasPrefixOrPostfix(variable)) {
+        if (name.hasPrefixOrPostfix(variable) && !getParameterNotNull("IgnorePrefixPostfixOn").contains(variable)) {
             parent.addUniqueMessage("VAR_HAS_PREFIX_OR_POSTFIX", variable, this, line, offset, cfExpression);
         }
     }

@@ -597,6 +597,10 @@
         {
           "name": "IgnoreAllCapsInScopes",
           "value": "this,variables"
+        },
+        {
+          "name": "IgnorePrefixPostfixOn",
+          "value": "thisTag"
         }
       ]
     },

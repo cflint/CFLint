@@ -45,6 +45,10 @@ public class CF {
      * CFDocument Tag.
      */
     public static final String CFDOCUMENT = "cfdocument";
+    /**
+     * CFDocumentSection Tag.
+     */
+    public static final String CFDOCUMENTSECTION = "cfdocumentsection";
 
     /**
      * CFElse Tag.

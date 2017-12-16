@@ -454,7 +454,9 @@ public class CFLint implements IErrorReporter {
                 }
                 processStack(elem.getChildElements(), space + " ", context);
 
-            } else if (elem.getName().equalsIgnoreCase(CF.CFARGUMENT)) {
+            } else if (elem.getName().equalsIgnoreCase(CF.CFARGUMENT)
+                    || elem.getName().equalsIgnoreCase(CF.CFDOCUMENTSECTION)
+                    ) {
                 scanElement(elem, context);
                 final String name = elem.getAttributeValue(CF.NAME);
                 if (name != null) {

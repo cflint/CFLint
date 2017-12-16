@@ -1,0 +1,9 @@
+{
+  "rule" : [ ],
+  "excludes" : [ ],
+  "includes" : [ 
+    {"code" : "AVOID_USING_DEBUG_ATTR"} 
+    ,{"code" : "AVOID_USING_CFSETTING_DEBUG"} 
+    ],
+  "inheritParent" : false
+}

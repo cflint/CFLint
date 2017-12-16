@@ -1,0 +1,33 @@
+{
+  "version" : "",
+  "timestamp" : 1513438097,
+  "issues" : [ {
+    "severity" : "WARNING",
+    "id" : "AVOID_USING_DEBUG_ATTR",
+    "message" : "AVOID_USING_DEBUG_ATTR",
+    "category" : "CFLINT",
+    "abbrev" : "AU",
+    "locations" : [ {
+      "file" : "src\\test\\resources\\com\\cflint\\tests\\CFDebugAttributeChecker\\cfquery1_487.cfc",
+      "fileName" : "cfquery1_487.cfc",
+      "function" : "",
+      "column" : 1,
+      "line" : 1,
+      "message" : "Avoid leaving debug attribute on tags.",
+      "variable" : "",
+      "expression" : "<cfquery name=\"foo\" debug=\"true\"/>"
+    } ]
+  } ],
+  "counts" : {
+    "totalFiles" : 0,
+    "totalLines" : 0,
+    "countByCode" : [ {
+      "code" : "AVOID_USING_DEBUG_ATTR",
+      "count" : 1
+    } ],
+    "countBySeverity" : [ {
+      "severity" : "WARNING",
+      "count" : 1
+    } ]
+  }
+}

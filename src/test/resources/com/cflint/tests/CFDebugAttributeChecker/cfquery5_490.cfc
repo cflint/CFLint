@@ -1,0 +1,1 @@
+<cfquery name="foo"/>

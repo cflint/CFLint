@@ -21,7 +21,8 @@ public class CFDebugAttributeChecker extends CFLintScannerAdapter {
         }
         final Attribute debugAttr = attributes.get(CF.DEBUG);
         if (debugAttr != null) {
-            context.addMessage("AVOID_USING_DEBUG_ATTR", null);
+            if(!debugAttr.hasValue() || (!debugAttr.getValue().equalsIgnoreCase("no") && !debugAttr.getValue().equalsIgnoreCase("false")))
+                context.addMessage("AVOID_USING_DEBUG_ATTR", null);
         }
         if (element.getName().equalsIgnoreCase(CF.CFSETTING)) {
             final Attribute showDebugOutputAttr = element.getAttributes().get("showDebugOutput");

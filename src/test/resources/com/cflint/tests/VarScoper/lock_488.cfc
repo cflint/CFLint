@@ -5,5 +5,5 @@ function test () {
         lock name="mylock" type="exclusive" timeout="20" throwontimeout=true {
             r.test = test;
         }
-    }
+    } 
 }

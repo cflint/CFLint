@@ -43,7 +43,7 @@ repositories {
     maven { url "http://cfmlprojects.org/artifacts" }
 }
 dependencies {
-    compile group: 'com.github.cfparser', name: 'cfml.parsing', version:'2.5.6-SNAPSHOT'
+    compile group: 'com.github.cfparser', name: 'cfml.parsing', version:'2.5.6'
     compile group: 'commons-cli', name: 'commons-cli', version:'1.2'
     compile group: 'ro.fortsoft.pf4j', name: 'pf4j', version:'0.6'
     compile group: 'ant', name: 'ant', version:'1.7.0'

@@ -65,17 +65,19 @@ Or always use the latest:
 
 With the binaries retrieved one or the other way, you can now use CFLint on the command line.
 
-#### Use the "-all"-version of the jar-file:
+#### Use the "-all"-version of the jar-file
 
     CFLint-1.2.1-all.jar
 
-#### Scan a folder with the complete set of rules:
+#### Scan a folder with the complete set of rules
 
     java -jar CFLint-1.2.1-all.jar -folder <baseFolder>
 
+#### Scan a file with the complete set of rules
+
     java -jar CFLint-1.2.1-all.jar -file <fullPathToFile>
 
-#### See parameters and help:
+#### See parameters and help
 
     java -jar CFLint-1.2.1-all.jar -help
 
@@ -132,6 +134,8 @@ An example `.cflintrc` file is shown below:
 
 We provide a [schema with the deprecated properties excluded](/src/main/resources/schemas/.cflintrc.schema.json).
 
+More examples of `.cflintrc` files can be found by browsing the [project test files](/src/test/resources/com/cflint/tests).
+
 ### Annotation-based configuration
 
 Quite often there are scenarios in which you would generally want to run a certain set of rules against your code but in specific cases need to ignore an otherwise valid violation.
@@ -140,13 +144,13 @@ A common example are violations of CFQUERYPARAM_REQ that can't be fixed by apply
 
 CFLint offers an annotation-based configuration to deal with this and similar scenarios. Annotations can be placed on the component- or function-level in a CFC or inline with code.
 
-#### Tag-based CFML:
+#### Tag-based CFML
 
     <!---
     @CFLintIgnore SOMETHINGELSE,MISSING_VAR,ANOTHERTHINGTOIGNORE
     --->
 
-#### CFScript:
+#### CFScript
 
 Ignoring all rules on the current line:
 
@@ -162,7 +166,7 @@ Multiline ignore annotation:
         @CFLintIgnore SOMETHINGELSE,MISSING_VAR,ANOTHERTHINGTOIGNORE
     */
 
-#### Ignoring within SQL:
+#### Ignoring within SQL
 
 Within SQL, you can also use
 
@@ -324,6 +328,7 @@ Example of plain text output:
     Total warnings:4
 
 ## API
+
 To interact directly with CFLint within the JVM use the CFLint API.
 
 ```java

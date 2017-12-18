@@ -46,21 +46,21 @@ Get the latest version from [Maven Central](http://search.maven.org/#search%7Cga
 If you want to use CFLint from within another Maven project, use:
 
 ```xml
-    <dependency>
-        <groupId>com.github.cflint</groupId>
-        <artifactId>CFLint</artifactId>
-        <version>1.2.1</version>
-    </dependency>
+<dependency>
+    <groupId>com.github.cflint</groupId>
+    <artifactId>CFLint</artifactId>
+    <version>1.2.1</version>
+</dependency>
 ```
 
 Or always use the latest:
 
 ```xml
-    <dependency>
-        <groupId>com.github.cflint</groupId>
-        <artifactId>CFLint</artifactId>
-        <version>LATEST</version>
-    </dependency>
+<dependency>
+    <groupId>com.github.cflint</groupId>
+    <artifactId>CFLint</artifactId>
+    <version>LATEST</version>
+</dependency>
 ```
 
 With the binaries retrieved one or the other way, you can now use CFLint on the command line.
@@ -110,16 +110,16 @@ Putting a `.cflintrc` file into a directory allows you to specify certain rules 
 An example `.cflintrc` file is shown below:
 
 ```json
-     {
-       "output" : [ ],
-       "rule" : [ ],
-       "excludes" : [ ],
-       "includes" : [ {
-         "code" : "FUNCTION_HINT_MISSING"
-       } ],
-       "inheritParent" : false,
-       "inheritPlugins" : true
-     }
+{
+    "output" : [ ],
+    "rule" : [ ],
+    "excludes" : [ ],
+    "includes" : [ {
+        "code" : "FUNCTION_HINT_MISSING"
+    } ],
+    "inheritParent" : false,
+    "inheritPlugins" : true
+}
 ```
 
 * `rule` allows you add a plugin for this folder that is not listed in the global configuration.  See `ruleImpl` in `cflint.definition.json` for examples.
@@ -210,24 +210,24 @@ To create CFLint XML provide the following command-line arguments:
 Example of CFLint XML:
 
 ```xml
-    <?xml version="1.0" encoding="UTF-8" ?>
-    <issues version="1.2.1" timestamp="1500107134">
-      <issue severity="WARNING" id="CFQUERYPARAM_REQ" message="CFQUERYPARAM_REQ" category="CFLint" abbrev="CR">
+<?xml version="1.0" encoding="UTF-8" ?>
+<issues version="1.2.1" timestamp="1500107134">
+    <issue severity="WARNING" id="CFQUERYPARAM_REQ" message="CFQUERYPARAM_REQ" category="CFLint" abbrev="CR">
         <location file="/Users/kai/Documents/Code/paypal.cfc" fileName="paypal.cfc" function="doSomething" column="0" line="325" message="&lt;cfquery&gt; should use &lt;cfqueryparam/&gt; for variable 'arguments.PaymentType'." variable="arguments.PaymentType">
-          <Expression><![CDATA[<cfquery name="doPayment" datasource="#paymentDatasource#">...some more Details...]]></Expression>
+            <Expression><![CDATA[<cfquery name="doPayment" datasource="#paymentDatasource#">...some more Details...]]></Expression>
         </location>
-      </issue>
-      <issue severity="WARNING" id="CFQUERYPARAM_REQ" message="CFQUERYPARAM_REQ" category="CFLint" abbrev="CR">
+    </issue>
+    <issue severity="WARNING" id="CFQUERYPARAM_REQ" message="CFQUERYPARAM_REQ" category="CFLint" abbrev="CR">
         <location file="/Users/kai/Documents/Code/paypal.cfc" fileName="paypal.cfc" function="doSomethingElse" column="0" line="432" message="&lt;cfquery&gt; should use &lt;cfqueryparam/&gt; for variable 'arguments.something'." variable="arguments.something">
-          <Expression><![CDATA[<cfquery name="doPayment" datasource="#paymentDatasource#">...some more Details...]]></Expression>
+            <Expression><![CDATA[<cfquery name="doPayment" datasource="#paymentDatasource#">...some more Details...]]></Expression>
         </location>
-      </issue>
-    ...
-      <counts totalfiles="108" totallines="55596">
+    </issue>
+...
+    <counts totalfiles="108" totallines="55596">
         <count code="CFQUERYPARAM_REQ" count="39"></count>
         <count severity="WARNING" count="39"></count>
-      </counts>
-    </issues>
+    </counts>
+</issues>
 ```
 
 #### FindBugs XML
@@ -247,39 +247,39 @@ JSON output can be created with
 Example of CFLint JSON:
 
 ```json
-    {
-      "version" : "1.2.1",
-      "timestamp" : 1501202128,
-      "issues" : [ {
+{
+    "version" : "1.2.1",
+    "timestamp" : 1501202128,
+    "issues" : [ {
         "severity" : "ERROR",
         "id" : "MISSING_VAR",
         "message" : "MISSING_VAR",
         "category" : "CFLINT",
         "abbrev" : "MV",
         "locations" : [ {
-          "file" : "src/test/resources/com/cflint/tests/Ignores/ignoreCFMLAny2.cfc",
-          "fileName" : "ignoreCFMLAny2.cfc",
-          "function" : "testFunction",
-          "column" : 6,
-          "line" : 14,
-          "message" : "Variable someVar is not declared with a var statement.",
-          "variable" : "someVar",
-          "expression" : "someVar"
+            "file" : "src/test/resources/com/cflint/tests/Ignores/ignoreCFMLAny2.cfc",
+            "fileName" : "ignoreCFMLAny2.cfc",
+            "function" : "testFunction",
+            "column" : 6,
+            "line" : 14,
+            "message" : "Variable someVar is not declared with a var statement.",
+            "variable" : "someVar",
+            "expression" : "someVar"
         } ]
-      } ],
-      "counts" : {
+    } ],
+    "counts" : {
         "totalFiles" : 7,
         "totalLines" : 49,
         "countByCode" : [ {
-          "code" : "MISSING_VAR",
-          "count" : 1
+            "code" : "MISSING_VAR",
+            "count" : 1
         } ],
         "countBySeverity" : [ {
-          "severity" : "ERROR",
-          "count" : 1
+            "severity" : "ERROR",
+            "count" : 1
         } ]
-      }
     }
+}
 ```
 
 The JSON schema is available [here](/src/main/resources/schemas/cflint-result.schema.json).
@@ -327,12 +327,12 @@ Example of plain text output:
 To interact directly with CFLint within the JVM use the CFLint API.
 
 ```java
-    import com.cflint.api.CFLintAPI;
-    import com.cflint.api.CFLintResult;
+import com.cflint.api.CFLintAPI;
+import com.cflint.api.CFLintResult;
 
-    CFLintAPI api = new CFLintAPI();
-    CFLintResult result = api.scan(filename);
-    String jsonResult = result.getJSON();
+CFLintAPI api = new CFLintAPI();
+CFLintResult result = api.scan(filename);
+String jsonResult = result.getJSON();
 ```
 
 ## Integration server support
@@ -366,50 +366,50 @@ Support for JetBrains' **IntelliJ** is planned; talk to [@TheRealAgentK](https:/
 ### Adding custom rules
 
 ```java
-    package com.cflint.plugins.core;
+package com.cflint.plugins.core;
 
-    import net.htmlparser.jericho.Element;
-    import cfml.parsing.cfscript.script.CFFuncDeclStatement;
-    import cfml.parsing.cfscript.script.CFFunctionParameter;
-    import cfml.parsing.cfscript.script.CFScriptStatement;
+import net.htmlparser.jericho.Element;
+import cfml.parsing.cfscript.script.CFFuncDeclStatement;
+import cfml.parsing.cfscript.script.CFFunctionParameter;
+import cfml.parsing.cfscript.script.CFScriptStatement;
 
-    import com.cflint.BugList;
-    import com.cflint.plugins.CFLintScannerAdapter;
-    import com.cflint.plugins.Context;
-    import com.cflint.tools.CFTool;
+import com.cflint.BugList;
+import com.cflint.plugins.CFLintScannerAdapter;
+import com.cflint.plugins.Context;
+import com.cflint.tools.CFTool;
 
-    public class ArgDefChecker extends CFLintScannerAdapter {
+public class ArgDefChecker extends CFLintScannerAdapter {
 
-        @Override
-        public void expression(final CFScriptStatement expression, final Context context, final BugList bugs) {
-            if (expression instanceof CFFuncDeclStatement) {
-                final CFFuncDeclStatement function = (CFFuncDeclStatement) expression;
-                for (final CFFunctionParameter argument : function.getFormals()) {
-                    // handler.addArgument(param.getName());
-                    final String name = argument.getName();
-                    if (!argument.toString().contains("required") && !argument.toString().contains("=")) {
-                        function.getLine();
-                        function.getColumn();
-                        context.addMessage("ARG_DEFAULT_MISSING", name);
-                    }
-                }
-            }
-        }
-
-        @Override
-        public void element(final Element element, final Context context, final BugList bugs) {
-            if (element.getName().equals("cfargument")) {
-                final String name = element.getAttributeValue("name");
-                final boolean required = CFTool.toBoolean(element.getAttributeValue("required"));
-                final String defaultExpr = element.getAttributeValue("default");
-                if (!required && defaultExpr == null) {
-                    element.getSource().getRow(element.getBegin());
-                    element.getSource().getColumn(element.getBegin());
+    @Override
+    public void expression(final CFScriptStatement expression, final Context context, final BugList bugs) {
+        if (expression instanceof CFFuncDeclStatement) {
+            final CFFuncDeclStatement function = (CFFuncDeclStatement) expression;
+            for (final CFFunctionParameter argument : function.getFormals()) {
+                // handler.addArgument(param.getName());
+                final String name = argument.getName();
+                if (!argument.toString().contains("required") && !argument.toString().contains("=")) {
+                    function.getLine();
+                    function.getColumn();
                     context.addMessage("ARG_DEFAULT_MISSING", name);
                 }
             }
         }
     }
+
+    @Override
+    public void element(final Element element, final Context context, final BugList bugs) {
+        if (element.getName().equals("cfargument")) {
+            final String name = element.getAttributeValue("name");
+            final boolean required = CFTool.toBoolean(element.getAttributeValue("required"));
+            final String defaultExpr = element.getAttributeValue("default");
+            if (!required && defaultExpr == null) {
+                element.getSource().getRow(element.getBegin());
+                element.getSource().getColumn(element.getBegin());
+                context.addMessage("ARG_DEFAULT_MISSING", name);
+            }
+        }
+    }
+}
 ```
 
 Looking at the function `element`, the arguments are:
@@ -427,9 +427,9 @@ The easiest way to achieve this is with a custom `.cflintrc` file:
 The `includes` field is ignored if it is an empty list, so simply add a single item to it for which nothing matches.
 
 ```json
-    {
-        "code" : "NOTHING"
-    }
+{
+    "code" : "NOTHING"
+}
 ```
 
 or more simply:
@@ -441,23 +441,23 @@ or more simply:
 The following will ignore all rules in the current folder and below.
 
 ```json
-    {
-      "output" : [ ],
-      "rule" : [ ],
-      "excludes" : [ ],
-      "includes" : [ {} ],
-      "inheritParent" : false,
-      "inheritPlugins" : true
-    }
+{
+    "output" : [ ],
+    "rule" : [ ],
+    "excludes" : [ ],
+    "includes" : [ {} ],
+    "inheritParent" : false,
+    "inheritPlugins" : true
+}
 ```
 
 This can be simplified using the default values of a `.cflintrc` file:
 
 ```json
-    {
-      "includes" : [{}],
-      "inheritParent" : false
-    }
+{
+    "includes" : [{}],
+    "inheritParent" : false
+}
 ```
 
 See the discussion in [Issue #290](https://github.com/cflint/CFLint/issues/290) for more info.
@@ -471,7 +471,7 @@ Where would such a file go?
 
 ### Examples
 
-To filter out the GLOBAL_VAR messages in the "some\package\location\" folder, add the following to ```cflintexclude.json```
+To filter out the GLOBAL_VAR messages in the "some\package\location\" folder, add the following to `cflintexclude.json`
 
 #### Windows
 

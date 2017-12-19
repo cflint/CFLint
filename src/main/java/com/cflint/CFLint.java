@@ -489,7 +489,8 @@ public class CFLint implements IErrorReporter {
                     throw new CFLintScanException(e);
                 }
 
-                final Context subcontext = context.subContext(elem);
+                final Context subcontext = context.subContext(elem,scriptStatement.getTokens());
+                
                 process(scriptStatement, subcontext);
                 processStack(elem.getChildElements(), space + " ", context);
             } else if (elem.getName().equalsIgnoreCase(CF.CFFUNCTION)) {

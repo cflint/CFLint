@@ -251,6 +251,14 @@ public class Context {
         }
     }
 
+    public Context subContext(final Element elem,final CommonTokenStream tokens) {
+        final Context context2 = new Context(getFilename(), elem == null ? this.element : elem, getFunctionName(),
+                isInAssignmentExpression(), callStack, tokens);
+        context2.setInComponent(isInComponent());
+        context2.parent = this;
+        context2.componentName=componentName;
+        return context2;
+    }
     public Context subContext(final Element elem) {
         final Context context2 = new Context(getFilename(), elem == null ? this.element : elem, getFunctionName(),
                 isInAssignmentExpression(), callStack, tokens);

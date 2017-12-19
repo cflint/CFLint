@@ -17,6 +17,11 @@ public class CF {
     public static final String CFCATCH = "cfcatch";
 
     /**
+     * CFChart tag.
+     */
+    public static final String CFCHART = "cfchart";
+
+    /**
      * CFCollection tag.
      */
     public static final String CFCOLLECTION = "cfcollection";
@@ -91,6 +96,11 @@ public class CF {
     public static final String CFFUNCTION = "cffunction";
 
     /**
+     * CFHTMLToPDF Tag.
+     */
+    public static final String CFHTMLTOPDF = "cfhtmltopdf";
+
+    /**
      * CFHTTP Tag.
      */
     public static final String CFHTTP = "cfhttp";
@@ -99,6 +109,16 @@ public class CF {
      * CFIF Tag.
      */
     public static final String CFIF = "cfif";
+
+    /**
+     * CFImage Tag.
+     */
+    public static final String CFIMAGE = "cfimage";
+
+    /**
+     * CFIMAP Tag.
+     */
+    public static final String CFIMAP = "cfimap";
 
     /**
      * CFInclude Tag.
@@ -211,6 +231,16 @@ public class CF {
     public static final String CFSETTING = "cfsetting";
 
     /**
+     * CFSharepoint Tag.
+     */
+    public static final String CFSHAREPOINT = "cfsharepoint";
+
+    /**
+     * CFSpreadsheet Tag.
+     */
+    public static final String CFSPREADSHEET = "cfspreadsheet";
+
+    /**
      * CFStoredProc Tag.
      */
     public static final String CFSTOREDPROC = "cfstoredproc";
@@ -260,7 +290,6 @@ public class CF {
      */
     public static final String STRUCT = "struct";
 
-    
     /**
      * CFScript dbtype.
      */
@@ -401,7 +430,7 @@ public class CF {
      * CF scope variables.
      */
     public static final String VARIABLES = "variables";
-    
+
     /**
      * CF scope local.
      */

@@ -37,22 +37,6 @@ public class TestCFDebugAttributeTagChecker {
     }
 
     @Test
-    public void testDebugWithVal() throws CFLintScanException {
-        final String cfcSrc = "<cfquery name=\"TestQuery\" datasource=\"cfdocexamples\" debug=false> \n"
-                + "    SELECT * FROM TestTable \n" + "</cfquery>";
-        CFLintResult lintresult = cfBugs.scan(cfcSrc, "test");
-        assertEquals(1, lintresult.getIssues().get("AVOID_USING_DEBUG_ATTR").size());
-    }
-
-    @Test
-    public void testDebugWithQuotedVal() throws CFLintScanException {
-        final String cfcSrc = "<cfquery name=\"TestQuery\" datasource=\"cfdocexamples\" debug=\"false\"> \n"
-                + "    SELECT * FROM TestTable \n" + "</cfquery>";
-        CFLintResult lintresult = cfBugs.scan(cfcSrc, "test");
-        assertEquals(1, lintresult.getIssues().get("AVOID_USING_DEBUG_ATTR").size());
-    }
-
-    @Test
     public void testCfsettingDebugNo() throws CFLintScanException {
         final String cfcSrc = "<cfsetting showDebugOutput=\"No\">";
         CFLintResult lintresult = cfBugs.scan(cfcSrc, "test");

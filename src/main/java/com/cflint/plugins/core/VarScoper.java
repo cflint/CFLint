@@ -22,11 +22,13 @@ public class VarScoper extends CFLintScannerAdapter {
 
     public static final String VARIABLE = "variable";
     public static final String RESULT = "result";
+    public static final String STRUCTNAME = "structname";
 
     private final Map<String, List<String>> checkElementAttributes = new HashMap<>();
-    private final List<String> checkNames = Arrays.asList(CF.CFQUERY, CF.CFSTOREDPROC, CF.CFFEED, CF.CFDIRECTORY,
+    private final List<String> checkNames = Arrays.asList(CF.CFQUERY, CF.CFFEED, CF.CFDIRECTORY,
         CF.CFFORM, CF.CFFTP, CF.CFOBJECT, CF.CFSEARCH, CF.CFPROCRESULT, CF.CFPOP, CF.CFREGISTRY, CF.CFREPORT,
-        CF.CFDBINFO, CF.CFDOCUMENT, CF.CFCOLLECTION, CF.CFPDF, CF.CFZIP, CF.CFLDAP);
+        CF.CFDBINFO, CF.CFDOCUMENT, CF.CFCOLLECTION, CF.CFPDF, CF.CFZIP, CF.CFLDAP, CF.CFHTTP, CF.CFCHART,
+        CF.CFHTMLTOPDF, CF.CFIMAGE, CF.CFIMAP, CF.CFSHAREPOINT, CF.CFSPREADSHEET);
     private final Collection<String> scopes = Arrays.asList(CF.APPLICATION, CF.CGI, CF.COOKIE, CF.FORM, CF.REQUEST,
         CF.SERVER, CF.SESSION, CF.URL);
 
@@ -60,19 +62,24 @@ public class VarScoper extends CFLintScannerAdapter {
     }
 
     public VarScoper() {
-        // checkElementAttributes.put(CF.CFLOOP, Arrays.asList(CF.index, CF.ITEM));
-        checkElementAttributes.put(CF.CFINVOKE, Arrays.asList(CF.RETURNVARIABLE));
-        checkElementAttributes.put(CF.CFFILE, Arrays.asList(VARIABLE));
-        checkElementAttributes.put(CF.CFSAVECONTENT, Arrays.asList(VARIABLE));
-        checkElementAttributes.put(CF.CFHTTP, Arrays.asList(RESULT));
-        checkElementAttributes.put(CF.CFQUERY, Arrays.asList(RESULT));
-        checkElementAttributes.put(CF.CFMAIL, Arrays.asList(CF.QUERY));
-        checkElementAttributes.put(CF.CFFTP, Arrays.asList(RESULT));
-        checkElementAttributes.put(CF.CFWDDX, Arrays.asList(CF.OUTPUT));
         checkElementAttributes.put(CF.CFEXECUTE, Arrays.asList(VARIABLE));
+        checkElementAttributes.put(CF.CFFEED, Arrays.asList(CF.QUERY));
+        checkElementAttributes.put(CF.CFFILE, Arrays.asList(VARIABLE, RESULT));
+        checkElementAttributes.put(CF.CFFTP, Arrays.asList(RESULT));
+        checkElementAttributes.put(CF.CFHTTP, Arrays.asList(RESULT));
+        checkElementAttributes.put(CF.CFIMAGE, Arrays.asList(STRUCTNAME));
+        checkElementAttributes.put(CF.CFINVOKE, Arrays.asList(CF.RETURNVARIABLE));
+        checkElementAttributes.put(CF.CFLOOP, Arrays.asList(CF.INDEX, CF.ITEM));
         checkElementAttributes.put(CF.CFNTAUTHENTICATE, Arrays.asList(RESULT));
+        checkElementAttributes.put(CF.CFPROCPARAM, Arrays.asList(VARIABLE));
+        checkElementAttributes.put(CF.CFQUERY, Arrays.asList(RESULT));
+        checkElementAttributes.put(CF.CFREGISTRY, Arrays.asList(VARIABLE));
+        checkElementAttributes.put(CF.CFSAVECONTENT, Arrays.asList(VARIABLE));
+        checkElementAttributes.put(CF.CFSPREADSHEET, Arrays.asList(CF.QUERY));
+        checkElementAttributes.put(CF.CFSTOREDPROC, Arrays.asList(RESULT));
+        checkElementAttributes.put(CF.CFWDDX, Arrays.asList(CF.OUTPUT));
         checkElementAttributes.put(CF.CFXML, Arrays.asList(VARIABLE));
-
+        checkElementAttributes.put(CF.CFZIP, Arrays.asList(VARIABLE));
     }
 
     @Override

@@ -222,7 +222,7 @@ public class CFLint implements IErrorReporter {
                             break fileLoop;
                         }
                     } catch (final Exception e) {
-                        System.err.println("Could not read config file " + file);
+                        System.err.println("Could not read config file " + file + ". Check for duplicates.");
                     }
                 }
             }

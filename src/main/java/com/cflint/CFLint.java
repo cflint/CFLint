@@ -89,6 +89,7 @@ import cfml.parsing.cfscript.script.CFReturnStatement;
 import cfml.parsing.cfscript.script.CFScriptStatement;
 import cfml.parsing.cfscript.script.CFSwitchStatement;
 import cfml.parsing.cfscript.script.CFTryCatchStatement;
+import cfml.parsing.cfscript.script.CFWhileStatement;
 import cfml.parsing.reporting.ArrayErrorListener;
 import cfml.parsing.reporting.IErrorReporter;
 import cfml.parsing.reporting.ParseException;
@@ -812,6 +813,10 @@ public class CFLint implements IErrorReporter {
                 process(((CFForStatement) expression).getCond(), elem, context);
                 process(((CFForStatement) expression).getNext(), elem, context);
                 process(((CFForStatement) expression).getBody(), context);
+            } else if (expression instanceof CFWhileStatement) {
+                scanExpression(expression, context, elem);
+                process(((CFWhileStatement) expression).getCond(), elem, context);
+                process(((CFWhileStatement) expression).getBody(), context);
             } else if (expression instanceof CFForInStatement) {
                 scanExpression(expression, context, elem);
                 final Context forInitContext = context.subContext(elem);

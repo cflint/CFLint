@@ -1,9 +1,9 @@
 package com.cflint;
 
 /**
- * tests from 
+ * tests from
  * https://github.com/mschierberl/varscoper/blob/master/varScoper.cfc
- * 
+ *
  */
 import static org.junit.Assert.assertEquals;
 
@@ -39,19 +39,26 @@ public class TestCFBugs_VarScoper_TagAttr {
     @Parameterized.Parameters(name = "{0}")
     public static Collection<String[]> primeNumbers() {
         List<String[]> retval = new ArrayList<String[]>();
-        // retval.add(new String[] { "CFLoop", "Index" });
-        // retval.add(new String[] { "CFLoop", "Item" });
-        retval.add(new String[] { "CFInvoke", "ReturnVariable" });
-        retval.add(new String[] { "CFFile", "Variable" });
-        retval.add(new String[] { "CFSavecontent", "Variable" });
-        retval.add(new String[] { "CFHttp", "Result" });
-        retval.add(new String[] { "CFQuery", "Result" });
-        retval.add(new String[] { "CFMail", "Query" });
-        retval.add(new String[] { "CFFtp", "Result" });
-        retval.add(new String[] { "CFWddx", "Output" });
         retval.add(new String[] { "CFExecute", "Variable" });
+        retval.add(new String[] { "CFFeed", "Query" });
+        retval.add(new String[] { "CFFile", "Variable" });
+        retval.add(new String[] { "CFFile", "Result" });
+        retval.add(new String[] { "CFFtp", "Result" });
+        retval.add(new String[] { "CFHttp", "Result" });
+        retval.add(new String[] { "CFImage", "StructName" });
+        retval.add(new String[] { "CFInvoke", "ReturnVariable" });
+        retval.add(new String[] { "CFLoop", "Index" });
+        retval.add(new String[] { "CFLoop", "Item" });
         retval.add(new String[] { "CFNtAuthenticate", "Result" });
+        retval.add(new String[] { "CFProcParam", "Variable" });
+        retval.add(new String[] { "CFQuery", "Result" });
+        retval.add(new String[] { "CFRegistry", "Variable" });
+        retval.add(new String[] { "CFSavecontent", "Variable" });
+        retval.add(new String[] { "CFSpreadsheet", "Query" });
+        retval.add(new String[] { "CFStoredProc", "Result" });
+        retval.add(new String[] { "CFWddx", "Output" });
         retval.add(new String[] { "CFXml", "Variable" });
+        retval.add(new String[] { "CFZip", "Variable" });
         return retval;
     }
 

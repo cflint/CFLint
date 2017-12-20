@@ -1,9 +1,9 @@
 package com.cflint;
 
 /**
- * tests from 
+ * tests from
  * https://github.com/mschierberl/varscoper/blob/master/varScoper.cfc
- * 
+ *
  */
 import static org.junit.Assert.assertEquals;
 
@@ -37,12 +37,14 @@ public class TestCFBugs_VarScoper_Names {
     @Parameterized.Parameters(name = "{0}")
     public static Collection<?> primeNumbers() {
         return Arrays.asList(
-                new String[][] { new String[] { "CFStoredProc" }, new String[] { "CFQuery" }, new String[] { "CFFeed" },
+                new String[][] { new String[] { "CFQuery" }, new String[] { "CFFeed" }, new String[] { "CFHttp" },
                         new String[] { "CFDirectory" }, new String[] { "CFForm" }, new String[] { "CFFtp" },
                         new String[] { "CFObject" }, new String[] { "CFSearch" }, new String[] { "CFProcResult" },
                         new String[] { "CFPop" }, new String[] { "CFRegistry" }, new String[] { "CFReport" },
                         new String[] { "CFDBInfo" }, new String[] { "CFDocument" }, new String[] { "CFCollection" },
-                        new String[] { "CFPdf" }, new String[] { "CFZip" }, new String[] { "CFLdap" } });
+                        new String[] { "CFPdf" }, new String[] { "CFZip" }, new String[] { "CFLdap" },
+                        new String[] { "CFChart" }, new String[] { "CFHtmlToPdf" }, new String[] { "CFImage" },
+                        new String[] { "CFImap" }, new String[] { "CFSharepoint" }, new String[] { "CFSpreadsheet" } });
     }
 
     public TestCFBugs_VarScoper_Names(final String tagName) {

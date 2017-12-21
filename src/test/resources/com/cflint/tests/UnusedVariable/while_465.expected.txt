@@ -1,6 +1,6 @@
 {
   "version" : "",
-  "timestamp" : 1513779574,
+  "timestamp" : 0,
   "issues" : [ {
     "severity" : "INFO",
     "id" : "UNUSED_LOCAL_VARIABLE",
@@ -8,39 +8,7 @@
     "category" : "CFLINT",
     "abbrev" : "UL",
     "locations" : [ {
-      "file" : "src\\test\\resources\\com\\cflint\\tests\\UnusedVariable\\while_465.cfc",
-      "fileName" : "while_465.cfc",
-      "function" : "safetext",
-      "column" : 8,
-      "line" : 3,
-      "message" : "Local variable obracket is not used in function safetext, consider removing it.",
-      "variable" : "obracket",
-      "expression" : ""
-    } ]
-  }, {
-    "severity" : "INFO",
-    "id" : "UNUSED_LOCAL_VARIABLE",
-    "message" : "UNUSED_LOCAL_VARIABLE",
-    "category" : "CFLINT",
-    "abbrev" : "UL",
-    "locations" : [ {
-      "file" : "src\\test\\resources\\com\\cflint\\tests\\UnusedVariable\\while_465.cfc",
-      "fileName" : "while_465.cfc",
-      "function" : "safetext",
-      "column" : 8,
-      "line" : 4,
-      "message" : "Local variable badTag is not used in function safetext, consider removing it.",
-      "variable" : "badTag",
-      "expression" : ""
-    } ]
-  }, {
-    "severity" : "INFO",
-    "id" : "UNUSED_LOCAL_VARIABLE",
-    "message" : "UNUSED_LOCAL_VARIABLE",
-    "category" : "CFLINT",
-    "abbrev" : "UL",
-    "locations" : [ {
-      "file" : "src\\test\\resources\\com\\cflint\\tests\\UnusedVariable\\while_465.cfc",
+      "file" : "src/test/resources/com/cflint/tests/UnusedVariable/while_465.cfc",
       "fileName" : "while_465.cfc",
       "function" : "safetext",
       "column" : 8,
@@ -55,11 +23,11 @@
     "totalLines" : 0,
     "countByCode" : [ {
       "code" : "UNUSED_LOCAL_VARIABLE",
-      "count" : 3
+      "count" : 1
     } ],
     "countBySeverity" : [ {
       "severity" : "INFO",
-      "count" : 3
+      "count" : 1
     } ]
   }
 }

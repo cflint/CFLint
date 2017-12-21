@@ -1315,7 +1315,7 @@ public class CFLint implements IErrorReporter {
                     }
                     bug.setLength(msg.getVariable() != null ? msg.getVariable().length() : 0);
                 }
-                if (context != null && !context.isSuppressed(bug)) {
+                if (!suppressed(bug, expression==null?null:((CFScriptStatement)expression).getToken(), context)) {
                     bugs.add(bug);
                 }
             }
@@ -1330,6 +1330,9 @@ public class CFLint implements IErrorReporter {
     protected boolean suppressed(final BugInfo bugInfo, final Token token, final Context context) {
         if (context == null || context.isSuppressed(bugInfo)) {
             return true;
+        }
+        if(token == null){
+            return false;
         }
         final Iterable<Token> tokens = context.afterTokens(token);
         for (final Token currentTok : tokens) {

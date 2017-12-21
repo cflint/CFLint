@@ -15,11 +15,11 @@ public class Settings {
      * Less output.
      */
     public static final String QUIET = "quiet";
-    
+
     /**
      * Less output (short option).
      */
-    public static final String Q = "Q";
+    public static final String Q = "q";
 
     /**
      * Full list of all supported rules.
@@ -124,7 +124,7 @@ public class Settings {
     /**
      * Log errors (short option).
      */
-    public static final String E = "E";
+    public static final String E = "e";
 
     /**
      * Output in XML format.

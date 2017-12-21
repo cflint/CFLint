@@ -920,6 +920,9 @@ public class CFLint implements IErrorReporter {
                 }
             } else {
                 scanExpression(expression, context, elem);
+                for(CFScriptStatement childExpression: expression.decomposeScript()){
+                    process(childExpression, context);
+                }
             }
         } catch (final StackOverflowError soe) {
             System.err.println("Stack overflow in " + context.getFilename());

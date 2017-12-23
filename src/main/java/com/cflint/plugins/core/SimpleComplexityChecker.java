@@ -80,7 +80,7 @@ public class SimpleComplexityChecker extends CFLintScannerAdapter {
     }
 
     protected void checkComplexity(final String name, final int lineNo, final int offset, final Context context, final BugList bugs) {
-        final String complexityThreshold = getParameter("maximum");
+        final String complexityThreshold = context.getConfiguration().getParameter(this,"maximum");
         int threshold = COMPLEXITY_THRESHOLD;
 
         if (complexityThreshold != null) {

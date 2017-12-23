@@ -244,6 +244,12 @@ public class CFLintPluginInfo {
             public void setValue(final Object value) {
                 this.value = value;
             }
+
+            @Override
+            public String toString() {
+                return "PluginParameter [name=" + name + ", value=" + value + "]";
+            }
+            
         }
 
         @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "code")

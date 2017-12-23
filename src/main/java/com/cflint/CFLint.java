@@ -21,7 +21,6 @@ import org.antlr.runtime.BitSet;
 import org.antlr.v4.runtime.ANTLRErrorListener;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.Parser;
-import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.Recognizer;
 import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.atn.ATNConfigSet;
@@ -83,7 +82,6 @@ import cfml.parsing.cfscript.script.CFFuncDeclStatement;
 import cfml.parsing.cfscript.script.CFFunctionParameter;
 import cfml.parsing.cfscript.script.CFIfStatement;
 import cfml.parsing.cfscript.script.CFIncludeStatement;
-import cfml.parsing.cfscript.script.CFParsedStatement;
 import cfml.parsing.cfscript.script.CFPropertyStatement;
 import cfml.parsing.cfscript.script.CFReturnStatement;
 import cfml.parsing.cfscript.script.CFScriptStatement;
@@ -302,7 +300,7 @@ public class CFLint implements IErrorReporter {
             fireStartedProcessing(filename);
             lineOffsets = null;
             if (src == null || src.trim().length() == 0) {
-                final Context context = new Context(filename, null, null, false, handler);
+                final Context context = new Context(filename, null, null, false, handler,configuration);
                 reportRule(null, null, context, null, new ContextMessage(AVOID_EMPTY_FILES, null));
             } else {
                 lineOffsets = getLineOffsets(src.split("\n"));
@@ -315,7 +313,7 @@ public class CFLint implements IErrorReporter {
                 if (isComponentOrInterfaceScript(src, elements)) {
                     // Check if pure cfscript
                     final CFScriptStatement scriptStatement = cfmlParser.parseScript(src);
-                    final Context context = new Context(filename, null, null, false, handler, scriptStatement.getTokens());
+                    final Context context = new Context(filename, null, null, false, handler, scriptStatement.getTokens(),configuration);
                     process(scriptStatement, context);
                 } else {
                     processStack(elements, " ", filename, null);
@@ -370,7 +368,7 @@ public class CFLint implements IErrorReporter {
             if (elem.getName().equals(CF.COMMENT)) {
                 commentElement = elem;
             } else {
-                final Context context = new Context(filename, elem, functionName, false, handler);
+                final Context context = new Context(filename, elem, functionName, false, handler,configuration);
                 if (commentElement != null) {
                     applyRuleOverrides(context, commentElement);
                     commentElement = null;

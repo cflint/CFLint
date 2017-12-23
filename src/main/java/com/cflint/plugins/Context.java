@@ -12,6 +12,7 @@ import org.antlr.v4.runtime.Token;
 import com.cflint.BugInfo;
 import com.cflint.CF;
 import com.cflint.StackHandler;
+import com.cflint.config.CFLintConfiguration;
 import com.cflint.tools.ObjectEquals;
 
 import cfml.parsing.cfscript.CFExpression;
@@ -39,9 +40,10 @@ public class Context {
     private final List<ContextMessage> messages = new ArrayList<>();
     private Context parent = null;
     private List<String> ignores = new ArrayList<>();
+    final private CFLintConfiguration configuration;
 
     public Context(final String filename, final Element element, final CFIdentifier functionName,
-            final boolean inAssignmentExpression, final StackHandler handler) {
+            final boolean inAssignmentExpression, final StackHandler handler,CFLintConfiguration configuration) {
         super();
         this.filename = filename;
         this.element = element;
@@ -49,10 +51,11 @@ public class Context {
         this.inAssignmentExpression = inAssignmentExpression;
         this.callStack = handler;
         this.tokens = null;
+        this.configuration=configuration;
     }
 
     public Context(final String filename, final Element element, final String functionName,
-            final boolean inAssignmentExpression, final StackHandler handler, CommonTokenStream tokens) {
+            final boolean inAssignmentExpression, final StackHandler handler, CommonTokenStream tokens,CFLintConfiguration configuration) {
         super();
         this.filename = filename;
         this.element = element;
@@ -60,6 +63,7 @@ public class Context {
         this.inAssignmentExpression = inAssignmentExpression;
         this.callStack = handler;
         this.tokens = tokens;
+        this.configuration=configuration;
     }
 
     public void setInAssignmentExpression(boolean inAssignmentExpression) {
@@ -253,7 +257,7 @@ public class Context {
 
     public Context subContext(final Element elem,final CommonTokenStream tokens) {
         final Context context2 = new Context(getFilename(), elem == null ? this.element : elem, getFunctionName(),
-                isInAssignmentExpression(), callStack, tokens);
+                isInAssignmentExpression(), callStack, tokens,configuration);
         context2.setInComponent(isInComponent());
         context2.parent = this;
         context2.componentName=componentName;
@@ -261,7 +265,7 @@ public class Context {
     }
     public Context subContext(final Element elem) {
         final Context context2 = new Context(getFilename(), elem == null ? this.element : elem, getFunctionName(),
-                isInAssignmentExpression(), callStack, tokens);
+                isInAssignmentExpression(), callStack, tokens,configuration);
         context2.setInComponent(isInComponent());
         context2.parent = this;
         context2.componentName=componentName;
@@ -272,7 +276,7 @@ public class Context {
     }
     public Context subContextInAssignment(boolean assignment) {
         final Context context2 = new Context(getFilename(), this.element, getFunctionName(),
-                isInAssignmentExpression(), callStack, tokens);
+                isInAssignmentExpression(), callStack, tokens,configuration);
         context2.setInComponent(isInComponent());
         context2.parent = this;
         context2.componentName=componentName;
@@ -432,4 +436,8 @@ public class Context {
 		    componentName= new File(filename.trim()).getName().replaceAll("[.]\\w+", "");
 		}
 	}
+
+    public CFLintConfiguration getConfiguration() {
+        return configuration;
+    }
 }

@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 
 import com.cflint.BugList;
+import com.cflint.config.CFLintPluginInfo.PluginInfoRule;
+import com.cflint.config.CFLintPluginInfo.PluginInfoRule.PluginParameter;
 
 import cfml.parsing.cfscript.CFExpression;
 import cfml.parsing.cfscript.script.CFScriptStatement;
@@ -43,7 +45,11 @@ public class CFLintScannerAdapter implements CFLintScanner, CFLintStructureListe
         //empty body for Adapter
     }
 
+    /**
+     * @deprecated - Use context.getConfiguration().setParameter()
+     */
     @Override
+    @Deprecated
     public void setParameter(final String name, final Object value) {
         if (name != null) {
             params.put(name.toLowerCase(), value);
@@ -52,16 +58,25 @@ public class CFLintScannerAdapter implements CFLintScanner, CFLintStructureListe
     }
 
     /**
+     * @deprecated - Use context.getConfiguration().getParameter()
      * get the property from the configuration.
      * This can be overriden with -DcheckerClass.propertyname=value
      *
      * @param name      the name of the parameter
      * @return          the value of the parameter
      */
-    public String getParameter(final String name) {
+    @Deprecated
+    public String getParameter(final String name, final PluginInfoRule ... infoRules ) {
         final String propertyForName = System.getProperty(getClass().getSimpleName() + "." + name);
         if (propertyForName != null && propertyForName.trim().length() > 0) {
             return propertyForName;
+        }
+        if(name != null && infoRules != null && infoRules.length>0 && infoRules[0].getParameters()!=null){
+            for(PluginParameter contextParm : infoRules[0].getParameters()){
+                if(name.equalsIgnoreCase(contextParm.getName()) && contextParm.getValue()!=null){
+                    return contextParm.getValue().toString();
+                }
+            }
         }
         if (name != null && params.get(name.toLowerCase()) != null) {
             return params.get(name.toLowerCase()).toString();
@@ -70,18 +85,23 @@ public class CFLintScannerAdapter implements CFLintScanner, CFLintStructureListe
         return null;
     }
 
-    public String getParameterNotNull(final String name) {
-        if (name != null) {
-            Object retval = params.get(name.toLowerCase());
-            if (retval != null) {
-                return retval.toString();
-            }
+    /**
+     * @deprecated - Use context.getConfiguration().getParameterNotNull()
+    */
+    @Deprecated
+    public String getParameterNotNull(final String name, final PluginInfoRule ... infoRules ) {
+        final String retval = getParameter(name, infoRules);
+        if(retval != null){
+            return retval;
         }
         return "";
     }
-
+    /**
+     * @deprecated - Use context.getConfiguration().getParameter()
+    */
     @SuppressWarnings("unchecked")
-    public <E> E getParameter(final String name, final Class<E> clazz) {
+    @Deprecated
+    public <E> E getParameter(final String name, final Class<E> clazz, final PluginInfoRule ... infoRules ) {
         final String propertyForName = System.getProperty(getClass().getSimpleName() + "." + name);
         if (propertyForName != null && propertyForName.trim().length() > 0) {
             if (clazz.equals(String.class)) {
@@ -91,6 +111,13 @@ public class CFLintScannerAdapter implements CFLintScanner, CFLintStructureListe
                 return (E) Arrays.asList(propertyForName.split(","));
             }
             System.err.println("Cannot associate property " + getClass().getSimpleName() + "." + name + " as a " + clazz.getName());
+        }
+        if(name != null && infoRules != null && infoRules.length>0 && infoRules[0].getParameters()!=null){
+            for(PluginParameter contextParm : infoRules[0].getParameters()){
+                if(name.equalsIgnoreCase(contextParm.getName()) && contextParm.getValue()!=null){
+                    return (E) contextParm.getValue();
+                }
+            }
         }
         if (name != null && params.get(name.toLowerCase()) != null) {
             return (E) params.get(name.toLowerCase());
@@ -105,8 +132,8 @@ public class CFLintScannerAdapter implements CFLintScanner, CFLintStructureListe
      * @param name      the name of the parameter
      * @return          the value of the parameter as a list of strings
      */
-    public List<String> getParameterAsList(final String name) {
-        return Arrays.asList(getParameterNotNull(name).split(","));
+    public List<String> getParameterAsList(final String name, final PluginInfoRule ... infoRules ) {
+        return Arrays.asList(getParameterNotNull(name,infoRules).split(","));
     }
 
     public int currentLine(final CFExpression expression, final Context context) {

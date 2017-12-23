@@ -29,9 +29,9 @@ public class LiteralChecker extends CFLintScannerAdapter {
 
     @Override
     public void expression(final CFExpression expression, final Context context, final BugList bugs) {
-        final String repeatThreshold = getParameter("Maximum");
-        final String maxWarnings = getParameter("MaxWarnings");
-        final String warningScope = getParameter("WarningScope");
+        final String repeatThreshold = context.getConfiguration().getParameter(this,"Maximum");
+        final String maxWarnings = context.getConfiguration().getParameter(this,"MaxWarnings");
+        final String warningScope = context.getConfiguration().getParameter(this,"WarningScope");
 
         if (repeatThreshold != null) {
             threshold = Integer.parseInt(repeatThreshold);

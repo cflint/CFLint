@@ -6,7 +6,6 @@ import com.cflint.config.CFLintPluginInfo.PluginInfoRule.PluginMessage;
 import com.cflint.config.CFLintPluginInfo.PluginInfoRule.PluginParameter;
 
 import cfml.parsing.cfscript.CFExpression;
-import cfml.parsing.cfscript.script.CFParsedStatement;
 import cfml.parsing.cfscript.script.CFScriptStatement;
 import net.htmlparser.jericho.Element;
 

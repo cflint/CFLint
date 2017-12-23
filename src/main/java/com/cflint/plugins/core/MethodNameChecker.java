@@ -1,6 +1,7 @@
 package com.cflint.plugins.core;
 
 import com.cflint.CF;
+import com.cflint.config.CFLintConfiguration;
 import com.cflint.BugList;
 import com.cflint.plugins.CFLintScannerAdapter;
 import com.cflint.plugins.Context;
@@ -66,26 +67,26 @@ public class MethodNameChecker extends CFLintScannerAdapter {
      *
      * See @ValidName for defaults.
      */
-    private void parseParameters()  throws ConfigError {
-        if (getParameter("MinLength") != null) {
+    private void parseParameters(CFLintConfiguration configuration)  throws ConfigError {
+        if (configuration.getParameter(this,"MinLength") != null) {
             try {
-                minMethodLength = Integer.parseInt(getParameter("MinLength"));
+                minMethodLength = Integer.parseInt(configuration.getParameter(this,"MinLength"));
             } catch (final Exception e) {
                 throw new ConfigError("Minimum length need to be an integer.");
             }
         }
 
-        if (getParameter("MaxLength") != null) {
+        if (configuration.getParameter(this,"MaxLength") != null) {
             try {
-                maxMethodLength = Integer.parseInt(getParameter("MaxLength"));
+                maxMethodLength = Integer.parseInt(configuration.getParameter(this,"MaxLength"));
             } catch (final Exception e) {
                 throw new ConfigError("Maximum length need to be an integer.");
             }
         }
 
-        if (getParameter("MaxWords") != null) {
+        if (configuration.getParameter(this,"MaxWords") != null) {
             try {
-                maxMethodWords = Integer.parseInt(getParameter("MaxWords"));
+                maxMethodWords = Integer.parseInt(configuration.getParameter(this,"MaxWords"));
             } catch (final Exception e) {
                 throw new ConfigError("Maximum no of words need to be an integer.");
             }
@@ -108,7 +109,7 @@ public class MethodNameChecker extends CFLintScannerAdapter {
         final String method = context.getFunctionName();
 
         try {
-            parseParameters();
+            parseParameters(context.getConfiguration());
         } catch (ConfigError configError) {
             // Carry on with defaults
         }

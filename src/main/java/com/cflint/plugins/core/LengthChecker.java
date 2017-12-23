@@ -21,7 +21,7 @@ public class LengthChecker extends CFLintScannerAdapter {
      * @param bugs list of bugs.
      */
     protected void checkSize(final int maxLength, final String message, final Context context, final int atLine, final int atOffset, final int linesLength, final BugList bugs) {
-        final String lengthThreshold = getParameter("length");
+        final String lengthThreshold = context.getConfiguration().getParameter(this,"length");
         int length = maxLength;
 
         if (lengthThreshold != null) {

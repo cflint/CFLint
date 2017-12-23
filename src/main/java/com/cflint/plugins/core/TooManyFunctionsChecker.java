@@ -41,7 +41,7 @@ public class TooManyFunctionsChecker extends CFLintScannerAdapter {
 
     protected void checkNumberFunctions(final int functionCount, final int atLine, final int atOffset, final Context context,
                                         final BugList bugs, final CFExpression cfExpression) {
-        final String functionThreshold = getParameter("maximum");
+        final String functionThreshold = context.getConfiguration().getParameter(this,"maximum");
         int threshold = FUNCTION_THRESHOLD;
 
         if (functionThreshold != null) {

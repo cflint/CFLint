@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.cflint.BugList;
+import com.cflint.config.CFLintConfiguration;
 import com.cflint.plugins.CFLintScannerAdapter;
 import com.cflint.plugins.Context;
 
@@ -19,8 +20,6 @@ public class UnusedLocalVarChecker extends CFLintScannerAdapter {
     protected CFScopes scopes = new CFScopes();
     // LinkedHashMap is ordered.
     protected Map<String, VarInfo> localVariables = new LinkedHashMap<>();
-
-    protected List<String> usedTagAttributes = null;
 
     @Override
     public void expression(final CFExpression expression, final Context context, final BugList bugs) {
@@ -115,14 +114,15 @@ public class UnusedLocalVarChecker extends CFLintScannerAdapter {
     @Override
     public void element(final Element element, final Context context, final BugList bugs) {
         try {
-            checkAttributes(element);
+            checkAttributes(element,context.getConfiguration());
         } catch (Exception e) {
             System.err.println(e.getMessage() + " in UnusedLocalVarChecker");
         }
     }
 
-    private void checkAttributes(final Element element) {
-        for (String tagInfo : usedTagAttributes) {
+    @SuppressWarnings("unchecked")
+    private void checkAttributes(final Element element, final CFLintConfiguration configuration) {
+        for (String tagInfo : (List<String>)configuration.getParameter(this,"UsedTagAttributes", List.class)) {
             final String[] parts = (tagInfo + "//").split("/");
             if (element.getName() != null && parts[0].equalsIgnoreCase(element.getName())) {
                 final String name = element.getAttributeValue(parts[1]);
@@ -130,15 +130,6 @@ public class UnusedLocalVarChecker extends CFLintScannerAdapter {
                     localVariables.put(name.toLowerCase(), new VarInfo(name, true));
                 }
             }
-        }
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public void setParameter(final String name, final Object value) {
-        super.setParameter(name, value);
-        if ("UsedTagAttributes".equals(name)) {
-            usedTagAttributes = getParameter("UsedTagAttributes", List.class);
         }
     }
     

@@ -2,6 +2,7 @@ package com.cflint.plugins.core;
 
 import com.cflint.BugList;
 import com.cflint.CF;
+import com.cflint.config.CFLintConfiguration;
 import com.cflint.plugins.CFLintScannerAdapter;
 import com.cflint.plugins.Context;
 
@@ -107,39 +108,39 @@ public class ArgumentNameChecker extends CFLintScannerAdapter {
      *
      * See @ValidName for defaults.
      */
-    private void parseParameters(final ValidName name) throws ConfigError {
-        if (getParameter(MIN_LENGTH) != null) {
+    private void parseParameters(final ValidName name,CFLintConfiguration configuration) throws ConfigError {
+        if (configuration.getParameter(this,MIN_LENGTH) != null) {
             try {
-                minArgLength = Integer.parseInt(getParameter(MIN_LENGTH));
+                minArgLength = Integer.parseInt(configuration.getParameter(this,MIN_LENGTH));
             } catch (final Exception e) {
                 throw new ConfigError("Minimum length need to be an integer.");
             }
         }
 
-        if (getParameter(MAX_LENGTH) != null) {
+        if (configuration.getParameter(this,MAX_LENGTH) != null) {
             try {
-                maxArgLength = Integer.parseInt(getParameter(MAX_LENGTH));
+                maxArgLength = Integer.parseInt(configuration.getParameter(this,MAX_LENGTH));
             } catch (final Exception e) {
                 throw new ConfigError("Maximum length need to be an integer.");
             }
         }
 
-        if (getParameter(MAX_WORDS) != null) {
+        if (configuration.getParameter(this,MAX_WORDS) != null) {
             try {
-                maxArgWords = Integer.parseInt(getParameter(MAX_WORDS));
+                maxArgWords = Integer.parseInt(configuration.getParameter(this,MAX_WORDS));
             } catch (final Exception e) {
                 throw new ConfigError("Maximum no of words need to be an integer.");
             }
         }
 
-        if (getParameter(NAME_PREFIX) != null) {
-            name.setPrefixesToAvoid(getParameter(NAME_PREFIX).split(","));
+        if (configuration.getParameter(this,NAME_PREFIX) != null) {
+            name.setPrefixesToAvoid(configuration.getParameter(this,NAME_PREFIX).split(","));
         }
-        if (getParameter(NAME_SUFFIX) != null) {
-            name.setSuffixesToAvoid(getParameter(NAME_SUFFIX).split(","));
+        if (configuration.getParameter(this,NAME_SUFFIX) != null) {
+            name.setSuffixesToAvoid(configuration.getParameter(this,NAME_SUFFIX).split(","));
         }
-        if (getParameter(REQUIRED_NAME_PREFIX) != null) {
-            name.setRequiredPrefixList(getParameter(REQUIRED_NAME_PREFIX).split(","));
+        if (configuration.getParameter(this,REQUIRED_NAME_PREFIX) != null) {
+            name.setRequiredPrefixList(configuration.getParameter(this,REQUIRED_NAME_PREFIX).split(","));
         }
     }
 
@@ -160,7 +161,7 @@ public class ArgumentNameChecker extends CFLintScannerAdapter {
         final ValidName name = new ValidName(minArgLength, maxArgLength, maxArgWords);
 
         try {
-            parseParameters(name);
+            parseParameters(name,context.getConfiguration());
         } catch (ConfigError configError) {
             // Carry on with defaults
         }

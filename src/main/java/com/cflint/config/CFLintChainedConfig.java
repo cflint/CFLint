@@ -7,7 +7,7 @@ import com.cflint.config.CFLintPluginInfo.PluginInfoRule;
 import com.cflint.config.CFLintPluginInfo.PluginInfoRule.PluginMessage;
 import com.cflint.plugins.CFLintScanner;
 
-public class CFLintChainedConfig implements CFLintConfiguration {
+public class CFLintChainedConfig extends BaseConfig{
 
     private final CFLintConfig config;
     private final CFLintConfiguration parent;
@@ -114,5 +114,14 @@ public class CFLintChainedConfig implements CFLintConfiguration {
         retval.addAll(config.getRules());
         return retval;
 
+    }
+    
+    @Override
+    public Object getParameter(final String name) {
+        final Object retval = config.getParameter(name);
+        if(retval !=null || parent == null){
+            return retval;
+        }
+        return parent.getParameter(name);
     }
 }

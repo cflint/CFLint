@@ -1,6 +1,7 @@
 package com.cflint.config;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlAttribute;
@@ -10,17 +11,19 @@ import javax.xml.bind.annotation.XmlRootElement;
 import com.cflint.config.CFLintPluginInfo.PluginInfoRule;
 import com.cflint.config.CFLintPluginInfo.PluginInfoRule.PluginMessage;
 import com.cflint.plugins.CFLintScanner;
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @XmlRootElement(name = "config")
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class CFLintConfig implements CFLintConfiguration {
+public class CFLintConfig extends BaseConfig {
 
 	@Deprecated
     private List<ConfigOutput> output = new ArrayList<>();
     private List<CFLintPluginInfo.PluginInfoRule> rules = new ArrayList<>();
     private List<PluginMessage> excludes = new ArrayList<>();
     private List<PluginMessage> includes = new ArrayList<>();
+    private HashMap<String,Object> parameters = new HashMap<>();
 
     private boolean inheritParent = true;
     @Deprecated
@@ -42,6 +45,16 @@ public class CFLintConfig implements CFLintConfiguration {
         System.err.println(
                 "DEPRECATED: The use of \"output\" have been marked as deprecated in CFLint 1.2.x and support for them will be fully removed in CFLint 1.3.0. Please remove the settings from your configuration file(s). Run CFLint in verbose mode for config file location details.");
         this.output = output;
+    }
+    
+    public HashMap<String,Object> getParameters() {
+        return parameters;
+    }
+
+    @JsonAnyGetter
+    @XmlElement(name = "parameters")
+    public void setParameters(final HashMap<String,Object> parameters) {
+        this.parameters = parameters;
     }
 
     /*
@@ -263,4 +276,11 @@ public class CFLintConfig implements CFLintConfiguration {
         return defaultConfig;
     }
 
+    @Override
+    public Object getParameter(String name) {
+        if(parameters!=null && name !=null && parameters.containsKey(name)){
+            return parameters.get(name);
+        }
+        return null;
+    }
 }

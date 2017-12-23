@@ -1,11 +1,11 @@
 package com.cflint.plugins.core;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import com.cflint.CF;
 import com.cflint.BugList;
+import com.cflint.CF;
+import com.cflint.config.CFLintConfiguration;
 import com.cflint.plugins.CFLintScannerAdapter;
 import com.cflint.plugins.Context;
 import com.cflint.plugins.Context.ContextType;
@@ -29,6 +29,7 @@ public class VariableNameChecker extends CFLintScannerAdapter {
     /**
      * Maximum number of characters for an variable name.
      */
+    
     private int maxVarLength = ValidName.MAX_VAR_LENGTH;
 
     /**
@@ -39,7 +40,7 @@ public class VariableNameChecker extends CFLintScannerAdapter {
     private static final List<String> DEFAULT_EXCLUSIONS = Collections.singletonList("rc");
     private static final String PARAM_EXCLUSION_LIST = "ExclusionList";
 
-    private final List<String> exclusions = new ArrayList<>();
+    //private final List<String> exclusions = new ArrayList<>();
 
     private void checkCFName(final Element element, final Context context, final BugList bugs, final int begLine, int offset, final String name) {
         if (element.getAttributeValue(name) != null) {
@@ -90,32 +91,7 @@ public class VariableNameChecker extends CFLintScannerAdapter {
         }
     }
 
-    @Override
-    public void setParameter(final String name, final Object value) {
-        super.setParameter(name, value);
 
-        populateExclusions();
-    }
-
-    private void populateExclusions() {
-        exclusions.clear();
-
-        final String exclusionList = getParameter(PARAM_EXCLUSION_LIST);
-
-        if (exclusionList == null) {
-            exclusions.addAll(DEFAULT_EXCLUSIONS);
-            return;
-        }
-
-        final String[] split = exclusionList.split(",");
-
-        for (String name : split) {
-            final String normalizedValue = normalize(name);
-            if (normalizedValue != null) {
-                exclusions.add(normalizedValue);
-            }
-        }
-    }
 
     @Override
     public void expression(final CFExpression expression, final Context context, final BugList bugs) {
@@ -162,68 +138,71 @@ public class VariableNameChecker extends CFLintScannerAdapter {
         checkNameForBugs(context, varName, varName, context.getFilename(), context.getFunctionName(), lineNo, offset, bugs,expression);
     }
 
-    private void parseParameters(final ValidName name) throws ConfigError {
-        if (getParameter("MinLength") != null) {
+    private void parseParameters(final ValidName name, CFLintConfiguration configuration) throws ConfigError {
+        if (configuration.getParameter(this,"MinLength") != null) {
             try {
-                minVarLength = Integer.parseInt(getParameter("MinLength"));
+                minVarLength = Integer.parseInt(configuration.getParameter(this,"MinLength"));
+                name.setMinLength(minVarLength);
             } catch (final Exception e) {
                 throw new ConfigError("Minimum length need to be an integer.");
             }
         }
 
-        if (getParameter("MaxLength") != null) {
+        if (configuration.getParameter(this,"MaxLength") != null) {
             try {
-                maxVarLength = Integer.parseInt(getParameter("MaxLength"));
+                maxVarLength = Integer.parseInt(configuration.getParameter(this,"MaxLength"));
+                name.setMaxLength(maxVarLength);
             } catch (final Exception e) {
                 throw new ConfigError("Maximum length need to be an integer.");
             }
         }
 
-        if (getParameter("MaxWords") != null) {
+        if (configuration.getParameter(this,"MaxWords") != null) {
             try {
-                maxVarWords = Integer.parseInt(getParameter("MaxWords"));
+                maxVarWords = Integer.parseInt(configuration.getParameter(this,"MaxWords"));
+                name.setMaxWords(maxVarWords);
             } catch (final Exception e) {
                 throw new ConfigError("Maximum no of words need to be an integer.");
             }
         }
 
-        if (getParameter("FlagVariableNamePrefix") != null) {
-            name.setPrefixesToAvoid(getParameter("FlagVariableNamePrefix").split(","));
+        if (configuration.getParameter(this,"FlagVariableNamePrefix") != null) {
+            name.setPrefixesToAvoid(configuration.getParameter(this,"FlagVariableNamePrefix").split(","));
         }
-        if (getParameter("FlagVariableNameSuffix") != null) {
-            name.setSuffixesToAvoid(getParameter("FlagVariableNameSuffix").split(","));
+        if (configuration.getParameter(this,"FlagVariableNameSuffix") != null) {
+            name.setSuffixesToAvoid(configuration.getParameter(this,"FlagVariableNameSuffix").split(","));
         }
-        if (getParameter("RequiredVariableNamePrefix") != null) {
-            name.setRequiredPrefixList(getParameter("RequiredVariableNamePrefix").split(","));
+        if (configuration.getParameter(this,"RequiredVariableNamePrefix") != null) {
+            name.setRequiredPrefixList(configuration.getParameter(this,"RequiredVariableNamePrefix").split(","));
         }
     }
 
     public void checkNameForBugs(final Context context, final String fullVariable, final String variable,
             final String filename, final String functionName, final int line, final int offset, final BugList bugs,
             final CFExpression cfExpression) {
-        if (excludeFromAnalyse(variable)) {
+        if (excludeFromAnalyse(context,variable)) {
             return;
         }
-
+        
         final CFScopes scope = new CFScopes();
         final String varScope = scope.getScope(fullVariable);
         final ValidName name = new ValidName(minVarLength, maxVarLength, maxVarWords);
 
         try {
-            parseParameters(name);
+            parseParameters(name,context.getConfiguration());
         } catch (ConfigError configError) {
             // Carry on with defaults
         }
-
+        
         Context parent = context.getParent(ContextType.FUNCTION);
         
         if (name.isInvalid(variable)) {
             parent.addUniqueMessage("VAR_INVALID_NAME", variable, this, line, offset, cfExpression);
         }
-        if (!scope.isCFScoped(variable) && name.isUpperCase(variable) && !getParameterNotNull("IgnoreAllCapsInScopes").toLowerCase().contains(varScope)) {
+        if (!scope.isCFScoped(variable) && name.isUpperCase(variable) && !context.getConfiguration().getParameterNotNull(this,"IgnoreAllCapsInScopes").toLowerCase().contains(varScope)) {
             parent.addUniqueMessage("VAR_ALLCAPS_NAME", variable, this, line, offset, cfExpression);
         }
-        if (scope.isCFScoped(variable) && name.isUpperCase(variable) && !getParameterNotNull("IgnoreUpperCaseScopes").contains(variable)) {
+        if (scope.isCFScoped(variable) && name.isUpperCase(variable) && !context.getConfiguration().getParameterNotNull(this,"IgnoreUpperCaseScopes").contains(variable)) {
             parent.addUniqueMessage("SCOPE_ALLCAPS_NAME", variable, this, line, offset, cfExpression);
         }
         if (name.tooShort(variable)) {
@@ -238,13 +217,29 @@ public class VariableNameChecker extends CFLintScannerAdapter {
         if (name.isTemporary(variable)) {
             parent.addUniqueMessage("VAR_IS_TEMPORARY", variable, this, line, offset, cfExpression);
         }
-        if (name.hasPrefixOrPostfix(variable) && !getParameterNotNull("IgnorePrefixPostfixOn").contains(variable)) {
+        if (name.hasPrefixOrPostfix(variable) && !context.getConfiguration().getParameterNotNull(this,"IgnorePrefixPostfixOn").contains(variable)) {
             parent.addUniqueMessage("VAR_HAS_PREFIX_OR_POSTFIX", variable, this, line, offset, cfExpression);
         }
     }
 
-    protected boolean excludeFromAnalyse(final String variable) {
-        return exclusions.contains(normalize(variable));
+    protected boolean excludeFromAnalyse(Context context, final String variable) {
+        final String exclusionList = context.getConfiguration().getParameter(this,PARAM_EXCLUSION_LIST);
+
+        if (exclusionList == null) {
+            return DEFAULT_EXCLUSIONS.contains(normalize(variable));
+        }
+
+        final String[] split = exclusionList.split(",");
+
+        String normVar = normalize(variable);
+        if(normVar != null){
+            for (String name : split) {
+                if(normVar.equals(normalize(name))){
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     protected String normalize(final String name) {

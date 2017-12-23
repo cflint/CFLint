@@ -15,9 +15,9 @@ public class CFTagCaseChecker extends CFLintScannerAdapter {
     @Override
     public void element(final Element element, final Context context, final BugList bugs) {
         boolean encourageUpper = true;
-        if (getParameter("PreferCase") != null) {
+        if (context.getConfiguration().getParameter(this,"PreferCase") != null) {
             try {
-                encourageUpper = "upper".equalsIgnoreCase(getParameter("PreferCase"));
+                encourageUpper = "upper".equalsIgnoreCase(context.getConfiguration().getParameter(this,"PreferCase"));
             } catch (final Exception e) {
             }
         }

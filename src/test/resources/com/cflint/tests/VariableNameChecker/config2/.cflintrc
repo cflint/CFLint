@@ -1,0 +1,8 @@
+{
+  "inheritParent" : true,
+  "parameters": 
+    {
+      "VariableNameChecker.MinLength": "4",
+      "VariableNameChecker.MaxLength": "15"
+    }
+}

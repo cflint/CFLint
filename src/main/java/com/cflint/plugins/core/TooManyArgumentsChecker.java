@@ -48,7 +48,7 @@ public class TooManyArgumentsChecker extends CFLintScannerAdapter {
 
     protected void checkNumberArguments(final int argumentCount, final int atLine, int atOffset, final Context context,
             final BugList bugs, CFFuncDeclStatement expression) {
-        final String argumentThreshold = getParameter("maximum");
+        final String argumentThreshold = context.getConfiguration().getParameter(this,"maximum");
         int threshold = ARGUMENT_THRESHOLD;
 
         if (argumentThreshold != null) {

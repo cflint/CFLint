@@ -452,7 +452,8 @@ The following will ignore all rules in the current folder and below.
     "excludes" : [ ],
     "includes" : [ {} ],
     "inheritParent" : false,
-    "inheritPlugins" : true
+    "inheritPlugins" : true,
+    "parameters" : {}
 }
 ```
 
@@ -464,6 +465,16 @@ This can be simplified using the default values of a `.cflintrc` file:
     "inheritParent" : false
 }
 ```
+
+Parameters within the rules can be overridden in the .cflintrc files.  Use the rule name and the parameter joined with a dot.
+```json
+{
+    "parameters" : {
+        "VariableNameChecker.MaxLength": "15"
+    }
+}
+```
+
 
 See the discussion in [Issue #290](https://github.com/cflint/CFLint/issues/290) for more info.
 

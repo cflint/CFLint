@@ -24,7 +24,7 @@ public class FunctionXChecker extends CFLintScannerAdapter {
     @Override
     public void expression(final CFExpression expression, final Context context, final BugList bugs) {
         if (expression instanceof CFFunctionExpression) {
-            final String cfmlFunctionCheck = getParameter("functionName");
+            final String cfmlFunctionCheck = context.getConfiguration().getParameter(this,"functionName");
 
             final CFFunctionExpression functionExpression = (CFFunctionExpression) expression;
             if (functionExpression.getName().equalsIgnoreCase(cfmlFunctionCheck)) {

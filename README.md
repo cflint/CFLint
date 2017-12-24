@@ -73,7 +73,7 @@ With the binaries retrieved one or the other way, you can now use CFLint on the 
 
     java -jar CFLint-1.2.1-all.jar -folder <baseFolder>
 
-#### Scan a file with the complete set of rules
+#### Scan a file with the complete set of rules:
 
     java -jar CFLint-1.2.1-all.jar -file <fullPathToFile>
 

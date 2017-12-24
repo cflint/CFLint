@@ -313,7 +313,7 @@ public class CFLint implements IErrorReporter {
                 if (isComponentOrInterfaceScript(src, elements)) {
                     // Check if pure cfscript
                     final CFScriptStatement scriptStatement = cfmlParser.parseScript(src);
-                    final Context context = new Context(filename, null, null, false, handler, scriptStatement.getTokens(),configuration);
+                    final Context context = new Context(filename, null, null, false, handler, scriptStatement==null?null:scriptStatement.getTokens(),configuration);
                     process(scriptStatement, context);
                 } else {
                     processStack(elements, " ", filename, null);
@@ -488,7 +488,7 @@ public class CFLint implements IErrorReporter {
                     throw new CFLintScanException(e);
                 }
 
-                final Context subcontext = context.subContext(elem,scriptStatement.getTokens());
+                final Context subcontext = context.subContext(elem,scriptStatement==null?null:scriptStatement.getTokens());
                 
                 process(scriptStatement, subcontext);
                 processStack(elem.getChildElements(), space + " ", context);

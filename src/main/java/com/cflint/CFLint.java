@@ -199,7 +199,7 @@ public class CFLint implements IErrorReporter {
             ScanningProgressMonitorLookAhead.createInstance(this, folderName, progressUsesThread).startPreScan();
         }
         final File starterFile = new File(folderName);
-        setupConfigAncestry(starterFile.getParentFile());
+        setupConfigAncestry(starterFile.getAbsoluteFile().getParentFile());
         scan(starterFile);
         fireClose();
     }

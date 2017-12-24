@@ -1,0 +1,71 @@
+{
+  "version" : "",
+  "timestamp" : 1514084382,
+  "issues" : [ {
+    "severity" : "INFO",
+    "id" : "COMPONENT_INVALID_NAME",
+    "message" : "COMPONENT_INVALID_NAME",
+    "category" : "CFLINT",
+    "abbrev" : "CI",
+    "locations" : [ {
+      "file" : "src\\test\\resources\\com\\cflint\\tests\\ComponentNameChecker\\veryLongComponentName.cfc",
+      "fileName" : "veryLongComponentName.cfc",
+      "function" : "",
+      "column" : 0,
+      "line" : 1,
+      "message" : "Component name veryLongComponentName is not a valid name. Please use CamelCase and start with a capital letter.",
+      "variable" : "",
+      "expression" : "<cfcomponent hint=\"test\" displayName=\"TestComp\">\r\n <cffunction name=\"testFunction\" displayname=\"\" access=\"public\" output=\"false\" returntype=\"void\" hint=\"no close tag\">\r\n </cffunction>\r\n</cfcomponent>"
+    } ]
+  }, {
+    "severity" : "INFO",
+    "id" : "COMPONENT_TOO_LONG",
+    "message" : "COMPONENT_TOO_LONG",
+    "category" : "CFLINT",
+    "abbrev" : "CT",
+    "locations" : [ {
+      "file" : "src\\test\\resources\\com\\cflint\\tests\\ComponentNameChecker\\veryLongComponentName.cfc",
+      "fileName" : "veryLongComponentName.cfc",
+      "function" : "",
+      "column" : 0,
+      "line" : 1,
+      "message" : "Component name veryLongComponentName should be shorter than 15 characters.",
+      "variable" : "",
+      "expression" : "<cfcomponent hint=\"test\" displayName=\"TestComp\">\r\n <cffunction name=\"testFunction\" displayname=\"\" access=\"public\" output=\"false\" returntype=\"void\" hint=\"no close tag\">\r\n </cffunction>\r\n</cfcomponent>"
+    } ]
+  }, {
+    "severity" : "INFO",
+    "id" : "COMPONENT_TOO_WORDY",
+    "message" : "COMPONENT_TOO_WORDY",
+    "category" : "CFLINT",
+    "abbrev" : "CT",
+    "locations" : [ {
+      "file" : "src\\test\\resources\\com\\cflint\\tests\\ComponentNameChecker\\veryLongComponentName.cfc",
+      "fileName" : "veryLongComponentName.cfc",
+      "function" : "",
+      "column" : 0,
+      "line" : 1,
+      "message" : "Component name veryLongComponentName is too wordy, can you think of a more concise name?",
+      "variable" : "",
+      "expression" : "<cfcomponent hint=\"test\" displayName=\"TestComp\">\r\n <cffunction name=\"testFunction\" displayname=\"\" access=\"public\" output=\"false\" returntype=\"void\" hint=\"no close tag\">\r\n </cffunction>\r\n</cfcomponent>"
+    } ]
+  } ],
+  "counts" : {
+    "totalFiles" : 0,
+    "totalLines" : 0,
+    "countByCode" : [ {
+      "code" : "COMPONENT_INVALID_NAME",
+      "count" : 1
+    }, {
+      "code" : "COMPONENT_TOO_WORDY",
+      "count" : 1
+    }, {
+      "code" : "COMPONENT_TOO_LONG",
+      "count" : 1
+    } ],
+    "countBySeverity" : [ {
+      "severity" : "INFO",
+      "count" : 3
+    } ]
+  }
+}

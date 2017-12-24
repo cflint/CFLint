@@ -408,7 +408,7 @@ public class CFLint implements IErrorReporter {
             if (elem.getName().equalsIgnoreCase(CF.CFCOMPONENT)) {
                 final Context componentContext = context.subContext(elem);
                 componentContext.setInComponent(true);
-                componentContext.setComponentName(elem.getAttributeValue(CF.DISPLAYNAME));
+                componentContext.setComponentName(context.getFilename().replaceAll(".[cC][fF][cC]", "").replaceAll("^.*[/\\\\]", ""));//elem.getAttributeValue(CF.DISPLAYNAME)
                 componentContext.setContextType(ContextType.COMPONENT);
                 handler.push(CF.COMPONENT);
                 doStructureStart(elem, componentContext, CFCompDeclStatement.class);
@@ -521,7 +521,7 @@ public class CFLint implements IErrorReporter {
             } else if (elem.getName().equalsIgnoreCase(CF.CFCOMPONENT)) {
                 final Context componentContext = context.subContext(elem);
                 componentContext.setInComponent(true);
-                componentContext.setComponentName(elem.getAttributeValue(CF.DISPLAYNAME));
+                componentContext.setComponentName(context.getFilename().replaceAll(".[cC][fF][cC]", "").replaceAll("^.*[/\\\\]", ""));//elem.getAttributeValue(CF.DISPLAYNAME)
                 componentContext.setContextType(ContextType.COMPONENT);
 
                 scanElement(elem, componentContext);

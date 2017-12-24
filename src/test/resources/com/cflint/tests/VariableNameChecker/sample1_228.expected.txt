@@ -13,7 +13,7 @@
       "function" : "getStringFromStruct",
       "column" : 15,
       "line" : 3,
-      "message" : "Variable LocalData is not a valid name. Please use CamelCase or underscores.",
+      "message" : "Variable LocalData is not a valid name. Please use camelCase or underscores.",
       "variable" : "LocalData",
       "expression" : "isNull(LocalData)"
     } ]

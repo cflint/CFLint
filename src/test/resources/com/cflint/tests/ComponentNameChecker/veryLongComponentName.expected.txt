@@ -45,7 +45,7 @@
       "function" : "",
       "column" : 0,
       "line" : 1,
-      "message" : "Component name veryLongComponentName is too wordy, can you think of a more concise name?",
+      "message" : "Component name veryLongComponentName is too wordy. Try to think of a more concise name.",
       "variable" : "",
       "expression" : "<cfcomponent hint=\"test\" displayName=\"TestComp\">\n <cffunction name=\"testFunction\" displayname=\"\" access=\"public\" output=\"false\" returntype=\"void\" hint=\"no close tag\">\n </cffunction>\n</cfcomponent>"
     } ]

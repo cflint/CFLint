@@ -131,7 +131,8 @@ public class ComponentNameChecker extends CFLintScannerAdapter {
 
         // TODO check package name as well?
 
-        if (name.isInvalidComponent(component)) {
+        String caseTypeParm = context.getConfiguration().getParameter(this, "case");
+        if (name.isInvalidComponent(component,caseTypeParm==null?"PascalCase":caseTypeParm)) {
             context.addMessage("COMPONENT_INVALID_NAME", null, this, line, offset);
         }
         if (name.isUpperCase(component)) {

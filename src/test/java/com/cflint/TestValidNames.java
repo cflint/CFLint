@@ -19,15 +19,15 @@ public class TestValidNames {
 
     @Test
     public void testInvalid() {
-        assertFalse(name.isInvalid("camelCase"));
-        assertFalse(name.isInvalid("product_id"));
-        assertFalse(name.isInvalid("size"));
-        assertFalse(name.isInvalid("lowercase"));
-        assertFalse(name.isInvalid("UPPERCASE"));
-        assertFalse(name.isInvalid("99_bottles_of_beer"));
+        assertFalse(name.isInvalid("camelCase","CamelCase"));
+        assertFalse(name.isInvalid("product_id","CamelCase"));
+        assertFalse(name.isInvalid("size","CamelCase"));
+        assertFalse(name.isInvalid("lowercase","CamelCase"));
+        assertFalse(name.isInvalid("UPPERCASE","CamelCase"));
+        assertFalse(name.isInvalid("99_bottles_of_beer","CamelCase"));
 
-        assertTrue(name.isInvalid("UppperCaseCamel"));
-        assertTrue(name.isInvalid("endsInNumber99"));
+        assertTrue(name.isInvalid("UppperCaseCamel","CamelCase"));
+        assertTrue(name.isInvalid("endsInNumber99","CamelCase"));
     }
 
     @Test
@@ -43,33 +43,33 @@ public class TestValidNames {
 
     @Test
     public void testIsCamelCaseLower() {
-        assertTrue(name.isCamelCaseLower("product"));
-        assertTrue(name.isCamelCaseLower("camelCase"));
-        assertTrue(name.isCamelCaseLower("product4G"));
-        assertTrue(name.isCamelCaseLower("productID"));
-        assertTrue(name.isCamelCaseLower("requestViaHTTPS"));
-        assertTrue(name.isCamelCaseLower("myURLRequest"));
+        assertTrue(name.isCamelCase("product"));
+        assertTrue(name.isCamelCase("camelCase"));
+        assertTrue(name.isCamelCase("product4G"));
+        assertTrue(name.isCamelCase("productID"));
+        assertTrue(name.isCamelCase("requestViaHTTPS"));
+        assertTrue(name.isCamelCase("myURLRequest"));
 
-        assertFalse(name.isCamelCaseLower("product_id"));
-        assertFalse(name.isCamelCaseLower("UpperCase"));
-        assertFalse(name.isCamelCaseLower("Uppercase"));
-        assertFalse(name.isCamelCaseLower("ProductID"));
-        assertFalse(name.isCamelCaseLower("PRODUCTID"));
+        assertFalse(name.isCamelCase("product_id"));
+        assertFalse(name.isCamelCase("UpperCase"));
+        assertFalse(name.isCamelCase("Uppercase"));
+        assertFalse(name.isCamelCase("ProductID"));
+        assertFalse(name.isCamelCase("PRODUCTID"));
     }
 
     @Test
     public void testIsCamelCaseUpper() {
-        assertTrue(name.isCamelCaseUpper("Product"));
-        assertTrue(name.isCamelCaseUpper("PamelCase"));
-        assertTrue(name.isCamelCaseUpper("Product4G"));
-        assertTrue(name.isCamelCaseUpper("ProductID"));
-        assertTrue(name.isCamelCaseUpper("RequestViaHTTPS"));
-        assertTrue(name.isCamelCaseUpper("MyURLRequest"));
+        assertTrue(name.isPascalCase("Product"));
+        assertTrue(name.isPascalCase("PamelCase"));
+        assertTrue(name.isPascalCase("Product4G"));
+        assertTrue(name.isPascalCase("ProductID"));
+        assertTrue(name.isPascalCase("RequestViaHTTPS"));
+        assertTrue(name.isPascalCase("MyURLRequest"));
 
-        assertFalse(name.isCamelCaseUpper("product"));
-        assertFalse(name.isCamelCaseUpper("Product_id"));
-        assertFalse(name.isCamelCaseUpper("Product_Id"));
-        assertFalse(name.isCamelCaseUpper("PRODUCTID"));
+        assertFalse(name.isPascalCase("product"));
+        assertFalse(name.isPascalCase("Product_id"));
+        assertFalse(name.isPascalCase("Product_Id"));
+        assertFalse(name.isPascalCase("PRODUCTID"));
     }
 
     @Test

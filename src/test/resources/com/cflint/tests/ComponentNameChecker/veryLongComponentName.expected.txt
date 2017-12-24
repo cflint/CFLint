@@ -13,7 +13,7 @@
       "function" : "",
       "column" : 0,
       "line" : 1,
-      "message" : "Component name veryLongComponentName is not a valid name. Please use CamelCase and start with a capital letter.",
+      "message" : "Component name veryLongComponentName is not a valid name. Please use PascalCase and start with a capital letter.",
       "variable" : "",
       "expression" : "<cfcomponent hint=\"test\" displayName=\"TestComp\">\r\n <cffunction name=\"testFunction\" displayname=\"\" access=\"public\" output=\"false\" returntype=\"void\" hint=\"no close tag\">\r\n </cffunction>\r\n</cfcomponent>"
     } ]

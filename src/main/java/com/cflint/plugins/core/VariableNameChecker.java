@@ -196,7 +196,7 @@ public class VariableNameChecker extends CFLintScannerAdapter {
         
         Context parent = context.getParent(ContextType.FUNCTION);
         
-        if (name.isInvalid(variable)) {
+        if (name.isInvalid(variable,context.getConfiguration().getParameter(this, "case"))) {
             parent.addUniqueMessage("VAR_INVALID_NAME", variable, this, line, offset, cfExpression);
         }
         if (!scope.isCFScoped(variable) && name.isUpperCase(variable) && !context.getConfiguration().getParameterNotNull(this,"IgnoreAllCapsInScopes").toLowerCase().contains(varScope)) {

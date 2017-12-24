@@ -121,9 +121,10 @@ public class ValidName {
      * @param name name of variable.
      * @return true if name is valid or false if it is not.
      */
-    public boolean isInvalid(final String name) {
+    public boolean isInvalid(final String name,final String caseType) {
+        boolean caseOk = ("PascalCase".equalsIgnoreCase(caseType)? isPascalCase(name) : isCamelCase(name));
         return !validChars(name) || endsInNumber(name)
-                || !(isSameCase(name) || isCamelCaseLower(name) || usesUnderscores(name));
+                || !(isSameCase(name) || caseOk || usesUnderscores(name));
     }
 
     /**
@@ -132,9 +133,10 @@ public class ValidName {
      * @param name name of variable.
      * @return true if name is valid or false if it is not.
      */
-    public boolean isInvalidComponent(final String name) {
+    public boolean isInvalidComponent(final String name,final String caseType) {
+        boolean caseOk = ("PascalCase".equalsIgnoreCase(caseType)? isPascalCase(name) : isCamelCase(name));
         return !validChars(name) || endsInNumber(name)
-                || !(isUpperCase(name) || isCamelCaseUpper(name) || usesUnderscores(name));
+                || !(isUpperCase(name) || isPascalCase(name) || usesUnderscores(name));
     }
 
     /**
@@ -174,19 +176,19 @@ public class ValidName {
      * @param name name of variable.
      * @return true if the camel case, false if it is not.
      */
-    public boolean isCamelCaseLower(final String name) {
+    public boolean isCamelCase(final String name) {
         // [A-Z0-9]{2,5} catch names like productID, phone4G, requestURL etc etc
         final Pattern valid = Pattern.compile("^[a-z0-9]+([A-Z]{1,5}[a-z0-9]+)*([A-Z0-9]{2,5}){0,1}$");
         return valid.matcher(name).matches();
     }
 
     /**
-     * Is a name camel case starting wth a upper case letter?.
+     * Is a name pascal case starting wth a upper case letter?.
      *
      * @param name name of variable.
      * @return true if the camel case, false if it is not.
      */
-    public boolean isCamelCaseUpper(final String name) {
+    public boolean isPascalCase(final String name) {
         final Pattern valid = Pattern.compile("^([A-Z]{1,5}[a-z0-9]+)+([A-Z0-9]{2,5}){0,1}$");
         return valid.matcher(name).matches();
     }

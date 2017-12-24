@@ -539,7 +539,7 @@
         {
           "code": "VAR_INVALID_NAME",
           "severity": "INFO",
-          "messageText" : "Variable ${variable} is not a valid name. Please use CamelCase or underscores."
+          "messageText" : "Variable ${variable} is not a valid name. Please use ${case} or underscores."
         },
         {
           "code": "VAR_ALLCAPS_NAME",
@@ -601,6 +601,10 @@
         {
           "name": "IgnorePrefixPostfixOn",
           "value": "thisTag"
+        },
+        {
+          "name" : "case",
+          "value" : "CamelCase"
         }
       ]
     },
@@ -616,7 +620,7 @@
         {
           "code": "ARGUMENT_INVALID_NAME",
           "severity": "INFO",
-          "messageText" : "${variable} is not a valid name. Please use CamelCase or underscores."
+          "messageText" : "${variable} is not a valid name. Please use ${case} or underscores."
         },
         {
           "code": "ARGUMENT_ALLCAPS_NAME",
@@ -661,6 +665,10 @@
         {
           "name": "MaxWords",
           "value": "4"
+        },
+        {
+          "name" : "case",
+          "value" : "CamelCase"
         }
       ]
     },
@@ -669,7 +677,7 @@
       "className": "MethodNameChecker",
       "message": [
         {
-          "messageText" : "Method name ${function} is not a valid name. Please use CamelCase or underscores.",
+          "messageText" : "Method name ${function} is not a valid name. Please use ${case} or underscores.",
           "code": "METHOD_INVALID_NAME",
           "severity": "INFO"
         },
@@ -716,6 +724,10 @@
         {
           "name": "MaxWords",
           "value": "5"
+        },
+        {
+          "name" : "case",
+          "value" : "CamelCase"
         }
       ]
     },
@@ -726,7 +738,7 @@
         {
           "code": "COMPONENT_INVALID_NAME",
           "severity": "INFO",
-          "messageText" : "Component name ${component} is not a valid name. Please use CamelCase and start with a capital letter."
+          "messageText" : "Component name ${component} is not a valid name. Please use ${case} and start with a capital letter."
         },
         {
           "code": "COMPONENT_ALLCAPS_NAME",
@@ -771,6 +783,10 @@
         {
           "name": "MaxWords",
           "value": "3"
+        },
+        {
+          "name" : "case",
+          "value" : "PascalCase"
         }
       ]
     },

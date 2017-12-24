@@ -116,7 +116,7 @@ public class MethodNameChecker extends CFLintScannerAdapter {
 
         final ValidName name = new ValidName(minMethodLength, maxMethodLength, maxMethodWords);
 
-        if (name.isInvalid(method)) {
+        if (name.isInvalid(method,context.getConfiguration().getParameter(this, "case"))) {
             context.addMessage("METHOD_INVALID_NAME", null, line, offset);
         }
         if (name.isUpperCase(method)) {

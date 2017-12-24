@@ -15,7 +15,7 @@
       "line" : 1,
       "message" : "Component excessive_cfml has too many functions. Should be fewer than 10.",
       "variable" : "",
-      "expression" : "<cfcomponent>\r\n\t<cffunction name=\\\"functionOne\\\" />\r\n\t<cffunction name=\\\"functionTwo\\\" />\r\n\t<cffunction name=\\\"functionThree\\\" />\r\n\t<cffunction name=\\\"functionFour\\\" />\r\n\t<cffunction name=\\\"functionFi"
+      "expression" : "<cfcomponent>\n\t<cffunction name=\\\"functionOne\\\" />\n\t<cffunction name=\\\"functionTwo\\\" />\n\t<cffunction name=\\\"functionThree\\\" />\n\t<cffunction name=\\\"functionFour\\\" />\n\t<cffunction name=\\\"functionFive\\\" "
     } ]
   } ],
   "counts" : {

@@ -1279,7 +1279,7 @@ public class CFLint implements IErrorReporter {
         } else if (expression instanceof CFScriptStatement) {
             bldr.setExpression(((CFScriptStatement) expression).Decompile(0));
         } else if (elem != null) {
-            bldr.setExpression(elem.toString());
+            bldr.setExpression(elem.toString().replaceAll("\r\n", "\n"));
         }
         bldr.setRuleParameters(ruleInfo.getParameters());
         if (configuration.includes(ruleInfo.getMessageByCode(msgcode))

@@ -15,7 +15,7 @@
       "line" : 1,
       "message" : "The case of the package folder and the object declaration do not match for tests.PackageCase.packagecase_nokC.",
       "variable" : "tests.PackageCase.packagecase_nokC",
-      "expression" : "<cfscript>\r\nnew tests.packagecase.packagecase_nokC();\r\n</cfscript>"
+      "expression" : "<cfscript>\nnew tests.packagecase.packagecase_nokC();\n</cfscript>"
     } ]
   } ],
   "counts" : {

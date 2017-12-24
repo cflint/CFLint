@@ -15,7 +15,7 @@
       "line" : 4,
       "message" : "Variable users is not declared with a var statement.",
       "variable" : "users",
-      "expression" : "<CFquery name=\"users\" datasource=\"dsn\">\r\nSELECT user\r\nFROM users\r\nwhere user_id = <CFqueryparam value=\"#user_id#\" cfsqltype=\"CF_SQL_NUMERIC\">\r\n</CFquery>"
+      "expression" : "<CFquery name=\"users\" datasource=\"dsn\">\nSELECT user\nFROM users\nwhere user_id = <CFqueryparam value=\"#user_id#\" cfsqltype=\"CF_SQL_NUMERIC\">\n</CFquery>"
     } ]
   } ],
   "counts" : {

@@ -15,7 +15,7 @@
       "line" : 4,
       "message" : "<cfquery> should use <cfqueryparam/> for variable 'arguments.count'.",
       "variable" : "arguments.count",
-      "expression" : "<cfquery name=\"local.something\" datasource=\"#variables.DSN#\">\r\n\t\t      SELECT top #arguments.count#\r\n\t\t      \tfooCol1, siteID, fooCol3\r\n\t\t      FROM\r\n\t\t      FooTable\r\n\t\t</cfquery>"
+      "expression" : "<cfquery name=\"local.something\" datasource=\"#variables.DSN#\">\n\t\t      SELECT top #arguments.count#\n\t\t      \tfooCol1, siteID, fooCol3\n\t\t      FROM\n\t\t      FooTable\n\t\t</cfquery>"
     } ]
   } ],
   "counts" : {

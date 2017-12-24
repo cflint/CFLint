@@ -5,12 +5,17 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import com.cflint.Levels;
 import com.cflint.config.CFLintPluginInfo.PluginInfoRule.PluginMessage;
 
 import cfml.parsing.cfscript.CFExpression;
 import net.htmlparser.jericho.Element;
 
 public class CFTool {
+
+    private CFTool() {
+        throw new IllegalStateException("CFTool utility class");
+    }
 
     public static Element getNamedParent(final Element elem, final String tagName) {
     	Element parentElem = elem.getParentElement();
@@ -24,10 +29,10 @@ public class CFTool {
         if (value == null) {
             return false;
         }
-        return value.trim().equalsIgnoreCase("yes") || value.trim().equalsIgnoreCase("true");
+        return "yes".equalsIgnoreCase(value.trim()) || "true".equalsIgnoreCase(value.trim());
     }
 
-    public static Element getElementBefore(Element element, List<Element> elements) {
+    public static Element getElementBefore(final Element element, final List<Element> elements) {
         if (element != null && elements != null && elements.indexOf(element) > 0) {
             return elements.get(elements.indexOf(element) - 1);
         }
@@ -35,9 +40,9 @@ public class CFTool {
     }
 
     public static Map<String, CFExpression> convertMap(final Map<? extends CFExpression, CFExpression> map) {
-        final Map<String, CFExpression> retval = new HashMap<String, CFExpression>();
+        final Map<String, CFExpression> retval = new HashMap<>();
         for (Entry<? extends CFExpression, CFExpression> entry : map.entrySet()) {
-            retval.put(entry.getKey().toString().toLowerCase(), entry.getValue());
+            retval.put(entry.getKey().Decompile(0).toLowerCase(), entry.getValue());
         }
         return retval;
     }
@@ -49,7 +54,7 @@ public class CFTool {
         if (!isEmpty(cfgMsg.getMessageText())) {
             msg.setMessageText(cfgMsg.getMessageText());
         }
-        if (!isEmpty(cfgMsg.getSeverity())) {
+        if (cfgMsg.getSeverity() != Levels.UNKNOWN) {
             msg.setSeverity(cfgMsg.getSeverity());
         }
     }

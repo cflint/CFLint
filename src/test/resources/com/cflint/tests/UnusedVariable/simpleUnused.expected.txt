@@ -1,27 +1,33 @@
-[ {
-  "severity" : "INFO",
-  "id" : "UNUSED_LOCAL_VARIABLE",
-  "message" : "UNUSED_LOCAL_VARIABLE",
-  "category" : "CFLINT",
-  "abbrev" : "UL",
-  "locations" : [ {
-    "file" : "src/test/resources/com/cflint/tests/UnusedVariable/simpleUnused.cfc",
-    "fileName" : "simpleUnused.cfc",
-    "function" : "save",
-    "column" : 0,
-    "line" : 4,
-    "message" : "Local variable foo is not used in function save, consider removing it.",
-    "variable" : "foo",
-    "expression" : ""
-  } ]
-}, {
-  "totalfiles" : 0
-}, {
-  "totalsize" : 0
-}, {
-  "code" : "UNUSED_LOCAL_VARIABLE",
-  "count" : 1
-}, {
-  "severity" : "INFO",
-  "count" : 1
-} ]
+{
+  "version" : "",
+  "timestamp" : 1507944142,
+  "issues" : [ {
+    "severity" : "INFO",
+    "id" : "UNUSED_LOCAL_VARIABLE",
+    "message" : "UNUSED_LOCAL_VARIABLE",
+    "category" : "CFLINT",
+    "abbrev" : "UL",
+    "locations" : [ {
+      "file" : "src\\test\\resources\\com\\cflint\\tests\\UnusedVariable\\simpleUnused.cfc",
+      "fileName" : "simpleUnused.cfc",
+      "function" : "save",
+      "column" : 5,
+      "line" : 4,
+      "message" : "Local variable foo is not used in function save, consider removing it.",
+      "variable" : "foo",
+      "expression" : ""
+    } ]
+  } ],
+  "counts" : {
+    "totalFiles" : 0,
+    "totalLines" : 0,
+    "countByCode" : [ {
+      "code" : "UNUSED_LOCAL_VARIABLE",
+      "count" : 1
+    } ],
+    "countBySeverity" : [ {
+      "severity" : "INFO",
+      "count" : 1
+    } ]
+  }
+}

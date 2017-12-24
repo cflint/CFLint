@@ -1,5 +1,0 @@
-[ {
-  "totalfiles" : 0
-}, {
-  "totalsize" : 0
-} ]

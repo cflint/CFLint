@@ -1,62 +1,68 @@
-[ {
-  "severity" : "INFO",
-  "id" : "VAR_TOO_LONG",
-  "message" : "VAR_TOO_LONG",
-  "category" : "CFLINT",
-  "abbrev" : "VT",
-  "locations" : [ {
-    "file" : "src/test/resources/com/cflint/tests/VariableNameChecker/cftry.cfc",
-    "fileName" : "cftry.cfc",
-    "function" : "init",
-    "column" : 0,
-    "line" : 8,
-    "message" : "Variable asdfghjklasdfghjklasdfghjklasdfghjklasdfghjklasdfghjkl should be shorter than 20 characters.",
-    "variable" : "asdfghjklasdfghjklasdfghjklasdfghjklasdfghjklasdfghjkl",
-    "expression" : ""
-  } ]
-}, {
-  "severity" : "INFO",
-  "id" : "VAR_TOO_SHORT",
-  "message" : "VAR_TOO_SHORT",
-  "category" : "CFLINT",
-  "abbrev" : "VT",
-  "locations" : [ {
-    "file" : "src/test/resources/com/cflint/tests/VariableNameChecker/cftry.cfc",
-    "fileName" : "cftry.cfc",
-    "function" : "init",
-    "column" : 0,
-    "line" : 5,
-    "message" : "Variable q should be longer than 3 characters.",
-    "variable" : "q",
-    "expression" : ""
-  } ]
-}, {
-  "severity" : "INFO",
-  "id" : "VAR_TOO_SHORT",
-  "message" : "VAR_TOO_SHORT",
-  "category" : "CFLINT",
-  "abbrev" : "VT",
-  "locations" : [ {
-    "file" : "src/test/resources/com/cflint/tests/VariableNameChecker/cftry.cfc",
-    "fileName" : "cftry.cfc",
-    "function" : "init",
-    "column" : 0,
-    "line" : 7,
-    "message" : "Variable z should be longer than 3 characters.",
-    "variable" : "z",
-    "expression" : ""
-  } ]
-}, {
-  "totalfiles" : 0
-}, {
-  "totalsize" : 0
-}, {
-  "code" : "VAR_TOO_SHORT",
-  "count" : 2
-}, {
-  "code" : "VAR_TOO_LONG",
-  "count" : 1
-}, {
-  "severity" : "INFO",
-  "count" : 3
-} ]
+{
+  "version" : "",
+  "timestamp" : 1507944142,
+  "issues" : [ {
+    "severity" : "INFO",
+    "id" : "VAR_TOO_LONG",
+    "message" : "VAR_TOO_LONG",
+    "category" : "CFLINT",
+    "abbrev" : "VT",
+    "locations" : [ {
+      "file" : "src\\test\\resources\\com\\cflint\\tests\\VariableNameChecker\\cftry.cfc",
+      "fileName" : "cftry.cfc",
+      "function" : "init",
+      "column" : 10,
+      "line" : 8,
+      "message" : "Variable asdfghjklasdfghjklasdfghjklasdfghjklasdfghjklasdfghjkl should be shorter than 20 characters.",
+      "variable" : "asdfghjklasdfghjklasdfghjklasdfghjklasdfghjklasdfghjkl",
+      "expression" : "var asdfghjklasdfghjklasdfghjklasdfghjklasdfghjklasdfghjkl = 10"
+    } ]
+  }, {
+    "severity" : "INFO",
+    "id" : "VAR_TOO_SHORT",
+    "message" : "VAR_TOO_SHORT",
+    "category" : "CFLINT",
+    "abbrev" : "VT",
+    "locations" : [ {
+      "file" : "src\\test\\resources\\com\\cflint\\tests\\VariableNameChecker\\cftry.cfc",
+      "fileName" : "cftry.cfc",
+      "function" : "init",
+      "column" : 9,
+      "line" : 5,
+      "message" : "Variable q should be longer than 3 characters.",
+      "variable" : "q",
+      "expression" : "var q = 123"
+    } ]
+  }, {
+    "severity" : "INFO",
+    "id" : "VAR_TOO_SHORT",
+    "message" : "VAR_TOO_SHORT",
+    "category" : "CFLINT",
+    "abbrev" : "VT",
+    "locations" : [ {
+      "file" : "src\\test\\resources\\com\\cflint\\tests\\VariableNameChecker\\cftry.cfc",
+      "fileName" : "cftry.cfc",
+      "function" : "init",
+      "column" : 10,
+      "line" : 7,
+      "message" : "Variable z should be longer than 3 characters.",
+      "variable" : "z",
+      "expression" : "var z = 123"
+    } ]
+  } ],
+  "counts" : {
+    "totalFiles" : 0,
+    "totalLines" : 0,
+    "countByCode" : [ {
+      "code" : "VAR_TOO_SHORT",
+      "count" : 2
+    }, {
+      "code" : "VAR_TOO_LONG",
+      "count" : 1
+    } ],
+    "countBySeverity" : [ {
+      "severity" : "INFO",
+      "count" : 3
+    } ]
+  }
+}

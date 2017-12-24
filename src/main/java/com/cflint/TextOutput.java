@@ -8,7 +8,7 @@ import java.util.Map.Entry;
 
 public class TextOutput {
 
-    final static String newLine = System.getProperty("line.separator");
+    private static final String NEW_LINE = System.getProperty("line.separator");
 
     public void output(final BugList bugList, final Writer sb, CFLintStats stats) throws IOException {
         final BugCounts counts = stats.getCounts();
@@ -16,39 +16,39 @@ public class TextOutput {
         for (final Entry<String, List<BugInfo>> bugEntry : bugList.getBugList().entrySet()) {
             sb.append("Issue");
             for (final BugInfo bugInfo : bugEntry.getValue()) {
-                final String severity = bugEntry.getValue().get(0).getSeverity();
+                final String severity = bugEntry.getValue().get(0).getSeverity().toString();
                 final String code = bugEntry.getValue().get(0).getMessageCode();
-                sb.append(newLine).append("Severity:").append(severity);
-                sb.append(newLine).append("Message code:").append(code);
-                sb.append(newLine).append("\tFile:").append(bugInfo.getFilename());
-                sb.append(newLine).append("\tColumn:").append(Integer.valueOf(bugInfo.getColumn()).toString());
-                sb.append(newLine).append("\tLine:").append(Integer.valueOf(bugInfo.getLine()).toString());
-                sb.append(newLine).append("\t\tMessage:").append(bugInfo.getMessage());
-                sb.append(newLine).append("\t\tVariable:'").append(bugInfo.getVariable());
+                sb.append(NEW_LINE).append("Severity:").append(severity);
+                sb.append(NEW_LINE).append("Message code:").append(code);
+                sb.append(NEW_LINE).append("\tFile:").append(bugInfo.getFilename());
+                sb.append(NEW_LINE).append("\tColumn:").append(Integer.toString(bugInfo.getColumn()));
+                sb.append(NEW_LINE).append("\tLine:").append(Integer.toString(bugInfo.getLine()));
+                sb.append(NEW_LINE).append("\t\tMessage:").append(bugInfo.getMessage());
+                sb.append(NEW_LINE).append("\t\tVariable:'").append(bugInfo.getVariable());
                 sb.append("' in function: ").append(bugInfo.getFunction());
-                sb.append(newLine).append("\t\tExpression:").append(bugInfo.getExpression());
-                sb.append(newLine);
+                sb.append(NEW_LINE).append("\t\tExpression:").append(bugInfo.getExpression());
+                sb.append(NEW_LINE);
             }
         }
 
-        sb.append(newLine).append(newLine).append("Total files:" + stats.getFileCount());
-        sb.append(newLine).append("Total size " + stats.getTotalSize());
+        sb.append(NEW_LINE).append(NEW_LINE).append("Total files:" + stats.getFileCount());
+        sb.append(NEW_LINE).append("Total lines:" + stats.getTotalLines());
 
-        sb.append(newLine).append(newLine).append("Issue counts:" + counts.noBugTypes());
+        sb.append(NEW_LINE).append(NEW_LINE).append("Issue counts:" + counts.noBugTypes());
 
         for (final String code : counts.bugTypes()) {
-            sb.append(newLine).append(code + ":" + counts.getCode(code));
+            sb.append(NEW_LINE).append(code + ":" + counts.getCode(code));
         }
 
-        sb.append(newLine).append(newLine).append("Total issues:" + counts.noBugs());
+        sb.append(NEW_LINE).append(NEW_LINE).append("Total issues:" + counts.noBugs());
 
-        for (final String severity : BugCounts.levels) {
+        for (final Levels severity : Levels.values()) {
             if (counts.getSeverity(severity) > 0) {
-                sb.append(newLine).append("Total " + severity.toLowerCase() + "s:" + counts.getSeverity(severity));
+                sb.append(NEW_LINE).append("Total " + severity.toString().toLowerCase() + "s:" + counts.getSeverity(severity));
             }
         }
 
-        sb.append(newLine);
+        sb.append(NEW_LINE);
         sb.flush();
         sb.close();
     }

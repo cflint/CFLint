@@ -9,7 +9,6 @@ import cfml.parsing.cfscript.CFFullVarExpression;
 import cfml.parsing.cfscript.CFIdentifier;
 
 public class GlobalVarChecker extends CFLintScannerAdapter {
-
     protected CFScopes scopes = new CFScopes();
 
     @Override

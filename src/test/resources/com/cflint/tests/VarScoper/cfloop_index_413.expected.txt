@@ -1,0 +1,49 @@
+{
+  "version" : "",
+  "timestamp" : 1507944143,
+  "issues" : [ {
+    "severity" : "ERROR",
+    "id" : "MISSING_VAR",
+    "message" : "MISSING_VAR",
+    "category" : "CFLINT",
+    "abbrev" : "MV",
+    "locations" : [ {
+      "file" : "src\\test\\resources\\com\\cflint\\tests\\VarScoper\\cfloop_index_413.cfc",
+      "fileName" : "cfloop_index_413.cfc",
+      "function" : "foo",
+      "column" : 33,
+      "line" : 2,
+      "message" : "Variable idx is not declared with a var statement.",
+      "variable" : "idx",
+      "expression" : "<cfloop from=\"0\" to=\"23\" index=\"idx\">\r\n\t\t<cfset xxx = NumberFormat(idx, \"00\")>\r\n\t</cfloop>"
+    } ]
+  }, {
+    "severity" : "ERROR",
+    "id" : "MISSING_VAR",
+    "message" : "MISSING_VAR",
+    "category" : "CFLINT",
+    "abbrev" : "MV",
+    "locations" : [ {
+      "file" : "src\\test\\resources\\com\\cflint\\tests\\VarScoper\\cfloop_index_413.cfc",
+      "fileName" : "cfloop_index_413.cfc",
+      "function" : "foo",
+      "column" : 3,
+      "line" : 3,
+      "message" : "Variable xxx is not declared with a var statement.",
+      "variable" : "xxx",
+      "expression" : "xxx"
+    } ]
+  } ],
+  "counts" : {
+    "totalFiles" : 0,
+    "totalLines" : 0,
+    "countByCode" : [ {
+      "code" : "MISSING_VAR",
+      "count" : 2
+    } ],
+    "countBySeverity" : [ {
+      "severity" : "ERROR",
+      "count" : 2
+    } ]
+  }
+}

@@ -1,27 +1,33 @@
-[ {
-  "severity" : "INFO",
-  "id" : "FUNCTION_TYPE_ANY",
-  "message" : "FUNCTION_TYPE_ANY",
-  "category" : "CFLINT",
-  "abbrev" : "FT",
-  "locations" : [ {
-    "file" : "src/test/resources/com/cflint/tests/FunctionType/Any/functionany1.cfc",
-    "fileName" : "functionany1.cfc",
-    "function" : "x",
-    "column" : 11,
-    "line" : 3,
-    "message" : "Function x return type is any. Please change to be the correct type.",
-    "variable" : "x",
-    "expression" : "public any function x()   {\nx = 123;\n\n  }"
-  } ]
-}, {
-  "totalfiles" : 0
-}, {
-  "totalsize" : 0
-}, {
-  "code" : "FUNCTION_TYPE_ANY",
-  "count" : 1
-}, {
-  "severity" : "INFO",
-  "count" : 1
-} ]
+{
+  "version" : "",
+  "timestamp" : 1507944134,
+  "issues" : [ {
+    "severity" : "INFO",
+    "id" : "FUNCTION_TYPE_ANY",
+    "message" : "FUNCTION_TYPE_ANY",
+    "category" : "CFLINT",
+    "abbrev" : "FT",
+    "locations" : [ {
+      "file" : "src\\test\\resources\\com\\cflint\\tests\\FunctionType\\Any\\functionany1.cfc",
+      "fileName" : "functionany1.cfc",
+      "function" : "x",
+      "column" : 11,
+      "line" : 3,
+      "message" : "Function x return type is any. Please change to be the correct type.",
+      "variable" : "x",
+      "expression" : "public any function x()   {\nx = 123;\n\n  }"
+    } ]
+  } ],
+  "counts" : {
+    "totalFiles" : 0,
+    "totalLines" : 0,
+    "countByCode" : [ {
+      "code" : "FUNCTION_TYPE_ANY",
+      "count" : 1
+    } ],
+    "countBySeverity" : [ {
+      "severity" : "INFO",
+      "count" : 1
+    } ]
+  }
+}

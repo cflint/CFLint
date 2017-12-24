@@ -9,23 +9,23 @@ import ro.fortsoft.pf4j.Extension;
 
 @Extension
 public class CFTagCaseChecker extends CFLintScannerAdapter {
-    final String messageCode = "CFTAG_PREFERRED_CASE";
+    private static final String CFTAG_PREFERRED_CASE = "CFTAG_PREFERRED_CASE";
 
     // rule: tag should be lowercase or camelCase
     @Override
     public void element(final Element element, final Context context, final BugList bugs) {
         boolean encourageUpper = true;
-        if (getParameter("PreferCase") != null) {
+        if (context.getConfiguration().getParameter(this,"PreferCase") != null) {
             try {
-                encourageUpper = "upper".equalsIgnoreCase(getParameter("PreferCase"));
+                encourageUpper = "upper".equalsIgnoreCase(context.getConfiguration().getParameter(this,"PreferCase"));
             } catch (final Exception e) {
             }
         }
         final String tag = element.getStartTag().toString();
-        if (tag.substring(1, 3).equalsIgnoreCase("cf")) {
-            int index = tag.indexOf(" ");
+        if ("cf".equalsIgnoreCase(tag.substring(1, 3))) {
+            int index = tag.indexOf(' ');
             if (index == -1) {
-                index = tag.indexOf(">");
+                index = tag.indexOf('>');
             }
             final String cfTag = tag.substring(1, index);
             final String nonPreferredCase = encourageUpper ? cfTag.toLowerCase() : cfTag.toUpperCase();
@@ -36,9 +36,7 @@ public class CFTagCaseChecker extends CFLintScannerAdapter {
              */
             if (cfTag.equals(nonPreferredCase)) {
                 final int begLine = element.getSource().getRow(element.getBegin());
-                context.addMessage(messageCode, cfTag, this, begLine);
-                // messageText = "Tag <${variable}> should be written in
-                // lowercase or camelCase for consistency in code.";
+                context.addMessage(CFTAG_PREFERRED_CASE, cfTag, this, begLine, element.getBegin());
             }
         }
     }

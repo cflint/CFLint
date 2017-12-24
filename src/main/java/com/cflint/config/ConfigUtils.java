@@ -8,6 +8,7 @@ import java.io.Reader;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.util.HashMap;
+import java.util.Map;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -20,19 +21,20 @@ import org.slf4j.LoggerFactory;
 import com.cflint.config.CFLintPluginInfo.PluginInfoRule;
 import com.cflint.config.CFLintPluginInfo.PluginInfoRule.PluginParameter;
 import com.cflint.plugins.CFLintScanner;
-import com.fasterxml.jackson.core.JsonGenerationException;
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.module.jaxb.JaxbAnnotationModule;
 
 public class ConfigUtils {
 
-	static final String PLUGIN_PACKAGE = "com.cflint.plugins.core";
+	private static final String PLUGIN_PACKAGE = "com.cflint.plugins.core";
 
-    private final static Logger log = LoggerFactory.getLogger(ConfigUtils.class);
+    private static final Logger log = LoggerFactory.getLogger(ConfigUtils.class);
     private static JAXBContext CFLintConfigContext = null;
+
+    private ConfigUtils() {
+        throw new IllegalStateException("ConfigUtils utility class");
+    }
 
     public static Marshaller createMarshaller() throws JAXBException {
         if (CFLintConfigContext == null) {
@@ -81,7 +83,7 @@ public class ConfigUtils {
     }
 
     public static String marshalJson(final Object obj)
-            throws JsonGenerationException, JsonMappingException, IOException {
+            throws IOException {
         final StringWriter sw = new StringWriter();
         final ObjectMapper objectMapper = new ObjectMapper();
         final JaxbAnnotationModule module = new JaxbAnnotationModule();
@@ -92,7 +94,7 @@ public class ConfigUtils {
     }
 
     public static <E> E unmarshalJson(final InputStream inputStream, final Class<E> expectedClass)
-            throws JsonParseException, JsonMappingException, IOException {
+            throws IOException {
         final ObjectMapper objectMapper = new ObjectMapper();
         final JaxbAnnotationModule module = new JaxbAnnotationModule();
         objectMapper.registerModule(module);
@@ -103,12 +105,12 @@ public class ConfigUtils {
     }
 
     public static <E> E unmarshalJson(final String input, final Class<E> expectedClass)
-            throws JsonParseException, JsonMappingException, IOException {
+            throws IOException {
         return unmarshalJson(new StringReader(input), expectedClass);
     }
 
     public static <E> E unmarshalJson(final Reader reader, final Class<E> expectedClass)
-            throws JsonParseException, JsonMappingException, IOException {
+            throws IOException {
         final ObjectMapper objectMapper = new ObjectMapper();
         final JaxbAnnotationModule module = new JaxbAnnotationModule();
         objectMapper.registerModule(module);
@@ -145,10 +147,10 @@ public class ConfigUtils {
     /**
      * Load the plugin description.
      *
-     * @return MapList&lt;String,String&gt; map of message codes to descriptions
+     * @return Map&lt;String,String&gt; map of message codes to descriptions
      */
-    public static HashMap<String, String> loadDescriptions() {
-        final HashMap<String, String> descriptions = new HashMap<String, String>();
+    public static Map<String, String> loadDescriptions() {
+        final HashMap<String, String> descriptions = new HashMap<>();
         final InputStream inputStream = ConfigUtils.class.getResourceAsStream("/cflint.description.txt");
 
         try {

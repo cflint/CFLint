@@ -1,16 +1,13 @@
 package com.cflint.listeners;
 
 /**
- * Receives actions when a new source (file) is processed
- * 
- * @author eberlyrh
- *
+ * Receives actions when a new source (file) is processed.
  */
 public interface ScanProgressListener {
 
-    public void startedProcessing(String srcidentifier);
+    void startedProcessing(String srcidentifier);
 
-    public void finishedProcessing(String srcidentifier);
+    void finishedProcessing(String srcidentifier);
 
-    public void close();
+    void close();
 }

@@ -1,0 +1,77 @@
+{
+  "rule" : [ 
+    {
+      "name": "VariableNameChecker",
+      "className": "VariableNameChecker",
+      "message": [
+        {
+          "code": "VAR_INVALID_NAME",
+          "severity": "INFO",
+          "messageText" : "Variable ${variable} INVALID!"
+        },
+        {
+          "code": "VAR_ALLCAPS_NAME",
+          "severity": "INFO",
+          "messageText" : "Variable ${variable} IS UPPER!"
+        },
+        {
+          "code": "SCOPE_ALLCAPS_NAME",
+          "severity": "INFO",
+          "messageText": "Scope ${variable} IS UPPER!"
+        },
+        {
+          "code": "VAR_TOO_SHORT",
+          "severity": "INFO",
+          "messageText": "Variable ${variable} SHORTER THAN ${MinLength}!"
+        },
+        {
+          "code": "VAR_TOO_LONG",
+          "severity": "INFO",
+          "messageText" : "Variable ${variable} LONGER THAN ${MaxLength}!"
+        },
+        {
+          "code": "VAR_TOO_WORDY",
+          "severity": "INFO",
+          "messageText" : "Variable ${variable} is TOO WORDY!"
+        },
+        {
+          "code": "VAR_IS_TEMPORARY",
+          "severity": "INFO",
+          "messageText" : "TEMPORARY variable ${variable}!"
+        },
+        {
+          "code": "VAR_HAS_PREFIX_OR_POSTFIX",
+          "severity": "INFO",
+          "messageText" : "${variable} HAS PREFIX OR POSTFIX!"
+        }
+      ],
+      "parameter": [
+        {
+          "name": "MinLength",
+          "value": "4"
+        },
+        {
+          "name": "MaxLength",
+          "value": "15"
+        },
+        {
+          "name": "MaxWords",
+          "value": "5"
+        },
+        {
+          "name": "IgnoreUpperCaseScopes",
+          "value": "CGI,URL,REQUEST"
+        },
+        {
+          "name": "IgnoreAllCapsInScopes",
+          "value": "this,variables,otherscope"
+        },
+        {
+          "name": "IgnorePrefixPostfixOn",
+          "value": "thisTag,thatTag"
+        }
+      ]
+    }
+  ],
+  "inheritParent" : true
+}

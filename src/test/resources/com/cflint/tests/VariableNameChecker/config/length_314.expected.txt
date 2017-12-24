@@ -1,0 +1,71 @@
+{
+  "version" : "",
+  "timestamp" : 1514052651,
+  "issues" : [ {
+    "severity" : "INFO",
+    "id" : "VAR_INVALID_NAME",
+    "message" : "VAR_INVALID_NAME",
+    "category" : "CFLINT",
+    "abbrev" : "VI",
+    "locations" : [ {
+      "file" : "src\\test\\resources\\com\\cflint\\tests\\VariableNameChecker\\config\\length_314.cfc",
+      "fileName" : "length_314.cfc",
+      "function" : "init",
+      "column" : 9,
+      "line" : 5,
+      "message" : "Variable q12 INVALID!",
+      "variable" : "q12",
+      "expression" : "var q12 = 123"
+    } ]
+  }, {
+    "severity" : "INFO",
+    "id" : "VAR_TOO_LONG",
+    "message" : "VAR_TOO_LONG",
+    "category" : "CFLINT",
+    "abbrev" : "VT",
+    "locations" : [ {
+      "file" : "src\\test\\resources\\com\\cflint\\tests\\VariableNameChecker\\config\\length_314.cfc",
+      "fileName" : "length_314.cfc",
+      "function" : "init",
+      "column" : 10,
+      "line" : 7,
+      "message" : "Variable asdfghjklasdfghj LONGER THAN 15!",
+      "variable" : "asdfghjklasdfghj",
+      "expression" : "var asdfghjklasdfghj = 10"
+    } ]
+  }, {
+    "severity" : "INFO",
+    "id" : "VAR_TOO_SHORT",
+    "message" : "VAR_TOO_SHORT",
+    "category" : "CFLINT",
+    "abbrev" : "VT",
+    "locations" : [ {
+      "file" : "src\\test\\resources\\com\\cflint\\tests\\VariableNameChecker\\config\\length_314.cfc",
+      "fileName" : "length_314.cfc",
+      "function" : "init",
+      "column" : 9,
+      "line" : 5,
+      "message" : "Variable q12 SHORTER THAN 4!",
+      "variable" : "q12",
+      "expression" : "var q12 = 123"
+    } ]
+  } ],
+  "counts" : {
+    "totalFiles" : 0,
+    "totalLines" : 0,
+    "countByCode" : [ {
+      "code" : "VAR_INVALID_NAME",
+      "count" : 1
+    }, {
+      "code" : "VAR_TOO_SHORT",
+      "count" : 1
+    }, {
+      "code" : "VAR_TOO_LONG",
+      "count" : 1
+    } ],
+    "countBySeverity" : [ {
+      "severity" : "INFO",
+      "count" : 3
+    } ]
+  }
+}

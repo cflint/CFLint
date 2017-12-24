@@ -5,12 +5,12 @@ import java.util.Collection;
 
 import cfml.parsing.cfscript.CFExpression;
 import cfml.parsing.cfscript.CFFullVarExpression;
+import com.cflint.CF;
 
 public class CFScopes {
 
-    public static final String LOCAL = "local";
-    final static Collection<String> scopes = Arrays.asList("url", "form", "cookie", "cgi", "server", "application",
-            "session", "client", "request", "arguments", "variables", "this", LOCAL, "cfcatch");
+    private static final Collection<String> scopes = Arrays.asList(CF.URL, CF.FORM, CF.COOKIE, CF.CGI, CF.SERVER, CF.APPLICATION,
+        CF.SESSION, CF.CLIENT, CF.REQUEST, CF.ARGUMENTS, CF.VARIABLES, CF.THIS, CF.LOCAL, CF.CFCATCH);
 
     protected String[] parts(final String variable) {
         return variable.toLowerCase().split("\\.|\\[|\\]");
@@ -44,20 +44,20 @@ public class CFScopes {
         CFExpression part1 = variable.decomposeExpression().get(0);
         return scopes.contains(part1.Decompile(0).toLowerCase());
     }
-    public boolean isScoped(final CFFullVarExpression variable,String scope) {
+    public boolean isScoped(final CFFullVarExpression variable, final String scope) {
         CFExpression part1 = variable.decomposeExpression().get(0);
         return scope != null && scope.equalsIgnoreCase(part1.Decompile(0).toLowerCase());
     }
 
     public boolean isLocalScoped(final String variable) {
-        return isScoped(variable, LOCAL);
+        return isScoped(variable, CF.LOCAL);
     }
     public boolean isVariablesScoped(final String variable) {
-        return isScoped(variable, "variables");
+        return isScoped(variable, CF.VARIABLES);
     }
 
     public boolean isFunctionScoped(final String variable) {
-        return isScoped(variable, LOCAL) || isScoped(variable, "variables") || isScoped(variable, "arguments") || isScoped(variable, "cfcatch");
+        return isScoped(variable, CF.LOCAL) || isScoped(variable, CF.VARIABLES) || isScoped(variable, CF.ARGUMENTS) || isScoped(variable, CF.CFCATCH);
     }
 
 }

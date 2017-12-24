@@ -19,7 +19,7 @@ import javanet.staxutils.IndentingXMLStreamWriter;
 public class DefaultCFlintResultMarshaller implements CFLintResultMarshaller {
 
     @Override
-    public void output(BugList bugList, Writer writer, CFLintStats stats) throws MarshallerException {
+    public void output(final BugList bugList, final Writer writer, final CFLintStats stats) throws MarshallerException {
 
         try {
             final XMLOutputFactory xmlOutputFactory = XMLOutputFactory.newInstance();
@@ -34,7 +34,7 @@ public class DefaultCFlintResultMarshaller implements CFLintResultMarshaller {
         }
     }
 
-    private void writeIssues(BugList bugList, XMLStreamWriter xtw, CFLintStats stats) throws XMLStreamException {
+    private void writeIssues(final BugList bugList, final XMLStreamWriter xtw, final CFLintStats stats) throws XMLStreamException {
         xtw.writeStartElement("issues");
         xtw.writeAttribute("version", Version.getVersion());
         xtw.writeAttribute("timestamp", Long.toString(stats.getTimestamp()));
@@ -50,23 +50,23 @@ public class DefaultCFlintResultMarshaller implements CFLintResultMarshaller {
         xtw.writeEndElement();
     }
 
-    private void writeCounts(XMLStreamWriter xtw, BugCounts counts, CFLintStats stats) throws XMLStreamException {
+    private void writeCounts(final XMLStreamWriter xtw, final BugCounts counts, final CFLintStats stats) throws XMLStreamException {
         xtw.writeStartElement("counts");
         xtw.writeAttribute("totalfiles", Long.toString(stats.getFileCount()));
-        xtw.writeAttribute("totalsize", stats.getTotalSize().toString());
+        xtw.writeAttribute("totallines", stats.getTotalLines().toString());
 
         for (String code : counts.bugTypes()) {
-            xtw.writeStartElement("count");
-            xtw.writeAttribute("code", valueOf(code));
-            xtw.writeAttribute("count", valueOf(counts.getCode(code)));
+            xtw.writeStartElement(Bugs.COUNT);
+            xtw.writeAttribute(Bugs.CODE, valueOf(code));
+            xtw.writeAttribute(Bugs.COUNT, valueOf(counts.getCode(code)));
             xtw.writeEndElement();
         }
 
-        for (String severity : BugCounts.levels) {
+        for (Levels severity : Levels.values()) {
             if (counts.getSeverity(severity) > 0) {
-                xtw.writeStartElement("count");
-                xtw.writeAttribute("severity", valueOf(severity));
-                xtw.writeAttribute("count", valueOf(counts.getSeverity(severity)));
+                xtw.writeStartElement(Bugs.COUNT);
+                xtw.writeAttribute(Bugs.SEVERITY, valueOf(severity.toString()));
+                xtw.writeAttribute(Bugs.COUNT, valueOf(counts.getSeverity(severity)));
                 xtw.writeEndElement();
             }
         }
@@ -74,11 +74,11 @@ public class DefaultCFlintResultMarshaller implements CFLintResultMarshaller {
         xtw.writeEndElement();
     }
 
-    private void writeIssue(XMLStreamWriter xtw, BugInfo bug) throws XMLStreamException {
+    private void writeIssue(final XMLStreamWriter xtw, final BugInfo bug) throws XMLStreamException {
 
-        xtw.writeStartElement("issue");
-        xtw.writeAttribute("severity", valueOf(bug.getSeverity()));
-        xtw.writeAttribute("id", valueOf(bug.getMessageCode()));
+        xtw.writeStartElement(Bugs.ISSUE);
+        xtw.writeAttribute(Bugs.SEVERITY, valueOf(bug.getSeverity().toString()));
+        xtw.writeAttribute(Bugs.ID, valueOf(bug.getMessageCode()));
         xtw.writeAttribute("message", valueOf(bug.getMessageCode()));
         xtw.writeAttribute("category", valueOf("CFLint"));
         xtw.writeAttribute("abbrev", valueOf(abbrev(bug.getMessageCode())));
@@ -88,7 +88,7 @@ public class DefaultCFlintResultMarshaller implements CFLintResultMarshaller {
         xtw.writeEndElement();
     }
 
-    private void writeLocation(XMLStreamWriter xtw, BugInfo bug) throws XMLStreamException {
+    private void writeLocation(final XMLStreamWriter xtw, final BugInfo bug) throws XMLStreamException {
         xtw.writeStartElement("location");
         xtw.writeAttribute("file", valueOf(bug.getFilename()));
         xtw.writeAttribute("fileName", valueOf(new File(bug.getFilename()).getName()));
@@ -103,7 +103,7 @@ public class DefaultCFlintResultMarshaller implements CFLintResultMarshaller {
         xtw.writeEndElement();
     }
 
-    private void writeExpression(XMLStreamWriter xtw, BugInfo bug) throws XMLStreamException {
+    private void writeExpression(final XMLStreamWriter xtw, final BugInfo bug) throws XMLStreamException {
         xtw.writeStartElement("Expression");
 
         escapeDeep(xtw, valueOf(bug.getExpression()));
@@ -111,7 +111,7 @@ public class DefaultCFlintResultMarshaller implements CFLintResultMarshaller {
         xtw.writeEndElement();
     }
 
-    void escapeDeep(XMLStreamWriter xtw, String data) throws XMLStreamException {
+    private void escapeDeep(final XMLStreamWriter xtw, final String data) throws XMLStreamException {
         final String pattern = "]]>";
 
         final int offset = data.indexOf(pattern);
@@ -124,7 +124,7 @@ public class DefaultCFlintResultMarshaller implements CFLintResultMarshaller {
         }
     }
 
-    private String escapeControlCharacters(String value) {
+    private String escapeControlCharacters(final String value) {
         StringBuilder sb = new StringBuilder(value);
 
         for (int i = 0; i < sb.length(); i++) {
@@ -153,11 +153,11 @@ public class DefaultCFlintResultMarshaller implements CFLintResultMarshaller {
         }
     }
 
-    private String valueOf(int value) {
+    private String valueOf(final int value) {
         return valueOf(String.valueOf(value));
     }
 
-    private String valueOf(String value) {
+    private String valueOf(final String value) {
         if (value == null) {
             return "";
         }
@@ -168,13 +168,13 @@ public class DefaultCFlintResultMarshaller implements CFLintResultMarshaller {
         private static final char[] DIGITS = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D',
                 'E', 'F' };
 
-        public static String encode(int c) {
+        public static String encode(final int c) {
 
             return "&#x" + toHex(((c >> 12) & 0xF)) + toHex(((c >> 8) & 0xF)) + toHex(((c >> 4) & 0xF)) + toHex(c & 0xF)
                     + ";";
         }
 
-        public static char toHex(int val) {
+        public static char toHex(final int val) {
             return DIGITS[val & 0xF];
         }
 

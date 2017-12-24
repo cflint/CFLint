@@ -15,24 +15,24 @@ import ro.fortsoft.pf4j.Extension;
 
 @Extension
 public class LiteralChecker extends CFLintScannerAdapter {
-    final protected int REPEAT_THRESHOLD = 3;
-    final protected int WARNING_THRESHOLD = 5;
+    protected static final int REPEAT_THRESHOLD = 3;
+    protected static final int WARNING_THRESHOLD = 5;
 
     protected int threshold = REPEAT_THRESHOLD;
     protected int warningThreshold = WARNING_THRESHOLD;
 
-    protected Map<String, Integer> globalLiterals = new HashMap<String, Integer>();
-    protected Map<String, Integer> functionListerals = new HashMap<String, Integer>();
+    protected Map<String, Integer> globalLiterals = new HashMap<>();
+    protected Map<String, Integer> functionListerals = new HashMap<>();
 
     // May want to consider resetting literal map on new components but this way
-    // it
-    // detects duplicated literals across files which is useful
+    // it detects duplicated literals across files which is useful
 
     @Override
     public void expression(final CFExpression expression, final Context context, final BugList bugs) {
-        final String repeatThreshold = getParameter("Maximum");
-        final String maxWarnings = getParameter("MaxWarnings");
-        final String warningScope = getParameter("WarningScope");        
+        final String repeatThreshold = context.getConfiguration().getParameter(this,"Maximum");
+        final String maxWarnings = context.getConfiguration().getParameter(this,"MaxWarnings");
+        final String warningScope = context.getConfiguration().getParameter(this,"WarningScope");
+
         if (repeatThreshold != null) {
             threshold = Integer.parseInt(repeatThreshold);
         }
@@ -50,11 +50,12 @@ public class LiteralChecker extends CFLintScannerAdapter {
             }
 
             final int lineNo = literal.getLine() + context.startLine() - 1;
+            final int offset = literal.getOffset() + context.offset();
 
-            if (warningScope == null || warningScope.equals("global")) {
-                literalCount(name, lineNo, globalLiterals, true, context, bugs);
-            } else if (warningScope.equals("local")) {
-                literalCount(name, lineNo, functionListerals, false, context, bugs);
+            if ((warningScope == null || "global".equals(warningScope)) && !context.isInFunction()) {
+                literalCount(name, lineNo, offset, globalLiterals, true, context, bugs,expression);
+            } else if ("local".equals(warningScope) && context.isInFunction()) {
+                literalCount(name, lineNo, offset, functionListerals, false, context, bugs,expression);
             }
         }
     }
@@ -66,8 +67,8 @@ public class LiteralChecker extends CFLintScannerAdapter {
         }
     }
 
-    protected void literalCount(final String name, final int lineNo, final Map<String, Integer> literals,
-            final boolean global, final Context context, final BugList bugs) {
+    protected void literalCount(final String name, final int lineNo, final int offset, final Map<String, Integer> literals,
+                                final boolean global, final Context context, final BugList bugs, CFExpression expression) {
         int count = 1;
 
         if (literals.get(name) == null) {
@@ -80,48 +81,49 @@ public class LiteralChecker extends CFLintScannerAdapter {
 
         if (count > threshold && (warningThreshold == -1 || (count - threshold) <= warningThreshold)) {
             if (global) {
-                magicGlobalValue(name, lineNo, context, bugs);
+                magicGlobalValue(name, lineNo, offset, context, bugs,expression);
             } else {
-                magicLocalValue(name, lineNo, context, bugs);
+                magicLocalValue(name, lineNo, offset, context, bugs,expression);
             }
         }
     }
 
     protected boolean isCommon(final String name) {
-        return name.equals("1") || name.equals("0") || name.equals("") || name.equals("true") || name.equals("false");
-    }
-
-    public void magicLocalValue(final String name, final int lineNo, final Context context, final BugList bugs) {
-    	if (!isSpecial(name.toLowerCase()) ){
-    		context.addUniqueMessage("LOCAL_LITERAL_VALUE_USED_TOO_OFTEN", name, this, lineNo);
-    	}
+        return "1".equals(name) || "0".equals(name) || "".equals(name) || "true".equals(name) || "false".equals(name);
     }
 
     /**
      * Checks if the literal is a special case that should not fire the literal checker rule
+     *
      * @param name
      * @return
      */
-    private boolean isSpecial(String name) {
-    	//Empty literals do not flag
-    	if(name == null || name.length()==0){
-    		return true;
-    	}
-    	//Punctuation literals excepted (Look for absense of a word character)
-    	if(!name.matches(".*\\w.*")){
-    		return true;
-    	}
-    	//Exclude datatype for cfquery/cfproc
-    	if(name.startsWith("cf_sql_")){
-    		return true;
-    	}
-    	//Check ignore words list from the configuration
-    	return getParameterAsList("IgnoreWords").contains(name.toLowerCase());
-	}
+    private boolean isSpecial(final String name) {
+        //Empty literals do not flag
+        if (name == null || name.length() == 0) {
+            return true;
+        }
+        //Punctuation literals excepted (Look for absence of a word character)
+        if (!name.matches(".*\\w.*")) {
+            return true;
+        }
+        //Exclude datatype for cfquery/cfproc
+        if (name.startsWith("cf_sql_")) {
+            return true;
+        }
+        //Check ignore words list from the configuration
+        return getParameterAsList("IgnoreWords").contains(name.toLowerCase());
+    }
 
-	public void magicGlobalValue(final String name, final int lineNo, final Context context, final BugList bugs) {
-		if (!isSpecial(name.toLowerCase()) ){
-	    	context.addUniqueMessage("GLOBAL_LITERAL_VALUE_USED_TOO_OFTEN", name, this, lineNo);
-    	}
+    public void magicLocalValue(final String name, final int lineNo, final int offset, final Context context, final BugList bugs, CFExpression expression) {
+        if (!isSpecial(name.toLowerCase())) {
+            context.addUniqueMessage("LOCAL_LITERAL_VALUE_USED_TOO_OFTEN", name, this, lineNo, offset,expression);
+        }
+    }
+
+    public void magicGlobalValue(final String name, final int lineNo, final int offset, final Context context, final BugList bugs, CFExpression expression) {
+        if (!isSpecial(name.toLowerCase())) {
+            context.addUniqueMessage("GLOBAL_LITERAL_VALUE_USED_TOO_OFTEN", name, this, lineNo, offset,expression);
+        }
     }
 }

@@ -1,0 +1,8 @@
+{
+  "rule" : [ ],
+  "excludes" : [ ],
+  "includes" : [ {"code" : "UNQUOTED_STRUCT_KEY"},
+    {"code" : "STRUCT_ARRAY_NOTATION"}
+    ],
+  "inheritParent" : false
+}

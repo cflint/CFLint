@@ -1,27 +1,33 @@
-[ {
-  "severity" : "INFO",
-  "id" : "COMPONENT_INVALID_NAME",
-  "message" : "COMPONENT_INVALID_NAME",
-  "category" : "CFLINT",
-  "abbrev" : "CI",
-  "locations" : [ {
-    "file" : "src/test/resources/com/cflint/tests/ComponentNameChecker/foofoo.cfc",
-    "fileName" : "foofoo.cfc",
-    "function" : "",
-    "column" : 0,
-    "line" : 1,
-    "message" : "Component name 'foo2' is not a valid name. Please use CamelCase and start with a capital letter.",
-    "variable" : "",
-    "expression" : "component name='foo2' {\n}"
-  } ]
-}, {
-  "totalfiles" : 0
-}, {
-  "totalsize" : 0
-}, {
-  "code" : "COMPONENT_INVALID_NAME",
-  "count" : 1
-}, {
-  "severity" : "INFO",
-  "count" : 1
-} ]
+{
+  "version" : "",
+  "timestamp" : 1507944134,
+  "issues" : [ {
+    "severity" : "INFO",
+    "id" : "COMPONENT_INVALID_NAME",
+    "message" : "COMPONENT_INVALID_NAME",
+    "category" : "CFLINT",
+    "abbrev" : "CI",
+    "locations" : [ {
+      "file" : "src\\test\\resources\\com\\cflint\\tests\\ComponentNameChecker\\foofoo.cfc",
+      "fileName" : "foofoo.cfc",
+      "function" : "",
+      "column" : 0,
+      "line" : 1,
+      "message" : "Component name 'foo2' is not a valid name. Please use PascalCase and start with a capital letter.",
+      "variable" : "",
+      "expression" : "component name='foo2' {\n}"
+    } ]
+  } ],
+  "counts" : {
+    "totalFiles" : 0,
+    "totalLines" : 0,
+    "countByCode" : [ {
+      "code" : "COMPONENT_INVALID_NAME",
+      "count" : 1
+    } ],
+    "countBySeverity" : [ {
+      "severity" : "INFO",
+      "count" : 1
+    } ]
+  }
+}

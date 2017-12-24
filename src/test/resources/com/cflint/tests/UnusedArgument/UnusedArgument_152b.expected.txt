@@ -1,27 +1,33 @@
-[ {
-  "severity" : "INFO",
-  "id" : "UNUSED_METHOD_ARGUMENT",
-  "message" : "UNUSED_METHOD_ARGUMENT",
-  "category" : "CFLINT",
-  "abbrev" : "UM",
-  "locations" : [ {
-    "file" : "src/test/resources/com/cflint/tests/UnusedArgument/UnusedArgument_152b.cfc",
-    "fileName" : "UnusedArgument_152b.cfc",
-    "function" : "helloWorld",
-    "column" : 0,
-    "line" : 6,
-    "message" : "Argument xyzzy is not used in function, consider removing it.",
-    "variable" : "xyzzy",
-    "expression" : "<cffunction name=\"helloWorld\" access=\"public\" returntype=\"string\">\r\n  <cfargument name=\"name\" type=\"string\" required=\"false\" default=\"\">\r\n  <cfargument name=\"xyzzy\" type=\"string\" required=\"false\" defa"
-  } ]
-}, {
-  "totalfiles" : 0
-}, {
-  "totalsize" : 0
-}, {
-  "code" : "UNUSED_METHOD_ARGUMENT",
-  "count" : 1
-}, {
-  "severity" : "INFO",
-  "count" : 1
-} ]
+{
+  "version" : "",
+  "timestamp" : 1507944141,
+  "issues" : [ {
+    "severity" : "INFO",
+    "id" : "UNUSED_METHOD_ARGUMENT",
+    "message" : "UNUSED_METHOD_ARGUMENT",
+    "category" : "CFLINT",
+    "abbrev" : "UM",
+    "locations" : [ {
+      "file" : "src\\test\\resources\\com\\cflint\\tests\\UnusedArgument\\UnusedArgument_152b.cfc",
+      "fileName" : "UnusedArgument_152b.cfc",
+      "function" : "helloWorld",
+      "column" : 20,
+      "line" : 6,
+      "message" : "Argument xyzzy is not used in function, consider removing it.",
+      "variable" : "xyzzy",
+      "expression" : "<cffunction name=\"helloWorld\" access=\"public\" returntype=\"string\">\r\n  <cfargument name=\"name\" type=\"string\" required=\"false\" default=\"\">\r\n  <cfargument name=\"xyzzy\" type=\"string\" required=\"false\" defa"
+    } ]
+  } ],
+  "counts" : {
+    "totalFiles" : 0,
+    "totalLines" : 0,
+    "countByCode" : [ {
+      "code" : "UNUSED_METHOD_ARGUMENT",
+      "count" : 1
+    } ],
+    "countBySeverity" : [ {
+      "severity" : "INFO",
+      "count" : 1
+    } ]
+  }
+}

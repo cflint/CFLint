@@ -1,6 +1,7 @@
 package com.cflint.config;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlAttribute;
@@ -10,17 +11,19 @@ import javax.xml.bind.annotation.XmlRootElement;
 import com.cflint.config.CFLintPluginInfo.PluginInfoRule;
 import com.cflint.config.CFLintPluginInfo.PluginInfoRule.PluginMessage;
 import com.cflint.plugins.CFLintScanner;
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @XmlRootElement(name = "config")
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class CFLintConfig implements CFLintConfiguration {
+public class CFLintConfig extends BaseConfig {
 
 	@Deprecated
-    private List<ConfigOutput> output = new ArrayList<CFLintConfig.ConfigOutput>();
-    private List<CFLintPluginInfo.PluginInfoRule> rules = new ArrayList<CFLintPluginInfo.PluginInfoRule>();
-    private List<PluginMessage> excludes = new ArrayList<PluginMessage>();
-    private List<PluginMessage> includes = new ArrayList<PluginMessage>();
+    private List<ConfigOutput> output = new ArrayList<>();
+    private List<CFLintPluginInfo.PluginInfoRule> rules = new ArrayList<>();
+    private List<PluginMessage> excludes = new ArrayList<>();
+    private List<PluginMessage> includes = new ArrayList<>();
+    private HashMap<String,Object> parameters = new HashMap<>();
 
     private boolean inheritParent = true;
     @Deprecated
@@ -39,7 +42,19 @@ public class CFLintConfig implements CFLintConfiguration {
     @XmlElement(name = "output")
     @Deprecated
     public void setOutput(final List<ConfigOutput> output) {
+        System.err.println(
+                "DEPRECATED: The use of \"output\" have been marked as deprecated in CFLint 1.2.x and support for them will be fully removed in CFLint 1.3.0. Please remove the settings from your configuration file(s). Run CFLint in verbose mode for config file location details.");
         this.output = output;
+    }
+    
+    public HashMap<String,Object> getParameters() {
+        return parameters;
+    }
+
+    @JsonAnyGetter
+    @XmlElement(name = "parameters")
+    public void setParameters(final HashMap<String,Object> parameters) {
+        this.parameters = parameters;
     }
 
     /*
@@ -90,7 +105,7 @@ public class CFLintConfig implements CFLintConfiguration {
     }
 
     @XmlAttribute(name = "inheritParent")
-    public void setInheritParent(boolean inheritParent) {
+    public void setInheritParent(final boolean inheritParent) {
         this.inheritParent = inheritParent;
     }
 
@@ -101,18 +116,20 @@ public class CFLintConfig implements CFLintConfiguration {
 
     @XmlAttribute(name = "inheritPlugins")
     @Deprecated
-    public void setInheritPlugins(boolean inheritPlugins) {
+    public void setInheritPlugins(final boolean inheritPlugins) {
         // #315 --- inheritPlugins can not be overwritten to false in 1.2.0 --- will be fully removed in 1.3.0 (but will then break people's setup if the setting remains in .cflintrc or the xml config
+        System.err.println(
+                "DEPRECATED: The use of \"inheritPlugins\" have been marked as deprecated in CFLint 1.2.x and support for them will be fully removed in CFLint 1.3.0. Please remove the settings from your configuration file(s). Run CFLint in verbose mode for config file location details.");
         this.inheritPlugins = true;
     }
 
     public static class ConfigOutput {
 
-        String name;
-        OutputText text;
-        OutputXML html;
-        OutputXML xml;
-        OutputText json;
+        private String name;
+        private OutputText text;
+        private OutputXML html;
+        private OutputXML xml;
+        private OutputText json;
 
         public String getName() {
             return name;
@@ -160,7 +177,7 @@ public class CFLintConfig implements CFLintConfiguration {
         }
 
         public static class OutputText {
-            String file;
+            private String file;
 
             public String getFile() {
                 return file;
@@ -173,7 +190,7 @@ public class CFLintConfig implements CFLintConfiguration {
         }
 
         public static class OutputXML extends OutputText {
-            String style;
+            private String style;
 
             public String getStyle() {
                 return style;
@@ -259,20 +276,11 @@ public class CFLintConfig implements CFLintConfiguration {
         return defaultConfig;
     }
 
-    /**
-     * Limit the rule set, primarily for unit test support
-     */
-    public static CFLintConfiguration createDefaultLimited(String... rulenames) {
-        final CFLintPluginInfo pluginInfo = ConfigUtils.loadDefaultPluginInfo();
-        CFLintConfig defaultConfig = new CFLintConfig();
-        for (CFLintPluginInfo.PluginInfoRule rule : pluginInfo.getRules()) {
-            for (String rulename : rulenames) {
-                if (rule.getName().equalsIgnoreCase(rulename)) {
-                    defaultConfig.getRules().add(rule);
-                }
-            }
+    @Override
+    public Object getParameter(String name) {
+        if(parameters!=null && name !=null && parameters.containsKey(name)){
+            return parameters.get(name);
         }
-        return defaultConfig;
+        return null;
     }
-
 }

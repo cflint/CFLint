@@ -8,6 +8,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
+import com.cflint.Levels;
 import com.cflint.config.CFLintPluginInfo.PluginInfoRule.PluginMessage;
 import com.cflint.plugins.CFLintScanner;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
@@ -20,8 +21,8 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 @JsonInclude(Include.NON_NULL)
 public class CFLintPluginInfo {
 
-    private List<PluginInfoRule> rules = new ArrayList<CFLintPluginInfo.PluginInfoRule>();
-    private List<RuleGroup> ruleGroups = new ArrayList<CFLintPluginInfo.RuleGroup>();
+    private List<PluginInfoRule> rules = new ArrayList<>();
+    private List<RuleGroup> ruleGroups = new ArrayList<>();
 
     public List<PluginInfoRule> getRules() {
         return rules;
@@ -63,8 +64,8 @@ public class CFLintPluginInfo {
     public static class RuleGroup {
 
         private String name;
-        private List<PluginMessage> messages = new ArrayList<PluginMessage>();
-        private String defaultSeverity;
+        private List<PluginMessage> messages = new ArrayList<>();
+        private Levels defaultSeverity;
 
         public RuleGroup(String name) {
             super();
@@ -75,15 +76,19 @@ public class CFLintPluginInfo {
             super();
         }
 
-        public String getDefaultSeverity() {
+        public Levels getDefaultSeverity() {
             return defaultSeverity;
         }
 
         @XmlAttribute(name = "defaultSeverity")
         public void setDefaultSeverity(String defaultSeverity) {
-            this.defaultSeverity = defaultSeverity;
+            this.defaultSeverity = Levels.fromString(defaultSeverity);
         }
 
+        public void setDefaultSeverity(Levels defaultSeverity) {
+            this.defaultSeverity = defaultSeverity;
+        }
+        
         public String getName() {
             return name;
         }
@@ -106,12 +111,12 @@ public class CFLintPluginInfo {
     // @JsonInclude(Include.NON_NULL)
     public static class PluginInfoRule {
 
-        String name;
-        String className;
-        List<PluginMessage> messages = new ArrayList<PluginMessage>();
-        List<PluginParameter> parameters = new ArrayList<PluginParameter>();
+        private String name;
+        private String className;
+        private List<PluginMessage> messages = new ArrayList<>();
+        private List<PluginParameter> parameters = new ArrayList<>();
         // Associate the pluginInstance with the rule that created it
-        CFLintScanner pluginInstance;
+        private CFLintScanner pluginInstance;
 
         public CFLintScanner getPluginInstance() {
             return pluginInstance;
@@ -239,13 +244,19 @@ public class CFLintPluginInfo {
             public void setValue(final Object value) {
                 this.value = value;
             }
+
+            @Override
+            public String toString() {
+                return "PluginParameter [name=" + name + ", value=" + value + "]";
+            }
+            
         }
 
         @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "code")
         public static class PluginMessage {
             private String code;
             private String messageText;
-            private String severity;
+            private Levels severity;
 
             public PluginMessage(final String code) {
                 super();
@@ -275,12 +286,16 @@ public class CFLintPluginInfo {
                 this.messageText = messageText;
             }
 
-            public String getSeverity() {
+            public Levels getSeverity() {
                 return severity;
             }
 
             @XmlElement(name = "severity")
             public void setSeverity(final String severity) {
+                this.severity = Levels.fromString(severity);
+            }
+
+            public void setSeverity(final Levels severity) {
                 this.severity = severity;
             }
 

@@ -4,12 +4,9 @@ import com.cflint.BugList;
 
 /**
  * This interface supports plugins recieving structure notifications (file
- * start/end, component start/end, function start/end)
+ * start/end, component start/end, function start/end).
  *
- * Normally it is used for initialization or summarization types of behaviours
- * 
- * @author eberlyrh
- *
+ * Normally it is used for initialization or summarization types of behaviours.
  */
 public interface CFLintStructureListener {
 
@@ -21,7 +18,7 @@ public interface CFLintStructureListener {
      * @param bugs
      *            List of errors reported
      */
-    public void startFile(String fileName, BugList bugs);
+    void startFile(final String fileName, BugList bugs);
 
     /**
      * Called when processing of current file has ended
@@ -31,7 +28,7 @@ public interface CFLintStructureListener {
      * @param bugs
      *            List of errors reported
      */
-    public void endFile(String fileName, BugList bugs);
+    void endFile(final String fileName, BugList bugs);
 
     /**
      * Called when processing a new component has started
@@ -41,7 +38,7 @@ public interface CFLintStructureListener {
      * @param bugs
      *            List of errors reported
      */
-    public void startComponent(Context context, BugList bugs);
+    void startComponent(final Context context, BugList bugs);
 
     /**
      * Called when processing of current component has ended
@@ -51,7 +48,7 @@ public interface CFLintStructureListener {
      * @param bugs
      *            List of errors reported
      */
-    public void endComponent(Context context, BugList bugs);
+    void endComponent(final Context context, BugList bugs);
 
     /**
      * Called when processing of a new function has started
@@ -61,7 +58,7 @@ public interface CFLintStructureListener {
      * @param bugs
      *            List of errors reported
      */
-    public void startFunction(Context context, BugList bugs);
+    void startFunction(final Context context, BugList bugs);
 
     /**
      * Called when processing of current function has ended
@@ -71,6 +68,6 @@ public interface CFLintStructureListener {
      * @param bugs
      *            List of errors reported
      */
-    public void endFunction(Context context, BugList bugs);
+    void endFunction(final Context context, BugList bugs);
 
 }

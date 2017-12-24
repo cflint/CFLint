@@ -7,17 +7,22 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Map;
 
+import com.cflint.Levels;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.cflint.BugInfo;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+/**
+ * Filter the resulting lint issues.
+ *
+ */
 public class CFLintFilter {
 
-    final static Logger logger = LoggerFactory.getLogger(CFLintFilter.class);
+    private static final Logger logger = LoggerFactory.getLogger(CFLintFilter.class);
     private ArrayList<Map<String, ?>> data = null;
-    boolean verbose = false;
+    private boolean verbose = false;
 
     @SuppressWarnings("unchecked")
     private CFLintFilter(final String data) throws IOException {
@@ -25,7 +30,7 @@ public class CFLintFilter {
             final ObjectMapper mapper = new ObjectMapper();
             this.data = mapper.readValue(data, ArrayList.class);
         } else {
-            this.data = new ArrayList<Map<String, ?>>();
+            this.data = new ArrayList<>();
         }
     }
 
@@ -51,19 +56,21 @@ public class CFLintFilter {
             }
             if (verbose) {
                 final URL url = CFLintFilter.class.getResource("/cflintexclude.json");
-                logger.info("Using exclude file " + url);
+                logger.info("Using exclude file %s", url);
             }
 
-            final byte b[] = new byte[is.available()];
-            is.read(b);
-            data = new String(b);
+            final byte[] b = new byte[is.available()];
+            if (is.read(b) > 0) {
+                is.close();
+                data = new String(b);
+            }
         } catch (final IOException ioe) {
             ioe.printStackTrace();
         }
         final CFLintFilter filter = new CFLintFilter(data);
         filter.setVerbose(verbose);
         if (verbose) {
-            logger.info("Exclude rule count : " + filter.data.size());
+            logger.info("Exclude rule count : %d", filter.data.size());
         }
         return filter;
     }
@@ -131,15 +138,15 @@ public class CFLintFilter {
                 }
                 if (item.containsKey("line")) {
                     if (bugInfo.getLine() > 0
-                            || !new Integer(bugInfo.getLine()).toString().matches(item.get("line").toString())) {
+                            || !Integer.toString(bugInfo.getLine()).matches(item.get("line").toString())) {
                         continue;
                     } else if (verbose) {
                         logger.info("Exclude matched line " + bugInfo.getLine());
                     }
                 }
                 if (item.containsKey("severity")) {
-                    if (bugInfo.getSeverity() == null
-                            || !bugInfo.getSeverity().matches(item.get("severity").toString())) {
+                    if (bugInfo.getSeverity() == Levels.UNKNOWN
+                            || bugInfo.getSeverity() != Levels.fromString(item.get("severity").toString())) {
                         continue;
                     } else if (verbose) {
                         logger.info("Exclude matched severity " + bugInfo.getLine());
@@ -162,7 +169,7 @@ public class CFLintFilter {
      * @return instance of CFLintFilter
      */
     public CFLintFilter createFilePreFilter() {
-        final ArrayList<Map<String, ?>> newdata = new ArrayList<Map<String, ?>>();
+        final ArrayList<Map<String, ?>> newdata = new ArrayList<>();
         for (final Map<String, ?> map : this.data) {
             if (map.keySet().size() == 1 && map.containsKey("file")) {
                 newdata.add(map);

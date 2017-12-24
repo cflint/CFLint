@@ -10,9 +10,9 @@ import com.cflint.tools.CFLintFilter;
 
 public class BugList implements Iterable<BugInfo> {
 
-    Map<String, List<BugInfo>> bugList = new HashMap<String, List<BugInfo>>();
-    CFLintFilter filter;
-    CFLintFilter fileFilter;
+    private Map<String, List<BugInfo>> bugs = new HashMap<>();
+    private CFLintFilter filter;
+    private CFLintFilter fileFilter;
 
     /**
      *
@@ -40,10 +40,10 @@ public class BugList implements Iterable<BugInfo> {
 
     public boolean add(final BugInfo bugInfo) {
         if (filter == null || filter.include(bugInfo)) {
-            if (!bugList.containsKey(bugInfo.getMessageCode())) {
-                bugList.put(bugInfo.getMessageCode(), new ArrayList<BugInfo>());
+            if (!bugs.containsKey(bugInfo.getMessageCode())) {
+                bugs.put(bugInfo.getMessageCode(), new ArrayList<BugInfo>());
             }
-            final List<BugInfo> curBugList = bugList.get(bugInfo.getMessageCode());
+            final List<BugInfo> curBugList = bugs.get(bugInfo.getMessageCode());
             return curBugList.add(bugInfo);
         } else {
             return false;
@@ -56,20 +56,20 @@ public class BugList implements Iterable<BugInfo> {
      * @return Map of bugs
      */
     public Map<String, List<BugInfo>> getBugList() {
-        return bugList;
+        return bugs;
     }
 
     public int size() {
         int size = 0;
-        for (final List<?> list : bugList.values()) {
+        for (final List<?> list : bugs.values()) {
             size += list.size();
         }
         return size;
     }
 
     public List<BugInfo> getFlatBugList() {
-        final List<BugInfo> retval = new ArrayList<BugInfo>();
-        for (final List<BugInfo> list : bugList.values()) {
+        final List<BugInfo> retval = new ArrayList<>();
+        for (final List<BugInfo> list : bugs.values()) {
             retval.addAll(list);
         }
         return retval;
@@ -79,5 +79,9 @@ public class BugList implements Iterable<BugInfo> {
     @Override
     public Iterator<BugInfo> iterator() {
         return getFlatBugList().iterator();
+    }
+
+    public void clearBugList() {
+        bugs.clear();
     }
 }

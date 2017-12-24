@@ -1,10 +1,11 @@
 package com.cflint.plugins.core;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 import com.cflint.BugList;
+import com.cflint.CF;
+import com.cflint.config.CFLintConfiguration;
 import com.cflint.plugins.CFLintScannerAdapter;
 import com.cflint.plugins.Context;
 import com.cflint.plugins.Context.ContextType;
@@ -12,178 +13,236 @@ import com.cflint.plugins.Context.ContextType;
 import cfml.parsing.cfscript.CFExpression;
 import cfml.parsing.cfscript.CFFullVarExpression;
 import cfml.parsing.cfscript.CFIdentifier;
+import cfml.parsing.cfscript.CFNewExpression;
 import cfml.parsing.cfscript.CFVarDeclExpression;
+import net.htmlparser.jericho.Attribute;
 import net.htmlparser.jericho.Element;
 import ro.fortsoft.pf4j.Extension;
 
 @Extension
 public class VariableNameChecker extends CFLintScannerAdapter {
-    public static final String VARIABLE = "Variable ";
+    /**
+     * Minimum number of characters for an variable name.
+     */
+    private int minVarLength = ValidName.MIN_VAR_LENGTH;
 
+    /**
+     * Maximum number of characters for an variable name.
+     */
+    
+    private int maxVarLength = ValidName.MAX_VAR_LENGTH;
+
+    /**
+     * Minimum number of words in an variable name.
+     */
+    private int maxVarWords = ValidName.MAX_VAR_WORDS;
+    
     private static final List<String> DEFAULT_EXCLUSIONS = Collections.singletonList("rc");
     private static final String PARAM_EXCLUSION_LIST = "ExclusionList";
 
-    private final List<String> exclusions = new ArrayList<>();
+    //private final List<String> exclusions = new ArrayList<>();
 
-    final String severity = "INFO";
+    private void checkCFName(final Element element, final Context context, final BugList bugs, final int begLine, int offset, final String name) {
+        if (element.getAttributeValue(name) != null) {
+            final Attribute attribute = element.getAttributes().get(name);
+            String varName;
+            if (attribute != null) {
+                varName = attribute.getValue();
+                offset = attribute.getValueSegment().getBegin();
+            } else {
+                varName = "";
+            }
+            checkNameForBugs(context, varName, varName, context.getFilename(), context.getFunctionName(), begLine, offset, bugs,null);
+        }
+    }
 
+    private void checkCFLoopName(final Element element, final Context context, final BugList bugs, final int begLine, int offset) {
+        if (element.getAttributeValue(CF.INDEX) != null || element.getAttributeValue(CF.ITEM) != null) {
+            String varName = "";
+            final String index =  element.getAttributeValue(CF.INDEX);
+            final String item =  element.getAttributeValue(CF.ITEM);
+
+            if (index != null) {
+                varName = index;
+                offset = element.getAttributes().get(CF.INDEX).getValueSegment().getBegin();
+            }
+            else if (item != null) {
+                varName = item;
+                offset = element.getAttributes().get(CF.ITEM).getValueSegment().getBegin();
+            }
+
+            checkNameForBugs(context, varName, varName, context.getFilename(), context.getFunctionName(), begLine,
+                    offset, bugs,null);
+        }
+    }
+    
     @Override
     public void element(final Element element, final Context context, final BugList bugs) {
         final String elementName = element.getName();
         final int begLine = element.getSource().getRow(element.getBegin());
+        final int offset = element.getBegin();
 
-        if (elementName.equals("cfquery")) {
-            if (element.getAttributeValue("name") != null) {
-                final String varName = element.getAttributeValue("name") != null ? element.getAttributeValue("name")
-                        : "";
-                checkNameForBugs(context, varName, varName, context.getFilename(), context.getFunctionName(), begLine,
-                        bugs);
-            }
-        } else if (elementName.equals("cfinvoke")) {
-            if (element.getAttributeValue("returnvariable") != null) {
-                final String varName = element.getAttributeValue("returnvariable") != null
-                        ? element.getAttributeValue("returnvariable") : "";
-                checkNameForBugs(context, varName, varName, context.getFilename(), context.getFunctionName(), begLine,
-                        bugs);
-            }
-        } else if (elementName.equals("cfloop")) {
-            if (element.getAttributeValue("index") != null || element.getAttributeValue("item") != null) {
-                final String varName = element.getAttributeValue("index") != null ? element.getAttributeValue("index")
-                        : (element.getAttributeValue("item") != null ? element.getAttributeValue("item") : "");
-                checkNameForBugs(context, varName, varName, context.getFilename(), context.getFunctionName(), begLine,
-                        bugs);
-            }
+        if (elementName.equals(CF.CFQUERY)) {
+            checkCFName(element, context, bugs, begLine, offset, CF.NAME);
+        } else if (elementName.equals(CF.CFINVOKE)) {
+            checkCFName(element, context, bugs, begLine, offset, CF.RETURNVARIABLE);
+        } else if (elementName.equals(CF.CFLOOP)) {
+            checkCFLoopName(element, context, bugs, begLine, element.getBegin());
         }
     }
 
-    @Override
-    public void setParameter(String name, Object value) {
-        super.setParameter(name, value);
 
-        populateExclusions();
-    }
-
-    private void populateExclusions() {
-        exclusions.clear();
-
-        final String exclusionList = getParameter(PARAM_EXCLUSION_LIST);
-
-        if (exclusionList == null) {
-            exclusions.addAll(DEFAULT_EXCLUSIONS);
-            return;
-        }
-
-        final String[] split = exclusionList.split(",");
-
-        for (String name : split) {
-            final String normalizedValue = normalize(name);
-            if (normalizedValue != null) {
-                exclusions.add(normalizedValue);
-            }
-        }
-    }
 
     @Override
     public void expression(final CFExpression expression, final Context context, final BugList bugs) {
         if (expression instanceof CFVarDeclExpression) {
-            final CFVarDeclExpression cfVarDeclExpression = (CFVarDeclExpression) expression;
-            final int lineNo = expression.getLine() + context.startLine() - 1;
-            final String varName = cfVarDeclExpression.getName();
-            checkNameForBugs(context, varName, varName, context.getFilename(), context.getFunctionName(), lineNo, bugs);
+            checkExpression(expression, context, bugs);
         } else if (expression instanceof CFFullVarExpression) {
-            final CFFullVarExpression cfFullVarExpression = (CFFullVarExpression) expression;
-            for (final CFExpression subexpression : cfFullVarExpression.getExpressions()) {
-                if (subexpression instanceof CFIdentifier) {
-                    final String varName = ((CFIdentifier) subexpression).getName();
-                    final int lineNo = ((CFIdentifier) subexpression).getLine() + context.startLine() - 1;
+            checkFullExpression((CFFullVarExpression) expression, context, bugs);
+        } else if (expression instanceof CFIdentifier && !(expression.getParent() instanceof CFNewExpression )) {
+            checkIdentifier((CFIdentifier) expression, context, bugs);
+        }
+    }
 
-                    checkNameForBugs(context, cfFullVarExpression.Decompile(0), varName, context.getFilename(),
-                            context.getFunctionName(), lineNo, bugs);
+    private void checkIdentifier(final CFIdentifier expression, final Context context, final BugList bugs) {
+        final String varName = expression.getName();
+        final int lineNo = expression.getLine() + context.startLine() - 1;
+        final int offset = expression.getOffset() + context.offset();
+
+        CFExpression parentExpression = (expression.getParent() instanceof CFExpression)?(CFExpression)expression.getParent():null;
+        checkNameForBugs(context, varName, varName, context.getFilename(), context.getFunctionName(), lineNo, offset, bugs,parentExpression);
+    }
+
+    private void checkFullExpression(final CFFullVarExpression expression, final Context context, final BugList bugs) {
+        final CFFullVarExpression cfFullVarExpression = expression;
+        for (final CFExpression subexpression : cfFullVarExpression.getExpressions()) {
+            if (subexpression instanceof CFIdentifier) {
+                final String varName = ((CFIdentifier) subexpression).getName();
+                final int lineNo = ((CFIdentifier) subexpression).getLine() + context.startLine() - 1;
+                final int offset = ((CFIdentifier) subexpression).getOffset() + context.offset();
+
+                // can be null for nested arrays if so ignore
+                if (varName != null) {
+                    checkNameForBugs(context, cfFullVarExpression.Decompile(0), varName,
+                        context.getFilename(), context.getFunctionName(), lineNo, offset, bugs,expression);
                 }
             }
-        } else if (expression instanceof CFIdentifier) {
-            final String varName = ((CFIdentifier) expression).getName();
-            final int lineNo = ((CFIdentifier) expression).getLine() + context.startLine() - 1;
+        }
+    }
 
-            checkNameForBugs(context, varName, varName, context.getFilename(), context.getFunctionName(), lineNo, bugs);
+    private void checkExpression(final CFExpression expression, final Context context, final BugList bugs) {
+        final CFVarDeclExpression cfVarDeclExpression = (CFVarDeclExpression) expression;
+        final int lineNo = expression.getLine() + context.startLine() - 1;
+        final int offset = expression.getOffset() + context.offset() + 4; // 'var ' == 4 chars
+        final String varName = cfVarDeclExpression.getName();
+        checkNameForBugs(context, varName, varName, context.getFilename(), context.getFunctionName(), lineNo, offset, bugs,expression);
+    }
+
+    private void parseParameters(final ValidName name, CFLintConfiguration configuration) throws ConfigError {
+        if (configuration.getParameter(this,"MinLength") != null) {
+            try {
+                minVarLength = Integer.parseInt(configuration.getParameter(this,"MinLength"));
+                name.setMinLength(minVarLength);
+            } catch (final Exception e) {
+                throw new ConfigError("Minimum length need to be an integer.");
+            }
+        }
+
+        if (configuration.getParameter(this,"MaxLength") != null) {
+            try {
+                maxVarLength = Integer.parseInt(configuration.getParameter(this,"MaxLength"));
+                name.setMaxLength(maxVarLength);
+            } catch (final Exception e) {
+                throw new ConfigError("Maximum length need to be an integer.");
+            }
+        }
+
+        if (configuration.getParameter(this,"MaxWords") != null) {
+            try {
+                maxVarWords = Integer.parseInt(configuration.getParameter(this,"MaxWords"));
+                name.setMaxWords(maxVarWords);
+            } catch (final Exception e) {
+                throw new ConfigError("Maximum no of words need to be an integer.");
+            }
+        }
+
+        if (configuration.getParameter(this,"FlagVariableNamePrefix") != null) {
+            name.setPrefixesToAvoid(configuration.getParameter(this,"FlagVariableNamePrefix").split(","));
+        }
+        if (configuration.getParameter(this,"FlagVariableNameSuffix") != null) {
+            name.setSuffixesToAvoid(configuration.getParameter(this,"FlagVariableNameSuffix").split(","));
+        }
+        if (configuration.getParameter(this,"RequiredVariableNamePrefix") != null) {
+            name.setRequiredPrefixList(configuration.getParameter(this,"RequiredVariableNamePrefix").split(","));
         }
     }
 
     public void checkNameForBugs(final Context context, final String fullVariable, final String variable,
-            final String filename, final String functionName, final int line, final BugList bugs) {
-        if (excludeFromAnalyse(variable)) {
+            final String filename, final String functionName, final int line, final int offset, final BugList bugs,
+            final CFExpression cfExpression) {
+        if (excludeFromAnalyse(context,variable)) {
             return;
         }
-        int minVarLength = ValidName.MIN_VAR_LENGTH;
-        int maxVarLength = ValidName.MAX_VAR_LENGTH;
-        int maxVarWords = ValidName.MAX_VAR_WORDS;
-
-        if (getParameter("MinLength") != null) {
-            try {
-                minVarLength = Integer.parseInt(getParameter("MinLength"));
-            } catch (final Exception e) {
-            }
-        }
-
-        if (getParameter("MaxLength") != null) {
-            try {
-                maxVarLength = Integer.parseInt(getParameter("MaxLength"));
-            } catch (final Exception e) {
-            }
-        }
-
-        if (getParameter("MaxWords") != null) {
-            try {
-                maxVarWords = Integer.parseInt(getParameter("MaxWords"));
-            } catch (final Exception e) {
-            }
-        }
-
+        
         final CFScopes scope = new CFScopes();
         final String varScope = scope.getScope(fullVariable);
         final ValidName name = new ValidName(minVarLength, maxVarLength, maxVarWords);
-        if (getParameter("FlagVariableNamePrefix") != null) {
-            name.setPrefixesToAvoid(getParameter("FlagVariableNamePrefix").split(","));
-        }
-        if (getParameter("FlagVariableNameSuffix") != null) {
-            name.setSuffixesToAvoid(getParameter("FlagVariableNameSuffix").split(","));
-        }
-        if (getParameter("RequiredVariableNamePrefix") != null) {
-            name.setRequiredPrefixList(getParameter("RequiredVariableNamePrefix").split(","));
-        }
 
-        if (name.isInvalid(variable)) {
-            context.getParent(ContextType.Function).addUniqueMessage("VAR_INVALID_NAME", variable, this, line);
+        try {
+            parseParameters(name,context.getConfiguration());
+        } catch (ConfigError configError) {
+            // Carry on with defaults
         }
-        if (!scope.isCFScoped(variable) && name.isUpperCase(variable)) {
-            if (!getParameterNotNull("IgnoreAllCapsInScopes").toLowerCase().contains(varScope))
-            context.getParent(ContextType.Function).addUniqueMessage("VAR_ALLCAPS_NAME", variable, this, line);
+        
+        Context parent = context.getParent(ContextType.FUNCTION);
+        
+        if (name.isInvalid(variable,context.getConfiguration().getParameter(this, "case"))) {
+            parent.addUniqueMessage("VAR_INVALID_NAME", variable, this, line, offset, cfExpression);
         }
-        if (scope.isCFScoped(variable) && name.isUpperCase(variable) && !getParameterNotNull("IgnoreUpperCaseScopes").contains(variable)) {
-            context.getParent(ContextType.Function).addUniqueMessage("SCOPE_ALLCAPS_NAME", variable, this, line);
+        if (!scope.isCFScoped(variable) && name.isUpperCase(variable) && !context.getConfiguration().getParameterNotNull(this,"IgnoreAllCapsInScopes").toLowerCase().contains(varScope)) {
+            parent.addUniqueMessage("VAR_ALLCAPS_NAME", variable, this, line, offset, cfExpression);
+        }
+        if (scope.isCFScoped(variable) && name.isUpperCase(variable) && !context.getConfiguration().getParameterNotNull(this,"IgnoreUpperCaseScopes").contains(variable)) {
+            parent.addUniqueMessage("SCOPE_ALLCAPS_NAME", variable, this, line, offset, cfExpression);
         }
         if (name.tooShort(variable)) {
-            context.getParent(ContextType.Function).addUniqueMessage("VAR_TOO_SHORT", variable, this, line);
+            parent.addUniqueMessage("VAR_TOO_SHORT", variable, this, line, offset, cfExpression);
         }
         if (name.tooLong(variable)) {
-            context.getParent(ContextType.Function).addUniqueMessage("VAR_TOO_LONG", variable, this, line);
+            parent.addUniqueMessage("VAR_TOO_LONG", variable, this, line, offset, cfExpression);
         }
         if (!name.isUpperCase(variable) && name.tooWordy(variable)) {
-            context.getParent(ContextType.Function).addUniqueMessage("VAR_TOO_WORDY", variable, this, line);
+            parent.addUniqueMessage("VAR_TOO_WORDY", variable, this, line, offset, cfExpression);
         }
         if (name.isTemporary(variable)) {
-            context.getParent(ContextType.Function).addUniqueMessage("VAR_IS_TEMPORARY", variable, this, line);
+            parent.addUniqueMessage("VAR_IS_TEMPORARY", variable, this, line, offset, cfExpression);
         }
-        if (name.hasPrefixOrPostfix(variable)) {
-            context.getParent(ContextType.Function).addUniqueMessage("VAR_HAS_PREFIX_OR_POSTFIX", variable, this, line);
+        if (name.hasPrefixOrPostfix(variable) && !context.getConfiguration().getParameterNotNull(this,"IgnorePrefixPostfixOn").contains(variable)) {
+            parent.addUniqueMessage("VAR_HAS_PREFIX_OR_POSTFIX", variable, this, line, offset, cfExpression);
         }
     }
 
-    protected boolean excludeFromAnalyse(String variable) {
-        return exclusions.contains(normalize(variable));
+    protected boolean excludeFromAnalyse(Context context, final String variable) {
+        final String exclusionList = context.getConfiguration().getParameter(this,PARAM_EXCLUSION_LIST);
+
+        if (exclusionList == null) {
+            return DEFAULT_EXCLUSIONS.contains(normalize(variable));
+        }
+
+        final String[] split = exclusionList.split(",");
+
+        String normVar = normalize(variable);
+        if(normVar != null){
+            for (String name : split) {
+                if(normVar.equals(normalize(name))){
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
-    protected String normalize(String name) {
+    protected String normalize(final String name) {
         if (name == null || name.trim().isEmpty()) {
             return null;
         }

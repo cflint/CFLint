@@ -1,0 +1,10 @@
+{
+  "rule" : [ ],
+  "excludes" : [ ],
+  "includes" : [ {
+    "code" : "ARG_TYPE_MISSING"
+  }, {
+    "code" : "ARG_DEFAULT_MISSING"
+  }],
+  "inheritParent" : false
+}

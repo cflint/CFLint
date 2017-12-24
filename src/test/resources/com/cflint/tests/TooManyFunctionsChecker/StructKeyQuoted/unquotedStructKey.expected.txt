@@ -1,0 +1,33 @@
+{
+  "version" : "",
+  "timestamp" : 1507944141,
+  "issues" : [ {
+    "severity" : "WARNING",
+    "id" : "UNQUOTED_STRUCT_KEY",
+    "message" : "UNQUOTED_STRUCT_KEY",
+    "category" : "CFLINT",
+    "abbrev" : "US",
+    "locations" : [ {
+      "file" : "src\\test\\resources\\com\\cflint\\tests\\TooManyFunctionsChecker\\StructKeyQuoted\\unquotedStructKey.cfc",
+      "fileName" : "unquotedStructKey.cfc",
+      "function" : "x",
+      "column" : 16,
+      "line" : 4,
+      "message" : "Unquoted struct key myKey is not case-sensitive.  Quoting it is recommended.",
+      "variable" : "myKey",
+      "expression" : "{myKey:'myValue'}"
+    } ]
+  } ],
+  "counts" : {
+    "totalFiles" : 0,
+    "totalLines" : 0,
+    "countByCode" : [ {
+      "code" : "UNQUOTED_STRUCT_KEY",
+      "count" : 1
+    } ],
+    "countBySeverity" : [ {
+      "severity" : "WARNING",
+      "count" : 1
+    } ]
+  }
+}

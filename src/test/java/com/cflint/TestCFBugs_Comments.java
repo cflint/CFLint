@@ -2,134 +2,106 @@ package com.cflint;
 
 import static org.junit.Assert.assertEquals;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import com.cflint.config.CFLintConfig;
-import com.cflint.config.CFLintPluginInfo.PluginInfoRule;
-import com.cflint.config.CFLintPluginInfo.PluginInfoRule.PluginMessage;
-import com.cflint.plugins.core.ArgDefChecker;
-
-import cfml.parsing.reporting.ParseException;
+import com.cflint.api.CFLintAPI;
+import com.cflint.api.CFLintResult;
+import com.cflint.config.ConfigBuilder;
+import com.cflint.exception.CFLintScanException;
 
 public class TestCFBugs_Comments {
 
-	private CFLint cfBugs;
+    private CFLintAPI cfBugs;
 
-	@Before
-	public void setUp() throws Exception{
-		final CFLintConfig conf = new CFLintConfig();
-		final PluginInfoRule pluginRule = new PluginInfoRule();
-		pluginRule.setName("ArgDefChecker");
-		conf.getRules().add(pluginRule);
-		final PluginMessage pluginMessage = new PluginMessage("ARG_DEFAULT_MISSING");
-		pluginMessage.setSeverity("WARNING");
-		pluginMessage.setMessageText("Argument ${variable} is not required and does not define a default value.");
-		pluginRule.getMessages().add(pluginMessage);
+    @Before
+    public void setUp() throws Exception {
+        final ConfigBuilder configBuilder = new ConfigBuilder().include("ARG_DEFAULT_MISSING");
+        cfBugs = new CFLintAPI(configBuilder.build());
+    }
 
-		cfBugs = new CFLint(conf, new ArgDefChecker());
-	}
+    @Test
+    public void testVarAndArgs_Disabled() throws CFLintScanException {
+        final String cfcSrc = "<cfcomponent>\r\n" + "<cffunction name=\"test\">\r\n" + "	"
+                + "<!---CFLINT-DISABLE ARG_DEFAULT_MISSING --->" + "<cfargument name=\"xyz\">\r\n" + "</cffunction>\r\n"
+                + "</cfcomponent>";
+        CFLintResult lintresult = cfBugs.scan(cfcSrc, "test");
+        final Map<String, List<BugInfo>> result = lintresult.getIssues();
+        assertEquals(0, result.size());
+    }
 
-	@Test
-	public void testVarAndArgs_Disabled() throws ParseException, IOException {
-		final String cfcSrc = "<cfcomponent>\r\n" + "<cffunction name=\"test\">\r\n" + "	"
-				+ "<!---CFLINT-DISABLE ARG_DEFAULT_MISSING --->"
-				+ "<cfargument name=\"xyz\">\r\n"
-				+ "</cffunction>\r\n" + "</cfcomponent>";
-		cfBugs.process(cfcSrc, "test");
-		final Map<String, List<BugInfo>> result = cfBugs.getBugs().getBugList();
-		assertEquals(0, result.size());
-	}
-	@Test
-	public void testVarAndArgs_DisabledSpacing() throws ParseException, IOException {
-		final String cfcSrc = "<cfcomponent>\r\n" + "<cffunction name=\"test\">\r\n" + "	"
-				+ "<!---    CFLINT-DISABLE  ARG_DEFAULT_MISSING   --->"
-				+ "<cfargument name=\"xyz\">\r\n"
-				+ "</cffunction>\r\n" + "</cfcomponent>";
-		cfBugs.process(cfcSrc, "test");
-		final Map<String, List<BugInfo>> result = cfBugs.getBugs().getBugList();
-		assertEquals(0, result.size());
-	}
-	@Test
-	public void testVarAndArgs_DisabledCase() throws ParseException, IOException {
-		final String cfcSrc = "<cfcomponent>\r\n" + "<cffunction name=\"test\">\r\n" + "	"
-				+ "<!---cflint-disable ARG_DEFAULT_MISSING   --->"
-				+ "<cfargument name=\"xyz\">\r\n"
-				+ "</cffunction>\r\n" + "</cfcomponent>";
-		cfBugs.process(cfcSrc, "test");
-		final Map<String, List<BugInfo>> result = cfBugs.getBugs().getBugList();
-		assertEquals(0, result.size());
-	}
+    @Test
+    public void testVarAndArgs_DisabledSpacing() throws CFLintScanException {
+        final String cfcSrc = "<cfcomponent>\r\n" + "<cffunction name=\"test\">\r\n" + "	"
+                + "<!---    CFLINT-DISABLE  ARG_DEFAULT_MISSING   --->" + "<cfargument name=\"xyz\">\r\n"
+                + "</cffunction>\r\n" + "</cfcomponent>";
+        CFLintResult lintresult = cfBugs.scan(cfcSrc, "test");
+        final Map<String, List<BugInfo>> result = lintresult.getIssues();
+        assertEquals(0, result.size());
+    }
 
-	@Test
-	public void testVarAndArgs_Disabled2() throws ParseException, IOException {
-		final String cfcSrc = "<cfcomponent>\r\n" + "<cffunction name=\"test\">\r\n" + "	"
-				+ "<!---CFLINT-DISABLE ARG_DEFAULT_MISSING ,XXX --->"
-				+ "<cfargument name=\"xyz\">\r\n"
-				+ "</cffunction>\r\n" + "</cfcomponent>";
-		cfBugs.process(cfcSrc, "test");
-		final Map<String, List<BugInfo>> result = cfBugs.getBugs().getBugList();
-		assertEquals(0, result.size());
-	}
-	
-	@Test
-	public void testVarAndArgs_DisabledOnParent() throws ParseException, IOException {
-		final String cfcSrc = "<cfcomponent>\r\n" + "<!---CFLINT-DISABLE ARG_DEFAULT_MISSING --->"
-				+ "<cffunction name=\"test\">\r\n" + "	"
-				+ "<cfargument name=\"xyz\">\r\n"
-				+ "</cffunction>\r\n" + "</cfcomponent>";
-		cfBugs.process(cfcSrc, "test");
-		final Map<String, List<BugInfo>> result = cfBugs.getBugs().getBugList();
-		assertEquals(0, result.size());
-	}
+    @Test
+    public void testVarAndArgs_DisabledCase() throws CFLintScanException {
+        final String cfcSrc = "<cfcomponent>\r\n" + "<cffunction name=\"test\">\r\n" + "	"
+                + "<!---cflint-disable ARG_DEFAULT_MISSING   --->" + "<cfargument name=\"xyz\">\r\n"
+                + "</cffunction>\r\n" + "</cfcomponent>";
+        CFLintResult lintresult = cfBugs.scan(cfcSrc, "test");
+        final Map<String, List<BugInfo>> result = lintresult.getIssues();
+        assertEquals(0, result.size());
+    }
 
-	@Test
-	public void testVarAndArgs_DisabledOnParent2() throws ParseException, IOException {
-		final String cfcSrc = "<!---CFLINT-DISABLE ARG_DEFAULT_MISSING ---><cfcomponent>\r\n" 
-				+ "<cffunction name=\"test\">\r\n" + "	"
-				+ "<cfargument name=\"xyz\">\r\n"
-				+ "</cffunction>\r\n" + "</cfcomponent>";
-		cfBugs.process(cfcSrc, "test");
-		final Map<String, List<BugInfo>> result = cfBugs.getBugs().getBugList();
-		assertEquals(0, result.size());
-	}
+    @Test
+    public void testVarAndArgs_Disabled2() throws CFLintScanException {
+        final String cfcSrc = "<cfcomponent>\r\n" + "<cffunction name=\"test\">\r\n" + "	"
+                + "<!---CFLINT-DISABLE ARG_DEFAULT_MISSING ,XXX --->" + "<cfargument name=\"xyz\">\r\n"
+                + "</cffunction>\r\n" + "</cfcomponent>";
+        CFLintResult lintresult = cfBugs.scan(cfcSrc, "test");
+        final Map<String, List<BugInfo>> result = lintresult.getIssues();
+        assertEquals(0, result.size());
+    }
 
-	@Test
-	public void testVarAndArgs_DisabledOther() throws ParseException, IOException {
-		final String cfcSrc = "<cfcomponent>\r\n" + "<cffunction name=\"test\">\r\n" + "	"
-				+ "<!---CFLINT-DISABLE SOMEOTHER--->"
-				+ "<cfargument name=\"xyz\">\r\n"
-				+ "</cffunction>\r\n" + "</cfcomponent>";
-		cfBugs.process(cfcSrc, "test");
-		final List<BugInfo> result = cfBugs.getBugs().getBugList().values().iterator().next();
-		assertEquals(1, result.size());
-		assertEquals("ARG_DEFAULT_MISSING", result.get(0).getMessageCode());
-	}
-	
-	@Test
-	public void testCFScript_QueryParams_Script_Hashes() throws ParseException, IOException {
-		final com.cflint.config.CFLintConfiguration conf = CFLintConfig.createDefaultLimited("QueryParamChecker");
-		cfBugs = new CFLint(conf);
-	}
-	@Test
-	public void testCFScript_QueryParams_Script_HashesParent() throws ParseException, IOException {
-		final com.cflint.config.CFLintConfiguration conf = CFLintConfig.createDefaultLimited("QueryParamChecker");
-		cfBugs = new CFLint(conf);
-	}
+    @Test
+    public void testVarAndArgs_DisabledOnParent() throws CFLintScanException {
+        final String cfcSrc = "<cfcomponent>\r\n" + "<!---CFLINT-DISABLE ARG_DEFAULT_MISSING --->"
+                + "<cffunction name=\"test\">\r\n" + "	" + "<cfargument name=\"xyz\">\r\n" + "</cffunction>\r\n"
+                + "</cfcomponent>";
+        CFLintResult lintresult = cfBugs.scan(cfcSrc, "test");
+        final Map<String, List<BugInfo>> result = lintresult.getIssues();
+        assertEquals(0, result.size());
+    }
 
-	/* Entire function is commented */
-	@Test
-	public void testNestedComments() throws ParseException, IOException {
-		final String cfcSrc = "<cfcomponent>\r\n" + "<!---<cffunction name=\"test\">\r\n" + "	"
-				+ "<!---CFLINT-DISABLE SOMEOTHER--->"
-				+ "<cfargument name=\"xyz\">\r\n"
-				+ "</cffunction>\r\n" + "---></cfcomponent>";
-		cfBugs.process(cfcSrc, "test");
-		assertEquals(0, cfBugs.getBugs().getBugList().size());
-	}
+    @Test
+    public void testVarAndArgs_DisabledOnParent2() throws CFLintScanException {
+        final String cfcSrc = "<!---CFLINT-DISABLE ARG_DEFAULT_MISSING ---><cfcomponent>\r\n"
+                + "<cffunction name=\"test\">\r\n" + "	" + "<cfargument name=\"xyz\">\r\n" + "</cffunction>\r\n"
+                + "</cfcomponent>";
+        CFLintResult lintresult = cfBugs.scan(cfcSrc, "test");
+        final Map<String, List<BugInfo>> result = lintresult.getIssues();
+        assertEquals(0, result.size());
+    }
+
+    @Test
+    public void testVarAndArgs_DisabledOther() throws CFLintScanException {
+        final String cfcSrc = "<cfcomponent>\r\n" + "<cffunction name=\"test\">\r\n" + "	"
+                + "<!---CFLINT-DISABLE SOMEOTHER--->" + "<cfargument name=\"xyz\">\r\n" + "</cffunction>\r\n"
+                + "</cfcomponent>";
+        CFLintResult lintresult = cfBugs.scan(cfcSrc, "test");
+        final List<BugInfo> result = lintresult.getIssues().values().iterator().next();
+        assertEquals(1, result.size());
+        assertEquals("ARG_DEFAULT_MISSING", result.get(0).getMessageCode());
+    }
+
+    /* Entire function is commented */
+    @Test
+    public void testNestedComments() throws CFLintScanException {
+        final String cfcSrc = "<cfcomponent>\r\n" + "<!---<cffunction name=\"test\">\r\n" + "	"
+                + "<!---CFLINT-DISABLE SOMEOTHER--->" + "<cfargument name=\"xyz\">\r\n" + "</cffunction>\r\n"
+                + "---></cfcomponent>";
+        CFLintResult lintresult = cfBugs.scan(cfcSrc, "test");
+        assertEquals(0, lintresult.getIssues().size());
+    }
 
 }

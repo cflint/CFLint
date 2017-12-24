@@ -13,8 +13,8 @@ import java.util.Set;
 
 public class StackHandler {
 
-    final Deque<Stack> varStack = new ArrayDeque<Stack>();
-    final Set<String> excludes = new HashSet<String>();
+    private final Deque<Stack> varStack = new ArrayDeque<>();
+    private final Set<String> excludes = new HashSet<>();
 
     public StackHandler() {
         super();
@@ -72,7 +72,7 @@ public class StackHandler {
 
     @SuppressWarnings("unchecked")
     public Collection<Object> getPluginAllVars(final Class<?> clazz, final String var) {
-        final List<Object> retval = new ArrayList<Object>();
+        final List<Object> retval = new ArrayList<>();
         final String key = clazz.getName() + "_" + var;
         final Iterator<Stack> iter = varStack.iterator();
         while (iter.hasNext()) {
@@ -144,7 +144,7 @@ public class StackHandler {
             if (vars.getArguments().contains(name.toUpperCase())) {
                 // Dereference of an argument without the arguments scope copies
                 // to local scope
-                vars.getVariables().add(name.toUpperCase());
+                varStack.peek().getVariables().add(name.toUpperCase());
                 return true;
             }
         }
@@ -154,11 +154,11 @@ public class StackHandler {
     }
 
     public static class Stack {
-        private Set<String> variables = new HashSet<String>();
-        private Map<String,List<String>> queryColumns = new HashMap<String,List<String>>();
-        private Set<String> reported = new HashSet<String>();
-        private Map<String, Object> pluginvariables = new HashMap<String, Object>();
-        private Set<String> arguments = new HashSet<String>();
+        private Set<String> variables = new HashSet<>();
+        private Map<String,List<String>> queryColumns = new HashMap<>();
+        private Set<String> reported = new HashSet<>();
+        private Map<String, Object> pluginvariables = new HashMap<>();
+        private Set<String> arguments = new HashSet<>();
         private String pathName;
 
         public Stack(final String pathName) {

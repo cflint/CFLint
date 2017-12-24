@@ -7,7 +7,11 @@ public class CommentReformatting {
     private static final String COMMENT_TEXT = "<!---";
     private static final String COMMENT_END_TEXT = "--->";
 
-    public static String wrap(String value) {
+    private CommentReformatting() {
+        throw new IllegalStateException("CommentReformatting utility class");
+    }
+
+    public static String wrap(final String value) {
         Stack<Integer> stack = new Stack<>();
         StringBuilder sb = new StringBuilder(value);
         int pos = sb.indexOf(COMMENT_TEXT);
@@ -21,7 +25,7 @@ public class CommentReformatting {
                     pos = stack.pop();
                     continue;
                 }
-            } else if (nextpos > 0 && nextpos < endpos) {// Nested
+            } else if (nextpos > 0 && nextpos < endpos) { // Nested
                 stack.push(pos);
             }
             pos = sb.indexOf(COMMENT_TEXT, pos + 1);

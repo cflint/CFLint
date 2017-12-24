@@ -1,27 +1,26 @@
 package com.cflint.plugins.core;
 
+import com.cflint.CF;
 import com.cflint.BugList;
-import com.cflint.plugins.CFLintScannerAdapter;
 import com.cflint.plugins.Context;
 
-import cfml.parsing.cfscript.script.CFCompoundStatement;
+import cfml.parsing.cfscript.script.CFCompDeclStatement;
 import cfml.parsing.cfscript.script.CFScriptStatement;
 import net.htmlparser.jericho.Element;
 import ro.fortsoft.pf4j.Extension;
 
 @Extension
-public class ComponentLengthChecker extends CFLintScannerAdapter {
-    final int LENGTH_THRESHOLD = 500;
-    final String severity = "INFO";
+public class ComponentLengthChecker extends LengthChecker {
+    private static final int LENGTH_THRESHOLD = 500;
 
     @Override
     public void expression(final CFScriptStatement expression, final Context context, final BugList bugs) {
-        if (expression instanceof CFCompoundStatement) {
-            final CFCompoundStatement component = (CFCompoundStatement) expression;
+        if (expression instanceof CFCompDeclStatement) {
+            final CFCompDeclStatement component = (CFCompDeclStatement) expression;
             final String decompile = component.Decompile(1);
             final String[] lines = decompile.split("\\n");
 
-            checkSize(context, lines.length, bugs);
+            checkSize(LENGTH_THRESHOLD, "EXCESSIVE_COMPONENT_LENGTH", context, 1, 0, lines.length, bugs);
         }
     }
 
@@ -29,24 +28,11 @@ public class ComponentLengthChecker extends CFLintScannerAdapter {
     public void element(final Element element, final Context context, final BugList bugs) {
         final String elementName = element.getName();
 
-        if (elementName.equals("cfcomponent")) {
+        if (elementName.equals(CF.CFCOMPONENT)) {
             // this includes whitespace-change it
-            final int total = element.getAllStartTags().size();
+            final int total = element.getContent().toString().split("\\n").length;
 
-            checkSize(context, total, bugs);
-        }
-    }
-
-    protected void checkSize(final Context context, final int linesLength, final BugList bugs) {
-        final String lengthThreshold = getParameter("length");
-        int length = LENGTH_THRESHOLD;
-
-        if (lengthThreshold != null) {
-            length = Integer.parseInt(lengthThreshold);
-        }
-
-        if (linesLength > length) {
-            context.addMessage("EXCESSIVE_COMPONENT_LENGTH", Integer.toString(linesLength), this, 1);
+            checkSize(LENGTH_THRESHOLD, "EXCESSIVE_COMPONENT_LENGTH", context, 1, 0, total, bugs);
         }
     }
 }

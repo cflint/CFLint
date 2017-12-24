@@ -10,15 +10,15 @@ public class MarshallerException extends Exception {
     public MarshallerException() {
     }
 
-    public MarshallerException(String message) {
+    public MarshallerException(final String message) {
         super(message);
     }
 
-    public MarshallerException(String message, Throwable cause) {
+    public MarshallerException(final String message, final Throwable cause) {
         super(message, cause);
     }
 
-    public MarshallerException(Throwable cause) {
+    public MarshallerException(final Throwable cause) {
         super(cause);
     }
 }

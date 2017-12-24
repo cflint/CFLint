@@ -2,64 +2,40 @@ package com.cflint;
 
 import static org.junit.Assert.assertEquals;
 
-import java.io.IOException;
 import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import com.cflint.config.CFLintConfig;
-import com.cflint.config.CFLintPluginInfo.PluginInfoRule;
-import com.cflint.config.CFLintPluginInfo.PluginInfoRule.PluginMessage;
-import com.cflint.plugins.core.ArgDefChecker;
-import com.cflint.plugins.core.QueryParamChecker;
-
-import cfml.parsing.reporting.ParseException;
+import com.cflint.api.CFLintAPI;
+import com.cflint.api.CFLintResult;
+import com.cflint.config.ConfigBuilder;
+import com.cflint.exception.CFLintScanException;
 
 public class TestCFLint2Files {
 
-	private CFLint cfBugs;
+    private CFLintAPI cfBugs;
 
-	@Before
-	public void setUp() throws Exception{
-		final CFLintConfig conf = new CFLintConfig();
-		PluginInfoRule pluginRule = new PluginInfoRule();
-		pluginRule.setName("ArgDefChecker");
-		conf.getRules().add(pluginRule);
-		PluginMessage pluginMessage = new PluginMessage("ARG_DEFAULT_MISSING");
-		pluginMessage.setSeverity("WARNING");
-		pluginMessage.setMessageText("Argument ${variable} is not required and does not define a default value.");
-		pluginRule.getMessages().add(pluginMessage);
+    @Before
+    public void setUp() throws Exception {
+        final ConfigBuilder configBuilder = new ConfigBuilder().include("ARG_DEFAULT_MISSING","QUERYPARAM_REQ");
+        cfBugs = new CFLintAPI(configBuilder.build());
+    }
 
-		pluginRule = new PluginInfoRule();
-		pluginRule.setName("QueryParamChecker");
-		conf.getRules().add(pluginRule);
-		pluginMessage = new PluginMessage("QUERYPARAM_REQ");
-		pluginMessage.setSeverity("WARNING");
-		pluginMessage.setMessageText("setSql() statement should use .addParam() instead of #'s for security.");
-		pluginRule.getMessages().add(pluginMessage);
-		
-		cfBugs = new CFLint(conf, new ArgDefChecker(),new QueryParamChecker());
-	}
+    @Test
+    public void testVarAndArgs_DisabledOther() throws CFLintScanException {
+        final String cfcSrc = "<cfcomponent>\r\n" + "<cffunction name=\"test\">\r\n" + "	"
+                + "<!---CFLINT-DISABLE SOMEOTHER--->" + "<cfargument name=\"xyz\">\r\n" + "</cffunction>\r\n"
+                + "</cfcomponent>";
+        CFLintResult lintresult = cfBugs.scan(cfcSrc, "test");
+        final List<BugInfo> result = lintresult.getIssues().values().iterator().next();
+        assertEquals(1, result.size());
+        assertEquals("ARG_DEFAULT_MISSING", result.get(0).getMessageCode());
 
-	@Test
-	public void testVarAndArgs_DisabledOther() throws ParseException, IOException {
-		final String cfcSrc = "<cfcomponent>\r\n" + "<cffunction name=\"test\">\r\n" + "	"
-				+ "<!---CFLINT-DISABLE SOMEOTHER--->"
-				+ "<cfargument name=\"xyz\">\r\n"
-				+ "</cffunction>\r\n" + "</cfcomponent>";
-		cfBugs.process(cfcSrc, "test");
-		final List<BugInfo> result = cfBugs.getBugs().getBugList().values().iterator().next();
-		assertEquals(1, result.size());
-		assertEquals("ARG_DEFAULT_MISSING", result.get(0).getMessageCode());
- 
-		final String cfcSrc2 = "component {\n" + 
-				"    public string function fooFunction() {\n" + 
-				"        return foo = bar\n" + 
-				"    }\n" + 
-				"}";
-		cfBugs.process(cfcSrc2, "test");
-		final List<BugInfo> result2 = cfBugs.getBugs().getBugList().get("MISSING_SEMI");
-		assertEquals(null, result2);
-	}
+        final String cfcSrc2 = "component {\n" + "    public string function fooFunction() {\n"
+                + "        return foo = bar\n" + "    }\n" + "}";
+        lintresult = cfBugs.scan(cfcSrc2, "test");
+        final List<BugInfo> result2 = lintresult.getIssues().get("MISSING_SEMI");
+        assertEquals(null, result2);
+    }
 }

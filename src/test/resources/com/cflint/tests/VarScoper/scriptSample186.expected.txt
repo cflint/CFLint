@@ -1,43 +1,49 @@
-[ {
-  "severity" : "ERROR",
-  "id" : "MISSING_VAR",
-  "message" : "MISSING_VAR",
-  "category" : "CFLINT",
-  "abbrev" : "MV",
-  "locations" : [ {
-    "file" : "src/test/resources/com/cflint/tests/VarScoper/scriptSample186.cfc",
-    "fileName" : "scriptSample186.cfc",
-    "function" : "leakMemory",
-    "column" : 6,
-    "line" : 4,
-    "message" : "Variable leaky_variable is not declared with a var statement.",
-    "variable" : "leaky_variable",
-    "expression" : "leaky_variable"
-  } ]
-}, {
-  "severity" : "ERROR",
-  "id" : "MISSING_VAR",
-  "message" : "MISSING_VAR",
-  "category" : "CFLINT",
-  "abbrev" : "MV",
-  "locations" : [ {
-    "file" : "src/test/resources/com/cflint/tests/VarScoper/scriptSample186.cfc",
-    "fileName" : "scriptSample186.cfc",
-    "function" : "leakMemory",
-    "column" : 6,
-    "line" : 5,
-    "message" : "Variable leakier_variable is not declared with a var statement.",
-    "variable" : "leakier_variable",
-    "expression" : "leakier_variable"
-  } ]
-}, {
-  "totalfiles" : 0
-}, {
-  "totalsize" : 0
-}, {
-  "code" : "MISSING_VAR",
-  "count" : 2
-}, {
-  "severity" : "ERROR",
-  "count" : 2
-} ]
+{
+  "version" : "",
+  "timestamp" : 1507944144,
+  "issues" : [ {
+    "severity" : "ERROR",
+    "id" : "MISSING_VAR",
+    "message" : "MISSING_VAR",
+    "category" : "CFLINT",
+    "abbrev" : "MV",
+    "locations" : [ {
+      "file" : "src\\test\\resources\\com\\cflint\\tests\\VarScoper\\scriptSample186.cfc",
+      "fileName" : "scriptSample186.cfc",
+      "function" : "leakMemory",
+      "column" : 6,
+      "line" : 4,
+      "message" : "Variable leaky_variable is not declared with a var statement.",
+      "variable" : "leaky_variable",
+      "expression" : "leaky_variable"
+    } ]
+  }, {
+    "severity" : "ERROR",
+    "id" : "MISSING_VAR",
+    "message" : "MISSING_VAR",
+    "category" : "CFLINT",
+    "abbrev" : "MV",
+    "locations" : [ {
+      "file" : "src\\test\\resources\\com\\cflint\\tests\\VarScoper\\scriptSample186.cfc",
+      "fileName" : "scriptSample186.cfc",
+      "function" : "leakMemory",
+      "column" : 6,
+      "line" : 5,
+      "message" : "Variable leakier_variable is not declared with a var statement.",
+      "variable" : "leakier_variable",
+      "expression" : "leakier_variable"
+    } ]
+  } ],
+  "counts" : {
+    "totalFiles" : 0,
+    "totalLines" : 0,
+    "countByCode" : [ {
+      "code" : "MISSING_VAR",
+      "count" : 2
+    } ],
+    "countBySeverity" : [ {
+      "severity" : "ERROR",
+      "count" : 2
+    } ]
+  }
+}

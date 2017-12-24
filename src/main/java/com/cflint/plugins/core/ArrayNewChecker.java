@@ -1,6 +1,7 @@
 package com.cflint.plugins.core;
 
 import com.cflint.BugList;
+import com.cflint.CF;
 import com.cflint.plugins.CFLintScannerAdapter;
 import com.cflint.plugins.Context;
 
@@ -25,7 +26,7 @@ public class ArrayNewChecker extends CFLintScannerAdapter {
 
     @Override
     public void element(final Element element, final Context context, final BugList bugs) {
-        if (element.getName().equals("cfset")) {
+        if (element.getName().equals(CF.CFSET)) {
             final String content = element.getStartTag().getTagContent().toString();
 
             if (content.toLowerCase().contains("arraynew(1)")) {

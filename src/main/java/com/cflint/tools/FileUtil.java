@@ -13,17 +13,17 @@ import org.apache.commons.io.input.BOMInputStream;
 
 public class FileUtil {
     
-    static final String defaultEncoding = "UTF-8";
-    static final int BUF_SIZE = 8192;
+    private static final String DEFAULT_ENCODING = "UTF-8";
+    private static final int BUF_SIZE = 8192;
 
-    static public String loadFile(final File file) {
+    public static String loadFile(final File file) {
         FileInputStream fis = null;
         try {
             fis = new FileInputStream(file);
             try {
                 final BOMInputStream bOMInputStream = new BOMInputStream(fis);
                 final ByteOrderMark bom = bOMInputStream.getBOM();
-                final String charsetName = bom == null ? defaultEncoding : bom.getCharsetName();
+                final String charsetName = bom == null ? DEFAULT_ENCODING : bom.getCharsetName();
                 InputStreamReader reader = new InputStreamReader(new BufferedInputStream(bOMInputStream), charsetName);
                 return readFully(reader);
             } finally {
@@ -40,7 +40,7 @@ public class FileUtil {
         }
     }
 
-    static public boolean checkExtension(final File file, final List<String> allowedExtensions) {
+    public static boolean checkExtension(final File file, final List<String> allowedExtensions) {
         for (final String ext : allowedExtensions) {
             if (file.getName().endsWith(ext)) {
                 return true;
@@ -57,7 +57,7 @@ public class FileUtil {
      * @throws IOException if the contents could not be read out from the
      *         reader.
      */
-    public static final String readFully(Reader rdr) throws IOException {
+    public static final String readFully(final Reader rdr) throws IOException {
         return readFully(rdr, BUF_SIZE);
     }
 
@@ -72,7 +72,7 @@ public class FileUtil {
      * @throws IOException if the contents could not be read out from the
      *         reader.
      */
-    public static final String readFully(Reader rdr, int bufferSize)
+    public static final String readFully(final Reader rdr, int bufferSize)
         throws IOException {
         if (bufferSize <= 0) {
             throw new IllegalArgumentException("Buffer size must be greater "

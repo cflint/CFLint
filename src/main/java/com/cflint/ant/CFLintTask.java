@@ -46,7 +46,7 @@ public class CFLintTask extends Task {
     private String extensions;
     private boolean verbose;
     private boolean quiet;
-    private final List<FileSet> filesets = new ArrayList<FileSet>();
+    private final List<FileSet> filesets = new ArrayList<>();
 
     @Override
     public void execute() {
@@ -87,9 +87,11 @@ public class CFLintTask extends Task {
                 final File ffile = filterFile;
                 if (ffile.exists()) {
                     fis = new FileInputStream(ffile);
-                    final byte b[] = new byte[fis.available()];
-                    fis.read(b);
-                    filter = CFLintFilter.createFilter(new String(b), verbose);
+                    final byte[] b = new byte[fis.available()];
+                    if (fis.read(b) > 0) {
+                        fis.close();
+                        filter = CFLintFilter.createFilter(new String(b), verbose);
+                    }
                 }
             }
 
@@ -127,13 +129,15 @@ public class CFLintTask extends Task {
                         ? new ProgressMonitor(null, "CFLint", "", 1, ds.getIncludedFilesCount()) : null;
                 final String[] includedFiles = ds.getIncludedFiles();
                 for (final String includedFile : includedFiles) {
-                    if (progressMonitor.isCanceled()) {
-                        throw new RuntimeException("CFLint scan cancelled");
+                    if (progressMonitor != null) {
+                        if (progressMonitor.isCanceled()) {
+                            throw new RuntimeException("CFLint scan cancelled");
+                        }
+                        final String filename = ds.getBasedir() + File.separator + includedFile;
+                        progressMonitor.setNote("scanning " + includedFile);
+                        cflint.scan(filename);
+                        progressMonitor.setProgress(progress++);
                     }
-                    final String filename = ds.getBasedir() + File.separator + includedFile;
-                    progressMonitor.setNote("scanning " + includedFile);
-                    cflint.scan(filename);
-                    progressMonitor.setProgress(progress++);
                 }
             }
         } catch (final Exception e) {
@@ -144,14 +148,24 @@ public class CFLintTask extends Task {
                     fis.close();
                 }
             } catch (final IOException e) {
-
             }
         }
     }
 
     private Writer createWriter(final File xmlFile2, final Charset encoding) throws IOException {
-        final OutputStreamWriter out = new OutputStreamWriter(new FileOutputStream(xmlFile2), encoding);
-        out.append(String.format("<?xml version=\"1.0\" encoding=\"%s\" ?>%n", encoding));
+        OutputStreamWriter out = null;
+        FileOutputStream fos = null;
+        try {
+            fos = new FileOutputStream(xmlFile2);
+            out = new OutputStreamWriter(fos, encoding);
+            out.append(String.format("<?xml version=\"1.0\" encoding=\"%s\" ?>%n", encoding));
+        } catch (final Exception e) {
+            throw new RuntimeException(e);
+        } finally {
+            if (fos != null) {
+                fos.close();
+            }
+        }
         return out;
     }
 

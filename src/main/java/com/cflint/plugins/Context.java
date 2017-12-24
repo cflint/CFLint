@@ -4,27 +4,31 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.Token;
 
 import com.cflint.BugInfo;
+import com.cflint.CF;
 import com.cflint.StackHandler;
+import com.cflint.config.CFLintConfiguration;
 import com.cflint.tools.ObjectEquals;
 
+import cfml.parsing.cfscript.CFExpression;
 import cfml.parsing.cfscript.CFIdentifier;
 import cfml.parsing.cfscript.script.CFFuncDeclStatement;
 import net.htmlparser.jericho.Element;
 
 public class Context {
 
-    public static enum ContextType {
-        Component, Function, Other, QueryLoop
+    public enum ContextType {
+        COMPONENT, FUNCTION, OTHER, QUERY_LOOP
     }
 
     private String filename;
     private String componentName;
-    final private Element element;
+    private final Element element;
     private CFFuncDeclStatement functionInfo;
     private ContextType contextType;
     private String functionName;
@@ -33,16 +37,13 @@ public class Context {
     private boolean inComponent;
     private final StackHandler callStack;
     private final CommonTokenStream tokens;
-    private final List<ContextMessage> messages = new ArrayList<ContextMessage>();
+    private final List<ContextMessage> messages = new ArrayList<>();
     private Context parent = null;
-    private List<String> ignores = new ArrayList<String>();
-
-	public void setInAssignmentExpression(boolean inAssignmentExpression) {
-        this.inAssignmentExpression = inAssignmentExpression;
-    }
+    private List<String> ignores = new ArrayList<>();
+    final private CFLintConfiguration configuration;
 
     public Context(final String filename, final Element element, final CFIdentifier functionName,
-            final boolean inAssignmentExpression, final StackHandler handler) {
+            final boolean inAssignmentExpression, final StackHandler handler,CFLintConfiguration configuration) {
         super();
         this.filename = filename;
         this.element = element;
@@ -50,10 +51,11 @@ public class Context {
         this.inAssignmentExpression = inAssignmentExpression;
         this.callStack = handler;
         this.tokens = null;
+        this.configuration=configuration;
     }
 
     public Context(final String filename, final Element element, final String functionName,
-            final boolean inAssignmentExpression, final StackHandler handler, CommonTokenStream tokens) {
+            final boolean inAssignmentExpression, final StackHandler handler, CommonTokenStream tokens,CFLintConfiguration configuration) {
         super();
         this.filename = filename;
         this.element = element;
@@ -61,6 +63,11 @@ public class Context {
         this.inAssignmentExpression = inAssignmentExpression;
         this.callStack = handler;
         this.tokens = tokens;
+        this.configuration=configuration;
+    }
+
+    public void setInAssignmentExpression(boolean inAssignmentExpression) {
+        this.inAssignmentExpression = inAssignmentExpression;
     }
 
     public String getFilename() {
@@ -146,11 +153,11 @@ public class Context {
     }
 
     public void addUniqueMessage(final String messageCode, final String variable, final CFLintScanner source) {
-        addUniqueMessage(messageCode, variable, source, null);
+        addUniqueMessage(messageCode, variable, source, null, null, null);
     }
 
     public void addUniqueMessage(final String messageCode, final String variable, final CFLintScanner source,
-            final Integer line) {
+            final Integer line, final Integer offset, final CFExpression cfExpression) {
         if (messageCode != null) {
             for (ContextMessage msg : messages) {
                 if (ObjectEquals.equals(msg.getMessageCode(), messageCode)
@@ -159,7 +166,7 @@ public class Context {
                 }
             }
         }
-        addMessage(messageCode, variable, source, line);
+        addMessage(messageCode, variable, source, line, offset, cfExpression);
     }
 
     public void addMessage(final String messageCode, final String variable) {
@@ -167,43 +174,64 @@ public class Context {
     }
 
     public void addMessage(final String messageCode, final String variable, final CFLintScanner source,
-            final Integer line) {
-        messages.add(new ContextMessage(messageCode, variable, source, line));
+            final Integer line, final Integer offset) {
+        messages.add(new ContextMessage(messageCode, variable, source, line, offset,null));
+    }
+    public void addMessage(final String messageCode, final String variable, final CFLintScanner source,
+            final Integer line, final Integer offset, final CFExpression cfExpression) {
+        messages.add(new ContextMessage(messageCode, variable, source, line, offset,cfExpression));
     }
 
-    public void addMessage(final String messageCode, final String variable, final Integer line) {
-        messages.add(new ContextMessage(messageCode, variable, line));
+    public void addMessage(final String messageCode, final String variable, final Integer line,
+            final Integer offset) {
+        messages.add(new ContextMessage(messageCode, variable, line, offset));
     }
 
     public static class ContextMessage {
         private String messageCode;
         private String variable;
         private Integer line;
+        private Integer offset;
         private CFLintScanner source;
-
-        public CFLintScanner getSource() {
-            return source;
-        }
+        private final CFExpression cfExpression;
 
         public ContextMessage(final String messageCode, final String variable) {
             super();
             this.messageCode = messageCode;
             this.variable = variable;
             this.source = null;
+            this.cfExpression = null;
         }
 
         public ContextMessage(final String messageCode, final String variable, CFLintScanner source,
-                final Integer line) {
+                final Integer line, final Integer offset, final CFExpression cfExpression) {
             super();
             this.messageCode = messageCode;
             this.variable = variable;
             this.source = source;
             this.line = line;
+            this.offset = offset;
+            this.cfExpression = cfExpression;
+        }
+        public ContextMessage(final String messageCode, final String variable, CFLintScanner source,
+                final Integer line, final Integer offset) {
+            super();
+            this.messageCode = messageCode;
+            this.variable = variable;
+            this.source = source;
+            this.line = line;
+            this.offset = offset;
+            this.cfExpression = null;
         }
 
-        public ContextMessage(final String messageCode, final String variable, final Integer line) {
+        public ContextMessage(final String messageCode, final String variable, final Integer line, final Integer offset) {
             this(messageCode, variable);
             this.line = line;
+            this.offset = offset;
+        }
+
+        public CFLintScanner getSource() {
+            return source;
         }
 
         public String getMessageCode() {
@@ -217,13 +245,42 @@ public class Context {
         public Integer getLine() {
             return line;
         }
+
+        public Integer getOffset() {
+        	return offset;
+        }
+
+        public CFExpression getCfExpression() {
+            return cfExpression;
+        }
     }
 
-    public Context subContext(final Element elem) {
+    public Context subContext(final Element elem,final CommonTokenStream tokens) {
         final Context context2 = new Context(getFilename(), elem == null ? this.element : elem, getFunctionName(),
-                isInAssignmentExpression(), callStack, tokens);
+                isInAssignmentExpression(), callStack, tokens,configuration);
         context2.setInComponent(isInComponent());
         context2.parent = this;
+        context2.componentName=componentName;
+        return context2;
+    }
+    public Context subContext(final Element elem) {
+        final Context context2 = new Context(getFilename(), elem == null ? this.element : elem, getFunctionName(),
+                isInAssignmentExpression(), callStack, tokens,configuration);
+        context2.setInComponent(isInComponent());
+        context2.parent = this;
+        context2.componentName=componentName;
+        return context2;
+    }
+    public Context subContextInAssignment() {
+        return subContextInAssignment(true);
+    }
+    public Context subContextInAssignment(boolean assignment) {
+        final Context context2 = new Context(getFilename(), this.element, getFunctionName(),
+                isInAssignmentExpression(), callStack, tokens,configuration);
+        context2.setInComponent(isInComponent());
+        context2.parent = this;
+        context2.componentName=componentName;
+        context2.setInAssignmentExpression(assignment);
         return context2;
     }
 
@@ -235,8 +292,22 @@ public class Context {
         }
     }
 
+    public int offset() {
+        if (element != null) {
+            if (element.getName().equalsIgnoreCase(CF.CFSCRIPT)) {
+                return element.getStartTag().getEnd();
+            } else if (element.getName().equalsIgnoreCase(CF.CFSET)) {
+                return element.getStartTag().getTagContent().getBegin() + 1;
+            }
+            
+            return element.getBegin();
+        } else {
+            return 0;
+        }
+    }
+
     protected String componentFromFile(final String filename) {
-        final int dotPosition = filename.lastIndexOf(".");
+        final int dotPosition = filename.lastIndexOf('.');
         final String separator = System.getProperty("file.separator");
         final int seperatorPosition = filename.lastIndexOf(separator);
 
@@ -261,8 +332,8 @@ public class Context {
 
     public class ContextTokensIterable implements Iterable<Token> {
 
-        final Token token;
-        final int direction;
+        private final Token token;
+        private final int direction;
 
         public ContextTokensIterable(Token token, int direction) {
             this.token = token;
@@ -277,8 +348,8 @@ public class Context {
 
     public class ContextTokensIterator implements Iterator<Token> {
 
-        int tokenIndex;
-        final int direction;
+        private int tokenIndex;
+        private final int direction;
 
         public ContextTokensIterator(Token token, int direction) {
             this.tokenIndex = token.getTokenIndex() + direction;
@@ -295,6 +366,9 @@ public class Context {
 
         @Override
         public Token next() {
+            if (!hasNext()) {
+                throw new NoSuchElementException();
+            }
             if (tokens != null && tokenIndex >= 0) {
                 Token retval = tokens.getTokens().get(tokenIndex);
                 tokenIndex += direction;
@@ -315,8 +389,8 @@ public class Context {
 
     /**
      * 
-     * @param type
-     * @return the parent context of the given type OR the root context if none
+     * @param type      the type of context to retrieve from the parent tree
+     * @return          the parent context of the given type OR the root context if none
      *         matches
      */
     public Context getParent(ContextType type) {
@@ -352,7 +426,7 @@ public class Context {
 
     public void setContextType(ContextType contextType) {
         this.contextType = contextType;
-        if(contextType == ContextType.Component && componentName==null){
+        if(contextType == ContextType.COMPONENT && componentName==null){
             assignComponentNameFromFile();
         }
     }
@@ -362,4 +436,8 @@ public class Context {
 		    componentName= new File(filename.trim()).getName().replaceAll("[.]\\w+", "");
 		}
 	}
+
+    public CFLintConfiguration getConfiguration() {
+        return configuration;
+    }
 }

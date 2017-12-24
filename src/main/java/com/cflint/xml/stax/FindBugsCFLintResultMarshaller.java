@@ -18,7 +18,7 @@ import com.cflint.xml.MarshallerException;
 public class FindBugsCFLintResultMarshaller implements CFLintResultMarshaller {
 
     @Override
-    public void output(BugList bugList, Writer writer, CFLintStats stats) throws MarshallerException {
+    public void output(final BugList bugList, final Writer writer, final CFLintStats stats) throws MarshallerException {
         try {
             StringWriter sw = new StringWriter();
             DefaultCFlintResultMarshaller marshaller = new DefaultCFlintResultMarshaller();

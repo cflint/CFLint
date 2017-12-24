@@ -5,12 +5,15 @@ buildscript {
          jcenter {
             url "http://jcenter.bintray.com/"
         }
-        maven { url "http://oss.sonatype.org/content/repositories/snapshots/" }
+        maven { url "http://oss.sonatype.org/content/repositories/snapshots/" 
+            url "https://plugins.gradle.org/m2/"
+        }
      }
      dependencies {
          classpath 'com.bmuschko:gradle-nexus-plugin:2.3'
          classpath "io.codearte.gradle.nexus:gradle-nexus-staging-plugin:0.5.3"
-     }
+      classpath "gradle.plugin.se.bjurr.gitchangelog:git-changelog-gradle-plugin:1.50"
+   }
  }
 
 plugins {
@@ -27,6 +30,8 @@ apply plugin: 'java'
 apply plugin: 'maven'
 apply from: 'cobertura.gradle'
 apply from: 'deploy.gradle'
+apply plugin: "se.bjurr.gitchangelog.git-changelog-gradle-plugin"
+
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
@@ -34,23 +39,13 @@ targetCompatibility = 1.8
 repositories {
     maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
     maven { url "http://repo.maven.apache.org/maven2" }
+    maven { url "https://oss.sonatype.org/content/repositories/releases" }
     maven { url "http://cfmlprojects.org/artifacts" }
 }
 dependencies {
-    compile group: 'com.github.cfparser', name: 'cfparser', version:'2.4.9'
-    compile group: 'com.github.cfparser', name: 'cfml.parsing', version:'2.4.9'
-    compile group: 'com.github.cfparser', name: 'cfml.dictionary', version:'2.4.9'
-    compile group: 'junit', name: 'junit', version:'4.12'
-    compile group: 'org.jdom', name: 'jdom', version:'1.1.3'
-    compile group: 'org.antlr', name: 'antlr4-runtime', version:'4.7'
-    compile group: 'org.antlr', name: 'stringtemplate', version:'4.0.2'
-    compile group: 'org.antlr', name: 'antlr4', version:'4.6'
-    compile group: 'net.htmlparser.jericho', name: 'jericho-html', version:'3.4'
-    compile group: 'log4j', name: 'log4j', version:'1.2.17'
-    compile group: 'org.apache.logging.log4j', name: 'log4j-core', version:'2.5'
+    compile group: 'com.github.cfparser', name: 'cfml.parsing', version:'2.6.0'
     compile group: 'commons-cli', name: 'commons-cli', version:'1.2'
     compile group: 'ro.fortsoft.pf4j', name: 'pf4j', version:'0.6'
-    compile group: 'org.slf4j', name: 'slf4j-log4j12', version:'1.7.5'
     compile group: 'ant', name: 'ant', version:'1.7.0'
     compile group: 'com.sun.xml.bind', name: 'jaxb-impl', version:'2.1.8'
     compile group: 'com.fasterxml.jackson.core', name: 'jackson-core', version:'2.8.6'
@@ -61,10 +56,8 @@ dependencies {
     }
     // https://mvnrepository.com/artifact/commons-io/commons-io
     compile group: 'commons-io', name: 'commons-io', version: '2.5'
-    
-    runtime group: 'commons-logging', name: 'commons-logging-api', version:'1.1'
-    runtime group: 'org.slf4j', name: 'slf4j-api', version:'1.7.5'
-    runtime group: 'org.javolution', name: 'javolution', version:'5.2.6'
+
+    testCompile group: 'junit', name: 'junit', version:'4.12'
 }
 
 test {
@@ -79,7 +72,8 @@ test {
 jar {
   manifest {
     attributes(
-      'Main-Class': 'com.cflint.main.CFLintMain',
+      'Main-Class': 'com.cflint.cli.CFLintCLI',
+      'Implementation-Version': version,
     )
   }
 }
@@ -99,4 +93,8 @@ task fatJar(type: Jar) {
 
 artifacts {
     archives fatJar
+}
+task gitChangelogTask(type: se.bjurr.gitchangelog.plugin.gradle.GitChangelogTask) {
+    file = new File("CHANGELOG.md");
+    templateContent = file('src/main/resources/changelog.mustache').getText('UTF-8');
 }

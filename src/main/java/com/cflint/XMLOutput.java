@@ -5,7 +5,6 @@ import java.io.InputStream;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.io.Writer;
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
@@ -14,58 +13,110 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
-public class XMLOutput {
+/**
+ * Output bug list in XML format.
+ */
+public class XMLOutput extends StructuredOutput {
 
-    public static final String LINE_SEPARATOR = "line.separator";
-    final List<String> CODE_GROUPBY_FUNCTION = Arrays.asList("PARSE_ERROR");
+    /**
+     * Line separator.
+     */
+    private static final String LINE_SEPARATOR = "line.separator";
 
+    /**
+     * Output bug list in XML format.
+     */
     public void output(final BugList bugList, final Writer writer, final CFLintStats stats) throws IOException {
         final BugCounts counts = stats.getCounts();
-        writer.append("<issues version=\"" + Version.getVersion() + "\"")
-                .append(" timestamp=\"" + Long.toString(stats.getTimestamp()) + "\">")
-                .append(System.getProperty(LINE_SEPARATOR));
+
+        outputStartIssues(writer, stats);
+
         for (final Entry<String, List<BugInfo>> bugEntry : bugList.getBugList().entrySet()) {
             final Iterator<BugInfo> iterator = bugEntry.getValue().iterator();
             BugInfo bugInfo = iterator.hasNext() ? iterator.next() : null;
             BugInfo prevbugInfo;
 
             while (bugInfo != null) {
-                final String severity = bugEntry.getValue().get(0).getSeverity();
-                final String code = bugEntry.getValue().get(0).getMessageCode();
-                writer.append("<issue");
-                writer.append(" severity=\"").append(xmlEscapeText(severity)).append("\"");
-                writer.append(" id=\"").append(xmlEscapeText(code)).append("\"");
-                writer.append(" message=\"").append(xmlEscapeText(code)).append("\"");
-                writer.append(" category=\"CFLint\"");
-                writer.append(" abbrev=\"").append(abbrev(code)).append("\"");
-                writer.append(">");
+                outputStartIssue(writer, bugEntry);
                 do {
-                    writer.append("<location");
-                    writer.append(" file=\"").append(xmlEscapeText(bugInfo.getFilename())).append("\"");
-                    writer.append(" fileName=\"").append(xmlEscapeText(filename(bugInfo.getFilename()))).append("\"");
-                    writer.append(" function=\"").append(xmlEscapeText(filename(bugInfo.getFunction()))).append("\"");
-                    writer.append(" column=\"").append(Integer.valueOf(bugInfo.getColumn()).toString()).append("\"");
-                    writer.append(" line=\"").append(Integer.valueOf(bugInfo.getLine()).toString()).append("\"");
-                    writer.append(" message=\"").append(xmlEscapeText(bugInfo.getMessage())).append("\"");
-                    writer.append(" variable=\"").append(xmlEscapeText(bugInfo.getVariable())).append("\"");
-                    writer.append(">");
-                    writer.append("<Expression><![CDATA[")
-                            .append(bugInfo.getExpression() == null ? ""
-                                    : bugInfo.getExpression().replace("<![CDATA[", "").replace("]]>", ""))
-                            .append("]]></Expression>");
-                    writer.append("</location>").append(System.getProperty(LINE_SEPARATOR));
+                    outputLocation(writer, bugInfo);
                     prevbugInfo = bugInfo;
                     bugInfo = iterator.hasNext() ? iterator.next() : null;
-                } while (isGrouped(prevbugInfo, bugInfo));
-                // writer.append("
-                // function=\"").append(bugInfo.getFunction()).append("\"");
-                writer.append("</issue>").append(System.getProperty(LINE_SEPARATOR));
+                } while (bugInfo != null && isGrouped(prevbugInfo, bugInfo));
+                outputCloseIssue(writer);
             }
         }
 
+        outputCounts(writer, stats, counts);
+        outputCloseIssues(writer);
+        writer.close();
+    }
+
+    /**
+     * Output start of XML issues.
+     */
+    private void outputStartIssues(final Writer writer, final CFLintStats stats) throws IOException {
+        writer.append("<issues version=\"" + Version.getVersion() + "\"")
+                .append(" timestamp=\"" + Long.toString(stats.getTimestamp()) + "\">")
+                .append(System.getProperty(LINE_SEPARATOR));
+    }
+
+    /**
+     * Output close of XML issues.
+     */
+    private void outputCloseIssues(final Writer writer) throws IOException {
+        writer.append("</issues>");
+    }
+
+    /**
+     * Output start of XML issue.
+     */
+    private void outputStartIssue(final Writer writer, final Entry<String, List<BugInfo>> bugEntry) throws IOException {
+        final String severity = bugEntry.getValue().get(0).getSeverity().toString();
+        final String code = bugEntry.getValue().get(0).getMessageCode();
+        writer.append("<issue");
+        writer.append(" severity=\"").append(xmlEscapeText(severity)).append("\"");
+        writer.append(" id=\"").append(xmlEscapeText(code)).append("\"");
+        writer.append(" message=\"").append(xmlEscapeText(code)).append("\"");
+        writer.append(" category=\"CFLint\"");
+        writer.append(" abbrev=\"").append(abbrev(code)).append("\"");
+        writer.append(">");
+    }
+
+    /**
+     * Output start of XML issue location.
+     */
+    private void outputLocation(final Writer writer, final BugInfo bugInfo) throws IOException {
+        writer.append("<location");
+        writer.append(" file=\"").append(xmlEscapeText(bugInfo.getFilename())).append("\"");
+        writer.append(" fileName=\"").append(xmlEscapeText(filename(bugInfo.getFilename()))).append("\"");
+        writer.append(" function=\"").append(xmlEscapeText(filename(bugInfo.getFunction()))).append("\"");
+        writer.append(" column=\"").append(Integer.toString(bugInfo.getColumn())).append("\"");
+        writer.append(" line=\"").append(Integer.toString(bugInfo.getLine())).append("\"");
+        writer.append(" message=\"").append(xmlEscapeText(bugInfo.getMessage())).append("\"");
+        writer.append(" variable=\"").append(xmlEscapeText(bugInfo.getVariable())).append("\"");
+        writer.append(">");
+        writer.append("<Expression><![CDATA[")
+                .append(bugInfo.getExpression() == null ? ""
+                        : bugInfo.getExpression().replace("<![CDATA[", "").replace("]]>", ""))
+                .append("]]></Expression>");
+        writer.append("</location>").append(System.getProperty(LINE_SEPARATOR));
+    }
+
+    /**
+     * Output end of XML issue.
+     */
+    private void outputCloseIssue(Writer writer) throws IOException {
+        writer.append("</issue>").append(System.getProperty(LINE_SEPARATOR));
+    }
+
+    /**
+     * Output XML count statistics.
+     */
+    private void outputCounts(final Writer writer, final CFLintStats stats, final BugCounts counts) throws IOException {
         writer.append("<counts");
         writer.append(" totalfiles=\"").append(Long.toString(stats.getFileCount())).append("\"");
-        writer.append(" totalsize=\"").append(stats.getTotalSize().toString()).append("\">").append(System.getProperty(LINE_SEPARATOR));
+        writer.append(" totallines=\"").append(stats.getTotalLines().toString()).append("\">").append(System.getProperty(LINE_SEPARATOR));
 
         for (final String code : counts.bugTypes()) {
             writer.append("<count");
@@ -74,43 +125,21 @@ public class XMLOutput {
             writer.append(System.getProperty(LINE_SEPARATOR));
         }
 
-        for (final String severity : BugCounts.levels) {
+        for (final Levels severity : Levels.values()) {
             if (counts.getSeverity(severity) > 0) {
                 writer.append("<count");
-                writer.append(" severity=\"").append(severity).append("\"");
+                writer.append(" severity=\"").append(severity.toString()).append("\"");
                 writer.append(" count=\"").append(Integer.toString(counts.getSeverity(severity))).append("\" />");
                 writer.append(System.getProperty(LINE_SEPARATOR));
             }
         }
 
         writer.append("</counts>").append(System.getProperty(LINE_SEPARATOR));
-
-        writer.append("</issues>");
-        writer.close();
     }
 
-    private boolean isGrouped(final BugInfo prevbugInfo, final BugInfo bugInfo) {
-        if (prevbugInfo == null || bugInfo == null) {
-            return false;
-        }
-        // Different message types are not grouped
-        if (!safeEquals(prevbugInfo.getMessageCode(), bugInfo.getMessageCode())) {
-            return false;
-        }
-        // Different files are not grouped
-        if (!safeEquals(prevbugInfo.getFilename(), bugInfo.getFilename())) {
-            return false;
-        }
-        // Some message codes (such as parse error are grouped at the function
-        // level
-        return (CODE_GROUPBY_FUNCTION.contains(bugInfo.getMessageCode())
-                && safeEquals(prevbugInfo.getFunction(), bugInfo.getFunction()));
-    }
-
-    private boolean safeEquals(final String a, final String b) {
-        return a != null && b != null && a.equals(b);
-    }
-
+    /**
+     * Output findbugs XML format.
+     */
     public void outputFindBugs(final BugList bugList, final Writer writer, final CFLintStats stats)
             throws IOException, TransformerException {
 
@@ -130,26 +159,10 @@ public class XMLOutput {
         writer.close();
     }
 
-    private CharSequence filename(final String filename) {
-        if (filename == null) {
-            return "";
-        }
-        return filename.substring(Math.max(filename.lastIndexOf('/'), filename.lastIndexOf('\\')) + 1);
-    }
-
-    private CharSequence abbrev(final String messageCode) {
-        if (messageCode.length() <= 2) {
-            return messageCode;
-        }
-        final String[] ms = messageCode.split("_");
-        if (ms.length >= 2) {
-            return (ms[0].substring(0, 1) + ms[1].substring(0, 1)).toUpperCase();
-        } else {
-            return ms[0].substring(0, 2).toUpperCase();
-        }
-    }
-
-    String xmlEscapeText(final CharSequence t) {
+    /**
+     * XML escape a character sequence.
+     */
+    private String xmlEscapeText(final CharSequence t) {
         if (t == null) {
             return "";
         }

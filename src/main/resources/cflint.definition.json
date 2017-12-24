@@ -329,7 +329,7 @@
         {
           "code": "ARG_TYPE_MISSING",
           "severity": "WARNING",
-          "messageText": "ARGUMENT ${variable} is missing a type."
+          "messageText": "Argument ${variable} is missing a type."
         },
         {
           "code": "ARG_TYPE_ANY",
@@ -416,7 +416,7 @@
       "className": "TooManyFunctionsChecker",
       "message": [
         {
-          "messageText": "Component ${filename} has too many functions. Should be less than ${maximum}.",
+          "messageText": "Component ${component} has too many functions. Should be fewer than ${maximum}.",
           "code": "EXCESSIVE_FUNCTIONS",
           "severity": "WARNING"
         }
@@ -513,7 +513,7 @@
       "className": "ComplexBooleanExpressionChecker",
       "message": [
         {
-          "messageText" : "Boolean expession is too complex. Consider simplifying or moving to a named method.",
+          "messageText" : "Boolean expression is too complex. Consider simplifying or moving to a named method.",
           "code": "COMPLEX_BOOLEAN_CHECK",
           "severity": "WARNING"
         }
@@ -525,7 +525,7 @@
       "className": "BooleanExpressionChecker",
       "message": [
         {
-          "messageText" : "Explicit check of boolean expession is not needed.",
+          "messageText" : "Explicit check of boolean expression is not needed.",
           "code": "EXPLICIT_BOOLEAN_CHECK",
           "severity": "INFO"
         }
@@ -539,7 +539,7 @@
         {
           "code": "VAR_INVALID_NAME",
           "severity": "INFO",
-          "messageText" : "Variable ${variable} is not a valid name. Please use CamelCase or underscores."
+          "messageText" : "Variable ${variable} is not a valid name. Please use ${case} or underscores."
         },
         {
           "code": "VAR_ALLCAPS_NAME",
@@ -597,6 +597,14 @@
         {
           "name": "IgnoreAllCapsInScopes",
           "value": "this,variables"
+        },
+        {
+          "name": "IgnorePrefixPostfixOn",
+          "value": "thisTag"
+        },
+        {
+          "name" : "case",
+          "value" : "CamelCase"
         }
       ]
     },
@@ -612,7 +620,7 @@
         {
           "code": "ARGUMENT_INVALID_NAME",
           "severity": "INFO",
-          "messageText" : "${variable} is not a valid name. Please use CamelCase or underscores."
+          "messageText" : "${variable} is not a valid name. Please use ${case} or underscores."
         },
         {
           "code": "ARGUMENT_ALLCAPS_NAME",
@@ -657,6 +665,10 @@
         {
           "name": "MaxWords",
           "value": "4"
+        },
+        {
+          "name" : "case",
+          "value" : "CamelCase"
         }
       ]
     },
@@ -665,7 +677,7 @@
       "className": "MethodNameChecker",
       "message": [
         {
-          "messageText" : "Method name ${function} is not a valid name. Please use CamelCase or underscores.",
+          "messageText" : "Method name ${function} is not a valid name. Please use ${case} or underscores.",
           "code": "METHOD_INVALID_NAME",
           "severity": "INFO"
         },
@@ -712,6 +724,10 @@
         {
           "name": "MaxWords",
           "value": "5"
+        },
+        {
+          "name" : "case",
+          "value" : "CamelCase"
         }
       ]
     },
@@ -722,7 +738,7 @@
         {
           "code": "COMPONENT_INVALID_NAME",
           "severity": "INFO",
-          "messageText" : "Component name ${component} is not a valid name. Please use CamelCase and start with a capital letter."
+          "messageText" : "Component name ${component} is not a valid name. Please use ${case} and start with a capital letter."
         },
         {
           "code": "COMPONENT_ALLCAPS_NAME",
@@ -767,6 +783,10 @@
         {
           "name": "MaxWords",
           "value": "3"
+        },
+        {
+          "name" : "case",
+          "value" : "PascalCase"
         }
       ]
     },
@@ -877,6 +897,11 @@
           "code": "UNQUOTED_STRUCT_KEY",
           "messageText": "Unquoted struct key ${variable} is not case-sensitive.  Quoting it is recommended.",
           "severity": "WARNING"
+        },
+        {
+          "code": "STRUCT_ARRAY_NOTATION",
+          "messageText": "Unquoted struct key ${variable} is not case-sensitive.  Using array notation is recommended.",
+          "severity": "WARNING"
         }
       ],
       "parameter": []
@@ -915,13 +940,9 @@
       "parameter": []
     },
     {
-      "name": "LiteralChecker",
+      "name": "GlobalLiteralChecker",
+      "className": "LiteralChecker",
       "message": [
-        {
-          "code": "LOCAL_LITERAL_VALUE_USED_TOO_OFTEN",
-          "messageText": "Literal ${variable} occurs several times in the same file. Consider giving it a name and not hard coding values.",
-          "severity": "WARNING"
-        },
         {
           "code": "GLOBAL_LITERAL_VALUE_USED_TOO_OFTEN",
            "messageText": "Literal ${variable} occurs several times in one or more files. Consider giving it a name and not hard coding values.",
@@ -940,6 +961,35 @@
         {
           "name": "WarningScope",
           "value": "global"
+        },
+        {
+          "name": "IgnoreWords",
+          "value": "numeric,text,textnocase,asc,desc,in,out,inout,one,all,bigdecimal,boolean,byte,char,int,long,float,double,short,string,null"
+        }
+      ]
+    },
+    {
+      "name": "LocalLiteralChecker",
+      "className": "LiteralChecker",
+      "message": [
+        {
+          "code": "LOCAL_LITERAL_VALUE_USED_TOO_OFTEN",
+          "messageText": "Literal ${variable} occurs several times in the same file. Consider giving it a name and not hard coding values.",
+          "severity": "WARNING"
+        }
+      ],
+      "parameter": [
+        {
+          "name": "Maximum",
+          "value": "3"
+        },
+        {
+          "name": "MaxWarnings",
+          "value": "5"
+        },
+        {
+          "name": "WarningScope",
+          "value": "local"
         },
         {
           "name": "IgnoreWords",
@@ -978,6 +1028,7 @@
     	"UNUSED_LOCAL_VARIABLE",
     	"UNUSED_METHOD_ARGUMENT",
     	"UNQUOTED_STRUCT_KEY",
+    	"STRUCT_ARRAY_NOTATION",
     	"USE_DISPLAY_NAME"
     ]
   }, {

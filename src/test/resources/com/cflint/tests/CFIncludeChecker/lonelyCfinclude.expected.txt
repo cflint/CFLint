@@ -1,27 +1,33 @@
-[ {
-  "severity" : "WARNING",
-  "id" : "AVOID_USING_CFINCLUDE_TAG",
-  "message" : "AVOID_USING_CFINCLUDE_TAG",
-  "category" : "CFLINT",
-  "abbrev" : "AU",
-  "locations" : [ {
-    "file" : "src/test/resources/com/cflint/tests/CFIncludeChecker/lonelyCfinclude.cfc",
-    "fileName" : "lonelyCfinclude.cfc",
-    "function" : "",
-    "column" : 3,
-    "line" : 3,
-    "message" : "Avoid using <cfinclude> tags. Use components instead.",
-    "variable" : "cfinclude",
-    "expression" : "<cfinclude template=\"functions.cfm\">"
-  } ]
-}, {
-  "totalfiles" : 0
-}, {
-  "totalsize" : 0
-}, {
-  "code" : "AVOID_USING_CFINCLUDE_TAG",
-  "count" : 1
-}, {
-  "severity" : "WARNING",
-  "count" : 1
-} ]
+{
+  "version" : "",
+  "timestamp" : 1507944133,
+  "issues" : [ {
+    "severity" : "WARNING",
+    "id" : "AVOID_USING_CFINCLUDE_TAG",
+    "message" : "AVOID_USING_CFINCLUDE_TAG",
+    "category" : "CFLINT",
+    "abbrev" : "AU",
+    "locations" : [ {
+      "file" : "src\\test\\resources\\com\\cflint\\tests\\CFIncludeChecker\\lonelyCfinclude.cfc",
+      "fileName" : "lonelyCfinclude.cfc",
+      "function" : "",
+      "column" : 3,
+      "line" : 3,
+      "message" : "Avoid using <cfinclude> tags. Use components instead.",
+      "variable" : "cfinclude",
+      "expression" : "<cfinclude template=\"functions.cfm\">"
+    } ]
+  } ],
+  "counts" : {
+    "totalFiles" : 0,
+    "totalLines" : 0,
+    "countByCode" : [ {
+      "code" : "AVOID_USING_CFINCLUDE_TAG",
+      "count" : 1
+    } ],
+    "countBySeverity" : [ {
+      "severity" : "WARNING",
+      "count" : 1
+    } ]
+  }
+}

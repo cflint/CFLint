@@ -13,7 +13,7 @@
       "function" : "test",
       "column" : 1,
       "line" : 3,
-      "message" : "Variable name_1 is not a valid name. Please use CamelCase or underscores.",
+      "message" : "Variable name_1 is not a valid name. Please use camelCase or underscores.",
       "variable" : "name_1",
       "expression" : "name_1 = 'Fred'"
     } ]
@@ -29,7 +29,7 @@
       "function" : "test",
       "column" : 1,
       "line" : 4,
-      "message" : "Variable name2 is not a valid name. Please use CamelCase or underscores.",
+      "message" : "Variable name2 is not a valid name. Please use camelCase or underscores.",
       "variable" : "name2",
       "expression" : "name2 = 'Smith'"
     } ]
@@ -45,7 +45,7 @@
       "function" : "test",
       "column" : 6,
       "line" : 5,
-      "message" : "Variable name1 is not a valid name. Please use CamelCase or underscores.",
+      "message" : "Variable name1 is not a valid name. Please use camelCase or underscores.",
       "variable" : "name1",
       "expression" : "last.name1"
     } ]

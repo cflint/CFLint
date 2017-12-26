@@ -26,7 +26,7 @@ public class TestCFAbortChecker {
         final String cfcSrc = "<cfabort>";
         CFLintResult lintresult = cfBugs.scan(cfcSrc, "test");
         assertEquals(1, lintresult.getIssues().size());
-        assertEquals("Avoid Leaving <cfabort> tags in committed code. Did you accidently leave a cfabort in the code?",
+        assertEquals("Avoid leaving <cfabort> tags in committed code.",
                 lintresult.getIssues().get("AVOID_USING_CFABORT_TAG").get(0).getMessage());
     }
 

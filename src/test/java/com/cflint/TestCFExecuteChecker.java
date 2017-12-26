@@ -26,7 +26,7 @@ public class TestCFExecuteChecker {
         final String cfcSrc = "<cfexecute name=\"date\" timeout=\"1\" variable=\"date\" />";
         CFLintResult lintresult = cfBugs.scan(cfcSrc, "test");
         assertEquals(1, lintresult.getIssues().size());
-        assertEquals("Avoid Leaving <cfexecute> tags in committed code. CFexecute can be use as an attack vector and is slow.",
+        assertEquals("Avoid leaving <cfexecute> tags in committed code. CFexecute can be used as an attack vector and is slow.",
                 lintresult.getIssues().get("AVOID_USING_CFEXECUTE_TAG").get(0).getMessage());
     }
 

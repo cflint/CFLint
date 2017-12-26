@@ -58,7 +58,7 @@ public class TestCFBugs_ArgsType {
         assertEquals("ARG_TYPE_ANY", result.get(0).getMessageCode());
         assertEquals(3, result.get(0).getLine());
         assertEquals(Levels.WARNING, result.get(0).getSeverity());
-        assertEquals("Argument xyz is any. Please change to be the correct type.", result.get(0).getMessage());
+        assertEquals("Argument xyz is any. Please change to be a more specific type.", result.get(0).getMessage());
     }
 
     @Test
@@ -71,7 +71,7 @@ public class TestCFBugs_ArgsType {
         assertEquals("ARG_TYPE_ANY", result.get(0).getMessageCode());
         assertEquals(2, result.get(0).getLine());
         assertEquals(Levels.WARNING, result.get(0).getSeverity());
-        assertEquals("Argument arg1 is any. Please change to be the correct type.", result.get(0).getMessage());
+        assertEquals("Argument arg1 is any. Please change to be a more specific type.", result.get(0).getMessage());
     }
 
 }

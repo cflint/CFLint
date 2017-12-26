@@ -13,7 +13,7 @@
       "function" : "init",
       "column" : 9,
       "line" : 5,
-      "message" : "Variable q12 is not a valid name. Please use CamelCase or underscores.",
+      "message" : "Variable q12 is not a valid name. Please use camelCase or underscores.",
       "variable" : "q12",
       "expression" : "var q12 = 123"
     } ]

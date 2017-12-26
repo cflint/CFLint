@@ -27,7 +27,7 @@ public class TestCFDumpChecker {
         CFLintResult lintresult = cfBugs.scan(cfcSrc, "test");
         assertEquals(1, lintresult.getIssues().size());
         assertEquals(
-                "Avoid Leaving <cfdump> tags in committed code. Debug information should be omitted from release code",
+                "Avoid leaving <cfdump> tags in committed code. Debug information should be omitted from release code",
                 lintresult.getIssues().get("AVOID_USING_CFDUMP_TAG").get(0).getMessage());
     }
 

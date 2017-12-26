@@ -13,7 +13,7 @@
       "function" : "save",
       "column" : 5,
       "line" : 4,
-      "message" : "Local variable foo is not used in function save, consider removing it.",
+      "message" : "Local variable foo is not used in function save. Consider removing it.",
       "variable" : "foo",
       "expression" : ""
     } ]

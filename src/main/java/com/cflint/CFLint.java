@@ -887,34 +887,37 @@ public class CFLint implements IErrorReporter {
                 handler.pop();
             } else if (expression instanceof CFIncludeStatement) {
                 scanExpression(expression, context, elem);
-                final List<CFExpression> subExpressions = ((CFStringExpression) ((CFIncludeStatement) expression)
-                        .getTemplate()).getSubExpressions();
-                if (subExpressions.size() == 1 && subExpressions.get(0) instanceof CFLiteral) {
-                    final String path = ((CFLiteral) subExpressions.get(0)).getVal();
-                    final File include = new File(new File(context.getFilename()).getParentFile(), path);
-                    if (include.exists() || strictInclude) {
-                        try {
-                            if (includeFileStack.contains(include)) {
-                                System.err.println("Terminated a recursive call to include file " + include);
-                            } else {
-                                includeFileStack.push(include);
-                                process(FileUtil.loadFile(include), context.getFilename());
-                                includeFileStack.pop();
+                final CFExpression includeExpr = ((CFIncludeStatement) expression)
+                        .getTemplate();
+                if(includeExpr instanceof CFStringExpression){
+                    final List<CFExpression> subExpressions = ((CFStringExpression) includeExpr).getSubExpressions();
+                    if (subExpressions.size() == 1 && subExpressions.get(0) instanceof CFLiteral) {
+                        final String path = ((CFLiteral) subExpressions.get(0)).getVal();
+                        final File include = new File(new File(context.getFilename()).getParentFile(), path);
+                        if (include.exists() || strictInclude) {
+                            try {
+                                if (includeFileStack.contains(include)) {
+                                    System.err.println("Terminated a recursive call to include file " + include);
+                                } else {
+                                    includeFileStack.push(include);
+                                    process(FileUtil.loadFile(include), context.getFilename());
+                                    includeFileStack.pop();
+                                }
+                            } catch (final CFLintScanException ex) {
+                                System.err.println("Invalid include file " + context.getFilename());
+                                final int line = context.startLine();
+                                final ContextMessage cm = new ContextMessage(PARSE_ERROR, null, null, line);
+                                reportRule(currentElement, "Invalid include file " + expression.getClass(), context, null,
+                                        cm);
                             }
-                        } catch (final CFLintScanException ex) {
-                            System.err.println("Invalid include file " + context.getFilename());
-                            final int line = context.startLine();
-                            final ContextMessage cm = new ContextMessage(PARSE_ERROR, null, null, line);
-                            reportRule(currentElement, "Invalid include file " + expression.getClass(), context, null,
-                                    cm);
                         }
+                    } else if (strictInclude) {
+                        System.err.println("Unable to resolve template value " + context.getFilename());
+                        final int line = context.startLine();
+                        final ContextMessage cm = new ContextMessage(PARSE_ERROR, null, null, line);
+                        reportRule(currentElement, "Unable to resolve template value " + expression.getClass(), context,
+                                null, cm);
                     }
-                } else if (strictInclude) {
-                    System.err.println("Unable to resolve template value " + context.getFilename());
-                    final int line = context.startLine();
-                    final ContextMessage cm = new ContextMessage(PARSE_ERROR, null, null, line);
-                    reportRule(currentElement, "Unable to resolve template value " + expression.getClass(), context,
-                            null, cm);
                 }
             } else {
                 scanExpression(expression, context, elem);

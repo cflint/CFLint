@@ -29,9 +29,9 @@ public class LiteralChecker extends CFLintScannerAdapter {
 
     @Override
     public void expression(final CFExpression expression, final Context context, final BugList bugs) {
-        final String repeatThreshold = context.getConfiguration().getParameter(this,"Maximum");
-        final String maxWarnings = context.getConfiguration().getParameter(this,"MaxWarnings");
-        final String warningScope = context.getConfiguration().getParameter(this,"WarningScope");
+        final String repeatThreshold = context.getConfiguration().getParameter(this,"maximum");
+        final String maxWarnings = context.getConfiguration().getParameter(this,"maxWarnings");
+        final String warningScope = context.getConfiguration().getParameter(this,"warningScope");
 
         if (repeatThreshold != null) {
             threshold = Integer.parseInt(repeatThreshold);
@@ -112,7 +112,7 @@ public class LiteralChecker extends CFLintScannerAdapter {
             return true;
         }
         //Check ignore words list from the configuration
-        return getParameterAsList("IgnoreWords").contains(name.toLowerCase());
+        return getParameterAsList("ignoreWords").contains(name.toLowerCase());
     }
 
     public void magicLocalValue(final String name, final int lineNo, final int offset, final Context context, final BugList bugs, CFExpression expression) {

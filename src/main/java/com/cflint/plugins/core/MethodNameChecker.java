@@ -68,25 +68,25 @@ public class MethodNameChecker extends CFLintScannerAdapter {
      * See @ValidName for defaults.
      */
     private void parseParameters(CFLintConfiguration configuration)  throws ConfigError {
-        if (configuration.getParameter(this,"MinLength") != null) {
+        if (configuration.getParameter(this,"minLength") != null) {
             try {
-                minMethodLength = Integer.parseInt(configuration.getParameter(this,"MinLength"));
+                minMethodLength = Integer.parseInt(configuration.getParameter(this,"minLength"));
             } catch (final Exception e) {
                 throw new ConfigError("Minimum length need to be an integer.");
             }
         }
 
-        if (configuration.getParameter(this,"MaxLength") != null) {
+        if (configuration.getParameter(this,"maxLength") != null) {
             try {
-                maxMethodLength = Integer.parseInt(configuration.getParameter(this,"MaxLength"));
+                maxMethodLength = Integer.parseInt(configuration.getParameter(this,"maxLength"));
             } catch (final Exception e) {
                 throw new ConfigError("Maximum length need to be an integer.");
             }
         }
 
-        if (configuration.getParameter(this,"MaxWords") != null) {
+        if (configuration.getParameter(this,"maxWords") != null) {
             try {
-                maxMethodWords = Integer.parseInt(configuration.getParameter(this,"MaxWords"));
+                maxMethodWords = Integer.parseInt(configuration.getParameter(this,"maxWords"));
             } catch (final Exception e) {
                 throw new ConfigError("Maximum no of words need to be an integer.");
             }

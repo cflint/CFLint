@@ -524,12 +524,12 @@
                 {
                     "code": "VAR_TOO_SHORT",
                     "severity": "INFO",
-                    "messageText": "Variable ${variable} should be longer than ${MinLength} characters."
+                    "messageText": "Variable ${variable} should be longer than ${minLength} characters."
                 },
                 {
                     "code": "VAR_TOO_LONG",
                     "severity": "INFO",
-                    "messageText": "Variable ${variable} should be shorter than ${MaxLength} characters."
+                    "messageText": "Variable ${variable} should be shorter than ${maxLength} characters."
                 },
                 {
                     "code": "VAR_TOO_WORDY",
@@ -549,27 +549,27 @@
             ],
             "parameter": [
                 {
-                    "name": "MinLength",
+                    "name": "minLength",
                     "value": "3"
                 },
                 {
-                    "name": "MaxLength",
+                    "name": "maxLength",
                     "value": "20"
                 },
                 {
-                    "name": "MaxWords",
+                    "name": "maxWords",
                     "value": "4"
                 },
                 {
-                    "name": "IgnoreUpperCaseScopes",
+                    "name": "ignoreUpperCaseScopes",
                     "value": "CGI,URL"
                 },
                 {
-                    "name": "IgnoreAllCapsInScopes",
+                    "name": "ignoreAllCapsInScopes",
                     "value": "this,variables"
                 },
                 {
-                    "name": "IgnorePrefixPostfixOn",
+                    "name": "ignorePrefixPostfixOn",
                     "value": "thisTag"
                 },
                 {
@@ -600,12 +600,12 @@
                 {
                     "code": "ARGUMENT_TOO_SHORT",
                     "severity": "INFO",
-                    "messageText": "Argument ${variable} should be longer than ${MinLength} characters."
+                    "messageText": "Argument ${variable} should be longer than ${minLength} characters."
                 },
                 {
                     "code": "ARGUMENT_TOO_LONG",
                     "severity": "INFO",
-                    "messageText": "Argument ${variable} should be shorter than ${MaxLength} characters."
+                    "messageText": "Argument ${variable} should be shorter than ${maxLength} characters."
                 },
                 {
                     "code": "ARGUMENT_TOO_WORDY",
@@ -625,15 +625,15 @@
             ],
             "parameter": [
                 {
-                    "name": "MinLength",
+                    "name": "minLength",
                     "value": "3"
                 },
                 {
-                    "name": "MaxLength",
+                    "name": "maxLength",
                     "value": "20"
                 },
                 {
-                    "name": "MaxWords",
+                    "name": "maxWords",
                     "value": "4"
                 },
                 {
@@ -659,12 +659,12 @@
                 {
                     "code": "METHOD_TOO_SHORT",
                     "severity": "INFO",
-                    "messageText": "Method name ${function} should be longer than ${MinLength} characters."
+                    "messageText": "Method name ${function} should be longer than ${minLength} characters."
                 },
                 {
                     "code": "METHOD_TOO_LONG",
                     "severity": "INFO",
-                    "messageText": "Method name ${function} should be shorter than ${MaxLength} characters."
+                    "messageText": "Method name ${function} should be shorter than ${maxLength} characters."
                 },
                 {
                     "code": "METHOD_TOO_WORDY",
@@ -684,15 +684,15 @@
             ],
             "parameter": [
                 {
-                    "name": "MinLength",
+                    "name": "minLength",
                     "value": "3"
                 },
                 {
-                    "name": "MaxLength",
+                    "name": "maxLength",
                     "value": "25"
                 },
                 {
-                    "name": "MaxWords",
+                    "name": "maxWords",
                     "value": "5"
                 },
                 {
@@ -718,12 +718,12 @@
                 {
                     "code": "COMPONENT_TOO_SHORT",
                     "severity": "INFO",
-                    "messageText": "Component name ${component} should be longer than ${MinLength} characters."
+                    "messageText": "Component name ${component} should be longer than ${minLength} characters."
                 },
                 {
                     "code": "COMPONENT_TOO_LONG",
                     "severity": "INFO",
-                    "messageText": "Component name ${component} should be shorter than ${MaxLength} characters."
+                    "messageText": "Component name ${component} should be shorter than ${maxLength} characters."
                 },
                 {
                     "code": "COMPONENT_TOO_WORDY",
@@ -743,15 +743,15 @@
             ],
             "parameter": [
                 {
-                    "name": "MinLength",
+                    "name": "minLength",
                     "value": "3"
                 },
                 {
-                    "name": "MaxLength",
+                    "name": "maxLength",
                     "value": "15"
                 },
                 {
-                    "name": "MaxWords",
+                    "name": "maxWords",
                     "value": "3"
                 },
                 {
@@ -813,7 +813,7 @@
             ],
             "parameter": [
                 {
-                    "name": "UsedTagAttributes",
+                    "name": "usedTagAttributes",
                     "value": [
                         "cfquery/name",
                         "cfloop/index",
@@ -921,19 +921,19 @@
             ],
             "parameter": [
                 {
-                    "name": "Maximum",
+                    "name": "maximum",
                     "value": "3"
                 },
                 {
-                    "name": "MaxWarnings",
+                    "name": "maxWarnings",
                     "value": "5"
                 },
                 {
-                    "name": "WarningScope",
+                    "name": "warningScope",
                     "value": "global"
                 },
                 {
-                    "name": "IgnoreWords",
+                    "name": "ignoreWords",
                     "value": "numeric,text,textnocase,asc,desc,in,out,inout,one,all,bigdecimal,boolean,byte,char,int,long,float,double,short,string,null"
                 }
             ]
@@ -950,19 +950,19 @@
             ],
             "parameter": [
                 {
-                    "name": "Maximum",
+                    "name": "maximum",
                     "value": "3"
                 },
                 {
-                    "name": "MaxWarnings",
+                    "name": "maxWarnings",
                     "value": "5"
                 },
                 {
-                    "name": "WarningScope",
+                    "name": "warningScope",
                     "value": "local"
                 },
                 {
-                    "name": "IgnoreWords",
+                    "name": "ignoreWords",
                     "value": "numeric,text,textnocase,asc,desc,in,out,inout,one,all,bigdecimal,boolean,byte,char,int,long,float,double,short,string,null"
                 }
             ]

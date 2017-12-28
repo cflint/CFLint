@@ -15,7 +15,7 @@
       "line" : 1,
       "message" : "Component name veryLongComponentName is not a valid name. Please use PascalCase and start with a capital letter.",
       "variable" : "",
-      "expression" : "<cfcomponent hint=\"test\" displayName=\"TestComp\">\r\n <cffunction name=\"testFunction\" displayname=\"\" access=\"public\" output=\"false\" returntype=\"void\" hint=\"no close tag\">\r\n </cffunction>\r\n</cfcomponent>"
+      "expression" : "<cfcomponent hint=\"test\" displayName=\"TestComp\">\n <cffunction name=\"testFunction\" displayname=\"\" access=\"public\" output=\"false\" returntype=\"void\" hint=\"no close tag\">\n </cffunction>\n</cfcomponent>"
     } ]
   }, {
     "severity" : "INFO",
@@ -31,7 +31,7 @@
       "line" : 1,
       "message" : "Component name veryLongComponentName should be shorter than 15 characters.",
       "variable" : "",
-      "expression" : "<cfcomponent hint=\"test\" displayName=\"TestComp\">\r\n <cffunction name=\"testFunction\" displayname=\"\" access=\"public\" output=\"false\" returntype=\"void\" hint=\"no close tag\">\r\n </cffunction>\r\n</cfcomponent>"
+      "expression" : "<cfcomponent hint=\"test\" displayName=\"TestComp\">\n <cffunction name=\"testFunction\" displayname=\"\" access=\"public\" output=\"false\" returntype=\"void\" hint=\"no close tag\">\n </cffunction>\n</cfcomponent>"
     } ]
   }, {
     "severity" : "INFO",
@@ -45,9 +45,9 @@
       "function" : "",
       "column" : 0,
       "line" : 1,
-      "message" : "Component name veryLongComponentName is too wordy, can you think of a more concise name?",
+      "message" : "Component name veryLongComponentName is too wordy. Try to think of a more concise name.",
       "variable" : "",
-      "expression" : "<cfcomponent hint=\"test\" displayName=\"TestComp\">\r\n <cffunction name=\"testFunction\" displayname=\"\" access=\"public\" output=\"false\" returntype=\"void\" hint=\"no close tag\">\r\n </cffunction>\r\n</cfcomponent>"
+      "expression" : "<cfcomponent hint=\"test\" displayName=\"TestComp\">\n <cffunction name=\"testFunction\" displayname=\"\" access=\"public\" output=\"false\" returntype=\"void\" hint=\"no close tag\">\n </cffunction>\n</cfcomponent>"
     } ]
   } ],
   "counts" : {

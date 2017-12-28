@@ -82,25 +82,25 @@ public class ComponentNameChecker extends CFLintScannerAdapter {
      * See @ValidName for defaults.
      */
     private void parseParameters(CFLintConfiguration configuration) throws ConfigError {
-        if (configuration.getParameter(this,"MinLength") != null) {
+        if (configuration.getParameter(this,"minLength") != null) {
             try {
-                minComponentLength = Integer.parseInt(configuration.getParameter(this,"MinLength"));
+                minComponentLength = Integer.parseInt(configuration.getParameter(this,"minLength"));
             } catch (final Exception e) {
                 throw new ConfigError("Minimum length need to be an integer.");
             }
         }
 
-        if (configuration.getParameter(this,"MaxLength") != null) {
+        if (configuration.getParameter(this,"maxLength") != null) {
             try {
-                maxComponentLength = Integer.parseInt(configuration.getParameter(this,"MaxLength"));
+                maxComponentLength = Integer.parseInt(configuration.getParameter(this,"maxLength"));
             } catch (final Exception e) {
                 throw new ConfigError("Maximum length need to be an integer.");
             }
         }
 
-        if (configuration.getParameter(this,"MaxWords") != null) {
+        if (configuration.getParameter(this,"maxWords") != null) {
             try {
-                maxComponentWords = Integer.parseInt(configuration.getParameter(this,"MaxWords"));
+                maxComponentWords = Integer.parseInt(configuration.getParameter(this,"maxWords"));
             } catch (final Exception e) {
                 throw new ConfigError("Maximum no of words need to be an integer.");
             }

@@ -470,7 +470,7 @@ Parameters within the rules can be overridden in the .cflintrc files.  Use the r
 ```json
 {
     "parameters" : {
-        "VariableNameChecker.MaxLength": "15"
+        "VariableNameChecker.maxLength": "15"
     }
 }
 ```

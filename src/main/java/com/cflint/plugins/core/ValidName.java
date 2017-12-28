@@ -358,15 +358,15 @@ public class ValidName {
         this.requiredPrefixes = prefixes;
     }
 
-    public void setMinLength(int minLength) {
+    public void setminLength(int minLength) {
         this.minLength = minLength;
     }
 
-    public void setMaxLength(int maxLength) {
+    public void setmaxLength(int maxLength) {
         this.maxLength = maxLength;
     }
 
-    public void setMaxWords(int maxWords) {
+    public void setmaxWords(int maxWords) {
         this.maxWords = maxWords;
     }
 }

@@ -13,7 +13,7 @@
       "function" : "foo",
       "column" : 19,
       "line" : 3,
-      "message" : "Avoid using the isDate built-in function.  It is too permissive.  Using isValid() instead.",
+      "message" : "Avoid using the isDate built-in function.  It is too permissive.  Use isValid() instead.",
       "variable" : "",
       "expression" : "isDate(1.5)"
     } ]

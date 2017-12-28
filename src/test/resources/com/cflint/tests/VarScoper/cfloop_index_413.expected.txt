@@ -15,7 +15,7 @@
       "line" : 2,
       "message" : "Variable idx is not declared with a var statement.",
       "variable" : "idx",
-      "expression" : "<cfloop from=\"0\" to=\"23\" index=\"idx\">\r\n\t\t<cfset xxx = NumberFormat(idx, \"00\")>\r\n\t</cfloop>"
+      "expression" : "<cfloop from=\"0\" to=\"23\" index=\"idx\">\n\t\t<cfset xxx = NumberFormat(idx, \"00\")>\n\t</cfloop>"
     } ]
   }, {
     "severity" : "ERROR",

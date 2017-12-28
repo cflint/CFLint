@@ -2,7 +2,7 @@
   "inheritParent" : true,
   "parameters": 
     {
-      "VariableNameChecker.MinLength": "4",
-      "VariableNameChecker.MaxLength": "15"
+      "VariableNameChecker.minLength": "4",
+      "VariableNameChecker.maxLength": "15"
     }
 }

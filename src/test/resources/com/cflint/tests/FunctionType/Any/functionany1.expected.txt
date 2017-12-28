@@ -13,7 +13,7 @@
       "function" : "x",
       "column" : 11,
       "line" : 3,
-      "message" : "Function x return type is any. Please change to be the correct type.",
+      "message" : "Function x return type is any. Please change to be a more specific type.",
       "variable" : "x",
       "expression" : "public any function x()   {\nx = 123;\n\n  }"
     } ]

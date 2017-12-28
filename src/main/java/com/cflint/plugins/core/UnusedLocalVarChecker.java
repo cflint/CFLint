@@ -122,7 +122,7 @@ public class UnusedLocalVarChecker extends CFLintScannerAdapter {
 
     @SuppressWarnings("unchecked")
     private void checkAttributes(final Element element, final CFLintConfiguration configuration) {
-        for (String tagInfo : (List<String>)configuration.getParameter(this,"UsedTagAttributes", List.class)) {
+        for (String tagInfo : (List<String>)configuration.getParameter(this,"usedTagAttributes", List.class)) {
             final String[] parts = (tagInfo + "//").split("/");
             if (element.getName() != null && parts[0].equalsIgnoreCase(element.getName())) {
                 final String name = element.getAttributeValue(parts[1]);

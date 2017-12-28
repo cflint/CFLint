@@ -22,12 +22,12 @@
         {
           "code": "VAR_TOO_SHORT",
           "severity": "INFO",
-          "messageText": "Variable ${variable} SHORTER THAN ${MinLength}!"
+          "messageText": "Variable ${variable} SHORTER THAN ${minLength}!"
         },
         {
           "code": "VAR_TOO_LONG",
           "severity": "INFO",
-          "messageText" : "Variable ${variable} LONGER THAN ${MaxLength}!"
+          "messageText" : "Variable ${variable} LONGER THAN ${maxLength}!"
         },
         {
           "code": "VAR_TOO_WORDY",
@@ -47,27 +47,27 @@
       ],
       "parameter": [
         {
-          "name": "MinLength",
+          "name": "minLength",
           "value": "4"
         },
         {
-          "name": "MaxLength",
+          "name": "maxLength",
           "value": "15"
         },
         {
-          "name": "MaxWords",
+          "name": "maxWords",
           "value": "5"
         },
         {
-          "name": "IgnoreUpperCaseScopes",
+          "name": "ignoreUpperCaseScopes",
           "value": "CGI,URL,REQUEST"
         },
         {
-          "name": "IgnoreAllCapsInScopes",
+          "name": "ignoreAllCapsInScopes",
           "value": "this,variables,otherscope"
         },
         {
-          "name": "IgnorePrefixPostfixOn",
+          "name": "ignorePrefixPostfixOn",
           "value": "thisTag,thatTag"
         }
       ]

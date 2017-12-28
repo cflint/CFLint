@@ -24,7 +24,7 @@ public class FileCaseChecker extends CFLintScannerAdapter {
                 bugs.add(new BugInfo.BugInfoBuilder().setLine(1).setMessageCode("FILE_SHOULD_START_WITH_LOWERCASE")
                         .setFilename(fileName)
                         .setMessage("File " + actualFileName
-                                + " starts with a upper case letter. Only components (.cfc files) should start with an upper case letter.")
+                                + " starts with an upper case letter. Only components (.cfc files) should start with an upper case letter.")
                         .build());
             }
         }

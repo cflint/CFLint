@@ -20,17 +20,17 @@ public class ArgumentNameChecker extends CFLintScannerAdapter {
     /**
      * Name of minimum length parameter.
      */
-    private static final String MIN_LENGTH = "MinLength";
+    private static final String MIN_LENGTH = "minLength";
 
     /**
      * Name of maximum length parameter.
      */
-    private static final String MAX_LENGTH = "MaxLength";
+    private static final String MAX_LENGTH = "maxLength";
 
     /**
      * Name of maximum words parameter.
      */
-    private static final String MAX_WORDS = "MaxWords";
+    private static final String MAX_WORDS = "maxWords";
 
     /**
      * List of disallowed prefix names.

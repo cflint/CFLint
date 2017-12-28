@@ -139,28 +139,28 @@ public class VariableNameChecker extends CFLintScannerAdapter {
     }
 
     private void parseParameters(final ValidName name, CFLintConfiguration configuration) throws ConfigError {
-        if (configuration.getParameter(this,"MinLength") != null) {
+        if (configuration.getParameter(this,"minLength") != null) {
             try {
-                minVarLength = Integer.parseInt(configuration.getParameter(this,"MinLength"));
-                name.setMinLength(minVarLength);
+                minVarLength = Integer.parseInt(configuration.getParameter(this,"minLength"));
+                name.setminLength(minVarLength);
             } catch (final Exception e) {
                 throw new ConfigError("Minimum length need to be an integer.");
             }
         }
 
-        if (configuration.getParameter(this,"MaxLength") != null) {
+        if (configuration.getParameter(this,"maxLength") != null) {
             try {
-                maxVarLength = Integer.parseInt(configuration.getParameter(this,"MaxLength"));
-                name.setMaxLength(maxVarLength);
+                maxVarLength = Integer.parseInt(configuration.getParameter(this,"maxLength"));
+                name.setmaxLength(maxVarLength);
             } catch (final Exception e) {
                 throw new ConfigError("Maximum length need to be an integer.");
             }
         }
 
-        if (configuration.getParameter(this,"MaxWords") != null) {
+        if (configuration.getParameter(this,"maxWords") != null) {
             try {
-                maxVarWords = Integer.parseInt(configuration.getParameter(this,"MaxWords"));
-                name.setMaxWords(maxVarWords);
+                maxVarWords = Integer.parseInt(configuration.getParameter(this,"maxWords"));
+                name.setmaxWords(maxVarWords);
             } catch (final Exception e) {
                 throw new ConfigError("Maximum no of words need to be an integer.");
             }
@@ -199,10 +199,10 @@ public class VariableNameChecker extends CFLintScannerAdapter {
         if (name.isInvalid(variable,context.getConfiguration().getParameter(this, "case"))) {
             parent.addUniqueMessage("VAR_INVALID_NAME", variable, this, line, offset, cfExpression);
         }
-        if (!scope.isCFScoped(variable) && name.isUpperCase(variable) && !context.getConfiguration().getParameterNotNull(this,"IgnoreAllCapsInScopes").toLowerCase().contains(varScope)) {
+        if (!scope.isCFScoped(variable) && name.isUpperCase(variable) && !context.getConfiguration().getParameterNotNull(this,"ignoreAllCapsInScopes").toLowerCase().contains(varScope)) {
             parent.addUniqueMessage("VAR_ALLCAPS_NAME", variable, this, line, offset, cfExpression);
         }
-        if (scope.isCFScoped(variable) && name.isUpperCase(variable) && !context.getConfiguration().getParameterNotNull(this,"IgnoreUpperCaseScopes").contains(variable)) {
+        if (scope.isCFScoped(variable) && name.isUpperCase(variable) && !context.getConfiguration().getParameterNotNull(this,"ignoreUpperCaseScopes").contains(variable)) {
             parent.addUniqueMessage("SCOPE_ALLCAPS_NAME", variable, this, line, offset, cfExpression);
         }
         if (name.tooShort(variable)) {
@@ -217,7 +217,7 @@ public class VariableNameChecker extends CFLintScannerAdapter {
         if (name.isTemporary(variable)) {
             parent.addUniqueMessage("VAR_IS_TEMPORARY", variable, this, line, offset, cfExpression);
         }
-        if (name.hasPrefixOrPostfix(variable) && !context.getConfiguration().getParameterNotNull(this,"IgnorePrefixPostfixOn").contains(variable)) {
+        if (name.hasPrefixOrPostfix(variable) && !context.getConfiguration().getParameterNotNull(this,"ignorePrefixPostfixOn").contains(variable)) {
             parent.addUniqueMessage("VAR_HAS_PREFIX_OR_POSTFIX", variable, this, line, offset, cfExpression);
         }
     }

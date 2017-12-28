@@ -1,6 +1,9 @@
 package com.cflint.config;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -36,6 +39,7 @@ public class ConfigUtils {
         throw new IllegalStateException("ConfigUtils utility class");
     }
 
+    @Deprecated
     public static Marshaller createMarshaller() throws JAXBException {
         if (CFLintConfigContext == null) {
             init();
@@ -43,6 +47,7 @@ public class ConfigUtils {
         return CFLintConfigContext.createMarshaller();
     }
 
+    @Deprecated
     private static Unmarshaller createUnmarshaller() throws JAXBException {
         if (CFLintConfigContext == null) {
             init();
@@ -50,16 +55,19 @@ public class ConfigUtils {
         return CFLintConfigContext.createUnmarshaller();
     }
 
+    @Deprecated
     protected static synchronized void init() throws JAXBException {
         CFLintConfigContext = JAXBContext.newInstance(CFLintPluginInfo.class, CFLintConfig.class);
     }
 
+    @Deprecated
     public static String marshal(final Object obj) throws JAXBException {
         final StringWriter sw = new StringWriter();
         createMarshaller().marshal(obj, sw);
         return sw.toString();
     }
 
+    @Deprecated
     public static String marshalQuietly(final Object obj) {
         try {
             return marshal(obj);
@@ -69,17 +77,28 @@ public class ConfigUtils {
     }
 
     @SuppressWarnings("unchecked")
+    @Deprecated
     public static <E> E unmarshal(final String xml, final Class<E> expectedClass) throws JAXBException {
         return (E) createUnmarshaller().unmarshal(new StringReader(xml));
     }
 
     @SuppressWarnings("unchecked")
+    @Deprecated
     public static <E> E unmarshal(final InputStream inputStream, final Class<E> expectedClass) throws JAXBException {
         return (E) createUnmarshaller().unmarshal(new InputStreamReader(inputStream));
     }
     
-    public static Object unmarshal(final InputStream inputStream) throws JAXBException {
-        return createUnmarshaller().unmarshal(new InputStreamReader(inputStream));
+    @SuppressWarnings("unchecked")
+    @Deprecated
+    public static <E> E unmarshal(final File xmlFile, final Class<E> expectedClass) throws JAXBException, FileNotFoundException {
+        System.err.println("XML configurations will be removed in the next release.  Convert " + xmlFile.getName() + " to json.");
+        return (E) createUnmarshaller().unmarshal(new InputStreamReader(new FileInputStream(xmlFile)));
+    }
+    
+    @Deprecated
+    public static Object unmarshal(final File xmlFile) throws JAXBException, FileNotFoundException {
+        System.err.println("XML configurations will be removed in the next release.  Convert " + xmlFile.getName() + " to json.");
+        return createUnmarshaller().unmarshal(new InputStreamReader(new FileInputStream(xmlFile)));
     }
 
     public static String marshalJson(final Object obj)

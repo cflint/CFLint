@@ -55,7 +55,7 @@ public class CFLintTask extends Task {
             CFLintConfiguration config = null;
             if (configFile != null) {
                 if (configFile.getName().toLowerCase().endsWith(".xml")) {
-                    config = ConfigUtils.unmarshal(new FileInputStream(configFile), CFLintConfig.class);
+                    config = ConfigUtils.unmarshal(configFile, CFLintConfig.class);
                 } else {
                     config = ConfigUtils.unmarshalJson(new FileInputStream(configFile), CFLintConfig.class);
                 }

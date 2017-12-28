@@ -16,7 +16,7 @@ public class FunctionTypeChecker extends CFLintScannerAdapter {
         if (expression instanceof CFFuncDeclStatement) {
             final CFFuncDeclStatement function = (CFFuncDeclStatement) expression;
             final int begLine = function.getLine();
-            final String functionType = function.getReturnType() == null ? null : function.getReturnType().toString();
+            final String functionType = function.getReturnType() == null ? null : function.getReturnType().Decompile(0);
 
             checkReturnType(functionType, begLine, context, bugs);
         }

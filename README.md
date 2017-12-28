@@ -67,19 +67,19 @@ With the binaries retrieved one or the other way, you can now use CFLint on the 
 
 #### Use the "-all"-version of the jar-file
 
-    CFLint-1.2.1-all.jar
+    CFLint-1.3.0-all.jar
 
 #### Scan a folder with the complete set of rules
 
-    java -jar CFLint-1.2.1-all.jar -folder <baseFolder>
+    java -jar CFLint-1.3.0-all.jar -folder <baseFolder>
 
 #### Scan a file with the complete set of rules:
 
-    java -jar CFLint-1.2.1-all.jar -file <fullPathToFile>
+    java -jar CFLint-1.3.0-all.jar -file <fullPathToFile>
 
 #### See parameters and help
 
-    java -jar CFLint-1.2.1-all.jar -help
+    java -jar CFLint-1.3.0-all.jar -help
 
 # User manual
 
@@ -120,17 +120,20 @@ An example `.cflintrc` file is shown below:
         "code" : "FUNCTION_HINT_MISSING"
     } ],
     "inheritParent" : false,
-    "inheritPlugins" : true
+    "inheritPlugins" : true,
+    "parameters" : {}
 }
 ```
 
-* `rule` allows you add a plugin for this folder that is not listed in the global configuration.  See `ruleImpl` in `cflint.definition.json` for examples.
+* `rule` allows you add a plugin for this folder that is not listed in the global configuration. See `ruleImpl` in `cflint.definition.json` for examples.
 
 * `excludes` and `includes` allow you to specify an array of objects describing rules you want to be applied for this directory and its children. In the example above, the only rule to be checked for will be FUNCTION_HINT_MISSING.
 
 * `inheritParent` configures if the rules set in the global or any parent configuration should be inherited as a base set of rules.
 
-* Please note: `inheritPlugins` and `output` was marked deprecated in CFLint 1.2.0 and removed in 1.3.0. If you are using `.cflintrc` files now, please remove the inheritPlugins and output properties as soon as possible. Plugin inheritance will going forward always be treated as true, the team can not see a use case in which it should be disabled. The value of the output attribute is ignored.
+* `parameters` allows configuration of rule parameters. See `cflint.definition.json` for the parameters and their defaults.
+
+* Please note: `inheritPlugins` and `output` were marked deprecated in CFLint 1.2.0 and will be removed in 1.4.0. If you are using `.cflintrc` files now, please remove the inheritPlugins and output properties as soon as possible. Plugin inheritance will going forward always be treated as true since the team cannot see a use case in which it should be disabled. The value of the output attribute is ignored.
 
 We provide a [schema with the deprecated properties excluded](/src/main/resources/schemas/.cflintrc.schema.json).
 
@@ -447,12 +450,10 @@ The following will ignore all rules in the current folder and below.
 
 ```json
 {
-    "output" : [ ],
     "rule" : [ ],
     "excludes" : [ ],
     "includes" : [ {} ],
     "inheritParent" : false,
-    "inheritPlugins" : true,
     "parameters" : {}
 }
 ```
@@ -466,7 +467,12 @@ This can be simplified using the default values of a `.cflintrc` file:
 }
 ```
 
-Parameters within the rules can be overridden in the .cflintrc files.  Use the rule name and the parameter joined with a dot.
+See the discussion in [Issue #290](https://github.com/cflint/CFLint/issues/290) for more info.
+
+## Configuring a parameter
+
+Parameters within the rules can be overridden in the `.cflintrc` files. Use the rule name and the parameter joined with a dot.
+
 ```json
 {
     "parameters" : {
@@ -474,9 +480,6 @@ Parameters within the rules can be overridden in the .cflintrc files.  Use the r
     }
 }
 ```
-
-
-See the discussion in [Issue #290](https://github.com/cflint/CFLint/issues/290) for more info.
 
 ## Filtering out specific processing results in specific folders
 

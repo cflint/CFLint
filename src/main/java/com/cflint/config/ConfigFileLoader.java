@@ -1,5 +1,6 @@
 package com.cflint.config;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.PrintStream;
 
@@ -20,7 +21,8 @@ public class ConfigFileLoader {
             try {
                 CFLintPluginInfo pluginInfo = null;
                 if (configfile.toLowerCase().endsWith(".xml")) {
-                    final Object configObj = ConfigUtils.unmarshal(new FileInputStream(configfile));
+                    @SuppressWarnings("deprecation")
+                    final Object configObj = ConfigUtils.unmarshal(new File(configfile));
                     if (configObj instanceof CFLintPluginInfo) {
                         pluginInfo = (CFLintPluginInfo) configObj;
                     } else if (configObj instanceof CFLintConfig) {

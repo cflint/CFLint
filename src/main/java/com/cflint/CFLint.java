@@ -213,8 +213,9 @@ public class CFLint implements IErrorReporter {
                         System.out.println("read config " + file);
                     }
                     try {
+                        @SuppressWarnings("deprecation")
                         final CFLintConfig newConfig = file.getName().toLowerCase().endsWith(".xml")
-                                ? ConfigUtils.unmarshal(new FileInputStream(file), CFLintConfig.class)
+                                ? ConfigUtils.unmarshal(file, CFLintConfig.class)
                                 : ConfigUtils.unmarshalJson(new FileInputStream(file), CFLintConfig.class);
                         configFiles.push(newConfig);
                         if (!newConfig.isInheritParent()) {
@@ -249,8 +250,9 @@ public class CFLint implements IErrorReporter {
                             if (verbose) {
                                 System.out.println("read config " + file);
                             }
+                            @SuppressWarnings("deprecation")
                             final CFLintConfiguration newConfig = file.getName().toLowerCase().endsWith(".xml")
-                                    ? ConfigUtils.unmarshal(new FileInputStream(file), CFLintConfig.class)
+                                    ? ConfigUtils.unmarshal(file, CFLintConfig.class)
                                     : ConfigUtils.unmarshalJson(new FileInputStream(file), CFLintConfig.class);
                             configuration = new CFLintChainedConfig(newConfig, configuration);
                         } catch (final Exception e) {

@@ -142,7 +142,7 @@ public class VariableNameChecker extends CFLintScannerAdapter {
         if (configuration.getParameter(this,"minLength") != null) {
             try {
                 minVarLength = Integer.parseInt(configuration.getParameter(this,"minLength"));
-                name.setminLength(minVarLength);
+                name.setMinLength(minVarLength);
             } catch (final Exception e) {
                 throw new ConfigError("Minimum length need to be an integer.");
             }
@@ -151,7 +151,7 @@ public class VariableNameChecker extends CFLintScannerAdapter {
         if (configuration.getParameter(this,"maxLength") != null) {
             try {
                 maxVarLength = Integer.parseInt(configuration.getParameter(this,"maxLength"));
-                name.setmaxLength(maxVarLength);
+                name.setMaxLength(maxVarLength);
             } catch (final Exception e) {
                 throw new ConfigError("Maximum length need to be an integer.");
             }
@@ -160,7 +160,7 @@ public class VariableNameChecker extends CFLintScannerAdapter {
         if (configuration.getParameter(this,"maxWords") != null) {
             try {
                 maxVarWords = Integer.parseInt(configuration.getParameter(this,"maxWords"));
-                name.setmaxWords(maxVarWords);
+                name.setMaxWords(maxVarWords);
             } catch (final Exception e) {
                 throw new ConfigError("Maximum no of words need to be an integer.");
             }

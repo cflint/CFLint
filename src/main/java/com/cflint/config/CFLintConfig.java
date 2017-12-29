@@ -43,7 +43,7 @@ public class CFLintConfig extends BaseConfig {
     @Deprecated
     public void setOutput(final List<ConfigOutput> output) {
         System.err.println(
-                "DEPRECATED: The use of \"output\" have been marked as deprecated in CFLint 1.2.x and support for them will be fully removed in CFLint 1.3.0. Please remove the settings from your configuration file(s). Run CFLint in verbose mode for config file location details.");
+                "DEPRECATED: The use of \"output\" have been marked as deprecated in CFLint 1.2.x and support for them will be fully removed in CFLint 1.4.0. Please remove the settings from your configuration file(s). Run CFLint in verbose mode for config file location details.");
         this.output = output;
     }
     
@@ -117,9 +117,9 @@ public class CFLintConfig extends BaseConfig {
     @XmlAttribute(name = "inheritPlugins")
     @Deprecated
     public void setInheritPlugins(final boolean inheritPlugins) {
-        // #315 --- inheritPlugins can not be overwritten to false in 1.2.0 --- will be fully removed in 1.3.0 (but will then break people's setup if the setting remains in .cflintrc or the xml config
+        // #315 --- inheritPlugins can not be overwritten to false in 1.2.0 --- will be fully removed in 1.4.0 (but will then break people's setup if the setting remains in .cflintrc or the xml config
         System.err.println(
-                "DEPRECATED: The use of \"inheritPlugins\" have been marked as deprecated in CFLint 1.2.x and support for them will be fully removed in CFLint 1.3.0. Please remove the settings from your configuration file(s). Run CFLint in verbose mode for config file location details.");
+                "DEPRECATED: The use of \"inheritPlugins\" have been marked as deprecated in CFLint 1.2.x and support for them will be fully removed in CFLint 1.4.0. Please remove the settings from your configuration file(s). Run CFLint in verbose mode for config file location details.");
         this.inheritPlugins = true;
     }
 

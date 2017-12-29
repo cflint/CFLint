@@ -277,7 +277,7 @@ public class CFLint implements IErrorReporter {
             } catch (final Exception e) {
                 printException(e);
                 if (logError) {
-                    System.out.println("Logging Error: " + FILE_ERROR);
+                    System.err.println("Logging Error: " + FILE_ERROR);
                     fireCFLintException(e, FILE_ERROR, folderOrFile.getAbsolutePath(), null, null, null, null);
                 }
             }

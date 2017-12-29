@@ -5,6 +5,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.nio.charset.Charset;
@@ -38,6 +39,7 @@ import com.cflint.config.ConfigBuilder;
 import com.cflint.config.ConfigUtils;
 import com.cflint.exception.CFLintConfigurationException;
 import com.cflint.exception.CFLintScanException;
+import com.cflint.tools.CFLintDoc;
 import com.cflint.xml.MarshallerException;
 
 public class CFLintCLI {
@@ -68,6 +70,7 @@ public class CFLintCLI {
 
     public static void main(final String[] args) throws Exception {
         final Options options = new Options();
+        options.addOption(Settings.MARKDOWN, false, "generate MarkDown of all supported rules");
         options.addOption(Settings.RULES, false, "list of all supported rules");
         options.addOption(Settings.CONFIG, false, "list of rules in config file");
         options.addOption(Settings.INCLUDE_RULE, true, "specify rules to include");
@@ -144,6 +147,13 @@ public class CFLintCLI {
 
         final CFLintPluginInfo pluginInfo = ConfigUtils.loadDefaultPluginInfo();
         final ConfigBuilder configBuilder = new ConfigBuilder(pluginInfo);
+        if (cmd.hasOption(Settings.MARKDOWN)){
+            final FileWriter out = new FileWriter("RULES.MD");
+            CFLintDoc.generateRuleMarkDown(pluginInfo, new PrintWriter(out));
+            System.err.println("Rules written to RULES.MD");
+            out.close();
+            return;
+        }
         if (cmd.hasOption(Settings.CONFIGFILE)) {
             final String configfile = cmd.getOptionValue(Settings.CONFIGFILE);
             try {
@@ -160,7 +170,7 @@ public class CFLintCLI {
         }
 
         if (cmd.hasOption(Settings.LIST_RULE_GROUPS)) {
-            listRuleGroups(pluginInfo);
+            CFLintDoc.generateRuleGroup(pluginInfo, new PrintWriter(System.out));
             return;
         }
         // Load the codes from the rule groups into the includes list, if rule
@@ -240,33 +250,6 @@ public class CFLintCLI {
         } else {
             final HelpFormatter formatter = new HelpFormatter();
             formatter.printHelp(CFLINT, options);
-        }
-    }
-
-    /**
-     * List the rule groups
-     *
-     * @param pluginInfo
-     */
-    private static void listRuleGroups(final CFLintPluginInfo pluginInfo) {
-        final Map<String, PluginMessage> allCodes = new LinkedHashMap<>();
-        for (final PluginInfoRule rule : pluginInfo.getRules()) {
-            for (final PluginMessage msg : rule.getMessages()) {
-                allCodes.put(msg.getCode(), msg);
-            }
-        }
-        for (final RuleGroup ruleGroup : pluginInfo.getRuleGroups()) {
-            System.out.println("Rule Group : " + ruleGroup.getName());
-            for (final PluginMessage msg : ruleGroup.getMessages()) {
-                System.out.println("\t" + msg.getCode() + " : " + msg.getSeverity());
-                allCodes.remove(msg.getCode());
-            }
-        }
-        if (!allCodes.isEmpty()) {
-            System.out.println("Rule Group : UNASSIGNED");
-            for (final PluginMessage msg : allCodes.values()) {
-                System.out.println("\t" + msg.getCode() + " : " + msg.getSeverity());
-            }
         }
     }
 

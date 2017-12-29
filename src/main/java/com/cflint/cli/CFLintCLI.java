@@ -151,6 +151,7 @@ public class CFLintCLI {
             final FileWriter out = new FileWriter("RULES.MD");
             CFLintDoc.generateRuleMarkDown(pluginInfo, new PrintWriter(out));
             System.err.println("Rules written to RULES.MD");
+            out.close();
             return;
         }
         if (cmd.hasOption(Settings.CONFIGFILE)) {

@@ -27,6 +27,11 @@ public class Settings {
     public static final String RULES = "rules";
 
     /**
+     * Generate MARKDOWN of all supported rules.
+     */
+    public static final String MARKDOWN = "markdown";
+
+    /**
      *  List of rules to currently check for.
      */
     public static final String CONFIG = "config";

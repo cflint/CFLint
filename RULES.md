@@ -302,4 +302,115 @@ List of built-in rules and rule groups
         * Component *variable* has a name attribute, but perhaps you meant to use displayName.
 * GlobalLiteralChecker
     * Parameters
-        * maximum = *
+        * maximum = *3*
+        * maxWarnings = *5*
+        * warningScope = *global*
+        * ignoreWords = *numeric,text,textnocase,asc,desc,in,out,inout,one,all,bigdecimal,boolean,byte,char,int,long,float,double,short,string,null*
+    * GLOBAL_LITERAL_VALUE_USED_TOO_OFTEN -   *WARNING*
+        * Literal *variable* occurs several times in one or more files. Consider giving it a name and not hard coding values.
+* LocalLiteralChecker
+    * Parameters
+        * maximum = *3*
+        * maxWarnings = *5*
+        * warningScope = *local*
+        * ignoreWords = *numeric,text,textnocase,asc,desc,in,out,inout,one,all,bigdecimal,boolean,byte,char,int,long,float,double,short,string,null*
+    * LOCAL_LITERAL_VALUE_USED_TOO_OFTEN -   *WARNING*
+        * Literal *variable* occurs several times in the same file. Consider giving it a name and not hard coding values.
+* PackageCaseChecker
+    * PACKAGE_CASE_MISMATCH - Warn with package case does not match its use.  *WARNING*
+        * The case of the package folder and the object declaration do not match for *variable*.
+## Rule Groups
+### BugProne
+ * ARG_VAR_CONFLICT   *ERROR*
+ * NO_DEFAULT_INSIDE_SWITCH   *WARNING*
+ * NESTED_CFOUTPUT   *ERROR*
+ * OUTPUT_ATTR   *INFO*
+ * MISSING_VAR   *ERROR*
+ * COMPARE_INSTEAD_OF_ASSIGN   *WARNING*
+ * AVOID_USING_ISDATE   *WARNING*
+### Correctness
+ * ARG_DEFAULT_MISSING   *WARNING*
+ * ARG_TYPE_ANY   *WARNING*
+ * ARG_TYPE_MISSING   *WARNING*
+ * ARG_VAR_MIXED   *INFO*
+ * QUERYNEW_DATATYPE   *WARNING*
+ * UNUSED_LOCAL_VARIABLE   *INFO*
+ * UNUSED_METHOD_ARGUMENT   *INFO*
+ * UNQUOTED_STRUCT_KEY   *WARNING*
+ * STRUCT_ARRAY_NOTATION   *WARNING*
+ * USE_DISPLAY_NAME   *INFO*
+### BadPractice
+ * AVOID_USING_ABORT   *INFO*
+ * AVOID_USING_CFABORT_TAG   *INFO*
+ * AVOID_USING_CFDUMP_TAG   *WARNING*
+ * AVOID_USING_CFEXECUTE_TAG   *WARNING*
+ * AVOID_USING_CFINSERT_TAG   *WARNING*
+ * AVOID_USING_CFMODULE_TAG   *WARNING*
+ * AVOID_USING_CFUPDATE_TAG   *WARNING*
+ * AVOID_USING_WRITEDUMP   *INFO*
+ * GLOBAL_LITERAL_VALUE_USED_TOO_OFTEN   *WARNING*
+ * GLOBAL_VAR   *WARNING*
+ * LOCAL_LITERAL_VALUE_USED_TOO_OFTEN   *WARNING*
+ * SQL_SELECT_STAR   *WARNING*
+ * AVOID_USING_DEBUG_ATTR   *WARNING*
+ * AVOID_USING_CFSETTING_DEBUG   *WARNING*
+ * AVOID_USING_CFINCLUDE_TAG   *WARNING*
+ * AVOID_USING_ISDEBUGMODE   *WARNING*
+### Security
+ * CFQUERYPARAM_REQ   *WARNING*
+ * QUERYPARAM_REQ   *WARNING*
+### CodeStyle
+ * ARG_HINT_MISSING   *INFO*
+ * COMPONENT_HINT_MISSING   *WARNING*
+ * FUNCTION_HINT_MISSING   *INFO*
+ * FUNCTION_TYPE_ANY   *INFO*
+ * FUNCTION_TYPE_MISSING   *WARNING*
+ * ARG_HINT_MISSING_SCRIPT   *INFO*
+### ModernSyntax
+ * AVOID_USING_ARRAYNEW   *INFO*
+ * AVOID_USING_STRUCTNEW   *INFO*
+ * AVOID_USING_CREATEOBJECT   *INFO*
+### Complexity
+ * COMPLEX_BOOLEAN_CHECK   *WARNING*
+ * EXCESSIVE_FUNCTIONS   *WARNING*
+ * EXCESSIVE_ARGUMENTS   *WARNING*
+ * EXPLICIT_BOOLEAN_CHECK   *INFO*
+ * EXCESSIVE_COMPONENT_LENGTH   *WARNING*
+ * EXCESSIVE_FUNCTION_LENGTH   *WARNING*
+ * FUNCTION_TOO_COMPLEX   *WARNING*
+### Naming
+ * METHOD_HAS_PREFIX_OR_POSTFIX   *INFO*
+ * METHOD_INVALID_NAME   *INFO*
+ * METHOD_IS_TEMPORARY   *INFO*
+ * METHOD_TOO_SHORT   *INFO*
+ * METHOD_TOO_LONG   *INFO*
+ * METHOD_TOO_WORDY   *INFO*
+ * VAR_ALLCAPS_NAME   *INFO*
+ * VAR_HAS_PREFIX_OR_POSTFIX   *INFO*
+ * VAR_INVALID_NAME   *INFO*
+ * VAR_IS_TEMPORARY   *INFO*
+ * VAR_TOO_SHORT   *INFO*
+ * VAR_TOO_LONG   *INFO*
+ * VAR_TOO_WORDY   *INFO*
+ * SCOPE_ALLCAPS_NAME   *INFO*
+ * ARGUMENT_MISSING_NAME   *INFO*
+ * ARGUMENT_INVALID_NAME   *INFO*
+ * ARGUMENT_ALLCAPS_NAME   *INFO*
+ * ARGUMENT_TOO_SHORT   *INFO*
+ * ARGUMENT_TOO_LONG   *INFO*
+ * ARGUMENT_TOO_WORDY   *INFO*
+ * ARGUMENT_IS_TEMPORARY   *INFO*
+ * ARGUMENT_HAS_PREFIX_OR_POSTFIX   *INFO*
+ * METHOD_ALLCAPS_NAME   *INFO*
+ * COMPONENT_INVALID_NAME   *INFO*
+ * COMPONENT_ALLCAPS_NAME   *INFO*
+ * COMPONENT_TOO_SHORT   *INFO*
+ * COMPONENT_TOO_LONG   *INFO*
+ * COMPONENT_TOO_WORDY   *INFO*
+ * COMPONENT_IS_TEMPORARY   *INFO*
+ * COMPONENT_HAS_PREFIX_OR_POSTFIX   *INFO*
+ * PACKAGE_CASE_MISMATCH   *WARNING*
+### Experimental
+ * NEVER_USE_QUERY_IN_CFM   **
+ * FILE_SHOULD_START_WITH_LOWERCASE   *INFO*
+

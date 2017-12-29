@@ -1,12 +1,12 @@
 ARG_DEFAULT_MISSING:Optional argument is missing a default value.
-ARG_VAR_CONFLICT:Variable declared in both var and argument scopes.
+ARG_VAR_CONFLICT:Variable declared in both local and argument scopes.
 ARG_VAR_MIXED:Variable referenced in local and argument scopes.
 NO_DEFAULT_INSIDE_SWITCH:Missing default switch statement.
-GLOBAL_VAR:Global varibale exists.
+GLOBAL_VAR:Global variable exists.
 NESTED_CFOUTPUT:Nexted cfoutput with cfquery tag.
 OUTPUT_ATTR:Tag should have output='false'.
 QUERYPARAM_REQ:SetSql() statement should use .addParam().
-CFQUERYPARAM_REQ:Cfquery should use <cfqueryparam>.
+CFQUERYPARAM_REQ:cfquery should use <cfqueryparam>.
 QUERYNEW_DATATYPE:QueryNew statement should specify datatypes.
 MISSING_VAR:Variable is not declared with a var statement.
 AVOID_USING_CFDUMP_TAG:Avoid use of cfdump tags.
@@ -17,24 +17,24 @@ AVOID_USING_CFINSERT_TAG:Avoid use of cfinsert tags.
 AVOID_USING_CFMODULE_TAG:Avoid use of cfmodule tags.
 AVOID_USING_CFUPDATE_TAG:Avoid use of cfupdate tags.
 AVOID_USING_CFINCLUDE_TAG:Avoid use of cfinclude tags.
-COMPONENT_HINT_MISSING:Component is misisng a hint.
-FUNCTION_HINT_MISSING:Function is misisng a hint.
-ARG_HINT_MISSING:Argument is misisng a hint.
-ARG_TYPE_MISSING:Component is misisng a type.
+COMPONENT_HINT_MISSING:Component is missing a hint.
+FUNCTION_HINT_MISSING:Function is missing a hint.
+ARG_HINT_MISSING:Argument is missing a hint.
+ARG_TYPE_MISSING:Component is missing a type.
 ARG_TYPE_ANY:Component is of type any.
 EXCESSIVE_FUNCTION_LENGTH:Method is too long.
 EXCESSIVE_COMPONENT_LENGTH:Component is too long.
-FUNCTION_TYPE_MISSING:Function is misisng a return type.
+FUNCTION_TYPE_MISSING:Function is missing a return type.
 FUNCTION_TYPE_ANY:Function has a return type of any.
 EXCESSIVE_ARGUMENTS:Function has too many arguments.
 EXCESSIVE_FUNCTIONS:Too many functions.
 FUNCTION_TOO_COMPLEX:Function is too complex.
 AVOID_USING_WRITEDUMP:Avoid use of writedump statements.
-AVOID_USING_STRUCTNEW:Avoid use of structnew statements. Use {} instread.
+AVOID_USING_STRUCTNEW:Avoid use of structnew statements. Use {} instead.
 AVOID_USING_ISDEBUGMODE:Avoid use of isdebugmode statements.
 AVOID_USING_ARRAYNEW:Avoid use of arraynew statements. Use [] instead.
 COMPLEX_BOOLEAN_CHECK:Complex boolean expression.
-EXPLICIT_BOOLEAN_CHECK:Checking boolean expession explicitly.
+EXPLICIT_BOOLEAN_CHECK:Checking boolean expression explicitly.
 VAR_INVALID_NAME:Variable has invalid name.
 VAR_ALLCAPS_NAME:Variable name is allcaps.
 SCOPE_ALLCAPS_NAME:Variable scope name is allcaps.

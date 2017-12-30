@@ -333,7 +333,7 @@ public class CFLintCLI {
 
     private boolean isValid() {
         if (folder.isEmpty() && !stdIn) {
-            System.err.println("Set -folder or -stdin");
+            System.err.println("Set -folder or -stdin to use CFLint");
             return false;
         }
         return true;

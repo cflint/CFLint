@@ -1,14 +1,17 @@
 
 buildscript {
-     repositories {
-         mavenLocal()
-         jcenter {
+    repositories {
+        mavenLocal()
+        jcenter {
             url "http://jcenter.bintray.com/"
         }
-        maven { url "http://oss.sonatype.org/content/repositories/snapshots/" 
+        maven {
+            url "http://oss.sonatype.org/content/repositories/snapshots/"
+        }
+        maven {
             url "https://plugins.gradle.org/m2/"
         }
-     }
+    }
      dependencies {
          classpath 'com.bmuschko:gradle-nexus-plugin:2.3'
          classpath "io.codearte.gradle.nexus:gradle-nexus-staging-plugin:0.5.3"
@@ -94,6 +97,7 @@ task fatJar(type: Jar) {
 artifacts {
     archives fatJar
 }
+
 task gitChangelogTask(type: se.bjurr.gitchangelog.plugin.gradle.GitChangelogTask) {
     file = new File("CHANGELOG.md");
     templateContent = file('src/main/resources/changelog.mustache').getText('UTF-8');

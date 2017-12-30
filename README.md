@@ -481,10 +481,7 @@ Parameters within the rules can be overridden in the `.cflintrc` files. Use the 
 
 ## Filtering out specific processing results in specific folders
 
-Supply a `cflintexclude.json` file in ???
----TO DO START
-Where would such a file go?
----TO DO END
+Supply a `cflintexclude.json` file in the classpath
 
 ### Examples
 

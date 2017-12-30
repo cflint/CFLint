@@ -91,7 +91,7 @@ The simplest options for executing CFLint is via the command line. CFLint curren
 
 ## Configuration
 
-Alternatively to the command line, you can supply a global configuration via the `-configfile` switch or put `.cflintrc` files into certain directories. Configuring CFLint this way conceptually allows you to run specific rules in specific parts of your application.
+Alternatively to the command line, you can put `.cflintrc` files into certain directories. Configuring CFLint this way conceptually allows you to run specific rules in specific parts of your application.
 
 CFLint currently supports JSON- and XML-based configuration. XML-based configuration is deprecated in CFLint 1.3.0 and will be removed in CFLint 2.0.
 
@@ -101,9 +101,7 @@ When CFLint executes, it scans and parses your code (using CFParser). The syntax
 
 ### Global configuration
 
-The `-configfile` options can be used to replace the standard global configuration file.
-
-The standard configuration is [`/src/main/resources/cflint.definition.json`](/src/main/resources/cflint.definition.json). Common usage of CFLint usually does not require replacing this file.
+The default and global configuration file is [`/src/main/resources/cflint.definition.json`](/src/main/resources/cflint.definition.json). Common usage of CFLint usually does not require replacing this file.
 
 ### Folder-based configuration
 
@@ -182,7 +180,7 @@ to ignore a rule violation on the next line.
 Configuration of which plugins are run and which rules are included starts with the global configuration and flows through the command line parameters, folder level rules, and down to the annotations within the source.
 
 * global configuration
-* custom configuration file  (`-configfile`)
+* custom configuration file  (`-configfile`, we do **not** encourage this option to be used in day-to-day operations of CFLint)
 * rule groups (`-rulegroups`,  default behavior is --rulegroups !Experimental)
 * includes/excludes from the command line (`-includeRule` and `-excludeRule`)
 * .cflintrc - folder level configuration, mostly for including/excluding specific messages
@@ -204,9 +202,9 @@ The flag `-xml` instructs CFLint to create XML. There are two options for XML re
 
 The first option is what we call CFLint XML. It's an internal format that adheres to a basic schema provided [here](/src/main/resources/schemas/cflint-result.xsd). You could then use this format as-is or to do further processing of your choice.
 
-The seconds option is FindBugs XML. The resulting XML document adheres to the current version of the FindBugs BugCollection [XML Schema Definition](src/main/resources/findbugs/bugcollection.xsd) and can be used in most CI-/Build-Server products. JetBrains TeamCity 10+ can import this format out of the box.
+The second option is FindBugs XML. The resulting XML document adheres to the current version of the FindBugs BugCollection [XML Schema Definition](src/main/resources/findbugs/bugcollection.xsd) and can be used in most CI-/Build-Server products. JetBrains TeamCity 10+ can import this format out of the box.
 
-*Please note*: Currently it's not possible to produce BOTH flavours of XML reports at the same time. This is a known limitation. If you feel this hinders your use of CFLint, please raise an issue.
+*Please note*: Currently it's not possible to produce BOTH flavours of XML reports at the same time. This is a known limitation. This limitation will be removed as part of CFLint 2.0 (see [Issue #331](https://github.com/cflint/CFLint/issues/331)).
 
 #### CFLint XML
 
@@ -326,7 +324,7 @@ Example of plain text output:
 
     Issue counts:1
     CFQUERYPARAM_REQ:4
-
+ 
     Total issues:4
     Total warnings:4
 
@@ -337,7 +335,7 @@ To interact directly with CFLint within the JVM use the CFLint API.
 ```java
 import com.cflint.api.CFLintAPI;
 import com.cflint.api.CFLintResult;
-
+ 
 CFLintAPI api = new CFLintAPI();
 CFLintResult result = api.scan(filename);
 String jsonResult = result.getJSON();
@@ -530,3 +528,5 @@ Please note that the majority of the libraries and projects mentioned here are n
 * [SonarQube plugin](https://github.com/stepstone-tech/sonar-coldfusion)
 * [NPM wrapper](https://github.com/morgdenn/npm-cflint)
 * Vim [Syntastic support for CFLint](https://github.com/cflint/cflint-syntastic)
+
+If you have been working on (or are thinking about starting) a project related to CFLint, please let us know. We're happy to include relevant third-party projects to the list above.

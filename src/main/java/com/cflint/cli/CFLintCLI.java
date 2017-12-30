@@ -65,6 +65,7 @@ public class CFLintCLI {
         final Options commandOptions = new Options();
         final Options helpOptions = new Options();
 
+        // documented
         Option optionMARKDOWN = new Option(Settings.MARKDOWN, false, "generate MarkDown of all supported rules");
         Option optionRULES = new Option(Settings.RULES, false, "list of all supported rules");
         Option optionCONFIG = new Option(Settings.CONFIG, false, "list of rules in config file");
@@ -100,10 +101,10 @@ public class CFLintCLI {
         Option optionLIST_RULE_GROUPS = new Option(Settings.LIST_RULE_GROUPS, false, "list rule groups");
         Option optionRULE_GROUPS = new Option(Settings.RULE_GROUPS, true, "rule groups");
 
-
+        // undocumented
         Option optionCONFIGFILE = new Option(Settings.CONFIGFILE, true, "specify the location of the config file");
 
-        // Suported options
+        // supported options
         commandOptions.addOption(optionMARKDOWN)
                         .addOption(optionRULES)
                         .addOption(optionCONFIG)
@@ -140,7 +141,7 @@ public class CFLintCLI {
                         .addOption(optionRULE_GROUPS)
                         .addOption(optionCONFIGFILE);
 
-        // Documented options
+        // documented options for HelpFormatter
         helpOptions.addOption(optionMARKDOWN)
                         .addOption(optionRULES)
                         .addOption(optionCONFIG)

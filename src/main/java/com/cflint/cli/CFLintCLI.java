@@ -44,6 +44,7 @@ import com.cflint.xml.MarshallerException;
 
 public class CFLintCLI {
     private static final String CFLINT = "cflint";
+    private static final String CFLINT_USAGE = "java -jar CFLint-" + Version.getVersion() + "-all.jar";
     private static final String FINDBUGS = "findbugs";
     private static final String DISPLAY_THIS_HELP = "display this help";
 
@@ -114,7 +115,7 @@ public class CFLintCLI {
 
         if (cmd.hasOption(Settings.H) || cmd.hasOption(Settings.HELP) || cmd.hasOption(Settings.QUESTION_MARK)) {
             final HelpFormatter formatter = new HelpFormatter();
-            formatter.printHelp(CFLINT, options);
+            formatter.printHelp(CFLINT_USAGE, options);
             return;
         }
         if (cmd.hasOption(Settings.VERSION)) {
@@ -249,7 +250,7 @@ public class CFLintCLI {
             main.execute(configBuilder.build());
         } else {
             final HelpFormatter formatter = new HelpFormatter();
-            formatter.printHelp(CFLINT, options);
+            formatter.printHelp(CFLINT_USAGE, options);
         }
     }
 

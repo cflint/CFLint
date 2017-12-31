@@ -1,25 +1,54 @@
-
 buildscript {
-     repositories {
-         mavenLocal()
-         jcenter {
+    repositories {
+        mavenLocal()
+        jcenter {
             url "http://jcenter.bintray.com/"
         }
-        maven { url "http://oss.sonatype.org/content/repositories/snapshots/" 
+        maven {
+            url "http://oss.sonatype.org/content/repositories/snapshots/"
+        }
+        maven {
             url "https://plugins.gradle.org/m2/"
         }
-     }
-     dependencies {
-         classpath 'com.bmuschko:gradle-nexus-plugin:2.3'
-         classpath "io.codearte.gradle.nexus:gradle-nexus-staging-plugin:0.5.3"
-      classpath "gradle.plugin.se.bjurr.gitchangelog:git-changelog-gradle-plugin:1.50"
-   }
- }
+    }
+    dependencies {
+        classpath 'com.bmuschko:gradle-nexus-plugin:2.3'
+        classpath "io.codearte.gradle.nexus:gradle-nexus-staging-plugin:0.5.3"
+        classpath "gradle.plugin.se.bjurr.gitchangelog:git-changelog-gradle-plugin:1.50"
+    }
+}
 
 plugins {
-  id 'java'
-  id 'com.github.johnrengelman.shadow' version '1.2.4'
-  id 'eclipse'
+    id 'java'
+    id 'com.github.johnrengelman.shadow' version '1.2.4'
+    id 'eclipse'
+}
+
+// Helper functions and constants
+def getLatestTag = { ->
+    try {
+        def stdout = new ByteArrayOutputStream()
+
+        String osName = System.getProperty('os.name').toLowerCase();
+
+        if (osName.contains('win')) {
+            //exec {
+            //    commandLine 'cmd', '/c', 'hg.exe', 'parent', '--template', '{rev}'
+            //    standardOutput = stdout
+            //}
+        } else if (osName.contains('mac')) {
+            exec {
+                commandLine "src/main/resources/scripts/getLatestTag.sh"
+                standardOutput = stdout
+            }
+        }
+        return stdout.toString()
+    }
+    catch (ignored) {
+        print("fail")
+        println(ignored.toString())
+        throw new GradleException('Git command to find latest tag failed')
+    }
 }
 
 apply plugin: "base"
@@ -43,21 +72,21 @@ repositories {
     maven { url "http://cfmlprojects.org/artifacts" }
 }
 dependencies {
-    compile group: 'com.github.cfparser', name: 'cfml.parsing', version:'2.6.0'
-    compile group: 'commons-cli', name: 'commons-cli', version:'1.2'
-    compile group: 'ro.fortsoft.pf4j', name: 'pf4j', version:'0.6'
-    compile group: 'ant', name: 'ant', version:'1.7.0'
-    compile group: 'com.sun.xml.bind', name: 'jaxb-impl', version:'2.1.8'
-    compile group: 'com.fasterxml.jackson.core', name: 'jackson-core', version:'2.8.6'
-    compile group: 'com.fasterxml.jackson.module', name: 'jackson-module-jaxb-annotations', version:'2.8.6'
-    compile (group: 'net.java.dev.stax-utils', name: 'stax-utils', version: '20070216'){
+    compile group: 'com.github.cfparser', name: 'cfml.parsing', version: '2.6.0'
+    compile group: 'commons-cli', name: 'commons-cli', version: '1.2'
+    compile group: 'ro.fortsoft.pf4j', name: 'pf4j', version: '0.6'
+    compile group: 'ant', name: 'ant', version: '1.7.0'
+    compile group: 'com.sun.xml.bind', name: 'jaxb-impl', version: '2.1.8'
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.8.6'
+    compile group: 'com.fasterxml.jackson.module', name: 'jackson-module-jaxb-annotations', version: '2.8.6'
+    compile(group: 'net.java.dev.stax-utils', name: 'stax-utils', version: '20070216') {
         exclude module: 'jsr173-ri'
         exclude module: 'jsr173'
     }
     // https://mvnrepository.com/artifact/commons-io/commons-io
     compile group: 'commons-io', name: 'commons-io', version: '2.5'
 
-    testCompile group: 'junit', name: 'junit', version:'4.12'
+    testCompile group: 'junit', name: 'junit', version: '4.12'
 }
 
 test {
@@ -70,31 +99,45 @@ test {
 }
 
 jar {
-  manifest {
-    attributes(
-      'Main-Class': 'com.cflint.cli.CFLintCLI',
-      'Implementation-Version': version,
-    )
-  }
+    manifest {
+        attributes(
+            'Main-Class': 'com.cflint.cli.CFLintCLI',
+            'Implementation-Version': version,
+        )
+    }
 }
 
 task fatJar(type: Jar) {
-  manifest.from jar.manifest
-  classifier = 'all'
-  from {
-    configurations.runtime.collect { it.isDirectory() ? it : zipTree(it) }
-  } {
+    manifest.from jar.manifest
+    classifier = 'all'
+    from {
+        configurations.runtime.collect { it.isDirectory() ? it : zipTree(it) }
+    } {
         exclude "META-INF/*.SF"
         exclude "META-INF/*.DSA"
         exclude "META-INF/*.RSA"
-  }
-  with jar
+    }
+    with jar
 }
 
 artifacts {
     archives fatJar
 }
-task gitChangelogTask(type: se.bjurr.gitchangelog.plugin.gradle.GitChangelogTask) {
+
+task gitChangelog(type: se.bjurr.gitchangelog.plugin.gradle.GitChangelogTask) {
+    group "documentation"
+
     file = new File("CHANGELOG.md");
     templateContent = file('src/main/resources/changelog.mustache').getText('UTF-8');
 }
+
+task githubChangelogGenerator {
+    group "documentation"
+
+    doLast {
+        def latestTag = getLatestTag()
+        def p = ['src/main/resources/scripts/writeChangelog.sh', latestTag].execute()
+        println p.text
+    }
+}
+

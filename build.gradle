@@ -24,6 +24,33 @@ plugins {
     id 'eclipse'
 }
 
+// Helper functions and constants
+def getLatestTag = { ->
+    try {
+        def stdout = new ByteArrayOutputStream()
+
+        String osName = System.getProperty('os.name').toLowerCase();
+
+        if (osName.contains('win')) {
+            //exec {
+            //    commandLine 'cmd', '/c', 'hg.exe', 'parent', '--template', '{rev}'
+            //    standardOutput = stdout
+            //}
+        } else if (osName.contains('mac')) {
+            exec {
+                commandLine "src/main/resources/scripts/getLatestTag.sh"
+                standardOutput = stdout
+            }
+        }
+        return stdout.toString()
+    }
+    catch (ignored) {
+        print("fail")
+        println(ignored.toString())
+        throw new GradleException('Git command to find latest tag failed')
+    }
+}
+
 apply plugin: "base"
 apply plugin: "signing"
 apply plugin: "com.bmuschko.nexus"
@@ -80,6 +107,7 @@ jar {
 }
 
 task fatJar(type: Jar) {
+
     manifest.from jar.manifest
     classifier = 'all'
     from {
@@ -96,7 +124,19 @@ artifacts {
     archives fatJar
 }
 
-task gitChangelogTask(type: se.bjurr.gitchangelog.plugin.gradle.GitChangelogTask) {
+task gitChangelog(type: se.bjurr.gitchangelog.plugin.gradle.GitChangelogTask) {
+    group "documentation"
+
     file = new File("CHANGELOG.md");
     templateContent = file('src/main/resources/changelog.mustache').getText('UTF-8');
+}
+
+task githubChangelogGenerator {
+    group "documentation"
+
+    doLast {
+        def latestTag = getLatestTag()
+        def p = ['src/main/resources/scripts/writeChangelog.sh', latestTag].execute()
+        println p.text
+    }
 }

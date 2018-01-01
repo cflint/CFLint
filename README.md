@@ -6,7 +6,7 @@ A static code analysis tool for CFML.
 
 License: [BSD](http://www.opensource.org/licenses/bsd-license.html)
 
-Current Version: 1.3.0 (MMM dd yyyy)
+Current Version: 1.3.0 (Dec 31 2017)
 
 # Versions
 
@@ -49,7 +49,7 @@ If you want to use CFLint from within another Maven project, use:
 <dependency>
     <groupId>com.github.cflint</groupId>
     <artifactId>CFLint</artifactId>
-    <version>1.2.1</version>
+    <version>1.3.0</version>
 </dependency>
 ```
 

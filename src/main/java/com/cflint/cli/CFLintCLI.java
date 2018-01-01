@@ -54,7 +54,7 @@ public class CFLintCLI {
     private String htmlOutFile = "cflint-result.html";
     private String htmlStyle = "plain.xsl";
     private String jsonOutFile = "cflint-result.json";
-    private String textOutFile = null;
+    private String textOutFile = "cflint-result.txt";
     private String extensions;
     private Boolean stdIn = false;
     private String stdInFile = "source.cfc";
@@ -364,9 +364,8 @@ public class CFLintCLI {
             }
         }
         if (textOutput) {
-            try (final Writer textwriter = stdOut || textOutFile == null ? new OutputStreamWriter(System.out)
-                    : new FileWriter(textOutFile)) {
-                if (textOutFile != null && verbose) {
+            try (final Writer textwriter = stdOut ? new OutputStreamWriter(System.out) : new FileWriter(textOutFile)) {
+                if (verbose) {
                     display("Writing text" + (stdOut ? "." : " to " + textOutFile));
                 }
                 lintResult.writeText(textwriter);

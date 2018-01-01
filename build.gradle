@@ -136,7 +136,13 @@ task githubChangelogGenerator {
 
     doLast {
         def latestTag = getLatestTag()
-        def p = ['src/main/resources/scripts/writeChangelog.sh', latestTag].execute()
+
+        def props = new Properties()
+        props.load(new FileInputStream("user.properties"))
+        def changelogBinary = props.getProperty("user.githubChanglogGeneratorBinary")
+        def githubToken = props.getProperty("user.githubToken")
+
+        def p = ['src/main/resources/scripts/writeChangelog.sh', changelogBinary, githubToken, latestTag].execute()
         println p.text
     }
 }

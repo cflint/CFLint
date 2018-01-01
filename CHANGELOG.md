@@ -1,9 +1,54 @@
-﻿
+﻿## [CFLint-1.3.0](https://github.com/cflint/CFLint/tree/CFLint-1.3.0) (2017-12-31)
+[Full Changelog](https://github.com/cflint/CFLint/compare/CFLint-1.3.0-RC2...CFLint-1.3.0)
 
-# CHANGE LOG
+### Overview and major changes in [CFLint 1.3.0](https://github.com/cflint/CFLint/tree/CFLint1.3.0)
 
-## [CFLint-1.3.0](https://github.com/cflint/CFLint/tree/CFLint-1.3.0) (2017-12-28)
-[Full Changelog](https://github.com/cflint/CFLint/compare/CFLint-1.3.0-RC1...CFLint-1.3.0)
+#### Linting
+
+* Bugfixes for rule processing
+* Fixes around NPEs being thrown during linting
+* Improvements around handling Lucee vs. Adobe CFScript syntax
+* Improvements and fixes with ignoring code (lines and blocks in mixed tag/script code)
+
+#### Output
+
+* Output of some rules has been improved and fixed
+* Internal changes for output processing
+* Timestamp issues in XML output sorted
+* Ducumentation for output schemas
+
+#### Internal
+
+* Offset is now part of the BugInfo object
+* Code quality / Java linting improvements
+* CFLint Constants live in the own file now
+* First implementation of a Java API for third-party tools
+
+### Details
+
+**Implemented enhancements:**
+
+- Make variable, argument naming etc. configurable [\#492](https://github.com/cflint/CFLint/issues/492)
+- Investigate and document rule inclusion/exclusion process and precedences [\#314](https://github.com/cflint/CFLint/issues/314)
+
+**Fixed bugs:**
+
+- thisTag is showing an warning [\#479](https://github.com/cflint/CFLint/issues/479)
+- false positive MISSING\_VAR with cfdocumentsection name [\#462](https://github.com/cflint/CFLint/issues/462)
+
+**Closed issues:**
+
+- Suggestion : Un-document the -configfile parameter.   [\#507](https://github.com/cflint/CFLint/issues/507)
+- README: make sure ppl know we 're happy to add links to their related projects [\#411](https://github.com/cflint/CFLint/issues/411)
+
+**Merged pull requests:**
+
+- 382 gradle changelog automation [\#512](https://github.com/cflint/CFLint/pull/512) ([TheRealAgentK](https://github.com/TheRealAgentK))
+- 507 undocument configfile [\#511](https://github.com/cflint/CFLint/pull/511) ([TheRealAgentK](https://github.com/TheRealAgentK))
+- Updated README and schema in response to parameters [\#508](https://github.com/cflint/CFLint/pull/508) ([KamasamaK](https://github.com/KamasamaK))
+
+## [CFLint-1.3.0-RC2](https://github.com/cflint/CFLint/tree/CFLint-1.3.0-RC2) (2017-12-28)
+[Full Changelog](https://github.com/cflint/CFLint/compare/CFLint-1.3.0-RC1...CFLint-1.3.0-RC2)
 
 **Implemented enhancements:**
 

@@ -11,3 +11,4 @@
 /.gradle/
 *.iml
 .scannerwork
+user.properties

@@ -66,6 +66,7 @@ import cfml.parsing.cfscript.CFFunctionExpression;
 import cfml.parsing.cfscript.CFIdentifier;
 import cfml.parsing.cfscript.CFLiteral;
 import cfml.parsing.cfscript.CFMember;
+import cfml.parsing.cfscript.CFNewExpression;
 import cfml.parsing.cfscript.CFStatement;
 import cfml.parsing.cfscript.CFStringExpression;
 import cfml.parsing.cfscript.CFStructElementExpression;
@@ -276,7 +277,7 @@ public class CFLint implements IErrorReporter {
             } catch (final Exception e) {
                 printException(e);
                 if (logError) {
-                    System.out.println("Logging Error: " + FILE_ERROR);
+                    System.err.println("Logging Error: " + FILE_ERROR);
                     fireCFLintException(e, FILE_ERROR, folderOrFile.getAbsolutePath(), null, null, null, null);
                 }
             }
@@ -1131,8 +1132,9 @@ public class CFLint implements IErrorReporter {
                         }
                     }
                 }
-            } else {
+            } else if (!(expression instanceof CFNewExpression)){
                 // Loop into all relevant nested (child) expressions.
+                //  EXCEPT CFNewExpressions.
                 for (final CFExpression child : expression.decomposeExpression()) {
                     process(child, elem, context.subContextInAssignment(false));
                 }

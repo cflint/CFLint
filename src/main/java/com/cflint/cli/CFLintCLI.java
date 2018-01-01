@@ -204,7 +204,7 @@ public class CFLintCLI {
                 }
             }
             final Map<String, String> descriptions = ConfigUtils.loadDescriptions();
-            System.out.println("Supported rules");
+            System.out.println("Supported rules:");
             for (final PluginInfoRule rule : configBuilder.build().getRules()) {
                 System.out.println("  " + rule.getName());
                 for (final PluginMessage message : rule.getMessages()) {
@@ -219,7 +219,7 @@ public class CFLintCLI {
         if (cmd.hasOption(Settings.MARKDOWN)){
             final FileWriter out = new FileWriter("RULES.MD");
             CFLintDoc.generateRuleMarkDown(pluginInfo, new PrintWriter(out));
-            System.err.println("Rules written to RULES.MD");
+            System.out.println("Rules written to RULES.MD");
             out.close();
             return;
         }
@@ -333,8 +333,9 @@ public class CFLintCLI {
             try {
                 api.setExtensions(Arrays.asList(extensions.trim().split(",")));
             } catch (final Exception e) {
-                System.err.println(
-                        "Unable to use extensions (" + extensions + ") using default instead. " + e.getMessage());
+                if (!quiet) {
+                    System.err.println("Unable to use extensions (" + extensions + "), using default instead. " + e.getMessage());
+                }
             }
         }
         api.setFilterFile(filterFile);

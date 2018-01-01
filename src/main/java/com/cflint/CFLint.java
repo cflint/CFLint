@@ -222,7 +222,9 @@ public class CFLint implements IErrorReporter {
                             break fileLoop;
                         }
                     } catch (final Exception e) {
-                        System.err.println("Could not read config file " + file + ". Check for duplicates.");
+                        if (!quiet) {
+                            System.err.println("Could not read config file " + file + ". Check for duplicates.");
+                        }
                     }
                 }
             }
@@ -576,7 +578,7 @@ public class CFLint implements IErrorReporter {
                 final String path = elem.getAttributeValue(CF.TEMPLATE);
                 final File include = new File(new File(context.getFilename()).getParentFile(), path);
                 if (strictInclude || include.exists()) {
-                    if (includeFileStack.contains(include)) {
+                    if (includeFileStack.contains(include) && !quiet) {
                         System.err.println("Terminated a recursive call to include file " + include);
                     } else {
                         includeFileStack.push(include);
@@ -643,14 +645,18 @@ public class CFLint implements IErrorReporter {
                             .parseCFMLExpression(literalChar.get(1) + attr.getValue() + literalChar.get(1), this);
                     expressions.put(attr.getName().toLowerCase(), exp);
                 } catch (final Exception e2) {
-                    System.err.println("Error in parsing : " + attr.getValue() + " on tag " + elem.getName());
+                    if (!quiet) {
+                        System.err.println("Error in parsing : " + attr.getValue() + " on tag " + elem.getName());
+                    }
                 }
             } else if (tagInfo.isExpressionAttribute(elem, attr.getName())) {
                 try {
                     final CFExpression exp = cfmlParser.parseCFMLExpression(attr.getValue(), this);
                     expressions.put(attr.getName().toLowerCase(), exp);
                 } catch (final Exception e2) {
-                    System.err.println("Error in parsing : " + attr.getValue() + " on tag " + elem.getName());
+                    if (!quiet) {
+                        System.err.println("Error in parsing : " + attr.getValue() + " on tag " + elem.getName());
+                    }
                 }
             }
 
@@ -720,7 +726,7 @@ public class CFLint implements IErrorReporter {
         }
         if (expression != null && expression.getToken() != null) {
             final List<Object> checkItem = Arrays.asList(expression, expression.getToken());
-            if (processed.contains(checkItem)) {
+            if (processed.contains(checkItem) && !quiet) {
                 System.err.println("Attempt to process expression twice aborted.  This may be a parsing bug in "
                         + context.getFilename() + " : "
                         + (expression.getToken() != null ? expression.getToken().getLine() : ""));
@@ -898,7 +904,7 @@ public class CFLint implements IErrorReporter {
                         final File include = new File(new File(context.getFilename()).getParentFile(), path);
                         if (include.exists() || strictInclude) {
                             try {
-                                if (includeFileStack.contains(include)) {
+                                if (includeFileStack.contains(include) && !quiet) {
                                     System.err.println("Terminated a recursive call to include file " + include);
                                 } else {
                                     includeFileStack.push(include);
@@ -906,7 +912,9 @@ public class CFLint implements IErrorReporter {
                                     includeFileStack.pop();
                                 }
                             } catch (final CFLintScanException ex) {
-                                System.err.println("Invalid include file " + context.getFilename());
+                                if (!quiet) {
+                                    System.err.println("Invalid include file " + context.getFilename());
+                                }
                                 final int line = context.startLine();
                                 final ContextMessage cm = new ContextMessage(PARSE_ERROR, null, null, line);
                                 reportRule(currentElement, "Invalid include file " + expression.getClass(), context, null,
@@ -914,7 +922,9 @@ public class CFLint implements IErrorReporter {
                             }
                         }
                     } else if (strictInclude) {
-                        System.err.println("Unable to resolve template value " + context.getFilename());
+                        if (!quiet) {
+                            System.err.println("Unable to resolve template value " + context.getFilename());
+                        }
                         final int line = context.startLine();
                         final ContextMessage cm = new ContextMessage(PARSE_ERROR, null, null, line);
                         reportRule(currentElement, "Unable to resolve template value " + expression.getClass(), context,
@@ -928,7 +938,9 @@ public class CFLint implements IErrorReporter {
                 }
             }
         } catch (final StackOverflowError soe) {
-            System.err.println("Stack overflow in " + context.getFilename());
+            if (!quiet) {
+                System.err.println("Stack overflow in " + context.getFilename());
+            }
             final int line = context.startLine();
             final ContextMessage cm = new ContextMessage(PARSE_ERROR, null, null, line);
             reportRule(currentElement, "Stack overflow on " + expression.getClass(), context, null, cm);

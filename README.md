@@ -194,8 +194,22 @@ The configuration rule that is closest to the rule is the one that takes effect.
 
 ## Creating reports
 
-CFLint supports a variety of output options that you can control via command-line flags. If you want more information about the inner workings of CFLint during execution you can run CFLint in verbose mode by supplying `-verbose` or `-v` at the command line.
+CFLint supports a variety of reporting and output options that you can control via command-line flags. Beyond the targeted output formats of Text, XML, JSON or HTML you can also run CFLint with options for quiet, verbose and debug output.
 
+If no targeted output format is specified at all, CFLint will default to creating an HTML report in the file `cflint-result.html`.
+
+### Execution modes
+
+By
+
+If you want more information about the inner workings of CFLint during execution you can run CFLint in verbose mode by supplying `-verbose` or `-v` at the command line.
+
+### HTML
+
+The flag `-html` instructs CFLint to create an HTML document. The full syntax is:
+
+    -html -html <outputFileName>
+    
 ### XML
 
 The flag `-xml` instructs CFLint to create XML. There are two options for XML reporting.

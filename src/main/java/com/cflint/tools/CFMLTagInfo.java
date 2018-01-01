@@ -42,6 +42,9 @@ public class CFMLTagInfo {
             if (elementName.equalsIgnoreCase(CF.CFPROCPARAM)) {
                 return "variable".equalsIgnoreCase(attributeName);
             }
+            if (elementName.equalsIgnoreCase(CF.CFCOOKIE) && "name".equalsIgnoreCase(attributeName)) {
+                return false;
+            }
             final Tag tag = dictionary.getTag(elementName.toLowerCase());
             if (tag != null) {
                 for (final Object retObj : tag.getReturns()) {

@@ -116,6 +116,7 @@ public class CFLint implements IErrorReporter {
     private boolean verbose = false;
     private boolean logError = false;
     private boolean quiet = false;
+    private boolean debug = false;
     private boolean showProgress = false;
     private boolean progressUsesThread = true;
     private CFLintStats stats = new CFLintStats();
@@ -237,6 +238,10 @@ public class CFLint implements IErrorReporter {
     }
 
     public void scan(final File folderOrFile) {
+        if (debug) {
+            System.out.println("Current file: " + folderOrFile.getAbsolutePath());
+        }
+
         if (getBugs().getFileFilter() != null && !getBugs().getFileFilter().includeFile(folderOrFile)) {
             return;
         }
@@ -270,6 +275,9 @@ public class CFLint implements IErrorReporter {
                 configuration = saveConfig;
             }
         } else if (!folderOrFile.isHidden() && FileUtil.checkExtension(folderOrFile, allowedExtensions)) {
+            if (verbose) {
+                System.out.println("Current file: " + folderOrFile.getAbsolutePath());
+            }
             final String src = FileUtil.loadFile(folderOrFile);
             includeFileStack.clear();
             try {
@@ -1417,6 +1425,10 @@ public class CFLint implements IErrorReporter {
 
     public void setQuiet(final boolean quiet) {
         this.quiet = quiet;
+    }
+
+    public void setDebug(final boolean debug) {
+        this.debug = debug;
     }
 
     public void addScanProgressListener(final ScanProgressListener scanProgressListener) {

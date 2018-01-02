@@ -266,7 +266,7 @@ public class CFLintCLI {
 
         main.debug = (cmd.hasOption(Settings.D) || cmd.hasOption(Settings.DEBUG));
         if (main.debug) {
-            System.out.println("Debug-mode is enabled");
+            System.out.println("Debug is enabled");
             // Setting verbose = true and quiet = false in debug mode, regardless of settings actually being passed in.
             main.verbose = true;
             main.quiet = false;
@@ -349,6 +349,7 @@ public class CFLintCLI {
         api.setVerbose(verbose);
         api.setLogError(logerror);
         api.setQuiet(quiet);
+        api.setDebug(debug);
         api.setStrictInclude(strictInclude);
         if (extensions != null && extensions.trim().length() > 0) {
             try {

@@ -36,6 +36,7 @@ public class CFLintAPI {
     boolean verbose = false;
     boolean logError = false;
     boolean quiet = false;
+    boolean debug = false;
 
     /**
      * List of file extensions to scan.  Default to *.cfc and *.cfm
@@ -96,6 +97,7 @@ public class CFLintAPI {
             cflint.setVerbose(verbose);
             cflint.setLogError(logError);
             cflint.setQuiet(quiet);
+            cflint.setDebug(debug);
             cflint.setStrictIncludes(strictInclude);
             cflint.setAllowedExtensions(extensions);
             cflint.getBugs().setFilter(createFilter());
@@ -192,6 +194,18 @@ public class CFLintAPI {
         this.quiet = quiet;
         if(cflint != null) {
             cflint.setQuiet(quiet);
+        }
+    }
+
+    /**
+     * Run in debug mode
+     *
+     * @param debug     run quietly
+     */
+    public void setDebug(final boolean debug) {
+        this.debug = debug;
+        if(cflint != null) {
+            cflint.setDebug(debug);
         }
     }
 

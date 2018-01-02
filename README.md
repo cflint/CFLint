@@ -206,19 +206,19 @@ You can force CFLint's output behaviour to stdout and stderr by specifying optio
 
 Quiet mode (`-quiet <boolean>`) suppresses most of the output CFLint would otherwise create during linting. This might contain actual errors and execptions but also information like the termination of recursive template parsing or certain configuration issues. Do not run quiet mode if you likely will need assistance with error messages or want to undertand better what CFLint is doing. 
 
-This is the minimum output mode you can run CFLint in. 
+This is the minimum output mode you can run CFLint in and the feature was originally inspired by [Issue #4](https://github.com/cflint/CFLint/issues/4).
 
-TODO: There might be occassional messages from CFParser and ANTLR being pushed into stderr at this stage - even though CFlint runs in quiet mode. This is a known issues and will be fixed before the release of 1.4.0
+TO DO: There might be occassional messages from CFParser and ANTLR being pushed into stderr at this stage - even though CFlint runs in quiet mode. This is a known issues and will be fixed before the release of 1.4.0
 
 #### Verbose
 
-Verbose mode (`-verbose <boolean>`) enables verbose linting output. This contains information on selected output formats and configuration files being found and processes during linting.
+Verbose mode (`-verbose <boolean>`) enables verbose linting output. This contains information on selected output formats and configuration files being found and processes during linting as well as the currently processed file CFLint is working on (showing only files that are actually scanned).
 
 If you want more information about the inner workings of CFLint during execution, verbose mode is the minimum you should run CFLint in.
 
 #### Debug
 
-Debug mode (`-debug <boolean>`) enables debug output. Debug mode implies vebose mode but adds additional information such as the currently processed file and information from the parser into the output streams.
+Debug mode (`-debug <boolean>`) enables debug output. Debug mode implies vebose mode but adds additional information such as the parser tokens and every processed file (regardless of being supported by your or the default extension list) into the output streams.
 
 #### Precedences
 

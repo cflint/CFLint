@@ -116,6 +116,7 @@ public class CFLint implements IErrorReporter {
     private boolean verbose = false;
     private boolean logError = false;
     private boolean quiet = false;
+    private boolean debug = false;
     private boolean showProgress = false;
     private boolean progressUsesThread = true;
     private CFLintStats stats = new CFLintStats();
@@ -223,7 +224,9 @@ public class CFLint implements IErrorReporter {
                             break fileLoop;
                         }
                     } catch (final Exception e) {
-                        System.err.println("Could not read config file " + file + ". Check for duplicates.");
+                        if (!quiet) {
+                            System.err.println("Could not read config file " + file + ". Check for duplicates.");
+                        }
                     }
                 }
             }
@@ -235,6 +238,10 @@ public class CFLint implements IErrorReporter {
     }
 
     public void scan(final File folderOrFile) {
+        if (debug) {
+            System.out.println("Current file: " + folderOrFile.getAbsolutePath());
+        }
+
         if (getBugs().getFileFilter() != null && !getBugs().getFileFilter().includeFile(folderOrFile)) {
             return;
         }
@@ -268,6 +275,9 @@ public class CFLint implements IErrorReporter {
                 configuration = saveConfig;
             }
         } else if (!folderOrFile.isHidden() && FileUtil.checkExtension(folderOrFile, allowedExtensions)) {
+            if (!debug && verbose) {
+                System.out.println("Current file: " + folderOrFile.getAbsolutePath());
+            }
             final String src = FileUtil.loadFile(folderOrFile);
             includeFileStack.clear();
             try {
@@ -578,7 +588,9 @@ public class CFLint implements IErrorReporter {
                 final File include = new File(new File(context.getFilename()).getParentFile(), path);
                 if (strictInclude || include.exists()) {
                     if (includeFileStack.contains(include)) {
-                        System.err.println("Terminated a recursive call to include file " + include);
+                        if (!quiet) {
+                            System.err.println("Terminated a recursive call to include file " + include);
+                        }
                     } else {
                         includeFileStack.push(include);
                         process(FileUtil.loadFile(include), context.getFilename());
@@ -644,14 +656,18 @@ public class CFLint implements IErrorReporter {
                             .parseCFMLExpression(literalChar.get(1) + attr.getValue() + literalChar.get(1), this);
                     expressions.put(attr.getName().toLowerCase(), exp);
                 } catch (final Exception e2) {
-                    System.err.println("Error in parsing : " + attr.getValue() + " on tag " + elem.getName());
+                    if (!quiet) {
+                        System.err.println("Error in parsing : " + attr.getValue() + " on tag " + elem.getName());
+                    }
                 }
             } else if (tagInfo.isExpressionAttribute(elem, attr.getName())) {
                 try {
                     final CFExpression exp = cfmlParser.parseCFMLExpression(attr.getValue(), this);
                     expressions.put(attr.getName().toLowerCase(), exp);
                 } catch (final Exception e2) {
-                    System.err.println("Error in parsing : " + attr.getValue() + " on tag " + elem.getName());
+                    if (!quiet) {
+                        System.err.println("Error in parsing : " + attr.getValue() + " on tag " + elem.getName());
+                    }
                 }
             }
 
@@ -722,9 +738,11 @@ public class CFLint implements IErrorReporter {
         if (expression != null && expression.getToken() != null) {
             final List<Object> checkItem = Arrays.asList(expression, expression.getToken());
             if (processed.contains(checkItem)) {
-                System.err.println("Attempt to process expression twice aborted.  This may be a parsing bug in "
+                if (!quiet) {
+                    System.err.println("Attempt to process expression twice aborted.  This may be a parsing bug in "
                         + context.getFilename() + " : "
                         + (expression.getToken() != null ? expression.getToken().getLine() : ""));
+                }
                 return;
             }
             processed.add(checkItem);
@@ -900,14 +918,18 @@ public class CFLint implements IErrorReporter {
                         if (include.exists() || strictInclude) {
                             try {
                                 if (includeFileStack.contains(include)) {
-                                    System.err.println("Terminated a recursive call to include file " + include);
+                                    if (!quiet) {
+                                        System.err.println("Terminated a recursive call to include file " + include);
+                                    }
                                 } else {
                                     includeFileStack.push(include);
                                     process(FileUtil.loadFile(include), context.getFilename());
                                     includeFileStack.pop();
                                 }
                             } catch (final CFLintScanException ex) {
-                                System.err.println("Invalid include file " + context.getFilename());
+                                if (!quiet) {
+                                    System.err.println("Invalid include file " + context.getFilename());
+                                }
                                 final int line = context.startLine();
                                 final ContextMessage cm = new ContextMessage(PARSE_ERROR, null, null, line);
                                 reportRule(currentElement, "Invalid include file " + expression.getClass(), context, null,
@@ -915,7 +937,9 @@ public class CFLint implements IErrorReporter {
                             }
                         }
                     } else if (strictInclude) {
-                        System.err.println("Unable to resolve template value " + context.getFilename());
+                        if (!quiet) {
+                            System.err.println("Unable to resolve template value " + context.getFilename());
+                        }
                         final int line = context.startLine();
                         final ContextMessage cm = new ContextMessage(PARSE_ERROR, null, null, line);
                         reportRule(currentElement, "Unable to resolve template value " + expression.getClass(), context,
@@ -929,7 +953,9 @@ public class CFLint implements IErrorReporter {
                 }
             }
         } catch (final StackOverflowError soe) {
-            System.err.println("Stack overflow in " + context.getFilename());
+            if (!quiet) {
+                System.err.println("Stack overflow in " + context.getFilename());
+            }
             final int line = context.startLine();
             final ContextMessage cm = new ContextMessage(PARSE_ERROR, null, null, line);
             reportRule(currentElement, "Stack overflow on " + expression.getClass(), context, null, cm);
@@ -1013,6 +1039,9 @@ public class CFLint implements IErrorReporter {
         }
         final Iterable<Token> tokens = expression.getTokens().getTokens();
         for (final Token currentTok : tokens) {
+            if (debug) {
+                System.out.println(currentTok.toString());
+            }
             if (currentTok.getLine() == expression.getExpression().getLine()) {
                 if (currentTok.getChannel() == Token.HIDDEN_CHANNEL
                         && currentTok.getType() == CFSCRIPTLexer.LINE_COMMENT) {
@@ -1344,6 +1373,9 @@ public class CFLint implements IErrorReporter {
         }
         final Iterable<Token> tokens = context.afterTokens(token);
         for (final Token currentTok : tokens) {
+            if (debug) {
+                System.out.println(currentTok.toString());
+            }
             if (currentTok.getLine() != token.getLine()) {
                 break;
             }
@@ -1399,6 +1431,10 @@ public class CFLint implements IErrorReporter {
 
     public void setQuiet(final boolean quiet) {
         this.quiet = quiet;
+    }
+
+    public void setDebug(final boolean debug) {
+        this.debug = debug;
     }
 
     public void addScanProgressListener(final ScanProgressListener scanProgressListener) {

@@ -28,7 +28,7 @@ import com.cflint.tools.CFLintFilter;
  */
 public class CFLintAPI {
 
-    PrintStream printStreamOut = System.out;
+    PrintStream printStreamOut =  System.out;
     PrintStream printStreamErr = System.err;
     final CFLintPluginInfo pluginInfo = ConfigUtils.loadDefaultPluginInfo();
 
@@ -36,6 +36,7 @@ public class CFLintAPI {
     boolean verbose = false;
     boolean logError = false;
     boolean quiet = false;
+    boolean debug = false;
 
     /**
      * List of file extensions to scan.  Default to *.cfc and *.cfm
@@ -96,6 +97,7 @@ public class CFLintAPI {
             cflint.setVerbose(verbose);
             cflint.setLogError(logError);
             cflint.setQuiet(quiet);
+            cflint.setDebug(debug);
             cflint.setStrictIncludes(strictInclude);
             cflint.setAllowedExtensions(extensions);
             cflint.getBugs().setFilter(createFilter());
@@ -174,10 +176,13 @@ public class CFLintAPI {
     /**
      * Log errors to standard error.
      *
-     * @param logerror  log errors to standard error
+     * @param logError  log errors to standard error
      */
-    public void setLogError(final boolean logerror) {
-        this.logError = logerror;
+    public void setLogError(final boolean logError) {
+        this.logError = logError;
+        if(cflint != null) {
+            cflint.setLogError(logError);
+        }
     }
 
     /**
@@ -187,6 +192,21 @@ public class CFLintAPI {
      */
     public void setQuiet(final boolean quiet) {
         this.quiet = quiet;
+        if(cflint != null) {
+            cflint.setQuiet(quiet);
+        }
+    }
+
+    /**
+     * Run in debug mode
+     *
+     * @param debug     run quietly
+     */
+    public void setDebug(final boolean debug) {
+        this.debug = debug;
+        if(cflint != null) {
+            cflint.setDebug(debug);
+        }
     }
 
     /**

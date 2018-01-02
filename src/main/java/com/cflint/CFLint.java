@@ -1039,6 +1039,9 @@ public class CFLint implements IErrorReporter {
         }
         final Iterable<Token> tokens = expression.getTokens().getTokens();
         for (final Token currentTok : tokens) {
+            if (debug) {
+                System.out.println(currentTok.toString());
+            }
             if (currentTok.getLine() == expression.getExpression().getLine()) {
                 if (currentTok.getChannel() == Token.HIDDEN_CHANNEL
                         && currentTok.getType() == CFSCRIPTLexer.LINE_COMMENT) {
@@ -1370,6 +1373,9 @@ public class CFLint implements IErrorReporter {
         }
         final Iterable<Token> tokens = context.afterTokens(token);
         for (final Token currentTok : tokens) {
+            if (debug) {
+                System.out.println(currentTok.toString());
+            }
             if (currentTok.getLine() != token.getLine()) {
                 break;
             }

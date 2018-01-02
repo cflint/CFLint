@@ -578,8 +578,10 @@ public class CFLint implements IErrorReporter {
                 final String path = elem.getAttributeValue(CF.TEMPLATE);
                 final File include = new File(new File(context.getFilename()).getParentFile(), path);
                 if (strictInclude || include.exists()) {
-                    if (includeFileStack.contains(include) && !quiet) {
-                        System.err.println("Terminated a recursive call to include file " + include);
+                    if (includeFileStack.contains(include)) {
+                        if (!quiet) {
+                            System.err.println("Terminated a recursive call to include file " + include);
+                        }
                     } else {
                         includeFileStack.push(include);
                         process(FileUtil.loadFile(include), context.getFilename());
@@ -726,10 +728,12 @@ public class CFLint implements IErrorReporter {
         }
         if (expression != null && expression.getToken() != null) {
             final List<Object> checkItem = Arrays.asList(expression, expression.getToken());
-            if (processed.contains(checkItem) && !quiet) {
-                System.err.println("Attempt to process expression twice aborted.  This may be a parsing bug in "
+            if (processed.contains(checkItem)) {
+                if (!quiet) {
+                    System.err.println("Attempt to process expression twice aborted.  This may be a parsing bug in "
                         + context.getFilename() + " : "
                         + (expression.getToken() != null ? expression.getToken().getLine() : ""));
+                }
                 return;
             }
             processed.add(checkItem);
@@ -904,8 +908,10 @@ public class CFLint implements IErrorReporter {
                         final File include = new File(new File(context.getFilename()).getParentFile(), path);
                         if (include.exists() || strictInclude) {
                             try {
-                                if (includeFileStack.contains(include) && !quiet) {
-                                    System.err.println("Terminated a recursive call to include file " + include);
+                                if (includeFileStack.contains(include)) {
+                                    if (!quiet) {
+                                        System.err.println("Terminated a recursive call to include file " + include);
+                                    }
                                 } else {
                                     includeFileStack.push(include);
                                     process(FileUtil.loadFile(include), context.getFilename());

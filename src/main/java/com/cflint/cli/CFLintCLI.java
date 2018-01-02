@@ -250,6 +250,9 @@ public class CFLintCLI {
         }
 
         main.verbose = (cmd.hasOption(Settings.V) || cmd.hasOption(Settings.VERBOSE));
+        if (main.verbose) {
+            System.out.println("Verbose is enabled");
+        }
         main.quiet = (cmd.hasOption(Settings.Q) || cmd.hasOption(Settings.QUIET));
         main.logerror = (cmd.hasOption(Settings.E) || cmd.hasOption(Settings.LOGERROR));
         main.xmlOutput = cmd.hasOption(Settings.XML) || cmd.hasOption(Settings.XMLSTYLE)

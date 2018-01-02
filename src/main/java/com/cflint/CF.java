@@ -174,6 +174,10 @@ public class CF {
      * CFProcParam Tag.
      */
     public static final String CFPROCPARAM = "cfprocparam";
+    /**
+     * CFProcParam Tag.
+     */
+    public static final String CFCOOKIE = "cfcookie";
 
     /**
      * CFProcResult Tag.

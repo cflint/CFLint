@@ -208,7 +208,7 @@ Quiet mode (`-quiet <boolean>`) suppresses most of the output CFLint would other
 
 This is the minimum output mode you can run CFLint in and the feature was originally inspired by [Issue #4](https://github.com/cflint/CFLint/issues/4).
 
-TO DO: There might be occassional messages from CFParser and ANTLR being pushed into stderr at this stage - even though CFlint runs in quiet mode. This is a known issues and will be fixed before the release of 1.4.0
+TO DO: There might be occassional messages from CFParser and ANTLR being pushed into stderr at this stage - even though CFlint runs in quiet mode. This is a known issues and will be fixed before the release of 1.4.0 [Issue #526](https://github.com/cflint/CFLint/issues/526).
 
 #### Verbose
 

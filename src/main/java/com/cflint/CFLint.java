@@ -275,7 +275,7 @@ public class CFLint implements IErrorReporter {
                 configuration = saveConfig;
             }
         } else if (!folderOrFile.isHidden() && FileUtil.checkExtension(folderOrFile, allowedExtensions)) {
-            if (verbose) {
+            if (!debug && verbose) {
                 System.out.println("Current file: " + folderOrFile.getAbsolutePath());
             }
             final String src = FileUtil.loadFile(folderOrFile);

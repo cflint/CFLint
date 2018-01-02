@@ -45,6 +45,7 @@ public class CFLintCLI {
     private boolean verbose = false;
     private boolean logerror = false;
     private boolean quiet = false;
+    private boolean debug = false;
     private boolean xmlOutput = false;
     private boolean jsonOutput = false;
     private boolean htmlOutput = true;
@@ -74,14 +75,16 @@ public class CFLintCLI {
         Option optionFOLDER = new Option(Settings.FOLDER, true, "folder(s) to scan");
         Option optionFILE = new Option(Settings.FILE, true, "file(s) to scan");
         Option optionFILTER_FILE = new Option(Settings.FILTER_FILE, true, "filter file");
-        Option optionV = new Option(Settings.V, false, "verbose output");
+        Option optionV = new Option(Settings.V, false, "verbose output during linting");
         Option optionVERSION = new Option(Settings.VERSION, false, "show the version number");
-        Option optionVERBOSE = new Option(Settings.VERBOSE, false, "verbose output");
+        Option optionVERBOSE = new Option(Settings.VERBOSE, false, "verbose output during linting");
         Option optionSTRICT_INCLUDE = new Option(Settings.STRICT_INCLUDE, false, "Check every include and try to parse it");
         Option optionLOGERROR = new Option(Settings.LOGERROR, false, "log parsing errors as bugs");
         Option optionE = new Option(Settings.E, false, "log parsing errors as bugs");
-        Option optionQUIET = new Option(Settings.QUIET, false, "less output");
-        Option optionQ = new Option(Settings.Q, false, "less output");
+        Option optionQUIET = new Option(Settings.QUIET, false, "quiet mode surpresses most linting error and commentary output");
+        Option optionQ = new Option(Settings.Q, false, "quiet mode surpresses most linting error and commentary output");
+        Option optionDEBUG = new Option(Settings.DEBUG, false, "debug-level output during linting");
+        Option optionD = new Option(Settings.D, false, "debug-level output during linting");
         Option optionHELP = new Option(Settings.HELP, false, DISPLAY_THIS_HELP);
         Option optionQUESTION_MARK = new Option(Settings.QUESTION_MARK, false, DISPLAY_THIS_HELP);
         Option optionH = new Option(Settings.H, false, DISPLAY_THIS_HELP);
@@ -100,6 +103,7 @@ public class CFLintCLI {
         Option optionSTDOUT = new Option(Settings.STDOUT, false, "output to stdout only");
         Option optionLIST_RULE_GROUPS = new Option(Settings.LIST_RULE_GROUPS, false, "list rule groups");
         Option optionRULE_GROUPS = new Option(Settings.RULE_GROUPS, true, "rule groups");
+
 
         // undocumented
         Option optionCONFIGFILE = new Option(Settings.CONFIGFILE, true, "specify the location of the config file");
@@ -139,7 +143,9 @@ public class CFLintCLI {
                         .addOption(optionSTDOUT)
                         .addOption(optionLIST_RULE_GROUPS)
                         .addOption(optionRULE_GROUPS)
-                        .addOption(optionCONFIGFILE);
+                        .addOption(optionCONFIGFILE)
+                        .addOption(optionDEBUG)
+                        .addOption(optionD);
 
         // documented options for HelpFormatter
         helpOptions.addOption(optionMARKDOWN)
@@ -175,7 +181,9 @@ public class CFLintCLI {
                         .addOption(optionSTDIN)
                         .addOption(optionSTDOUT)
                         .addOption(optionLIST_RULE_GROUPS)
-                        .addOption(optionRULE_GROUPS);
+                        .addOption(optionRULE_GROUPS)
+                        .addOption(optionDEBUG)
+                        .addOption(optionD);
 
         final CommandLineParser parser = new GnuParser();
         final CommandLine cmd = parser.parse(commandOptions, args);
@@ -249,11 +257,21 @@ public class CFLintCLI {
             configBuilder.ruleGroups(rulegroups);
         }
 
+        main.quiet = (cmd.hasOption(Settings.Q) || cmd.hasOption(Settings.QUIET));
+
         main.verbose = (cmd.hasOption(Settings.V) || cmd.hasOption(Settings.VERBOSE));
         if (main.verbose) {
             System.out.println("Verbose is enabled");
         }
-        main.quiet = (cmd.hasOption(Settings.Q) || cmd.hasOption(Settings.QUIET));
+
+        main.debug = (cmd.hasOption(Settings.D) || cmd.hasOption(Settings.DEBUG));
+        if (main.debug) {
+            System.out.println("Debug-mode is enabled");
+            // Setting verbose = true and quiet = false in debug mode, regardless of settings actually being passed in.
+            main.verbose = true;
+            main.quiet = false;
+        }
+
         main.logerror = (cmd.hasOption(Settings.E) || cmd.hasOption(Settings.LOGERROR));
         main.xmlOutput = cmd.hasOption(Settings.XML) || cmd.hasOption(Settings.XMLSTYLE)
                 || cmd.hasOption(Settings.XMLFILE);

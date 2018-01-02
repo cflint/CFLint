@@ -2,24 +2,34 @@ package com.cflint.cli;
 
 public class Settings {
     /**
-     * More verbose output.
+     * verbose output during linting
      */
     public static final String VERBOSE = "verbose";
 
     /**
-     * More verbose output (short option).
+     * verbose output during linting
      */
     public static final String V = "v";
 
     /**
-     * Less output.
+     * quiet mode surpresses most linting error and commentary output
      */
     public static final String QUIET = "quiet";
 
     /**
-     * Less output (short option).
+     * quiet mode surpresses most linting error and commentary output
      */
     public static final String Q = "q";
+
+    /**
+     * debug-level output during linting
+     */
+    public static final String DEBUG = "debug";
+
+    /**
+     * debug-level output during linting
+     */
+    public static final String D = "d";
 
     /**
      * Full list of all supported rules.

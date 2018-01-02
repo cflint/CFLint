@@ -200,9 +200,31 @@ If no targeted output format is specified at all, CFLint will default to creatin
 
 ### Execution modes
 
-By
+You can force CFLint's output behaviour to stdout and stderr by specifying options for quiet, verbose and debug. If you do not specify either, CFlint will return basic internal information and error output to stdout and stderr.
 
-If you want more information about the inner workings of CFLint during execution you can run CFLint in verbose mode by supplying `-verbose` or `-v` at the command line.
+#### Quiet
+
+Quiet mode (`-quiet <boolean>`) suppresses most of the output CFLint would otherwise create during linting. This might contain actual errors and execptions but also information like the termination of recursive template parsing or certain configuration issues. Do not run quiet mode if you likely will need assistance with error messages or want to undertand better what CFLint is doing. 
+
+This is the minimum output mode you can run CFLint in. 
+
+TODO: There might be occassional messages from CFParser and ANTLR being pushed into stderr at this stage - even though CFlint runs in quiet mode. This is a known issues and will be fixed before the release of 1.4.0
+
+#### Verbose
+
+Verbose mode (`-verbose <boolean>`) enables verbose linting output. This contains information on selected output formats and configuration files being found and processes during linting.
+
+If you want more information about the inner workings of CFLint during execution, verbose mode is the minimum you should run CFLint in.
+
+#### Debug
+
+Debug mode (`-debug <boolean>`) enables debug output. Debug mode implies vebose mode but adds additional information such as the currently processed file and information from the parser into the output streams.
+
+#### Precedences
+
+It is possible to switch on and run quiet, verbose and debug modes together at the same time. This is partly intended as you might not want to see error information being supressed by quiet mode, but still want so see certain information being shown in verbose mode. Please take this behaviour with a grain of salt though - there might be the odd scenario in which combining `-quiet`, `-verbose` and `-debug` causes unusal output.
+
+The exception is debug mode. In debug mode, CFLint will always ignore user settings for verbose and quiet and set `verbose` to `true` and `quiet` to `false`.
 
 ### HTML
 

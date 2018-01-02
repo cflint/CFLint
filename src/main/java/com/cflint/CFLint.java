@@ -1291,6 +1291,12 @@ public class CFLint implements IErrorReporter {
         bldr.setRuleParameters(ruleInfo.getParameters());
         if (configuration.includes(ruleInfo.getMessageByCode(msgcode))
                 && !configuration.excludes(ruleInfo.getMessageByCode(msgcode))) {
+            //A bit of a hack to fix the offset issue 
+            //This could be handled better at the source where line and offset are calc'd.
+            int idxOffSet = 1;
+            if(lineOffsets != null && msg.getLine()!=null && msg.getOffset() != null && msg.getOffset() >=lineOffsets[msg.getLine()] ){
+                idxOffSet=0;
+            }
             if (expression instanceof CFExpression) {
                 final BugInfo bugInfo = bldr.build((CFExpression) expression, elem);
                 final Token token = ((CFExpression) expression).getToken();
@@ -1303,9 +1309,9 @@ public class CFLint implements IErrorReporter {
                         bugInfo.setLine(msg.getLine());
                         if (msg.getOffset() != null) {
                             bugInfo.setOffset(msg.getOffset());
-                            bugInfo.setColumn(msg.getOffset() - lineOffsets[msg.getLine() - 1]);
+                            bugInfo.setColumn(msg.getOffset() - lineOffsets[msg.getLine() - idxOffSet]);
                         } else {
-                            bugInfo.setOffset(lineOffsets != null ? lineOffsets[msg.getLine() - 1] : 0);
+                            bugInfo.setOffset(lineOffsets != null ? lineOffsets[msg.getLine() - idxOffSet] : 0);
                             bugInfo.setColumn(0);
                         }
                     }    
@@ -1316,9 +1322,9 @@ public class CFLint implements IErrorReporter {
                     bug.setLine(msg.getLine());
                     if (msg.getOffset() != null) {
                         bug.setOffset(msg.getOffset());
-                        bug.setColumn(msg.getOffset() - lineOffsets[msg.getLine() - 1]);
+                        bug.setColumn(msg.getOffset() - lineOffsets[msg.getLine() - idxOffSet]);
                     } else {
-                        bug.setOffset(lineOffsets != null ? lineOffsets[msg.getLine() - 1] : 0);
+                        bug.setOffset(lineOffsets != null ? lineOffsets[msg.getLine() - idxOffSet] : 0);
                         bug.setColumn(0);
                     }
                     bug.setLength(msg.getVariable() != null ? msg.getVariable().length() : 0);

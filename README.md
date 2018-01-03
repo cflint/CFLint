@@ -6,7 +6,7 @@ A static code analysis tool for CFML.
 
 License: [BSD](http://www.opensource.org/licenses/bsd-license.html)
 
-Current Version: 1.3.0 (MMM dd yyyy)
+Current Version: 1.3.x
 
 # Versions
 
@@ -49,7 +49,7 @@ If you want to use CFLint from within another Maven project, use:
 <dependency>
     <groupId>com.github.cflint</groupId>
     <artifactId>CFLint</artifactId>
-    <version>1.2.1</version>
+    <version>1.3.0</version>
 </dependency>
 ```
 
@@ -97,7 +97,11 @@ CFLint currently supports JSON- and XML-based configuration. XML-based configura
 
 ### Rules
 
-When CFLint executes, it scans and parses your code (using CFParser). The syntax tree is then being examined against a set of built-in rules. In CFLint, those rules are called and implemented as plugins (they live in `/src/main/java/com/cflint/plugins`). By default, all rules will be used against your codebase. This is what a lot of people will do, but using configuration allows you to build a custom scenario to test your code against. See [RULES.md](/RULES.md) for more information on rules and their meaning.
+When CFLint executes, it scans and parses your code (using CFParser). The syntax tree is then being examined against a set of built-in rules. 
+
+In CFLint, those rules are called and implemented as plugins (they live in `/src/main/java/com/cflint/plugins`). By default, all rules will be used against your codebase. This is what a lot of people will do, but using configuration allows you to build a custom scenario to test your code against. See [RULES.md](/RULES.md) for more information on rules and their meaning.
+
+CFLint is opinionated and every release after 1.3.0 will never scan in directories starting with a ```.``` to prevent wasting time of hidden directories such as build configuration, module/library storage or version control information.
 
 ### Global configuration
 
@@ -208,7 +212,7 @@ Quiet mode (`-quiet <boolean>`) suppresses most of the output CFLint would other
 
 This is the minimum output mode you can run CFLint in and the feature was originally inspired by [Issue #4](https://github.com/cflint/CFLint/issues/4).
 
-TO DO: There might be occassional messages from CFParser and ANTLR being pushed into stderr at this stage - even though CFlint runs in quiet mode. This is a known issues and will be fixed before the release of 1.4.0
+There might be occassional messages from CFParser and ANTLR being pushed into stderr at this stage - even though CFlint runs in quiet mode. This is a known [issue](https://github.com/cflint/CFLint/issues/526) and will be addressed in the future.
 
 #### Verbose
 

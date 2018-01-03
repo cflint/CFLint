@@ -131,7 +131,7 @@ public class CFLint implements IErrorReporter {
 
     // Stack to store include file depth to ensure no recursion
     private final Stack<File> includeFileStack = new Stack<>();
-    private int[]                               lineOffsets;
+    private int[] lineOffsets;
 
     public CFLint(final CFLintConfiguration configFile) throws IOException {
         final CFLintFilter filter = CFLintFilter.createFilter(verbose);
@@ -238,6 +238,7 @@ public class CFLint implements IErrorReporter {
     }
 
     public void scan(final File folderOrFile) {
+
         if (debug) {
             System.out.println("Current file: " + folderOrFile.getAbsolutePath());
         }
@@ -250,6 +251,13 @@ public class CFLint implements IErrorReporter {
             return;
         }
         if (folderOrFile.isDirectory()) {
+            if (verbose) {
+                if (folderOrFile.getName().startsWith("."))
+                {
+                    System.out.println("Skipping folder and its children: " + folderOrFile.getAbsolutePath());
+                    return;
+                }
+            }
             final CFLintConfiguration saveConfig = configuration;
             try {
                 for (final File file : folderOrFile.listFiles()) {

@@ -48,7 +48,7 @@ public class FileUtil {
         }
         return false;
     }
-    
+
     /**
      * Read from reader till EOF.
      * @param rdr the reader from which to read.

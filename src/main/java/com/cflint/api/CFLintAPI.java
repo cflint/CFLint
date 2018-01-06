@@ -98,7 +98,9 @@ public class CFLintAPI {
             cflint.setQuiet(quiet);
             cflint.setStrictIncludes(strictInclude);
             cflint.setAllowedExtensions(extensions);
-            cflint.getBugs().setFilter(createFilter());
+            if(filterFile!=null){
+                cflint.getBugs().setFilter(createFilter());
+            }
             return cflint;
         } catch (final Exception e) {
             throw new CFLintConfigurationException(e);
@@ -215,6 +217,11 @@ public class CFLintAPI {
      */
     public void setFilterFile(final String filterFile) {
         this.filterFile = filterFile;
+        if (cflint != null && cflint.getBugs() != null) {
+            try {
+                cflint.getBugs().setFilter(createFilter());
+            } catch (CFLintConfigurationException e) {}
+        }
     }
 
     /**

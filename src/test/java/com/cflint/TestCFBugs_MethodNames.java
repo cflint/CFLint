@@ -55,16 +55,6 @@ public class TestCFBugs_MethodNames {
         assertEquals(2, result.get(0).getLine());
     }
 
-    @Test
-    public void nameEndsInNumberTag() throws CFLintScanException {
-        final String tagSrc = "<cfcomponent>\r\n" + "<cffunction name=\"endInNumber23\">\r\n" + "</cffunction>\r\n"
-                + "</cfcomponent>";
-        CFLintResult lintresult = cfBugs.scan(tagSrc, "test");
-        final List<BugInfo> result = lintresult.getIssues().values().iterator().next();
-        assertEquals(1, result.size());
-        assertEquals("METHOD_INVALID_NAME", result.get(0).getMessageCode());
-        assertEquals(2, result.get(0).getLine());
-    }
 
     @Test
     public void nameTooShortTag() throws CFLintScanException {
@@ -142,16 +132,6 @@ public class TestCFBugs_MethodNames {
     @Test
     public void invalidCharsInNameScript() throws CFLintScanException {
         final String scriptSrc = "component {\r\n" + "function method$name() {\r\n" + "}\r\n" + "}";
-        CFLintResult lintresult = cfBugs.scan(scriptSrc, "test");
-        final List<BugInfo> result = lintresult.getIssues().values().iterator().next();
-        assertEquals(1, result.size());
-        assertEquals("METHOD_INVALID_NAME", result.get(0).getMessageCode());
-        assertEquals(2, result.get(0).getLine());
-    }
-
-    @Test
-    public void nameEndsInNumberScript() throws CFLintScanException {
-        final String scriptSrc = "component {\r\n" + "function method23() {\r\n" + "}\r\n" + "}";
         CFLintResult lintresult = cfBugs.scan(scriptSrc, "test");
         final List<BugInfo> result = lintresult.getIssues().values().iterator().next();
         assertEquals(1, result.size());

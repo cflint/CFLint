@@ -123,7 +123,7 @@ public class ValidName {
      */
     public boolean isInvalid(final String name,final String caseType) {
         boolean caseOk = ("PascalCase".equalsIgnoreCase(caseType)? isPascalCase(name) : isCamelCase(name));
-        return !validChars(name) || endsInNumber(name)
+        return !validChars(name) //|| endsInNumber(name)
                 || !(isSameCase(name) || caseOk || usesUnderscores(name));
     }
 

@@ -27,7 +27,7 @@ public class TestValidNames {
         assertFalse(name.isInvalid("99_bottles_of_beer","CamelCase"));
 
         assertTrue(name.isInvalid("UppperCaseCamel","CamelCase"));
-        assertTrue(name.isInvalid("endsInNumber99","CamelCase"));
+        assertFalse(name.isInvalid("endsInNumber99","CamelCase"));
     }
 
     @Test

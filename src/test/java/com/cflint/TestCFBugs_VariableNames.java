@@ -79,22 +79,6 @@ public class TestCFBugs_VariableNames {
     }
 
     @Test
-    public void nameEndsInNumberTag() throws CFLintScanException {
-        final String tagSrc = "<cfcomponent>\r\n" + "<cffunction name=\"test\">\r\n"
-                + "	<cfset name_1 = \"Fred\">\r\n" + "	<cfset name2 = \"Smith\">\r\n"
-                + "	<cfset last.name1 = \"Fred\">\r\n" + "</cffunction>\r\n" + "</cfcomponent>";
-        CFLintResult lintresult = cfBugs.scan(tagSrc, "test");
-        final List<BugInfo> result = lintresult.getIssues().values().iterator().next();
-        assertEquals(3, result.size());
-        assertEquals("VAR_INVALID_NAME", result.get(0).getMessageCode());
-        assertEquals(3, result.get(0).getLine());
-        assertEquals("VAR_INVALID_NAME", result.get(1).getMessageCode());
-        assertEquals(4, result.get(1).getLine());
-        assertEquals("VAR_INVALID_NAME", result.get(2).getMessageCode());
-        assertEquals(5, result.get(2).getLine());
-    }
-
-    @Test
     public void nameTooShortTag() throws CFLintScanException {
         final String tagSrc = "<cfcomponent>\r\n" + "<cffunction name=\"test\">\r\n"
                 + "	<cfset a = \"Fred\">\r\n" + "	<cfset b = \"Smith\">\r\n" + "	<cfset last.a = \"Fred\">\r\n"
@@ -200,36 +184,6 @@ public class TestCFBugs_VariableNames {
         assertEquals("VAR_INVALID_NAME", result.get(0).getMessageCode());
         assertEquals(3, result.get(0).getLine());
     }
-
-    @Test
-    public void nameEndsInNumberScript() throws CFLintScanException {
-        final String scriptSrc = "component {\n" + 
-            "  function test() {\n" + 
-            "    name_1 = \"Fred\";\n" + 
-            "    name2 = \"Smith\";\n" + 
-            "    last.name1 = \"Fred\";\n" + 
-            "  }\n" + 
-            "}";
-        CFLintResult lintresult = cfBugs.scan(scriptSrc, "test");
-        final List<BugInfo> result = lintresult.getIssues().values().iterator().next();
-        assertNotNull(result);
-        assertEquals(3, result.size());
-        assertEquals("VAR_INVALID_NAME", result.get(0).getMessageCode());
-        assertEquals(3, result.get(0).getLine());
-        assertEquals("name_1", result.get(0).getVariable());
-        assertEquals(scriptSrc.indexOf("name_1"), result.get(0).getOffset());
-
-        assertEquals("VAR_INVALID_NAME", result.get(1).getMessageCode());
-        assertEquals(4, result.get(1).getLine());
-        assertEquals("name2", result.get(1).getVariable());
-        assertEquals(scriptSrc.indexOf("name2"), result.get(1).getOffset());
-
-        assertEquals("VAR_INVALID_NAME", result.get(2).getMessageCode());
-        assertEquals(5, result.get(2).getLine());
-        assertEquals("name1", result.get(2).getVariable());
-        assertEquals(scriptSrc.indexOf("name1"), result.get(2).getOffset());
-    }
-    
 
     @Test
     public void testValidNamesScript() throws CFLintScanException {

@@ -391,6 +391,16 @@ public class CF {
     public static final String APPLICATION = "application";
 
     /**
+     * CF scope application.
+     */
+    public static final String FLASH= "flash";
+
+    /**
+     * CF scope attributes.
+     */
+    public static final String ATTRIBUTES= "attributes";
+
+    /**
      * CF scope cgi.
      */
     public static final String CGI = "cgi";
@@ -416,9 +426,19 @@ public class CF {
     public static final String SERVER = "server";
 
     /**
+     * CF scope thread.
+     */
+    public static final String THREAD= "thread";
+
+    /**
      * CF scope session.
      */
     public static final String SESSION = "session";
+
+    /**
+     * CF scope super.
+     */
+    public static final String SUPER = "super";
 
     /**
      * CF scope client.
@@ -439,6 +459,16 @@ public class CF {
      * CF scope local.
      */
     public static final String LOCAL = "local";
+
+    /**
+     * CF scope thisTag.
+     */
+    public static final String THISTAG = "thistag";
+
+    /**
+     * CF scope caller.
+     */
+    public static final String CALLER = "caller";
 
     /**
      * CF scope this.

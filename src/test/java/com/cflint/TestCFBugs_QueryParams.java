@@ -160,4 +160,32 @@ public class TestCFBugs_QueryParams {
         assertEquals(575, result.get(0).getOffset());
     }
 
+    @Test
+    public void testCFScript_QueryParams_queryExecute_OK() throws CFLintScanException {
+        final String cfcSrc = "component {\r\n" 
+            + "public void function getData() {\r\n"
+            + "queryExecute(\"\r\n"
+            + "   SELECT id from table where id = :id\r\n"
+            + "\",{\r\n"
+            + "   id = {cfsqltype=\"CF_SQL_INTEGER\", value=arguments.id, maxlength=10}\r\n"
+            + "});\r\n}\r\n}";
+        CFLintResult lintresult = cfBugs.scan(cfcSrc, "test");
+        final Map<String, List<BugInfo>> result = lintresult.getIssues();
+        assertEquals(0, result.size());
+    }
+
+    @Test
+    public void testCFScript_QueryParams_queryExecute_Hashes() throws CFLintScanException {
+        final String cfcSrc = "component {\r\n" 
+            + "public void function getData() {\r\n"
+            + "queryExecute(\"\r\n"
+            + "   SELECT id from table where id = #arguments.id#\r\n"
+            + "\");\r\n}\r\n}";
+        CFLintResult lintresult = cfBugs.scan(cfcSrc, "test");
+        final List<BugInfo> result = lintresult.getIssues().get("QUERYPARAM_REQ");
+        assertEquals(1, result.size());
+        assertEquals("QUERYPARAM_REQ", result.get(0).getMessageCode());
+        assertEquals(3, result.get(0).getLine());
+    }
+
 }

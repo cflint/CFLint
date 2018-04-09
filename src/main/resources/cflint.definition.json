@@ -76,7 +76,7 @@
             "message": [
                 {
                     "code": "QUERYPARAM_REQ",
-                    "messageText": "setSql() statement should use .addParam() instead of #'s name=\"${variable}\"",
+                    "messageText": "Use query parameters for variables in sql statements.",
                     "severity": "WARNING"
                 },
                 {

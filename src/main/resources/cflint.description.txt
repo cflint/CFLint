@@ -5,7 +5,7 @@ NO_DEFAULT_INSIDE_SWITCH:Missing default switch statement.
 GLOBAL_VAR:Global variable exists.
 NESTED_CFOUTPUT:Nexted cfoutput with cfquery tag.
 OUTPUT_ATTR:Tag should have output='false'.
-QUERYPARAM_REQ:SetSql() statement should use .addParam().
+QUERYPARAM_REQ:Use query parameters for variables in sql statements.
 CFQUERYPARAM_REQ:cfquery should use <cfqueryparam>.
 QUERYNEW_DATATYPE:QueryNew statement should specify datatypes.
 MISSING_VAR:Variable is not declared with a var statement.

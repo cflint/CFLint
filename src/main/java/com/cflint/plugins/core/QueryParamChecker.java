@@ -20,7 +20,7 @@ public class QueryParamChecker extends CFLintScannerAdapter {
     public void expression(final CFExpression expression, final Context context, final BugList bugs) {
         if (expression instanceof CFFunctionExpression) {
             final CFFunctionExpression functionExpression = (CFFunctionExpression) expression;
-            if ("setSql".equalsIgnoreCase(functionExpression.getFunctionName())
+            if ("setSql".equalsIgnoreCase(functionExpression.getFunctionName()) || "queryExecute".equalsIgnoreCase(functionExpression.getFunctionName())
                 && !functionExpression.getArgs().isEmpty()) {
                 final CFExpression argsExpression = functionExpression.getArgs().get(0);
                 final Pattern p = Pattern.compile(".*#[^#].*", Pattern.DOTALL);

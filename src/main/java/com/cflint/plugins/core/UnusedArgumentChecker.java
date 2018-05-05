@@ -3,6 +3,7 @@ package com.cflint.plugins.core;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import com.cflint.BugList;
 import com.cflint.CF;
@@ -11,6 +12,7 @@ import com.cflint.plugins.Context;
 
 import cfml.parsing.cfscript.CFExpression;
 import cfml.parsing.cfscript.CFFullVarExpression;
+import cfml.parsing.cfscript.CFFunctionExpression;
 import cfml.parsing.cfscript.CFIdentifier;
 import cfml.parsing.cfscript.script.CFFuncDeclStatement;
 import cfml.parsing.cfscript.script.CFFunctionParameter;
@@ -20,22 +22,32 @@ import net.htmlparser.jericho.Element;
 public class UnusedArgumentChecker extends CFLintScannerAdapter {
 
     // Use linked hash map to preserve the order of the elements.
-    protected Map<String, Boolean> methodArguments = new LinkedHashMap<>();
-    protected Map<String, Integer> argumentLineNo = new HashMap<>();
-    protected Map<String, Integer> argumentOffset = new HashMap<>();
+//    protected Map<String, Boolean> methodArguments = new LinkedHashMap<>();
+//    protected Map<String, Integer> argumentLineNo = new HashMap<>();
+//    protected Map<String, Integer> argumentOffset = new HashMap<>();
+    protected Map<String, ArgInfo> currentArgs = new LinkedHashMap<>();
 
+    static class ArgInfo{
+        Boolean used = false;
+        Integer argumentLineNo;
+        Integer argumentOffset;
+        String type;
+    }
+    
     @Override
     public void element(final Element element, final Context context, final BugList bugs) {
         if (element.getName().equals(CF.CFARGUMENT)) {
             final String name = element.getAttributeValue(CF.NAME) != null
                 ? element.getAttributeValue(CF.NAME).toLowerCase() : "";
-            methodArguments.put(name, false);
-            setArgumentLineNo(name, context.startLine());
-            setArgumentOffset(name, element.getAttributeValue(CF.NAME) != null 
-                    ? element.getAttributes().get(CF.NAME).getValueSegment().getBegin() : element.getBegin());
+            ArgInfo argInfo = new ArgInfo();
+            argInfo.argumentLineNo=context.startLine();
+            argInfo.argumentOffset=element.getAttributeValue(CF.NAME) != null 
+                    ? element.getAttributes().get(CF.NAME).getValueSegment().getBegin() : element.getBegin();
+            argInfo.type=element.getAttributeValue(CF.TYPE);
+            currentArgs.put(name, argInfo);
             final String code = element.getParentElement().toString();
             if (isUsed(code, name)) {
-                methodArguments.put(name, true);
+                argInfo.used=true;
             }
         }
     }
@@ -47,25 +59,15 @@ public class UnusedArgumentChecker extends CFLintScannerAdapter {
             for (final CFFunctionParameter argument : function.getFormals()) {
                 final String name = argument.getName().toLowerCase(); 
                 // CF variable names are not case sensitive
-                methodArguments.put(name, false);
-                setArgumentLineNo(name, function.getLine());
-                setArgumentOffset(name, context.offset() + argument.getOffset() );
+                ArgInfo argInfo = new ArgInfo();
+                argInfo.argumentLineNo=function.getLine();
+                argInfo.argumentOffset=context.offset() + argument.getOffset();
+                argInfo.type=argument.getType();
+                currentArgs.put(name, argInfo);
                 if (isUsed(function.Decompile(0), name)) {
-                    methodArguments.put(name, true);
+                    argInfo.used=true;
                 }
             }
-        }
-    }
-
-    protected void setArgumentLineNo(final String argument, final Integer lineNo) {
-        if (argumentLineNo.get(argument) == null) {
-            argumentLineNo.put(argument, lineNo);
-        }
-    }
-
-    protected void setArgumentOffset(final String argument, final Integer offset) {
-        if (argumentOffset.get(argument) == null) {
-            argumentOffset.put(argument, offset);
         }
     }
 
@@ -88,8 +90,15 @@ public class UnusedArgumentChecker extends CFLintScannerAdapter {
 
     protected void useIdentifier(final CFIdentifier identifier) {
         final String name = identifier.getName().toLowerCase();
-        if (methodArguments.get(name) != null) {
-            methodArguments.put(name, true);
+        if (currentArgs.get(name) != null) {
+            currentArgs.get(name).used=true;
+        }
+    }
+    
+    protected void useIdentifier(final CFFunctionExpression identifier) {
+        final String name = identifier.getName().toLowerCase();
+        if (currentArgs.get(name) != null && CF.FUNCTION.equalsIgnoreCase(currentArgs.get(name).type)) {
+            currentArgs.get(name).used=true;
         }
     }
 
@@ -99,24 +108,25 @@ public class UnusedArgumentChecker extends CFLintScannerAdapter {
             useIdentifier((CFFullVarExpression) expression);
         } else if (expression instanceof CFIdentifier) {
             useIdentifier((CFIdentifier) expression);
+        } else if(expression instanceof CFFunctionExpression){
+            useIdentifier((CFFunctionExpression) expression);
         }
     }
 
     @Override
     public void startFunction(final Context context, final BugList bugs) {
-        methodArguments.clear();
-        argumentLineNo.clear();
+        currentArgs.clear();
     }
 
     @Override
     public void endFunction(final Context context, final BugList bugs) {
         // sort by line number
-        for (final Map.Entry<String, Boolean> method : methodArguments.entrySet()) {
+        for (final Entry<String, ArgInfo> method : currentArgs.entrySet()) {
             final String name = method.getKey();
-            final Boolean used = method.getValue();
-            final int offset = argumentOffset.get(name);
-            if (!used) {
-                context.addMessage("UNUSED_METHOD_ARGUMENT", name, argumentLineNo.get(name), offset);
+            final ArgInfo argInfo = method.getValue();
+            final int offset = argInfo.argumentOffset;
+            if (!argInfo.used) {
+                context.addMessage("UNUSED_METHOD_ARGUMENT", name, argInfo.argumentLineNo, offset);
             }
         }
     }

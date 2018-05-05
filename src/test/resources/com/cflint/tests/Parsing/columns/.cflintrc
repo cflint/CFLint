@@ -1,0 +1,10 @@
+{
+  "rule" : [ ],
+  "excludes" : [ ],
+  "includes" : [ {
+    "code" : "ARGUMENT_HAS_PREFIX_OR_POSTFIX"
+  },
+  { "code" : "ARGUMENT_IS_TEMPORARY"} ,
+  { "code" : "COMPONENT_INVALID_NAME"} ],
+  "inheritParent" : false
+}

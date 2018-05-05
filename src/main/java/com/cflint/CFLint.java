@@ -609,6 +609,14 @@ public class CFLint implements IErrorReporter {
                 scanElement(elem, context);
                 processStack(elem.getChildElements(), space + " ", context);
                 handler.pop();
+            } else if (elem.getName().equalsIgnoreCase(CF.CFCATCH)) {
+                scanElement(elem, context);
+                handler.push(CF.CFCATCH);
+                if(elem.getAttributeValue("name")!=null){
+                    handler.addVariable(elem.getAttributeValue("name"));
+                }
+                processStack(elem.getChildElements(), space + " ", context);
+                handler.pop();
             } else {
                 scanElement(elem, context);
                 for (final Entry<String, CFExpression> expression : unpackTagExpressions(elem).entrySet()) {
@@ -875,7 +883,12 @@ public class CFLint implements IErrorReporter {
                 final CFTryCatchStatement cftry = (CFTryCatchStatement) expression;
                 process(cftry.getBody(), context);
                 for (final CFCatchStatement stmt : cftry.getCatchStatements()) {
+                    handler.push(CF.CFCATCH);
+                    if(stmt.getVariable()!=null){
+                        handler.addVariable(stmt.getVariable().getName());
+                    }
                     process(stmt.getCatchBody(), context);
+                    handler.pop();
                 }
                 process(cftry.getFinallyStatement(), context);
             } else if (expression instanceof CFReturnStatement) {

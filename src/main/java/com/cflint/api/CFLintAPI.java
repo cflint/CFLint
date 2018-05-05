@@ -100,7 +100,9 @@ public class CFLintAPI {
             cflint.setDebug(debug);
             cflint.setStrictIncludes(strictInclude);
             cflint.setAllowedExtensions(extensions);
-            cflint.getBugs().setFilter(createFilter());
+            if(filterFile!=null){
+                cflint.getBugs().setFilter(createFilter());
+            }
             return cflint;
         } catch (final Exception e) {
             throw new CFLintConfigurationException(e);

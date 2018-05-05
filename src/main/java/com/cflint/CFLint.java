@@ -303,6 +303,7 @@ public class CFLint implements IErrorReporter {
     }
 
     protected void printException(final Exception e, final Element... elem) {
+        e.printStackTrace();
         if (!quiet) {
             if (elem != null && elem.length > 0 && elem[0] != null) {
                 final int line = elem[0].getSource().getRow(elem[0].getBegin());
@@ -1331,9 +1332,11 @@ public class CFLint implements IErrorReporter {
             //A bit of a hack to fix the offset issue 
             //This could be handled better at the source where line and offset are calc'd.
             int idxOffSet = 1;
-            if(lineOffsets != null && msg.getLine()!=null && msg.getOffset() != null && msg.getOffset() >=lineOffsets[msg.getLine()] ){
-                idxOffSet=0;
-            }
+            try{
+                if(lineOffsets != null && msg.getLine()!=null && msg.getOffset() != null && msg.getOffset() >=lineOffsets[msg.getLine()] ){
+                    idxOffSet=0;
+                }
+            }catch(ArrayIndexOutOfBoundsException e){}
             if (expression instanceof CFExpression) {
                 final BugInfo bugInfo = bldr.build((CFExpression) expression, elem);
                 final Token token = ((CFExpression) expression).getToken();

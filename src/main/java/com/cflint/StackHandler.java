@@ -18,13 +18,26 @@ public class StackHandler {
 
     public StackHandler() {
         super();
-        excludes.add("VARIABLES");
-        excludes.add("ARGUMENTS");
-        excludes.add("SUPER");
-        excludes.add("SESSION");
-        excludes.add("APPLICATION");
-        excludes.add("THIS");
-        excludes.add("LOCAL");
+        //Scopes
+        excludes.add(CF.VARIABLES.toUpperCase());
+        excludes.add(CF.ARGUMENTS.toUpperCase());
+        excludes.add(CF.SUPER.toUpperCase());
+        excludes.add(CF.SESSION.toUpperCase());
+        excludes.add(CF.APPLICATION.toUpperCase());
+        excludes.add(CF.THIS.toUpperCase());
+        excludes.add(CF.LOCAL.toUpperCase());
+        excludes.add(CF.THISTAG.toUpperCase());
+        excludes.add(CF.CALLER.toUpperCase());
+        excludes.add(CF.ATTRIBUTES.toUpperCase());
+        excludes.add(CF.CGI.toUpperCase());
+        excludes.add(CF.CLIENT.toUpperCase());
+        excludes.add(CF.COOKIE.toUpperCase());
+        excludes.add(CF.FLASH.toUpperCase());
+        excludes.add(CF.FORM.toUpperCase());
+        excludes.add(CF.REQUEST.toUpperCase());
+        excludes.add(CF.SERVER.toUpperCase());
+        excludes.add(CF.THREAD.toUpperCase());
+        excludes.add(CF.URL.toUpperCase());
         varStack.push(new Stack(""));
     }
 

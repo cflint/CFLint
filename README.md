@@ -133,7 +133,7 @@ An example `.cflintrc` file is shown below:
 
 * `parameters` allows configuration of rule parameters. See `cflint.definition.json` for the parameters and their defaults.
 
-* Please note: `inheritPlugins` and `output` were marked deprecated in CFLint 1.2.0 and will be removed in 1.4.0. If you are using `.cflintrc` files now, please remove the inheritPlugins and output properties as soon as possible. Plugin inheritance will going forward always be treated as true since the team cannot see a use case in which it should be disabled. The value of the output attribute is ignored.
+* Please note: `inheritPlugins` and `output` were marked deprecated in CFLint 1.2.0 and removed in 1.4.0. Plugin inheritance is now always treated as true since the team cannot see a use case in which it should be disabled. The output type can be controlled elsewhere, such as command-line flags.
 
 We provide a [schema with the deprecated properties excluded](/src/main/resources/schemas/.cflintrc.schema.json).
 
@@ -242,7 +242,7 @@ The first option is what we call CFLint XML. It's an internal format that adhere
 
 The second option is FindBugs XML. The resulting XML document adheres to the current version of the FindBugs BugCollection [XML Schema Definition](src/main/resources/findbugs/bugcollection.xsd) and can be used in most CI-/Build-Server products. JetBrains TeamCity 10+ can import this format out of the box.
 
-*Please note*: Currently it's not possible to produce BOTH flavours of XML reports at the same time. This is a known limitation. This limitation will be removed as part of CFLint 2.0 (see [Issue #331](https://github.com/cflint/CFLint/issues/331)).
+*Please note*: Currently it's not possible to produce BOTH flavors of XML reports at the same time. This is a known limitation. This limitation will be removed as part of CFLint 2.0 (see [Issue #331](https://github.com/cflint/CFLint/issues/331)).
 
 #### CFLint XML
 
@@ -403,7 +403,7 @@ Users of **Atom** can integrate via AtomLinter through a third-party project.
 
 An extension for **Visual Studio Code** is also available as a third-party project.
 
-Support for JetBrains' **IntelliJ** is planned; talk to [@TheRealAgentK](https://github.com/TheRealAgentK) for more info if you're interested.
+Support for JetBrains' **IntelliJ** is available as third-party plugin.
 
 ## Extending CFLint
 
@@ -458,9 +458,9 @@ public class ArgDefChecker extends CFLintScannerAdapter {
 
 Looking at the function `element`, the arguments are:
 
-* element - the current CFML tag
-* context - the current file being checked
-* bugs - the appending object of violations
+* `element` - the current CFML tag
+* `context` - the current file being checked
+* `bugs` - the appending object of violations
 
 # Recipes
 
@@ -560,6 +560,7 @@ Please note that the majority of the libraries and projects mentioned here are n
 * [ColdFusion Builder extension](https://github.com/cfjedimaster/CFLint-Extension)
 * [Atom package](https://github.com/ditinc/linter-cflint)
 * [Visual Studio Code extension](https://github.com/KamasamaK/vscode-cflint)
+* [IntelliJ plugin](https://bitbucket.org/SyncHot/cflint/)
 * [SonarQube plugin](https://github.com/stepstone-tech/sonar-coldfusion)
 * [NPM wrapper](https://github.com/morgdenn/npm-cflint)
 * Vim [Syntastic support for CFLint](https://github.com/cflint/cflint-syntastic)

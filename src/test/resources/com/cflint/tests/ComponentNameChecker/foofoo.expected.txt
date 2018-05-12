@@ -1,6 +1,6 @@
 {
   "version" : "",
-  "timestamp" : 1507944134,
+  "timestamp" : 1526093730,
   "issues" : [ {
     "severity" : "INFO",
     "id" : "COMPONENT_INVALID_NAME",
@@ -11,6 +11,7 @@
       "file" : "src\\test\\resources\\com\\cflint\\tests\\ComponentNameChecker\\foofoo.cfc",
       "fileName" : "foofoo.cfc",
       "function" : "",
+      "offset" : 0,
       "column" : 0,
       "line" : 1,
       "message" : "Component name 'foo2' is not a valid name. Please use PascalCase and start with a capital letter.",

@@ -1,6 +1,6 @@
 {
   "version" : "",
-  "timestamp" : 1507944138,
+  "timestamp" : 1526093736,
   "issues" : [ {
     "severity" : "WARNING",
     "id" : "PACKAGE_CASE_MISMATCH",
@@ -11,6 +11,7 @@
       "file" : "src\\test\\resources\\com\\cflint\\tests\\PackageCase\\packagecase_nok_b.cfc",
       "fileName" : "packagecase_nok_b.cfc",
       "function" : "",
+      "offset" : 29,
       "column" : 1,
       "line" : 4,
       "message" : "The case of the package folder and the object declaration do not match for tests.PackageCase.packagecase_nok_b.",

@@ -1,6 +1,6 @@
 {
   "version" : "",
-  "timestamp" : 1507944133,
+  "timestamp" : 1526093729,
   "issues" : [ {
     "severity" : "WARNING",
     "id" : "FUNCTION_TOO_COMPLEX",
@@ -11,6 +11,7 @@
       "file" : "src\\test\\resources\\com\\cflint\\tests\\Complexity\\ifelseComplex.cfc",
       "fileName" : "ifelseComplex.cfc",
       "function" : "foo",
+      "offset" : 29,
       "column" : 16,
       "line" : 2,
       "message" : "Function foo is too complex. Consider breaking the function into smaller functions.",

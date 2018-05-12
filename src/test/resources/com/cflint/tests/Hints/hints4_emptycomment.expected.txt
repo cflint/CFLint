@@ -1,6 +1,6 @@
 {
   "version" : "",
-  "timestamp" : 1507944135,
+  "timestamp" : 1526093732,
   "issues" : [ {
     "severity" : "WARNING",
     "id" : "COMPONENT_HINT_MISSING",
@@ -11,6 +11,7 @@
       "file" : "src\\test\\resources\\com\\cflint\\tests\\Hints\\hints4_emptycomment.cfc",
       "fileName" : "hints4_emptycomment.cfc",
       "function" : "",
+      "offset" : 11,
       "column" : 1,
       "line" : 4,
       "message" : "Component hints4_emptycomment is missing a hint.",
@@ -27,6 +28,7 @@
       "file" : "src\\test\\resources\\com\\cflint\\tests\\Hints\\hints4_emptycomment.cfc",
       "fileName" : "hints4_emptycomment.cfc",
       "function" : "function1",
+      "offset" : 58,
       "column" : 13,
       "line" : 9,
       "message" : "Function function1 is missing a hint.",

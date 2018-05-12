@@ -1,6 +1,6 @@
 {
   "version" : "",
-  "timestamp" : 1507944143,
+  "timestamp" : 1526093744,
   "issues" : [ {
     "severity" : "ERROR",
     "id" : "MISSING_VAR",
@@ -11,6 +11,7 @@
       "file" : "src\\test\\resources\\com\\cflint\\tests\\VarScoper\\cfloop_index_413.cfc",
       "fileName" : "cfloop_index_413.cfc",
       "function" : "foo",
+      "offset" : 79,
       "column" : 33,
       "line" : 2,
       "message" : "Variable idx is not declared with a var statement.",
@@ -27,6 +28,7 @@
       "file" : "src\\test\\resources\\com\\cflint\\tests\\VarScoper\\cfloop_index_413.cfc",
       "fileName" : "cfloop_index_413.cfc",
       "function" : "foo",
+      "offset" : 88,
       "column" : 3,
       "line" : 3,
       "message" : "Variable xxx is not declared with a var statement.",

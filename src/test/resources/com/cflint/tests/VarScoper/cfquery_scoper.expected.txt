@@ -1,6 +1,6 @@
 {
   "version" : "",
-  "timestamp" : 1507944143,
+  "timestamp" : 1526093745,
   "issues" : [ {
     "severity" : "ERROR",
     "id" : "MISSING_VAR",
@@ -11,6 +11,7 @@
       "file" : "src\\test\\resources\\com\\cflint\\tests\\VarScoper\\cfquery_scoper.cfc",
       "fileName" : "cfquery_scoper.cfc",
       "function" : "foo",
+      "offset" : 320,
       "column" : 3,
       "line" : 15,
       "message" : "Variable siteID is not declared with a var statement.",

@@ -1,6 +1,6 @@
 {
   "version" : "",
-  "timestamp" : 1507944136,
+  "timestamp" : 1526093734,
   "issues" : [ {
     "severity" : "WARNING",
     "id" : "GLOBAL_LITERAL_VALUE_USED_TOO_OFTEN",
@@ -11,6 +11,7 @@
       "file" : "src\\test\\resources\\com\\cflint\\tests\\Includes\\Header.cfm",
       "fileName" : "Header.cfm",
       "function" : "",
+      "offset" : 170,
       "column" : 71,
       "line" : 2,
       "message" : "Literal companyName occurs several times in one or more files. Consider giving it a name and not hard coding values.",
@@ -27,6 +28,7 @@
       "file" : "src\\test\\resources\\com\\cflint\\tests\\Includes\\Header.cfm",
       "fileName" : "Header.cfm",
       "function" : "",
+      "offset" : 232,
       "column" : 33,
       "line" : 3,
       "message" : "Literal companyName occurs several times in one or more files. Consider giving it a name and not hard coding values.",
@@ -43,6 +45,7 @@
       "file" : "src\\test\\resources\\com\\cflint\\tests\\Includes\\Header.cfm",
       "fileName" : "Header.cfm",
       "function" : "",
+      "offset" : 270,
       "column" : 71,
       "line" : 3,
       "message" : "Literal companyName occurs several times in one or more files. Consider giving it a name and not hard coding values.",

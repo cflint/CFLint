@@ -25,7 +25,7 @@ public class ArgVarChecker extends CFLintScannerAdapter {
         if (expression instanceof CFVarDeclExpression) {
             final String name = ((CFVarDeclExpression) expression).getName();
             if (context.isInFunction() && context.getCallStack().hasArgument(name)) {
-                checkExpression(context, name);
+                checkExpression(context, name,expression);
             }
         } else if (expression instanceof CFFullVarExpression) {
             final CFFullVarExpression fullVarExpr = (CFFullVarExpression) expression;
@@ -51,21 +51,21 @@ public class ArgVarChecker extends CFLintScannerAdapter {
                     } else {
                         alreadyReportedFullExpression.add(fileKey);
                     }
-                    context.addMessage("ARG_VAR_MIXED", name);
+                    context.messageBuilder(this).at(cfIdentifier1).build("ARG_VAR_MIXED", name);
                 }
             }
         }
         return false;
     }
 
-    private void checkExpression(final Context context, final String name) {
+    private void checkExpression(final Context context, final String name, CFExpression expression) {
         final String fileKey = context.fileFunctionString();
         if (alreadyReportedExpression.contains(fileKey)) {
             return;
         } else {
             alreadyReportedExpression.add(fileKey);
         }
-        context.addMessage("ARG_VAR_CONFLICT", name);
+        context.messageBuilder(this).at(expression).build("ARG_VAR_CONFLICT", name);
     }
 
 }

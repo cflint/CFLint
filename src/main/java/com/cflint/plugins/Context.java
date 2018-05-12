@@ -13,11 +13,16 @@ import com.cflint.BugInfo;
 import com.cflint.CF;
 import com.cflint.StackHandler;
 import com.cflint.config.CFLintConfiguration;
+import com.cflint.plugins.Context.MessageBuilder;
+import com.cflint.plugins.core.ArgumentNameChecker;
 import com.cflint.tools.ObjectEquals;
 
 import cfml.parsing.cfscript.CFExpression;
 import cfml.parsing.cfscript.CFIdentifier;
 import cfml.parsing.cfscript.script.CFFuncDeclStatement;
+import cfml.parsing.cfscript.script.CFFunctionParameter;
+import cfml.parsing.cfscript.script.CFParsedStatement;
+import net.htmlparser.jericho.Attribute;
 import net.htmlparser.jericho.Element;
 
 public class Context {
@@ -186,14 +191,65 @@ public class Context {
             final Integer offset) {
         messages.add(new ContextMessage(messageCode, variable, line, offset));
     }
+    
+    public MessageBuilder messageBuilder(CFLintScanner source){
+        MessageBuilder bldr = new MessageBuilder(messages);
+        bldr.message=new ContextMessage(null,null);
+        bldr.message.source=source;
+        return bldr;
+    }
+    
+    public class MessageBuilder{
+        ContextMessage message;
+        private final List<ContextMessage> messages ;
+        public MessageBuilder(List<ContextMessage> messages) {
+            super();
+            this.messages = messages;
+        }
+        public MessageBuilder at(CFExpression expression){
+            return at(expression==null?null:expression.getToken());
+        }
+        public ContextMessage build(String messageCode,String variable){
+            message.messageCode=messageCode;
+            message.variable=variable;
+            messages.add(message);
+            ContextMessage message2 = new ContextMessage(null,null);
+            message2.line=message.line;
+            message2.offset=message.offset;
+            message2.column=message.column;
+            CFIdentifier id;
+            message = message2;
+            return message;
+        }
+        public MessageBuilder at(CFParsedStatement parsedStatement) {
+            return at(parsedStatement==null?null:parsedStatement.getToken());
+        }
+        public MessageBuilder at(Token token) {
+            message.line=token.getLine();
+            message.offset=token.getStartIndex();
+            message.column=token.getCharPositionInLine();
+            return this;
+        }
+        public MessageBuilder at(Element element) {
+            message.offset=element.getBegin();
+            message.line = element.getSource().getRow(element.getBegin());
+            return this;
+        }
+        public MessageBuilder at(Attribute attributeObj) {
+            message.offset=attributeObj.getBegin();
+            message.line = attributeObj.getSource().getRow(attributeObj.getBegin());
+            return this;
+        }
+    }
 
     public static class ContextMessage {
         private String messageCode;
         private String variable;
         private Integer line;
+        private Integer column;
         private Integer offset;
         private CFLintScanner source;
-        private final CFExpression cfExpression;
+        private CFExpression cfExpression;
 
         public ContextMessage(final String messageCode, final String variable) {
             super();

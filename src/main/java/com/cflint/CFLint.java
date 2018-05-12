@@ -1370,7 +1370,8 @@ public class CFLint implements IErrorReporter {
                     }    
                 }
             } else {
-                final BugInfo bug = bldr.build((CFScriptStatement) expression, elem);
+                CFScriptStatement cfscriptExpr = (CFScriptStatement) expression;
+                final BugInfo bug = bldr.build(cfscriptExpr, elem);
                 if (msg.getLine() != null) {
                     bug.setLine(msg.getLine());
                     if (msg.getOffset() != null) {
@@ -1382,7 +1383,7 @@ public class CFLint implements IErrorReporter {
                     }
                     bug.setLength(msg.getVariable() != null ? msg.getVariable().length() : 0);
                 }
-                if (!suppressed(bug, expression==null?null:((CFScriptStatement)expression).getToken(), context)) {
+                if (!suppressed(bug, expression==null?null:cfscriptExpr.getToken(), context)) {
                     bugs.add(bug);
                 }
             }

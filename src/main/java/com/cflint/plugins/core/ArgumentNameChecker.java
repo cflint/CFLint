@@ -5,6 +5,7 @@ import com.cflint.CF;
 import com.cflint.config.CFLintConfiguration;
 import com.cflint.plugins.CFLintScannerAdapter;
 import com.cflint.plugins.Context;
+import com.cflint.plugins.Context.MessageBuilder;
 
 import cfml.parsing.cfscript.script.CFFuncDeclStatement;
 import cfml.parsing.cfscript.script.CFFunctionParameter;
@@ -73,7 +74,7 @@ public class ArgumentNameChecker extends CFLintScannerAdapter {
 
             for (final CFFunctionParameter argument : function.getFormals()) {
                 checkNameForBugs(context, argument.getName(), context.getFilename(), context.getFunctionName(), lineNo, context.offset() + argument.getOffset(),
-                        bugs);
+                        bugs,context.messageBuilder(this).at(function));
             }
         }
     }
@@ -89,7 +90,7 @@ public class ArgumentNameChecker extends CFLintScannerAdapter {
             final String name = element.getAttributeValue(CF.NAME);
             if (name != null && name.length() > 0) {
                 offset = element.getAttributes().get(CF.NAME).getValueSegment().getBegin();
-                checkNameForBugs(context, name, context.getFilename(), context.getFunctionName(), lineNo, offset, bugs);
+                checkNameForBugs(context, name, context.getFilename(), context.getFunctionName(), lineNo, offset, bugs,context.messageBuilder(this).at(element));
             } else {
                 context.addMessage("ARGUMENT_MISSING_NAME", null, this, lineNo, offset);
             }
@@ -157,7 +158,7 @@ public class ArgumentNameChecker extends CFLintScannerAdapter {
      * - Names having a prefix or postfix
      */
     public void checkNameForBugs(final Context context, final String argument, final String filename,
-            final String functionName, final int line, final int offset, final BugList bugs)  {
+            final String functionName, final int line, final int offset, final BugList bugs,MessageBuilder msgBuilder)  {
         final ValidName name = new ValidName(minArgLength, maxArgLength, maxArgWords);
 
         try {
@@ -168,25 +169,25 @@ public class ArgumentNameChecker extends CFLintScannerAdapter {
 
         
         if (name.isInvalid(argument,context.getConfiguration().getParameter(this, "case"))) {
-            context.addMessage("ARGUMENT_INVALID_NAME", argument, this, line, offset);
+            msgBuilder.build("ARGUMENT_INVALID_NAME", argument);
         }
         if (name.isUpperCase(argument)) {
-            context.addMessage("ARGUMENT_ALLCAPS_NAME", argument, this, line, offset);
+            msgBuilder.build("ARGUMENT_ALLCAPS_NAME", argument);
         }
         if (name.tooShort(argument)) {
-            context.addMessage("ARGUMENT_TOO_SHORT", argument, this, line, offset);
+            msgBuilder.build("ARGUMENT_TOO_SHORT", argument);
         }
         if (name.tooLong(argument)) {
-            context.addMessage("ARGUMENT_TOO_LONG", argument, this, line, offset);
+            msgBuilder.build("ARGUMENT_TOO_LONG", argument);
         }
         if (!name.isUpperCase(argument) && name.tooWordy(argument)) {
-            context.addMessage("ARGUMENT_TOO_WORDY", argument, this, line, offset);
+            msgBuilder.build("ARGUMENT_TOO_WORDY", argument);
         }
         if (name.isTemporary(argument)) {
-            context.addMessage("ARGUMENT_IS_TEMPORARY", argument, this, line, offset);
+            msgBuilder.build("ARGUMENT_IS_TEMPORARY", argument);
         }
         if (name.hasPrefixOrPostfix(argument)) {
-            context.addMessage("ARGUMENT_HAS_PREFIX_OR_POSTFIX", argument, this, line, offset);
+            msgBuilder.build("ARGUMENT_HAS_PREFIX_OR_POSTFIX", argument);
         }
     }
 }

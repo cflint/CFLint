@@ -10,6 +10,7 @@
     "locations" : [ {
       "fileName" : "test.cfc",
       "function" : "",
+      "offset" : 0,
       "column" : 0,
       "line" : 1,
       "message" : "Component name test is not a valid name. Please use PascalCase and start with a capital letter.",
@@ -25,6 +26,7 @@
     "locations" : [ {
       "fileName" : "test.cfc",
       "function" : "getStringFromStruct",
+      "offset" : 29,
       "column" : 16,
       "line" : 2,
       "message" : "Function getStringFromStruct is missing a hint.",
@@ -40,6 +42,7 @@
     "locations" : [ {
       "fileName" : "test.cfc",
       "function" : "getStringFromStruct",
+      "offset" : 29,
       "column" : 16,
       "line" : 2,
       "message" : "Function getStringFromStruct is missing a hint.",
@@ -55,6 +58,7 @@
     "locations" : [ {
       "fileName" : "test.cfc",
       "function" : "getStringFromStruct",
+      "offset" : 29,
       "column" : 16,
       "line" : 2,
       "message" : "Function getStringFromStruct is missing a hint.",

@@ -1,6 +1,6 @@
 {
   "version" : "",
-  "timestamp" : 1507944142,
+  "timestamp" : 1526093742,
   "issues" : [ {
     "severity" : "INFO",
     "id" : "VAR_TOO_LONG",
@@ -11,6 +11,7 @@
       "file" : "src\\test\\resources\\com\\cflint\\tests\\VariableNameChecker\\cftry.cfc",
       "fileName" : "cftry.cfc",
       "function" : "init",
+      "offset" : 116,
       "column" : 10,
       "line" : 8,
       "message" : "Variable asdfghjklasdfghjklasdfghjklasdfghjklasdfghjklasdfghjkl should be shorter than 20 characters.",
@@ -27,6 +28,7 @@
       "file" : "src\\test\\resources\\com\\cflint\\tests\\VariableNameChecker\\cftry.cfc",
       "fileName" : "cftry.cfc",
       "function" : "init",
+      "offset" : 62,
       "column" : 9,
       "line" : 5,
       "message" : "Variable q should be longer than 3 characters.",
@@ -43,6 +45,7 @@
       "file" : "src\\test\\resources\\com\\cflint\\tests\\VariableNameChecker\\cftry.cfc",
       "fileName" : "cftry.cfc",
       "function" : "init",
+      "offset" : 98,
       "column" : 10,
       "line" : 7,
       "message" : "Variable z should be longer than 3 characters.",

@@ -1,6 +1,6 @@
 {
   "version" : "",
-  "timestamp" : 1507944138,
+  "timestamp" : 1526093736,
   "issues" : [ {
     "severity" : "INFO",
     "id" : "VAR_IS_TEMPORARY",
@@ -11,6 +11,7 @@
       "file" : "src\\test\\resources\\com\\cflint\\tests\\Naming\\tempVar.cfc",
       "fileName" : "tempVar.cfc",
       "function" : "foo",
+      "offset" : 47,
       "column" : 12,
       "line" : 3,
       "message" : "Temporary variable tempStruct could be named better.",

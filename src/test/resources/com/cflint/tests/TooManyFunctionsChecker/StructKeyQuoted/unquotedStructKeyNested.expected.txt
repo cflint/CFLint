@@ -1,6 +1,6 @@
 {
   "version" : "",
-  "timestamp" : 1507944141,
+  "timestamp" : 1526093740,
   "issues" : [ {
     "severity" : "WARNING",
     "id" : "UNQUOTED_STRUCT_KEY",
@@ -11,6 +11,7 @@
       "file" : "src\\test\\resources\\com\\cflint\\tests\\TooManyFunctionsChecker\\StructKeyQuoted\\unquotedStructKeyNested.cfc",
       "fileName" : "unquotedStructKeyNested.cfc",
       "function" : "x",
+      "offset" : 77,
       "column" : 15,
       "line" : 5,
       "message" : "Unquoted struct key mySubKey is not case-sensitive.  Quoting it is recommended.",

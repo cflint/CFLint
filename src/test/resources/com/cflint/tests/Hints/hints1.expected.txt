@@ -1,6 +1,6 @@
 {
   "version" : "",
-  "timestamp" : 1507944134,
+  "timestamp" : 1526093731,
   "issues" : [ {
     "severity" : "WARNING",
     "id" : "COMPONENT_HINT_MISSING",
@@ -11,6 +11,7 @@
       "file" : "src\\test\\resources\\com\\cflint\\tests\\Hints\\hints1.cfc",
       "fileName" : "hints1.cfc",
       "function" : "",
+      "offset" : 0,
       "column" : 1,
       "line" : 1,
       "message" : "Component hints1 is missing a hint.",

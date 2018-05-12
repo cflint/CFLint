@@ -1,6 +1,6 @@
 {
   "version" : "",
-  "timestamp" : 1507944143,
+  "timestamp" : 1526093745,
   "issues" : [ {
     "severity" : "ERROR",
     "id" : "MISSING_VAR",
@@ -11,6 +11,7 @@
       "file" : "src\\test\\resources\\com\\cflint\\tests\\VarScoper\\cftry.cfc",
       "fileName" : "cftry.cfc",
       "function" : "init",
+      "offset" : 116,
       "column" : 7,
       "line" : 5,
       "message" : "Variable tryVar is not declared with a var statement.",
@@ -27,6 +28,7 @@
       "file" : "src\\test\\resources\\com\\cflint\\tests\\VarScoper\\cftry.cfc",
       "fileName" : "cftry.cfc",
       "function" : "init",
+      "offset" : 151,
       "column" : 4,
       "line" : 7,
       "message" : "Variable catchVar is not declared with a var statement.",
@@ -43,6 +45,7 @@
       "file" : "src\\test\\resources\\com\\cflint\\tests\\VarScoper\\cftry.cfc",
       "fileName" : "cftry.cfc",
       "function" : "init",
+      "offset" : 183,
       "column" : 4,
       "line" : 9,
       "message" : "Variable finallyVar is not declared with a var statement.",

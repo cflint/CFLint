@@ -1,6 +1,6 @@
 {
   "version" : "",
-  "timestamp" : 1526093740,
+  "timestamp" : 1526095032,
   "issues" : [ {
     "severity" : "INFO",
     "id" : "UNUSED_METHOD_ARGUMENT",
@@ -11,7 +11,7 @@
       "file" : "src\\test\\resources\\com\\cflint\\tests\\UnusedArgument\\UnusedArgument_152b.cfc",
       "fileName" : "UnusedArgument_152b.cfc",
       "function" : "helloWorld",
-      "offset" : 299,
+      "offset" : 294,
       "column" : 20,
       "line" : 6,
       "message" : "Argument xyzzy is not used in function. Consider removing it.",

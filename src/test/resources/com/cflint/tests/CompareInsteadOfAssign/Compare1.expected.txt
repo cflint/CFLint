@@ -1,6 +1,6 @@
 {
   "version" : "",
-  "timestamp" : 1526093729,
+  "timestamp" : 1526095021,
   "issues" : [ {
     "severity" : "WARNING",
     "id" : "COMPARE_INSTEAD_OF_ASSIGN",
@@ -11,7 +11,7 @@
       "file" : "src\\test\\resources\\com\\cflint\\tests\\CompareInsteadOfAssign\\Compare1.cfm",
       "fileName" : "Compare1.cfm",
       "function" : "",
-      "offset" : 103,
+      "offset" : 99,
       "column" : 5,
       "line" : 5,
       "message" : "CWE-482: Comparing instead of Assigning",
@@ -28,7 +28,7 @@
       "file" : "src\\test\\resources\\com\\cflint\\tests\\CompareInsteadOfAssign\\Compare1.cfm",
       "fileName" : "Compare1.cfm",
       "function" : "",
-      "offset" : 143,
+      "offset" : 135,
       "column" : 5,
       "line" : 9,
       "message" : "CWE-482: Comparing instead of Assigning",

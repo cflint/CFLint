@@ -1,6 +1,6 @@
 {
   "version" : "",
-  "timestamp" : 1526093734,
+  "timestamp" : 1526095026,
   "issues" : [ {
     "severity" : "ERROR",
     "id" : "MISSING_VAR",
@@ -11,7 +11,7 @@
       "file" : "src\\test\\resources\\com\\cflint\\tests\\Ignores\\ignoreMultiLine.cfc",
       "fileName" : "ignoreMultiLine.cfc",
       "function" : "function1",
-      "offset" : 77,
+      "offset" : 71,
       "column" : 6,
       "line" : 7,
       "message" : "Variable someVar is not declared with a var statement.",

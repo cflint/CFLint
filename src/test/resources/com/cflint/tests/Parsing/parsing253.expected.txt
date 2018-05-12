@@ -1,6 +1,6 @@
 {
   "version" : "",
-  "timestamp" : 1526093738,
+  "timestamp" : 1526095030,
   "issues" : [ {
     "severity" : "ERROR",
     "id" : "MISSING_VAR",
@@ -11,7 +11,7 @@
       "file" : "src\\test\\resources\\com\\cflint\\tests\\Parsing\\parsing253.cfm",
       "fileName" : "parsing253.cfm",
       "function" : "foo",
-      "offset" : 64,
+      "offset" : 61,
       "column" : 7,
       "line" : 4,
       "message" : "Variable removeTagList is not declared with a var statement.",

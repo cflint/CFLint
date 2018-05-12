@@ -1,6 +1,6 @@
 {
   "version" : "",
-  "timestamp" : 1526093735,
+  "timestamp" : 1526095027,
   "issues" : [ {
     "severity" : "ERROR",
     "id" : "MISSING_SEMI",
@@ -11,7 +11,7 @@
       "file" : "src\\test\\resources\\com\\cflint\\tests\\MissingSemiColon\\missingSemis1.cfc",
       "fileName" : "missingSemis1.cfc",
       "function" : "",
-      "offset" : 39,
+      "offset" : 37,
       "column" : 6,
       "line" : 3,
       "message" : "End of statement(;) expected after name_1",

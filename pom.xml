@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.github.cflint</groupId>
 	<artifactId>CFLint</artifactId>
-	<version>1.4.0-RC3</version>
+	<version>1.4.0</version>
 	<packaging>jar</packaging>
 
 	<name>CFLint</name>

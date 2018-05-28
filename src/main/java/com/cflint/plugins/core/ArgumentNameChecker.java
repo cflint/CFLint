@@ -74,7 +74,7 @@ public class ArgumentNameChecker extends CFLintScannerAdapter {
 
             for (final CFFunctionParameter argument : function.getFormals()) {
                 checkNameForBugs(context, argument.getName(), context.getFilename(), context.getFunctionName(), lineNo, context.offset() + argument.getOffset(),
-                        bugs,context.messageBuilder(this).at(function));
+                        bugs,context.messageBuilder(this).at(argument));
             }
         }
     }

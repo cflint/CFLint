@@ -110,7 +110,7 @@ public class VarScoper extends CFLintScannerAdapter {
         String attribute = attributeObj!=null?attributeObj.getValue():null;
         final String nameVar = attributeObj == null ? null : attribute.split("\\.")[0].split("\\[")[0];
         if (nameVar != null && !context.getCallStack().checkVariable(nameVar) && !isGlobal(nameVar)) {
-            context.messageBuilder(this).at(attributeObj).build("MISSING_VAR", attribute);
+            context.messageBuilder(this).at(attributeObj.getValueSegment()).build("MISSING_VAR", attribute);
         }
     }
 

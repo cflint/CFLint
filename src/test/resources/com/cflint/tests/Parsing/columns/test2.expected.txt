@@ -1,0 +1,91 @@
+{
+  "version" : "",
+  "timestamp" : 1527518449,
+  "issues" : [ {
+    "severity" : "INFO",
+    "id" : "ARGUMENT_HAS_PREFIX_OR_POSTFIX",
+    "message" : "ARGUMENT_HAS_PREFIX_OR_POSTFIX",
+    "category" : "CFLINT",
+    "abbrev" : "AH",
+    "locations" : [ {
+      "file" : "src\\test\\resources\\com\\cflint\\tests\\Parsing\\columns\\test2.cfc",
+      "fileName" : "test2.cfc",
+      "function" : "formatDate",
+      "offset" : 257,
+      "column" : 22,
+      "line" : 11,
+      "message" : "Argument has prefix or postfix dateObj and could be named better.",
+      "variable" : "dateObj",
+      "expression" : "public string function formatDate(required dateObj, formatStr='mm/dd/yyyy')   {\n    return dateFormat(arguments.dateObj, arguments.formatStr);\n\n  }"
+    } ]
+  }, {
+    "severity" : "INFO",
+    "id" : "ARGUMENT_HAS_PREFIX_OR_POSTFIX",
+    "message" : "ARGUMENT_HAS_PREFIX_OR_POSTFIX",
+    "category" : "CFLINT",
+    "abbrev" : "AH",
+    "locations" : [ {
+      "file" : "src\\test\\resources\\com\\cflint\\tests\\Parsing\\columns\\test2.cfc",
+      "fileName" : "test2.cfc",
+      "function" : "formatDate",
+      "offset" : 281,
+      "column" : 15,
+      "line" : 12,
+      "message" : "Argument has prefix or postfix formatStr and could be named better.",
+      "variable" : "formatStr",
+      "expression" : "public string function formatDate(required dateObj, formatStr='mm/dd/yyyy')   {\n    return dateFormat(arguments.dateObj, arguments.formatStr);\n\n  }"
+    } ]
+  }, {
+    "severity" : "INFO",
+    "id" : "ARGUMENT_IS_TEMPORARY",
+    "message" : "ARGUMENT_IS_TEMPORARY",
+    "category" : "CFLINT",
+    "abbrev" : "AI",
+    "locations" : [ {
+      "file" : "src\\test\\resources\\com\\cflint\\tests\\Parsing\\columns\\test2.cfc",
+      "fileName" : "test2.cfc",
+      "function" : "formatDate",
+      "offset" : 257,
+      "column" : 22,
+      "line" : 11,
+      "message" : "Temporary argument dateObj could be named better.",
+      "variable" : "dateObj",
+      "expression" : "public string function formatDate(required dateObj, formatStr='mm/dd/yyyy')   {\n    return dateFormat(arguments.dateObj, arguments.formatStr);\n\n  }"
+    } ]
+  }, {
+    "severity" : "INFO",
+    "id" : "COMPONENT_INVALID_NAME",
+    "message" : "COMPONENT_INVALID_NAME",
+    "category" : "CFLINT",
+    "abbrev" : "CI",
+    "locations" : [ {
+      "file" : "src\\test\\resources\\com\\cflint\\tests\\Parsing\\columns\\test2.cfc",
+      "fileName" : "test2.cfc",
+      "function" : "",
+      "offset" : 21,
+      "column" : 17,
+      "line" : 1,
+      "message" : "Component name test2 is not a valid name. Please use PascalCase and start with a capital letter.",
+      "variable" : "",
+      "expression" : "component {\n  public string function formatDate(required dateObj, formatStr='mm/dd/yyyy')     {\n      return dateFormat(arguments.dateObj, arguments.formatStr);\n\n    }\n}"
+    } ]
+  } ],
+  "counts" : {
+    "totalFiles" : 0,
+    "totalLines" : 0,
+    "countByCode" : [ {
+      "code" : "ARGUMENT_IS_TEMPORARY",
+      "count" : 1
+    }, {
+      "code" : "COMPONENT_INVALID_NAME",
+      "count" : 1
+    }, {
+      "code" : "ARGUMENT_HAS_PREFIX_OR_POSTFIX",
+      "count" : 2
+    } ],
+    "countBySeverity" : [ {
+      "severity" : "INFO",
+      "count" : 4
+    } ]
+  }
+}

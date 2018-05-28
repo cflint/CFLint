@@ -7,6 +7,7 @@ import com.cflint.plugins.CFLintScannerAdapter;
 import com.cflint.plugins.Context;
 import com.cflint.plugins.Context.MessageBuilder;
 
+import cfml.parsing.cfscript.CFExpression;
 import cfml.parsing.cfscript.script.CFFuncDeclStatement;
 import cfml.parsing.cfscript.script.CFFunctionParameter;
 import cfml.parsing.cfscript.script.CFScriptStatement;
@@ -92,7 +93,7 @@ public class ArgumentNameChecker extends CFLintScannerAdapter {
                 offset = element.getAttributes().get(CF.NAME).getValueSegment().getBegin();
                 checkNameForBugs(context, name, context.getFilename(), context.getFunctionName(), lineNo, offset, bugs,context.messageBuilder(this).at(element));
             } else {
-                context.addMessage("ARGUMENT_MISSING_NAME", null, this, lineNo, offset);
+                context.addMessage("ARGUMENT_MISSING_NAME", null, this);
             }
         }
     }

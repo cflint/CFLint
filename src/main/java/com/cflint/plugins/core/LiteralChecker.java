@@ -6,6 +6,7 @@ import java.util.Map;
 import com.cflint.BugList;
 import com.cflint.plugins.CFLintScannerAdapter;
 import com.cflint.plugins.Context;
+import com.cflint.plugins.Context.ContextType;
 
 import cfml.parsing.cfscript.CFExpression;
 import cfml.parsing.cfscript.CFLiteral;
@@ -49,13 +50,10 @@ public class LiteralChecker extends CFLintScannerAdapter {
                 return;
             }
 
-            final int lineNo = literal.getLine() + context.startLine() - 1;
-            final int offset = literal.getOffset() + context.offset();
-
             if ((warningScope == null || "global".equals(warningScope)) && !context.isInFunction()) {
-                literalCount(name, lineNo, offset, globalLiterals, true, context, bugs,expression);
+                literalCount(name, globalLiterals, true, context, bugs,expression);
             } else if ("local".equals(warningScope) && context.isInFunction()) {
-                literalCount(name, lineNo, offset, functionListerals, false, context, bugs,expression);
+                literalCount(name, functionListerals, false, context, bugs,expression);
             }
         }
     }
@@ -67,7 +65,7 @@ public class LiteralChecker extends CFLintScannerAdapter {
         }
     }
 
-    protected void literalCount(final String name, final int lineNo, final int offset, final Map<String, Integer> literals,
+    protected void literalCount(final String name, final Map<String, Integer> literals,
                                 final boolean global, final Context context, final BugList bugs, CFExpression expression) {
         int count = 1;
 
@@ -81,9 +79,9 @@ public class LiteralChecker extends CFLintScannerAdapter {
 
         if (count > threshold && (warningThreshold == -1 || (count - threshold) <= warningThreshold)) {
             if (global) {
-                magicGlobalValue(name, lineNo, offset, context, bugs,expression);
+                magicGlobalValue(name, context, bugs,expression);
             } else {
-                magicLocalValue(name, lineNo, offset, context, bugs,expression);
+                magicLocalValue(name, context, bugs,expression);
             }
         }
     }
@@ -115,15 +113,15 @@ public class LiteralChecker extends CFLintScannerAdapter {
         return getParameterAsList("ignoreWords").contains(name.toLowerCase());
     }
 
-    public void magicLocalValue(final String name, final int lineNo, final int offset, final Context context, final BugList bugs, CFExpression expression) {
+    public void magicLocalValue(final String name, final Context context, final BugList bugs, CFExpression expression) {
         if (!isSpecial(name.toLowerCase())) {
-            context.messageBuilder(this).at(expression).buildUnique("LOCAL_LITERAL_VALUE_USED_TOO_OFTEN", name);
+            context.addUniqueMessage(null,"LOCAL_LITERAL_VALUE_USED_TOO_OFTEN", name, this, expression);
         }
     }
 
-    public void magicGlobalValue(final String name, final int lineNo, final int offset, final Context context, final BugList bugs, CFExpression expression) {
+    public void magicGlobalValue(final String name, final Context context, final BugList bugs, CFExpression expression) {
         if (!isSpecial(name.toLowerCase())) {
-            context.messageBuilder(this).at(expression).buildUnique("GLOBAL_LITERAL_VALUE_USED_TOO_OFTEN", name);
+            context.addUniqueMessage(null,"GLOBAL_LITERAL_VALUE_USED_TOO_OFTEN", name, this, expression);
         }
     }
 }

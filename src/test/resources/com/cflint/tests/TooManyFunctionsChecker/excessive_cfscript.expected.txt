@@ -1,6 +1,6 @@
 {
   "version" : "",
-  "timestamp" : 1527541727,
+  "timestamp" : 1527542064,
   "issues" : [ {
     "severity" : "WARNING",
     "id" : "EXCESSIVE_FUNCTIONS",
@@ -10,7 +10,7 @@
     "locations" : [ {
       "file" : "src\\test\\resources\\com\\cflint\\tests\\TooManyFunctionsChecker\\excessive_cfscript.cfc",
       "fileName" : "excessive_cfscript.cfc",
-      "function" : "",
+      "function" : "functionEleven",
       "offset" : 433,
       "column" : 23,
       "line" : 12,

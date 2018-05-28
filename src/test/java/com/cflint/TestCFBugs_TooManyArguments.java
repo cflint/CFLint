@@ -58,7 +58,7 @@ public class TestCFBugs_TooManyArguments {
         final List<BugInfo> result = lintresult.getIssues().values().iterator().next();
         assertEquals(1, result.size());
         assertEquals("EXCESSIVE_ARGUMENTS", result.get(0).getMessageCode());
-        assertEquals(2, result.get(0).getLine());
+        assertEquals(15, result.get(0).getLine());
     }
 
     @Test

@@ -156,38 +156,9 @@ public class Context {
         return messages;
     }
 
-    public void addUniqueMessage(final String messageCode, final String variable, final CFLintScanner source) {
-        addUniqueMessage(messageCode, variable, source, null, null, null);
-    }
-
-    @Deprecated
-    public void addUniqueMessage(final String messageCode, final String variable, final CFLintScanner source,
-            final Integer line, final Integer offset, final CFExpression cfExpression) {
-        if (messageCode != null) {
-            for (final ContextMessage msg : messages) {
-                if (ObjectEquals.equals(msg.getMessageCode(), messageCode)
-                        && ObjectEquals.equals(variable, msg.getVariable())) {
-                    return;
-                }
-            }
-        }
-        addMessage(messageCode, variable, source, line, offset, cfExpression);
-    }
-    public void addUniqueMessage(final String messageCode, final String variable, final CFLintScanner source,
-            final CFExpression cfExpression) {
-        if (messageCode != null) {
-            for (final ContextMessage msg : messages) {
-                if (ObjectEquals.equals(msg.getMessageCode(), messageCode)
-                        && ObjectEquals.equals(variable, msg.getVariable())) {
-                    return;
-                }
-            }
-        }
-        addMessage(messageCode, variable, source, null, null, cfExpression);
-    }
     public void addUniqueMessage(final ContextType contextType, final String messageCode, final String variable, final CFLintScanner source,
             final CFExpression cfExpression) {
-        final Context parent = getParent(contextType)==null?this:getParent(contextType);
+        final Context parent = contextType!=null && getParent(contextType)==null?this:getParent(contextType);
         if (messageCode != null) {
             for (final ContextMessage msg : parent.messages) {
                 if (ObjectEquals.equals(msg.getMessageCode(), messageCode)
@@ -209,12 +180,21 @@ public class Context {
     }
 
     public void addMessage(final String messageCode, final String variable, final CFLintScanner source,
-            final Integer line, final Integer offset, final CFExpression cfExpression) {
+            final Integer line, final Integer offset, final HasToken cfExpression) {
         messages.add(new ContextMessage(messageCode, variable, source, line, offset, cfExpression));
     }
     public void addMessage(final String messageCode, final String variable, final CFLintScanner source,
-            final CFExpression cfExpression,final Context relativecontext) {
-        messages.add(new ContextMessage(messageCode, variable, source, cfExpression, relativecontext));
+            final HasToken cfExpression,final Context relativecontext) {
+        ContextMessage cm = new ContextMessage(messageCode, variable, source, cfExpression, relativecontext);
+        
+        messages.add(cm);
+    }
+    public void addMessage(final String messageCode, final String variable, final CFLintScanner source,
+            final HasToken cfExpression) {
+        addMessage(messageCode,variable,source,cfExpression,null);
+    }
+    public void addMessage(final String messageCode, final String variable, final CFLintScanner source) {
+        messages.add(new ContextMessage(messageCode, variable, source, (CFExpression)null, null));
     }
 
     public void addMessage(final String messageCode, final String variable, final Integer line, final Integer offset) {
@@ -328,7 +308,7 @@ public class Context {
         private Integer column;
         private Integer offset;
         private CFLintScanner source;
-        private final CFExpression cfExpression;
+        private final HasToken cfExpression;
         private Context relativeContext;
 
         public ContextMessage(final String messageCode, final String variable) {
@@ -340,7 +320,7 @@ public class Context {
         }
 
         public ContextMessage(final String messageCode, final String variable, final CFLintScanner source,
-                final Integer line, final Integer offset, final CFExpression cfExpression) {
+                final Integer line, final Integer offset, final HasToken cfExpression) {
             super();
             this.messageCode = messageCode;
             this.variable = variable;
@@ -350,7 +330,7 @@ public class Context {
             this.cfExpression = cfExpression;
         }
         public ContextMessage(final String messageCode, final String variable, final CFLintScanner source,
-                final CFExpression cfExpression, final Context relativeContext) {
+                final HasToken cfExpression, final Context relativeContext) {
             super();
             this.messageCode = messageCode;
             this.variable = variable;
@@ -397,7 +377,7 @@ public class Context {
             return offset;
         }
 
-        public CFExpression getCfExpression() {
+        public HasToken getCfExpression() {
             return cfExpression;
         }
 

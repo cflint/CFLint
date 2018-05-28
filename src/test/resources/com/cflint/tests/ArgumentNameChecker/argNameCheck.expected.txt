@@ -1,0 +1,34 @@
+{
+  "version" : "",
+  "timestamp" : 1527542858,
+  "issues" : [ {
+    "severity" : "INFO",
+    "id" : "ARGUMENT_MISSING_NAME",
+    "message" : "ARGUMENT_MISSING_NAME",
+    "category" : "CFLINT",
+    "abbrev" : "AM",
+    "locations" : [ {
+      "file" : "src\\test\\resources\\com\\cflint\\tests\\ArgumentNameChecker\\argNameCheck.cfc",
+      "fileName" : "argNameCheck.cfc",
+      "function" : "foo",
+      "offset" : 50,
+      "column" : 9,
+      "line" : 3,
+      "message" : "Argument is missing a name.",
+      "variable" : "",
+      "expression" : "<cfargument/>"
+    } ]
+  } ],
+  "counts" : {
+    "totalFiles" : 0,
+    "totalLines" : 0,
+    "countByCode" : [ {
+      "code" : "ARGUMENT_MISSING_NAME",
+      "count" : 1
+    } ],
+    "countBySeverity" : [ {
+      "severity" : "INFO",
+      "count" : 1
+    } ]
+  }
+}

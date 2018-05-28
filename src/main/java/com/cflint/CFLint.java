@@ -72,6 +72,7 @@ import cfml.parsing.cfscript.CFStringExpression;
 import cfml.parsing.cfscript.CFStructElementExpression;
 import cfml.parsing.cfscript.CFTernaryExpression;
 import cfml.parsing.cfscript.CFVarDeclExpression;
+import cfml.parsing.cfscript.HasToken;
 import cfml.parsing.cfscript.script.CFCase;
 import cfml.parsing.cfscript.script.CFCatchStatement;
 import cfml.parsing.cfscript.script.CFCompDeclStatement;
@@ -1356,9 +1357,10 @@ public class CFLint implements IErrorReporter {
                     idxOffSet=0;
                 }
             }catch(ArrayIndexOutOfBoundsException e){}
+  
             if (expression instanceof CFExpression) {
                 final BugInfo bugInfo = bldr.build((CFExpression) expression, elem,context);
-                final Token token = ((CFExpression) expression).getToken();
+                final Token token = ((HasToken) expression).getToken();
                 if (!suppressed(bugInfo, token, context)) {
                     bugs.add(bugInfo);
                 }

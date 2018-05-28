@@ -20,18 +20,15 @@ public class TooManyArgumentsChecker extends CFLintScannerAdapter {
     public void expression(final CFScriptStatement expression, final Context context, final BugList bugs) {
         if (expression instanceof CFFuncDeclStatement) {
             final CFFuncDeclStatement function = (CFFuncDeclStatement) expression;
-            final int begLine = function.getLine();
             final int noArguments = function.getFormals().size();
 
-            checkNumberArguments(noArguments, begLine, function.getOffset(), context, bugs, function);
+            checkNumberArguments(noArguments, context, bugs, function);
         }
     }
 
     @Override
     public void element(final Element element, final Context context, final BugList bugs) {
         if (element.getName().equals(CF.CFFUNCTION)) {
-            functionLine = element.getSource().getRow(element.getBegin());
-            functionOffset = element.getBegin();
             argumentCount = 0;
         } else if (element.getName().equals(CF.CFARGUMENT)) {
             argumentCount++;
@@ -40,13 +37,12 @@ public class TooManyArgumentsChecker extends CFLintScannerAdapter {
         // some code
         // otherwise the argument count will be off by one
         else if (!element.getName().equals(CF.COMMENT) && argumentCount > 0) {
-            checkNumberArguments(argumentCount, functionLine, functionOffset, context, bugs,null);
+            checkNumberArguments(argumentCount, context, bugs,null);
             argumentCount = 0;
-            functionLine = 0;
         }
     }
 
-    protected void checkNumberArguments(final int argumentCount, final int atLine, int atOffset, final Context context,
+    protected void checkNumberArguments(final int argumentCount, final Context context,
             final BugList bugs, CFFuncDeclStatement expression) {
         final String argumentThreshold = context.getConfiguration().getParameter(this,"maximum");
         int threshold = ARGUMENT_THRESHOLD;
@@ -56,7 +52,7 @@ public class TooManyArgumentsChecker extends CFLintScannerAdapter {
         }
 
         if (argumentCount > threshold) {
-            context.addUniqueMessage("EXCESSIVE_ARGUMENTS", context.getFunctionName(), this, atLine, atOffset,expression==null?null:expression.getName());
+            context.addUniqueMessage(null,"EXCESSIVE_ARGUMENTS", context.getFunctionName(), this, expression==null?null:expression.getName());
         }
     }
 

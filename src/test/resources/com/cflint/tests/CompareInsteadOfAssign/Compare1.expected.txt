@@ -1,6 +1,6 @@
 {
   "version" : "",
-  "timestamp" : 1526095021,
+  "timestamp" : 1527541308,
   "issues" : [ {
     "severity" : "WARNING",
     "id" : "COMPARE_INSTEAD_OF_ASSIGN",

@@ -40,7 +40,6 @@ public class TestComplexBooleanExpressionChecker {
     public void testIfBooleanExpressionInTag() throws CFLintScanException {
         final String scriptSrc = "<cfif a and b or c and d or e and f>\r\n" + "<cfset c = 1>\r\n"
                 + "<cfelseif a or not b and not a or b and not c>\r\n" + "<cfset c = 2>\r\n" + "</cfif>\r\n";
-
         CFLintResult lintresult = cfBugs.scan(scriptSrc, "test");
         final List<BugInfo> result = lintresult.getIssues().values().iterator().next();
         assertEquals(2, result.size());

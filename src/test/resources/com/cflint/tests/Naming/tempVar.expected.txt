@@ -1,6 +1,6 @@
 {
   "version" : "",
-  "timestamp" : 1526095027,
+  "timestamp" : 1527541306,
   "issues" : [ {
     "severity" : "INFO",
     "id" : "VAR_IS_TEMPORARY",
@@ -12,7 +12,7 @@
       "fileName" : "tempVar.cfc",
       "function" : "foo",
       "offset" : 45,
-      "column" : 12,
+      "column" : 13,
       "line" : 3,
       "message" : "Temporary variable tempStruct could be named better.",
       "variable" : "tempStruct",

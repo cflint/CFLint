@@ -459,7 +459,7 @@ public class CFLint implements IErrorReporter {
                 final String expr = elem.getFirstStartTag().toString();
                 final Matcher m = p.matcher(expr);
                 if (m.matches()) {
-                    final String cfscript = m.group(1).trim();
+                    final String cfscript = m.group(1);
                     if (!cfscript.isEmpty()) {
                         try {
                             final CFExpression expression = cfmlParser.parseCFMLExpression(cfscript, this);
@@ -1267,8 +1267,10 @@ public class CFLint implements IErrorReporter {
         return false;
     }
 
-    public void reportRule(final Element elem, final Object currentExpression, final Context context,
+    public void reportRule(final Element in_element, final Object currentExpression, final Context in_context,
             final CFLintScanner pluginParm, final ContextMessage msg) {
+        final Context context = msg.getRelativeContext()!=null?msg.getRelativeContext():in_context;
+        final Element elem = context.getElement();
         final Object expression = msg.getCfExpression() != null? msg.getCfExpression():currentExpression;
         // If we are processing includes, do NOT report any errors
         if (!includeFileStack.isEmpty()) {
@@ -1332,13 +1334,17 @@ public class CFLint implements IErrorReporter {
         bldr.setSeverity(msgInfo.getSeverity());
         bldr.setMessage(msgInfo.getMessageText());
 
-        if (expression instanceof CFStatement) {
-            bldr.setExpression(((CFStatement) expression).Decompile(0));
-        } else if (expression instanceof CFScriptStatement) {
-            bldr.setExpression(((CFScriptStatement) expression).Decompile(0));
-        } else if (elem != null) {
-            bldr.setExpression(elem.toString().replaceAll("\r\n", "\n"));
-        }
+        try{
+            //If it's a simple id, use the parent expression for context
+            final Object decompileExpression = (expression instanceof CFIdentifier && ((CFIdentifier)expression).getParent()!=null)?((CFIdentifier)expression).getParent():expression;
+            if (decompileExpression instanceof CFStatement) {
+                bldr.setExpression(((CFStatement) decompileExpression).Decompile(0));
+            } else if (decompileExpression instanceof CFScriptStatement) {
+                bldr.setExpression(((CFScriptStatement) decompileExpression).Decompile(0));
+            } else if (elem != null) {
+                bldr.setExpression(elem.toString().replaceAll("\r\n", "\n"));
+            }
+        }catch(Exception e){System.err.println(e);}
         bldr.setRuleParameters(ruleInfo.getParameters());
         if (configuration.includes(ruleInfo.getMessageByCode(msgcode))
                 && !configuration.excludes(ruleInfo.getMessageByCode(msgcode))) {
@@ -1351,13 +1357,13 @@ public class CFLint implements IErrorReporter {
                 }
             }catch(ArrayIndexOutOfBoundsException e){}
             if (expression instanceof CFExpression) {
-                final BugInfo bugInfo = bldr.build((CFExpression) expression, elem);
+                final BugInfo bugInfo = bldr.build((CFExpression) expression, elem,context);
                 final Token token = ((CFExpression) expression).getToken();
                 if (!suppressed(bugInfo, token, context)) {
                     bugs.add(bugInfo);
                 }
                 //If the context expression is attached, use the context line and column
-                if( msg.getCfExpression() != null && msg.getCfExpression() != currentExpression){
+                else if( msg.getCfExpression() != null && msg.getCfExpression() != currentExpression){
                     if (msg.getLine() != null) {
                         bugInfo.setLine(msg.getLine());
                         if (msg.getOffset() != null) {

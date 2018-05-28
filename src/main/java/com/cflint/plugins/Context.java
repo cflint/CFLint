@@ -160,6 +160,7 @@ public class Context {
         addUniqueMessage(messageCode, variable, source, null, null, null);
     }
 
+    @Deprecated
     public void addUniqueMessage(final String messageCode, final String variable, final CFLintScanner source,
             final Integer line, final Integer offset, final CFExpression cfExpression) {
         if (messageCode != null) {
@@ -171,6 +172,31 @@ public class Context {
             }
         }
         addMessage(messageCode, variable, source, line, offset, cfExpression);
+    }
+    public void addUniqueMessage(final String messageCode, final String variable, final CFLintScanner source,
+            final CFExpression cfExpression) {
+        if (messageCode != null) {
+            for (final ContextMessage msg : messages) {
+                if (ObjectEquals.equals(msg.getMessageCode(), messageCode)
+                        && ObjectEquals.equals(variable, msg.getVariable())) {
+                    return;
+                }
+            }
+        }
+        addMessage(messageCode, variable, source, null, null, cfExpression);
+    }
+    public void addUniqueMessage(final ContextType contextType, final String messageCode, final String variable, final CFLintScanner source,
+            final CFExpression cfExpression) {
+        final Context parent = getParent(contextType)==null?this:getParent(contextType);
+        if (messageCode != null) {
+            for (final ContextMessage msg : parent.messages) {
+                if (ObjectEquals.equals(msg.getMessageCode(), messageCode)
+                        && ObjectEquals.equals(variable, msg.getVariable())) {
+                    return;
+                }
+            }
+        }
+        parent.addMessage(messageCode, variable, source, cfExpression,this);
     }
 
     public void addMessage(final String messageCode, final String variable) {
@@ -185,6 +211,10 @@ public class Context {
     public void addMessage(final String messageCode, final String variable, final CFLintScanner source,
             final Integer line, final Integer offset, final CFExpression cfExpression) {
         messages.add(new ContextMessage(messageCode, variable, source, line, offset, cfExpression));
+    }
+    public void addMessage(final String messageCode, final String variable, final CFLintScanner source,
+            final CFExpression cfExpression,final Context relativecontext) {
+        messages.add(new ContextMessage(messageCode, variable, source, cfExpression, relativecontext));
     }
 
     public void addMessage(final String messageCode, final String variable, final Integer line, final Integer offset) {
@@ -201,6 +231,7 @@ public class Context {
     public class MessageBuilder {
         ContextMessage message;
         private final List<ContextMessage> messages;
+        int additionalOffset=0;
 
         public MessageBuilder(final List<ContextMessage> messages) {
             super();
@@ -222,6 +253,21 @@ public class Context {
             message = message2;
             return message;
         }
+        public ContextMessage buildUnique(final String messageCode, final String variable) {
+            message.messageCode = messageCode;
+            message.variable = variable;
+            if (message.messageCode != null) {
+                for (final ContextMessage msg : messages) {
+                    if (ObjectEquals.equals(msg.getMessageCode(), messageCode)
+                            && ObjectEquals.equals(variable, msg.getVariable())) {
+                        message.messageCode = null;
+                        message.variable = null;
+                        return message;
+                    }
+                }
+            }
+            return build(messageCode,variable);
+        }
 
         public MessageBuilder at(final HasToken parsedStatement) {
             return at(parsedStatement == null ? null : parsedStatement.getToken());
@@ -229,29 +275,48 @@ public class Context {
 
         public MessageBuilder at(final Token token) {
             message.line = token.getLine();
-            message.offset = token.getStartIndex();
+            message.offset = additionalOffset + token.getStartIndex();
             message.column = token.getCharPositionInLine() + 1;
+            if (element != null) {
+                final int elemoffset = offset();
+                final int elemLine = element.getSource().getRow(elemoffset);
+                final int elemColumn = element.getSource().getColumn(elemoffset);
+                //Only add the columns on the first line.
+                if (message.line <=1 && elemColumn > 0) {
+                    message.column += elemColumn-1;
+                }
+                if (elemLine > 0) {
+                    message.line += elemLine - 1;
+                }
+                message.offset += elemoffset;
+            }
             return this;
         }
 
         public MessageBuilder at(final Element element) {
-            message.offset = element.getBegin();
+            message.offset = additionalOffset + element.getBegin();
             message.line = element.getSource().getRow(element.getBegin());
             message.column = element.getSource().getColumn(element.getBegin());
             return this;
         }
 
         public MessageBuilder at(final Attribute attributeObj) {
-            message.offset = attributeObj.getBegin();
+            message.offset = additionalOffset + attributeObj.getBegin();
             message.line = attributeObj.getSource().getRow(attributeObj.getBegin());
             message.column = attributeObj.getSource().getColumn(attributeObj.getBegin());
             return this;
         }
 
         public MessageBuilder at(final Segment attributeObj) {
-            message.offset = attributeObj.getBegin();
+            message.offset = additionalOffset + attributeObj.getBegin();
             message.line = attributeObj.getSource().getRow(attributeObj.getBegin());
             message.column = attributeObj.getSource().getColumn(attributeObj.getBegin());
+            return this;
+        }
+
+        public MessageBuilder extraOffset(int additionalOffset) {
+            this.additionalOffset = additionalOffset;
+            message.offset+=4;
             return this;
         }
     }
@@ -264,6 +329,7 @@ public class Context {
         private Integer offset;
         private CFLintScanner source;
         private final CFExpression cfExpression;
+        private Context relativeContext;
 
         public ContextMessage(final String messageCode, final String variable) {
             super();
@@ -282,6 +348,15 @@ public class Context {
             this.line = line;
             this.offset = offset;
             this.cfExpression = cfExpression;
+        }
+        public ContextMessage(final String messageCode, final String variable, final CFLintScanner source,
+                final CFExpression cfExpression, final Context relativeContext) {
+            super();
+            this.messageCode = messageCode;
+            this.variable = variable;
+            this.source = source;
+            this.cfExpression = cfExpression;
+            this.relativeContext = relativeContext;
         }
 
         public ContextMessage(final String messageCode, final String variable, final CFLintScanner source,
@@ -324,6 +399,14 @@ public class Context {
 
         public CFExpression getCfExpression() {
             return cfExpression;
+        }
+
+        public Integer getColumn() {
+            return column;
+        }
+
+        public Context getRelativeContext() {
+            return relativeContext;
         }
     }
 
@@ -371,11 +454,11 @@ public class Context {
         if (element != null) {
             if (element.getName().equalsIgnoreCase(CF.CFSCRIPT)) {
                 return element.getStartTag().getEnd();
-            } else if (element.getName().equalsIgnoreCase(CF.CFSET)) {
+            } else if (element.getStartTag().getTagContent() != null
+                    && element.getStartTag().getTagContent().length() > 0) {
                 return element.getStartTag().getTagContent().getBegin() + 1;
             }
-
-            return element.getBegin();
+            return element.getStartTag().getEnd();
         } else {
             return 0;
         }

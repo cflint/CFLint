@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.cflint.config.CFLintPluginInfo.PluginInfoRule.PluginMessage;
 import com.cflint.config.CFLintPluginInfo.PluginInfoRule.PluginParameter;
+import com.cflint.plugins.Context;
 
 import cfml.parsing.cfscript.CFExpression;
 import cfml.parsing.cfscript.script.CFScriptStatement;
@@ -187,15 +188,15 @@ public class BugInfo implements Comparable<BugInfo> {
             return bugInfo;
         }
 
-        public BugInfo build(final CFExpression expression, final Element elem) {
+        public BugInfo build(final CFExpression expression, final Element elem, final Context context) {
             int elemLine = 1;
             int elemColumn = 1;
             int elemoffset = 0;
             int length = 0;
             if (elem != null) {
-            	elemoffset = elem.getName().equalsIgnoreCase(CF.CFSCRIPT) ? elem.getStartTag().getEnd() : elem.getBegin();
-                elemLine = elem.getSource().getRow(elem.getBegin());
-                elemColumn = elem.getSource().getColumn(elem.getBegin());
+            	elemoffset = context.offset();//elem.getName().equalsIgnoreCase(CF.CFSCRIPT) ? elem.getStartTag().getEnd() : elem.getBegin();
+                elemLine = elem.getSource().getRow(elemoffset);
+                elemColumn = elem.getSource().getColumn(elemoffset);
             }
             int offset = elemoffset + Math.max(expression == null ? 0 : expression.getOffset(), 0);
             if(expression == null) {

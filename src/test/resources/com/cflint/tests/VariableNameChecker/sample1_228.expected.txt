@@ -1,6 +1,6 @@
 {
   "version" : "",
-  "timestamp" : 1526095035,
+  "timestamp" : 1527541305,
   "issues" : [ {
     "severity" : "INFO",
     "id" : "VAR_INVALID_NAME",
@@ -12,7 +12,7 @@
       "fileName" : "sample1_228.cfc",
       "function" : "getStringFromStruct",
       "offset" : 129,
-      "column" : 15,
+      "column" : 16,
       "line" : 3,
       "message" : "Variable LocalData is not a valid name. Please use camelCase or underscores.",
       "variable" : "LocalData",

@@ -228,8 +228,6 @@ public class Context {
         }
 
         public MessageBuilder at(final Token token) {
-            System.out.println("token:" + token.getText());
-            System.out.println("Token:" + token);
             message.line = token.getLine();
             message.offset = token.getStartIndex();
             message.column = token.getCharPositionInLine() + 1;

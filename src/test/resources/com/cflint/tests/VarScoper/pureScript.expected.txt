@@ -1,6 +1,6 @@
 {
   "version" : "",
-  "timestamp" : 1526093746,
+  "timestamp" : 1526095038,
   "issues" : [ {
     "severity" : "ERROR",
     "id" : "MISSING_VAR",
@@ -11,7 +11,7 @@
       "file" : "src\\test\\resources\\com\\cflint\\tests\\VarScoper\\pureScript.cfc",
       "fileName" : "pureScript.cfc",
       "function" : "init",
-      "offset" : 160,
+      "offset" : 155,
       "column" : 6,
       "line" : 6,
       "message" : "Variable someVar is not declared with a var statement.",

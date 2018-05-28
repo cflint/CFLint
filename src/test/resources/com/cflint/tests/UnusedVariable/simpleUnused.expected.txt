@@ -1,6 +1,6 @@
 {
   "version" : "",
-  "timestamp" : 1526093742,
+  "timestamp" : 1526095034,
   "issues" : [ {
     "severity" : "INFO",
     "id" : "UNUSED_LOCAL_VARIABLE",
@@ -11,7 +11,7 @@
       "file" : "src\\test\\resources\\com\\cflint\\tests\\UnusedVariable\\simpleUnused.cfc",
       "fileName" : "simpleUnused.cfc",
       "function" : "save",
-      "offset" : 56,
+      "offset" : 53,
       "column" : 5,
       "line" : 4,
       "message" : "Local variable foo is not used in function save. Consider removing it.",

@@ -1,6 +1,6 @@
 {
   "version" : "",
-  "timestamp" : 1527541308,
+  "timestamp" : 1527546203,
   "issues" : [ {
     "severity" : "INFO",
     "id" : "COMPONENT_INVALID_NAME",
@@ -12,7 +12,7 @@
       "fileName" : "foo.cfc",
       "function" : "",
       "offset" : 0,
-      "column" : 0,
+      "column" : 1,
       "line" : 1,
       "message" : "Component name foo is not a valid name. Please use PascalCase and start with a capital letter.",
       "variable" : "",

@@ -1,6 +1,6 @@
 {
   "version" : "",
-  "timestamp" : 1526096014,
+  "timestamp" : 1527546299,
   "issues" : [ {
     "severity" : "INFO",
     "id" : "ARGUMENT_HAS_PREFIX_OR_POSTFIX",
@@ -46,8 +46,8 @@
       "fileName" : "test.cfc",
       "function" : "",
       "offset" : 57,
-      "column" : 38,
-      "line" : 1,
+      "column" : 1,
+      "line" : 4,
       "message" : "Component name test is not a valid name. Please use PascalCase and start with a capital letter.",
       "variable" : "",
       "expression" : "component {\n  public string function formatDate(dateObj)     {\n      return dateFormat(arguments.dateObj, 'mm/dd/yyyy');\n\n    }\n}"

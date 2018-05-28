@@ -16,9 +16,7 @@ public class ComplexBooleanExpressionChecker extends CFLintScannerAdapter {
             final String code = expression.Decompile(0).toLowerCase();
 
             if (isComplex(code, complexThreshold)) {
-                final int lineNo = currentLine(expression, context);
-
-                complexBooleanExpression(expression.getOffset(), lineNo, context, bugs);
+                complexBooleanExpression(context, bugs);
             }
         }
     }
@@ -50,8 +48,8 @@ public class ComplexBooleanExpressionChecker extends CFLintScannerAdapter {
         return count;
     }
 
-    public void complexBooleanExpression(final int lineNo, final int offset, final Context context, final BugList bugs) {
-        context.addMessage("COMPLEX_BOOLEAN_CHECK", null, this, lineNo, offset);
+    public void complexBooleanExpression(final Context context, final BugList bugs) {
+        context.addMessage("COMPLEX_BOOLEAN_CHECK", null, this);
     }
 
 }

@@ -18,11 +18,9 @@ public class FunctionLengthChecker extends LengthChecker {
         if (expression instanceof CFFuncDeclStatement) {
             final CFFuncDeclStatement function = (CFFuncDeclStatement) expression;
             final String decompile = function.Decompile(1);
-            final int begLine = function.getLine();
-            final int offset = function.getOffset() + context.offset();
             final String[] lines = decompile.split("\\n");
 
-            checkSize(LENGTH_THRESHOLD, "EXCESSIVE_FUNCTION_LENGTH", context, begLine, offset, lines.length, bugs);
+            checkSize(LENGTH_THRESHOLD, "EXCESSIVE_FUNCTION_LENGTH", context, lines.length, bugs);
         }
     }
 
@@ -36,7 +34,7 @@ public class FunctionLengthChecker extends LengthChecker {
             final int offset = element.getBegin();
             final int total = element.getAllStartTags().size();
 
-            checkSize(LENGTH_THRESHOLD, "EXCESSIVE_FUNCTION_LENGTH", context, begLine, offset, total, bugs);
+            checkSize(LENGTH_THRESHOLD, "EXCESSIVE_FUNCTION_LENGTH", context, total, bugs);
         }
     }
 

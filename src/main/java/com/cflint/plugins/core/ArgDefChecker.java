@@ -35,7 +35,7 @@ public class ArgDefChecker extends CFLintScannerAdapter {
             if (!required && defaultExpr == null) {
                 element.getSource().getRow(element.getBegin());
                 element.getSource().getColumn(element.getBegin());
-                context.addMessage("ARG_DEFAULT_MISSING", name);
+                context.addMessage("ARG_DEFAULT_MISSING", name, this);
             }
         }
     }

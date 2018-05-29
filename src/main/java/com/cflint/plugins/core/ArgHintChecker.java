@@ -39,7 +39,8 @@ public class ArgHintChecker extends CFLintScannerAdapter {
     }
 
     /**
-     * Parse a CFScript function declaration to see if any of the arguments hints are missing.
+     * Parse a CFScript function declaration to see if any of the arguments
+     * hints are missing.
      */
     @Override
     public void expression(final CFScriptStatement expression, final Context context, final BugList bugs) {
@@ -48,7 +49,7 @@ public class ArgHintChecker extends CFLintScannerAdapter {
             final String multiLineText = PrecedingCommentReader.getMultiLine(context, expression.getToken());
             final String mlText = multiLineText == null ? null
                     : multiLineText.replaceFirst("^/\\*", "").replaceAll("\\*/$", "").trim();
-            
+
             final Map<String, String> annotations = new HashMap<>();
             if (mlText != null && !mlText.isEmpty()) {
                 readCommentAnnotations(mlText, annotations);
@@ -65,12 +66,14 @@ public class ArgHintChecker extends CFLintScannerAdapter {
     /**
      * Parse a function comment to see if there are any argument annotations.
      *
-     * @param mlText multi line text to search for argument hints in comments.
-     * @param annotations function argumnet hints.
+     * @param mlText
+     *            multi line text to search for argument hints in comments.
+     * @param annotations
+     *            function argumnet hints.
      */
     private void readCommentAnnotations(final String mlText, final Map<String, String> annotations) {
         final Pattern pattern = Pattern.compile("^.*\\s*@(\\w+)\\s+(.*+)$");
-        BufferedReader reader = new BufferedReader(new StringReader(mlText));
+        final BufferedReader reader = new BufferedReader(new StringReader(mlText));
         try {
             String line = reader.readLine();
             while (line != null) {
@@ -80,14 +83,14 @@ public class ArgHintChecker extends CFLintScannerAdapter {
                 }
                 line = reader.readLine();
             }
-        } catch (IOException e) {
+        } catch (final IOException e) {
             throw new RuntimeException(e);
         } finally {
             try {
                 if (reader != null) {
                     reader.close();
                 }
-            } catch (IOException e) {
+            } catch (final IOException e) {
             }
         }
     }

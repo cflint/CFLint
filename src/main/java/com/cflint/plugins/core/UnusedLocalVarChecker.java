@@ -38,7 +38,11 @@ public class UnusedLocalVarChecker extends CFLintScannerAdapter {
     private void checkExpression(final CFExpression expression, final Context context) {
         final String name = ((CFVarDeclExpression) expression).getName();
         final int lineNo = expression.getLine() + context.startLine() - 1;
-        final int offset = expression.getOffset() + context.offset() + 4; // 'var ' is 4 chars
+        final int offset = expression.getOffset() + context.offset() + 4; // 'var
+                                                                          // '
+                                                                          // is
+                                                                          // 4
+                                                                          // chars
         if (!scopes.isCFScoped(name)) {
             addLocalVariable(name, lineNo, offset);
         }
@@ -49,9 +53,9 @@ public class UnusedLocalVarChecker extends CFLintScannerAdapter {
         if (variable instanceof CFIdentifier) {
             checkIdentifier(expression, (CFIdentifier) variable);
         }
-        for (CFExpression subexpr : expression.getExpressions()) {
+        for (final CFExpression subexpr : expression.getExpressions()) {
             if (subexpr instanceof CFMember) {
-                CFMember memberExpr = (CFMember) subexpr;
+                final CFMember memberExpr = (CFMember) subexpr;
                 if (memberExpr.getExpression() != null) {
                     expression(memberExpr.getExpression(), context, bugs);
                 }
@@ -63,7 +67,8 @@ public class UnusedLocalVarChecker extends CFLintScannerAdapter {
         final String name = variable.getName();
         if (!scopes.isCFScoped(name)) {
             localVariables.put(name.toLowerCase(), new VarInfo(name, true));
-        } else if ((scopes.isLocalScoped(name) || scopes.isVariablesScoped(name)) && fullVarExpression.getExpressions().size() > 1) {
+        } else if ((scopes.isLocalScoped(name) || scopes.isVariablesScoped(name))
+                && fullVarExpression.getExpressions().size() > 1) {
             final CFExpression variable2 = fullVarExpression.getExpressions().get(1);
             if (variable2 instanceof CFIdentifier) {
                 final String namepart = ((CFIdentifier) variable2).getName();
@@ -114,15 +119,15 @@ public class UnusedLocalVarChecker extends CFLintScannerAdapter {
     @Override
     public void element(final Element element, final Context context, final BugList bugs) {
         try {
-            checkAttributes(element,context.getConfiguration());
-        } catch (Exception e) {
+            checkAttributes(element, context.getConfiguration());
+        } catch (final Exception e) {
             System.err.println(e.getMessage() + " in UnusedLocalVarChecker");
         }
     }
 
     @SuppressWarnings("unchecked")
     private void checkAttributes(final Element element, final CFLintConfiguration configuration) {
-        for (String tagInfo : (List<String>)configuration.getParameter(this,"usedTagAttributes", List.class)) {
+        for (final String tagInfo : (List<String>) configuration.getParameter(this, "usedTagAttributes", List.class)) {
             final String[] parts = (tagInfo + "//").split("/");
             if (element.getName() != null && parts[0].equalsIgnoreCase(element.getName())) {
                 final String name = element.getAttributeValue(parts[1]);
@@ -132,12 +137,12 @@ public class UnusedLocalVarChecker extends CFLintScannerAdapter {
             }
         }
     }
-    
+
     public static class VarInfo {
-        private Boolean used;
+        private final Boolean used;
         private Integer lineNumber;
         private Integer offset;
-        private String name;
+        private final String name;
 
         public VarInfo(final String name, final Boolean used) {
             this.name = name;

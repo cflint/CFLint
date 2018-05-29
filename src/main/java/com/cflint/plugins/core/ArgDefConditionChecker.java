@@ -48,9 +48,9 @@ public class ArgDefConditionChecker extends CFLintScannerAdapter {
 
     private boolean isCheck(final String content, final String name) {
         boolean checked = false;
-        String stripped = content.replace(" ", "").replace("'", "\"").toLowerCase();
-        boolean structKeyCheck = (stripped.contains("structkeyexists(arguments,\"" + name + "\""));
-        boolean isDefinedCheck = (stripped.contains("isdefined(\"arguments." + name + "\""));
+        final String stripped = content.replace(" ", "").replace("'", "\"").toLowerCase();
+        final boolean structKeyCheck = (stripped.contains("structkeyexists(arguments,\"" + name + "\""));
+        final boolean isDefinedCheck = (stripped.contains("isdefined(\"arguments." + name + "\""));
         checked = structKeyCheck || isDefinedCheck;
         return checked;
     }

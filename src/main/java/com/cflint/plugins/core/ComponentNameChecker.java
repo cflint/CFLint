@@ -1,8 +1,8 @@
 package com.cflint.plugins.core;
 
+import com.cflint.BugList;
 import com.cflint.CF;
 import com.cflint.config.CFLintConfiguration;
-import com.cflint.BugList;
 import com.cflint.plugins.CFLintScannerAdapter;
 import com.cflint.plugins.Context;
 
@@ -32,18 +32,20 @@ public class ComponentNameChecker extends CFLintScannerAdapter {
     private int maxComponentWords = ValidName.MAX_COMPONENT_WORDS;
 
     /**
-     * Parse a CFScript component declaration to see if the component name is invalid.
+     * Parse a CFScript component declaration to see if the component name is
+     * invalid.
      */
     @Override
     public void expression(final CFScriptStatement expression, final Context context, final BugList bugs) {
         if (expression instanceof CFCompDeclStatement) {
             final String name = context.getFilename().replace(".cfc", "");
-            checkNameForBugs(context, actualFileName(name), context.getFilename(), bugs,expression);
+            checkNameForBugs(context, actualFileName(name), context.getFilename(), bugs, expression);
         }
     }
 
     /**
-     * Parse CF component tag declaration to see if the component name is invalid.
+     * Parse CF component tag declaration to see if the component name is
+     * invalid.
      */
     @Override
     public void element(final Element element, final Context context, final BugList bugs) {
@@ -56,7 +58,8 @@ public class ComponentNameChecker extends CFLintScannerAdapter {
     /**
      * Get the file name from the path.
      *
-     * @param fileName path of file name.
+     * @param fileName
+     *            path of file name.
      * @return file name.
      */
     private String actualFileName(final String fileName) {
@@ -74,33 +77,31 @@ public class ComponentNameChecker extends CFLintScannerAdapter {
     /**
      * Parse rule parameters.
      *
-     * Parameters include:
-     * - minimum length of valid name
-     * - maximum length of valid name
-     * - maximum number of words in a camel case name
+     * Parameters include: - minimum length of valid name - maximum length of
+     * valid name - maximum number of words in a camel case name
      *
      * See @ValidName for defaults.
      */
-    private void parseParameters(CFLintConfiguration configuration) throws ConfigError {
-        if (configuration.getParameter(this,"minLength") != null) {
+    private void parseParameters(final CFLintConfiguration configuration) throws ConfigError {
+        if (configuration.getParameter(this, "minLength") != null) {
             try {
-                minComponentLength = Integer.parseInt(configuration.getParameter(this,"minLength"));
+                minComponentLength = Integer.parseInt(configuration.getParameter(this, "minLength"));
             } catch (final Exception e) {
                 throw new ConfigError("Minimum length need to be an integer.");
             }
         }
 
-        if (configuration.getParameter(this,"maxLength") != null) {
+        if (configuration.getParameter(this, "maxLength") != null) {
             try {
-                maxComponentLength = Integer.parseInt(configuration.getParameter(this,"maxLength"));
+                maxComponentLength = Integer.parseInt(configuration.getParameter(this, "maxLength"));
             } catch (final Exception e) {
                 throw new ConfigError("Maximum length need to be an integer.");
             }
         }
 
-        if (configuration.getParameter(this,"maxWords") != null) {
+        if (configuration.getParameter(this, "maxWords") != null) {
             try {
-                maxComponentWords = Integer.parseInt(configuration.getParameter(this,"maxWords"));
+                maxComponentWords = Integer.parseInt(configuration.getParameter(this, "maxWords"));
             } catch (final Exception e) {
                 throw new ConfigError("Maximum no of words need to be an integer.");
             }
@@ -110,49 +111,47 @@ public class ComponentNameChecker extends CFLintScannerAdapter {
     /**
      * Check if an argument name is "bad" is some way.
      *
-     * Bad argument name include:
-     * - Invalid names (contains an invalid character, ends in a number, not camelCase or does not use underscores)
-     * - Names all in upper case
-     * - Names that are too short
-     * - Names that are too long
-     * - Names that are too wordy
-     * - Names that look like temporary variables
-     * - Names having a prefix or postfix
-     * @param expression 
+     * Bad argument name include: - Invalid names (contains an invalid
+     * character, ends in a number, not camelCase or does not use underscores) -
+     * Names all in upper case - Names that are too short - Names that are too
+     * long - Names that are too wordy - Names that look like temporary
+     * variables - Names having a prefix or postfix
+     * 
+     * @param expression
      */
     public void checkNameForBugs(final Context context, final String component, final String filename,
-            final BugList bugs, CFScriptStatement expression) {
+            final BugList bugs, final CFScriptStatement expression) {
         final ValidName name = new ValidName(minComponentLength, maxComponentLength, maxComponentWords);
 
         try {
             parseParameters(context.getConfiguration());
-        } catch (ConfigError configError) {
+        } catch (final ConfigError configError) {
             // Carry on with defaults
         }
 
         // TODO check package name as well?
 
-        String caseTypeParm = context.getConfiguration().getParameter(this, "case");
-        if (name.isInvalidComponent(component,caseTypeParm==null?"PascalCase":caseTypeParm)) {
-            context.addMessage("COMPONENT_INVALID_NAME", null, this,expression);
+        final String caseTypeParm = context.getConfiguration().getParameter(this, "case");
+        if (name.isInvalidComponent(component, caseTypeParm == null ? "PascalCase" : caseTypeParm)) {
+            context.addMessage("COMPONENT_INVALID_NAME", null, this, expression);
         }
         if (name.isUpperCase(component)) {
-            context.addMessage("COMPONENT_ALLCAPS_NAME", null, this,expression);
+            context.addMessage("COMPONENT_ALLCAPS_NAME", null, this, expression);
         }
         if (name.tooShort(component)) {
-            context.addMessage("COMPONENT_TOO_SHORT", null, this,expression);
+            context.addMessage("COMPONENT_TOO_SHORT", null, this, expression);
         }
         if (name.tooLong(component)) {
-            context.addMessage("COMPONENT_TOO_LONG", null, this,expression);
+            context.addMessage("COMPONENT_TOO_LONG", null, this, expression);
         }
         if (!name.isUpperCase(component) && name.tooWordy(component)) {
-            context.addMessage("COMPONENT_TOO_WORDY", null, this,expression);
+            context.addMessage("COMPONENT_TOO_WORDY", null, this, expression);
         }
         if (name.isTemporary(component)) {
-            context.addMessage("COMPONENT_IS_TEMPORARY", null, this,expression);
+            context.addMessage("COMPONENT_IS_TEMPORARY", null, this, expression);
         }
         if (name.hasPrefixOrPostfix(component)) {
-            context.addMessage("COMPONENT_HAS_PREFIX_OR_POSTFIX", null, this,expression);
+            context.addMessage("COMPONENT_HAS_PREFIX_OR_POSTFIX", null, this, expression);
         }
     }
 }

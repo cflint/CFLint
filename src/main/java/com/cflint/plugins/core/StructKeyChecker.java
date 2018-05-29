@@ -23,12 +23,11 @@ public class StructKeyChecker extends CFLintScannerAdapter {
                     && subExpressions.get(subExpressions.size() - 1) instanceof CFIdentifier) {
                 context.addMessage("STRUCT_ARRAY_NOTATION", subExpressions.get(subExpressions.size() - 1).Decompile(0));
             }
-        }
-        else if (expression instanceof CFStructExpression) {
-            CFStructExpression structExpression = (CFStructExpression) expression;
-            for (Object element : structExpression.getElements()) {
-                CFStructElementExpression structKeyExpression = (CFStructElementExpression) element;
-                String firstToken = structKeyExpression.getKey().getToken().getText();
+        } else if (expression instanceof CFStructExpression) {
+            final CFStructExpression structExpression = (CFStructExpression) expression;
+            for (final Object element : structExpression.getElements()) {
+                final CFStructElementExpression structKeyExpression = (CFStructElementExpression) element;
+                final String firstToken = structKeyExpression.getKey().getToken().getText();
                 if (!"'".equals(firstToken) && !"\"".equals(firstToken)) {
                     context.addMessage("UNQUOTED_STRUCT_KEY", structKeyExpression.getKey().Decompile(0));
                 }

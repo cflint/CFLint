@@ -13,7 +13,7 @@ public class AbortChecker extends CFLintScannerAdapter {
     @Override
     public void expression(final CFScriptStatement expression, final Context context, final BugList bugs) {
         if (expression instanceof CFAbortStatement) {
-            context.addMessage("AVOID_USING_ABORT", null, this,expression);
+            context.addMessage("AVOID_USING_ABORT", null, this, expression);
         }
     }
 }

@@ -85,7 +85,8 @@ public class ValidName {
     /**
      * Default prefixes to avoid.
      */
-    private static final String[] DEFAULT_PREFIXES_TO_AVOID = { "s", "st", "str", "o", "obj", "b", "q", "a", "arr", "this", "my", "stu" };
+    private static final String[] DEFAULT_PREFIXES_TO_AVOID = { "s", "st", "str", "o", "obj", "b", "q", "a", "arr",
+            "this", "my", "stu" };
 
     /**
      * Prefixes to avoid.
@@ -105,9 +106,12 @@ public class ValidName {
     /**
      * Set up the minimum and maximum lengths.
      *
-     * @param minLength minimum length of name.
-     * @param maxLength maximum length of name.
-     * @param maxWords maximum no of words in a name.
+     * @param minLength
+     *            minimum length of name.
+     * @param maxLength
+     *            maximum length of name.
+     * @param maxWords
+     *            maximum no of words in a name.
      */
     public ValidName(final int minLength, final int maxLength, final int maxWords) {
         this.minLength = minLength;
@@ -118,23 +122,25 @@ public class ValidName {
     /**
      * Is a name valid?.
      *
-     * @param name name of variable.
+     * @param name
+     *            name of variable.
      * @return true if name is valid or false if it is not.
      */
-    public boolean isInvalid(final String name,final String caseType) {
-        boolean caseOk = ("PascalCase".equalsIgnoreCase(caseType)? isPascalCase(name) : isCamelCase(name));
-        return !validChars(name) //|| endsInNumber(name)
+    public boolean isInvalid(final String name, final String caseType) {
+        final boolean caseOk = ("PascalCase".equalsIgnoreCase(caseType) ? isPascalCase(name) : isCamelCase(name));
+        return !validChars(name) // || endsInNumber(name)
                 || !(isSameCase(name) || caseOk || usesUnderscores(name));
     }
 
     /**
      * Is a component name valid?.
      *
-     * @param name name of variable.
+     * @param name
+     *            name of variable.
      * @return true if name is valid or false if it is not.
      */
-    public boolean isInvalidComponent(final String name,final String caseType) {
-        boolean caseOk = ("PascalCase".equalsIgnoreCase(caseType)? isPascalCase(name) : isCamelCase(name));
+    public boolean isInvalidComponent(final String name, final String caseType) {
+        final boolean caseOk = ("PascalCase".equalsIgnoreCase(caseType) ? isPascalCase(name) : isCamelCase(name));
         return !validChars(name) || endsInNumber(name)
                 || !(isUpperCase(name) || isPascalCase(name) || usesUnderscores(name));
     }
@@ -142,8 +148,10 @@ public class ValidName {
     /**
      * Valid characters in a name.
      *
-     * @param name name of variable.
-     * @return true if the name consists of valid chartacters, false if it does not.
+     * @param name
+     *            name of variable.
+     * @return true if the name consists of valid chartacters, false if it does
+     *         not.
      */
     public boolean validChars(final String name) {
         final Pattern valid = Pattern.compile("^[A-Za-z0-9_]+$");
@@ -153,7 +161,8 @@ public class ValidName {
     /**
      * Is a name all upper case?.
      *
-     * @param name name of variable.
+     * @param name
+     *            name of variable.
      * @return true if the name is all upppercase, false if it is not.
      */
     public boolean isUpperCase(final String name) {
@@ -163,7 +172,8 @@ public class ValidName {
     /**
      * Is a name all the same case.
      *
-     * @param name name of variable.
+     * @param name
+     *            name of variable.
      * @return true if the name is all upppercase, false if it is not.
      */
     public boolean isSameCase(final String name) {
@@ -173,7 +183,8 @@ public class ValidName {
     /**
      * Is a name camel case starting wth a lower case letter?.
      *
-     * @param name name of variable.
+     * @param name
+     *            name of variable.
      * @return true if the camel case, false if it is not.
      */
     public boolean isCamelCase(final String name) {
@@ -185,7 +196,8 @@ public class ValidName {
     /**
      * Is a name pascal case starting wth a upper case letter?.
      *
-     * @param name name of variable.
+     * @param name
+     *            name of variable.
      * @return true if the camel case, false if it is not.
      */
     public boolean isPascalCase(final String name) {
@@ -196,7 +208,8 @@ public class ValidName {
     /**
      * Does the name include an underscore?.
      *
-     * @param name name of variable.
+     * @param name
+     *            name of variable.
      * @return true if name contains an underscore, false if it does not.
      */
     public boolean usesUnderscores(final String name) {
@@ -206,7 +219,8 @@ public class ValidName {
     /**
      * Does the name end in one or more digits?
      *
-     * @param name name of variable.
+     * @param name
+     *            name of variable.
      * @return true if name ends in one or more digits, false if it does not.
      */
     public boolean endsInNumber(final String name) {
@@ -217,7 +231,8 @@ public class ValidName {
     /**
      * Is the name too short?.
      *
-     * @param name name of variable.
+     * @param name
+     *            name of variable.
      * @return true if name is too short, false if it does not.
      */
     public boolean tooShort(final String name) {
@@ -227,7 +242,8 @@ public class ValidName {
     /**
      * Is the name too long?.
      *
-     * @param name name of variable.
+     * @param name
+     *            name of variable.
      * @return true if name is too long, false if it is not.
      */
     public boolean tooLong(final String name) {
@@ -237,7 +253,8 @@ public class ValidName {
     /**
      * Is the name too wordy?.
      *
-     * @param name name of variable.
+     * @param name
+     *            name of variable.
      * @return true if name contains too many words, false if it does not.
      */
     public boolean tooWordy(final String name) {
@@ -256,7 +273,8 @@ public class ValidName {
     /**
      * Is the name temporary?.
      *
-     * @param name name of variable.
+     * @param name
+     *            name of variable.
      * @return true if the name is temporary, false if it does not.
      */
     public boolean isTemporary(final String name) {
@@ -280,17 +298,18 @@ public class ValidName {
     /**
      * Does the name have a prefix or postfix?
      *
-     * @param name  name of variable.
-     * @return  true if the name has a prefix or postfix, false if it does not.
+     * @param name
+     *            name of variable.
+     * @return true if the name has a prefix or postfix, false if it does not.
      */
     public boolean hasPrefixOrPostfix(final String name) {
         String sentence = name.replaceAll("_", " ");
         sentence = sentence.replaceAll("(\\p{Ll})(\\p{Lu})", "$1 $2");
 
         if (sentence.trim().length() == 0) {
-        	return false;
+            return false;
         }
-        
+
         final String[] words = sentence.split(" ");
         final String firstWord = words[0];
         final String lastWord = words[words.length - 1];
@@ -312,8 +331,10 @@ public class ValidName {
     /**
      * Should avoid first or last word in a name?.
      *
-     * @param firstWord first word of a name.
-     * @param lastWord  last word of a name.
+     * @param firstWord
+     *            first word of a name.
+     * @param lastWord
+     *            last word of a name.
      * @return true if first or last word is to be avoided in a name.
      */
 
@@ -334,16 +355,18 @@ public class ValidName {
     /**
      * Set the prefixes to avoid.
      *
-     * @param prefixesToAvoid prefixes to avoid.
+     * @param prefixesToAvoid
+     *            prefixes to avoid.
      */
     public void setPrefixesToAvoid(final String[] prefixesToAvoid) {
         this.prefixesToAvoid = prefixesToAvoid;
     }
 
     /**
-     *  Set the suffixes to avoid.
+     * Set the suffixes to avoid.
      *
-     * @param suffixesToAvoid suffixes to avoid.
+     * @param suffixesToAvoid
+     *            suffixes to avoid.
      */
     public void setSuffixesToAvoid(final String[] suffixesToAvoid) {
         this.suffixesToAvoid = suffixesToAvoid;
@@ -358,15 +381,15 @@ public class ValidName {
         this.requiredPrefixes = prefixes;
     }
 
-    public void setMinLength(int minLength) {
+    public void setMinLength(final int minLength) {
         this.minLength = minLength;
     }
 
-    public void setMaxLength(int maxLength) {
+    public void setMaxLength(final int maxLength) {
         this.maxLength = maxLength;
     }
 
-    public void setMaxWords(int maxWords) {
+    public void setMaxWords(final int maxWords) {
         this.maxWords = maxWords;
     }
 }

@@ -1,7 +1,7 @@
 package com.cflint.plugins.core;
 
-import com.cflint.CF;
 import com.cflint.BugList;
+import com.cflint.CF;
 import com.cflint.plugins.CFLintScannerAdapter;
 import com.cflint.plugins.Context;
 import com.cflint.plugins.Context.ContextType;
@@ -20,7 +20,7 @@ public class TooManyFunctionsChecker extends CFLintScannerAdapter {
     public void expression(final CFScriptStatement expression, final Context context, final BugList bugs) {
         if (expression instanceof CFFuncDeclStatement && !trivalFunction(context.getFunctionName())) {
             functionCount++;
-            checkNumberFunctions(functionCount, context, bugs,context.getFunctionInfo().getName());
+            checkNumberFunctions(functionCount, context, bugs, context.getFunctionInfo().getName());
         }
     }
 
@@ -35,13 +35,13 @@ public class TooManyFunctionsChecker extends CFLintScannerAdapter {
     protected boolean trivalFunction(final String name) {
         final int length = name.length();
         return length >= 3 && "get".equalsIgnoreCase(name.substring(1, 3))
-            || length >= 3 && "set".equalsIgnoreCase(name.substring(1, 3))
-            || length >= 2 && "is".equalsIgnoreCase(name.substring(1, 2));
+                || length >= 3 && "set".equalsIgnoreCase(name.substring(1, 3))
+                || length >= 2 && "is".equalsIgnoreCase(name.substring(1, 2));
     }
 
-    protected void checkNumberFunctions(final int functionCount, final Context context,
-                                        final BugList bugs, final CFExpression cfExpression) {
-        final String functionThreshold = context.getConfiguration().getParameter(this,"maximum");
+    protected void checkNumberFunctions(final int functionCount, final Context context, final BugList bugs,
+            final CFExpression cfExpression) {
+        final String functionThreshold = context.getConfiguration().getParameter(this, "maximum");
         int threshold = FUNCTION_THRESHOLD;
 
         if (functionThreshold != null) {
@@ -49,8 +49,7 @@ public class TooManyFunctionsChecker extends CFLintScannerAdapter {
         }
 
         if (functionCount == threshold + 1) {
-            context.addUniqueMessage(ContextType.COMPONENT,"EXCESSIVE_FUNCTIONS", null,
-                this, cfExpression);
+            context.addUniqueMessage(ContextType.COMPONENT, "EXCESSIVE_FUNCTIONS", null, this, cfExpression);
         }
     }
 

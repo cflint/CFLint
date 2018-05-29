@@ -16,7 +16,7 @@ public class CreateObjectChecker extends CFLintScannerAdapter {
         if (expression instanceof CFExpressionStatement) {
             final String code = ((CFExpressionStatement) expression).getExpression().Decompile(0);
             if (code.toLowerCase().contains("createobject('component'")) {
-                context.addMessage("AVOID_USING_CREATEOBJECT", null,this,expression);
+                context.addMessage("AVOID_USING_CREATEOBJECT", null, this, expression);
             }
         }
     }

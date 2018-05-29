@@ -42,20 +42,23 @@ public class PackageCaseChecker extends CFLintScannerAdapter implements CFLintSe
         }
     }
 
-    private boolean checkComponentRegister(final Context context, final String componentPath, final String componentName) {
+    private boolean checkComponentRegister(final Context context, final String componentPath,
+            final String componentName) {
         if (componentRegister.containsKey(componentName.toLowerCase())) {
-            List<String> filePathOfComponents = componentRegister.get(componentName.toLowerCase());
-            for (String filePathOfComponent : filePathOfComponents) {
+            final List<String> filePathOfComponents = componentRegister.get(componentName.toLowerCase());
+            for (final String filePathOfComponent : filePathOfComponents) {
                 if (filePathOfComponent.toLowerCase().endsWith(componentPath.toLowerCase())) {
                     if (!filePathOfComponent.endsWith(componentPath)) {
-                        final String expectedPath = filePathOfComponent.substring(filePathOfComponent.length() - componentPath.length());
+                        final String expectedPath = filePathOfComponent
+                                .substring(filePathOfComponent.length() - componentPath.length());
                         context.addMessage("PACKAGE_CASE_MISMATCH", expectedPath);
                     }
                     return true;
                 }
             }
         }
-        //otherwise remember the component use for when component is first registered.
+        // otherwise remember the component use for when component is first
+        // registered.
         final String key = componentName.toLowerCase();
         if (!expressionCheckRegister.containsKey(key)) {
             expressionCheckRegister.put(key, new ArrayList<PackageCaseCheckerEntry>());
@@ -72,22 +75,24 @@ public class PackageCaseChecker extends CFLintScannerAdapter implements CFLintSe
         }
         componentRegister.get(key).add(normalize(context.getFilename()));
 
-        //if an expression already referenced this component, check it here:
+        // if an expression already referenced this component, check it here:
         boolean matched = false;
         if (expressionCheckRegister.containsKey(key)) {
-            List<PackageCaseCheckerEntry> clonedList = new ArrayList<>();
+            final List<PackageCaseCheckerEntry> clonedList = new ArrayList<>();
             clonedList.addAll(expressionCheckRegister.get(key));
             for (final PackageCaseCheckerEntry expressionEntry : clonedList) {
-                if (checkComponentRegister(expressionEntry.context, expressionEntry.componentPath, expressionEntry.componentName)) {
+                if (checkComponentRegister(expressionEntry.context, expressionEntry.componentPath,
+                        expressionEntry.componentName)) {
                     matched = true;
-                    for (ContextMessage message : expressionEntry.context.getMessages()) {
-                        cflintRef.reportRule(expressionEntry.context.getElement(), null, expressionEntry.context, this, message);
+                    for (final ContextMessage message : expressionEntry.context.getMessages()) {
+                        cflintRef.reportRule(expressionEntry.context.getElement(), null, expressionEntry.context, this,
+                                message);
                     }
                     expressionEntry.context.getMessages().clear();
                 }
             }
         }
-        //If component matched, remove the remembered expression.  (Efficiency)
+        // If component matched, remove the remembered expression. (Efficiency)
         if (matched) {
             expressionCheckRegister.remove(key);
         }
@@ -99,7 +104,7 @@ public class PackageCaseChecker extends CFLintScannerAdapter implements CFLintSe
 
     private boolean isCreateObject(final CFFunctionExpression funcExpr) {
         return "createobject".equalsIgnoreCase(funcExpr.getFunctionName()) && funcExpr.getArgs().size() > 1
-            && "'component'".equalsIgnoreCase(funcExpr.getArgs().get(0).Decompile(0));
+                && "'component'".equalsIgnoreCase(funcExpr.getArgs().get(0).Decompile(0));
     }
 
     static final class PackageCaseCheckerEntry {
@@ -108,7 +113,7 @@ public class PackageCaseChecker extends CFLintScannerAdapter implements CFLintSe
         private final String componentPath;
         private final String componentName;
 
-        public PackageCaseCheckerEntry(Context context, String componentPath, final String componentName) {
+        public PackageCaseCheckerEntry(final Context context, final String componentPath, final String componentName) {
             this.context = context;
             this.componentPath = componentPath;
             this.componentName = componentName;

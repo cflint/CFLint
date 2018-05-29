@@ -29,7 +29,7 @@ public class VariableNameChecker extends CFLintScannerAdapter {
     /**
      * Maximum number of characters for an variable name.
      */
-    
+
     private int maxVarLength = ValidName.MAX_VAR_LENGTH;
 
     /**
@@ -39,7 +39,8 @@ public class VariableNameChecker extends CFLintScannerAdapter {
     private static final List<String> DEFAULT_EXCLUSIONS = Collections.singletonList("rc");
     private static final String PARAM_EXCLUSION_LIST = "ExclusionList";
 
-    private void checkCFName(final Element element, final Context context, final BugList bugs, final int begLine, int offset, final String name) {
+    private void checkCFName(final Element element, final Context context, final BugList bugs, final int begLine,
+            int offset, final String name) {
         if (element.getAttributeValue(name) != null) {
             final Attribute attribute = element.getAttributes().get(name);
             String varName;
@@ -49,29 +50,29 @@ public class VariableNameChecker extends CFLintScannerAdapter {
             } else {
                 varName = "";
             }
-            checkNameForBugs(context, varName, varName, context.getFilename(), context.getFunctionName(), bugs,null);
+            checkNameForBugs(context, varName, varName, context.getFilename(), context.getFunctionName(), bugs, null);
         }
     }
 
-    private void checkCFLoopName(final Element element, final Context context, final BugList bugs, final int begLine, int offset) {
+    private void checkCFLoopName(final Element element, final Context context, final BugList bugs, final int begLine,
+            int offset) {
         if (element.getAttributeValue(CF.INDEX) != null || element.getAttributeValue(CF.ITEM) != null) {
             String varName = "";
-            final String index =  element.getAttributeValue(CF.INDEX);
-            final String item =  element.getAttributeValue(CF.ITEM);
+            final String index = element.getAttributeValue(CF.INDEX);
+            final String item = element.getAttributeValue(CF.ITEM);
 
             if (index != null) {
                 varName = index;
                 offset = element.getAttributes().get(CF.INDEX).getValueSegment().getBegin();
-            }
-            else if (item != null) {
+            } else if (item != null) {
                 varName = item;
                 offset = element.getAttributes().get(CF.ITEM).getValueSegment().getBegin();
             }
 
-            checkNameForBugs(context, varName, varName, context.getFilename(), context.getFunctionName(), bugs,null);
+            checkNameForBugs(context, varName, varName, context.getFilename(), context.getFunctionName(), bugs, null);
         }
     }
-    
+
     @Override
     public void element(final Element element, final Context context, final BugList bugs) {
         final String elementName = element.getName();
@@ -87,22 +88,20 @@ public class VariableNameChecker extends CFLintScannerAdapter {
         }
     }
 
-
-
     @Override
     public void expression(final CFExpression expression, final Context context, final BugList bugs) {
         if (expression instanceof CFVarDeclExpression) {
             checkExpression(expression, context, bugs);
         } else if (expression instanceof CFFullVarExpression) {
             checkFullExpression((CFFullVarExpression) expression, context, bugs);
-        } else if (expression instanceof CFIdentifier && !(expression.getParent() instanceof CFNewExpression )) {
+        } else if (expression instanceof CFIdentifier && !(expression.getParent() instanceof CFNewExpression)) {
             checkIdentifier((CFIdentifier) expression, context, bugs);
         }
     }
 
     private void checkIdentifier(final CFIdentifier expression, final Context context, final BugList bugs) {
         final String varName = expression.getName();
-        checkNameForBugs(context, varName, varName, context.getFilename(), context.getFunctionName(), bugs,expression);
+        checkNameForBugs(context, varName, varName, context.getFilename(), context.getFunctionName(), bugs, expression);
     }
 
     private void checkFullExpression(final CFFullVarExpression expression, final Context context, final BugList bugs) {
@@ -115,8 +114,8 @@ public class VariableNameChecker extends CFLintScannerAdapter {
 
                 // can be null for nested arrays if so ignore
                 if (varName != null) {
-                    checkNameForBugs(context, cfFullVarExpression.Decompile(0), varName,
-                        context.getFilename(), context.getFunctionName(), bugs,subexpression);
+                    checkNameForBugs(context, cfFullVarExpression.Decompile(0), varName, context.getFilename(),
+                            context.getFunctionName(), bugs, subexpression);
                 }
             }
         }
@@ -125,92 +124,95 @@ public class VariableNameChecker extends CFLintScannerAdapter {
     private void checkExpression(final CFExpression expression, final Context context, final BugList bugs) {
         final CFVarDeclExpression cfVarDeclExpression = (CFVarDeclExpression) expression;
         final String varName = cfVarDeclExpression.getName();
-        checkNameForBugs(context, varName, varName, context.getFilename(), context.getFunctionName(), bugs,cfVarDeclExpression.getVar());
+        checkNameForBugs(context, varName, varName, context.getFilename(), context.getFunctionName(), bugs,
+                cfVarDeclExpression.getVar());
     }
 
-    private void parseParameters(final ValidName name, CFLintConfiguration configuration) throws ConfigError {
-        if (configuration.getParameter(this,"minLength") != null) {
+    private void parseParameters(final ValidName name, final CFLintConfiguration configuration) throws ConfigError {
+        if (configuration.getParameter(this, "minLength") != null) {
             try {
-                minVarLength = Integer.parseInt(configuration.getParameter(this,"minLength"));
+                minVarLength = Integer.parseInt(configuration.getParameter(this, "minLength"));
                 name.setMinLength(minVarLength);
             } catch (final Exception e) {
                 throw new ConfigError("Minimum length need to be an integer.");
             }
         }
 
-        if (configuration.getParameter(this,"maxLength") != null) {
+        if (configuration.getParameter(this, "maxLength") != null) {
             try {
-                maxVarLength = Integer.parseInt(configuration.getParameter(this,"maxLength"));
+                maxVarLength = Integer.parseInt(configuration.getParameter(this, "maxLength"));
                 name.setMaxLength(maxVarLength);
             } catch (final Exception e) {
                 throw new ConfigError("Maximum length need to be an integer.");
             }
         }
 
-        if (configuration.getParameter(this,"maxWords") != null) {
+        if (configuration.getParameter(this, "maxWords") != null) {
             try {
-                maxVarWords = Integer.parseInt(configuration.getParameter(this,"maxWords"));
+                maxVarWords = Integer.parseInt(configuration.getParameter(this, "maxWords"));
                 name.setMaxWords(maxVarWords);
             } catch (final Exception e) {
                 throw new ConfigError("Maximum no of words need to be an integer.");
             }
         }
 
-        if (configuration.getParameter(this,"FlagVariableNamePrefix") != null) {
-            name.setPrefixesToAvoid(configuration.getParameter(this,"FlagVariableNamePrefix").split(","));
+        if (configuration.getParameter(this, "FlagVariableNamePrefix") != null) {
+            name.setPrefixesToAvoid(configuration.getParameter(this, "FlagVariableNamePrefix").split(","));
         }
-        if (configuration.getParameter(this,"FlagVariableNameSuffix") != null) {
-            name.setSuffixesToAvoid(configuration.getParameter(this,"FlagVariableNameSuffix").split(","));
+        if (configuration.getParameter(this, "FlagVariableNameSuffix") != null) {
+            name.setSuffixesToAvoid(configuration.getParameter(this, "FlagVariableNameSuffix").split(","));
         }
-        if (configuration.getParameter(this,"RequiredVariableNamePrefix") != null) {
-            name.setRequiredPrefixList(configuration.getParameter(this,"RequiredVariableNamePrefix").split(","));
+        if (configuration.getParameter(this, "RequiredVariableNamePrefix") != null) {
+            name.setRequiredPrefixList(configuration.getParameter(this, "RequiredVariableNamePrefix").split(","));
         }
     }
 
     public void checkNameForBugs(final Context context, final String fullVariable, final String variable,
-            final String filename, final String functionName, final BugList bugs,
-            final CFExpression cfExpression) {
-        if (excludeFromAnalyse(context,variable)) {
+            final String filename, final String functionName, final BugList bugs, final CFExpression cfExpression) {
+        if (excludeFromAnalyse(context, variable)) {
             return;
         }
-        
+
         final CFScopes scope = new CFScopes();
         final String varScope = scope.getScope(fullVariable);
         final ValidName name = new ValidName(minVarLength, maxVarLength, maxVarWords);
 
         try {
-            parseParameters(name,context.getConfiguration());
-        } catch (ConfigError configError) {
+            parseParameters(name, context.getConfiguration());
+        } catch (final ConfigError configError) {
             // Carry on with defaults
         }
-        if (name.isInvalid(variable,context.getConfiguration().getParameter(this, "case"))) {
-            context.addUniqueMessage(ContextType.FUNCTION,"VAR_INVALID_NAME", variable, this, cfExpression);
+        if (name.isInvalid(variable, context.getConfiguration().getParameter(this, "case"))) {
+            context.addUniqueMessage(ContextType.FUNCTION, "VAR_INVALID_NAME", variable, this, cfExpression);
         }
-        if (!scope.isCFScoped(variable) && name.isUpperCase(variable) && !context.getConfiguration().getParameterNotNull(this,"ignoreAllCapsInScopes").toLowerCase().contains(varScope)) {
-            context.addUniqueMessage(ContextType.FUNCTION,"VAR_ALLCAPS_NAME", variable, this, cfExpression);
+        if (!scope.isCFScoped(variable) && name.isUpperCase(variable) && !context.getConfiguration()
+                .getParameterNotNull(this, "ignoreAllCapsInScopes").toLowerCase().contains(varScope)) {
+            context.addUniqueMessage(ContextType.FUNCTION, "VAR_ALLCAPS_NAME", variable, this, cfExpression);
         }
-        if (scope.isCFScoped(variable) && name.isUpperCase(variable) && !context.getConfiguration().getParameterNotNull(this,"ignoreUpperCaseScopes").contains(variable)) {
-            context.addUniqueMessage(ContextType.FUNCTION,"SCOPE_ALLCAPS_NAME", variable, this, cfExpression);
+        if (scope.isCFScoped(variable) && name.isUpperCase(variable)
+                && !context.getConfiguration().getParameterNotNull(this, "ignoreUpperCaseScopes").contains(variable)) {
+            context.addUniqueMessage(ContextType.FUNCTION, "SCOPE_ALLCAPS_NAME", variable, this, cfExpression);
         }
         if (name.tooShort(variable)) {
-            context.addUniqueMessage(ContextType.FUNCTION,"VAR_TOO_SHORT", variable, this, cfExpression);
+            context.addUniqueMessage(ContextType.FUNCTION, "VAR_TOO_SHORT", variable, this, cfExpression);
         }
         if (name.tooLong(variable)) {
-            context.addUniqueMessage(ContextType.FUNCTION,"VAR_TOO_LONG", variable, this, cfExpression);
+            context.addUniqueMessage(ContextType.FUNCTION, "VAR_TOO_LONG", variable, this, cfExpression);
         }
         if (!name.isUpperCase(variable) && name.tooWordy(variable)) {
-            context.addUniqueMessage(ContextType.FUNCTION,"VAR_TOO_WORDY", variable, this, cfExpression);
+            context.addUniqueMessage(ContextType.FUNCTION, "VAR_TOO_WORDY", variable, this, cfExpression);
         }
         if (name.isTemporary(variable)) {
-            context.addUniqueMessage(ContextType.FUNCTION,"VAR_IS_TEMPORARY", variable, this, cfExpression);
+            context.addUniqueMessage(ContextType.FUNCTION, "VAR_IS_TEMPORARY", variable, this, cfExpression);
         }
-        if (name.hasPrefixOrPostfix(variable) && !context.getConfiguration().getParameterNotNull(this,"ignorePrefixPostfixOn").contains(variable)) {
-            context.addUniqueMessage(ContextType.FUNCTION,"VAR_HAS_PREFIX_OR_POSTFIX", variable, this, cfExpression);
+        if (name.hasPrefixOrPostfix(variable)
+                && !context.getConfiguration().getParameterNotNull(this, "ignorePrefixPostfixOn").contains(variable)) {
+            context.addUniqueMessage(ContextType.FUNCTION, "VAR_HAS_PREFIX_OR_POSTFIX", variable, this, cfExpression);
         }
     }
 
-    protected boolean excludeFromAnalyse(Context context, final String variable) {
-        final String exclusionList = context.getConfiguration().getParameter(this,PARAM_EXCLUSION_LIST);
+    protected boolean excludeFromAnalyse(final Context context, final String variable) {
+        final String exclusionList = context.getConfiguration().getParameter(this, PARAM_EXCLUSION_LIST);
 
         if (exclusionList == null) {
             return DEFAULT_EXCLUSIONS.contains(normalize(variable));
@@ -218,10 +220,10 @@ public class VariableNameChecker extends CFLintScannerAdapter {
 
         final String[] split = exclusionList.split(",");
 
-        String normVar = normalize(variable);
-        if(normVar != null){
-            for (String name : split) {
-                if(normVar.equals(normalize(name))){
+        final String normVar = normalize(variable);
+        if (normVar != null) {
+            for (final String name : split) {
+                if (normVar.equals(normalize(name))) {
                     return true;
                 }
             }

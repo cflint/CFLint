@@ -1,6 +1,5 @@
 package com.cflint.plugins.core;
 
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -24,27 +23,27 @@ public class UnusedArgumentChecker extends CFLintScannerAdapter {
     // Use linked hash map to preserve the order of the elements.
     protected Map<String, ArgInfo> currentArgs = new LinkedHashMap<>();
 
-    static class ArgInfo{
+    static class ArgInfo {
         Boolean used = false;
         Integer argumentLineNo;
         Integer argumentOffset;
         String type;
     }
-    
+
     @Override
     public void element(final Element element, final Context context, final BugList bugs) {
         if (element.getName().equals(CF.CFARGUMENT)) {
             final String name = element.getAttributeValue(CF.NAME) != null
-                ? element.getAttributeValue(CF.NAME).toLowerCase() : "";
-            ArgInfo argInfo = new ArgInfo();
-            argInfo.argumentLineNo=context.startLine();
-            argInfo.argumentOffset=element.getAttributeValue(CF.NAME) != null 
+                    ? element.getAttributeValue(CF.NAME).toLowerCase() : "";
+            final ArgInfo argInfo = new ArgInfo();
+            argInfo.argumentLineNo = context.startLine();
+            argInfo.argumentOffset = element.getAttributeValue(CF.NAME) != null
                     ? element.getAttributes().get(CF.NAME).getValueSegment().getBegin() : element.getBegin();
-            argInfo.type=element.getAttributeValue(CF.TYPE);
+            argInfo.type = element.getAttributeValue(CF.TYPE);
             currentArgs.put(name, argInfo);
             final String code = element.getParentElement().toString();
             if (isUsed(code, name)) {
-                argInfo.used=true;
+                argInfo.used = true;
             }
         }
     }
@@ -54,15 +53,15 @@ public class UnusedArgumentChecker extends CFLintScannerAdapter {
         if (expression instanceof CFFuncDeclStatement) {
             final CFFuncDeclStatement function = (CFFuncDeclStatement) expression;
             for (final CFFunctionParameter argument : function.getFormals()) {
-                final String name = argument.getName().toLowerCase(); 
+                final String name = argument.getName().toLowerCase();
                 // CF variable names are not case sensitive
-                ArgInfo argInfo = new ArgInfo();
-                argInfo.argumentLineNo=function.getLine();
-                argInfo.argumentOffset=context.offset() + argument.getOffset();
-                argInfo.type=argument.getType();
+                final ArgInfo argInfo = new ArgInfo();
+                argInfo.argumentLineNo = function.getLine();
+                argInfo.argumentOffset = context.offset() + argument.getOffset();
+                argInfo.type = argument.getType();
                 currentArgs.put(name, argInfo);
                 if (isUsed(function.Decompile(0), name)) {
-                    argInfo.used=true;
+                    argInfo.used = true;
                 }
             }
         }
@@ -73,7 +72,7 @@ public class UnusedArgumentChecker extends CFLintScannerAdapter {
             final CFExpression identifier1 = fullVarExpression.getExpressions().get(0);
             if (identifier1 instanceof CFIdentifier) {
                 if ("arguments".equalsIgnoreCase(((CFIdentifier) identifier1).getName())
-                    && fullVarExpression.getExpressions().size() > 1) {
+                        && fullVarExpression.getExpressions().size() > 1) {
                     final CFExpression identifier2 = fullVarExpression.getExpressions().get(1);
                     if (identifier2 instanceof CFIdentifier) {
                         useIdentifier((CFIdentifier) identifier2);
@@ -88,14 +87,14 @@ public class UnusedArgumentChecker extends CFLintScannerAdapter {
     protected void useIdentifier(final CFIdentifier identifier) {
         final String name = identifier.getName().toLowerCase();
         if (currentArgs.get(name) != null) {
-            currentArgs.get(name).used=true;
+            currentArgs.get(name).used = true;
         }
     }
-    
+
     protected void useIdentifier(final CFFunctionExpression identifier) {
         final String name = identifier.getName().toLowerCase();
         if (currentArgs.get(name) != null && CF.FUNCTION.equalsIgnoreCase(currentArgs.get(name).type)) {
-            currentArgs.get(name).used=true;
+            currentArgs.get(name).used = true;
         }
     }
 
@@ -105,7 +104,7 @@ public class UnusedArgumentChecker extends CFLintScannerAdapter {
             useIdentifier((CFFullVarExpression) expression);
         } else if (expression instanceof CFIdentifier) {
             useIdentifier((CFIdentifier) expression);
-        } else if(expression instanceof CFFunctionExpression){
+        } else if (expression instanceof CFFunctionExpression) {
             useIdentifier((CFFunctionExpression) expression);
         }
     }
@@ -130,10 +129,10 @@ public class UnusedArgumentChecker extends CFLintScannerAdapter {
 
     private boolean isUsed(final String content, final String name) {
         boolean isUsed = false;
-        String stripped = content.replace(" ", "").replace("'", "\"").toLowerCase();
-        boolean structKeyCheck = (stripped.contains("arguments[\"" + name + "\"]"));
-        boolean isDefinedCheck = (stripped.contains("arguments." + name));
-        boolean isInCollection = (stripped.contains("argumentcollection=arguments"));
+        final String stripped = content.replace(" ", "").replace("'", "\"").toLowerCase();
+        final boolean structKeyCheck = (stripped.contains("arguments[\"" + name + "\"]"));
+        final boolean isDefinedCheck = (stripped.contains("arguments." + name));
+        final boolean isInCollection = (stripped.contains("argumentcollection=arguments"));
         isUsed = structKeyCheck || isDefinedCheck || isInCollection;
         return isUsed;
     }

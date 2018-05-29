@@ -20,8 +20,9 @@ public class QueryParamChecker extends CFLintScannerAdapter {
     public void expression(final CFExpression expression, final Context context, final BugList bugs) {
         if (expression instanceof CFFunctionExpression) {
             final CFFunctionExpression functionExpression = (CFFunctionExpression) expression;
-            if ("setSql".equalsIgnoreCase(functionExpression.getFunctionName()) || "queryExecute".equalsIgnoreCase(functionExpression.getFunctionName())
-                && !functionExpression.getArgs().isEmpty()) {
+            if ("setSql".equalsIgnoreCase(functionExpression.getFunctionName())
+                    || "queryExecute".equalsIgnoreCase(functionExpression.getFunctionName())
+                            && !functionExpression.getArgs().isEmpty()) {
                 final CFExpression argsExpression = functionExpression.getArgs().get(0);
                 final Pattern p = Pattern.compile(".*#[^#].*", Pattern.DOTALL);
                 if (p.matcher(argsExpression.Decompile(0)).matches()) {
@@ -33,21 +34,25 @@ public class QueryParamChecker extends CFLintScannerAdapter {
 
     @Override
     public void element(final Element element, final Context context, final BugList bugs) {
-        if (
-            element.getName().equalsIgnoreCase(CF.CFQUERY) && !CF.QUERY.equalsIgnoreCase(element.getAttributeValue(CF.DBTYPE))) {
+        if (element.getName().equalsIgnoreCase(CF.CFQUERY)
+                && !CF.QUERY.equalsIgnoreCase(element.getAttributeValue(CF.DBTYPE))) {
             String content = element.getContent().toString();
-            //Todo : cfparser/Jericho does not support parsing out the cfqueryparam very well.
-            //   the following code will not work when there is a > sign in the expression
+            // Todo : cfparser/Jericho does not support parsing out the
+            // cfqueryparam very well.
+            // the following code will not work when there is a > sign in the
+            // expression
             content = content.replaceAll("<[cC][fF][qQ][uU][eE][rR][yY][pP][aA][rR][aA][mM][^>]*>", "");
             if (content.indexOf('#') >= 0) {
                 final List<Integer> ignoreLines = determineIgnoreLines(element);
                 final Matcher matcher = Pattern.compile("#([^#]+?)#").matcher(content);
                 while (matcher.find()) {
                     if (matcher.groupCount() >= 1) {
-                        int currentline = context.startLine() + countNewLinesUpTo(content, matcher.start());
+                        final int currentline = context.startLine() + countNewLinesUpTo(content, matcher.start());
                         final String variableName = matcher.group(1);
                         if (!ignoreLines.contains(currentline)) {
-                            context.addMessage("CFQUERYPARAM_REQ", variableName, this).setExtraOffset(matcher.start()+1);;
+                            context.addMessage("CFQUERYPARAM_REQ", variableName, this)
+                                    .setExtraOffset(matcher.start() + 1);
+                            ;
                         }
                     }
                 }
@@ -56,17 +61,19 @@ public class QueryParamChecker extends CFLintScannerAdapter {
     }
 
     /**
-     * Determine the line numbers of the <!--- @CFLintIgnore CFQUERYPARAM_REQ ---> tags
-     * Both the current and the next line are included.
+     * Determine the line numbers of the <!--- @CFLintIgnore CFQUERYPARAM_REQ
+     * ---> tags Both the current and the next line are included.
      *
-     * @param element   the element object
-     * @return          the line numbers of any @@CFLintIgnore annotations.
+     * @param element
+     *            the element object
+     * @return the line numbers of any @@CFLintIgnore annotations.
      */
     private List<Integer> determineIgnoreLines(final Element element) {
         final List<Integer> ignoreLines = new ArrayList<>();
-        for (Element comment : element.getChildElements()) {
-            if ("!---".equals(comment.getName()) && comment.toString().contains("@CFLintIgnore") && comment.toString().contains("CFQUERYPARAM_REQ")) {
-                int ignoreLine = comment.getSource().getRow(comment.getEnd());
+        for (final Element comment : element.getChildElements()) {
+            if ("!---".equals(comment.getName()) && comment.toString().contains("@CFLintIgnore")
+                    && comment.toString().contains("CFQUERYPARAM_REQ")) {
+                final int ignoreLine = comment.getSource().getRow(comment.getEnd());
                 ignoreLines.add(ignoreLine);
                 ignoreLines.add(ignoreLine + 1);
                 ignoreLines.add(comment.getSource().getRow(comment.getBegin()));
@@ -79,9 +86,12 @@ public class QueryParamChecker extends CFLintScannerAdapter {
 
     /**
      * Count the number of new lines
-     * @param val  the string to count lines
-     * @param pos  the position to start
-     * @return          the number of new lines
+     * 
+     * @param val
+     *            the string to count lines
+     * @param pos
+     *            the position to start
+     * @return the number of new lines
      */
     public int countNewLinesUpTo(final String val, final int pos) {
         final String x = pos > val.length() ? val : val.substring(0, pos);

@@ -1,7 +1,7 @@
 package com.cflint.plugins.core;
 
-import com.cflint.CF;
 import com.cflint.BugList;
+import com.cflint.CF;
 import com.cflint.plugins.CFLintScannerAdapter;
 import com.cflint.plugins.Context;
 

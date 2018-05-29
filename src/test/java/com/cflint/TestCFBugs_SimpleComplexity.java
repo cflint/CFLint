@@ -77,7 +77,7 @@ public class TestCFBugs_SimpleComplexity {
                 + "}\r\n" + "else if (a == 4) {\r\n" + "b = 4;\r\n" + "}\r\n" + "else if (a == 5) {\r\n" + "b = 5;\r\n"
                 + "}\r\n" + "else if (a == 6) {\r\n" + "b = 6;\r\n" + "}\r\n" + "else if (a == 7) {\r\n" + "b = 7;\r\n"
                 + "}\r\n" + "else if (a == 8) {\r\n" + "b = 8;\r\n" + "}\r\n" + "else if (a == 9) {\r\n" + "b = 9;\r\n"
-                + "}\r\n" + "else if (a == 10) {\r\n" + "b = 10;\r\n" + "else if (a == 11) {\r\n" + "b = 11;\r\n"
+                + "}\r\n" + "else if (a == 10) {\r\n" + "b = 10;}\r\n" + "else if (a == 11) {\r\n" + "b = 11;\r\n"
                 + "}\r\n" + "}\r\n" + "}";
         CFLintResult lintresult = cfBugs.scan(cfcSrc, "test");
         final List<BugInfo> result = lintresult.getIssues().get("FUNCTION_TOO_COMPLEX");

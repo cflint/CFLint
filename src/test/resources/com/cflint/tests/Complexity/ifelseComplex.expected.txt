@@ -1,6 +1,6 @@
 {
   "version" : "",
-  "timestamp" : 1527541308,
+  "timestamp" : 1527547272,
   "issues" : [ {
     "severity" : "WARNING",
     "id" : "FUNCTION_TOO_COMPLEX",
@@ -16,7 +16,7 @@
       "line" : 2,
       "message" : "Function foo is too complex. Consider breaking the function into smaller functions.",
       "variable" : "",
-      "expression" : "if(something )   {\ndoSomethingElse();\n\n  }"
+      "expression" : "public void function foo()   {\n    if(something )       {\ndoSomething();\n\n      }\n    else       {\n        if(something )           {\n            if(something )               {\n                if(some"
     } ]
   } ],
   "counts" : {

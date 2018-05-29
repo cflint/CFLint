@@ -27,7 +27,7 @@ public class CFCompareVsAssignChecker extends CFLintScannerAdapter {
             if (exprStatement.getExpression() instanceof CFBinaryExpression) {
                 final CFBinaryExpression binaryExpression = (CFBinaryExpression) exprStatement.getExpression();
                 if (TOKENS.contains(binaryExpression.getToken().getType())) {
-                    context.addMessage("COMPARE_INSTEAD_OF_ASSIGN", binaryExpression.getToken().getText());
+                    context.addMessage("COMPARE_INSTEAD_OF_ASSIGN", binaryExpression.getToken().getText(),this,binaryExpression);
                 }
             }
         }

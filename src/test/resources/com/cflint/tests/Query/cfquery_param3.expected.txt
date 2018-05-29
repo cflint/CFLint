@@ -1,6 +1,6 @@
 {
   "version" : "",
-  "timestamp" : 1526095031,
+  "timestamp" : 1527560347,
   "issues" : [ {
     "severity" : "WARNING",
     "id" : "CFQUERYPARAM_REQ",
@@ -12,7 +12,7 @@
       "fileName" : "cfquery_param3.cfc",
       "function" : "foo",
       "offset" : 123,
-      "column" : 20,
+      "column" : 21,
       "line" : 4,
       "message" : "<cfquery> should use <cfqueryparam/> for variable 'arguments.count'.",
       "variable" : "arguments.count",

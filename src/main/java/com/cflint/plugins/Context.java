@@ -183,18 +183,20 @@ public class Context {
             final Integer line, final Integer offset, final HasToken cfExpression) {
         messages.add(new ContextMessage(messageCode, variable, source, line, offset, cfExpression));
     }
-    public void addMessage(final String messageCode, final String variable, final CFLintScanner source,
+    public ContextMessage addMessage(final String messageCode, final String variable, final CFLintScanner source,
             final HasToken cfExpression,final Context relativecontext) {
         ContextMessage cm = new ContextMessage(messageCode, variable, source, cfExpression, relativecontext);
-        
         messages.add(cm);
+        return cm;
     }
-    public void addMessage(final String messageCode, final String variable, final CFLintScanner source,
+    public ContextMessage addMessage(final String messageCode, final String variable, final CFLintScanner source,
             final HasToken cfExpression) {
-        addMessage(messageCode,variable,source,cfExpression,null);
+        return addMessage(messageCode,variable,source,cfExpression,null);
     }
-    public void addMessage(final String messageCode, final String variable, final CFLintScanner source) {
-        messages.add(new ContextMessage(messageCode, variable, source, (CFExpression)null, null));
+    public ContextMessage addMessage(final String messageCode, final String variable, final CFLintScanner source) {
+        ContextMessage cm = new ContextMessage(messageCode, variable, source, (CFExpression)null, null);
+        messages.add(cm);
+        return cm;
     }
 
     public void addMessage(final String messageCode, final String variable, final Integer line, final Integer offset) {
@@ -310,6 +312,8 @@ public class Context {
         private CFLintScanner source;
         private final HasToken cfExpression;
         private Context relativeContext;
+        private Integer extraOffset;
+        private Object locator;
 
         public ContextMessage(final String messageCode, final String variable) {
             super();
@@ -388,6 +392,26 @@ public class Context {
         public Context getRelativeContext() {
             return relativeContext;
         }
+
+        public Integer getExtraOffset() {
+            return extraOffset;
+        }
+
+        public void setExtraOffset(Integer extraOffset) {
+            this.extraOffset = extraOffset;
+        }
+
+        public Object getLocator() {
+            return locator;
+        }
+
+        public void setLocator(Object locator) {
+            this.locator = locator;
+        }
+        public ContextMessage atLocation(Segment locator) {
+            this.locator = locator;
+            return this;
+        }
     }
 
     public Context subContext(final Element elem, final CommonTokenStream tokens) {
@@ -431,14 +455,32 @@ public class Context {
     }
 
     public int offset() {
+        return offset(null);
+    }
+    public int offset(ContextMessage message) {
+        if(message!=null && message.getLocator()!=null){
+            if(message.getLocator() instanceof Segment){
+                return ((Segment)message.getLocator()).getBegin();
+            }
+        }
         if (element != null) {
-            if (element.getName().equalsIgnoreCase(CF.CFSCRIPT)) {
+            if (element.getName().equalsIgnoreCase(CF.CFSCRIPT)){
                 return element.getStartTag().getEnd();
-            } else if (element.getStartTag().getTagContent() != null
-                    && element.getStartTag().getTagContent().length() > 0) {
+            }
+            else if(element.getEndTag() != null && element.getContent().length()>0
+                    && (element.getName().equalsIgnoreCase(CF.CFQUERY)
+                            || element.getName().equalsIgnoreCase(CF.CFSAVECONTENT)
+                            )
+                    ) {
+                return element.getStartTag().getEnd();
+            } else if (element.getName().equalsIgnoreCase(CF.CFSET)
+                    //|| element.getName().equalsIgnoreCase(CF.CFQUERY)
+                    //|| element.getName().equalsIgnoreCase(CF.CFSAVECONTENT)
+                    || element.getName().equalsIgnoreCase(CF.CFIF)
+                    || element.getName().equalsIgnoreCase(CF.CFELSEIF)) {
                 return element.getStartTag().getTagContent().getBegin() + 1;
             }
-            return element.getStartTag().getEnd();
+            return element.getStartTag().getBegin();
         } else {
             return 0;
         }

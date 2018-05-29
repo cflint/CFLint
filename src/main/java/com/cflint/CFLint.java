@@ -1359,7 +1359,7 @@ public class CFLint implements IErrorReporter {
             }catch(ArrayIndexOutOfBoundsException e){}
   
             if (expression instanceof CFExpression) {
-                final BugInfo bugInfo = bldr.build((CFExpression) expression, elem,context);
+                final BugInfo bugInfo = bldr.build((CFExpression) expression, elem,context,msg);
                 final Token token = ((HasToken) expression).getToken();
                 if (!suppressed(bugInfo, token, context)) {
                     bugs.add(bugInfo);
@@ -1379,7 +1379,7 @@ public class CFLint implements IErrorReporter {
                 }
             } else {
                 CFScriptStatement cfscriptExpr = (CFScriptStatement) expression;
-                final BugInfo bug = bldr.build(cfscriptExpr, elem);
+                final BugInfo bug = bldr.build(cfscriptExpr, elem,context, msg);
                 if (msg.getLine() != null) {
                     bug.setLine(msg.getLine());
                     if (msg.getOffset() != null) {

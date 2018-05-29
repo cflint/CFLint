@@ -15,8 +15,6 @@ public class LengthChecker extends CFLintScannerAdapter {
      * @param maxLength maximimum length.
      * @param message message to display.
      * @param context current context.
-     * @param atLine  current line.
-     * @param atOffset current offset.
      * @param linesLength no of lines.
      * @param bugs list of bugs.
      */

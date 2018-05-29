@@ -7,7 +7,6 @@ import com.cflint.plugins.CFLintScannerAdapter;
 import com.cflint.plugins.Context;
 import com.cflint.plugins.Context.MessageBuilder;
 
-import cfml.parsing.cfscript.CFExpression;
 import cfml.parsing.cfscript.script.CFFuncDeclStatement;
 import cfml.parsing.cfscript.script.CFFunctionParameter;
 import cfml.parsing.cfscript.script.CFScriptStatement;
@@ -74,7 +73,7 @@ public class ArgumentNameChecker extends CFLintScannerAdapter {
             final int lineNo = function.getLine() + context.startLine() - 1;
 
             for (final CFFunctionParameter argument : function.getFormals()) {
-                checkNameForBugs(context, argument.getName(), context.getFilename(), context.getFunctionName(), lineNo, context.offset() + argument.getOffset(),
+                checkNameForBugs(context, argument.getName(), context.getFilename(), context.getFunctionName(),
                         bugs,context.messageBuilder(this).at(argument));
             }
         }
@@ -87,11 +86,9 @@ public class ArgumentNameChecker extends CFLintScannerAdapter {
     public void element(final Element element, final Context context, final BugList bugs) {
         if (element.getName().equals(CF.CFARGUMENT)) {
             final int lineNo = context.startLine();
-            int offset = context.offset();
             final String name = element.getAttributeValue(CF.NAME);
             if (name != null && name.length() > 0) {
-                offset = element.getAttributes().get(CF.NAME).getValueSegment().getBegin();
-                checkNameForBugs(context, name, context.getFilename(), context.getFunctionName(), lineNo, offset, bugs,context.messageBuilder(this).at(element));
+                checkNameForBugs(context, name, context.getFilename(), context.getFunctionName(), bugs,context.messageBuilder(this).at(element));
             } else {
                 context.addMessage("ARGUMENT_MISSING_NAME", null, this);
             }
@@ -159,7 +156,7 @@ public class ArgumentNameChecker extends CFLintScannerAdapter {
      * - Names having a prefix or postfix
      */
     public void checkNameForBugs(final Context context, final String argument, final String filename,
-            final String functionName, final int line, final int offset, final BugList bugs,MessageBuilder msgBuilder)  {
+            final String functionName, final BugList bugs,MessageBuilder msgBuilder)  {
         final ValidName name = new ValidName(minArgLength, maxArgLength, maxArgWords);
 
         try {

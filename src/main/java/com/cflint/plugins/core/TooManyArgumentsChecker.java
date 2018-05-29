@@ -13,8 +13,6 @@ public class TooManyArgumentsChecker extends CFLintScannerAdapter {
     private static final int ARGUMENT_THRESHOLD = 10;
 
     protected int argumentCount = 0;
-    protected int functionLine = 0;
-    protected int functionOffset = 0;
 
     @Override
     public void expression(final CFScriptStatement expression, final Context context, final BugList bugs) {

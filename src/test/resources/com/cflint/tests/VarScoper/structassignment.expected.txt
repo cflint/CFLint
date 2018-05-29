@@ -1,6 +1,6 @@
 {
   "version" : "",
-  "timestamp" : 1527541303,
+  "timestamp" : 1527561547,
   "issues" : [ {
     "severity" : "ERROR",
     "id" : "MISSING_VAR",
@@ -16,7 +16,7 @@
       "line" : 5,
       "message" : "Variable foobar is not declared with a var statement.",
       "variable" : "foobar",
-      "expression" : "foobar.foo.xyz[siteID] = 123"
+      "expression" : "foobar.foo.xyz[siteID]"
     } ]
   } ],
   "counts" : {

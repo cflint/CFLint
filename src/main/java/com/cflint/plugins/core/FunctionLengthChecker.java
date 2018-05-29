@@ -30,10 +30,7 @@ public class FunctionLengthChecker extends LengthChecker {
 
         if (elementName.equals(CF.CFFUNCTION)) {
             // this includes whitespace-change it
-            final int begLine = element.getSource().getRow(element.getBegin());
-            final int offset = element.getBegin();
             final int total = element.getAllStartTags().size();
-
             checkSize(LENGTH_THRESHOLD, "EXCESSIVE_FUNCTION_LENGTH", context, total, bugs);
         }
     }

@@ -22,9 +22,6 @@ import net.htmlparser.jericho.Element;
 public class UnusedArgumentChecker extends CFLintScannerAdapter {
 
     // Use linked hash map to preserve the order of the elements.
-//    protected Map<String, Boolean> methodArguments = new LinkedHashMap<>();
-//    protected Map<String, Integer> argumentLineNo = new HashMap<>();
-//    protected Map<String, Integer> argumentOffset = new HashMap<>();
     protected Map<String, ArgInfo> currentArgs = new LinkedHashMap<>();
 
     static class ArgInfo{

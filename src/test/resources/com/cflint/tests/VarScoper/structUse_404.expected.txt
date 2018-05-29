@@ -1,6 +1,6 @@
 {
   "version" : "",
-  "timestamp" : 1527541303,
+  "timestamp" : 1527561562,
   "issues" : [ {
     "severity" : "ERROR",
     "id" : "MISSING_VAR",
@@ -16,7 +16,7 @@
       "line" : 4,
       "message" : "Variable tokenizedAddress is not declared with a var statement.",
       "variable" : "tokenizedAddress",
-      "expression" : "tokenizedAddress.streetName = streetName"
+      "expression" : "tokenizedAddress.streetName"
     } ]
   }, {
     "severity" : "ERROR",
@@ -33,7 +33,7 @@
       "line" : 7,
       "message" : "Variable tokenizedAddress2 is not declared with a var statement.",
       "variable" : "tokenizedAddress2",
-      "expression" : "tokenizedAddress2.streetName = streetName"
+      "expression" : "tokenizedAddress2.streetName"
     } ]
   } ],
   "counts" : {

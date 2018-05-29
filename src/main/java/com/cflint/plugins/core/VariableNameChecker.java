@@ -36,11 +36,8 @@ public class VariableNameChecker extends CFLintScannerAdapter {
      * Minimum number of words in an variable name.
      */
     private int maxVarWords = ValidName.MAX_VAR_WORDS;
-    
     private static final List<String> DEFAULT_EXCLUSIONS = Collections.singletonList("rc");
     private static final String PARAM_EXCLUSION_LIST = "ExclusionList";
-
-    //private final List<String> exclusions = new ArrayList<>();
 
     private void checkCFName(final Element element, final Context context, final BugList bugs, final int begLine, int offset, final String name) {
         if (element.getAttributeValue(name) != null) {

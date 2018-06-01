@@ -23,7 +23,7 @@ public class QueryParamChecker extends CFLintScannerAdapter {
             if ("setSql".equalsIgnoreCase(functionExpression.getFunctionName()) || "queryExecute".equalsIgnoreCase(functionExpression.getFunctionName())
                 && !functionExpression.getArgs().isEmpty()) {
                 final CFExpression argsExpression = functionExpression.getArgs().get(0);
-                final Pattern p = Pattern.compile(".*#[^#].*", Pattern.DOTALL);
+                final Pattern p = Pattern.compile("(.*[^#])?#[^#].*", Pattern.DOTALL);
                 if (p.matcher(argsExpression.Decompile(0)).matches()) {
                     context.addMessage("QUERYPARAM_REQ", functionExpression.getName());
                 }

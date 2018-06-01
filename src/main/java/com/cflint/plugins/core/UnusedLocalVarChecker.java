@@ -37,14 +37,8 @@ public class UnusedLocalVarChecker extends CFLintScannerAdapter {
 
     private void checkExpression(final CFExpression expression, final Context context) {
         final String name = ((CFVarDeclExpression) expression).getName();
-        final int lineNo = expression.getLine() + context.startLine() - 1;
-        final int offset = expression.getOffset() + context.offset() + 4; // 'var
-                                                                          // '
-                                                                          // is
-                                                                          // 4
-                                                                          // chars
         if (!scopes.isCFScoped(name)) {
-            addLocalVariable(name, lineNo, offset);
+            addLocalVariable(name, ((CFVarDeclExpression) expression));
         }
     }
 
@@ -77,23 +71,16 @@ public class UnusedLocalVarChecker extends CFLintScannerAdapter {
         }
     }
 
-    protected void addLocalVariable(final String variable, final Integer lineNo, final Integer offset) {
+    protected void addLocalVariable(final String variable, CFVarDeclExpression expression) {
         if (variable != null && localVariables.get(variable.toLowerCase()) == null) {
             localVariables.put(variable.toLowerCase(), new VarInfo(variable, false));
-            setLocalVariableLineNo(variable, lineNo);
-            setLocalVariableOffset(variable, offset);
+            setLocalVariableLineNo(variable, expression);
         }
     }
 
-    protected void setLocalVariableLineNo(final String variable, final Integer lineNo) {
+    protected void setLocalVariableLineNo(final String variable, CFVarDeclExpression expression) {
         if (variable != null && localVariables.get(variable.toLowerCase()) != null) {
-            localVariables.get(variable.toLowerCase()).lineNumber = lineNo;
-        }
-    }
-
-    protected void setLocalVariableOffset(final String variable, final Integer offset) {
-        if (variable != null && localVariables.get(variable.toLowerCase()) != null) {
-            localVariables.get(variable.toLowerCase()).offset = offset;
+            localVariables.get(variable.toLowerCase()).expression = expression;
         }
     }
 
@@ -108,10 +95,7 @@ public class UnusedLocalVarChecker extends CFLintScannerAdapter {
         for (final VarInfo variable : localVariables.values()) {
             final Boolean used = variable.used;
             if (!used) {
-                final String name = variable.name;
-                final Integer lineNo = variable.lineNumber;
-                final Integer offset = variable.offset;
-                context.addMessage("UNUSED_LOCAL_VARIABLE", name, lineNo, offset);
+                context.addMessage("UNUSED_LOCAL_VARIABLE", variable.name, this, variable.expression).setExtraOffset(4);
             }
         }
     }
@@ -139,9 +123,8 @@ public class UnusedLocalVarChecker extends CFLintScannerAdapter {
     }
 
     public static class VarInfo {
+        public CFVarDeclExpression expression;
         private final Boolean used;
-        private Integer lineNumber;
-        private Integer offset;
         private final String name;
 
         public VarInfo(final String name, final Boolean used) {

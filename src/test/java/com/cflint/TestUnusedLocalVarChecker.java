@@ -89,7 +89,6 @@ public class TestUnusedLocalVarChecker {
         final String scriptSrc = "<cfscript>\r\n" + "component {\r\n" + "function someFunction() {\r\n"
                 + "var a = 1;\r\n" + "var b = 2;\r\n" + "var c = 2;\r\n" + "var d = 2;\r\n" + "var e = 2;\r\n"
                 + "return otherFunc(a,b);\r\n" + "}\r\n" + "}\r\n" + "</cfscript>";
-
         CFLintResult lintresult = cfBugs.scan(scriptSrc, "test");
         final List<BugInfo> result = lintresult.getIssues().get("UNUSED_LOCAL_VARIABLE");
         assertEquals(3, result.size());

@@ -86,6 +86,8 @@ public class CFMLTagInfo {
      *         reference.
      */
     public boolean isExpressionAttribute(final String elementName, final String attributeName) {
+        if("cfdump".equalsIgnoreCase(elementName))
+            return false;
         if (isAssignmentAttribute(elementName, attributeName)) {
             return true;
         }

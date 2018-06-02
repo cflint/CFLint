@@ -33,6 +33,7 @@ import com.cflint.config.CFLintConfiguration;
 import com.cflint.config.CFLintPluginInfo;
 import com.cflint.config.CFLintPluginInfo.PluginInfoRule;
 import com.cflint.config.CFLintPluginInfo.PluginInfoRule.PluginMessage;
+import com.cflint.config.CFLintPluginInfo.PluginInfoRule.PluginParameter;
 import com.cflint.config.ConfigUtils;
 import com.cflint.exception.CFLintScanException;
 import com.cflint.listeners.ScanProgressListener;
@@ -1339,7 +1340,12 @@ public class CFLint implements IErrorReporter {
         } else if (elem != null) {
             bldr.setExpression(elem.toString().replaceAll("\r\n", "\n"));
         }
-        bldr.setRuleParameters(ruleInfo.getParameters());
+        //Rebuild the parameter list so that custom configurations are picked up
+        final List<PluginParameter> parameters = new ArrayList<>();
+        for(PluginParameter x: ruleInfo.getParameters()){
+            parameters.add(new PluginParameter(x.getName(),context.getConfiguration().getParameter(plugin,x.getName())));
+        }
+        bldr.setRuleParameters(parameters);
         if (configuration.includes(ruleInfo.getMessageByCode(msgcode))
                 && !configuration.excludes(ruleInfo.getMessageByCode(msgcode))) {
             //A bit of a hack to fix the offset issue 

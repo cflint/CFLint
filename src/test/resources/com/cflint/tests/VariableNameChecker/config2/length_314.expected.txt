@@ -14,7 +14,7 @@
       "offset" : 94,
       "column" : 10,
       "line" : 7,
-      "message" : "Variable asdfghjklasdfghj should be shorter than 20 characters.",
+      "message" : "Variable asdfghjklasdfghj should be shorter than 15 characters.",
       "variable" : "asdfghjklasdfghj",
       "expression" : "var asdfghjklasdfghj = 10"
     } ]
@@ -31,7 +31,7 @@
       "offset" : 58,
       "column" : 9,
       "line" : 5,
-      "message" : "Variable q12 should be longer than 3 characters.",
+      "message" : "Variable q12 should be longer than 4 characters.",
       "variable" : "q12",
       "expression" : "var q12 = 123"
     } ]

@@ -1190,6 +1190,11 @@ public class CFLint implements IErrorReporter {
                 for (final CFExpression child : expression.decomposeExpression()) {
                     process(child, elem, context.subContextInAssignment(false));
                 }
+            }else{
+                CFNewExpression newExpr = (CFNewExpression) expression;
+                for (final CFExpression child : (List<CFExpression>)newExpr.getArgs()) {
+                    process(child, elem, context.subContextInAssignment(false));
+                }
             }
         }
     }

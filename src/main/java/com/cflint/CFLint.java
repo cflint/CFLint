@@ -1191,9 +1191,12 @@ public class CFLint implements IErrorReporter {
                     process(child, elem, context.subContextInAssignment(false));
                 }
             }else{
+                //Process only the right hand side of new expressions
                 CFNewExpression newExpr = (CFNewExpression) expression;
                 for (final CFExpression child : (List<CFExpression>)newExpr.getArgs()) {
-                    process(child, elem, context.subContextInAssignment(false));
+                    if(child instanceof CFAssignmentExpression){
+                        process(((CFAssignmentExpression)child).getRight(), elem, context.subContextInAssignment(false));
+                    }
                 }
             }
         }

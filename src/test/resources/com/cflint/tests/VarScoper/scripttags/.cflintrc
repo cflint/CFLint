@@ -1,0 +1,10 @@
+{
+  "rule" : [ ],
+  "excludes" : [ ],
+  "includes" : [ {
+    "code" : "MISSING_VAR",
+    "messageText" : null,
+    "severity" : null
+  } ],
+  "inheritParent" : false
+}

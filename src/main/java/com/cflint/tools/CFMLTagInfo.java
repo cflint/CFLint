@@ -14,6 +14,11 @@ public class CFMLTagInfo {
     public CFMLTagInfo(final SyntaxDictionary dictionary) {
         this.dictionary = dictionary;
     }
+    
+    public boolean isTag(String elementName){
+        final Tag tag = dictionary.getTag(elementName.toLowerCase());
+        return tag != null;
+    }
 
     /**
      * 

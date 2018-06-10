@@ -1184,6 +1184,28 @@ public class CFLint implements IErrorReporter {
                         }
                     }
                 }
+            } else if (expression instanceof CFFunctionExpression && tagInfo.isTag(((CFFunctionExpression)expression).getFunctionName())){
+                final CFFunctionExpression functionExpr = (CFFunctionExpression)expression;
+                final StringBuilder sb = new StringBuilder();
+                sb.append("<").append(functionExpr.getFunctionName()).append(" ");
+                for (final CFExpression expr : functionExpr.getArgs()) {
+                    if (expr instanceof CFAssignmentExpression) {
+                        final CFAssignmentExpression assignExpr = (CFAssignmentExpression) expr;
+                        sb.append(assignExpr.getLeft().Decompile(0)).append("=")
+                        .append(assignExpr.getRight().Decompile(0)).append(" ");
+                    } else {
+                        //process(expr, elem, context.subContextInAssignment(false));
+                    }
+                }
+                sb.append("/>");
+                final CFMLSource source = new CFMLSource(sb.toString());
+                try {
+                    processStack(source.getChildElements(), " ", 
+                            context.subContextCFML(source.getChildElements().size()>0?source.getChildElements().get(0):null,expression));
+                } catch (CFLintScanException e) {
+                    //e.printStackTrace();
+                }
+//                process(functionExpr.getBody(),context.subContextInAssignment(false));
             } else if (!(expression instanceof CFNewExpression)){
                 // Loop into all relevant nested (child) expressions.
                 //  EXCEPT CFNewExpressions.
@@ -1192,7 +1214,7 @@ public class CFLint implements IErrorReporter {
                 }
             }else{
                 //Process only the right hand side of new expressions
-                CFNewExpression newExpr = (CFNewExpression) expression;
+                final CFNewExpression newExpr = (CFNewExpression) expression;
                 for (final CFExpression child : (List<CFExpression>)newExpr.getArgs()) {
                     if(child instanceof CFAssignmentExpression){
                         process(((CFAssignmentExpression)child).getRight(), elem, context.subContextInAssignment(false));
@@ -1276,8 +1298,14 @@ public class CFLint implements IErrorReporter {
         return false;
     }
 
-    public void reportRule(final Element elem, final Object currentExpression, final Context context,
+    public void reportRule(Element elem, Object currentExpression, final Context context,
             final CFLintScanner pluginParm, final ContextMessage msg) {
+        
+        final Context pseudoCfmlParent = context.getParent(ContextType.PSEUDO_CFML);
+        if(pseudoCfmlParent!=null && ContextType.PSEUDO_CFML.equals(pseudoCfmlParent.getContextType())){
+            elem = pseudoCfmlParent.getElement();
+            currentExpression = pseudoCfmlParent.getPseudoCfmlExpression();
+        }
         final Object expression = msg.getCfExpression() != null? msg.getCfExpression():currentExpression;
         // If we are processing includes, do NOT report any errors
         if (!includeFileStack.isEmpty()) {

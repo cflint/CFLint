@@ -112,6 +112,7 @@ public class ArgumentNameChecker extends CFLintScannerAdapter {
         if (configuration.getParameter(this,MIN_LENGTH) != null) {
             try {
                 minArgLength = Integer.parseInt(configuration.getParameter(this,MIN_LENGTH));
+                name.setMinLength(minArgLength);
             } catch (final Exception e) {
                 throw new ConfigError("Minimum length need to be an integer.");
             }
@@ -120,6 +121,7 @@ public class ArgumentNameChecker extends CFLintScannerAdapter {
         if (configuration.getParameter(this,MAX_LENGTH) != null) {
             try {
                 maxArgLength = Integer.parseInt(configuration.getParameter(this,MAX_LENGTH));
+                name.setMaxLength(maxArgLength);
             } catch (final Exception e) {
                 throw new ConfigError("Maximum length need to be an integer.");
             }
@@ -128,6 +130,7 @@ public class ArgumentNameChecker extends CFLintScannerAdapter {
         if (configuration.getParameter(this,MAX_WORDS) != null) {
             try {
                 maxArgWords = Integer.parseInt(configuration.getParameter(this,MAX_WORDS));
+                name.setMaxWords(maxArgWords);
             } catch (final Exception e) {
                 throw new ConfigError("Maximum no of words need to be an integer.");
             }

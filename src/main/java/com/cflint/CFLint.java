@@ -1404,7 +1404,9 @@ public class CFLint implements IErrorReporter {
                         bugInfo.setLine(msg.getLine());
                         if (msg.getOffset() != null) {
                             bugInfo.setOffset(msg.getOffset());
-                            bugInfo.setColumn(msg.getOffset() - lineOffsets[msg.getLine() - idxOffSet]);
+                            try{
+                                bugInfo.setColumn(msg.getOffset() - lineOffsets[msg.getLine() - idxOffSet]);
+                            }catch(ArrayIndexOutOfBoundsException aie){bugInfo.setColumn(0);}
                         } else {
                             bugInfo.setOffset(lineOffsets != null ? lineOffsets[msg.getLine() - idxOffSet] : 0);
                             bugInfo.setColumn(0);
@@ -1417,7 +1419,9 @@ public class CFLint implements IErrorReporter {
                     bug.setLine(msg.getLine());
                     if (msg.getOffset() != null) {
                         bug.setOffset(msg.getOffset());
-                        bug.setColumn(msg.getOffset() - lineOffsets[msg.getLine() - idxOffSet]);
+                        try{
+                            bug.setColumn(msg.getOffset() - lineOffsets[msg.getLine() - idxOffSet]);
+                        }catch(ArrayIndexOutOfBoundsException aie){bug.setColumn(0);}
                     } else {
                         bug.setOffset(lineOffsets != null ? lineOffsets[msg.getLine() - idxOffSet] : 0);
                         bug.setColumn(0);

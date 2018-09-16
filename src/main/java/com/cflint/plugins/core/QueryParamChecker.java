@@ -23,7 +23,7 @@ public class QueryParamChecker extends CFLintScannerAdapter {
             if ("setSql".equalsIgnoreCase(functionExpression.getFunctionName()) || "queryExecute".equalsIgnoreCase(functionExpression.getFunctionName())
                 && !functionExpression.getArgs().isEmpty()) {
                 final CFExpression argsExpression = functionExpression.getArgs().get(0);
-                final Pattern p = Pattern.compile("(.*[^#])?#[^#].*", Pattern.DOTALL);
+                final Pattern p = Pattern.compile(".*#(?:##)?([^#]+)(?:##)?#($|[^#]).*", Pattern.DOTALL);
                 if (p.matcher(argsExpression.Decompile(0)).matches()) {
                     context.addMessage("QUERYPARAM_REQ", functionExpression.getName());
                 }
@@ -41,7 +41,7 @@ public class QueryParamChecker extends CFLintScannerAdapter {
             content = content.replaceAll("<[cC][fF][qQ][uU][eE][rR][yY][pP][aA][rR][aA][mM][^>]*>", "");
             if (content.indexOf('#') >= 0) {
                 final List<Integer> ignoreLines = determineIgnoreLines(element);
-                final Matcher matcher = Pattern.compile("#([^#]+?)#").matcher(content);
+                final Matcher matcher = Pattern.compile("#(?:##)?([^#]+)(?:##)?#($|[^#])",Pattern.DOTALL).matcher(content);
                 while (matcher.find()) {
                     if (matcher.groupCount() >= 1) {
                         int currentline = context.startLine() + countNewLinesUpTo(content, matcher.start());

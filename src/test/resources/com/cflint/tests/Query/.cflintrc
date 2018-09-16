@@ -2,13 +2,11 @@
   "rule" : [ ],
   "excludes" : [ ],
   "includes" : [ {
-    "code" : "MISSING_VAR",
-    "messageText" : null,
-    "severity" : null
+    "code" : "MISSING_VAR"
   }, {
-    "code" : "CFQUERYPARAM_REQ",
-    "messageText" : null,
-    "severity" : null
+    "code" : "QUERYPARAM_REQ"
+  }, {
+    "code" : "CFQUERYPARAM_REQ"
   }],
   "inheritParent" : false
 }

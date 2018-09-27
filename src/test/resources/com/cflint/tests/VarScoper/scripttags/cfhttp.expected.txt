@@ -1,0 +1,34 @@
+{
+  "version" : "",
+  "timestamp" : 1528665759,
+  "issues" : [ {
+    "severity" : "ERROR",
+    "id" : "MISSING_VAR",
+    "message" : "MISSING_VAR",
+    "category" : "CFLINT",
+    "abbrev" : "MV",
+    "locations" : [ {
+      "file" : "src\\test\\resources\\com\\cflint\\tests\\VarScoper\\scripttags\\cfhttp.cfc",
+      "fileName" : "cfhttp.cfc",
+      "function" : "foo",
+      "offset" : 162,
+      "column" : 9,
+      "line" : 10,
+      "message" : "Variable httpResponse is not declared with a var statement.",
+      "variable" : "httpResponse",
+      "expression" : "cfhttp(url = '#variables.host#', port = '#variables.port#', method = 'GET', timeout = '30', result = 'httpResponse')"
+    } ]
+  } ],
+  "counts" : {
+    "totalFiles" : 0,
+    "totalLines" : 0,
+    "countByCode" : [ {
+      "code" : "MISSING_VAR",
+      "count" : 1
+    } ],
+    "countBySeverity" : [ {
+      "severity" : "ERROR",
+      "count" : 1
+    } ]
+  }
+}

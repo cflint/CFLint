@@ -14,6 +14,11 @@ public class CFMLTagInfo {
     public CFMLTagInfo(final SyntaxDictionary dictionary) {
         this.dictionary = dictionary;
     }
+    
+    public boolean isTag(String elementName){
+        final Tag tag = dictionary.getTag(elementName.toLowerCase());
+        return tag != null;
+    }
 
     /**
      * 
@@ -86,6 +91,8 @@ public class CFMLTagInfo {
      *         reference.
      */
     public boolean isExpressionAttribute(final String elementName, final String attributeName) {
+        if("cfdump".equalsIgnoreCase(elementName))
+            return false;
         if (isAssignmentAttribute(elementName, attributeName)) {
             return true;
         }

@@ -1,0 +1,111 @@
+{
+  "version" : "",
+  "timestamp" : 1527818524,
+  "issues" : [ {
+    "severity" : "INFO",
+    "id" : "METHOD_ALLCAPS_NAME",
+    "message" : "METHOD_ALLCAPS_NAME",
+    "category" : "CFLINT",
+    "abbrev" : "MA",
+    "locations" : [ {
+      "file" : "src\\test\\resources\\com\\cflint\\tests\\Naming\\Inconsistent_544.cfc",
+      "fileName" : "Inconsistent_544.cfc",
+      "function" : "ANOTHERMETHOD",
+      "offset" : 25,
+      "column" : 14,
+      "line" : 2,
+      "message" : "Method name ANOTHERMETHOD should not be upper case.",
+      "variable" : "",
+      "expression" : "public string function ANOTHERMETHOD()   {\n    var FO = 'Bar';\nlocal.TEST = 'Foo';\nLOCAL.test = 'FooBar';\n    return LOCAL.FO;\n\n  }"
+    } ]
+  }, {
+    "severity" : "INFO",
+    "id" : "SCOPE_ALLCAPS_NAME",
+    "message" : "SCOPE_ALLCAPS_NAME",
+    "category" : "CFLINT",
+    "abbrev" : "SA",
+    "locations" : [ {
+      "file" : "src\\test\\resources\\com\\cflint\\tests\\Naming\\Inconsistent_544.cfc",
+      "fileName" : "Inconsistent_544.cfc",
+      "function" : "ANOTHERMETHOD",
+      "offset" : 99,
+      "column" : 4,
+      "line" : 5,
+      "message" : "Scope LOCAL should not be upper case.",
+      "variable" : "LOCAL",
+      "expression" : "LOCAL.test"
+    } ]
+  }, {
+    "severity" : "INFO",
+    "id" : "VAR_ALLCAPS_NAME",
+    "message" : "VAR_ALLCAPS_NAME",
+    "category" : "CFLINT",
+    "abbrev" : "VA",
+    "locations" : [ {
+      "file" : "src\\test\\resources\\com\\cflint\\tests\\Naming\\Inconsistent_544.cfc",
+      "fileName" : "Inconsistent_544.cfc",
+      "function" : "ANOTHERMETHOD",
+      "offset" : 81,
+      "column" : 10,
+      "line" : 4,
+      "message" : "Variable TEST should not be upper case.",
+      "variable" : "TEST",
+      "expression" : "local.TEST"
+    } ]
+  }, {
+    "severity" : "INFO",
+    "id" : "VAR_ALLCAPS_NAME",
+    "message" : "VAR_ALLCAPS_NAME",
+    "category" : "CFLINT",
+    "abbrev" : "VA",
+    "locations" : [ {
+      "file" : "src\\test\\resources\\com\\cflint\\tests\\Naming\\Inconsistent_544.cfc",
+      "fileName" : "Inconsistent_544.cfc",
+      "function" : "ANOTHERMETHOD",
+      "offset" : 139,
+      "column" : 17,
+      "line" : 6,
+      "message" : "Variable FO should not be upper case.",
+      "variable" : "FO",
+      "expression" : "LOCAL.FO"
+    } ]
+  }, {
+    "severity" : "INFO",
+    "id" : "VAR_TOO_SHORT",
+    "message" : "VAR_TOO_SHORT",
+    "category" : "CFLINT",
+    "abbrev" : "VT",
+    "locations" : [ {
+      "file" : "src\\test\\resources\\com\\cflint\\tests\\Naming\\Inconsistent_544.cfc",
+      "fileName" : "Inconsistent_544.cfc",
+      "function" : "ANOTHERMETHOD",
+      "offset" : 59,
+      "column" : 8,
+      "line" : 3,
+      "message" : "Variable FO should be longer than 3 characters.",
+      "variable" : "FO",
+      "expression" : "var FO = 'Bar'"
+    } ]
+  } ],
+  "counts" : {
+    "totalFiles" : 0,
+    "totalLines" : 0,
+    "countByCode" : [ {
+      "code" : "SCOPE_ALLCAPS_NAME",
+      "count" : 1
+    }, {
+      "code" : "VAR_TOO_SHORT",
+      "count" : 1
+    }, {
+      "code" : "VAR_ALLCAPS_NAME",
+      "count" : 2
+    }, {
+      "code" : "METHOD_ALLCAPS_NAME",
+      "count" : 1
+    } ],
+    "countBySeverity" : [ {
+      "severity" : "INFO",
+      "count" : 5
+    } ]
+  }
+}

@@ -23,12 +23,13 @@ import net.htmlparser.jericho.Element;
 public class Context {
 
     public enum ContextType {
-        COMPONENT, FUNCTION, OTHER, QUERY_LOOP
+        COMPONENT, FUNCTION, OTHER, QUERY_LOOP, PSEUDO_CFML
     }
 
     private String filename;
     private String componentName;
     private final Element element;
+    private CFExpression pseudoCfmlExpression;
     private CFFuncDeclStatement functionInfo;
     private ContextType contextType;
     private String functionName;
@@ -271,6 +272,17 @@ public class Context {
         context2.componentName=componentName;
         return context2;
     }
+    public Context subContextCFML(final Element elem, final CFExpression pseudoCfmlExpression) {
+        final Context context2 = new Context(getFilename(), elem, getFunctionName(),
+                isInAssignmentExpression(), callStack, tokens,configuration);
+        this.pseudoCfmlExpression = pseudoCfmlExpression;
+        this.contextType=ContextType.PSEUDO_CFML;
+        context2.setInComponent(isInComponent());
+        context2.parent = this;
+        context2.componentName=componentName;
+        return context2;
+    }
+    
     public Context subContextInAssignment() {
         return subContextInAssignment(true);
     }
@@ -439,5 +451,13 @@ public class Context {
 
     public CFLintConfiguration getConfiguration() {
         return configuration;
+    }
+
+    public CFExpression getPseudoCfmlExpression() {
+        return pseudoCfmlExpression;
+    }
+
+    public void setPseudoCfmlExpression(CFExpression pseudoCfmlExpression) {
+        this.pseudoCfmlExpression = pseudoCfmlExpression;
     }
 }

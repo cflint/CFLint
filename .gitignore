@@ -12,3 +12,4 @@
 *.iml
 .scannerwork
 user.properties
+/cflint-result.html

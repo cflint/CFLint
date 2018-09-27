@@ -32,21 +32,23 @@ public class UnusedArgumentChecker extends CFLintScannerAdapter {
         Integer argumentLineNo;
         Integer argumentOffset;
         String type;
+        String casedName;
     }
     
     @Override
     public void element(final Element element, final Context context, final BugList bugs) {
         if (element.getName().equals(CF.CFARGUMENT)) {
             final String name = element.getAttributeValue(CF.NAME) != null
-                ? element.getAttributeValue(CF.NAME).toLowerCase() : "";
+                ? element.getAttributeValue(CF.NAME) : "";
             ArgInfo argInfo = new ArgInfo();
+            argInfo.casedName=name;
             argInfo.argumentLineNo=context.startLine();
             argInfo.argumentOffset=element.getAttributeValue(CF.NAME) != null 
                     ? element.getAttributes().get(CF.NAME).getValueSegment().getBegin() : element.getBegin();
             argInfo.type=element.getAttributeValue(CF.TYPE);
-            currentArgs.put(name, argInfo);
+            currentArgs.put(name.toLowerCase(), argInfo);
             final String code = element.getParentElement().toString();
-            if (isUsed(code, name)) {
+            if (isUsed(code, name.toLowerCase())) {
                 argInfo.used=true;
             }
         }
@@ -60,6 +62,7 @@ public class UnusedArgumentChecker extends CFLintScannerAdapter {
                 final String name = argument.getName().toLowerCase(); 
                 // CF variable names are not case sensitive
                 ArgInfo argInfo = new ArgInfo();
+                argInfo.casedName=argument.getName();
                 argInfo.argumentLineNo=function.getLine();
                 argInfo.argumentOffset=context.offset() + argument.getOffset();
                 argInfo.type=argument.getType();
@@ -122,11 +125,10 @@ public class UnusedArgumentChecker extends CFLintScannerAdapter {
     public void endFunction(final Context context, final BugList bugs) {
         // sort by line number
         for (final Entry<String, ArgInfo> method : currentArgs.entrySet()) {
-            final String name = method.getKey();
             final ArgInfo argInfo = method.getValue();
             final int offset = argInfo.argumentOffset;
             if (!argInfo.used) {
-                context.addMessage("UNUSED_METHOD_ARGUMENT", name, argInfo.argumentLineNo, offset);
+                context.addMessage("UNUSED_METHOD_ARGUMENT", argInfo.casedName, argInfo.argumentLineNo, offset);
             }
         }
     }

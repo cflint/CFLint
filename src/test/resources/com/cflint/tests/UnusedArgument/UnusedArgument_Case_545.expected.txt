@@ -1,0 +1,51 @@
+{
+  "version" : "",
+  "timestamp" : 1527817637,
+  "issues" : [ {
+    "severity" : "INFO",
+    "id" : "UNUSED_METHOD_ARGUMENT",
+    "message" : "UNUSED_METHOD_ARGUMENT",
+    "category" : "CFLINT",
+    "abbrev" : "UM",
+    "locations" : [ {
+      "file" : "src\\test\\resources\\com\\cflint\\tests\\UnusedArgument\\UnusedArgument_Case_545.cfc",
+      "fileName" : "UnusedArgument_Case_545.cfc",
+      "function" : "x",
+      "offset" : 25,
+      "column" : 13,
+      "line" : 3,
+      "message" : "Argument aRg1 is not used in function. Consider removing it.",
+      "variable" : "aRg1",
+      "expression" : ""
+    } ]
+  }, {
+    "severity" : "INFO",
+    "id" : "UNUSED_METHOD_ARGUMENT",
+    "message" : "UNUSED_METHOD_ARGUMENT",
+    "category" : "CFLINT",
+    "abbrev" : "UM",
+    "locations" : [ {
+      "file" : "src\\test\\resources\\com\\cflint\\tests\\UnusedArgument\\UnusedArgument_Case_545.cfc",
+      "fileName" : "UnusedArgument_Case_545.cfc",
+      "function" : "x",
+      "offset" : 30,
+      "column" : 18,
+      "line" : 3,
+      "message" : "Argument Arg2 is not used in function. Consider removing it.",
+      "variable" : "Arg2",
+      "expression" : ""
+    } ]
+  } ],
+  "counts" : {
+    "totalFiles" : 0,
+    "totalLines" : 0,
+    "countByCode" : [ {
+      "code" : "UNUSED_METHOD_ARGUMENT",
+      "count" : 2
+    } ],
+    "countBySeverity" : [ {
+      "severity" : "INFO",
+      "count" : 2
+    } ]
+  }
+}

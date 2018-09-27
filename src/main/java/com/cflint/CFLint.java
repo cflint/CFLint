@@ -33,6 +33,7 @@ import com.cflint.config.CFLintConfiguration;
 import com.cflint.config.CFLintPluginInfo;
 import com.cflint.config.CFLintPluginInfo.PluginInfoRule;
 import com.cflint.config.CFLintPluginInfo.PluginInfoRule.PluginMessage;
+import com.cflint.config.CFLintPluginInfo.PluginInfoRule.PluginParameter;
 import com.cflint.config.ConfigUtils;
 import com.cflint.exception.CFLintScanException;
 import com.cflint.listeners.ScanProgressListener;
@@ -1183,11 +1184,41 @@ public class CFLint implements IErrorReporter {
                         }
                     }
                 }
+            } else if (expression instanceof CFFunctionExpression && tagInfo.isTag(((CFFunctionExpression)expression).getFunctionName())){
+                final CFFunctionExpression functionExpr = (CFFunctionExpression)expression;
+                final StringBuilder sb = new StringBuilder();
+                sb.append("<").append(functionExpr.getFunctionName()).append(" ");
+                for (final CFExpression expr : functionExpr.getArgs()) {
+                    if (expr instanceof CFAssignmentExpression) {
+                        final CFAssignmentExpression assignExpr = (CFAssignmentExpression) expr;
+                        sb.append(assignExpr.getLeft().Decompile(0)).append("=")
+                        .append(assignExpr.getRight().Decompile(0)).append(" ");
+                    } else {
+                        //process(expr, elem, context.subContextInAssignment(false));
+                    }
+                }
+                sb.append("/>");
+                final CFMLSource source = new CFMLSource(sb.toString());
+                try {
+                    processStack(source.getChildElements(), " ", 
+                            context.subContextCFML(source.getChildElements().size()>0?source.getChildElements().get(0):null,expression));
+                } catch (CFLintScanException e) {
+                    //e.printStackTrace();
+                }
+//                process(functionExpr.getBody(),context.subContextInAssignment(false));
             } else if (!(expression instanceof CFNewExpression)){
                 // Loop into all relevant nested (child) expressions.
                 //  EXCEPT CFNewExpressions.
                 for (final CFExpression child : expression.decomposeExpression()) {
                     process(child, elem, context.subContextInAssignment(false));
+                }
+            }else{
+                //Process only the right hand side of new expressions
+                final CFNewExpression newExpr = (CFNewExpression) expression;
+                for (final CFExpression child : (List<CFExpression>)newExpr.getArgs()) {
+                    if(child instanceof CFAssignmentExpression){
+                        process(((CFAssignmentExpression)child).getRight(), elem, context.subContextInAssignment(false));
+                    }
                 }
             }
         }
@@ -1267,8 +1298,14 @@ public class CFLint implements IErrorReporter {
         return false;
     }
 
-    public void reportRule(final Element elem, final Object currentExpression, final Context context,
+    public void reportRule(Element elem, Object currentExpression, final Context context,
             final CFLintScanner pluginParm, final ContextMessage msg) {
+        
+        final Context pseudoCfmlParent = context.getParent(ContextType.PSEUDO_CFML);
+        if(pseudoCfmlParent!=null && ContextType.PSEUDO_CFML.equals(pseudoCfmlParent.getContextType())){
+            elem = pseudoCfmlParent.getElement();
+            currentExpression = pseudoCfmlParent.getPseudoCfmlExpression();
+        }
         final Object expression = msg.getCfExpression() != null? msg.getCfExpression():currentExpression;
         // If we are processing includes, do NOT report any errors
         if (!includeFileStack.isEmpty()) {
@@ -1339,7 +1376,12 @@ public class CFLint implements IErrorReporter {
         } else if (elem != null) {
             bldr.setExpression(elem.toString().replaceAll("\r\n", "\n"));
         }
-        bldr.setRuleParameters(ruleInfo.getParameters());
+        //Rebuild the parameter list so that custom configurations are picked up
+        final List<PluginParameter> parameters = new ArrayList<>();
+        for(PluginParameter x: ruleInfo.getParameters()){
+            parameters.add(new PluginParameter(x.getName(),context.getConfiguration().getParameter(plugin,x.getName())));
+        }
+        bldr.setRuleParameters(parameters);
         if (configuration.includes(ruleInfo.getMessageByCode(msgcode))
                 && !configuration.excludes(ruleInfo.getMessageByCode(msgcode))) {
             //A bit of a hack to fix the offset issue 
@@ -1362,7 +1404,9 @@ public class CFLint implements IErrorReporter {
                         bugInfo.setLine(msg.getLine());
                         if (msg.getOffset() != null) {
                             bugInfo.setOffset(msg.getOffset());
-                            bugInfo.setColumn(msg.getOffset() - lineOffsets[msg.getLine() - idxOffSet]);
+                            try{
+                                bugInfo.setColumn(msg.getOffset() - lineOffsets[msg.getLine() - idxOffSet]);
+                            }catch(ArrayIndexOutOfBoundsException aie){bugInfo.setColumn(0);}
                         } else {
                             bugInfo.setOffset(lineOffsets != null ? lineOffsets[msg.getLine() - idxOffSet] : 0);
                             bugInfo.setColumn(0);
@@ -1375,7 +1419,9 @@ public class CFLint implements IErrorReporter {
                     bug.setLine(msg.getLine());
                     if (msg.getOffset() != null) {
                         bug.setOffset(msg.getOffset());
-                        bug.setColumn(msg.getOffset() - lineOffsets[msg.getLine() - idxOffSet]);
+                        try{
+                            bug.setColumn(msg.getOffset() - lineOffsets[msg.getLine() - idxOffSet]);
+                        }catch(ArrayIndexOutOfBoundsException aie){bug.setColumn(0);}
                     } else {
                         bug.setOffset(lineOffsets != null ? lineOffsets[msg.getLine() - idxOffSet] : 0);
                         bug.setColumn(0);

@@ -102,6 +102,11 @@ jar {
         attributes(
             'Main-Class': 'com.cflint.cli.CFLintCLI',
             'Implementation-Version': version,
+            'Bundle-Name': 'CFLint',
+            'Bundle-SymbolicName': 'com.cflint.CFLint'
+            'Bundle-Description': 'CFLint'
+            'Bundle-ManifestVersion': 2
+            'Bundle-Version': version
         )
     }
 }

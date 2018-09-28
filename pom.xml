@@ -69,7 +69,7 @@
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
 
-		<cfparser.version>2.7.0</cfparser.version>
+		<cfparser.version>2.8.0</cfparser.version>
 		<jackson.version>2.8.6</jackson.version>
 		<slf4j.version>1.7.21</slf4j.version>
 	</properties>
@@ -196,6 +196,13 @@
                         <manifest>
                             <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
                         </manifest>
+						<manifestEntries>
+							<Bundle-Name>CFLint</Bundle-Name>
+                            <Bundle-SymbolicName>com.cflint.CFLint</Bundle-SymbolicName>
+                            <Bundle-Description>CFLint</Bundle-Description>
+                            <Bundle-ManifestVersion>2</Bundle-ManifestVersion>
+                            <Bundle-Version>${project.version}</Bundle-Version>
+						</manifestEntries>
                     </archive>
                 </configuration>
             </plugin>

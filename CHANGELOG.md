@@ -39,7 +39,7 @@
 - \#588 [\#591](https://github.com/cflint/CFLint/pull/591) ([ryaneberly](https://github.com/ryaneberly))
 - Release 1.4.1 b [\#590](https://github.com/cflint/CFLint/pull/590) ([ryaneberly](https://github.com/ryaneberly))
 
-﻿## [1.4.0](https://github.com/cflint/CFLint/tree/1.4.0) (2018-05-27)
+## [CFLint-1.4.0](https://github.com/cflint/CFLint/tree/1.4.0) (2018-05-27)
 [Full Changelog](https://github.com/cflint/CFLint/compare/CFLint-1.3.0...1.4.0)
 
 **Implemented enhancements:**

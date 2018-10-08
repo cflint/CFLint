@@ -24,9 +24,20 @@ public class UnusedLocalVarChecker extends CFLintScannerAdapter {
     @Override
     public void expression(final CFExpression expression, final Context context, final BugList bugs) {
         if (expression instanceof CFFullVarExpression) {
-            checkFullExpression((CFFullVarExpression) expression, context, bugs);
+            final CFFullVarExpression fullVarExpr = (CFFullVarExpression) expression;
+            final CFExpression first = fullVarExpr.getExpressions().get(0);
+            final CFExpression second = fullVarExpr.getExpressions().get(1);
+            //For local scope assignments:
+            if(context.isInAssignmentExpression() && fullVarExpr.getExpressions().size()==2 && first instanceof CFIdentifier && "local".equalsIgnoreCase(((CFIdentifier)first).getName())){
+                if(second instanceof CFIdentifier){
+                    final String name = ((CFIdentifier) second).getName();
+                    localVariables.put(name.toLowerCase(), new VarInfo(name, false,fullVarExpr));
+                }
+            }else{
+                checkFullExpression(fullVarExpr, context, bugs);
+            }
         } else if (expression instanceof CFVarDeclExpression) {
-            checkExpression(expression, context);
+            checkExpression((CFVarDeclExpression)expression, context);
         } else if (expression instanceof CFIdentifier && !context.isInAssignmentExpression()) {
             final String name = ((CFIdentifier) expression).getName();
             if (name != null) {
@@ -35,8 +46,8 @@ public class UnusedLocalVarChecker extends CFLintScannerAdapter {
         }
     }
 
-    private void checkExpression(final CFExpression expression, final Context context) {
-        final String name = ((CFVarDeclExpression) expression).getName();
+    private void checkExpression(final CFVarDeclExpression expression, final Context context) {
+        final String name = expression.getName();
         final int lineNo = expression.getLine() + context.startLine() - 1;
         final int offset = expression.getOffset() + context.offset() + 4; // 'var ' is 4 chars
         if (!scopes.isCFScoped(name)) {
@@ -103,10 +114,8 @@ public class UnusedLocalVarChecker extends CFLintScannerAdapter {
         for (final VarInfo variable : localVariables.values()) {
             final Boolean used = variable.used;
             if (!used) {
-                final String name = variable.name;
-                final Integer lineNo = variable.lineNumber;
-                final Integer offset = variable.offset;
-                context.addMessage("UNUSED_LOCAL_VARIABLE", name, lineNo, offset);
+                context.addMessage("UNUSED_LOCAL_VARIABLE", variable.name, this, variable.lineNumber, variable.offset,
+                        variable.expression);
             }
         }
     }
@@ -138,10 +147,18 @@ public class UnusedLocalVarChecker extends CFLintScannerAdapter {
         private Integer lineNumber;
         private Integer offset;
         private String name;
+        CFExpression expression;
 
         public VarInfo(final String name, final Boolean used) {
             this.name = name;
             this.used = used;
+        }
+
+        public VarInfo(final String name, final Boolean used, final CFExpression expression) {
+            super();
+            this.used = used;
+            this.name = name;
+            this.expression = expression;
         }
     }
 }

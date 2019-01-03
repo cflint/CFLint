@@ -139,6 +139,7 @@ public class JSONOutput extends StructuredOutput {
         jg.writeStringField("file", notNull(bugInfo.getFilename()));
         jg.writeStringField("fileName", filename(bugInfo.getFilename()));
         jg.writeStringField("function", filename(bugInfo.getFunction()));
+        jg.writeNumberField("offset", bugInfo.getOffset());
         jg.writeNumberField("column", bugInfo.getColumn());
         jg.writeNumberField("line", bugInfo.getLine());
         jg.writeStringField("message", notNull(bugInfo.getMessage()));

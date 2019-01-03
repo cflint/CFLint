@@ -1,6 +1,6 @@
 {
   "version" : "",
-  "timestamp" : 1507944140,
+  "timestamp" : 1526095031,
   "issues" : [ {
     "severity" : "WARNING",
     "id" : "EXCESSIVE_FUNCTIONS",
@@ -11,6 +11,7 @@
       "file" : "src\\test\\resources\\com\\cflint\\tests\\TooManyFunctionsChecker\\excessive_cfscript.cfc",
       "fileName" : "excessive_cfscript.cfc",
       "function" : "",
+      "offset" : 0,
       "column" : 0,
       "line" : 1,
       "message" : "Component excessive_cfscript has too many functions. Should be fewer than 10.",

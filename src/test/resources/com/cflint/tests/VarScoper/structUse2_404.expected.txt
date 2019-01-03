@@ -1,6 +1,6 @@
 {
   "version" : "",
-  "timestamp" : 1507944144,
+  "timestamp" : 1526095038,
   "issues" : [ {
     "severity" : "ERROR",
     "id" : "MISSING_VAR",
@@ -11,6 +11,7 @@
       "file" : "src\\test\\resources\\com\\cflint\\tests\\VarScoper\\structUse2_404.cfc",
       "fileName" : "structUse2_404.cfc",
       "function" : "foo",
+      "offset" : 73,
       "column" : 3,
       "line" : 4,
       "message" : "Variable tokenizedAddress is not declared with a var statement.",
@@ -27,6 +28,7 @@
       "file" : "src\\test\\resources\\com\\cflint\\tests\\VarScoper\\structUse2_404.cfc",
       "fileName" : "structUse2_404.cfc",
       "function" : "foo",
+      "offset" : 238,
       "column" : 4,
       "line" : 8,
       "message" : "Variable tokenizedAddress2 is not declared with a var statement.",

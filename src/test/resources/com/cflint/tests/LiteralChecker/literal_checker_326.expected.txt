@@ -1,8 +1,8 @@
 {
   "version" : "",
-  "timestamp" : 1507944137,
+  "timestamp" : 1526095027,
   "issues" : [ {
-    "severity" : "WARNING",
+    "severity" : "INFO",
     "id" : "GLOBAL_LITERAL_VALUE_USED_TOO_OFTEN",
     "message" : "GLOBAL_LITERAL_VALUE_USED_TOO_OFTEN",
     "category" : "CFLINT",
@@ -11,6 +11,7 @@
       "file" : "src\\test\\resources\\com\\cflint\\tests\\LiteralChecker\\literal_checker_326.cfm",
       "fileName" : "literal_checker_326.cfm",
       "function" : "",
+      "offset" : 429,
       "column" : 125,
       "line" : 7,
       "message" : "Literal 3 occurs several times in one or more files. Consider giving it a name and not hard coding values.",
@@ -26,7 +27,7 @@
       "count" : 1
     } ],
     "countBySeverity" : [ {
-      "severity" : "WARNING",
+      "severity" : "INFO",
       "count" : 1
     } ]
   }

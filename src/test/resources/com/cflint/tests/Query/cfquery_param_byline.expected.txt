@@ -1,6 +1,6 @@
 {
   "version" : "",
-  "timestamp" : 1507944140,
+  "timestamp" : 1526095031,
   "issues" : [ {
     "severity" : "WARNING",
     "id" : "CFQUERYPARAM_REQ",
@@ -11,6 +11,7 @@
       "file" : "src\\test\\resources\\com\\cflint\\tests\\Query\\cfquery_param_byline.cfc",
       "fileName" : "cfquery_param_byline.cfc",
       "function" : "foo",
+      "offset" : 575,
       "column" : 29,
       "line" : 13,
       "message" : "<cfquery> should use <cfqueryparam/> for variable 'application.linkedServerName'.",

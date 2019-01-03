@@ -1,6 +1,6 @@
 {
   "version" : "",
-  "timestamp" : 1514084382,
+  "timestamp" : 1526095022,
   "issues" : [ {
     "severity" : "INFO",
     "id" : "COMPONENT_INVALID_NAME",
@@ -11,6 +11,7 @@
       "file" : "src\\test\\resources\\com\\cflint\\tests\\ComponentNameChecker\\veryLongComponentName.cfc",
       "fileName" : "veryLongComponentName.cfc",
       "function" : "",
+      "offset" : 0,
       "column" : 0,
       "line" : 1,
       "message" : "Component name veryLongComponentName is not a valid name. Please use PascalCase and start with a capital letter.",
@@ -27,6 +28,7 @@
       "file" : "src\\test\\resources\\com\\cflint\\tests\\ComponentNameChecker\\veryLongComponentName.cfc",
       "fileName" : "veryLongComponentName.cfc",
       "function" : "",
+      "offset" : 0,
       "column" : 0,
       "line" : 1,
       "message" : "Component name veryLongComponentName should be shorter than 15 characters.",
@@ -43,6 +45,7 @@
       "file" : "src\\test\\resources\\com\\cflint\\tests\\ComponentNameChecker\\veryLongComponentName.cfc",
       "fileName" : "veryLongComponentName.cfc",
       "function" : "",
+      "offset" : 0,
       "column" : 0,
       "line" : 1,
       "message" : "Component name veryLongComponentName is too wordy. Try to think of a more concise name.",

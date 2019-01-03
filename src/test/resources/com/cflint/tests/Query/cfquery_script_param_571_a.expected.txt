@@ -1,0 +1,34 @@
+{
+  "version" : "",
+  "timestamp" : 1537140136,
+  "issues" : [ {
+    "severity" : "WARNING",
+    "id" : "QUERYPARAM_REQ",
+    "message" : "QUERYPARAM_REQ",
+    "category" : "CFLINT",
+    "abbrev" : "QR",
+    "locations" : [ {
+      "file" : "src\\test\\resources\\com\\cflint\\tests\\Query\\cfquery_script_param_571_a.cfc",
+      "fileName" : "cfquery_script_param_571_a.cfc",
+      "function" : "foo",
+      "offset" : 99,
+      "column" : 13,
+      "line" : 4,
+      "message" : "Use query parameters for variables in sql statements.",
+      "variable" : "setSQL",
+      "expression" : "setSQL('select * from app.books where bookid = #bookid# and id = #id#')"
+    } ]
+  } ],
+  "counts" : {
+    "totalFiles" : 0,
+    "totalLines" : 0,
+    "countByCode" : [ {
+      "code" : "QUERYPARAM_REQ",
+      "count" : 1
+    } ],
+    "countBySeverity" : [ {
+      "severity" : "WARNING",
+      "count" : 1
+    } ]
+  }
+}

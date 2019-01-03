@@ -224,6 +224,15 @@ public class CFLintPluginInfo {
         }
 
         public static class PluginParameter {
+            public PluginParameter() {
+                super();
+            }
+            public PluginParameter(String name, Object value) {
+                super();
+                this.name = name;
+                this.value = value;
+            }
+
             private String name;
             private Object value;
 

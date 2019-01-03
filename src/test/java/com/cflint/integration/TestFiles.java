@@ -61,7 +61,10 @@ public class TestFiles {
 
     @Test
     public void test() throws IOException, CFLintScanException, CFLintConfigurationException {
-        final String inputString = FileUtil.loadFile(sourceFile);
+        String inputString = FileUtil.loadFile(sourceFile);
+        //Normalize EOL
+        if(inputString != null)
+            inputString = inputString.replaceAll("\\r\\n?", "\n");
         final File expectedFile = new File(sourceFile.getPath().replaceAll("\\.cf.", ".expected.txt"));
         final String expectedFileText = expectedFile.exists() ? FileUtil.loadFile(expectedFile) : null;
         String expectedText = expectedFileText;

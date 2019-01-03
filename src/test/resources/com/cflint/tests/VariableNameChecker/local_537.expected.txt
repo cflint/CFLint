@@ -1,0 +1,51 @@
+{
+  "version" : "",
+  "timestamp" : 1527906886,
+  "issues" : [ {
+    "severity" : "INFO",
+    "id" : "VAR_HAS_PREFIX_OR_POSTFIX",
+    "message" : "VAR_HAS_PREFIX_OR_POSTFIX",
+    "category" : "CFLINT",
+    "abbrev" : "VH",
+    "locations" : [ {
+      "file" : "src\\test\\resources\\com\\cflint\\tests\\VariableNameChecker\\local_537.cfm",
+      "fileName" : "local_537.cfm",
+      "function" : "",
+      "offset" : 91,
+      "column" : 17,
+      "line" : 2,
+      "message" : "Variable has prefix or postfix keyStr and could be named better.",
+      "variable" : "keyStr",
+      "expression" : "local.keyStr"
+    } ]
+  }, {
+    "severity" : "INFO",
+    "id" : "VAR_HAS_PREFIX_OR_POSTFIX",
+    "message" : "VAR_HAS_PREFIX_OR_POSTFIX",
+    "category" : "CFLINT",
+    "abbrev" : "VH",
+    "locations" : [ {
+      "file" : "src\\test\\resources\\com\\cflint\\tests\\VariableNameChecker\\local_537.cfm",
+      "fileName" : "local_537.cfm",
+      "function" : "",
+      "offset" : 147,
+      "column" : 17,
+      "line" : 3,
+      "message" : "Variable has prefix or postfix valStr and could be named better.",
+      "variable" : "valStr",
+      "expression" : "local.valStr"
+    } ]
+  } ],
+  "counts" : {
+    "totalFiles" : 0,
+    "totalLines" : 0,
+    "countByCode" : [ {
+      "code" : "VAR_HAS_PREFIX_OR_POSTFIX",
+      "count" : 2
+    } ],
+    "countBySeverity" : [ {
+      "severity" : "INFO",
+      "count" : 2
+    } ]
+  }
+}

@@ -1,6 +1,6 @@
 {
   "version" : "",
-  "timestamp" : 1507944143,
+  "timestamp" : 1526095035,
   "issues" : [ {
     "severity" : "INFO",
     "id" : "VAR_INVALID_NAME",
@@ -11,6 +11,7 @@
       "file" : "src\\test\\resources\\com\\cflint\\tests\\VariableNameChecker\\sample1_228.cfc",
       "fileName" : "sample1_228.cfc",
       "function" : "getStringFromStruct",
+      "offset" : 129,
       "column" : 15,
       "line" : 3,
       "message" : "Variable LocalData is not a valid name. Please use camelCase or underscores.",

@@ -18,34 +18,12 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class CFLintConfig extends BaseConfig {
 
-	@Deprecated
-    private List<ConfigOutput> output = new ArrayList<>();
     private List<CFLintPluginInfo.PluginInfoRule> rules = new ArrayList<>();
     private List<PluginMessage> excludes = new ArrayList<>();
     private List<PluginMessage> includes = new ArrayList<>();
     private HashMap<String,Object> parameters = new HashMap<>();
 
     private boolean inheritParent = true;
-    @Deprecated
-    private boolean inheritPlugins = true;
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.cflint.config.CFLintConfiguration#getOutput()
-     */
-    @Deprecated
-    public List<ConfigOutput> getOutput() {
-        return output;
-    }
-
-    @XmlElement(name = "output")
-    @Deprecated
-    public void setOutput(final List<ConfigOutput> output) {
-        System.err.println(
-                "DEPRECATED: The use of \"output\" have been marked as deprecated in CFLint 1.2.x and support for them will be fully removed in CFLint 1.4.0. Please remove the settings from your configuration file(s). Run CFLint in verbose mode for config file location details.");
-        this.output = output;
-    }
     
     public HashMap<String,Object> getParameters() {
         return parameters;
@@ -107,20 +85,6 @@ public class CFLintConfig extends BaseConfig {
     @XmlAttribute(name = "inheritParent")
     public void setInheritParent(final boolean inheritParent) {
         this.inheritParent = inheritParent;
-    }
-
-    @Deprecated
-    public boolean isInheritPlugins() {
-        return inheritPlugins;
-    }
-
-    @XmlAttribute(name = "inheritPlugins")
-    @Deprecated
-    public void setInheritPlugins(final boolean inheritPlugins) {
-        // #315 --- inheritPlugins can not be overwritten to false in 1.2.0 --- will be fully removed in 1.4.0 (but will then break people's setup if the setting remains in .cflintrc or the xml config
-        System.err.println(
-                "DEPRECATED: The use of \"inheritPlugins\" have been marked as deprecated in CFLint 1.2.x and support for them will be fully removed in CFLint 1.4.0. Please remove the settings from your configuration file(s). Run CFLint in verbose mode for config file location details.");
-        this.inheritPlugins = true;
     }
 
     public static class ConfigOutput {

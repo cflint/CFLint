@@ -1,6 +1,6 @@
 {
   "version" : "",
-  "timestamp" : 1507944135,
+  "timestamp" : 1526095024,
   "issues" : [ {
     "severity" : "ERROR",
     "id" : "MISSING_VAR",
@@ -11,6 +11,7 @@
       "file" : "src\\test\\resources\\com\\cflint\\tests\\Ignores\\ignoreCFMLAny2.cfc",
       "fileName" : "ignoreCFMLAny2.cfc",
       "function" : "testFunction",
+      "offset" : 334,
       "column" : 6,
       "line" : 14,
       "message" : "Variable someVar is not declared with a var statement.",

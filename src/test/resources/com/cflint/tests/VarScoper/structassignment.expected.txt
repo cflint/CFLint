@@ -1,6 +1,6 @@
 {
   "version" : "",
-  "timestamp" : 1507944144,
+  "timestamp" : 1526095038,
   "issues" : [ {
     "severity" : "ERROR",
     "id" : "MISSING_VAR",
@@ -11,6 +11,7 @@
       "file" : "src\\test\\resources\\com\\cflint\\tests\\VarScoper\\structassignment.cfc",
       "fileName" : "structassignment.cfc",
       "function" : "foo",
+      "offset" : 91,
       "column" : 11,
       "line" : 5,
       "message" : "Variable foobar is not declared with a var statement.",

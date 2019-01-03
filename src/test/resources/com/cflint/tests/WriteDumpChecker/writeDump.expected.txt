@@ -1,6 +1,6 @@
 {
   "version" : "",
-  "timestamp" : 1507944145,
+  "timestamp" : 1526095038,
   "issues" : [ {
     "severity" : "INFO",
     "id" : "AVOID_USING_WRITEDUMP",
@@ -11,6 +11,7 @@
       "file" : "src\\test\\resources\\com\\cflint\\tests\\WriteDumpChecker\\writeDump.cfc",
       "fileName" : "writeDump.cfc",
       "function" : "helloWorld",
+      "offset" : 231,
       "column" : 5,
       "line" : 6,
       "message" : "Avoid using the writeDump function in production code.",

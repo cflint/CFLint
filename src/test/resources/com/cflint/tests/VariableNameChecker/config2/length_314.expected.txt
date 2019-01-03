@@ -1,6 +1,6 @@
 {
   "version" : "",
-  "timestamp" : 0,
+  "timestamp" : 1526095035,
   "issues" : [ {
     "severity" : "INFO",
     "id" : "VAR_TOO_LONG",
@@ -8,12 +8,13 @@
     "category" : "CFLINT",
     "abbrev" : "VT",
     "locations" : [ {
-      "file" : "src/test/resources/com/cflint/tests/VariableNameChecker/config2/length_314.cfc",
+      "file" : "src\\test\\resources\\com\\cflint\\tests\\VariableNameChecker\\config2\\length_314.cfc",
       "fileName" : "length_314.cfc",
       "function" : "init",
+      "offset" : 94,
       "column" : 10,
       "line" : 7,
-      "message" : "Variable asdfghjklasdfghj should be shorter than 20 characters.",
+      "message" : "Variable asdfghjklasdfghj should be shorter than 15 characters.",
       "variable" : "asdfghjklasdfghj",
       "expression" : "var asdfghjklasdfghj = 10"
     } ]
@@ -24,12 +25,13 @@
     "category" : "CFLINT",
     "abbrev" : "VT",
     "locations" : [ {
-      "file" : "src/test/resources/com/cflint/tests/VariableNameChecker/config2/length_314.cfc",
+      "file" : "src\\test\\resources\\com\\cflint\\tests\\VariableNameChecker\\config2\\length_314.cfc",
       "fileName" : "length_314.cfc",
       "function" : "init",
+      "offset" : 58,
       "column" : 9,
       "line" : 5,
-      "message" : "Variable q12 should be longer than 3 characters.",
+      "message" : "Variable q12 should be longer than 4 characters.",
       "variable" : "q12",
       "expression" : "var q12 = 123"
     } ]

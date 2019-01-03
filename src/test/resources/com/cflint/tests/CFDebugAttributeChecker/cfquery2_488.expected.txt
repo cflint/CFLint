@@ -1,6 +1,6 @@
 {
   "version" : "",
-  "timestamp" : 1513438041,
+  "timestamp" : 1526095020,
   "issues" : [ {
     "severity" : "WARNING",
     "id" : "AVOID_USING_DEBUG_ATTR",
@@ -11,6 +11,7 @@
       "file" : "src\\test\\resources\\com\\cflint\\tests\\CFDebugAttributeChecker\\cfquery2_488.cfc",
       "fileName" : "cfquery2_488.cfc",
       "function" : "",
+      "offset" : 0,
       "column" : 1,
       "line" : 1,
       "message" : "Avoid leaving debug attribute on tags.",

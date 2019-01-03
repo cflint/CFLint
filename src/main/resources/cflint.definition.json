@@ -916,7 +916,7 @@
                 {
                     "code": "GLOBAL_LITERAL_VALUE_USED_TOO_OFTEN",
                     "messageText": "Literal ${variable} occurs several times in one or more files. Consider giving it a name and not hard coding values.",
-                    "severity": "WARNING"
+                    "severity": "INFO"
                 }
             ],
             "parameter": [
@@ -945,7 +945,7 @@
                 {
                     "code": "LOCAL_LITERAL_VALUE_USED_TOO_OFTEN",
                     "messageText": "Literal ${variable} occurs several times in the same file. Consider giving it a name and not hard coding values.",
-                    "severity": "WARNING"
+                    "severity": "INFO"
                 }
             ],
             "parameter": [

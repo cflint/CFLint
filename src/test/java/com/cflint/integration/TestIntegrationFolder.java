@@ -7,6 +7,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.cflint.cli.CFLintCLI;
@@ -14,6 +15,7 @@ import com.cflint.cli.CFLintCLI;
 public class TestIntegrationFolder {
 
     @Test
+    @Ignore
     public void testFolder() throws Exception {
         CFLintCLI.main(new String[] { "--folder", "src/test/resources/com/cflint/integration", "--json", "--jsonfile",
                 "src/test/resources/com/cflint/integration/output.json" });

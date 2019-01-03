@@ -121,13 +121,13 @@ public class ComponentNameChecker extends CFLintScannerAdapter {
      */
     public void checkNameForBugs(final Context context, final String component, final String filename,
             final int line, final int offset, final BugList bugs) {
-        final ValidName name = new ValidName(minComponentLength, maxComponentLength, maxComponentWords);
 
         try {
             parseParameters(context.getConfiguration());
         } catch (ConfigError configError) {
             // Carry on with defaults
         }
+        final ValidName name = new ValidName(minComponentLength, maxComponentLength, maxComponentWords);
 
         // TODO check package name as well?
 

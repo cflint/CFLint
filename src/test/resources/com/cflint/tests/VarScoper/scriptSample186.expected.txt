@@ -1,6 +1,6 @@
 {
   "version" : "",
-  "timestamp" : 1507944144,
+  "timestamp" : 1526095038,
   "issues" : [ {
     "severity" : "ERROR",
     "id" : "MISSING_VAR",
@@ -11,6 +11,7 @@
       "file" : "src\\test\\resources\\com\\cflint\\tests\\VarScoper\\scriptSample186.cfc",
       "fileName" : "scriptSample186.cfc",
       "function" : "leakMemory",
+      "offset" : 68,
       "column" : 6,
       "line" : 4,
       "message" : "Variable leaky_variable is not declared with a var statement.",
@@ -27,6 +28,7 @@
       "file" : "src\\test\\resources\\com\\cflint\\tests\\VarScoper\\scriptSample186.cfc",
       "fileName" : "scriptSample186.cfc",
       "function" : "leakMemory",
+      "offset" : 105,
       "column" : 6,
       "line" : 5,
       "message" : "Variable leakier_variable is not declared with a var statement.",

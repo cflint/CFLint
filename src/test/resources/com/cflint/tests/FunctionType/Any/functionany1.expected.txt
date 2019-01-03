@@ -1,6 +1,6 @@
 {
   "version" : "",
-  "timestamp" : 1507944134,
+  "timestamp" : 1526095023,
   "issues" : [ {
     "severity" : "INFO",
     "id" : "FUNCTION_TYPE_ANY",
@@ -11,6 +11,7 @@
       "file" : "src\\test\\resources\\com\\cflint\\tests\\FunctionType\\Any\\functionany1.cfc",
       "fileName" : "functionany1.cfc",
       "function" : "x",
+      "offset" : 24,
       "column" : 11,
       "line" : 3,
       "message" : "Function x return type is any. Please change to be a more specific type.",

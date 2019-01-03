@@ -1,8 +1,8 @@
 {
   "version" : "",
-  "timestamp" : 1507944136,
+  "timestamp" : 1526095026,
   "issues" : [ {
-    "severity" : "WARNING",
+    "severity" : "INFO",
     "id" : "GLOBAL_LITERAL_VALUE_USED_TOO_OFTEN",
     "message" : "GLOBAL_LITERAL_VALUE_USED_TOO_OFTEN",
     "category" : "CFLINT",
@@ -11,6 +11,7 @@
       "file" : "src\\test\\resources\\com\\cflint\\tests\\Includes\\Template.cfm",
       "fileName" : "Template.cfm",
       "function" : "",
+      "offset" : 66,
       "column" : 33,
       "line" : 2,
       "message" : "Literal companyName occurs several times in one or more files. Consider giving it a name and not hard coding values.",
@@ -26,7 +27,7 @@
       "count" : 1
     } ],
     "countBySeverity" : [ {
-      "severity" : "WARNING",
+      "severity" : "INFO",
       "count" : 1
     } ]
   }

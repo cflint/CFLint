@@ -15,10 +15,17 @@ public class CFScopes {
     protected String[] parts(final String variable) {
         return variable.toLowerCase().split("\\.|\\[|\\]");
     }
+    protected String[] partsCase(final String variable) {
+        return variable.split("\\.|\\[|\\]");
+    }
 
     public boolean isCFScoped(final String variable) {
         final String[] parts = parts(variable);
         return scopes.contains(parts[0].toLowerCase());
+    }
+    public String descope(final String variable) {
+        final String[] parts = partsCase(variable);
+        return parts[parts.length-1];
     }
     public String getScope(final String variable) {
         final String[] parts = parts(variable);

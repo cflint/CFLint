@@ -1,5 +1,7 @@
 package com.cflint.config;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.util.Arrays;
 import java.util.List;
 
@@ -51,7 +53,11 @@ public class ConfigBuilder {
      * @throws  Exception       exception when configuration fails
      */
     public ConfigBuilder addCustomConfig(final String fileName) throws Exception {
-        configFileConfig = ConfigFileLoader.loadConfig(fileName);
+        File file = new File(fileName);
+        configFileConfig = file.getName().toLowerCase().endsWith(".xml")
+                ? ConfigUtils.unmarshal(file, CFLintConfig.class)
+                : ConfigUtils.unmarshalJson(new FileInputStream(file), CFLintConfig.class);
+
         return this;
     }
 

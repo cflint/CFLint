@@ -71,7 +71,7 @@ repositories {
     maven { url "http://cfmlprojects.org/artifacts" }
 }
 dependencies {
-    compile group: 'com.github.cfparser', name: 'cfml.parsing', version: '2.6.0'
+    compile group: 'com.github.cfparser', name: 'cfml.parsing', version: '2.8.0'
     compile group: 'commons-cli', name: 'commons-cli', version: '1.2'
     compile group: 'ro.fortsoft.pf4j', name: 'pf4j', version: '0.6'
     compile group: 'ant', name: 'ant', version: '1.7.0'
@@ -102,6 +102,11 @@ jar {
         attributes(
             'Main-Class': 'com.cflint.cli.CFLintCLI',
             'Implementation-Version': version,
+            'Bundle-Name': 'CFLint',
+            'Bundle-SymbolicName': 'com.cflint.CFLint',
+            'Bundle-Description': 'CFLint',
+            'Bundle-ManifestVersion': 2,
+            'Bundle-Version': version
         )
     }
 }

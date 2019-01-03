@@ -1,6 +1,6 @@
 {
   "version" : "",
-  "timestamp" : 0,
+  "timestamp" : 1526095034,
   "issues" : [ {
     "severity" : "INFO",
     "id" : "UNUSED_LOCAL_VARIABLE",
@@ -8,9 +8,10 @@
     "category" : "CFLINT",
     "abbrev" : "UL",
     "locations" : [ {
-      "file" : "src/test/resources/com/cflint/tests/UnusedVariable/while_465.cfc",
+      "file" : "src\\test\\resources\\com\\cflint\\tests\\UnusedVariable\\while_465.cfc",
       "fileName" : "while_465.cfc",
       "function" : "safetext",
+      "offset" : 112,
       "column" : 8,
       "line" : 5,
       "message" : "Local variable nextStart is not used in function safetext. Consider removing it.",

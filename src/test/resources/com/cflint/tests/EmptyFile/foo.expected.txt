@@ -1,6 +1,6 @@
 {
   "version" : "",
-  "timestamp" : 1507944134,
+  "timestamp" : 1526095022,
   "issues" : [ {
     "severity" : "WARNING",
     "id" : "AVOID_EMPTY_FILES",
@@ -11,6 +11,7 @@
       "file" : "src\\test\\resources\\com\\cflint\\tests\\EmptyFile\\foo.cfc",
       "fileName" : "foo.cfc",
       "function" : "",
+      "offset" : 0,
       "column" : 1,
       "line" : 1,
       "message" : "CF file is empty: ${file}",

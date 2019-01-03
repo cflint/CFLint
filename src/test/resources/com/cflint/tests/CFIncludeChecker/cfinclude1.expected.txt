@@ -1,6 +1,6 @@
 {
   "version" : "",
-  "timestamp" : 1507944132,
+  "timestamp" : 1526095021,
   "issues" : [ {
     "severity" : "WARNING",
     "id" : "AVOID_USING_CFINCLUDE_TAG",
@@ -11,6 +11,7 @@
       "file" : "src\\test\\resources\\com\\cflint\\tests\\CFIncludeChecker\\cfinclude1.cfc",
       "fileName" : "cfinclude1.cfc",
       "function" : "",
+      "offset" : 30,
       "column" : 3,
       "line" : 3,
       "message" : "Avoid using <cfinclude> tags. Use components instead.",

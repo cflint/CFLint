@@ -86,17 +86,21 @@ public class QueryParamChecker extends CFLintScannerAdapter {
                 }
 
                 if ( line.contains("@CFLintIgnore") ) {
-                    if (!tmpIgnoreLines.contains(currentline)) {
-                        tmpIgnoreLines.add(currentline);
+                    if ( match > 0 ) {
+                        if (!tmpIgnoreLines.contains(currentline)) {
+                            tmpIgnoreLines.add(currentline);
+                        }
+                        match = 2;
                     }
-                    match = 2;
                 }
 
                 if ( line.contains("CFQUERYPARAM_REQ") ) {
-                    if (!tmpIgnoreLines.contains(currentline)) {
-                        tmpIgnoreLines.add(currentline);
+                    if ( match > 1 ) {
+                        if (!tmpIgnoreLines.contains(currentline)) {
+                            tmpIgnoreLines.add(currentline);
+                        }
+                        match = 3;
                     }
-                    match = 3;
                 }
 
                 if ( line.contains("--->") ) {

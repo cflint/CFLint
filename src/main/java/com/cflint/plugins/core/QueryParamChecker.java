@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.io.StringReader;
+import java.io.BufferedReader;
 
 import com.cflint.BugList;
 import com.cflint.CF;
@@ -40,7 +42,7 @@ public class QueryParamChecker extends CFLintScannerAdapter {
             //   the following code will not work when there is a > sign in the expression
             content = content.replaceAll("<[cC][fF][qQ][uU][eE][rR][yY][pP][aA][rR][aA][mM][^>]*>", "");
             if (content.indexOf('#') >= 0) {
-                final List<Integer> ignoreLines = determineIgnoreLines(element);
+                final List<Integer> ignoreLines = determineIgnoreLines(context, content, context.startLine());
                 final Matcher matcher = Pattern.compile("#(?:##)?([^#]+)(?:##)?#($|[^#])",Pattern.DOTALL).matcher(content);
                 while (matcher.find()) {
                     if (matcher.groupCount() >= 1) {
@@ -63,18 +65,61 @@ public class QueryParamChecker extends CFLintScannerAdapter {
      * @param element   the element object
      * @return          the line numbers of any @@CFLintIgnore annotations.
      */
-    private List<Integer> determineIgnoreLines(final Element element) {
+    private List<Integer> determineIgnoreLines(final Context context, final String textContent, final int start ) {
+
         final List<Integer> ignoreLines = new ArrayList<>();
-        for (Element comment : element.getChildElements()) {
-            if ("!---".equals(comment.getName()) && comment.toString().contains("@CFLintIgnore") && comment.toString().contains("CFQUERYPARAM_REQ")) {
-                int ignoreLine = comment.getSource().getRow(comment.getEnd());
-                ignoreLines.add(ignoreLine);
-                ignoreLines.add(ignoreLine + 1);
-                ignoreLines.add(comment.getSource().getRow(comment.getBegin()));
-            } else {
-                ignoreLines.addAll(determineIgnoreLines(comment));
+        int currentline = start;
+        String line = null;
+        List<Integer> tmpIgnoreLines = new ArrayList<>();
+        int match = 0;
+
+        BufferedReader bufReader = new BufferedReader(new StringReader(textContent));
+        
+        try {
+            while( (line=bufReader.readLine()) != null )
+            {
+                if ( line.contains("!---") ) {
+                    if (!tmpIgnoreLines.contains(currentline)) {
+                        tmpIgnoreLines.add(currentline);
+                    }
+                    match = 1;
+                }
+
+                if ( line.contains("@CFLintIgnore") ) {
+                    if (!tmpIgnoreLines.contains(currentline)) {
+                        tmpIgnoreLines.add(currentline);
+                    }
+                    match = 2;
+                }
+
+                if ( line.contains("CFQUERYPARAM_REQ") ) {
+                    if (!tmpIgnoreLines.contains(currentline)) {
+                        tmpIgnoreLines.add(currentline);
+                    }
+                    match = 3;
+                }
+
+                if ( line.contains("--->") ) {
+                    if ( match > 2 ) {
+                        if (!tmpIgnoreLines.contains(currentline)) {
+                            tmpIgnoreLines.add(currentline);
+                        }
+                        if (!tmpIgnoreLines.contains(currentline+1)) {
+                            tmpIgnoreLines.add(currentline+1);
+                        }
+                        ignoreLines.addAll(tmpIgnoreLines);
+                        tmpIgnoreLines.clear();
+                        match = 0;
+                    }
+                }
+
+                currentline++;
+
             }
+        } catch(Exception e) {
+            e.printStackTrace();
         }
+
         return ignoreLines;
     }
 

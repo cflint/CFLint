@@ -85,7 +85,16 @@
                     "severity": "WARNING"
                 }
             ],
-            "parameter": []
+            "parameter": [
+                {
+                    "name": "allowVariableExpression",
+                    "value": ""
+                },
+                {
+                    "name": "allowLineExpression",
+                    "value": ""
+                }
+            ]
         },
         {
             "name": "TypedQueryNew",

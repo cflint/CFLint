@@ -58,7 +58,8 @@ public class QueryParamChecker extends CFLintScannerAdapter {
                         String variableName = matcher.group(1);
                         Pattern allowLineExpressionPattern = null;
                         if ( !"".equals(allowLineExpression) ) {
-                            allowLineExpressionPattern = Pattern.compile(allowLineExpression.replaceAll("\\$\\{variable\\}",variableName),Pattern.DOTALL);
+                            //System.out.println(allowLineExpression.replaceAll("\\$\\{variable\\}","\\\\Q" + Matcher.quoteReplacement(variableName) + "\\\\E"));
+                            allowLineExpressionPattern = Pattern.compile(allowLineExpression.replaceAll("\\$\\{variable\\}","\\\\Q" + Matcher.quoteReplacement(variableName) + "\\\\E"),Pattern.DOTALL);
                         }
                         if ( !ignoreLines.contains(currentline) 
                             && (allowVariableExpressionPattern == null || !allowVariableExpressionPattern.matcher(variableName).find())

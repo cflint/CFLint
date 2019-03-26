@@ -40,7 +40,7 @@ public class QueryParamChecker extends CFLintScannerAdapter {
             String content = element.getContent().toString();
             final String allowVariableExpression = context.getConfiguration().getParameter(this,"allowVariableExpression");
             Pattern allowVariableExpressionPattern = null;
-            if ( !allowVariableExpression.equals("") ) {
+            if ( !"".equals(allowVariableExpression) ) {
                 allowVariableExpressionPattern = Pattern.compile(allowVariableExpression,Pattern.DOTALL);
             }
             final String allowLineExpression = context.getConfiguration().getParameter(this,"allowLineExpression");
@@ -48,7 +48,7 @@ public class QueryParamChecker extends CFLintScannerAdapter {
             //   the following code will not work when there is a > sign in the expression
             content = content.replaceAll("<[cC][fF][qQ][uU][eE][rR][yY][pP][aA][rR][aA][mM][^>]*>", "");
             if (content.indexOf('#') >= 0) {
-                final List<Integer> ignoreLines = determineIgnoreLines(context, content, context.startLine());
+                final List<Integer> ignoreLines = determineIgnoreLines(content, context.startLine());
                 final Matcher matcher = Pattern.compile("#(?:##)?([^#]+)(?:##)?#($|[^#])",Pattern.DOTALL).matcher(content);
                 while (matcher.find()) {
                     if (matcher.groupCount() >= 1) {
@@ -57,7 +57,7 @@ public class QueryParamChecker extends CFLintScannerAdapter {
                         int currentOffset = element.getStartTag().getEnd() + 1 + matcher.start();
                         String variableName = matcher.group(1);
                         Pattern allowLineExpressionPattern = null;
-                        if ( !allowLineExpression.equals("") ) {
+                        if ( !"".equals(allowLineExpression) ) {
                             allowLineExpressionPattern = Pattern.compile(allowLineExpression.replaceAll("\\$\\{variable\\}",variableName),Pattern.DOTALL);
                         }
                         if ( !ignoreLines.contains(currentline) 
@@ -79,7 +79,7 @@ public class QueryParamChecker extends CFLintScannerAdapter {
      * @param element   the element object
      * @return          the line numbers of any @@CFLintIgnore annotations.
      */
-    private List<Integer> determineIgnoreLines(final Context context, final String textContent, final int start ) {
+    private List<Integer> determineIgnoreLines(final String textContent, final int start ) {
 
         final List<Integer> ignoreLines = new ArrayList<>();
         int currentline = start;
@@ -99,36 +99,30 @@ public class QueryParamChecker extends CFLintScannerAdapter {
                     match = 1;
                 }
 
-                if ( line.contains("@CFLintIgnore") ) {
-                    if ( match > 0 ) {
-                        if (!tmpIgnoreLines.contains(currentline)) {
-                            tmpIgnoreLines.add(currentline);
-                        }
-                        match = 2;
+                if ( line.contains("@CFLintIgnore") && match > 0 ) {
+                    if (!tmpIgnoreLines.contains(currentline)) {
+                        tmpIgnoreLines.add(currentline);
                     }
+                    match = 2;
                 }
 
-                if ( line.contains("CFQUERYPARAM_REQ") ) {
-                    if ( match > 1 ) {
-                        if (!tmpIgnoreLines.contains(currentline)) {
-                            tmpIgnoreLines.add(currentline);
-                        }
-                        match = 3;
+                if ( line.contains("CFQUERYPARAM_REQ") && match > 1 ) {
+                    if (!tmpIgnoreLines.contains(currentline)) {
+                        tmpIgnoreLines.add(currentline);
                     }
+                    match = 3;
                 }
 
-                if ( line.contains("--->") ) {
-                    if ( match > 2 ) {
-                        if (!tmpIgnoreLines.contains(currentline)) {
-                            tmpIgnoreLines.add(currentline);
-                        }
-                        if (!tmpIgnoreLines.contains(currentline+1)) {
-                            tmpIgnoreLines.add(currentline+1);
-                        }
-                        ignoreLines.addAll(tmpIgnoreLines);
-                        tmpIgnoreLines.clear();
-                        match = 0;
+                if ( line.contains("--->") && match > 2 ) {
+                    if (!tmpIgnoreLines.contains(currentline)) {
+                        tmpIgnoreLines.add(currentline);
                     }
+                    if (!tmpIgnoreLines.contains(currentline+1)) {
+                        tmpIgnoreLines.add(currentline+1);
+                    }
+                    ignoreLines.addAll(tmpIgnoreLines);
+                    tmpIgnoreLines.clear();
+                    match = 0;
                 }
 
                 currentline++;

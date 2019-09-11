@@ -31,7 +31,7 @@ public class UnusedLocalVarChecker extends CFLintScannerAdapter {
             if(context.isInAssignmentExpression() && fullVarExpr.getExpressions().size()==2 && first instanceof CFIdentifier && "local".equalsIgnoreCase(((CFIdentifier)first).getName())){
                 if(second instanceof CFIdentifier){
                     final String name = ((CFIdentifier) second).getName();
-                    localVariables.put(name.toLowerCase(), new VarInfo(name, false,fullVarExpr));
+                    localVariables.put(name.toLowerCase(), new VarInfo(name, false,second));
                 }
             }else{
                 checkFullExpression(fullVarExpr, context, bugs);

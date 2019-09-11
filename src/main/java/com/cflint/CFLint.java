@@ -671,6 +671,22 @@ public class CFLint implements IErrorReporter {
                 }
             }
         }
+        //Parse the body
+        if(elem.getName().toLowerCase().equals("cfoutput")) {
+        	final String content = elem.getContent().getTextExtractor().toString();
+        	if(content !=null && content.length()>0 && content.contains("#")) {
+        		final List<String> errors = new ArrayList<>();
+                final ANTLRErrorListener errorReporter = new ArrayErrorListener(errors);
+                try {
+                    final CFExpression exp = cfmlParser.parseCFMLExpression(
+                    content, errorReporter);
+	        		if(errors.isEmpty()) {
+	        		     expressions.put("body", exp);
+	        		}
+                }catch(final Exception e) {}
+        	}
+            
+        }
         return expressions;
     }
 

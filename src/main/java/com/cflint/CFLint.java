@@ -1162,6 +1162,9 @@ public class CFLint implements IErrorReporter {
                     processStack(source.getChildElements(), " ", 
                             context.subContextCFML(source.getChildElements().size()>0?source.getChildElements().get(0):null,expression));
                 } catch (CFLintScanException e) { }
+                if(functionExpr.getBody()!=null) {
+                	process(functionExpr.getBody(),context);
+                }
             } else if (!(expression instanceof CFNewExpression)){
                 // Loop into all relevant nested (child) expressions.
                 //  EXCEPT CFNewExpressions.

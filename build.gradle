@@ -12,15 +12,15 @@ buildscript {
         }
     }
     dependencies {
-        classpath 'com.bmuschko:gradle-nexus-plugin:2.3'
-        classpath "io.codearte.gradle.nexus:gradle-nexus-staging-plugin:0.5.3"
-        classpath "gradle.plugin.se.bjurr.gitchangelog:git-changelog-gradle-plugin:1.50"
+        classpath 'com.bmuschko:gradle-nexus-plugin:2.3.1'
+        classpath "io.codearte.gradle.nexus:gradle-nexus-staging-plugin:0.21.1"
+        classpath "gradle.plugin.se.bjurr.gitchangelog:git-changelog-gradle-plugin:1.64"
     }
 }
 
 plugins {
     id 'java'
-    id 'com.github.johnrengelman.shadow' version '1.2.4'
+    id 'com.github.johnrengelman.shadow' version '5.1.0'
     id 'eclipse'
 }
 

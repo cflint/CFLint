@@ -10,7 +10,7 @@ import com.cflint.CF;
 public class CFScopes {
 
     private static final Collection<String> scopes = Arrays.asList(CF.URL, CF.FORM, CF.COOKIE, CF.CGI, CF.SERVER, CF.APPLICATION,
-        CF.SESSION, CF.CLIENT, CF.REQUEST, CF.ARGUMENTS, CF.VARIABLES, CF.THIS, CF.LOCAL, CF.CFCATCH);
+        CF.SESSION, CF.CLIENT, CF.REQUEST, CF.ARGUMENTS, CF.VARIABLES, CF.THIS, CF.LOCAL, CF.CFCATCH, CF.CFTHREAD);
 
     protected String[] parts(final String variable) {
         return variable.toLowerCase().split("\\.|\\[|\\]");

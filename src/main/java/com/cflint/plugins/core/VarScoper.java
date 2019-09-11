@@ -30,7 +30,7 @@ public class VarScoper extends CFLintScannerAdapter {
         CF.CFDBINFO, CF.CFDOCUMENT, CF.CFCOLLECTION, CF.CFPDF, CF.CFZIP, CF.CFLDAP, CF.CFHTTP, CF.CFCHART,
         CF.CFHTMLTOPDF, CF.CFIMAGE, CF.CFIMAP, CF.CFSHAREPOINT, CF.CFSPREADSHEET);
     private final Collection<String> scopes = Arrays.asList(CF.APPLICATION, CF.CGI, CF.COOKIE, CF.FORM, CF.REQUEST,
-        CF.SERVER, CF.SESSION, CF.URL);
+        CF.SERVER, CF.SESSION, CF.URL, CF.CFTHREAD);
 
     @Override
     public void expression(final CFExpression expression, final Context context, final BugList bugs) {

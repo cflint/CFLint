@@ -31,7 +31,7 @@ public class UnusedLocalVarChecker extends CFLintScannerAdapter {
             if(context.isInAssignmentExpression() && fullVarExpr.getExpressions().size()==2 && first instanceof CFIdentifier && "local".equalsIgnoreCase(((CFIdentifier)first).getName())){
                 if(second instanceof CFIdentifier){
                     final String name = ((CFIdentifier) second).getName();
-                    localVariables.put(name.toLowerCase(), new VarInfo(name, false,second));
+                    localVariables.put(name.toLowerCase(), new VarInfo(name, false,second,context));
                 }
             }else{
                 checkFullExpression(fullVarExpr, context, bugs);
@@ -114,8 +114,8 @@ public class UnusedLocalVarChecker extends CFLintScannerAdapter {
         for (final VarInfo variable : localVariables.values()) {
             final Boolean used = variable.used;
             if (!used) {
-                context.addMessage("UNUSED_LOCAL_VARIABLE", variable.name, this, variable.lineNumber, variable.offset,
-                        variable.expression);
+            	context.addMessage("UNUSED_LOCAL_VARIABLE", variable.name, this, variable.lineNumber, variable.offset,
+                        variable.expression,variable.context);
             }
         }
     }
@@ -148,17 +148,20 @@ public class UnusedLocalVarChecker extends CFLintScannerAdapter {
         private Integer offset;
         private String name;
         CFExpression expression;
+        final Context context;
 
         public VarInfo(final String name, final Boolean used) {
             this.name = name;
             this.used = used;
+            this.context=null;
         }
 
-        public VarInfo(final String name, final Boolean used, final CFExpression expression) {
+        public VarInfo(final String name, final Boolean used, final CFExpression expression,final Context context) {
             super();
             this.used = used;
             this.name = name;
             this.expression = expression;
+            this.context=context;
         }
     }
 }

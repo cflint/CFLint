@@ -1274,6 +1274,11 @@ public class CFLint implements IErrorReporter {
 
     public void reportRule(Element elem, Object currentExpression, final Context context,
             final CFLintScanner pluginParm, final ContextMessage msg) {
+    	//If the message carries a context, use it for generating error info like line number
+    	if(msg.getOriginalContext()!=null && !context.equals(msg.getOriginalContext())) {
+    		reportRule(msg.getOriginalContext().getElement(), currentExpression, msg.getOriginalContext(), pluginParm, msg);
+    		return;
+    	}
         final Context pseudoCfmlParent = context.getParent(ContextType.PSEUDO_CFML);
         if(pseudoCfmlParent!=null && ContextType.PSEUDO_CFML.equals(pseudoCfmlParent.getContextType())){
             elem = pseudoCfmlParent.getElement();

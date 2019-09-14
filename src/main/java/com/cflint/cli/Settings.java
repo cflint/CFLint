@@ -7,6 +7,11 @@ public class Settings {
     public static final String VERBOSE = "verbose";
 
     /**
+     * do not apply .gitignore pattern
+     */
+    public static final String NO_IGNORE = "no-ignore";
+
+    /**
      * verbose output during linting
      */
     public static final String V = "v";

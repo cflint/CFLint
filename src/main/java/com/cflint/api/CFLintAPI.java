@@ -37,8 +37,13 @@ public class CFLintAPI {
     boolean logError = false;
     boolean quiet = false;
     boolean debug = false;
+    boolean noIgnore = false;
 
-    /**
+    public void setNoIgnore(boolean noIgnore) {
+		this.noIgnore = noIgnore;
+	}
+
+	/**
      * List of file extensions to scan.  Default to *.cfc and *.cfm
      */
     private List<String> extensions = new ArrayList<>(Arrays.asList("cfc","cfm"));
@@ -95,6 +100,7 @@ public class CFLintAPI {
         try {
             final CFLint cflint = new CFLint(configuration);
             cflint.setVerbose(verbose);
+            cflint.setNoIgnore(noIgnore);
             cflint.setLogError(logError);
             cflint.setQuiet(quiet);
             cflint.setDebug(debug);

@@ -46,6 +46,7 @@ public class CFLintCLI {
     private boolean logerror = false;
     private boolean quiet = false;
     private boolean debug = false;
+    private boolean noIgnore = false;
     private boolean xmlOutput = false;
     private boolean jsonOutput = false;
     private boolean htmlOutput = true;
@@ -263,6 +264,7 @@ public class CFLintCLI {
         if (main.verbose) {
             System.out.println("Verbose is enabled");
         }
+        main.noIgnore = cmd.hasOption(Settings.NO_IGNORE);
 
         main.debug = (cmd.hasOption(Settings.D) || cmd.hasOption(Settings.DEBUG));
         if (main.debug) {
@@ -347,6 +349,7 @@ public class CFLintCLI {
             MarshallerException, JAXBException, CFLintScanException, CFLintConfigurationException {
         final CFLintAPI api = new CFLintAPI(cfLintConfig);
         api.setVerbose(verbose);
+        api.setNoIgnore(noIgnore);
         api.setLogError(logerror);
         api.setQuiet(quiet);
         api.setDebug(debug);

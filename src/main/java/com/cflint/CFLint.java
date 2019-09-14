@@ -36,6 +36,7 @@ import com.cflint.config.CFLintPluginInfo.PluginInfoRule.PluginMessage;
 import com.cflint.config.CFLintPluginInfo.PluginInfoRule.PluginParameter;
 import com.cflint.config.ConfigUtils;
 import com.cflint.exception.CFLintScanException;
+import com.cflint.jgit.ignore.IgnoreRules;
 import com.cflint.listeners.ScanProgressListener;
 import com.cflint.plugins.CFLintScanner;
 import com.cflint.plugins.CFLintSet;
@@ -120,7 +121,12 @@ public class CFLint implements IErrorReporter {
     private boolean debug = false;
     private boolean showProgress = false;
     private boolean progressUsesThread = true;
-    private CFLintStats stats = new CFLintStats();
+    private boolean noIgnore = false;
+    public void setNoIgnore(boolean noIgnore) {
+		this.noIgnore = noIgnore;
+	}
+
+	private CFLintStats stats = new CFLintStats();
     private final List<ScanProgressListener> scanProgressListeners = new ArrayList<>();
     private final List<CFLintExceptionListener> exceptionListeners = new ArrayList<>();
     private CFLintConfiguration configuration;
@@ -236,7 +242,8 @@ public class CFLint implements IErrorReporter {
     }
 
     public void scan(final File folderOrFile) {
-        if (debug) {
+    	IgnoreRules ignoreRules = noIgnore?null:IgnoreRules.safeCreate(folderOrFile);
+    	if (debug) {
             System.out.println("Current file: " + folderOrFile.getAbsolutePath());
         }
         if (getBugs().getFileFilter() != null && !getBugs().getFileFilter().includeFile(folderOrFile)) {
@@ -270,7 +277,12 @@ public class CFLint implements IErrorReporter {
                     }
                 }
                 for (final File file : folderOrFile.listFiles()) {
-                    scan(file);
+                	if(ignoreRules !=null && ignoreRules.safeIsIgnored(file,debug)) {
+                        if (debug) {
+                            System.out.println("Ignore: " + file.getAbsolutePath());
+                        }
+                		return;
+                	}
                 }
             } finally {
                 configuration = saveConfig;

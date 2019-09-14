@@ -467,6 +467,17 @@
             ]
         },
         {
+            "name": "FunctionCollisionChecker",
+            "className": "FunctionCollisionChecker",
+            "message": [
+                {
+                    "code": "FUNCTION_NAME_COLLISION",
+                    "messageText": "Avoid using the name ${variable} for a function.  It is reserved in some coldfusion platforms.  See https://cfdocs.org/${variable}",
+                    "severity": "WARNING"
+                }
+            ]
+        },
+        {
             "name": "ArrayNewChecker",
             "className": "ArrayNewChecker",
             "message": [

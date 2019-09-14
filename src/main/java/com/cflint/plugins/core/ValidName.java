@@ -178,7 +178,7 @@ public class ValidName {
      */
     public boolean isCamelCase(final String name) {
         // [A-Z0-9]{2,5} catch names like productID, phone4G, requestURL etc etc
-        final Pattern valid = Pattern.compile("^[a-z0-9]+([A-Z]{1,5}[a-z0-9]+)*([A-Z0-9]{2,5}){0,1}$");
+        final Pattern valid = Pattern.compile("^[a-z0-9]+([A-Z]{1,5}[a-z0-9]+)*([A-Z0-9]{2,5}){0,1}[A-Z]?$");
         return valid.matcher(name).matches();
     }
 
@@ -189,7 +189,7 @@ public class ValidName {
      * @return true if the camel case, false if it is not.
      */
     public boolean isPascalCase(final String name) {
-        final Pattern valid = Pattern.compile("^([A-Z]{1,5}[a-z0-9]+)+([A-Z0-9]{2,5}){0,1}$");
+        final Pattern valid = Pattern.compile("^([A-Z]{1,5}[a-z0-9]+)+([A-Z0-9]{2,5}){0,1}[A-Z]?$");
         return valid.matcher(name).matches();
     }
 

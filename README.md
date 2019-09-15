@@ -214,7 +214,7 @@ There might be occasional messages from CFParser and ANTLR being pushed into std
 
 #### Verbose
 
-Verbose mode (`-verbose <boolean>`) enables verbose linting output. This contains information on selected output formats and configuration files being found and processes during linting as well as the currently processed file CFLint is working on (showing only files that are actually scanned).
+Verbose mode (`-verbose`) enables verbose linting output. This contains information on selected output formats and configuration files being found and processes during linting as well as the currently processed file CFLint is working on (showing only files that are actually scanned).
 
 If you want more information about the inner workings of CFLint during execution, verbose mode is the minimum you should run CFLint in.
 

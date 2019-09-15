@@ -1124,7 +1124,7 @@ public class CFLint implements IErrorReporter {
             }
             if (expression instanceof CFStructElementExpression) {
                 final Context assignmentContext = context.subContext(elem);
-                //assignmentContext.setInAssignmentExpression(true);
+                assignmentContext.setInStructKeyExpression(true);
                 handler.push(CF.STRUCT);
                 process(((CFStructElementExpression) expression).getKey(), elem, assignmentContext);
                 handler.pop();

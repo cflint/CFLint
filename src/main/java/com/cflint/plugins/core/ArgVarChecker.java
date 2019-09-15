@@ -33,7 +33,7 @@ public class ArgVarChecker extends CFLintScannerAdapter {
                 return;
             }
             expression(fullVarExpr.getExpressions().get(0), context, bugs);
-        } else if(expression instanceof CFIdentifier) {
+        } else if(expression instanceof CFIdentifier && !context.isInStructKeyExpression()) {
         	CFIdentifier cfi = (CFIdentifier)expression;
         	if(context.getCallStack().isArgument(cfi.getName())) {
                 final String fileKey = context.fileFunctionString();

@@ -34,8 +34,17 @@ public class Context {
     private ContextType contextType;
     private String functionName;
     private boolean inAssignmentExpression;
+    private boolean inStructKeyExpression;
 
-    private boolean inComponent;
+    public boolean isInStructKeyExpression() {
+		return inStructKeyExpression;
+	}
+
+	public void setInStructKeyExpression(boolean inStructKeyExpression) {
+		this.inStructKeyExpression = inStructKeyExpression;
+	}
+
+	private boolean inComponent;
     private final StackHandler callStack;
     private final CommonTokenStream tokens;
     private final List<ContextMessage> messages = new ArrayList<>();
@@ -285,6 +294,7 @@ public class Context {
         context2.setInComponent(isInComponent());
         context2.parent = this;
         context2.componentName=componentName;
+        context2.inStructKeyExpression=inStructKeyExpression;
         return context2;
     }
     public Context subContext(final Element elem) {
@@ -293,6 +303,7 @@ public class Context {
         context2.setInComponent(isInComponent());
         context2.parent = this;
         context2.componentName=componentName;
+        context2.inStructKeyExpression=inStructKeyExpression;
         return context2;
     }
     public Context subContextCFML(final Element elem, final CFExpression pseudoCfmlExpression) {
@@ -303,6 +314,7 @@ public class Context {
         context2.setInComponent(isInComponent());
         context2.parent = this;
         context2.componentName=componentName;
+        context2.inStructKeyExpression=inStructKeyExpression;
         return context2;
     }
     

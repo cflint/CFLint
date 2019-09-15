@@ -141,7 +141,7 @@ public class StackHandler {
     }
 
     public boolean checkVariable(final String name) {
-    	if (excludes.contains(name.toUpperCase())) {
+    	if (excludes.contains(name.toUpperCase().split("\\.")[0])) {
             return true;
         }
         final Iterator<Stack> iter = varStack.iterator();

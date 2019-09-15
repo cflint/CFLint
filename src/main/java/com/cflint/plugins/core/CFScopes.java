@@ -15,7 +15,7 @@ public class CFScopes {
     protected String[] parts(final String variable) {
         return variable.toLowerCase().split("\\.|\\[|\\]");
     }
-    protected String[] partsCase(final String variable) {
+    protected static String[] partsCase(final String variable) {
         return variable.split("\\.|\\[|\\]");
     }
 
@@ -23,7 +23,7 @@ public class CFScopes {
         final String[] parts = parts(variable);
         return scopes.contains(parts[0].toLowerCase());
     }
-    public String descope(final String variable) {
+    public static String descope(final String variable) {
         final String[] parts = partsCase(variable);
         return parts[parts.length-1];
     }

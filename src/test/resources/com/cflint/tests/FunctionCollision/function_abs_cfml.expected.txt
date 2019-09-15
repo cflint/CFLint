@@ -14,7 +14,7 @@
       "offset" : 14,
       "column" : 1,
       "line" : 2,
-      "message" : "Avoid using the name abs for a function.  It is reserved in some coldfusion platforms.  See https:/cfdocs.org/abs",
+      "message" : "Avoid using the name abs for a function.  It is reserved in some CFML implementations.  See https:/cfdocs.org/abs",
       "variable" : "abs",
       "expression" : "<cffunction name=/"abs/">/n <cfset x=123/>/n</cffunction>"
     } ]

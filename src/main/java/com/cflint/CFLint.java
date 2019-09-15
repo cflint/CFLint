@@ -833,6 +833,7 @@ public class CFLint implements IErrorReporter {
                 process(((CFForStatement) expression).getCond(), elem, context);
                 process(((CFForStatement) expression).getNext(), elem, context);
                 process(((CFForStatement) expression).getBody(), context);
+                
             } else if (expression instanceof CFWhileStatement) {
                 scanExpression(expression, context, elem);
                 process(((CFWhileStatement) expression).getCond(), elem, context);

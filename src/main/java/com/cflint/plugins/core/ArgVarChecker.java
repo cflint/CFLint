@@ -33,26 +33,53 @@ public class ArgVarChecker extends CFLintScannerAdapter {
                 return;
             }
             expression(fullVarExpr.getExpressions().get(0), context, bugs);
+        } else if(expression instanceof CFIdentifier) {
+        	CFIdentifier cfi = (CFIdentifier)expression;
+        	if(context.getCallStack().isArgument(cfi.getName())) {
+                final String fileKey = context.fileFunctionString();
+                if (alreadyReportedFullExpression.contains(fileKey)) {
+                    return;
+                } else {
+                    alreadyReportedFullExpression.add(fileKey);
+                }
+                context.addMessage("ARG_VAR_MIXED", cfi.getName(),this,null,null,cfi);            	
+            }
         }
     }
 
     private boolean checkFullExpression(final Context context, final CFFullVarExpression fullVarExpr) {
-        if (fullVarExpr.getExpressions().size() > 1
-                && fullVarExpr.getExpressions().get(0) instanceof CFIdentifier) {
+        if (fullVarExpr.getExpressions().get(0) instanceof CFIdentifier) {
             final CFIdentifier cfIdentifier1 = (CFIdentifier) fullVarExpr.getExpressions().get(0);
+            final CFIdentifier cfIdentifier2 = fullVarExpr.getExpressions().size()>1&& fullVarExpr.getExpressions().get(1) instanceof CFIdentifier?(CFIdentifier) fullVarExpr.getExpressions().get(1):null;
+            final String fileKey = context.fileFunctionString();
             if ("arguments".equalsIgnoreCase(cfIdentifier1.getName())
-                    && fullVarExpr.getExpressions().get(1) instanceof CFIdentifier) {
-                final CFIdentifier cfIdentifier2 = (CFIdentifier) fullVarExpr.getExpressions().get(1);
-                final String name = cfIdentifier2.getName();
-                if (context.getCallStack().isVariable(name)) {
-                    final String fileKey = context.fileFunctionString();
+                   ) {
+                final String name = cfIdentifier2!=null ?cfIdentifier2.getName():null;
+                if (name!=null && context.getCallStack().isVariable(name)) {
                     if (alreadyReportedFullExpression.contains(fileKey)) {
                         return true;
                     } else {
                         alreadyReportedFullExpression.add(fileKey);
                     }
-                    context.addMessage("ARG_VAR_MIXED", name);
+                    context.addMessage("ARG_VAR_MIXED", name,this,null,null,cfIdentifier2);
                 }
+            }
+            else if("VARIABLES".equalsIgnoreCase(cfIdentifier1.getName())||"local".equalsIgnoreCase(cfIdentifier1.getName())) {
+            	if(cfIdentifier2!=null && context.getCallStack().isArgument(cfIdentifier2.getName())) {
+                    if (alreadyReportedFullExpression.contains(fileKey)) {
+                        return true;
+                    } else {
+                        alreadyReportedFullExpression.add(fileKey);
+                    }
+                    context.addMessage("ARG_VAR_MIXED", cfIdentifier2.getName(),this,null,null,cfIdentifier2);
+                }	
+            }else if(context.getCallStack().isArgument(cfIdentifier1.getName())) {
+                if (alreadyReportedFullExpression.contains(fileKey)) {
+                    return true;
+                } else {
+                    alreadyReportedFullExpression.add(fileKey);
+                }
+                context.addMessage("ARG_VAR_MIXED", cfIdentifier1.getName(),this,null,null,cfIdentifier1);            	
             }
         }
         return false;

@@ -12,14 +12,14 @@ public class CFScopes {
     private static final Collection<String> scopes = Arrays.asList(CF.URL, CF.FORM, CF.COOKIE, CF.CGI, CF.SERVER, CF.APPLICATION,
         CF.SESSION, CF.CLIENT, CF.REQUEST, CF.ARGUMENTS, CF.VARIABLES, CF.THIS, CF.LOCAL, CF.CFCATCH, CF.CFTHREAD);
 
-    protected String[] parts(final String variable) {
+    protected static String[] parts(final String variable) {
         return variable.toLowerCase().split("\\.|\\[|\\]");
     }
     protected static String[] partsCase(final String variable) {
         return variable.split("\\.|\\[|\\]");
     }
 
-    public boolean isCFScoped(final String variable) {
+    public static boolean isCFScoped(final String variable) {
         final String[] parts = parts(variable);
         return scopes.contains(parts[0].toLowerCase());
     }
@@ -27,7 +27,7 @@ public class CFScopes {
         final String[] parts = partsCase(variable);
         return parts[parts.length-1];
     }
-    public String getScope(final String variable) {
+    public static String getScope(final String variable) {
         final String[] parts = parts(variable);
         if(scopes.contains(parts[0].toLowerCase())){
             return parts[0].toLowerCase();

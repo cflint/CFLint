@@ -126,7 +126,8 @@ public class CFLint implements IErrorReporter {
     private CFLintConfiguration configuration;
     private int skipToPosition = 0;
     private String currentFile = null;
-    private Element currentElement = null;
+    private String environmentName="";
+	private Element currentElement = null;
     private boolean strictInclude;
     private Set<List<Object>> processed = new HashSet<>();
 
@@ -208,7 +209,7 @@ public class CFLint implements IErrorReporter {
         final Stack<CFLintConfig> configFiles = new Stack<>();
         fileLoop: while (folder != null && folder.exists()) {
             for (final File file : folder.listFiles()) {
-                if (file.getName().toLowerCase().startsWith(".cflintrc")) {
+                if (file.getName().toLowerCase().startsWith("."+getEnvPrefix()+"cflintrc")) {
                     if (verbose) {
                         System.out.println("read config " + file);
                     }
@@ -235,7 +236,11 @@ public class CFLint implements IErrorReporter {
         }
     }
 
-    public void scan(final File folderOrFile) {
+    private String getEnvPrefix() {
+		return environmentName.equals("")?"":environmentName+"-";
+	}
+
+	public void scan(final File folderOrFile) {
         if (debug) {
             System.out.println("Current file: " + folderOrFile.getAbsolutePath());
         }
@@ -254,7 +259,7 @@ public class CFLint implements IErrorReporter {
             final CFLintConfiguration saveConfig = configuration;
             try {
                 for (final File file : folderOrFile.listFiles()) {
-                    if (file.getName().toLowerCase().startsWith(".cflintrc")) {
+                    if (file.getName().toLowerCase().startsWith("."+getEnvPrefix()+"cflintrc")) {
                         try {
                             if (verbose) {
                                 System.out.println("read config " + file);
@@ -1649,4 +1654,10 @@ public class CFLint implements IErrorReporter {
     public void setStrictIncludes(final boolean strictInclude) {
         this.strictInclude = strictInclude;
     }
+    
+    public void setEnvironmentName(String environmentName) {
+		this.environmentName = environmentName==null?"":environmentName.trim();
+	}
+
+
 }

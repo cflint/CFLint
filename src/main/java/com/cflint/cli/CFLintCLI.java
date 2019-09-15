@@ -61,6 +61,7 @@ public class CFLintCLI {
     private String stdInFile = "source.cfc";
     private Boolean stdOut = false;
     private boolean strictInclude;
+	private String environmentName;
 
     public static void main(final String[] args) throws Exception {
         final Options commandOptions = new Options();
@@ -239,6 +240,9 @@ public class CFLintCLI {
                 System.err.println("Unable to load config file " + configfile + ".  " + e.getMessage());
             }
         }
+        if(cmd.hasOption(Settings.ENVIRONMENT)) {
+        	main.environmentName=cmd.getOptionValue(Settings.ENVIRONMENT);
+        }
         if (cmd.hasOption(Settings.INCLUDE_RULE)) {
             configBuilder.include(Arrays.asList(cmd.getOptionValue(Settings.INCLUDE_RULE).split(",")));
         }
@@ -351,6 +355,7 @@ public class CFLintCLI {
         api.setQuiet(quiet);
         api.setDebug(debug);
         api.setStrictInclude(strictInclude);
+        api.setEnvironmentName(environmentName);
         if (extensions != null && extensions.trim().length() > 0) {
             try {
                 api.setExtensions(Arrays.asList(extensions.trim().split(",")));

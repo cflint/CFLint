@@ -1,0 +1,6 @@
+{
+  "includes" : [ {
+    "code" : "QUERYNEW_DUPLICATE_COLUMNS"
+  } ],
+  "inheritParent" : false
+}

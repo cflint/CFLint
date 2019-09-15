@@ -416,6 +416,17 @@
             ]
         },
         {
+            "name": "QueryNewChecker",
+            "className": "QueryNewChecker",
+            "message": [
+                {
+                    "code": "QUERYNEW_DUPLICATE_COLUMNS",
+                    "messageText": "QueryNew declares column ${variable} multiple times, this is a hard error in some CFML implementations.",
+                    "severity": "ERROR"
+                }
+            ]
+        },
+        {
             "name": "WriteDumpChecker",
             "className": "FunctionXChecker",
             "message": [

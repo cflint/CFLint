@@ -1,9 +1,71 @@
+env:
+  global:
+    # Should be encrypted or set as private travis variables (in travis settings):
+    # DOCKER_HUB_EMAIL
+    # DOCKER_HUB_USERNAME
+    # DOCKER_HUB_PASSWORD
+    - DOCKER_REPOSITORY="steinbrueckri/cflint"
+
 language: java
+
+# Forces travis to use VM insted container, required to be able to build containers.
+sudo: required
+
 jdk:
   - openjdk8
 
 services:
   - docker
 
-before_install:
-  - docker build -t steinbrueckri/cflint .
+install: true
+
+before_script:
+  # Print build info that binary is compiled with.
+  - echo $TRAVIS_COMMIT
+  - echo $TRAVIS_TAG
+  - echo $TRAVIS_BRANCH
+  - echo $TRAVIS_BUILD_NUMBER
+  - echo $TRAVIS_REPO_SLUG
+  - chmod +x gradlew
+  - ./gradlew test
+
+script:
+  - docker build -t ${DOCKER_REPOSITORY} .
+  - docker run --rm ${DOCKER_REPOSITORY} -h
+
+after_script:
+  - docker images
+
+before_deploy:
+    # Master is always lastest
+    - if [ ! -z "$TRAVIS_TAG" ]; then export IMAGE_TAG=$TRAVIS_TAG; else export IMAGE_TAG=$TRAVIS_BRANCH; fi
+
+    # Upload image to docker registry only on PUSH
+    - if [ "$JOB_TYPE" = compile_and_basic_tests ]; then
+        docker tag $DOCKER_REPOSITORY:pr $DOCKER_REPOSITORY:$IMAGE_TAG;
+        docker login --username=$DOCKER_HUB_USERNAME --password=$DOCKER_HUB_PASSWORD;
+        docker push $DOCKER_REPOSITORY:$IMAGE_TAG;
+
+        if [ "$TRAVIS_BRANCH" = master ]; then
+            export COMMIT_TAG="$TRAVIS_BRANCH"_"$TRAVIS_COMMIT";
+            docker tag $DOCKER_REPOSITORY:pr $DOCKER_REPOSITORY:$COMMIT_TAG;
+            docker push $DOCKER_REPOSITORY:$COMMIT_TAG;
+        fi;
+      fi
+
+deploy:
+
+    # Force before_deploy for branches
+    -
+        provider: script
+        script: /bin/true
+        on:
+            all_branches: true
+
+    # Force before_deploy for tags
+    -
+        provider: script
+        script: /bin/true
+        on:
+            tags: true
+            all_branches: true

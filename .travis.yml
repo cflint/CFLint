@@ -3,7 +3,7 @@ env:
     # Should be encrypted or set as private travis variables (in travis settings):
     # DOCKER_HUB_USERNAME
     # DOCKER_HUB_PASSWORD
-    - DOCKER_REPOSITORY="steinbrueckri/cflint"
+    - DOCKER_REPOSITORY="z3rogate/cflint"
 
 language: java
 

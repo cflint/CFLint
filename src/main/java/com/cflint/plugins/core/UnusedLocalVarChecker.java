@@ -26,7 +26,7 @@ public class UnusedLocalVarChecker extends CFLintScannerAdapter {
         if (expression instanceof CFFullVarExpression) {
             final CFFullVarExpression fullVarExpr = (CFFullVarExpression) expression;
             final CFExpression first = fullVarExpr.getExpressions().get(0);
-            final CFExpression second = fullVarExpr.getExpressions().get(1);
+            final CFExpression second = fullVarExpr.getExpressions().size()>1?fullVarExpr.getExpressions().get(1):null;
             //For local scope assignments:
             if(context.isInAssignmentExpression() && fullVarExpr.getExpressions().size()==2 && first instanceof CFIdentifier && "local".equalsIgnoreCase(((CFIdentifier)first).getName())){
                 if(second instanceof CFIdentifier){

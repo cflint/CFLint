@@ -252,8 +252,10 @@ public class CFLint implements IErrorReporter {
             return;
         }
         if (folderOrFile.isDirectory()) {
-            if (verbose && folderOrFile.getName().startsWith(".")){
-                System.out.println("Skipping folder and its children: " + folderOrFile.getAbsolutePath());
+            if (folderOrFile.getName().startsWith(".") && !folderOrFile.getName().equals(".")){
+                if(verbose) {
+                	System.out.println("Skipping folder and its children: " + folderOrFile.getAbsolutePath());
+                }
                 return;
             }
             final CFLintConfiguration saveConfig = configuration;

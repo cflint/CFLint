@@ -43,6 +43,9 @@ public class CFScopes {
     }
 
 
+    public static boolean isScope(final String scope) {
+        return scope !=null && scopes.contains(scope.toLowerCase());
+    }
     public static boolean isScoped(final String variable, final String scope) {
         final String[] parts = parts(variable);
         return parts[0].equalsIgnoreCase(scope);

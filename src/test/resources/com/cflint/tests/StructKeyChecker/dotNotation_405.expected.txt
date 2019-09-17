@@ -1,0 +1,68 @@
+{
+  "version" : "",
+  "timestamp" : 0,
+  "issues" : [ {
+    "severity" : "WARNING",
+    "id" : "STRUCT_ARRAY_NOTATION",
+    "message" : "STRUCT_ARRAY_NOTATION",
+    "category" : "CFLINT",
+    "abbrev" : "SA",
+    "locations" : [ {
+      "file" : "src/test/resources/com/cflint/tests/StructKeyChecker/dotNotation_405.cfc",
+      "fileName" : "dotNotation_405.cfc",
+      "function" : "x",
+      "offset" : 58,
+      "column" : 16,
+      "line" : 4,
+      "message" : "Unquoted struct key yetAnotherKey is not case-sensitive.  Using array notation is recommended.",
+      "variable" : "yetAnotherKey",
+      "expression" : "yetAnotherKey"
+    } ]
+  }, {
+    "severity" : "WARNING",
+    "id" : "STRUCT_ARRAY_NOTATION",
+    "message" : "STRUCT_ARRAY_NOTATION",
+    "category" : "CFLINT",
+    "abbrev" : "SA",
+    "locations" : [ {
+      "file" : "src/test/resources/com/cflint/tests/StructKeyChecker/dotNotation_405.cfc",
+      "fileName" : "dotNotation_405.cfc",
+      "function" : "x",
+      "offset" : 119,
+      "column" : 16,
+      "line" : 6,
+      "message" : "Unquoted struct key yetAnotherKey is not case-sensitive.  Using array notation is recommended.",
+      "variable" : "yetAnotherKey",
+      "expression" : "yetAnotherKey"
+    } ]
+  }, {
+    "severity" : "WARNING",
+    "id" : "STRUCT_ARRAY_NOTATION",
+    "message" : "STRUCT_ARRAY_NOTATION",
+    "category" : "CFLINT",
+    "abbrev" : "SA",
+    "locations" : [ {
+      "file" : "src/test/resources/com/cflint/tests/StructKeyChecker/dotNotation_405.cfc",
+      "fileName" : "dotNotation_405.cfc",
+      "function" : "x",
+      "offset" : 277,
+      "column" : 22,
+      "line" : 9,
+      "message" : "Unquoted struct key bar is not case-sensitive.  Using array notation is recommended.",
+      "variable" : "bar",
+      "expression" : "bar"
+    } ]
+  } ],
+  "counts" : {
+    "totalFiles" : 0,
+    "totalLines" : 0,
+    "countByCode" : [ {
+      "code" : "STRUCT_ARRAY_NOTATION",
+      "count" : 3
+    } ],
+    "countBySeverity" : [ {
+      "severity" : "WARNING",
+      "count" : 3
+    } ]
+  }
+}

@@ -19,9 +19,10 @@ public class StructKeyChecker extends CFLintScannerAdapter {
 
         if (context.isInAssignmentExpression() && expression instanceof CFFullVarExpression) {
             final List<CFExpression> subExpressions = expression.decomposeExpression();
-            if (subExpressions != null && subExpressions.size() > 1
-                    && subExpressions.get(subExpressions.size() - 1) instanceof CFIdentifier) {
-                context.addMessage("STRUCT_ARRAY_NOTATION", subExpressions.get(subExpressions.size() - 1).Decompile(0));
+            int offset = CFScopes.isScoped((CFFullVarExpression)expression)?2:1;
+            if (subExpressions != null && subExpressions.size() > offset 
+                    && subExpressions.get(subExpressions.size() - offset) instanceof CFIdentifier) {
+                context.addMessage("STRUCT_ARRAY_NOTATION", subExpressions.get(subExpressions.size() - offset).Decompile(0),this,null,null,subExpressions.get(subExpressions.size() - offset));
             }
         }
         else if (expression instanceof CFStructExpression) {
@@ -30,7 +31,7 @@ public class StructKeyChecker extends CFLintScannerAdapter {
                 CFStructElementExpression structKeyExpression = (CFStructElementExpression) element;
                 String firstToken = structKeyExpression.getKey().getToken().getText();
                 if (!"'".equals(firstToken) && !"\"".equals(firstToken)) {
-                    context.addMessage("UNQUOTED_STRUCT_KEY", structKeyExpression.getKey().Decompile(0));
+                    context.addMessage("UNQUOTED_STRUCT_KEY", structKeyExpression.getKey().Decompile(0),this,null,null,structKeyExpression.getKey());
                 }
             }
         }

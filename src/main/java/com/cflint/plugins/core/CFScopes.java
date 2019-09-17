@@ -43,11 +43,11 @@ public class CFScopes {
     }
 
 
-    public boolean isScoped(final String variable, final String scope) {
+    public static boolean isScoped(final String variable, final String scope) {
         final String[] parts = parts(variable);
         return parts[0].equalsIgnoreCase(scope);
     }
-    public boolean isScoped(final CFFullVarExpression variable) {
+    public static boolean isScoped(final CFFullVarExpression variable) {
         CFExpression part1 = variable.decomposeExpression().get(0);
         return scopes.contains(part1.Decompile(0).toLowerCase());
     }

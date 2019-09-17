@@ -209,7 +209,7 @@ public class CFLint implements IErrorReporter {
         final Stack<CFLintConfig> configFiles = new Stack<>();
         fileLoop: while (folder != null && folder.exists()) {
             for (final File file : folder.listFiles()) {
-                if (file.getName().toLowerCase().startsWith("."+getEnvPrefix()+"cflintrc")) {
+                if (file.getName().toLowerCase().equals(".cflintrc" + getEnvSuffix())) {
                     if (verbose) {
                         System.out.println("read config " + file);
                     }
@@ -236,8 +236,8 @@ public class CFLint implements IErrorReporter {
         }
     }
 
-    private String getEnvPrefix() {
-		return environmentName.equals("")?"":environmentName+"-";
+    private String getEnvSuffix() {
+		return environmentName.equals("")?"":"-" + environmentName;
 	}
 
 	public void scan(final File folderOrFile) {
@@ -261,7 +261,7 @@ public class CFLint implements IErrorReporter {
             final CFLintConfiguration saveConfig = configuration;
             try {
                 for (final File file : folderOrFile.listFiles()) {
-                    if (file.getName().toLowerCase().startsWith("."+getEnvPrefix()+"cflintrc")) {
+                    if (file.getName().toLowerCase().equals(".cflintrc" + getEnvSuffix())) {
                         try {
                             if (verbose) {
                                 System.out.println("read config " + file);

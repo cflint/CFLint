@@ -1,0 +1,34 @@
+{
+  "version" : "",
+  "timestamp" : 1568688625,
+  "issues" : [ {
+    "severity" : "INFO",
+    "id" : "AVOID_USING_WRITEDUMP",
+    "message" : "AVOID_USING_WRITEDUMP",
+    "category" : "CFLINT",
+    "abbrev" : "AU",
+    "locations" : [ {
+      "file" : "src\\test\\resources\\com\\cflint\\tests\\WriteDumpChecker\\script_hash_625.cfc",
+      "fileName" : "script_hash_625.cfc",
+      "function" : "",
+      "offset" : 12,
+      "column" : 2,
+      "line" : 2,
+      "message" : "Avoid using the writeDump function in production code.",
+      "variable" : "writeDump",
+      "expression" : "writeDump(now(), 'HH:mm:ss')"
+    } ]
+  } ],
+  "counts" : {
+    "totalFiles" : 0,
+    "totalLines" : 0,
+    "countByCode" : [ {
+      "code" : "AVOID_USING_WRITEDUMP",
+      "count" : 1
+    } ],
+    "countBySeverity" : [ {
+      "severity" : "INFO",
+      "count" : 1
+    } ]
+  }
+}

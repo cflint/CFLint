@@ -13,3 +13,5 @@
 .scannerwork
 user.properties
 /cflint-result.html
+/cflint-result.json
+/cflint-result.txt

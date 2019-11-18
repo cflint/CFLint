@@ -214,7 +214,7 @@ There might be occasional messages from CFParser and ANTLR being pushed into std
 
 #### Verbose
 
-Verbose mode (`-verbose`) enables verbose linting output. This contains information on selected output formats and configuration files being found and processes during linting as well as the currently processed file CFLint is working on (showing only files that are actually scanned).
+Verbose mode (`-verbose <boolean>`) enables verbose linting output. This contains information on selected output formats and configuration files being found and processes during linting as well as the currently processed file CFLint is working on (showing only files that are actually scanned).
 
 If you want more information about the inner workings of CFLint during execution, verbose mode is the minimum you should run CFLint in.
 
@@ -386,6 +386,8 @@ For **Jenkins**, please look at the Jenkins/Hudson plugin mentioned further belo
 JetBrains' **TeamCity** has support for FindBugs XML code inspection reports. They can be produced out of the box with CFLint from 1.2.0 onwards (see above in the [FindBugs XML section](#findbugs-xml)).
 
 There is support for **SonarQube** through StepStone's Sonar ColdFusion plugin mentioned further below.
+
+For **Azure DevOps/TFS**, please look at the Azure Pipeline/TFS Build extension mentioned further below.
 
 There's an NPM wrapper for CFLint below. Please be aware that the wrapper seems to come with its own bundled CFLint binary which might not be up-to-date, which is outside of our control.
 
@@ -561,6 +563,7 @@ Please note that the majority of the libraries and projects mentioned here are n
 * [Atom package](https://github.com/ditinc/linter-cflint)
 * [Visual Studio Code extension](https://github.com/KamasamaK/vscode-cflint)
 * [IntelliJ plugin](https://bitbucket.org/SyncHot/cflint/)
+* [Azure Pipeline/TFS Build extension](https://marketplace.visualstudio.com/items?itemName=JoshKnutsonExtensions.devops-extension-cflint)
 * [SonarQube plugin](https://github.com/stepstone-tech/sonar-coldfusion)
 * [NPM wrapper](https://github.com/morgdenn/npm-cflint)
 * Vim [Syntastic support for CFLint](https://github.com/cflint/cflint-syntastic)

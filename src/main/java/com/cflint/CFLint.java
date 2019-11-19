@@ -877,7 +877,7 @@ public class CFLint implements IErrorReporter {
                 process(cftry.getBody(), context);
                 for (final CFCatchStatement stmt : cftry.getCatchStatements()) {
                     handler.push(CF.CFCATCH);
-                    if(stmt.getVariable()!=null){
+                    if(stmt.getVariable()!=null && stmt.getVariable().getName()!=null){
                         handler.addVariable(stmt.getVariable().getName());
                     }
                     process(stmt.getCatchBody(), context);

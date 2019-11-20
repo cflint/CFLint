@@ -451,6 +451,11 @@ public class CF {
     public static final String ARGUMENTS = "arguments";
 
     /**
+     * CF scope cthread.
+     */
+    public static final String CFTHREAD= "cfthread";
+
+    /**
      * CF scope variables.
      */
     public static final String VARIABLES = "variables";

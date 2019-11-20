@@ -12,15 +12,15 @@ buildscript {
         }
     }
     dependencies {
-        classpath 'com.bmuschko:gradle-nexus-plugin:2.3'
-        classpath "io.codearte.gradle.nexus:gradle-nexus-staging-plugin:0.5.3"
-        classpath "gradle.plugin.se.bjurr.gitchangelog:git-changelog-gradle-plugin:1.50"
+        classpath 'com.bmuschko:gradle-nexus-plugin:2.3.1'
+        classpath "io.codearte.gradle.nexus:gradle-nexus-staging-plugin:0.21.1"
+        classpath "gradle.plugin.se.bjurr.gitchangelog:git-changelog-gradle-plugin:1.64"
     }
 }
 
 plugins {
     id 'java'
-    id 'com.github.johnrengelman.shadow' version '1.2.4'
+    id 'com.github.johnrengelman.shadow' version '5.1.0'
     id 'eclipse'
 }
 
@@ -71,13 +71,13 @@ repositories {
     maven { url "http://cfmlprojects.org/artifacts" }
 }
 dependencies {
-    compile group: 'com.github.cfparser', name: 'cfml.parsing', version: '2.8.0'
+    compile group: 'com.github.cfparser', name: 'cfml.parsing', version: '2.11.0'
     compile group: 'commons-cli', name: 'commons-cli', version: '1.2'
     compile group: 'ro.fortsoft.pf4j', name: 'pf4j', version: '0.6'
     compile group: 'ant', name: 'ant', version: '1.7.0'
     compile group: 'com.sun.xml.bind', name: 'jaxb-impl', version: '2.1.8'
-    compile group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.8.6'
-    compile group: 'com.fasterxml.jackson.module', name: 'jackson-module-jaxb-annotations', version: '2.8.6'
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.10.1'
+    compile group: 'com.fasterxml.jackson.module', name: 'jackson-module-jaxb-annotations', version: '2.10.1'
     compile(group: 'net.java.dev.stax-utils', name: 'stax-utils', version: '20070216') {
         exclude module: 'jsr173-ri'
         exclude module: 'jsr173'

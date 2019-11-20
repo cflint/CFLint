@@ -1,0 +1,34 @@
+{
+  "version" : "",
+  "timestamp" : 1568428224,
+  "issues" : [ {
+    "severity" : "WARNING",
+    "id" : "FUNCTION_NAME_COLLISION",
+    "message" : "FUNCTION_NAME_COLLISION",
+    "category" : "CFLINT",
+    "abbrev" : "FN",
+    "locations" : [ {
+      "file" : "src\\test\\resources\\com\\cflint\\tests\\FunctionCollision\\function_abs.cfc",
+      "fileName" : "function_abs.cfc",
+      "function" : "abs",
+      "offset" : 33,
+      "column" : 21,
+      "line" : 3,
+      "message" : "Avoid using the name abs for a function.  It is reserved in some CFML implementations.  See https://cfdocs.org/abs",
+      "variable" : "abs",
+      "expression" : "abs"
+    } ]
+  } ],
+  "counts" : {
+    "totalFiles" : 0,
+    "totalLines" : 0,
+    "countByCode" : [ {
+      "code" : "FUNCTION_NAME_COLLISION",
+      "count" : 1
+    } ],
+    "countBySeverity" : [ {
+      "severity" : "WARNING",
+      "count" : 1
+    } ]
+  }
+}

@@ -117,6 +117,29 @@ public class StackHandler {
         }
         return false;
     }
+    /* basically a property */
+    public boolean isTopVariable(final String name) {
+        if(varStack.size()>0) {
+            final Stack vars = varStack.peekFirst();
+            if (vars.getVariables().contains(name.toUpperCase())) {
+                return true;
+            }
+        }
+        return false;
+    }
+    //Do not look in the top stack (global vars)
+    public boolean isLocalVariable(final String name) {
+        final Iterator<Stack> iter = varStack.iterator();
+        while (iter.hasNext()) {
+            final Stack vars = iter.next();
+            if(iter.hasNext()) {
+	            if (vars.getVariables().contains(name.toUpperCase())) {
+	                return true;
+	            }
+            }
+        }
+        return false;
+    }
     
     public List<String> getQueryColumns(final String name) {
         final Iterator<Stack> iter = varStack.iterator();
@@ -141,7 +164,7 @@ public class StackHandler {
     }
 
     public boolean checkVariable(final String name) {
-    	if (excludes.contains(name.toUpperCase())) {
+    	if (excludes.contains(name.toUpperCase().split("\\.")[0])) {
             return true;
         }
         final Iterator<Stack> iter = varStack.iterator();
@@ -154,7 +177,7 @@ public class StackHandler {
             if (vars.getVariables().contains(name.toUpperCase())) {
                 return true;
             }
-            if (vars.getArguments().contains(name.toUpperCase())) {
+            if (!isVariable(name) && vars.getArguments().contains(name.toUpperCase())) {
                 // Dereference of an argument without the arguments scope copies
                 // to local scope
                 varStack.peek().getVariables().add(name.toUpperCase());

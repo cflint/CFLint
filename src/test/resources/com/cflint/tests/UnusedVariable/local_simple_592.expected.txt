@@ -1,0 +1,51 @@
+{
+  "version" : "",
+  "timestamp" : 0,
+  "issues" : [ {
+    "severity" : "INFO",
+    "id" : "UNUSED_LOCAL_VARIABLE",
+    "message" : "UNUSED_LOCAL_VARIABLE",
+    "category" : "CFLINT",
+    "abbrev" : "UL",
+    "locations" : [ {
+      "file" : "src/test/resources/com/cflint/tests/UnusedVariable/local_simple_592.cfc",
+      "fileName" : "local_simple_592.cfc",
+      "function" : "bar",
+      "offset" : 42,
+      "column" : 11,
+      "line" : 3,
+      "message" : "Local variable foo is not used in function bar. Consider removing it.",
+      "variable" : "foo",
+      "expression" : "foo"
+    } ]
+  }, {
+    "severity" : "INFO",
+    "id" : "UNUSED_LOCAL_VARIABLE",
+    "message" : "UNUSED_LOCAL_VARIABLE",
+    "category" : "CFLINT",
+    "abbrev" : "UL",
+    "locations" : [ {
+      "file" : "src/test/resources/com/cflint/tests/UnusedVariable/local_simple_592.cfc",
+      "fileName" : "local_simple_592.cfc",
+      "function" : "bar",
+      "offset" : 89,
+      "column" : 11,
+      "line" : 5,
+      "message" : "Local variable foo3 is not used in function bar. Consider removing it.",
+      "variable" : "foo3",
+      "expression" : "foo3"
+    } ]
+  } ],
+  "counts" : {
+    "totalFiles" : 0,
+    "totalLines" : 0,
+    "countByCode" : [ {
+      "code" : "UNUSED_LOCAL_VARIABLE",
+      "count" : 2
+    } ],
+    "countBySeverity" : [ {
+      "severity" : "INFO",
+      "count" : 2
+    } ]
+  }
+}

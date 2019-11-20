@@ -47,12 +47,14 @@ public class VariableNameChecker extends CFLintScannerAdapter {
             final Attribute attribute = element.getAttributes().get(name);
             String varName;
             if (attribute != null) {
-                varName = attribute.getValue();
+                varName = CFScopes.descope(attribute.getValue());
                 offset = attribute.getValueSegment().getBegin();
             } else {
                 varName = "";
             }
-            checkNameForBugs(context, varName, varName, context.getFilename(), context.getFunctionName(), begLine, offset, bugs,null);
+            if(varName.length()>0 && !varName.contains("#")) {
+            	checkNameForBugs(context, varName, varName, context.getFilename(), context.getFunctionName(), begLine, offset, bugs,null);
+            }
         }
     }
 

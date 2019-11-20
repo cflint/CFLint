@@ -1,20 +1,16 @@
 #### Dependencies
-CFLint is built with: 
-* [Apache Maven](http://maven.apache.org/guides/getting-started/maven-in-five-minutes.html).
-           
+CFLint is built with: Gradle
 
 #### Building CFLint
 ```
 git clone https://github.com/cflint/CFLint.git
 cd CFLint
-mvn clean install
+gradlew build
 ```
 
-The build artifacts can be found in *target/appassembler*.  
-
-`mvn clean install -D assembleDirectory=/usr/local` can be used to install the artifacts directly into the PATH of most UNIX-like systems.
+The build artifacts can be found in *build/libs*.  
 	
 #### Building CFParser *(optional)*
-Maven will pull cfparser from maven central repository.  However if you want to build cfparser separately see https://github.com/cfparser/cfparser
+The build will pull cfparser from maven central repository.  However if you want to build cfparser separately see https://github.com/cfparser/cfparser
 
 If you have issues, please let us know.		

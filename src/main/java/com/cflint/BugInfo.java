@@ -181,7 +181,8 @@ public class BugInfo implements Comparable<BugInfo> {
             }
             bugInfo.setOffset(offset);
             bugInfo.setLength(length);
-            bugInfo.setLine(elemLine + Math.max(expression == null ? 0 : expression.getLine() - 1, 0));
+            final int lineOffSet = elem==null?1:0;
+            bugInfo.setLine(elemLine + Math.max(expression == null ? 0 : expression.getLine() - lineOffSet, 0));
             bugInfo.setColumn(elemColumn + Math.max(expression == null ? 0 : expression.getColumn() - 1, 0));
             doMessageText(elem);
             return bugInfo;

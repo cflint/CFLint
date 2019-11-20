@@ -1,0 +1,4 @@
+component {
+  if (!['all'].foo()) {
+  }
+}

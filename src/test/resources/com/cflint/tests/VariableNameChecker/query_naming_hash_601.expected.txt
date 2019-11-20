@@ -1,0 +1,34 @@
+{
+  "version" : "",
+  "timestamp" : 1568173008,
+  "issues" : [ {
+    "severity" : "INFO",
+    "id" : "VAR_HAS_PREFIX_OR_POSTFIX",
+    "message" : "VAR_HAS_PREFIX_OR_POSTFIX",
+    "category" : "CFLINT",
+    "abbrev" : "VH",
+    "locations" : [ {
+      "file" : "src\\test\\resources\\com\\cflint\\tests\\VariableNameChecker\\query_naming_hash_601.cfc",
+      "fileName" : "query_naming_hash_601.cfc",
+      "function" : "",
+      "offset" : 16,
+      "column" : 16,
+      "line" : 1,
+      "message" : "Variable has prefix or postfix q_get_sites and could be named better.",
+      "variable" : "q_get_sites",
+      "expression" : "q_get_sites.site_id"
+    } ]
+  } ],
+  "counts" : {
+    "totalFiles" : 0,
+    "totalLines" : 0,
+    "countByCode" : [ {
+      "code" : "VAR_HAS_PREFIX_OR_POSTFIX",
+      "count" : 1
+    } ],
+    "countBySeverity" : [ {
+      "severity" : "INFO",
+      "count" : 1
+    } ]
+  }
+}

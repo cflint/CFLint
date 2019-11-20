@@ -1,0 +1,34 @@
+{
+  "version" : "",
+  "timestamp" : 1568516046,
+  "issues" : [ {
+    "severity" : "ERROR",
+    "id" : "QUERYNEW_DUPLICATE_COLUMNS",
+    "message" : "QUERYNEW_DUPLICATE_COLUMNS",
+    "category" : "CFLINT",
+    "abbrev" : "QD",
+    "locations" : [ {
+      "file" : "src\\test\\resources\\com\\cflint\\tests\\QueryNewChecker\\querynew_549.cfc",
+      "fileName" : "querynew_549.cfc",
+      "function" : "foo",
+      "offset" : 40,
+      "column" : 13,
+      "line" : 3,
+      "message" : "QueryNew declares column y multiple times, this is a hard error in some CFML implementations.",
+      "variable" : "y",
+      "expression" : "QueryNew('x,y,Y,z')"
+    } ]
+  } ],
+  "counts" : {
+    "totalFiles" : 0,
+    "totalLines" : 0,
+    "countByCode" : [ {
+      "code" : "QUERYNEW_DUPLICATE_COLUMNS",
+      "count" : 1
+    } ],
+    "countBySeverity" : [ {
+      "severity" : "ERROR",
+      "count" : 1
+    } ]
+  }
+}

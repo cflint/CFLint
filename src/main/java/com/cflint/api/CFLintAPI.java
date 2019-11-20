@@ -44,8 +44,9 @@ public class CFLintAPI {
     private List<String> extensions = new ArrayList<>(Arrays.asList("cfc","cfm"));
     
     private boolean strictInclude;
+    private String environmentName;
 
-    final CFLintConfiguration configuration;
+	final CFLintConfiguration configuration;
     final CFLint cflint;
 
     public CFLintAPI(final CFLintConfiguration configuration) throws CFLintConfigurationException {
@@ -99,6 +100,7 @@ public class CFLintAPI {
             cflint.setQuiet(quiet);
             cflint.setDebug(debug);
             cflint.setStrictIncludes(strictInclude);
+            cflint.setEnvironmentName(environmentName);
             cflint.setAllowedExtensions(extensions);
             if(filterFile!=null){
                 cflint.getBugs().setFilter(createFilter());
@@ -259,4 +261,7 @@ public class CFLintAPI {
         this.printStreamErr = printStreamErr;
     }
 
+    public void setEnvironmentName(String environmentName) {
+		this.environmentName = environmentName;
+	}
 }

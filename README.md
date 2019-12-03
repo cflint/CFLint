@@ -232,7 +232,7 @@ The exception is debug mode. In debug mode, CFLint will always ignore user setti
 
 The flag `-html` instructs CFLint to create an HTML document. The full syntax is:
 
-    -html -html <outputFileName>
+    -html -htmlfile <outputFileName>
 
 ### XML
 

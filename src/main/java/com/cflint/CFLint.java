@@ -1322,7 +1322,7 @@ public class CFLint implements IErrorReporter {
         } else if (AVOID_EMPTY_FILES.equals(msgcode)) {
             ruleInfo = new PluginInfoRule();
             final PluginMessage msgInfo = new PluginMessage(AVOID_EMPTY_FILES);
-            msgInfo.setMessageText("CF file is empty: ${file}");
+            msgInfo.setMessageText("CF file is empty: ${filename}");
             msgInfo.setSeverity(Levels.WARNING);
             ruleInfo.getMessages().add(msgInfo);
         } else if (PARSE_ERROR.equals(msgcode)) {

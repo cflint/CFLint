@@ -46,7 +46,7 @@
 	    <repository>
 	      <id>cfmlprojects</id>
 	      <name>cfmlprojects</name>
-	      <url>http://cfmlprojects.org/artifacts</url>
+	      <url>https://cfmlprojects.org/artifacts</url>
 	    </repository>
 	    <repository>
 	      <id>sonatype</id>
@@ -54,11 +54,11 @@
 	      <url>https://oss.sonatype.org/content/repositories/releases</url>
 	    </repository>
     	</repositories>
-  
+
 	<licenses>
 	<license>
             <name>The New BSD License</name>
-            <url>http://www.opensource.org/licenses/bsd-license.html</url>
+            <url>https://opensource.org/licenses/bsd-license.html</url>
             <distribution>repo</distribution>
         </license>
 	</licenses>
@@ -70,7 +70,7 @@
 		<maven.compiler.target>1.8</maven.compiler.target>
 
 		<cfparser.version>2.11.0</cfparser.version>
-		<jackson.version>2.10.1</jackson.version>
+		<jackson.version>2.10.3</jackson.version>
 		<slf4j.version>1.7.21</slf4j.version>
 	</properties>
 
@@ -270,7 +270,7 @@
 	              <failOnNoGitDirectory>false</failOnNoGitDirectory>
                   <failOnUnableToExtractRepoInfo>false</failOnUnableToExtractRepoInfo>
 	          </configuration>
-	      	</plugin>				
+	      	</plugin>
 			<plugin>
 			    <groupId>org.apache.maven.plugins</groupId>
 			    <artifactId>maven-surefire-plugin</artifactId>
@@ -300,7 +300,7 @@
 		<profile>
 			<id>deploy</id>
 			<build>
-				<plugins>			
+				<plugins>
 		    <!-- deployment -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>

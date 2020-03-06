@@ -36,7 +36,7 @@ public class TestAbortChecker {
         final List<BugInfo> result = lintresult.getIssues().values().iterator().next();
         assertEquals(1, result.size());
         assertEquals("AVOID_USING_ABORT", result.get(0).getMessageCode());
-        assertEquals(2, result.get(0).getLine());
+        assertEquals(3, result.get(0).getLine());
     }
 
 }

@@ -62,6 +62,11 @@ public class Settings {
     public static final String FOLDER = "folder";
 
     /**
+     * Folder(s) to scan for files.
+     */
+    public static final String ENVIRONMENT = "environment";
+
+    /**
      * Filter file.
      */
     public static final String FILTER_FILE = "filterFile";

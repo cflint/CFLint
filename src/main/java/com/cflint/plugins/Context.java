@@ -34,8 +34,17 @@ public class Context {
     private ContextType contextType;
     private String functionName;
     private boolean inAssignmentExpression;
+    private boolean inStructKeyExpression;
 
-    private boolean inComponent;
+    public boolean isInStructKeyExpression() {
+		return inStructKeyExpression;
+	}
+
+	public void setInStructKeyExpression(boolean inStructKeyExpression) {
+		this.inStructKeyExpression = inStructKeyExpression;
+	}
+
+	private boolean inComponent;
     private final StackHandler callStack;
     private final CommonTokenStream tokens;
     private final List<ContextMessage> messages = new ArrayList<>();
@@ -182,6 +191,10 @@ public class Context {
             final Integer line, final Integer offset, final CFExpression cfExpression) {
         messages.add(new ContextMessage(messageCode, variable, source, line, offset,cfExpression));
     }
+    public void addMessage(final String messageCode, final String variable, final CFLintScanner source,
+            final Integer line, final Integer offset, final CFExpression cfExpression, final Context originalContext) {
+        messages.add(new ContextMessage(messageCode, variable, source, line, offset,cfExpression,originalContext));
+    }
 
     public void addMessage(final String messageCode, final String variable, final Integer line,
             final Integer offset) {
@@ -195,13 +208,19 @@ public class Context {
         private Integer offset;
         private CFLintScanner source;
         private final CFExpression cfExpression;
+        final Context originalContext;
 
-        public ContextMessage(final String messageCode, final String variable) {
+        public Context getOriginalContext() {
+			return originalContext;
+		}
+
+		public ContextMessage(final String messageCode, final String variable) {
             super();
             this.messageCode = messageCode;
             this.variable = variable;
             this.source = null;
             this.cfExpression = null;
+            this.originalContext=null;
         }
 
         public ContextMessage(final String messageCode, final String variable, CFLintScanner source,
@@ -213,6 +232,18 @@ public class Context {
             this.line = line;
             this.offset = offset;
             this.cfExpression = cfExpression;
+            this.originalContext=null;
+        }
+        public ContextMessage(final String messageCode, final String variable, CFLintScanner source,
+                final Integer line, final Integer offset, final CFExpression cfExpression,final Context originalContext) {
+            super();
+            this.messageCode = messageCode;
+            this.variable = variable;
+            this.source = source;
+            this.line = line;
+            this.offset = offset;
+            this.cfExpression = cfExpression;
+            this.originalContext=originalContext;
         }
         public ContextMessage(final String messageCode, final String variable, CFLintScanner source,
                 final Integer line, final Integer offset) {
@@ -223,6 +254,7 @@ public class Context {
             this.line = line;
             this.offset = offset;
             this.cfExpression = null;
+            this.originalContext=null;
         }
 
         public ContextMessage(final String messageCode, final String variable, final Integer line, final Integer offset) {
@@ -262,6 +294,7 @@ public class Context {
         context2.setInComponent(isInComponent());
         context2.parent = this;
         context2.componentName=componentName;
+        context2.inStructKeyExpression=inStructKeyExpression;
         return context2;
     }
     public Context subContext(final Element elem) {
@@ -270,6 +303,7 @@ public class Context {
         context2.setInComponent(isInComponent());
         context2.parent = this;
         context2.componentName=componentName;
+        context2.inStructKeyExpression=inStructKeyExpression;
         return context2;
     }
     public Context subContextCFML(final Element elem, final CFExpression pseudoCfmlExpression) {
@@ -280,6 +314,7 @@ public class Context {
         context2.setInComponent(isInComponent());
         context2.parent = this;
         context2.componentName=componentName;
+        context2.inStructKeyExpression=inStructKeyExpression;
         return context2;
     }
     

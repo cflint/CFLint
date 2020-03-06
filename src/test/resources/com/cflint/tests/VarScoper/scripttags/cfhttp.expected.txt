@@ -1,6 +1,6 @@
 {
   "version" : "",
-  "timestamp" : 1528665759,
+  "timestamp" : 1568172597,
   "issues" : [ {
     "severity" : "ERROR",
     "id" : "MISSING_VAR",
@@ -16,7 +16,7 @@
       "line" : 10,
       "message" : "Variable httpResponse is not declared with a var statement.",
       "variable" : "httpResponse",
-      "expression" : "cfhttp(url = '#variables.host#', port = '#variables.port#', method = 'GET', timeout = '30', result = 'httpResponse')"
+      "expression" : "cfhttp(url = '#variables.host#', port = '#variables.port#', method = 'GET', timeout = '30', result = 'httpResponse')  {\ncfhttpparam(type = 'url', name = 'call', value = '#arguments.call#');\n\n  }"
     } ]
   } ],
   "counts" : {

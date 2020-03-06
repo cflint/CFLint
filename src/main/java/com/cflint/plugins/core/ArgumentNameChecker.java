@@ -69,11 +69,12 @@ public class ArgumentNameChecker extends CFLintScannerAdapter {
     public void expression(final CFScriptStatement expression, final Context context, final BugList bugs) {
         if (expression instanceof CFFuncDeclStatement) {
             final CFFuncDeclStatement function = (CFFuncDeclStatement) expression;
-            final int lineNo = function.getLine() + context.startLine() - 1;
 
             for (final CFFunctionParameter argument : function.getFormals()) {
-                checkNameForBugs(context, argument.getName(), context.getFilename(), context.getFunctionName(), lineNo, context.offset() + argument.getOffset(),
-                        bugs);
+                final int lineNo = argument.getToken().getLine() + context.startLine() - 1;
+                final int offset = context.offset() + argument.getOffset();
+                checkNameForBugs(context, argument.getName(), context.getFilename(), context.getFunctionName(), lineNo, offset,
+                        bugs,argument);
             }
         }
     }
@@ -89,7 +90,7 @@ public class ArgumentNameChecker extends CFLintScannerAdapter {
             final String name = element.getAttributeValue(CF.NAME);
             if (name != null && name.length() > 0) {
                 offset = element.getAttributes().get(CF.NAME).getValueSegment().getBegin();
-                checkNameForBugs(context, name, context.getFilename(), context.getFunctionName(), lineNo, offset, bugs);
+                checkNameForBugs(context, name, context.getFilename(), context.getFunctionName(), lineNo, offset, bugs,null);
             } else {
                 context.addMessage("ARGUMENT_MISSING_NAME", null, this, lineNo, offset);
             }
@@ -160,7 +161,7 @@ public class ArgumentNameChecker extends CFLintScannerAdapter {
      * - Names having a prefix or postfix
      */
     public void checkNameForBugs(final Context context, final String argument, final String filename,
-            final String functionName, final int line, final int offset, final BugList bugs)  {
+            final String functionName, final int line, final int offset, final BugList bugs,final CFFunctionParameter argExpr)  {
         final ValidName name = new ValidName(minArgLength, maxArgLength, maxArgWords);
 
         try {

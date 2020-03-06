@@ -387,6 +387,8 @@ JetBrains' **TeamCity** has support for FindBugs XML code inspection reports. Th
 
 There is support for **SonarQube** through StepStone's Sonar ColdFusion plugin mentioned further below.
 
+For **Azure DevOps/TFS**, please look at the Azure Pipeline/TFS Build extension mentioned further below.
+
 There's an NPM wrapper for CFLint below. Please be aware that the wrapper seems to come with its own bundled CFLint binary which might not be up-to-date, which is outside of our control.
 
 Other products in the integration/build server category might work, too. If you're using a specific product that works for you with CFLint, please let us know. If you can't get CFLint to work in an environment you use, please let us know as well - we might be able to help.
@@ -561,6 +563,7 @@ Please note that the majority of the libraries and projects mentioned here are n
 * [Atom package](https://github.com/ditinc/linter-cflint)
 * [Visual Studio Code extension](https://github.com/KamasamaK/vscode-cflint)
 * [IntelliJ plugin](https://bitbucket.org/SyncHot/cflint/)
+* [Azure Pipeline/TFS Build extension](https://marketplace.visualstudio.com/items?itemName=JoshKnutsonExtensions.devops-extension-cflint)
 * [SonarQube plugin](https://github.com/stepstone-tech/sonar-coldfusion)
 * [NPM wrapper](https://github.com/morgdenn/npm-cflint)
 * Vim [Syntastic support for CFLint](https://github.com/cflint/cflint-syntastic)

@@ -1,0 +1,11 @@
+{
+  "version" : "",
+  "timestamp" : 1568171026,
+  "issues" : [ ],
+  "counts" : {
+    "totalFiles" : 0,
+    "totalLines" : 0,
+    "countByCode" : [ ],
+    "countBySeverity" : [ ]
+  }
+}

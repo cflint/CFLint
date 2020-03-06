@@ -1,6 +1,6 @@
 {
   "version" : "",
-  "timestamp" : 1527905813,
+  "timestamp" : 0,
   "issues" : [ {
     "severity" : "ERROR",
     "id" : "MISSING_VAR",
@@ -8,7 +8,7 @@
     "category" : "CFLINT",
     "abbrev" : "MV",
     "locations" : [ {
-      "file" : "src\\test\\resources\\com\\cflint\\tests\\VarScoper\\cfqueryparam_569.cfc",
+      "file" : "src/test/resources/com/cflint/tests/VarScoper/cfqueryparam_569.cfc",
       "fileName" : "cfqueryparam_569.cfc",
       "function" : "foo",
       "offset" : 59,
@@ -16,7 +16,24 @@
       "line" : 3,
       "message" : "Variable qry is not declared with a var statement.",
       "variable" : "qry",
-      "expression" : "<cfquery name=\"qry\">\n    or l1.googleID in (<cfqueryparam list=\"true\" value=\"#value=arguments.placeIDs#\">)\n    </cfquery>"
+      "expression" : "<cfquery name=/"qry/">/n    or l1.googleID in (<cfqueryparam list=/"true/" value=/"#value=arguments.placeIDs#/">)/n    </cfquery>"
+    } ]
+  }, {
+    "severity" : "ERROR",
+    "id" : "MISSING_VAR",
+    "message" : "MISSING_VAR",
+    "category" : "CFLINT",
+    "abbrev" : "MV",
+    "locations" : [ {
+      "file" : "src/test/resources/com/cflint/tests/VarScoper/cfqueryparam_569.cfc",
+      "fileName" : "cfqueryparam_569.cfc",
+      "function" : "foo",
+      "offset" : 90,
+      "column" : 26,
+      "line" : 4,
+      "message" : "Variable value is not declared with a var statement.",
+      "variable" : "value",
+      "expression" : "value"
     } ]
   } ],
   "counts" : {
@@ -24,11 +41,11 @@
     "totalLines" : 0,
     "countByCode" : [ {
       "code" : "MISSING_VAR",
-      "count" : 1
+      "count" : 2
     } ],
     "countBySeverity" : [ {
       "severity" : "ERROR",
-      "count" : 1
+      "count" : 2
     } ]
   }
 }

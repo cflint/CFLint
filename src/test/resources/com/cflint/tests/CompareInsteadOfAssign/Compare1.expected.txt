@@ -1,6 +1,6 @@
 {
   "version" : "",
-  "timestamp" : 1526095021,
+  "timestamp" : 0,
   "issues" : [ {
     "severity" : "WARNING",
     "id" : "COMPARE_INSTEAD_OF_ASSIGN",
@@ -8,12 +8,12 @@
     "category" : "CFLINT",
     "abbrev" : "CI",
     "locations" : [ {
-      "file" : "src\\test\\resources\\com\\cflint\\tests\\CompareInsteadOfAssign\\Compare1.cfm",
+      "file" : "src/test/resources/com/cflint/tests/CompareInsteadOfAssign/Compare1.cfm",
       "fileName" : "Compare1.cfm",
       "function" : "",
       "offset" : 99,
       "column" : 5,
-      "line" : 5,
+      "line" : 6,
       "message" : "CWE-482: Comparing instead of Assigning",
       "variable" : "==",
       "expression" : "x.x == 2"
@@ -25,12 +25,12 @@
     "category" : "CFLINT",
     "abbrev" : "CI",
     "locations" : [ {
-      "file" : "src\\test\\resources\\com\\cflint\\tests\\CompareInsteadOfAssign\\Compare1.cfm",
+      "file" : "src/test/resources/com/cflint/tests/CompareInsteadOfAssign/Compare1.cfm",
       "fileName" : "Compare1.cfm",
       "function" : "",
       "offset" : 135,
       "column" : 5,
-      "line" : 9,
+      "line" : 10,
       "message" : "CWE-482: Comparing instead of Assigning",
       "variable" : "EQ",
       "expression" : "x.x EQ 6"

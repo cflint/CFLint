@@ -30,7 +30,7 @@ public class TestArrayNewChecker {
         final List<BugInfo> result = lintresult.getIssues().values().iterator().next();
         assertEquals(1, result.size());
         assertEquals("AVOID_USING_ARRAYNEW", result.get(0).getMessageCode());
-        assertEquals(3, result.get(0).getLine());
+        assertEquals(4, result.get(0).getLine());
         assertEquals(Levels.INFO, result.get(0).getSeverity());
         assertEquals("Use implict array construction instead (= []).", result.get(0).getMessage());
     }

@@ -126,7 +126,8 @@ public class CFLint implements IErrorReporter {
     private CFLintConfiguration configuration;
     private int skipToPosition = 0;
     private String currentFile = null;
-    private Element currentElement = null;
+    private String environmentName="";
+	private Element currentElement = null;
     private boolean strictInclude;
     private Set<List<Object>> processed = new HashSet<>();
 
@@ -208,7 +209,7 @@ public class CFLint implements IErrorReporter {
         final Stack<CFLintConfig> configFiles = new Stack<>();
         fileLoop: while (folder != null && folder.exists()) {
             for (final File file : folder.listFiles()) {
-                if (file.getName().toLowerCase().startsWith(".cflintrc")) {
+                if (file.getName().toLowerCase().equals(".cflintrc" + getEnvSuffix())) {
                     if (verbose) {
                         System.out.println("read config " + file);
                     }
@@ -235,7 +236,11 @@ public class CFLint implements IErrorReporter {
         }
     }
 
-    public void scan(final File folderOrFile) {
+    private String getEnvSuffix() {
+		return environmentName.equals("")?"":"-" + environmentName;
+	}
+
+	public void scan(final File folderOrFile) {
         if (debug) {
             System.out.println("Current file: " + folderOrFile.getAbsolutePath());
         }
@@ -247,14 +252,16 @@ public class CFLint implements IErrorReporter {
             return;
         }
         if (folderOrFile.isDirectory()) {
-            if (verbose && folderOrFile.getName().startsWith(".")){
-                System.out.println("Skipping folder and its children: " + folderOrFile.getAbsolutePath());
+            if (folderOrFile.getName().startsWith(".") && !folderOrFile.getName().equals(".")){
+                if(verbose) {
+                	System.out.println("Skipping folder and its children: " + folderOrFile.getAbsolutePath());
+                }
                 return;
             }
             final CFLintConfiguration saveConfig = configuration;
             try {
                 for (final File file : folderOrFile.listFiles()) {
-                    if (file.getName().toLowerCase().startsWith(".cflintrc")) {
+                    if (file.getName().toLowerCase().equals(".cflintrc" + getEnvSuffix())) {
                         try {
                             if (verbose) {
                                 System.out.println("read config " + file);
@@ -671,6 +678,22 @@ public class CFLint implements IErrorReporter {
                 }
             }
         }
+        //Parse the body
+        if(elem.getName().toLowerCase().equals("cfoutput")) {
+        	final String content = elem.getContent().getTextExtractor().toString();
+        	if(content !=null && content.length()>0 && content.contains("#")) {
+        		final List<String> errors = new ArrayList<>();
+                final ANTLRErrorListener errorReporter = new ArrayErrorListener(errors);
+                try {
+                    final CFExpression exp = cfmlParser.parseCFMLExpression(
+                    content, errorReporter);
+	        		if(errors.isEmpty()) {
+	        		     expressions.put("body", exp);
+	        		}
+                }catch(final Exception e) {}
+        	}
+            
+        }
         return expressions;
     }
 
@@ -817,6 +840,7 @@ public class CFLint implements IErrorReporter {
                 process(((CFForStatement) expression).getCond(), elem, context);
                 process(((CFForStatement) expression).getNext(), elem, context);
                 process(((CFForStatement) expression).getBody(), context);
+                
             } else if (expression instanceof CFWhileStatement) {
                 scanExpression(expression, context, elem);
                 process(((CFWhileStatement) expression).getCond(), elem, context);
@@ -853,7 +877,7 @@ public class CFLint implements IErrorReporter {
                 process(cftry.getBody(), context);
                 for (final CFCatchStatement stmt : cftry.getCatchStatements()) {
                     handler.push(CF.CFCATCH);
-                    if(stmt.getVariable()!=null){
+                    if(stmt.getVariable()!=null && stmt.getVariable().getName()!=null){
                         handler.addVariable(stmt.getVariable().getName());
                     }
                     process(stmt.getCatchBody(), context);
@@ -1102,7 +1126,7 @@ public class CFLint implements IErrorReporter {
             }
             if (expression instanceof CFStructElementExpression) {
                 final Context assignmentContext = context.subContext(elem);
-                //assignmentContext.setInAssignmentExpression(true);
+                assignmentContext.setInStructKeyExpression(true);
                 handler.push(CF.STRUCT);
                 process(((CFStructElementExpression) expression).getKey(), elem, assignmentContext);
                 handler.pop();
@@ -1162,6 +1186,9 @@ public class CFLint implements IErrorReporter {
                     processStack(source.getChildElements(), " ", 
                             context.subContextCFML(source.getChildElements().size()>0?source.getChildElements().get(0):null,expression));
                 } catch (CFLintScanException e) { }
+                if(functionExpr.getBody()!=null) {
+                	process(functionExpr.getBody(),context);
+                }
             } else if (!(expression instanceof CFNewExpression)){
                 // Loop into all relevant nested (child) expressions.
                 //  EXCEPT CFNewExpressions.
@@ -1174,6 +1201,8 @@ public class CFLint implements IErrorReporter {
                 for (final CFExpression child : (List<CFExpression>)newExpr.getArgs()) {
                     if(child instanceof CFAssignmentExpression){
                         process(((CFAssignmentExpression)child).getRight(), elem, context.subContextInAssignment(false));
+                    }else {
+                        process(child, elem, context.subContextInAssignment(false));
                     }
                 }
             }
@@ -1255,6 +1284,11 @@ public class CFLint implements IErrorReporter {
 
     public void reportRule(Element elem, Object currentExpression, final Context context,
             final CFLintScanner pluginParm, final ContextMessage msg) {
+    	//If the message carries a context, use it for generating error info like line number
+    	if(msg.getOriginalContext()!=null && !context.equals(msg.getOriginalContext())) {
+    		reportRule(msg.getOriginalContext().getElement(), currentExpression, msg.getOriginalContext(), pluginParm, msg);
+    		return;
+    	}
         final Context pseudoCfmlParent = context.getParent(ContextType.PSEUDO_CFML);
         if(pseudoCfmlParent!=null && ContextType.PSEUDO_CFML.equals(pseudoCfmlParent.getContextType())){
             elem = pseudoCfmlParent.getElement();
@@ -1290,7 +1324,7 @@ public class CFLint implements IErrorReporter {
         } else if (AVOID_EMPTY_FILES.equals(msgcode)) {
             ruleInfo = new PluginInfoRule();
             final PluginMessage msgInfo = new PluginMessage(AVOID_EMPTY_FILES);
-            msgInfo.setMessageText("CF file is empty: ${file}");
+            msgInfo.setMessageText("CF file is empty: ${filename}");
             msgInfo.setSeverity(Levels.WARNING);
             ruleInfo.getMessages().add(msgInfo);
         } else if (PARSE_ERROR.equals(msgcode)) {
@@ -1624,4 +1658,10 @@ public class CFLint implements IErrorReporter {
     public void setStrictIncludes(final boolean strictInclude) {
         this.strictInclude = strictInclude;
     }
+    
+    public void setEnvironmentName(String environmentName) {
+		this.environmentName = environmentName==null?"":environmentName.trim();
+	}
+
+
 }

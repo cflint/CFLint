@@ -1,7 +1,7 @@
-FROM gradle:4.7.0-jdk8-alpine AS build
+FROM gradle:5.6.2-jdk8 AS build
 COPY --chown=gradle:gradle . /home/gradle/src
 WORKDIR /home/gradle/src
-RUN gradle build -x test --no-daemon 
+RUN gradle build -x test --no-daemon
 
 FROM openjdk:8-jre-slim
 

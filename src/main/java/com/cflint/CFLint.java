@@ -1201,6 +1201,8 @@ public class CFLint implements IErrorReporter {
                 for (final CFExpression child : (List<CFExpression>)newExpr.getArgs()) {
                     if(child instanceof CFAssignmentExpression){
                         process(((CFAssignmentExpression)child).getRight(), elem, context.subContextInAssignment(false));
+                    }else {
+                        process(child, elem, context.subContextInAssignment(false));
                     }
                 }
             }

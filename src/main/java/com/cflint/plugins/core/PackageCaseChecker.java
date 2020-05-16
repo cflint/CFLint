@@ -83,12 +83,12 @@ public class PackageCaseChecker extends CFLintScannerAdapter implements CFLintSe
         componentRegister.get(key).add(new String[]{component_name, component_name.toLowerCase()});
 
         //if an expression already referenced this component, check it here:
-        Boolean matched = false;
+        boolean matched = false;
         if (expressionCheckRegister.containsKey(key)) {
             Map<String, Boolean> lookupCache = new HashMap<String, Boolean>();
             List<PackageCaseCheckerEntry> clonedList = new ArrayList<PackageCaseCheckerEntry>();
             clonedList.addAll(expressionCheckRegister.get(key));
-            Boolean checkComponentRegisterResult = false;
+            boolean checkComponentRegisterResult = false;
             for (final PackageCaseCheckerEntry expressionEntry : clonedList) {
                 String cacheKey = expressionEntry.componentPath + "||" + expressionEntry.componentName;
                 if (!lookupCache.containsKey(cacheKey)) {

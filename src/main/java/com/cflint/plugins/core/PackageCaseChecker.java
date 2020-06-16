@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.HashSet;
 
 import com.cflint.BugList;
 import com.cflint.CFLint;
@@ -20,7 +21,7 @@ import ro.fortsoft.pf4j.Extension;
 @Extension
 public class PackageCaseChecker extends CFLintScannerAdapter implements CFLintSet {
 
-    private final Map<String, List<String>> componentRegister = new HashMap<>();
+    private final Map<String, HashSet<String[]>> componentRegister = new HashMap<>();
     private final Map<String, List<PackageCaseCheckerEntry>> expressionCheckRegister = new HashMap<>();
     private CFLint cflintRef;
 
@@ -43,24 +44,32 @@ public class PackageCaseChecker extends CFLintScannerAdapter implements CFLintSe
     }
 
     private boolean checkComponentRegister(final Context context, final String componentPath, final String componentName) {
-        if (componentRegister.containsKey(componentName.toLowerCase())) {
-            List<String> filePathOfComponents = componentRegister.get(componentName.toLowerCase());
-            for (String filePathOfComponent : filePathOfComponents) {
-                if (filePathOfComponent.toLowerCase().endsWith(componentPath.toLowerCase())) {
-                    if (!filePathOfComponent.endsWith(componentPath)) {
-                        final String expectedPath = filePathOfComponent.substring(filePathOfComponent.length() - componentPath.length());
+        return checkComponentRegister(context, componentPath, componentName, false);
+    }
+
+    private boolean checkComponentRegister(final Context context, final String componentPath, final String componentName, Boolean fromExpressionRegister) {
+        String lowerComponentName = componentName.toLowerCase();
+        String lowerComponentPath = componentPath.toLowerCase();
+        if (componentRegister.containsKey(lowerComponentName)) {
+            HashSet<String[]> filePathOfComponents = componentRegister.get(lowerComponentName);
+            for (String[] filePathOfComponent : filePathOfComponents) {
+                if (filePathOfComponent[1].endsWith(lowerComponentPath)) {
+                    if (!filePathOfComponent[0].endsWith(componentPath)) {
+                        final String expectedPath = filePathOfComponent[0].substring(filePathOfComponent[0].length() - componentPath.length());
                         context.addMessage("PACKAGE_CASE_MISMATCH", expectedPath);
                     }
                     return true;
                 }
             }
         }
-        //otherwise remember the component use for when component is first registered.
-        final String key = componentName.toLowerCase();
-        if (!expressionCheckRegister.containsKey(key)) {
-            expressionCheckRegister.put(key, new ArrayList<PackageCaseCheckerEntry>());
+        if (!fromExpressionRegister) {
+            //otherwise remember the component use for when component is first registered.
+            final String key = lowerComponentName;
+            if (!expressionCheckRegister.containsKey(key)) {
+                expressionCheckRegister.put(key, new ArrayList<PackageCaseCheckerEntry>());
+            }
+            expressionCheckRegister.get(key).add(new PackageCaseCheckerEntry(context, componentPath, componentName));
         }
-        expressionCheckRegister.get(key).add(new PackageCaseCheckerEntry(context, componentPath, componentName));
         return false;
     }
 
@@ -68,22 +77,34 @@ public class PackageCaseChecker extends CFLintScannerAdapter implements CFLintSe
     public void startComponent(final Context context, final BugList bugs) {
         final String key = context.getComponentName().toLowerCase();
         if (!componentRegister.containsKey(key)) {
-            componentRegister.put(key, new ArrayList<String>());
+            componentRegister.put(key, new HashSet<String[]>());
         }
-        componentRegister.get(key).add(normalize(context.getFilename()));
+        String component_name=normalize(context.getFilename());
+        componentRegister.get(key).add(new String[]{component_name, component_name.toLowerCase()});
 
         //if an expression already referenced this component, check it here:
         boolean matched = false;
         if (expressionCheckRegister.containsKey(key)) {
-            List<PackageCaseCheckerEntry> clonedList = new ArrayList<>();
+            Map<String, Boolean> lookupCache = new HashMap<String, Boolean>();
+            List<PackageCaseCheckerEntry> clonedList = new ArrayList<PackageCaseCheckerEntry>();
             clonedList.addAll(expressionCheckRegister.get(key));
+            boolean checkComponentRegisterResult = false;
             for (final PackageCaseCheckerEntry expressionEntry : clonedList) {
-                if (checkComponentRegister(expressionEntry.context, expressionEntry.componentPath, expressionEntry.componentName)) {
+                String cacheKey = expressionEntry.componentPath + "||" + expressionEntry.componentName;
+                if (!lookupCache.containsKey(cacheKey)) {
+                    checkComponentRegisterResult = checkComponentRegister(expressionEntry.context, expressionEntry.componentPath, expressionEntry.componentName, true);
+                    lookupCache.put(cacheKey, checkComponentRegisterResult);
+                } else {
+                    checkComponentRegisterResult = lookupCache.get(cacheKey);
+                }
+
+                if (checkComponentRegisterResult) {
                     matched = true;
                     for (ContextMessage message : expressionEntry.context.getMessages()) {
                         cflintRef.reportRule(expressionEntry.context.getElement(), null, expressionEntry.context, this, message);
                     }
                     expressionEntry.context.getMessages().clear();
+                    break;
                 }
             }
         }

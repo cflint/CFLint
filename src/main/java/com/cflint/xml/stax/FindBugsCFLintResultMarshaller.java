@@ -3,6 +3,9 @@ package com.cflint.xml.stax;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.io.Writer;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
@@ -33,5 +36,9 @@ public class FindBugsCFLintResultMarshaller implements CFLintResultMarshaller {
         } catch (TransformerException e) {
             throw new MarshallerException(e);
         }
+    }
+
+    public static String formatDate(String dateString) {
+        return new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss Z", Locale.ENGLISH).format(new Date(Integer.parseInt(dateString)));
     }
 }

@@ -567,5 +567,6 @@ Please note that the majority of the libraries and projects mentioned here are n
 * [SonarQube plugin](https://github.com/stepstone-tech/sonar-coldfusion)
 * [NPM wrapper](https://github.com/morgdenn/npm-cflint)
 * Vim [Syntastic support for CFLint](https://github.com/cflint/cflint-syntastic)
+* [IntelliJ IDEA Ultimate plugin](https://github.com/Pr1st0n/cflint-intellij)
 
 If you have been working on (or are thinking about starting) a project related to CFLint, please let us know. We're happy to include relevant third-party projects to the list above.

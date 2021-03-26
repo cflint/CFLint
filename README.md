@@ -6,7 +6,7 @@ A static code analysis tool for CFML.
 
 License: [BSD](http://www.opensource.org/licenses/bsd-license.html)
 
-Current Version: 1.4.x
+Current Version: 1.5.x
 
 # Versions
 
@@ -67,19 +67,19 @@ With the binaries retrieved one or the other way, you can now use CFLint on the 
 
 #### Use the "-all"-version of the jar-file
 
-    CFLint-1.4.0-all.jar
+    CFLint-1.5.0-all.jar
 
 #### Scan a folder with the complete set of rules
 
-    java -jar CFLint-1.4.0-all.jar -folder <baseFolder>
+    java -jar CFLint-1.5.0-all.jar -folder <baseFolder>
 
 #### Scan a file with the complete set of rules
 
-    java -jar CFLint-1.4.0-all.jar -file <fullPathToFile>
+    java -jar CFLint-1.5.0-all.jar -file <fullPathToFile>
 
 #### See parameters and help
 
-    java -jar CFLint-1.4.0-all.jar -help
+    java -jar CFLint-1.5.0-all.jar -help
 
 # User manual
 

@@ -138,6 +138,9 @@ public class TestCFBugs_QueryParams {
             "                ON C.aID = A.aID\n" + 
             "                AND C.bar = #magicVal# <!--- \n" + 
             "                		@CFLintIgnore CFQUERYPARAM_REQ --->\n" + 
+            "                <!--- @CFLintIgnore CFQUERYPARAM_REQ --->\n" +
+            "                #delim# C.bar = <cfqueryparam\n " +
+            "                   value='#magicVal#' /> \n" + 
             "            WHERE \n" + 
             "            <!---\n" + 
             "        @CFLintIgnore CFQUERYPARAM_REQ\n" + 

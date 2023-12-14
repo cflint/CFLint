@@ -14,7 +14,7 @@
       "offset" : 0,
       "column" : 1,
       "line" : 1,
-      "message" : "CF file is empty: ${file}",
+      "message" : "CF file is empty: src/test/resources/com/cflint/tests/EmptyFile/fooWS.cfc",
       "variable" : "",
       "expression" : ""
     } ]

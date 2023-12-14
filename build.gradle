@@ -2,10 +2,10 @@ buildscript {
     repositories {
         mavenLocal()
         jcenter {
-            url "http://jcenter.bintray.com/"
+            url "https://jcenter.bintray.com/"
         }
         maven {
-            url "http://oss.sonatype.org/content/repositories/snapshots/"
+            url "https://oss.sonatype.org/content/repositories/snapshots/"
         }
         maven {
             url "https://plugins.gradle.org/m2/"
@@ -68,7 +68,7 @@ repositories {
     maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
     maven { url "https://repo.maven.apache.org/maven2" }
     maven { url "https://oss.sonatype.org/content/repositories/releases" }
-    maven { url "http://cfmlprojects.org/artifacts" }
+    maven { url "https://cfmlprojects.org/artifacts" }
 }
 dependencies {
     compile group: 'com.github.cfparser', name: 'cfml.parsing', version: '2.11.0'
@@ -76,8 +76,8 @@ dependencies {
     compile group: 'ro.fortsoft.pf4j', name: 'pf4j', version: '0.6'
     compile group: 'ant', name: 'ant', version: '1.7.0'
     compile group: 'com.sun.xml.bind', name: 'jaxb-impl', version: '2.1.8'
-    compile group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.10.1'
-    compile group: 'com.fasterxml.jackson.module', name: 'jackson-module-jaxb-annotations', version: '2.10.1'
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.10.3'
+    compile group: 'com.fasterxml.jackson.module', name: 'jackson-module-jaxb-annotations', version: '2.10.3'
     compile(group: 'net.java.dev.stax-utils', name: 'stax-utils', version: '20070216') {
         exclude module: 'jsr173-ri'
         exclude module: 'jsr173'

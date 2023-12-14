@@ -1,0 +1,10 @@
+{
+  "rule" : [ ],
+  "excludes" : [ ],
+  "includes" : [ {
+    "code" : "FUNCTION_NAME_COLLISION",
+    "messageText" : null,
+    "severity" : null
+  } ],
+  "inheritParent" : false
+}

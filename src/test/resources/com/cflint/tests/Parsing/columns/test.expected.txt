@@ -1,6 +1,6 @@
 {
   "version" : "",
-  "timestamp" : 1527817055,
+  "timestamp" : 0,
   "issues" : [ {
     "severity" : "INFO",
     "id" : "ARGUMENT_HAS_PREFIX_OR_POSTFIX",
@@ -8,15 +8,15 @@
     "category" : "CFLINT",
     "abbrev" : "AH",
     "locations" : [ {
-      "file" : "src\\test\\resources\\com\\cflint\\tests\\Parsing\\columns\\test.cfc",
+      "file" : "src/test/resources/com/cflint/tests/Parsing/columns/test.cfc",
       "fileName" : "test.cfc",
       "function" : "formatDate",
-      "offset" : 212,
-      "column" : 11,
-      "line" : 9,
+      "offset" : 195,
+      "column" : 16,
+      "line" : 10,
       "message" : "Argument has prefix or postfix dateObj and could be named better.",
       "variable" : "dateObj",
-      "expression" : "public string function formatDate(dateObj)   {\n    return dateFormat(arguments.dateObj, 'mm/dd/yyyy');\n\n  }"
+      "expression" : "public string function formatDate(required dateObj)   {/n    return dateFormat(arguments.dateObj, 'mm/dd/yyyy');/n/n  }"
     } ]
   }, {
     "severity" : "INFO",
@@ -25,15 +25,15 @@
     "category" : "CFLINT",
     "abbrev" : "AI",
     "locations" : [ {
-      "file" : "src\\test\\resources\\com\\cflint\\tests\\Parsing\\columns\\test.cfc",
+      "file" : "src/test/resources/com/cflint/tests/Parsing/columns/test.cfc",
       "fileName" : "test.cfc",
       "function" : "formatDate",
-      "offset" : 212,
-      "column" : 11,
-      "line" : 9,
+      "offset" : 195,
+      "column" : 16,
+      "line" : 10,
       "message" : "Temporary argument dateObj could be named better.",
       "variable" : "dateObj",
-      "expression" : "public string function formatDate(dateObj)   {\n    return dateFormat(arguments.dateObj, 'mm/dd/yyyy');\n\n  }"
+      "expression" : "public string function formatDate(required dateObj)   {/n    return dateFormat(arguments.dateObj, 'mm/dd/yyyy');/n/n  }"
     } ]
   }, {
     "severity" : "INFO",
@@ -42,15 +42,15 @@
     "category" : "CFLINT",
     "abbrev" : "CI",
     "locations" : [ {
-      "file" : "src\\test\\resources\\com\\cflint\\tests\\Parsing\\columns\\test.cfc",
+      "file" : "src/test/resources/com/cflint/tests/Parsing/columns/test.cfc",
       "fileName" : "test.cfc",
       "function" : "",
-      "offset" : 57,
-      "column" : 38,
+      "offset" : 21,
+      "column" : 17,
       "line" : 1,
       "message" : "Component name test is not a valid name. Please use PascalCase and start with a capital letter.",
       "variable" : "",
-      "expression" : "component {\n  public string function formatDate(dateObj)     {\n      return dateFormat(arguments.dateObj, 'mm/dd/yyyy');\n\n    }\n}"
+      "expression" : "component {/n  public string function formatDate(required dateObj)     {/n      return dateFormat(arguments.dateObj, 'mm/dd/yyyy');/n/n    }/n}"
     } ]
   } ],
   "counts" : {

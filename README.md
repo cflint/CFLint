@@ -6,7 +6,7 @@ A static code analysis tool for CFML.
 
 License: [BSD](http://www.opensource.org/licenses/bsd-license.html)
 
-Current Version: 1.4.x
+Current Version: 1.5.x
 
 # Versions
 
@@ -67,19 +67,19 @@ With the binaries retrieved one or the other way, you can now use CFLint on the 
 
 #### Use the "-all"-version of the jar-file
 
-    CFLint-1.4.0-all.jar
+    CFLint-1.5.0-all.jar
 
 #### Scan a folder with the complete set of rules
 
-    java -jar CFLint-1.4.0-all.jar -folder <baseFolder>
+    java -jar CFLint-1.5.0-all.jar -folder <baseFolder>
 
 #### Scan a file with the complete set of rules
 
-    java -jar CFLint-1.4.0-all.jar -file <fullPathToFile>
+    java -jar CFLint-1.5.0-all.jar -file <fullPathToFile>
 
 #### See parameters and help
 
-    java -jar CFLint-1.4.0-all.jar -help
+    java -jar CFLint-1.5.0-all.jar -help
 
 # User manual
 
@@ -387,6 +387,8 @@ JetBrains' **TeamCity** has support for FindBugs XML code inspection reports. Th
 
 There is support for **SonarQube** through StepStone's Sonar ColdFusion plugin mentioned further below.
 
+For **Azure DevOps/TFS**, please look at the Azure Pipeline/TFS Build extension mentioned further below.
+
 There's an NPM wrapper for CFLint below. Please be aware that the wrapper seems to come with its own bundled CFLint binary which might not be up-to-date, which is outside of our control.
 
 Other products in the integration/build server category might work, too. If you're using a specific product that works for you with CFLint, please let us know. If you can't get CFLint to work in an environment you use, please let us know as well - we might be able to help.
@@ -561,8 +563,10 @@ Please note that the majority of the libraries and projects mentioned here are n
 * [Atom package](https://github.com/ditinc/linter-cflint)
 * [Visual Studio Code extension](https://github.com/KamasamaK/vscode-cflint)
 * [IntelliJ plugin](https://bitbucket.org/SyncHot/cflint/)
+* [Azure Pipeline/TFS Build extension](https://marketplace.visualstudio.com/items?itemName=JoshKnutsonExtensions.devops-extension-cflint)
 * [SonarQube plugin](https://github.com/stepstone-tech/sonar-coldfusion)
 * [NPM wrapper](https://github.com/morgdenn/npm-cflint)
 * Vim [Syntastic support for CFLint](https://github.com/cflint/cflint-syntastic)
+* [IntelliJ IDEA Ultimate plugin](https://github.com/Pr1st0n/cflint-intellij)
 
 If you have been working on (or are thinking about starting) a project related to CFLint, please let us know. We're happy to include relevant third-party projects to the list above.

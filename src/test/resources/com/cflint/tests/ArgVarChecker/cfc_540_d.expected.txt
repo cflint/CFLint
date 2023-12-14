@@ -1,0 +1,34 @@
+{
+  "version" : "",
+  "timestamp" : 0,
+  "issues" : [ {
+    "severity" : "ERROR",
+    "id" : "ARG_VAR_CONFLICT",
+    "message" : "ARG_VAR_CONFLICT",
+    "category" : "CFLINT",
+    "abbrev" : "AV",
+    "locations" : [ {
+      "file" : "src/test/resources/com/cflint/tests/ArgVarChecker/cfc_540_d.cfc",
+      "fileName" : "cfc_540_d.cfc",
+      "function" : "sayHello",
+      "offset" : 151,
+      "column" : 3,
+      "line" : 8,
+      "message" : "Variable name should not be declared in both local and argument scopes.",
+      "variable" : "name",
+      "expression" : "name"
+    } ]
+  } ],
+  "counts" : {
+    "totalFiles" : 0,
+    "totalLines" : 0,
+    "countByCode" : [ {
+      "code" : "ARG_VAR_CONFLICT",
+      "count" : 1
+    } ],
+    "countBySeverity" : [ {
+      "severity" : "ERROR",
+      "count" : 1
+    } ]
+  }
+}

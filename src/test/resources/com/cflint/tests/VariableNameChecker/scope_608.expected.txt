@@ -1,0 +1,34 @@
+{
+  "version" : "",
+  "timestamp" : 1568518188,
+  "issues" : [ {
+    "severity" : "INFO",
+    "id" : "VAR_TOO_LONG",
+    "message" : "VAR_TOO_LONG",
+    "category" : "CFLINT",
+    "abbrev" : "VT",
+    "locations" : [ {
+      "file" : "src\\test\\resources\\com\\cflint\\tests\\VariableNameChecker\\scope_608.cfc",
+      "fileName" : "scope_608.cfc",
+      "function" : "tag",
+      "offset" : 153,
+      "column" : 15,
+      "line" : 7,
+      "message" : "Variable getTransactionsTransactions should be shorter than 20 characters.",
+      "variable" : "getTransactionsTransactions",
+      "expression" : "<cffunction name=\"tag\">\n<cfquery name=\"variables.getTransactions\" datasource=\"dsn\">\n\tSELECT\t*\n\tFROM\tTransactions\n</cfquery>\n<cfquery name=\"variables.getTransactionsTransactions\" datasource=\"dsn\">\n\tSEL"
+    } ]
+  } ],
+  "counts" : {
+    "totalFiles" : 0,
+    "totalLines" : 0,
+    "countByCode" : [ {
+      "code" : "VAR_TOO_LONG",
+      "count" : 1
+    } ],
+    "countBySeverity" : [ {
+      "severity" : "INFO",
+      "count" : 1
+    } ]
+  }
+}

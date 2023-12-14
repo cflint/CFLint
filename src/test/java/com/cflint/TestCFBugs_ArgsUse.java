@@ -47,12 +47,12 @@ public class TestCFBugs_ArgsUse {
     }
 
     @Test
-    public void testVarAndArgs_OK() throws CFLintScanException {
+    public void testVarAndArgs_No_OK() throws CFLintScanException {
         final String cfcSrc = "<cfcomponent>\r\n" + "<cffunction name=\"test\">\r\n"
                 + "	<cfargument name=\"xyz\" default=\"\">\r\n" + "	<cfset xyz=123/>\r\n" + "</cffunction>\r\n"
                 + "</cfcomponent>";
         CFLintResult lintresult = cfBugs.scan(cfcSrc, "test");
-        assertEquals(0, lintresult.getIssues().size());
+        assertEquals(1, lintresult.getIssues().size());
     }
 
     @Test
@@ -66,14 +66,6 @@ public class TestCFBugs_ArgsUse {
     }
 
     @Test
-    public void testVarAndArgs_Cfscript_OK() throws CFLintScanException {
-        final String cfcSrc = "component { \r\n" + "public void function foo(any arg1=\"\") { \r\n" + "arg1=123; \r\n"
-                + "} \r\n" + "}";
-        CFLintResult lintresult = cfBugs.scan(cfcSrc, "test");
-        assertEquals(0, lintresult.getIssues().size());
-    }
-
-    @Test
     public void testVarAndArgs_MixedUse() throws CFLintScanException {
         final String cfcSrc = "<cfcomponent>\r\n" + "<cffunction name=\"test\">\r\n"
                 + "	<cfargument name=\"xyz\" default=\"\">\r\n" + "	<cfset xyz=123/>\r\n"
@@ -81,8 +73,8 @@ public class TestCFBugs_ArgsUse {
         CFLintResult lintresult = cfBugs.scan(cfcSrc, "test");
         List<BugInfo> result = lintresult.getIssues().values().iterator().next();
         assertEquals(1, result.size());
-        assertEquals("ARG_VAR_MIXED", result.get(0).getMessageCode());
-        assertEquals(5, result.get(0).getLine());
+        assertEquals("ARG_VAR_CONFLICT", result.get(0).getMessageCode());
+        assertEquals(4, result.get(0).getLine());
     }
 
     @Test
@@ -94,7 +86,7 @@ public class TestCFBugs_ArgsUse {
         CFLintResult lintresult = cfBugs.scan(cfcSrc, "test");
         List<BugInfo> result = lintresult.getIssues().values().iterator().next();
         assertEquals(1, result.size());
-        assertEquals("ARG_VAR_MIXED", result.get(0).getMessageCode());
-        assertEquals(5, result.get(0).getLine());
+        assertEquals("ARG_VAR_CONFLICT", result.get(0).getMessageCode());
+        assertEquals(4, result.get(0).getLine());
     }
 }

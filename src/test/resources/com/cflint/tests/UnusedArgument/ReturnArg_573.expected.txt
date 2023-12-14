@@ -1,0 +1,34 @@
+{
+  "version" : "",
+  "timestamp" : 0,
+  "issues" : [ {
+    "severity" : "INFO",
+    "id" : "UNUSED_METHOD_ARGUMENT",
+    "message" : "UNUSED_METHOD_ARGUMENT",
+    "category" : "CFLINT",
+    "abbrev" : "UM",
+    "locations" : [ {
+      "file" : "src/test/resources/com/cflint/tests/UnusedArgument/ReturnArg_573.cfc",
+      "fileName" : "ReturnArg_573.cfc",
+      "function" : "myFunction",
+      "offset" : 49,
+      "column" : 38,
+      "line" : 2,
+      "message" : "Argument bar is not used in function. Consider removing it.",
+      "variable" : "bar",
+      "expression" : ""
+    } ]
+  } ],
+  "counts" : {
+    "totalFiles" : 0,
+    "totalLines" : 0,
+    "countByCode" : [ {
+      "code" : "UNUSED_METHOD_ARGUMENT",
+      "count" : 1
+    } ],
+    "countBySeverity" : [ {
+      "severity" : "INFO",
+      "count" : 1
+    } ]
+  }
+}

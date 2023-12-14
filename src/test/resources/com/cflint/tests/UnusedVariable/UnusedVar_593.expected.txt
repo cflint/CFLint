@@ -1,0 +1,34 @@
+{
+  "version" : "",
+  "timestamp" : 1574137903,
+  "issues" : [ {
+    "severity" : "INFO",
+    "id" : "UNUSED_LOCAL_VARIABLE",
+    "message" : "UNUSED_LOCAL_VARIABLE",
+    "category" : "CFLINT",
+    "abbrev" : "UL",
+    "locations" : [ {
+      "file" : "src\\test\\resources\\com\\cflint\\tests\\UnusedVariable\\UnusedVar_593.cfc",
+      "fileName" : "UnusedVar_593.cfc",
+      "function" : "foo",
+      "offset" : 6,
+      "column" : 7,
+      "line" : 1,
+      "message" : "Local variable httpResponse is not used in function foo. Consider removing it.",
+      "variable" : "httpResponse",
+      "expression" : "httpResponse"
+    } ]
+  } ],
+  "counts" : {
+    "totalFiles" : 0,
+    "totalLines" : 0,
+    "countByCode" : [ {
+      "code" : "UNUSED_LOCAL_VARIABLE",
+      "count" : 1
+    } ],
+    "countBySeverity" : [ {
+      "severity" : "INFO",
+      "count" : 1
+    } ]
+  }
+}

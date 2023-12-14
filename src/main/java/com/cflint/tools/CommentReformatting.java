@@ -20,8 +20,23 @@ public class CommentReformatting {
             int nextpos = sb.indexOf(COMMENT_TEXT, pos + 1);
             if ((endpos > 0 && endpos < nextpos) || nextpos < 0) {
                 if (!stack.isEmpty()) {
-                    sb.replace(endpos, endpos + 4, "-->");
-                    sb.replace(pos, pos + 5, "<!--");
+                    int en_start = endpos;
+                    int en_end = endpos + 4;
+                    while (sb.charAt(en_start-1)=='-'){
+                        en_start--;
+                    }
+                    int st_start = pos;
+                    int st_end = pos + 3;
+                    while (sb.charAt(st_end+1)=='-'){
+                        st_end++;
+                    }
+                    st_end++;
+                    if(en_start<=st_end){
+                        sb.replace(st_start, en_end, "<!--a-->");
+                    }else {
+                        sb.replace(en_start, en_end, "-->");
+                        sb.replace(st_start, st_end, "<!--");
+                    }
                     pos = stack.pop();
                     continue;
                 }

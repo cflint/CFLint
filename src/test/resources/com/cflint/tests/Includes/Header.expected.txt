@@ -2,7 +2,7 @@
   "version" : "",
   "timestamp" : 1526095026,
   "issues" : [ {
-    "severity" : "WARNING",
+    "severity" : "INFO",
     "id" : "GLOBAL_LITERAL_VALUE_USED_TOO_OFTEN",
     "message" : "GLOBAL_LITERAL_VALUE_USED_TOO_OFTEN",
     "category" : "CFLINT",
@@ -19,7 +19,7 @@
       "expression" : "'companyName'"
     } ]
   }, {
-    "severity" : "WARNING",
+    "severity" : "INFO",
     "id" : "GLOBAL_LITERAL_VALUE_USED_TOO_OFTEN",
     "message" : "GLOBAL_LITERAL_VALUE_USED_TOO_OFTEN",
     "category" : "CFLINT",
@@ -36,7 +36,7 @@
       "expression" : "'companyName'"
     } ]
   }, {
-    "severity" : "WARNING",
+    "severity" : "INFO",
     "id" : "GLOBAL_LITERAL_VALUE_USED_TOO_OFTEN",
     "message" : "GLOBAL_LITERAL_VALUE_USED_TOO_OFTEN",
     "category" : "CFLINT",
@@ -61,7 +61,7 @@
       "count" : 3
     } ],
     "countBySeverity" : [ {
-      "severity" : "WARNING",
+      "severity" : "INFO",
       "count" : 3
     } ]
   }

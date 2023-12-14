@@ -10,24 +10,24 @@ import com.cflint.CF;
 public class CFScopes {
 
     private static final Collection<String> scopes = Arrays.asList(CF.URL, CF.FORM, CF.COOKIE, CF.CGI, CF.SERVER, CF.APPLICATION,
-        CF.SESSION, CF.CLIENT, CF.REQUEST, CF.ARGUMENTS, CF.VARIABLES, CF.THIS, CF.LOCAL, CF.CFCATCH);
+        CF.SESSION, CF.CLIENT, CF.REQUEST, CF.ARGUMENTS, CF.VARIABLES, CF.THIS, CF.LOCAL, CF.CFCATCH, CF.CFTHREAD);
 
-    protected String[] parts(final String variable) {
+    protected static String[] parts(final String variable) {
         return variable.toLowerCase().split("\\.|\\[|\\]");
     }
-    protected String[] partsCase(final String variable) {
+    protected static String[] partsCase(final String variable) {
         return variable.split("\\.|\\[|\\]");
     }
 
-    public boolean isCFScoped(final String variable) {
+    public static boolean isCFScoped(final String variable) {
         final String[] parts = parts(variable);
         return scopes.contains(parts[0].toLowerCase());
     }
-    public String descope(final String variable) {
+    public static String descope(final String variable) {
         final String[] parts = partsCase(variable);
         return parts[parts.length-1];
     }
-    public String getScope(final String variable) {
+    public static String getScope(final String variable) {
         final String[] parts = parts(variable);
         if(scopes.contains(parts[0].toLowerCase())){
             return parts[0].toLowerCase();
@@ -43,11 +43,14 @@ public class CFScopes {
     }
 
 
-    public boolean isScoped(final String variable, final String scope) {
+    public static boolean isScope(final String scope) {
+        return scope !=null && scopes.contains(scope.toLowerCase());
+    }
+    public static boolean isScoped(final String variable, final String scope) {
         final String[] parts = parts(variable);
         return parts[0].equalsIgnoreCase(scope);
     }
-    public boolean isScoped(final CFFullVarExpression variable) {
+    public static boolean isScoped(final CFFullVarExpression variable) {
         CFExpression part1 = variable.decomposeExpression().get(0);
         return scopes.contains(part1.Decompile(0).toLowerCase());
     }

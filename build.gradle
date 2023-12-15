@@ -10,17 +10,20 @@ buildscript {
         maven {
             url "https://plugins.gradle.org/m2/"
         }
+        maven { 
+            url "https://cfmlprojects.org/artifacts" 
+        }
     }
     dependencies {
         classpath 'com.bmuschko:gradle-nexus-plugin:2.3.1'
-        classpath "io.codearte.gradle.nexus:gradle-nexus-staging-plugin:0.21.1"
+        classpath "io.codearte.gradle.nexus:gradle-nexus-staging-plugin:0.22.0"
         classpath "gradle.plugin.se.bjurr.gitchangelog:git-changelog-gradle-plugin:1.64"
     }
 }
 
 plugins {
     id 'java'
-    id 'com.github.johnrengelman.shadow' version '5.1.0'
+    id 'com.github.johnrengelman.shadow' version '7.1.1'
     id 'eclipse'
 }
 
@@ -53,16 +56,16 @@ def getLatestTag = { ->
 
 apply plugin: "base"
 apply plugin: "signing"
-apply plugin: "com.bmuschko.nexus"
+//apply plugin: "com.bmuschko.nexus"
 
 apply plugin: 'java'
-apply plugin: 'maven'
+apply plugin: 'maven-publish'
 apply from: 'cobertura.gradle'
-apply from: 'deploy.gradle'
+//apply from: 'deploy.gradle'
 apply plugin: "se.bjurr.gitchangelog.git-changelog-gradle-plugin"
 
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
+sourceCompatibility = 1.11
+targetCompatibility = 1.11
 
 repositories {
     maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
@@ -71,21 +74,23 @@ repositories {
     maven { url "https://cfmlprojects.org/artifacts" }
 }
 dependencies {
-    compile group: 'com.github.cfparser', name: 'cfml.parsing', version: '2.11.0'
-    compile group: 'commons-cli', name: 'commons-cli', version: '1.2'
-    compile group: 'ro.fortsoft.pf4j', name: 'pf4j', version: '0.6'
-    compile group: 'ant', name: 'ant', version: '1.7.0'
-    compile group: 'com.sun.xml.bind', name: 'jaxb-impl', version: '2.1.8'
-    compile group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.10.3'
-    compile group: 'com.fasterxml.jackson.module', name: 'jackson-module-jaxb-annotations', version: '2.10.3'
-    compile(group: 'net.java.dev.stax-utils', name: 'stax-utils', version: '20070216') {
+    implementation group: 'com.github.cfparser', name: 'cfml.parsing', version: '2.11.0'
+    implementation group: 'commons-cli', name: 'commons-cli', version: '1.2'
+    implementation group: 'ro.fortsoft.pf4j', name: 'pf4j', version: '0.6'
+    implementation group: 'ant', name: 'ant', version: '1.7.0'
+    implementation 'jakarta.xml.bind:jakarta.xml.bind-api:2.3.3'
+    implementation group: 'com.sun.xml.bind', name: 'jaxb-impl', version: '2.1.8'
+    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.10.3'
+    implementation group: 'com.fasterxml.jackson.module', name: 'jackson-module-jaxb-annotations', version: '2.10.3'
+    implementation(group: 'net.java.dev.stax-utils', name: 'stax-utils', version: '20070216') {
         exclude module: 'jsr173-ri'
         exclude module: 'jsr173'
     }
     // https://mvnrepository.com/artifact/commons-io/commons-io
-    compile group: 'commons-io', name: 'commons-io', version: '2.5'
-
-    testCompile group: 'junit', name: 'junit', version: '4.12'
+    implementation group: 'commons-io', name: 'commons-io', version: '2.5'
+    runtimeOnly 'com.sun.xml.bind:jaxb-impl:2.3.3'
+    runtimeOnly 'com.sun.xml.bind:jaxb-core:2.3.0.1'
+    testImplementation group: 'junit', name: 'junit', version: '4.12'
 }
 
 test {
@@ -114,14 +119,15 @@ jar {
 task fatJar(type: Jar) {
 
     manifest.from jar.manifest
-    classifier = 'all'
+    archiveClassifier.set('all')
     from {
-        configurations.runtime.collect { it.isDirectory() ? it : zipTree(it) }
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
     } {
         exclude "META-INF/*.SF"
         exclude "META-INF/*.DSA"
         exclude "META-INF/*.RSA"
     }
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     with jar
 }
 

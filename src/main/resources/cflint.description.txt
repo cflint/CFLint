@@ -32,6 +32,8 @@ FUNCTION_TOO_COMPLEX:Function is too complex.
 AVOID_USING_WRITEDUMP:Avoid use of writedump statements.
 AVOID_USING_STRUCTNEW:Avoid use of structnew statements. Use {} instead.
 AVOID_USING_ISDEBUGMODE:Avoid use of isdebugmode statements.
+AVOID_USING_ISDEFINED:Avoid use of isdefined statements.
+AVOID_USING_EVALUATE:Avoid use of evaluate statements.
 AVOID_USING_ARRAYNEW:Avoid use of arraynew statements. Use [] instead.
 COMPLEX_BOOLEAN_CHECK:Complex boolean expression.
 EXPLICIT_BOOLEAN_CHECK:Checking boolean expression explicitly.

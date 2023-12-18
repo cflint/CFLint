@@ -168,6 +168,16 @@ List of built-in rules and rule groups
         * functionName = *IsDebugMode*
     * AVOID_USING_ISDEBUGMODE - Avoid use of isdebugmode statements.  *WARNING*
         * Avoid using the IsDebugMode function in production code.
+* IsDefinedChecker
+    * Parameters
+        * functionName = *isDefined*
+    * AVOID_USING_ISDEFINED - Avoid use of isdefined statements.  *WARNING*
+        * Avoid using the isDefined function in production code.
+* EvaluateChecker
+    * Parameters
+        * functionName = *evaluate*
+    * AVOID_USING_EVALUATE - Avoid use of evaluate statements.  *WARNING*
+        * Avoid using the evaluate function in production code.
 * ArrayNewChecker
     * AVOID_USING_ARRAYNEW - Avoid use of arraynew statements. Use [] instead.  *INFO*
         * Use implict array construction instead (= []).

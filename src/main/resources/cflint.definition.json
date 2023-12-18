@@ -487,6 +487,40 @@
             ]
         },
         {
+            "name": "EvaluateChecker",
+            "className": "FunctionXChecker",
+            "message": [
+                {
+                    "code": "AVOID_USING_EVALUATE",
+                    "messageText": "Avoid using the ${functionName} function in production code.",
+                    "severity": "INFO"
+                }
+            ],
+            "parameter": [
+                {
+                    "name": "functionName",
+                    "value": "evaluate"
+                }
+            ]
+        },
+        {
+            "name": "IsDefinedChecker",
+            "className": "FunctionXChecker",
+            "message": [
+                {
+                    "code": "AVOID_USING_ISDEFINED",
+                    "messageText": "Avoid using the ${functionName} function in production code.",
+                    "severity": "INFO"
+                }
+            ],
+            "parameter": [
+                {
+                    "name": "functionName",
+                    "value": "IsDefined"
+                }
+            ]
+        },
+        {
             "name": "FunctionCollisionChecker",
             "className": "FunctionCollisionChecker",
             "message": [

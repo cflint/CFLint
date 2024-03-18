@@ -2,10 +2,10 @@ buildscript {
     repositories {
         mavenLocal()
         jcenter {
-            url "http://jcenter.bintray.com/"
+            url "https://jcenter.bintray.com/"
         }
         maven {
-            url "http://oss.sonatype.org/content/repositories/snapshots/"
+            url "https://oss.sonatype.org/content/repositories/snapshots/"
         }
         maven {
             url "https://plugins.gradle.org/m2/"
@@ -66,9 +66,9 @@ targetCompatibility = 1.8
 
 repositories {
     maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
-    maven { url "http://repo.maven.apache.org/maven2" }
+    maven { url "https://repo.maven.apache.org/maven2" }
     maven { url "https://oss.sonatype.org/content/repositories/releases" }
-    maven { url "http://cfmlprojects.org/artifacts" }
+    maven { url "https://cfmlprojects.org/artifacts" }
 }
 dependencies {
     compile group: 'com.github.cfparser', name: 'cfml.parsing', version: '2.11.0'

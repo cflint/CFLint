@@ -6,7 +6,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.cflint.config.CFLintConfiguration;
 import com.cflint.config.CFLintPluginInfo;
 import com.cflint.config.ConfigUtils;
 import com.cflint.config.CFLintPluginInfo.PluginInfoRule;
@@ -37,50 +36,56 @@ public class CFLintDoc {
             }
         }
     }
-    
+
     public static void generateRuleMarkDown(final CFLintPluginInfo pluginInfo, final PrintWriter print){
         final Map<String, String> descriptions = ConfigUtils.loadDescriptions();
-        final List<String> diminishParms = Arrays.asList("UnusedLocalVarChecker","CFXTagChecker","FunctionXChecker");
-        print.println("List of built-in rules and rule groups");
-                print.println("======================================");
-        print.println("## Rule Parameters ");
-        for(PluginInfoRule ruleInfo: pluginInfo.getRules()){
-            //Do not highlight specific parameters.
-            if(!diminishParms.contains(ruleInfo.getClassName())){
-                for(PluginParameter p: ruleInfo.getParameters()){
-                    print.println("<br>" + ruleInfo.getName()+"." + p.getName() + " = *" + p.getValue() + "*");
+        final List<String> diminishParams = Arrays.asList("UnusedLocalVarChecker","CFXTagChecker","FunctionXChecker");
+        print.println("# Built-in Rules");
+        print.println("");
+        print.println("## Rule List");
+
+        for (PluginInfoRule ruleInfo: pluginInfo.getRules()) {
+            print.println("");
+            print.println("### " + ruleInfo.getName());
+
+            for (PluginMessage msg: ruleInfo.getMessages()) {
+                final String desc = descriptions.get(msg.getCode()) != null ?
+                        descriptions.get(msg.getCode()).replace(">", "&gt;").replace("<", "&lt;") : "";
+                print.println("");
+                print.println("#### "+ msg.getCode());
+                if (desc.length() > 0) {
+                    print.println("");
+                    print.println(desc);
+                }
+                if (msg.getSeverity().toString().length() > 0) {
+                    print.println("");
+                    print.println("**Severity**: " + msg.getSeverity());
+                }
+                final String messageText = cleanUpMessage(msg,ruleInfo);
+                if (messageText.length() > 0) {
+                    print.println("");
+                    print.println("**Message**: " + messageText);
+                }
+            }
+
+            if (!ruleInfo.getParameters().isEmpty() && !diminishParams.contains(ruleInfo.getClassName())) {
+                print.println("");
+                print.println("#### " + ruleInfo.getName() + " Parameters");
+                for (PluginParameter p: ruleInfo.getParameters()) {
+                    print.println("");
+                    print.println("* " + p.getName() + " = *" + p.getValue() + "*");
                 }
             }
         }
-        print.println("## Built-in rules");
-        
-        for(PluginInfoRule ruleInfo: pluginInfo.getRules()){
-            print.println("* "+ ruleInfo.getName());
-            final String className = ruleInfo.getClassName()==null?ruleInfo.getName():ruleInfo.getClassName();
-            final String fullClassName = className.contains(".")?className:
-                "com.cflint.plugins.core." + className;
-            //print.println("**Class:** "+fullClassName);
-            if(!ruleInfo.getParameters().isEmpty()){
-                print.println("    * Parameters");
-                for(PluginParameter p: ruleInfo.getParameters()){
-                    print.println("        * " + p.getName() + " = *" + p.getValue() + "*");
-                }
-            }
-            int counter = 1;
-            for(PluginMessage msg: ruleInfo.getMessages()){
-                final String desc = descriptions.get(msg.getCode())!=null?
-                        descriptions.get(msg.getCode()).replace(">", "&gt;").replace("<", "&lt;"):"";
-                print.println("    * "+ msg.getCode() + " - " + desc+ "  *" + msg.getSeverity() + "*");
-                print.println("        * "+ cleanUpMessage(msg,ruleInfo) );
-            }
-        }
-        
+
+        print.println("");
         print.println("## Rule Groups");
-        
         for (final RuleGroup ruleGroup : pluginInfo.getRuleGroups()) {
+            print.println("");
             print.println("### " + ruleGroup.getName());
             for (final PluginMessage msg : ruleGroup.getMessages()) {
-                print.println(" * " + msg.getCode() + "   *" + msg.getSeverity() + "*");
+                print.println("");
+                print.println("* [" + msg.getCode() + "](#" + msg.getCode().toLowerCase() + ")");
             }
         }
     }

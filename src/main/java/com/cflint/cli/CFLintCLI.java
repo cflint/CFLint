@@ -226,9 +226,9 @@ public class CFLintCLI {
         final CFLintPluginInfo pluginInfo = ConfigUtils.loadDefaultPluginInfo();
         final ConfigBuilder configBuilder = new ConfigBuilder(pluginInfo);
         if (cmd.hasOption(Settings.MARKDOWN)){
-            final FileWriter out = new FileWriter("RULES.MD");
+            final FileWriter out = new FileWriter("RULES.md");
             CFLintDoc.generateRuleMarkDown(pluginInfo, new PrintWriter(out));
-            System.out.println("Rules written to RULES.MD");
+            System.out.println("Rules written to RULES.md");
             out.close();
             return;
         }

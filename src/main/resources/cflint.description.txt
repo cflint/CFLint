@@ -3,11 +3,11 @@ ARG_VAR_CONFLICT:Variable declared in both local and argument scopes.
 ARG_VAR_MIXED:Variable referenced in local and argument scopes.
 NO_DEFAULT_INSIDE_SWITCH:Missing default switch statement.
 GLOBAL_VAR:Global variable exists.
-NESTED_CFOUTPUT:Nexted cfoutput with cfquery tag.
+NESTED_CFOUTPUT:Nested cfoutput with cfquery tag.
 OUTPUT_ATTR:Tag should have output='false'.
 QUERYPARAM_REQ:Use query parameters for variables in sql statements.
 CFQUERYPARAM_REQ:cfquery should use <cfqueryparam>.
-QUERYNEW_DATATYPE:QueryNew statement should specify datatypes.
+QUERYNEW_DATATYPE:QueryNew statement should specify data types.
 MISSING_VAR:Variable is not declared with a var statement.
 AVOID_USING_CFDUMP_TAG:Avoid use of cfdump tags.
 AVOID_USING_CFEXECUTE_TAG:Avoid use of cfexecute tags.
@@ -29,46 +29,46 @@ FUNCTION_TYPE_ANY:Function has a return type of any.
 EXCESSIVE_ARGUMENTS:Function has too many arguments.
 EXCESSIVE_FUNCTIONS:Too many functions.
 FUNCTION_TOO_COMPLEX:Function is too complex.
-AVOID_USING_WRITEDUMP:Avoid use of writedump statements.
-AVOID_USING_STRUCTNEW:Avoid use of structnew statements. Use {} instead.
-AVOID_USING_ISDEBUGMODE:Avoid use of isdebugmode statements.
-AVOID_USING_ARRAYNEW:Avoid use of arraynew statements. Use [] instead.
+AVOID_USING_WRITEDUMP:Avoid use of writeDump statements.
+AVOID_USING_STRUCTNEW:Avoid use of structNew statements. Use {} instead.
+AVOID_USING_ISDEBUGMODE:Avoid use of isDebugMode statements.
+AVOID_USING_ARRAYNEW:Avoid use of arrayNew statements. Use [] instead.
 COMPLEX_BOOLEAN_CHECK:Complex boolean expression.
 EXPLICIT_BOOLEAN_CHECK:Checking boolean expression explicitly.
 VAR_INVALID_NAME:Variable has invalid name.
-VAR_ALLCAPS_NAME:Variable name is allcaps.
-SCOPE_ALLCAPS_NAME:Variable scope name is allcaps.
+VAR_ALLCAPS_NAME:Variable name is all caps.
+SCOPE_ALLCAPS_NAME:Variable scope name is all caps.
 VAR_TOO_SHORT:Variable name is too short.
 VAR_TOO_LONG:Variable name is too long.
 VAR_TOO_WORDY:Variable name contain too many words.
 VAR_IS_TEMPORARY:Variable name looks temporary.
 VAR_HAS_PREFIX_OR_POSTFIX:Variable name has prefix or postfix.
 ARGUMENT_INVALID_NAME:Argument has invalid name.
-ARGUMENT_ALLCAPS_NAME:Argument name is allcaps.
+ARGUMENT_ALLCAPS_NAME:Argument name is all caps.
 ARGUMENT_TOO_SHORT:Argument name is too short.
 ARGUMENT_TOO_LONG:Argument name is too long.
 ARGUMENT_TOO_WORDY:Argument name contain too many words.
 ARGUMENT_IS_TEMPORARY:Argument name looks temporary.
 ARGUMENT_HAS_PREFIX_OR_POSTFIX:Argument name has prefix or postfix.
 METHOD_INVALID_NAME:Method has invalid name.
-METHOD_ALLCAPS_NAME:Method name is allcaps.
+METHOD_ALLCAPS_NAME:Method name is all caps.
 METHOD_TOO_SHORT:Method name is too short.
 METHOD_TOO_LONG:Method name is too long.
 METHOD_TOO_WORDY:Method name contain too many words.
 METHOD_IS_TEMPORARY:Method name looks temporary.
 METHOD_HAS_PREFIX_OR_POSTFIX:Method name has prefix or postfix.
 COMPONENT_INVALID_NAME:Component has invalid name.
-COMPONENT_ALLCAPS_NAME:Component name is allcaps.
+COMPONENT_ALLCAPS_NAME:Component name is all caps.
 COMPONENT_TOO_SHORT:Component name is too short.
 COMPONENT_TOO_LONG:Component name is too long.
 COMPONENT_TOO_WORDY:Component name contain too many words.
 COMPONENT_IS_TEMPORARY:Component name looks temporary.
 COMPONENT_HAS_PREFIX_OR_POSTFIX:Component name has prefix or postfix.
 FILE_SHOULD_START_WITH_LOWERCASE:CFM File starts with upper case.
-AVOID_USING_CREATEOBJECT:Avoid use of creatobject statements.
+AVOID_USING_CREATEOBJECT:Avoid use of creatObject statements.
 AVOID_USING_DEBUG_ATTR:Avoid use of debug attribute.
 UNUSED_LOCAL_VARIABLE:Unused local variable.
 UNUSED_METHOD_ARGUMENT:Unused method argument.
 AVOID_USING_CFSETTING_DEBUG:Avoid using showDebugOutput attribute on cfsetting.
-COMPARE_INSTEAD_OF_ASSIGN:Using comparision where assignment was probably meant.
+COMPARE_INSTEAD_OF_ASSIGN:Using comparison where assignment was probably meant.
 PACKAGE_CASE_MISMATCH:Warn with package case does not match its use.

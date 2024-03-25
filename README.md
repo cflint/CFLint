@@ -1,18 +1,20 @@
 ![CFLint](/src/main/resources/CFLint-logo.jpg)
 
-# CFLint [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.github.cflint/CFLint/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.github.cflint/CFLint) [![License](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/6f4b01d4d2cb4860b60ac666452071f1)](https://www.codacy.com/app/ryaneberly/CFLint?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=cflint/CFLint&amp;utm_campaign=Badge_Grade) [![Build Status](https://travis-ci.org/cflint/CFLint.svg?branch=master)](https://travis-ci.org/cflint/CFLint)
+# CFLint
+
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.github.cflint/CFLint/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.github.cflint/CFLint) [![License](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/6f4b01d4d2cb4860b60ac666452071f1)](https://www.codacy.com/app/ryaneberly/CFLint?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=cflint/CFLint&amp;utm_campaign=Badge_Grade) [![Build Status](https://travis-ci.org/cflint/CFLint.svg?branch=master)](https://travis-ci.org/cflint/CFLint)
 
 A static code analysis tool for CFML.
 
 License: [BSD](https://opensource.org/licenses/bsd-license.html)
 
-Current Version: 1.4.1
+Current Version: 1.5.x
 
-# Versions
+## Versions
 
 See [CHANGELOG.md](/CHANGELOG.md) for further information.
 
-# Project and library organization
+## Project and library organization
 
 CFLint is a project developed and worked on by volunteers. When logging issues please, be nice and considerate. We're here to help. We really appreciate fixes and improvements, so feel free to talk to us and/or provide pull requests.
 
@@ -20,7 +22,7 @@ CFLint is a project developed and worked on by volunteers. When logging issues p
 
 The master branch is considered our stable codebase. Most of the development happens in the dev branch resp. local development branches for specific issues.
 
-# Building CFLint
+## Building CFLint
 
 1. Fork the repository into your account and clone or download the codebase as a zip-file.
 1. Install the tooling of your choice and build via Gradle or Maven (deprecated). CFLint requires Java 8.
@@ -39,7 +41,7 @@ The master branch is considered our stable codebase. Most of the development hap
 
     Alternatively, import the CFLint codebase into the IDE of your choice and use its respectively Gradle/Maven integration. This should work out of the box for Eclipse and IntelliJ users.
 
-# Using CFLint - Quickstart Guide
+## Using CFLint - Quickstart Guide
 
 Get the latest version from [Maven Central](https://search.maven.org/search?q=cflint) or the [CFLint GitHub release page](https://github.com/cflint/CFLint/releases) or build the project.
 
@@ -65,21 +67,21 @@ Or always use the latest:
 
 With the binaries retrieved one or the other way, you can now use CFLint on the command line.
 
-#### Use the "-all"-version of the jar-file
+### Use the "-all"-version of the jar-file
 
-    CFLint-1.4.1-all.jar
+    CFLint-1.5.0-all.jar
 
-#### Scan a folder with the complete set of rules
+### Scan a folder with the complete set of rules
 
-    java -jar CFLint-1.4.1-all.jar -folder <baseFolder>
+    java -jar CFLint-1.5.0-all.jar -folder <baseFolder>
 
-#### Scan a file with the complete set of rules
+### Scan a file with the complete set of rules
 
-    java -jar CFLint-1.4.1-all.jar -file <fullPathToFile>
+    java -jar CFLint-1.5.0-all.jar -file <fullPathToFile>
 
-#### See parameters and help
+### See command line parameters and help
 
-    java -jar CFLint-1.4.1-all.jar -help
+    java -jar CFLint-1.5.0-all.jar -help
 
 # User manual
 
@@ -131,13 +133,13 @@ An example `.cflintrc` file is shown below:
 
 * `inheritParent` configures if the rules set in the global or any parent configuration should be inherited as a base set of rules.
 
-* `parameters` allows configuration of rule parameters. See `cflint.definition.json` for the parameters and their defaults.
+* `parameters` allows configuration of rules. See [RULES.md](/RULES.md) for the parameters of each rule and their defaults. You must precede the parameter name with the rule name separated by a dot.
 
 * Please note: `inheritPlugins` and `output` were marked deprecated in CFLint 1.2.0 and removed in 1.4.0. Plugin inheritance is now always treated as true since the team cannot see a use case in which it should be disabled. The output type can be controlled elsewhere, such as command-line flags.
 
 We provide a [schema with the deprecated properties excluded](/src/main/resources/schemas/.cflintrc.schema.json).
 
-More examples of `.cflintrc` files can be found by browsing the [project test files](/src/test/resources/com/cflint/tests).
+See [Recipes](#recipes) for some usage examples of `.cflintrc`. Example files can be found by browsing the [project test files](/src/test/resources/com/cflint/tests).
 
 ### Annotation-based configuration
 
@@ -567,5 +569,6 @@ Please note that the majority of the libraries and projects mentioned here are n
 * [SonarQube plugin](https://github.com/stepstone-tech/sonar-coldfusion)
 * [NPM wrapper](https://github.com/morgdenn/npm-cflint)
 * Vim [Syntastic support for CFLint](https://github.com/cflint/cflint-syntastic)
+* [IntelliJ IDEA Ultimate plugin](https://github.com/Pr1st0n/cflint-intellij)
 
 If you have been working on (or are thinking about starting) a project related to CFLint, please let us know. We're happy to include relevant third-party projects to the list above.

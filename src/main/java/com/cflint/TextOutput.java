@@ -18,10 +18,11 @@ public class TextOutput {
             for (final BugInfo bugInfo : bugEntry.getValue()) {
                 final String severity = bugEntry.getValue().get(0).getSeverity().toString();
                 final String code = bugEntry.getValue().get(0).getMessageCode();
+                final Integer column = bugInfo.getColumn();
                 sb.append(NEW_LINE).append("Severity:").append(severity);
                 sb.append(NEW_LINE).append("Message code:").append(code);
                 sb.append(NEW_LINE).append("\tFile:").append(bugInfo.getFilename());
-                sb.append(NEW_LINE).append("\tColumn:").append(Integer.toString(bugInfo.getColumn()));
+                sb.append(NEW_LINE).append("\tColumn:").append(Integer.toString(column > -1 ? column : 0));
                 sb.append(NEW_LINE).append("\tLine:").append(Integer.toString(bugInfo.getLine()));
                 sb.append(NEW_LINE).append("\t\tMessage:").append(bugInfo.getMessage());
                 sb.append(NEW_LINE).append("\t\tVariable:'").append(bugInfo.getVariable());

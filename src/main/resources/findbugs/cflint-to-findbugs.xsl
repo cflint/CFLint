@@ -2,8 +2,8 @@
 
 <!-- CFLint XML to FindBugs XML (https://github.com/findbugsproject/findbugs/blob/master/findbugs/etc/bugcollection.xsd) -->
 
-<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
-
+	<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+					xmlns:java="com.cflint.xml.stax.FindBugsCFLintResultMarshaller">
 	<xsl:output method="xml" indent="yes" standalone="yes" encoding="UTF-8" omit-xml-declaration="yes"/>
 
 	<xsl:template match="/">
@@ -34,7 +34,7 @@
 	<xsl:template name="summary">
 		<FindBugsSummary timestamp="" num_packages="0">
 			<xsl:attribute name="timestamp">
-				<xsl:value-of select="/issues/@timestamp"/>
+				<xsl:value-of select="java:formatDate(/issues/@timestamp)"/>
 			</xsl:attribute>
 			<xsl:attribute name="total_bugs">
 				<xsl:value-of select="sum(/issues/counts/count[@code]/@count)"/>
@@ -142,11 +142,11 @@
 				<xsl:choose>
 					<xsl:when test="../@severity = 'FATAL' or ../@severity = 'Fatal'">1</xsl:when>
 					<xsl:when test="../@severity = 'CRITICAL' or ../@severity = 'Critical'">2</xsl:when>
-					<xsl:when test="../@severity = 'ERROR' or ../@severity = 'Error'">3</xsl:when>
-					<xsl:when test="../@severity = 'WARNING' or ../@severity = 'Warning'">4</xsl:when>
-					<xsl:when test="../@severity = 'CAUTION' or ../@severity = 'Caution'">5</xsl:when>
-					<xsl:when test="../@severity = 'INFO' or ../@severity = 'Info'">6</xsl:when>
-					<xsl:when test="../@severity = 'COSMETIC' or ../@severity = 'Cosmetic'">7</xsl:when>
+					<xsl:when test="../@severity = 'ERROR' or ../@severity = 'Error'">2</xsl:when>
+					<xsl:when test="../@severity = 'WARNING' or ../@severity = 'Warning'">2</xsl:when>
+					<xsl:when test="../@severity = 'CAUTION' or ../@severity = 'Caution'">2</xsl:when>
+					<xsl:when test="../@severity = 'INFO' or ../@severity = 'Info'">3</xsl:when>
+					<xsl:when test="../@severity = 'COSMETIC' or ../@severity = 'Cosmetic'">3</xsl:when>
 				</xsl:choose>
 			</xsl:attribute>
 			<xsl:attribute name="abbrev">
@@ -195,7 +195,7 @@
 				</SourceLine>
 			</Class>
 			<xsl:if test="@function and string-length(@function)!=0">
-				<Method signature="" isStatic="false">
+				<Method signature="()V" isStatic="false">
 					<xsl:attribute name="classname">
 						<xsl:value-of select="@file" />
 					</xsl:attribute>
@@ -238,7 +238,7 @@
 				</Message>
 			</LocalVariable>
 			</xsl:if>
-			
+
 		</BugInstance>
 	</xsl:template>
 

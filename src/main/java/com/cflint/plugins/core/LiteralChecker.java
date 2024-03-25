@@ -22,7 +22,7 @@ public class LiteralChecker extends CFLintScannerAdapter {
     protected int warningThreshold = WARNING_THRESHOLD;
 
     protected Map<String, Integer> globalLiterals = new HashMap<>();
-    protected Map<String, Integer> functionListerals = new HashMap<>();
+    protected Map<String, Integer> functionLiterals = new HashMap<>();
 
     // May want to consider resetting literal map on new components but this way
     // it detects duplicated literals across files which is useful
@@ -55,7 +55,7 @@ public class LiteralChecker extends CFLintScannerAdapter {
             if ((warningScope == null || "global".equals(warningScope)) && !context.isInFunction()) {
                 literalCount(name, lineNo, offset, globalLiterals, true, context, bugs,expression);
             } else if ("local".equals(warningScope) && context.isInFunction()) {
-                literalCount(name, lineNo, offset, functionListerals, false, context, bugs,expression);
+                literalCount(name, lineNo, offset, functionLiterals, false, context, bugs,expression);
             }
         }
     }
@@ -63,7 +63,7 @@ public class LiteralChecker extends CFLintScannerAdapter {
     @Override
     public void expression(final CFScriptStatement expression, final Context context, final BugList bugs) {
         if (expression instanceof CFCompDeclStatement) {
-            functionListerals.clear();
+            functionLiterals.clear();
         }
     }
 

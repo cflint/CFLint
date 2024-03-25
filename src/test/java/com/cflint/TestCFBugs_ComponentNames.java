@@ -32,7 +32,7 @@ public class TestCFBugs_ComponentNames {
     }
 
     @Test
-    public void testUpercaseNameTag() throws CFLintScanException {
+    public void testUppercaseNameTag() throws CFLintScanException {
         final String tagSrc = "<cfcomponent>\r\n" + "</cfcomponent>";
         CFLintResult lintresult = cfBugs.scan(tagSrc, "UPPERCASE.cfc");
         final List<BugInfo> result = lintresult.getIssues().values().iterator().next();
@@ -102,7 +102,7 @@ public class TestCFBugs_ComponentNames {
     }
 
     @Test
-    public void nameIsTemporyTag() throws CFLintScanException {
+    public void nameIsTemporaryTag() throws CFLintScanException {
         final String tagSrc = "<cfcomponent>\r\n" + "</cfcomponent>";
         CFLintResult lintresult = cfBugs.scan(tagSrc, "Temp.cfc");
         final List<BugInfo> result = lintresult.getIssues().values().iterator().next();
@@ -140,7 +140,7 @@ public class TestCFBugs_ComponentNames {
     }
 
     @Test
-    public void testUpercaseNameScript() throws CFLintScanException {
+    public void testUppercaseNameScript() throws CFLintScanException {
         final String scriptSrc = "component {\r\n" + "}";
         CFLintResult lintresult = cfBugs.scan(scriptSrc, "UPPERCASE.cfc");
         final List<BugInfo> result = lintresult.getIssues().values().iterator().next();
@@ -200,7 +200,7 @@ public class TestCFBugs_ComponentNames {
     }
 
     @Test
-    public void nameIsTemporyScript() throws CFLintScanException {
+    public void nameIsTemporaryScript() throws CFLintScanException {
         final String scriptSrc = "component {\r\n" + "}";
         CFLintResult lintresult = cfBugs.scan(scriptSrc, "Temp.cfc");
         final List<BugInfo> result = lintresult.getIssues().values().iterator().next();

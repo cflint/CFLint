@@ -38,7 +38,7 @@ public class TestCFBugs_VariableNames {
     }
 
     @Test
-    public void testUpercaseNameTag() throws CFLintScanException {
+    public void testUppercaseNameTag() throws CFLintScanException {
         final String tagSrc = "<cfcomponent>\r\n" + "<cffunction name=\"test\">\r\n"
                 + "	<cfset var FIRSTNAME = \"Fred\">\r\n" + "	<cfset LAST_NAME = \"Smith\">\r\n"
                 + "	<cfset names = {}>\r\n" + "	<cfset name.FIRST = \"Fred\">\r\n"
@@ -51,7 +51,7 @@ public class TestCFBugs_VariableNames {
     }
 
     @Test
-    public void testUpercaseScopeTag() throws CFLintScanException {
+    public void testUppercaseScopeTag() throws CFLintScanException {
         final String tagSrc = "<cfcomponent>\r\n" + "<cffunction name=\"test\">\r\n"
                 + "	<cfset local.name = \"Fred\">\r\n" + "	<cfset THIS.name = \"Fred\">\r\n"
                 + "	<cfset variables.name = \"Fred\">\r\n" + "</cffunction>\r\n" + "</cfcomponent>";
@@ -122,7 +122,7 @@ public class TestCFBugs_VariableNames {
     }
 
     @Test
-    public void nameIsTemporyTag() throws CFLintScanException {
+    public void nameIsTemporaryTag() throws CFLintScanException {
         final String tagSrc = "<cfcomponent>\r\n" + "<cffunction name=\"test\">\r\n"
                 + "	<cfset temp = \"Fred\">\r\n" + "	<cfset name.temp = \"Fred\">\r\n"
                 + "	<cfset obj = \"Fred\">\r\n" + "	<cfset struct = \"Fred\">\r\n"
@@ -196,7 +196,7 @@ public class TestCFBugs_VariableNames {
     }
 
     @Test
-    public void testUpercaseNameScript() throws CFLintScanException {
+    public void testUppercaseNameScript() throws CFLintScanException {
         final String scriptSrc = "component {\r\n" + "function test() {\r\n" + "	var FIRSTNAME = \"Fred\";\r\n"
                 + "	LAST_NAME = \"Smith\";\r\n" + "	names = {};\r\n" + "	name.FIRST = \"Fred\";\r\n"
                 + "	NAMES[1] = \"Fred\";\r\n" + "	local.NAME = \"Fred\";\r\n" + "}\r\n" + "}";
@@ -208,7 +208,7 @@ public class TestCFBugs_VariableNames {
     }
 
     @Test
-    public void testUpercaseScopeScript() throws CFLintScanException {
+    public void testUppercaseScopeScript() throws CFLintScanException {
         final String scriptSrc = "component {\r\n" + "function test() {\r\n" + "	this.name = \"Fred\";\r\n"
                 + "	LOCAL.name = \"Fred\";\r\n" + "}\r\n" + "}";
         CFLintResult lintresult = cfBugs.scan(scriptSrc, "test");
@@ -273,7 +273,7 @@ public class TestCFBugs_VariableNames {
     }
 
     @Test
-    public void nameIsTemporyScript() throws CFLintScanException {
+    public void nameIsTemporaryScript() throws CFLintScanException {
         final String scriptSrc = "component {\r\n" + "function test() {\r\n" + "	temp = \"Fred\";\r\n"
                 + "	name.temp = \"Fred\";\r\n" + "	obj = \"Fred\";\r\n" + "	struct = \"Fred\";\r\n"
                 + "	tempName = \"Fred\";\r\n" + "	nameObj = \"Fred\";\r\n" + "	nameString = \"Fred\";\r\n"
@@ -296,7 +296,7 @@ public class TestCFBugs_VariableNames {
     }
 
     @Test
-    public void nameIsTemporyNestedScript() throws CFLintScanException {
+    public void nameIsTemporaryNestedScript() throws CFLintScanException {
         final String scriptSrc = "component {\r\n" + "function foo() {\r\n" + "    var tempStruct = {};\r\n"
                 + "    doSomething(tempStruct);\r\n" + "    tempStruct.foo = \"bar\";\r\n" + "  }\r\n" + "}\r\n";
         CFLintResult lintresult = cfBugs.scan(scriptSrc, "test");

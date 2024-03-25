@@ -17,7 +17,6 @@ public class CFSwitchDefaultChecker extends CFLintScannerAdapter {
 
     @Override
     public void expression(final CFScriptStatement expression, final Context context, final BugList bugs) {
-        // see if expression is cfSwithStatement
         if (expression instanceof CFSwitchStatement) {
             final CFSwitchStatement switchStatement = (CFSwitchStatement) expression;
             final String statement = switchStatement.Decompile(0).replace(" ", "").toLowerCase();

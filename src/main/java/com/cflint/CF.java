@@ -37,7 +37,7 @@ public class CF {
     public static final String CFDBINFO = "cfdbinfo";
 
     /**
-     * CFDeafulatCase Tag.
+     * CFDefaultCase Tag.
      */
     public static final String CFDEFAULTCASE = "cfdefaultcase";
 
@@ -195,7 +195,7 @@ public class CF {
     public static final String CFQUERYPARAM = "cfqueryparam";
 
     /**
-     * CFRegistory Tag.
+     * CFRegistry Tag.
      */
     public static final String CFREGISTRY = "cfregistry";
 
@@ -451,7 +451,7 @@ public class CF {
     public static final String ARGUMENTS = "arguments";
 
     /**
-     * CF scope cthread.
+     * CF scope cfthread.
      */
     public static final String CFTHREAD= "cfthread";
 

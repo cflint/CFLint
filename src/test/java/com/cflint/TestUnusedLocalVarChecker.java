@@ -178,7 +178,7 @@ public class TestUnusedLocalVarChecker {
     }
 
     @Test
-    public void testUsedVarInQuaryParam() throws CFLintScanException {
+    public void testUsedVarInQueryParam() throws CFLintScanException {
         final String tagSrc = "<cfcomponent>\r\n" + "<cffunction name=\"changePassword\">\r\n" + "<cfscript>\r\n"
                 + "var salt = createUUID();\r\n" + "var hash = hash(password & salt);\r\n" + "var update = \"\";\r\n"
                 + "</cfscript>\r\n" + "<cfquery name=\"update\">\r\n" + "update logins\r\n"

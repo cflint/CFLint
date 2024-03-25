@@ -3,16 +3,16 @@ package com.cflint.plugins;
 import com.cflint.BugList;
 
 /**
- * This interface supports plugins recieving structure notifications (file
+ * This interface supports plugins receiving structure notifications (file
  * start/end, component start/end, function start/end).
  *
- * Normally it is used for initialization or summarization types of behaviours.
+ * Normally it is used for initialization or summarization types of behaviors.
  */
 public interface CFLintStructureListener {
 
     /**
      * Called when processing of a new file has started
-     * 
+     *
      * @param fileName
      *            Name of the file that started
      * @param bugs
@@ -22,7 +22,7 @@ public interface CFLintStructureListener {
 
     /**
      * Called when processing of current file has ended
-     * 
+     *
      * @param fileName
      *            Name of the file that finished
      * @param bugs
@@ -32,7 +32,7 @@ public interface CFLintStructureListener {
 
     /**
      * Called when processing a new component has started
-     * 
+     *
      * @param context
      *            Current context
      * @param bugs
@@ -42,7 +42,7 @@ public interface CFLintStructureListener {
 
     /**
      * Called when processing of current component has ended
-     * 
+     *
      * @param context
      *            Current context
      * @param bugs
@@ -52,7 +52,7 @@ public interface CFLintStructureListener {
 
     /**
      * Called when processing of a new function has started
-     * 
+     *
      * @param context
      *            Current context
      * @param bugs
@@ -62,7 +62,7 @@ public interface CFLintStructureListener {
 
     /**
      * Called when processing of current function has ended
-     * 
+     *
      * @param context
      *            Current context
      * @param bugs

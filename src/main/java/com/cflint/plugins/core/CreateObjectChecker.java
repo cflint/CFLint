@@ -18,12 +18,12 @@ public class CreateObjectChecker extends CFLintScannerAdapter {
             final int lineNo = ((CFExpressionStatement) expression).getLine() + context.startLine() - 1;
             final int offset = ((CFExpressionStatement) expression).getOffset() + context.offset();
             if (code.toLowerCase().contains("createobject('component'")) {
-                noNeedtoUseCreateObject(lineNo, offset, context);
+                noNeedToUseCreateObject(lineNo, offset, context);
             }
         }
     }
 
-    protected void noNeedtoUseCreateObject(final int lineNo, final int offset, final Context context) {
+    protected void noNeedToUseCreateObject(final int lineNo, final int offset, final Context context) {
         context.addMessage("AVOID_USING_CREATEOBJECT", null, lineNo, offset);
     }
 }

@@ -20,7 +20,7 @@ public class TestCFCustomTagChecker {
 
     @Before
     public void setUp() throws Exception {
-        
+
         final CFLintConfig conf = new CFLintConfig();
         final PluginInfoRule pluginRuleX = new PluginInfoRule();
         pluginRuleX.setName("CFXTagChecker");
@@ -28,10 +28,10 @@ public class TestCFCustomTagChecker {
         final PluginMessage pluginMessageX = new PluginMessage("AVOID_USING_MYLIB:CFCUSTOMTAG_TAG");
         pluginMessageX.setSeverity(Levels.WARNING);
         pluginMessageX.setMessageText(
-                "Avoid Leaving <${tagName}> tags in committed code. Debug information should be ommited from release code");
+                "Avoid Leaving <${tagName}> tags in committed code. Debug information should be omitted from release code");
         pluginRuleX.getMessages().add(pluginMessageX);
         pluginRuleX.addParameter("tagName", ".*:cfcustomtag");
-        
+
         CFLintPluginInfo pluginInfo = new CFLintPluginInfo();
         pluginInfo.getRules().add(pluginRuleX);
         pluginRuleX.setClassName("CFXTagChecker");

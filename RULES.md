@@ -96,7 +96,7 @@ QueryNew statement should specify data types.
 
 **Severity**: WARNING
 
-**Message**: QueryNew statement should specify datatypes.
+**Message**: QueryNew statement should specify data types.
 
 ### VarScoper
 
@@ -230,7 +230,7 @@ Argument is missing a hint.
 
 **Severity**: INFO
 
-**Message**: Argument *variable* is missing a hint.  Use javadoc style annotations on cfscript functions.
+**Message**: Argument *variable* is missing a hint.  Use Javadoc style annotations on cfscript functions.
 
 ### ArgumentTypeChecker
 
@@ -392,7 +392,7 @@ Avoid use of arrayNew statements. Use [] instead.
 
 **Severity**: INFO
 
-**Message**: Use implict array construction instead (= []).
+**Message**: Use implicit array construction instead (= []).
 
 ### ComplexBooleanExpressionChecker
 
@@ -720,7 +720,7 @@ CFM File starts with upper case.
 
 #### AVOID_USING_CREATEOBJECT
 
-Avoid use of creatObject statements.
+Avoid use of createObject statements.
 
 **Severity**: INFO
 

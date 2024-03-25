@@ -18,7 +18,7 @@ public class TooManyFunctionsChecker extends CFLintScannerAdapter {
 
     @Override
     public void expression(final CFScriptStatement expression, final Context context, final BugList bugs) {
-        if (expression instanceof CFFuncDeclStatement && !trivalFunction(context.getFunctionName())) {
+        if (expression instanceof CFFuncDeclStatement && !trivialFunction(context.getFunctionName())) {
             functionCount++;
             checkNumberFunctions(functionCount, 1, 0, context, bugs,context.getFunctionInfo().getName());
         }
@@ -26,13 +26,13 @@ public class TooManyFunctionsChecker extends CFLintScannerAdapter {
 
     @Override
     public void element(final Element element, final Context context, final BugList bugs) {
-        if (element.getName().equals(CF.CFFUNCTION) && !trivalFunction(context.getFunctionName())) {
+        if (element.getName().equals(CF.CFFUNCTION) && !trivialFunction(context.getFunctionName())) {
             functionCount++;
             checkNumberFunctions(functionCount, 1, 0, context, bugs, null);
         }
     }
 
-    protected boolean trivalFunction(final String name) {
+    protected boolean trivialFunction(final String name) {
         final int length = name==null?0:name.length();
         return length >= 3 && "get".equalsIgnoreCase(name.substring(1, 3))
             || length >= 3 && "set".equalsIgnoreCase(name.substring(1, 3))

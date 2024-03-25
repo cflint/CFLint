@@ -195,7 +195,7 @@ public class TestUnusedArgumentChecker {
     }
 
     @Test
-    public void testArgumentsUsedInQuerygWithArgumentsScope() throws CFLintScanException {
+    public void testArgumentsUsedInQueryWithArgumentsScope() throws CFLintScanException {
         final String tagSrc = "<cfcomponent>\r\n" + "<cffunction name=\"getProduct\">\r\n"
                 + "<cfargument name=\"productid\">\r\n" + "<cfargument name=\"b\">\r\n"
                 + "<cfset var qryProduct = \"\" />\r\n" + "<cfquery name=\"qryProduct\">\r\n"

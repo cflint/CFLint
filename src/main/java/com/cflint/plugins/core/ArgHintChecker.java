@@ -48,7 +48,7 @@ public class ArgHintChecker extends CFLintScannerAdapter {
             final String multiLineText = PrecedingCommentReader.getMultiLine(context, expression.getToken());
             final String mlText = multiLineText == null ? null
                     : multiLineText.replaceFirst("^/\\*", "").replaceAll("\\*/$", "").trim();
-            
+
             final Map<String, String> annotations = new HashMap<>();
             if (mlText != null && !mlText.isEmpty()) {
                 readCommentAnnotations(mlText, annotations);
@@ -66,7 +66,7 @@ public class ArgHintChecker extends CFLintScannerAdapter {
      * Parse a function comment to see if there are any argument annotations.
      *
      * @param mlText multi line text to search for argument hints in comments.
-     * @param annotations function argumnet hints.
+     * @param annotations function argument hints.
      */
     private void readCommentAnnotations(final String mlText, final Map<String, String> annotations) {
         final Pattern pattern = Pattern.compile("^.*\\s*@(\\w+)\\s+(.*+)$");

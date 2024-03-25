@@ -82,8 +82,8 @@ public class CFLintCLI {
         Option optionSTRICT_INCLUDE = new Option(Settings.STRICT_INCLUDE, false, "Check every include and try to parse it");
         Option optionLOGERROR = new Option(Settings.LOGERROR, false, "log parsing errors as bugs");
         Option optionE = new Option(Settings.E, false, "log parsing errors as bugs");
-        Option optionQUIET = new Option(Settings.QUIET, false, "quiet mode surpresses most linting error and commentary output");
-        Option optionQ = new Option(Settings.Q, false, "quiet mode surpresses most linting error and commentary output");
+        Option optionQUIET = new Option(Settings.QUIET, false, "quiet mode suppresses most linting error and commentary output");
+        Option optionQ = new Option(Settings.Q, false, "quiet mode suppresses most linting error and commentary output");
         Option optionDEBUG = new Option(Settings.DEBUG, false, "debug-level output during linting");
         Option optionD = new Option(Settings.D, false, "debug-level output during linting");
         Option optionHELP = new Option(Settings.HELP, false, DISPLAY_THIS_HELP);

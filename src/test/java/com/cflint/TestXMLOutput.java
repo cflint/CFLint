@@ -12,13 +12,13 @@ import org.junit.Test;
 
 public class TestXMLOutput {
 
-    private XMLOutput outputer;
+    private XMLOutput outputter;
     private BugList bugList;
     private Writer writer;
 
     @Before
     public void setUp() {
-        outputer = new XMLOutput();
+        outputter = new XMLOutput();
         bugList = new BugList(null);
         writer = new StringWriter();
     }
@@ -29,7 +29,7 @@ public class TestXMLOutput {
                 .setFilename("c:\\temp\\test.cfc").build();
         bugList.add(bugInfo);
         CFLintStats stats = new CFLintStats(123456L, 1, new BigInteger("545454"));
-        outputer.output(bugList, writer, stats);
+        outputter.output(bugList, writer, stats);
         String expectedText = "<issues version=\"" + Version.getVersion() + "\" timestamp=\"123456\">\n"
                 + "<issue severity=\"\" id=\"PARSE_ERROR\" message=\"PARSE_ERROR\" category=\"CFLint\" abbrev=\"PE\"><location file=\"c:\\temp\\test.cfc\" fileName=\"test.cfc\" function=\"testf\" column=\"1\" line=\"1\" message=\"\" variable=\"\"><Expression><![CDATA[]]></Expression></location>\n"
                 + "</issue>\n" + "<counts totalfiles=\"1\" totallines=\"545454\">\n" + "</counts>" + "</issues>";
@@ -46,7 +46,7 @@ public class TestXMLOutput {
         BugCounts counts = new BugCounts();
         counts.add("PARSE_ERROR", null);
         CFLintStats stats = new CFLintStats(123456L, 1, new BigInteger("545454"), counts);
-        outputer.output(bugList, writer, stats);
+        outputter.output(bugList, writer, stats);
 
         String expectedText = "<issues version=\"" + Version.getVersion() + "\" timestamp=\"123456\">\n"
                 + "<issue severity=\"\" id=\"PARSE_ERROR\" message=\"PARSE_ERROR\" category=\"CFLint\" abbrev=\"PE\"><location file=\"c:\\temp\\test.cfc\" fileName=\"test.cfc\" function=\"testf\" column=\"1\" line=\"1\" message=\"\" variable=\"\"><Expression><![CDATA[]]></Expression></location>\n"
@@ -64,7 +64,7 @@ public class TestXMLOutput {
         BugCounts counts = new BugCounts();
         counts.add("PARSE_ERROR", Levels.ERROR);
         CFLintStats stats = new CFLintStats(123456L, 1, new BigInteger("545454"), counts);
-        outputer.output(bugList, writer, stats);
+        outputter.output(bugList, writer, stats);
 
         String expectedText = "<issues version=\"" + Version.getVersion() + "\" timestamp=\"123456\">\n"
                 + "<issue severity=\"ERROR\" id=\"PARSE_ERROR\" message=\"PARSE_ERROR\" category=\"CFLint\" abbrev=\"PE\"><location file=\"c:\\temp\\test.cfc\" fileName=\"test.cfc\" function=\"testf\" column=\"1\" line=\"1\" message=\"\" variable=\"\"><Expression><![CDATA[]]></Expression></location>\n"

@@ -11,7 +11,7 @@ public abstract class BaseConfig implements CFLintConfiguration{
 
     /**
      * get the string property from the configuration.
-     * This can be overriden with -DcheckerClass.propertyname=value
+     * This can be overridden with -DcheckerClass.propertyname=value
      *
      * @param linter    instance of current CFLintScanner plugin
      * @param name      the name of the parameter
@@ -42,7 +42,7 @@ public abstract class BaseConfig implements CFLintConfiguration{
 
     /**
      * get the string property from the configuration.  If it is null return empty string.
-     * This can be overriden with -DcheckerClass.propertyname=value
+     * This can be overridden with -DcheckerClass.propertyname=value
      *
      * @param linter    instance of current CFLintScanner plugin
      * @param name      the name of the parameter
@@ -59,7 +59,7 @@ public abstract class BaseConfig implements CFLintConfiguration{
 
     /**
      * get the property from the configuration.
-     * This can be overriden with -DcheckerClass.propertyname=value
+     * This can be overridden with -DcheckerClass.propertyname=value
      *
      * @param linter    instance of current CFLintScanner plugin
      * @param name      the name of the parameter

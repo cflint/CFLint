@@ -13,10 +13,10 @@ public class FileCaseChecker extends CFLintScannerAdapter {
     public void startFile(final String fileName, final BugList bugs) {
         String actualFileName = fileName;
         final String separator = System.getProperty("file.separator");
-        final int seperatorPosition = fileName.lastIndexOf(separator);
+        final int separatorPosition = fileName.lastIndexOf(separator);
 
-        if (seperatorPosition >= 0) {
-            actualFileName = fileName.substring(seperatorPosition + 1);
+        if (separatorPosition >= 0) {
+            actualFileName = fileName.substring(separatorPosition + 1);
         }
 
         if (actualFileName.contains(".cfm")) {

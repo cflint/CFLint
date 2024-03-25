@@ -48,7 +48,7 @@ public class TestCreateObjectChecker {
     }
 
     @Test
-    public void testCreatObjectJava() throws CFLintScanException {
+    public void testCreateObjectJava() throws CFLintScanException {
         final String scriptSrc = "<cfscript>\r\n" + "var a = 23;\r\n"
                 + "var obj = createObject(\"java\",\"javaPath\");\r\n" + "</cfscript>";
 

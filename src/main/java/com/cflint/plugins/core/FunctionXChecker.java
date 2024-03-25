@@ -17,8 +17,8 @@ public class FunctionXChecker extends CFLintScannerAdapter {
     /**
      * Check an CF expression for use of function X.
      *
-     * @param expression expresison to check.
-     * @param context expresion context.
+     * @param expression expression to check.
+     * @param context expression context.
      * @param bugs list of bugs.
      */
     @Override

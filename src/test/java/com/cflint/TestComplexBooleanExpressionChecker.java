@@ -74,7 +74,7 @@ public class TestComplexBooleanExpressionChecker {
     }
 
     @Test
-    public void testReurnBooleanExpressionInTag() throws CFLintScanException {
+    public void testReturnBooleanExpressionInTag() throws CFLintScanException {
         final String tagSrc = "<cffunction name=\"test\">\r\n" + "<cfreturn a and not b or c and d or not e and f>\r\n"
                 + "</cffunction>";
 

@@ -140,7 +140,7 @@ public class ValidName {
     	if(name == null) {
     		return false;
     	}
-        boolean caseOk = ("PascalCase".equalsIgnoreCase(caseType)? isPascalCase(name) : isCamelCase(name));
+        // boolean caseOk = ("PascalCase".equalsIgnoreCase(caseType)? isPascalCase(name) : isCamelCase(name));
         return !validChars(name) || endsInNumber(name)
                 || !(isUpperCase(name) || isPascalCase(name) || usesUnderscores(name));
     }

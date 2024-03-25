@@ -7,11 +7,9 @@ import com.cflint.BugList;
 import com.cflint.plugins.CFLintScannerAdapter;
 import com.cflint.plugins.Context;
 
-import cfml.parsing.cfscript.CFAssignmentExpression;
 import cfml.parsing.cfscript.CFExpression;
 import cfml.parsing.cfscript.CFFullVarExpression;
 import cfml.parsing.cfscript.CFIdentifier;
-import cfml.parsing.cfscript.CFVarDeclExpression;
 
 public class ArgVarChecker extends CFLintScannerAdapter {
 

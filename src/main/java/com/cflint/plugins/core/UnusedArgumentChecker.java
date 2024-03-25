@@ -1,6 +1,5 @@
 package com.cflint.plugins.core;
 
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -34,7 +33,7 @@ public class UnusedArgumentChecker extends CFLintScannerAdapter {
         String type;
         String casedName;
     }
-    
+
     @Override
     public void element(final Element element, final Context context, final BugList bugs) {
         if (element.getName().equals(CF.CFARGUMENT)) {
@@ -43,7 +42,7 @@ public class UnusedArgumentChecker extends CFLintScannerAdapter {
             ArgInfo argInfo = new ArgInfo();
             argInfo.casedName=name;
             argInfo.argumentLineNo=context.startLine();
-            argInfo.argumentOffset=element.getAttributeValue(CF.NAME) != null 
+            argInfo.argumentOffset=element.getAttributeValue(CF.NAME) != null
                     ? element.getAttributes().get(CF.NAME).getValueSegment().getBegin() : element.getBegin();
             argInfo.type=element.getAttributeValue(CF.TYPE);
             currentArgs.put(name.toLowerCase(), argInfo);
@@ -59,7 +58,7 @@ public class UnusedArgumentChecker extends CFLintScannerAdapter {
         if (expression instanceof CFFuncDeclStatement) {
             final CFFuncDeclStatement function = (CFFuncDeclStatement) expression;
             for (final CFFunctionParameter argument : function.getFormals()) {
-                final String name = argument.getName().toLowerCase(); 
+                final String name = argument.getName().toLowerCase();
                 // CF variable names are not case sensitive
                 ArgInfo argInfo = new ArgInfo();
                 argInfo.casedName=argument.getName();
@@ -97,7 +96,7 @@ public class UnusedArgumentChecker extends CFLintScannerAdapter {
             currentArgs.get(name).used=true;
         }
     }
-    
+
     protected void useIdentifier(final CFFunctionExpression identifier) {
         final String name = identifier.getName().toLowerCase();
         if (currentArgs.get(name) != null && CF.FUNCTION.equalsIgnoreCase(currentArgs.get(name).type)) {

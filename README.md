@@ -1,4 +1,4 @@
-![CFLint](/src/main/resources/CFLint-logo.jpg)
+![CFLint](/src/main/resources/logos/CFLint-logo.jpg)
 
 # CFLint
 

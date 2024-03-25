@@ -82,6 +82,11 @@
                   "description": "The function in which or for which the issue was found",
                   "type": "string"
                 },
+                "offset": {
+                  "title": "Offset",
+                  "description": "The offset number of the starting position at which the issue was found",
+                  "type": "number"
+                },
                 "column": {
                   "title": "Column",
                   "description": "The column number of the starting position at which the issue was found",
@@ -112,6 +117,7 @@
                 "file",
                 "fileName",
                 "function",
+                "offset",
                 "column",
                 "line",
                 "message",

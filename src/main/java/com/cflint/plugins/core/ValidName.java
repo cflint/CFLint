@@ -149,7 +149,7 @@ public class ValidName {
      * Valid characters in a name.
      *
      * @param name name of variable.
-     * @return true if the name consists of valid chartacters, false if it does not.
+     * @return true if the name consists of valid characters, false if it does not.
      */
     public boolean validChars(final String name) {
     	if(name == null) {
@@ -163,7 +163,7 @@ public class ValidName {
      * Is a name all upper case?.
      *
      * @param name name of variable.
-     * @return true if the name is all upppercase, false if it is not.
+     * @return true if the name is all uppercase, false if it is not.
      */
     public boolean isUpperCase(final String name) {
     	if(name == null) {
@@ -176,7 +176,7 @@ public class ValidName {
      * Is a name all the same case.
      *
      * @param name name of variable.
-     * @return true if the name is all upppercase, false if it is not.
+     * @return true if the name is all uppercase, false if it is not.
      */
     public boolean isSameCase(final String name) {
     	if(name == null) {
@@ -332,7 +332,7 @@ public class ValidName {
         if (sentence.trim().length() == 0) {
         	return false;
         }
-        
+
         final String[] words = sentence.split(" ");
         final String firstWord = words[0];
         final String lastWord = words[words.length - 1];

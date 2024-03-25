@@ -317,7 +317,7 @@ public class Context {
         context2.inStructKeyExpression=inStructKeyExpression;
         return context2;
     }
-    
+
     public Context subContextInAssignment() {
         return subContextInAssignment(true);
     }
@@ -346,7 +346,7 @@ public class Context {
             } else if (element.getName().equalsIgnoreCase(CF.CFSET)) {
                 return element.getStartTag().getTagContent().getBegin() + 1;
             }
-            
+
             return element.getBegin();
         } else {
             return 0;
@@ -356,13 +356,13 @@ public class Context {
     protected String componentFromFile(final String filename) {
         final int dotPosition = filename.lastIndexOf('.');
         final String separator = System.getProperty("file.separator");
-        final int seperatorPosition = filename.lastIndexOf(separator);
+        final int separatorPosition = filename.lastIndexOf(separator);
 
-        if (dotPosition == -1 || seperatorPosition == -1) {
+        if (dotPosition == -1 || separatorPosition == -1) {
             return null;
         }
 
-        return filename.substring(seperatorPosition + 1, dotPosition);
+        return filename.substring(separatorPosition + 1, dotPosition);
     }
 
     public CommonTokenStream getTokens() {
@@ -435,7 +435,7 @@ public class Context {
     }
 
     /**
-     * 
+     *
      * @param type      the type of context to retrieve from the parent tree
      * @return          the parent context of the given type OR the root context if none
      *         matches

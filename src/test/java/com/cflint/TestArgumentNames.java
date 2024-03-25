@@ -34,7 +34,7 @@ public class TestArgumentNames {
     }
 
     @Test
-    public void testUpercaseNameTag() throws CFLintScanException {
+    public void testUppercaseNameTag() throws CFLintScanException {
         final String tagSrc = "<cfcomponent>\r\n" + "<cffunction name=\"test\">\r\n"
                 + "	<cfargument name=\"FIRSTNAME\">\r\n" + "	<cfargument name=\"LAST_NAME\">\r\n"
                 + "</cffunction>\r\n" + "</cfcomponent>";
@@ -99,7 +99,7 @@ public class TestArgumentNames {
     }
 
     @Test
-    public void nameIsTemporyTag() throws CFLintScanException {
+    public void nameIsTemporaryTag() throws CFLintScanException {
         final String tagSrc = "<cfcomponent>\r\n" + "<cffunction name=\"test\">\r\n"
                 + "	<cfargument name=\"temp\">\r\n" + "	<cfargument name=\"obj\">\r\n"
                 + "	<cfargument name=\"struct\">\r\n" + "	<cfargument name=\"tempName\">\r\n"
@@ -158,7 +158,7 @@ public class TestArgumentNames {
     }
 
     @Test
-    public void testUpercaseNameScript() throws CFLintScanException {
+    public void testUppercaseNameScript() throws CFLintScanException {
         final String scriptSrc = "component {\r\n" + "function test(FIRSTNAME, LAST_NAME) {\r\n" + "}\r\n" + "}";
         CFLintResult lintresult = cfBugs.scan(scriptSrc, "test");
         final List<BugInfo> result = lintresult.getIssues().values().iterator().next();
@@ -216,7 +216,7 @@ public class TestArgumentNames {
     }
 
     @Test
-    public void nameIsTemporyScript() throws CFLintScanException {
+    public void nameIsTemporaryScript() throws CFLintScanException {
         final String scriptSrc = "component {\r\n"
                 + "function test(temp, obj, struct, tempName, nameObj, nameString) {\r\n" + "}\r\n" + "}";
         CFLintResult lintresult = cfBugs.scan(scriptSrc, "test");

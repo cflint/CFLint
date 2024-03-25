@@ -12,12 +12,12 @@ public class Settings {
     public static final String V = "v";
 
     /**
-     * quiet mode surpresses most linting error and commentary output
+     * quiet mode suppresses most linting error and commentary output
      */
     public static final String QUIET = "quiet";
 
     /**
-     * quiet mode surpresses most linting error and commentary output
+     * quiet mode suppresses most linting error and commentary output
      */
     public static final String Q = "q";
 
@@ -182,7 +182,7 @@ public class Settings {
     public static final String H = "h";
 
     /**
-     * List all rules orgered via teh groups they are in.
+     * List all rules ordered via the groups they are in.
      */
     public static final String LIST_RULE_GROUPS = "listrulegroups";
 

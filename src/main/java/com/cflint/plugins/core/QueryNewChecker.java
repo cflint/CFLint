@@ -22,8 +22,8 @@ public class QueryNewChecker extends CFLintScannerAdapter {
 
 	/**
 	 * Check query new for unique columns listed in parm 1.
-	 * @param expression expresison to check.
-	 * @param context    expresion context.
+	 * @param expression expression to check.
+	 * @param context    expression context.
 	 * @param bugs       list of bugs.
 	 */
 	@Override
@@ -33,7 +33,7 @@ public class QueryNewChecker extends CFLintScannerAdapter {
 			if (functionExpression.getName().equalsIgnoreCase("querynew") && functionExpression.getArgs().size() > 0) {
 				final CFExpression arg = functionExpression.getArgs().get(0);
 				final String query = arg.Decompile(0);
-				//Build the list, then get unique with a set, pull them out of the list, anything 
+				//Build the list, then get unique with a set, pull them out of the list, anything
 				// left is a duplicate.
 				final List<String> cols = new ArrayList<String>(Arrays.asList(query.toLowerCase().split("\\s*,\\s*")));
 				final Set<String> cols_unique = new HashSet<String>(cols);

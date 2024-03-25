@@ -32,11 +32,11 @@ public class TestArrayNewChecker {
         assertEquals("AVOID_USING_ARRAYNEW", result.get(0).getMessageCode());
         assertEquals(4, result.get(0).getLine());
         assertEquals(Levels.INFO, result.get(0).getSeverity());
-        assertEquals("Use implict array construction instead (= []).", result.get(0).getMessage());
+        assertEquals("Use implicit array construction instead (= []).", result.get(0).getMessage());
     }
 
     @Test
-    public void testArrayNewMultiDimentionInScript() throws CFLintScanException {
+    public void testArrayNewMultiDimensionInScript() throws CFLintScanException {
         final String scriptSrc = "<cfscript>\r\n" + "var a = 23;\r\n" + "var b = arrayNew(3);\r\n" + "</cfscript>";
 
         CFLintResult lintresult = cfBugs.scan(scriptSrc, "test");
@@ -53,7 +53,7 @@ public class TestArrayNewChecker {
         assertEquals("AVOID_USING_ARRAYNEW", result.get(0).getMessageCode());
         assertEquals(2, result.get(0).getLine());
         assertEquals(Levels.INFO, result.get(0).getSeverity());
-        assertEquals("Use implict array construction instead (= []).", result.get(0).getMessage());
+        assertEquals("Use implicit array construction instead (= []).", result.get(0).getMessage());
     }
 
 }

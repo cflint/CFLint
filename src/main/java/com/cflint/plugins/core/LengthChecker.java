@@ -12,7 +12,7 @@ public class LengthChecker extends CFLintScannerAdapter {
     /**
      *  Check the length of a block of code.
      *
-     * @param maxLength maximimum length.
+     * @param maxLength maximum length.
      * @param message message to display.
      * @param context current context.
      * @param atLine  current line.

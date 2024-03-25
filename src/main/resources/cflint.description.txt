@@ -65,7 +65,7 @@ COMPONENT_TOO_WORDY:Component name contain too many words.
 COMPONENT_IS_TEMPORARY:Component name looks temporary.
 COMPONENT_HAS_PREFIX_OR_POSTFIX:Component name has prefix or postfix.
 FILE_SHOULD_START_WITH_LOWERCASE:CFM File starts with upper case.
-AVOID_USING_CREATEOBJECT:Avoid use of creatObject statements.
+AVOID_USING_CREATEOBJECT:Avoid use of createObject statements.
 AVOID_USING_DEBUG_ATTR:Avoid use of debug attribute.
 UNUSED_LOCAL_VARIABLE:Unused local variable.
 UNUSED_METHOD_ARGUMENT:Unused method argument.

@@ -34,7 +34,7 @@ public class TestCFBugs_MethodNames {
     }
 
     @Test
-    public void testUpercaseNameTag() throws CFLintScanException {
+    public void testUppercaseNameTag() throws CFLintScanException {
         final String tagSrc = "<cfcomponent>\r\n" + "<cffunction name=\"UGLYNAME\">\r\n" + "</cffunction>\r\n"
                 + "</cfcomponent>";
         CFLintResult lintresult = cfBugs.scan(tagSrc, "test");
@@ -90,7 +90,7 @@ public class TestCFBugs_MethodNames {
     }
 
     @Test
-    public void nameIsTemporyTag() throws CFLintScanException {
+    public void nameIsTemporaryTag() throws CFLintScanException {
         final String tagSrc = "<cfcomponent>\r\n" + "<cffunction name=\"temp\">\r\n" + "</cffunction>\r\n"
                 + "</cfcomponent>";
         CFLintResult lintresult = cfBugs.scan(tagSrc, "test");
@@ -120,7 +120,7 @@ public class TestCFBugs_MethodNames {
     }
 
     @Test
-    public void testUpercaseNameScript() throws CFLintScanException {
+    public void testUppercaseNameScript() throws CFLintScanException {
         final String scriptSrc = "component {\r\n" + "function UPPERCASE() {\r\n" + "}\r\n" + "}";
         CFLintResult lintresult = cfBugs.scan(scriptSrc, "test");
         final List<BugInfo> result = lintresult.getIssues().values().iterator().next();
@@ -170,7 +170,7 @@ public class TestCFBugs_MethodNames {
     }
 
     @Test
-    public void nameIsTemporyScript() throws CFLintScanException {
+    public void nameIsTemporaryScript() throws CFLintScanException {
         final String scriptSrc = "component {\r\n" + "function temp() {\r\n" + "}\r\n" + "}";
         CFLintResult lintresult = cfBugs.scan(scriptSrc, "test");
         final List<BugInfo> result = lintresult.getIssues().get("METHOD_IS_TEMPORARY");

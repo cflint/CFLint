@@ -111,10 +111,10 @@
 									<xsl:text>Nested &lt;cfquery/&gt; tags, the outer tag has an @query attribute, it should also specify the @group attribute.</xsl:text>
 								</xsl:when>
 								<xsl:when test="@message='QUERYNEW_DATATYPE'">
-									<xsl:text>QueryNew should specify the datatypes of the columns.</xsl:text>
+									<xsl:text>QueryNew should specify the data types of the columns.</xsl:text>
 								</xsl:when>
 								<xsl:when test="@message='ARG_VAR_CONFLICT'">
-									<xsl:text>Variable is varr'd with the same name as one of the arguments.  This is confusing or incorrect.</xsl:text>
+									<xsl:text>Variable is var'd with the same name as one of the arguments.  This is confusing or incorrect.</xsl:text>
 								</xsl:when>
 								<xsl:when test="@message='ARG_VAR_MIXED'">
 									<xsl:text>Variable referenced both as an unscoped (local) and an argument.</xsl:text>

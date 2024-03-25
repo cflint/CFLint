@@ -62,10 +62,10 @@ public class ComponentNameChecker extends CFLintScannerAdapter {
     private String actualFileName(final String fileName) {
         String actualFileName = fileName;
         final String separator = System.getProperty("file.separator");
-        final int seperatorPosition = fileName.lastIndexOf(separator);
+        final int separatorPosition = fileName.lastIndexOf(separator);
 
-        if (seperatorPosition >= 0) {
-            actualFileName = fileName.substring(seperatorPosition + 1);
+        if (separatorPosition >= 0) {
+            actualFileName = fileName.substring(separatorPosition + 1);
         }
 
         return actualFileName;

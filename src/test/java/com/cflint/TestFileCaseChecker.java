@@ -40,7 +40,7 @@ public class TestFileCaseChecker {
     }
 
     @Test
-    public void testUppeCaseCFMName() throws CFLintScanException {
+    public void testUpperCaseCFMName() throws CFLintScanException {
         final String cfmSrc = "<cfset a = 23>";
         CFLintResult lintresult = cfBugs.scan(cfmSrc, "Test.cfm");
         final List<BugInfo> result = lintresult.getIssues().values().iterator().next();
@@ -50,7 +50,7 @@ public class TestFileCaseChecker {
     }
 
     @Test
-    public void testUppperCaseCFCName() throws CFLintScanException {
+    public void testUpperCaseCFCName() throws CFLintScanException {
         final String cfcSrc = "<cfcomponent></cfcomponent>";
         CFLintResult lintresult = cfBugs.scan(cfcSrc, "Test.cfc");
         Collection<List<BugInfo>> result = lintresult.getIssues().values();

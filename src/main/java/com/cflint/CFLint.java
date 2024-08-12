@@ -107,6 +107,7 @@ public class CFLint implements IErrorReporter {
     private static final String MISSING_SEMI = "MISSING_SEMI";
     private static final String AVOID_EMPTY_FILES = "AVOID_EMPTY_FILES";
     private static final String RESOURCE_BUNDLE_NAME = "com.cflint.cflint";
+    private static final Pattern IGNORE_LINE_PATTERN = Pattern.compile("(?i).*cflint\\s+ignore:\\s*line.*");
 
     private CFMLTagInfo tagInfo;
     private CFMLParser cfmlParser = new CFMLParser();
@@ -130,10 +131,13 @@ public class CFLint implements IErrorReporter {
 	private Element currentElement = null;
     private boolean strictInclude;
     private Set<List<Object>> processed = new HashSet<>();
+    private String currentSource = "";
+
 
     // Stack to store include file depth to ensure no recursion
     private final Stack<File> includeFileStack = new Stack<>();
     private int[] lineOffsets;
+
 
     public CFLint(final CFLintConfiguration configFile) throws IOException {
         final CFLintFilter filter = CFLintFilter.createFilter(verbose);
@@ -325,6 +329,7 @@ public class CFLint implements IErrorReporter {
                 final Context context = new Context(filename, null, null, false, handler,configuration);
                 reportRule(null, null, context, null, new ContextMessage(AVOID_EMPTY_FILES, null));
             } else {
+                currentSource = src;
                 lineOffsets = getLineOffsets(src.split("\n"));
                 final CFMLSource cfmlSource = new CFMLSource(src.contains("<!---") ? CommentReformatting.wrap(src) : src);
                 final ParserTag firstTag = getFirstTagQuietly(cfmlSource);
@@ -1430,6 +1435,14 @@ public class CFLint implements IErrorReporter {
         if (context == null || context.isSuppressed(bugInfo)) {
             return true;
         }
+
+        if(hasIgnoreLineComment(bugInfo.getLine())) {
+            if (verbose) {
+                System.out.println("ignoring " + bugInfo.getMessage() + " at line " + bugInfo.getLine());
+            }
+            return true;
+        }
+
         if(token == null){
             return false;
         }
@@ -1576,6 +1589,11 @@ public class CFLint implements IErrorReporter {
 
     public void setProgressUsesThread(final boolean progressUsesThread) {
         this.progressUsesThread = progressUsesThread;
+    }
+
+    public boolean hasIgnoreLineComment(final int lineNr) {
+        String line = currentSource.split("\n")[lineNr-1];
+        return IGNORE_LINE_PATTERN.matcher(line).matches();
     }
 
     @Override

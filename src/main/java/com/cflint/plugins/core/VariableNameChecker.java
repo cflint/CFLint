@@ -40,6 +40,15 @@ public class VariableNameChecker extends CFLintScannerAdapter {
     private static final List<String> DEFAULT_EXCLUSIONS = Collections.singletonList("rc");
     private static final String PARAM_EXCLUSION_LIST = "ExclusionList";
 
+    
+    /** 
+     * @param element element
+     * @param context context
+     * @param bugs bugs
+     * @param begLine begLine
+     * @param offset offset
+     * @param name name
+     */
     //private final List<String> exclusions = new ArrayList<>();
 
     private void checkCFName(final Element element, final Context context, final BugList bugs, final int begLine, int offset, final String name) {

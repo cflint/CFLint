@@ -36,6 +36,10 @@ public class Context {
     private boolean inAssignmentExpression;
     private boolean inStructKeyExpression;
 
+    
+    /** 
+     * @return boolean
+     */
     public boolean isInStructKeyExpression() {
 		return inStructKeyExpression;
 	}

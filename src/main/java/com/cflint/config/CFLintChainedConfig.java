@@ -34,6 +34,11 @@ public class CFLintChainedConfig extends BaseConfig{
         return config == null ? this : new CFLintChainedConfig(config, this);
     }
 
+    
+    /** 
+     * @param pluginMessage pluginMessage
+     * @return boolean
+     */
     @Override
     public boolean includes(final PluginMessage pluginMessage) {
         return config.includes(pluginMessage)

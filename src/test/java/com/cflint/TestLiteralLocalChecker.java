@@ -17,6 +17,10 @@ public class TestLiteralLocalChecker {
 
     private CFLintAPI cfBugs;
 
+    
+    /** 
+     * @throws Exception Exception
+     */
     @Before
     public void setUp() throws Exception {
         final ConfigBuilder configBuilder = new ConfigBuilder().include("LOCAL_LITERAL_VALUE_USED_TOO_OFTEN");

@@ -18,6 +18,7 @@ public class HintChecker extends CFLintScannerAdapter {
      * Check for missing hint attributes.
      *
      * @param message message to report.
+     * @param name name
      * @param expression expression to scan.
      * @param context expression context.
      */

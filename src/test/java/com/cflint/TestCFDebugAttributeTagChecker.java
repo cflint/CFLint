@@ -14,6 +14,10 @@ public class TestCFDebugAttributeTagChecker {
 
     private CFLintAPI cfBugs;
 
+    
+    /** 
+     * @throws Exception Exception
+     */
     @Before
     public void setUp() throws Exception {
         final ConfigBuilder configBuilder = new ConfigBuilder().include("AVOID_USING_DEBUG_ATTR","AVOID_USING_CFSETTING_DEBUG");

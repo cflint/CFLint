@@ -13,6 +13,12 @@ import ro.fortsoft.pf4j.Extension;
 @Extension
 public class CFDebugAttributeChecker extends CFLintScannerAdapter {
 
+    
+    /** 
+     * @param element element
+     * @param context context
+     * @param bugs bugs
+     */
     @Override
     public void element(final Element element, final Context context, final BugList bugs) {
         final Attributes attributes = element.getAttributes();

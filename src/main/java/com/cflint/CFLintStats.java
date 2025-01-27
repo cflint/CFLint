@@ -32,6 +32,10 @@ public class CFLintStats {
         this.counts = counts;
     }
 
+    
+    /** 
+     * @param numberOfLines numberOfLines
+     */
     public void addFile(final long numberOfLines) {
         fileCount++;
         totalLines = totalLines.add(BigInteger.valueOf(numberOfLines));

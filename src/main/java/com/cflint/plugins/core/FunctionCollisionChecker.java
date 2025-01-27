@@ -61,6 +61,12 @@ public class FunctionCollisionChecker extends CFLintScannerAdapter {
 		}
 	}
 
+	
+	/** 
+	 * @param element element
+	 * @param context context
+	 * @param bugs bugs
+	 */
 	@Override
 	public void element(Element element, Context context, BugList bugs) {
 		final String elementName = element.getName();

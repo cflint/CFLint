@@ -16,6 +16,12 @@ public class TooManyArgumentsChecker extends CFLintScannerAdapter {
     protected int functionLine = 0;
     protected int functionOffset = 0;
 
+    
+    /** 
+     * @param expression expression
+     * @param context context
+     * @param bugs bugs
+     */
     @Override
     public void expression(final CFScriptStatement expression, final Context context, final BugList bugs) {
         if (expression instanceof CFFuncDeclStatement) {

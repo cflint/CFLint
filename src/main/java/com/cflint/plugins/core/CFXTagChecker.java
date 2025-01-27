@@ -9,6 +9,12 @@ import net.htmlparser.jericho.Element;
 
 public class CFXTagChecker extends CFLintScannerAdapter {
 
+    
+    /** 
+     * @param element element
+     * @param context context
+     * @param bugs bugs
+     */
     @Override
     public void element(final Element element, final Context context, final BugList bugs) {
         final String tagName = element.getName();

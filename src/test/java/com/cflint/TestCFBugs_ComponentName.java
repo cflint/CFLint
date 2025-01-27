@@ -17,6 +17,10 @@ public class TestCFBugs_ComponentName {
 
     private CFLintAPI cfBugs;
 
+    
+    /** 
+     * @throws Exception Exception
+     */
     @Before
     public void setUp() throws Exception {
         final ConfigBuilder configBuilder = new ConfigBuilder().include("USE_DISPLAY_NAME");

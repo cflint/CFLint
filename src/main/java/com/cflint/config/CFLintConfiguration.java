@@ -26,6 +26,7 @@ public interface CFLintConfiguration {
      * get the property from the configuration.
      * This can be overriden with -DcheckerClass.propertyname=value
      *
+     * @param linter linter
      * @param name      the name of the parameter
      * @return          the value of the parameter
      */

@@ -159,6 +159,14 @@ public class ArgumentNameChecker extends CFLintScannerAdapter {
      * - Names that are too wordy
      * - Names that look like temporary variables
      * - Names having a prefix or postfix
+     * @param context context
+     * @param argument argument
+     * @param filename filename
+     * @param functionName functionName
+     * @param line line
+     * @param offset offset
+     * @param bugs bugs
+     * @param argExpr argExpr
      */
     public void checkNameForBugs(final Context context, final String argument, final String filename,
             final String functionName, final int line, final int offset, final BugList bugs,final CFFunctionParameter argExpr)  {

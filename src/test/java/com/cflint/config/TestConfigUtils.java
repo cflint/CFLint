@@ -19,6 +19,12 @@ public class TestConfigUtils {
             + "			  \"xyzzy\" : false,\r\n" + "			  \"inheritParent\" : false,\r\n"
             + "			}";
 
+    
+    /** 
+     * @throws JsonParseException JsonParseException
+     * @throws JsonMappingException JsonMappingException
+     * @throws IOException IOException
+     */
     @Test
     public void testUnmarshalJson() throws JsonParseException, JsonMappingException, IOException {
         CFLintConfig config = ConfigUtils.unmarshalJson(input1, CFLintConfig.class);

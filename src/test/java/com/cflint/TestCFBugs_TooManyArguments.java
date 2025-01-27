@@ -17,6 +17,10 @@ public class TestCFBugs_TooManyArguments {
 
     private CFLintAPI cfBugs;
 
+    
+    /** 
+     * @throws Exception Exception
+     */
     @Before
     public void setUp() throws Exception {
         final ConfigBuilder configBuilder = new ConfigBuilder().include("EXCESSIVE_ARGUMENTS");

@@ -18,6 +18,16 @@ public class DefaultCFLintExceptionListener implements CFLintExceptionListener {
         this.bugs = bugs;
     }
 
+    
+    /** 
+     * @param exception exception
+     * @param messageCode messageCode
+     * @param filename filename
+     * @param line line
+     * @param column column
+     * @param functionName functionName
+     * @param expression expression
+     */
     @Override
     public void exceptionOccurred(final Throwable exception, final String messageCode, final String filename,
             final Integer line, final Integer column, final String functionName, final String expression) {

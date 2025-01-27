@@ -25,6 +25,10 @@ public class CFLintConfig extends BaseConfig {
 
     private boolean inheritParent = true;
     
+    
+    /** 
+     * @return HashMap
+     */
     public HashMap<String,Object> getParameters() {
         return parameters;
     }

@@ -59,6 +59,12 @@ public class TestFiles {
         }
     }
 
+    
+    /** 
+     * @throws IOException IOException
+     * @throws CFLintScanException CFLintScanException
+     * @throws CFLintConfigurationException CFLintConfigurationException
+     */
     @Test
     public void test() throws IOException, CFLintScanException, CFLintConfigurationException {
         String inputString = FileUtil.loadFile(sourceFile);

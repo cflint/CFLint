@@ -28,6 +28,17 @@
             "parameter": []
         },
         {
+            "name": "ImplicitScopeChecker",
+            "message": [
+                {
+                    "code": "IMPLICIT_SCOPE",
+                    "messageText": "Variable ${variable} referenced maybe implicit scope.",
+                    "severity": "INFO"
+                }
+            ],
+            "parameter": []
+        },
+        {
             "name": "CFSwitchDefaultChecker",
             "message": [
                 {
@@ -60,12 +71,23 @@
             ],
             "parameter": []
         },
-        {
+                {
             "name": "OutputParmMissing",
             "message": [
                 {
                     "code": "OUTPUT_ATTR",
                     "messageText": "<${tag} name=\"${variable}\"> should have @output='false'",
+                    "severity": "INFO"
+                }
+            ],
+            "parameter": []
+        },
+        {
+            "name": "AddTokenMissing",
+            "message": [
+                {
+                    "code": "ADDTOKEN_ATTR",
+                    "messageText": "<${tag} url=\"${variable}\"> should have @addtoken='false'",
                     "severity": "INFO"
                 }
             ],
@@ -85,7 +107,16 @@
                     "severity": "WARNING"
                 }
             ],
-            "parameter": []
+            "parameter": [
+                {
+                    "name": "allowVariableExpression",
+                    "value": ""
+                },
+                {
+                    "name": "allowLineExpression",
+                    "value": ""
+                }
+            ]
         },
         {
             "name": "TypedQueryNew",
@@ -231,6 +262,125 @@
                 {
                     "name": "tagName",
                     "value": "cfupdate"
+                }
+            ]
+        },
+        {
+            "name": "CFInvokeChecker",
+            "className": "CFXTagChecker",
+            "message": [
+                {
+                    "code": "AVOID_USING_CFINVOKE_TAG",
+                    "messageText": "Avoid using <${tagName}> tags. Use factory or new Object instead.",
+                    "severity": "WARNING"
+                }
+            ],
+            "parameter": [
+                {
+                    "name": "tagName",
+                    "value": "cfinvoke"
+                }
+            ]
+        },
+        {
+            "name": "CFFormChecker",
+            "className": "CFXTagChecker",
+            "message": [
+                {
+                    "code": "AVOID_USING_CFFORM_TAG",
+                    "messageText": "Avoid using <${tagName}> tags. Use html tags instead.",
+                    "severity": "WARNING"
+                }
+            ],
+            "parameter": [
+                {
+                    "name": "tagName",
+                    "value": "cfform"
+                }
+            ]
+        },
+        {
+            "name": "CFInputChecker",
+            "className": "CFXTagChecker",
+            "message": [
+                {
+                    "code": "AVOID_USING_CFINPUT_TAG",
+                    "messageText": "Avoid using <${tagName}> tags. Use html tags instead.",
+                    "severity": "WARNING"
+                }
+            ],
+            "parameter": [
+                {
+                    "name": "tagName",
+                    "value": "cfinput"
+                }
+            ]
+        },
+        {
+            "name": "CFFileChecker",
+            "className": "CFXTagChecker",
+            "message": [
+                {
+                    "code": "AVOID_USING_CFFILE_TAG",
+                    "messageText": "Avoid using <${tagName}> tags. Use abstraction functions instead.",
+                    "severity": "WARNING"
+                }
+            ],
+            "parameter": [
+                {
+                    "name": "tagName",
+                    "value": "cffile"
+                }
+            ]
+        },
+        {
+            "name": "CFDirectoryChecker",
+            "className": "CFXTagChecker",
+            "message": [
+                {
+                    "code": "AVOID_USING_CFDIRECTORY_TAG",
+                    "messageText": "Avoid using <${tagName}> tags. Use abstraction functions instead.",
+                    "severity": "WARNING"
+                }
+            ],
+            "parameter": [
+                {
+                    "name": "tagName",
+                    "value": "cfdirectory"
+                }
+            ]
+        },
+        {
+            "name": "CFCookieChecker",
+            "className": "CFXTagChecker",
+            "message": [
+                {
+                    "code": "AVOID_USING_CFCOOKIE_TAG",
+                    "messageText": "Avoid using <${tagName}> tags. Use abstraction functions instead.",
+                    "severity": "WARNING"
+                }
+            ],
+            "parameter": [
+                {
+                    "name": "tagName",
+                    "value": "cfcookie"
+                }
+            ]
+        },
+        {
+            "name": "CFHttpChecker",
+            "className": "CFXTagChecker",
+            "message": [
+                {
+                    "code": "AVOID_USING_CFHTTP_TAG",
+                    "messageText": "Avoid using <${tagName}> tags. Use abstraction functions instead.",
+                    "severity": "WARNING"
+                }
+            ],
+            "parameter": [
+                {
+                    "name": "tagName",
+                    "value": "cfhttp"
                 }
             ]
         },
@@ -478,6 +628,40 @@
             ]
         },
         {
+            "name": "EvaluateChecker",
+            "className": "FunctionXChecker",
+            "message": [
+                {
+                    "code": "AVOID_USING_EVALUATE",
+                    "messageText": "Avoid using the ${functionName} function in production code.",
+                    "severity": "INFO"
+                }
+            ],
+            "parameter": [
+                {
+                    "name": "functionName",
+                    "value": "evaluate"
+                }
+            ]
+        },
+        {
+            "name": "IsDefinedChecker",
+            "className": "FunctionXChecker",
+            "message": [
+                {
+                    "code": "AVOID_USING_ISDEFINED",
+                    "messageText": "Avoid using the ${functionName} function in production code.",
+                    "severity": "INFO"
+                }
+            ],
+            "parameter": [
+                {
+                    "name": "functionName",
+                    "value": "IsDefined"
+                }
+            ]
+        },
+        {
             "name": "FunctionCollisionChecker",
             "className": "FunctionCollisionChecker",
             "message": [
@@ -495,7 +679,7 @@
                 {
                     "code": "AVOID_USING_ARRAYNEW",
                     "severity": "INFO",
-                    "messageText": "Use implict array construction instead (= [])."
+                    "messageText": "Use implicit array construction instead (= [])."
                 }
             ],
             "parameter": []
@@ -1038,6 +1222,9 @@
                 "AVOID_USING_CFINSERT_TAG",
                 "AVOID_USING_CFMODULE_TAG",
                 "AVOID_USING_CFUPDATE_TAG",
+                "AVOID_USING_CFINVOKE_TAG",
+                "AVOID_USING_CFFORM_TAG",
+                "AVOID_USING_CFINPUT_TAG",
                 "AVOID_USING_WRITEDUMP",
                 "GLOBAL_LITERAL_VALUE_USED_TOO_OFTEN",
                 "GLOBAL_VAR",
@@ -1053,7 +1240,12 @@
             "name": "Security",
             "message": [
                 "CFQUERYPARAM_REQ",
-                "QUERYPARAM_REQ"
+                "QUERYPARAM_REQ",
+                "ADDTOKEN_ATTR",
+                "AVOID_USING_CFFILE_TAG",
+                "AVOID_USING_CFDIRECTORY_TAG",
+                "AVOID_USING_CFCOOKIE_TAG",
+                "AVOID_USING_CFHTTP_TAG"
             ]
         },
         {

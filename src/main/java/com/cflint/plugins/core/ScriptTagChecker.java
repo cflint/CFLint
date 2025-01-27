@@ -11,6 +11,12 @@ import ro.fortsoft.pf4j.Extension;
 @Extension
 public class ScriptTagChecker extends CFLintScannerAdapter {
 
+    
+    /** 
+     * @param element element
+     * @param context context
+     * @param bugs bugs
+     */
     // rule: don't use inline javascript in cfm and cfc files
     @Override
     public void element(final Element element, final Context context, final BugList bugs) {

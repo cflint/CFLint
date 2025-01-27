@@ -18,6 +18,11 @@ public class TestCFBugsTagless {
 
     private CFLintAPI cfBugs;
 
+    
+    /** 
+     * @throws IOException IOException
+     * @throws CFLintConfigurationException CFLintConfigurationException
+     */
     @Before
     public void setUp() throws IOException, CFLintConfigurationException {
         final ConfigBuilder configBuilder = new ConfigBuilder().include("MISSING_VAR");

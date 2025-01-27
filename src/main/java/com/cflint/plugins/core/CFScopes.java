@@ -12,6 +12,11 @@ public class CFScopes {
     private static final Collection<String> scopes = Arrays.asList(CF.URL, CF.FORM, CF.COOKIE, CF.CGI, CF.SERVER, CF.APPLICATION,
         CF.SESSION, CF.CLIENT, CF.REQUEST, CF.ARGUMENTS, CF.VARIABLES, CF.THIS, CF.LOCAL, CF.CFCATCH, CF.CFTHREAD);
 
+    
+    /** 
+     * @param variable variable
+     * @return String[]
+     */
     protected static String[] parts(final String variable) {
         return variable.toLowerCase().split("\\.|\\[|\\]");
     }

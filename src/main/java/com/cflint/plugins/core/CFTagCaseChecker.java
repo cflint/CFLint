@@ -11,6 +11,12 @@ import ro.fortsoft.pf4j.Extension;
 public class CFTagCaseChecker extends CFLintScannerAdapter {
     private static final String CFTAG_PREFERRED_CASE = "CFTAG_PREFERRED_CASE";
 
+    
+    /** 
+     * @param element element
+     * @param context context
+     * @param bugs bugs
+     */
     // rule: tag should be lowercase or camelCase
     @Override
     public void element(final Element element, final Context context, final BugList bugs) {

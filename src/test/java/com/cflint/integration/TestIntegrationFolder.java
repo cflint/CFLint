@@ -14,6 +14,10 @@ import com.cflint.cli.CFLintCLI;
 
 public class TestIntegrationFolder {
 
+    
+    /** 
+     * @throws Exception Exception
+     */
     @Test
     @Ignore
     public void testFolder() throws Exception {

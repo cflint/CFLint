@@ -23,6 +23,10 @@ public class TestCFLintConfig {
             + "            <messageText>messageText</messageText>\n" + "            <severity>WARNING</severity>\n"
             + "        </message>\n" + "    </ruleImpl>\n" + "</CFLint-Plugin>";
 
+    
+    /** 
+     * @throws Exception Exception
+     */
     @Test
     public void test() throws Exception {
         CFLintPluginInfo config = new CFLintPluginInfo();
@@ -49,9 +53,9 @@ public class TestCFLintConfig {
     /**
      * Test the round trip of the config json file including rule groups.
      * 
-     * @throws JsonGenerationException
-     * @throws JsonMappingException
-     * @throws IOException
+     * @throws JsonGenerationException JsonGenerationException
+     * @throws JsonMappingException JsonMappingException
+     * @throws IOException IOException
      */
     public void testRuleGroups() throws JsonGenerationException, JsonMappingException, IOException {
         CFLintPluginInfo config = new CFLintPluginInfo();

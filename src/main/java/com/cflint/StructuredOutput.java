@@ -15,6 +15,9 @@ public class StructuredOutput {
 
     /**
      * Returns true if previous bug and current bug are grouped.
+     * @param prevbugInfo previous bugInfo object
+     * @param bugInfo bugInfo object
+     * @return boolean
      */
     public boolean isGrouped(final BugInfo prevbugInfo, final BugInfo bugInfo) {
         if (prevbugInfo == null || bugInfo == null) {
@@ -35,6 +38,9 @@ public class StructuredOutput {
 
     /**
      * Returns true if a equals b and both are not null.
+     * @param a a
+     * @param b a
+     * @return boolean
      */
     public boolean safeEquals(final String a, final String b) {
         return a != null && b != null && a.equals(b);
@@ -42,6 +48,8 @@ public class StructuredOutput {
 
     /**
      * Filename from path.
+     * @param filename fileName
+     * @return string
      */
     public String filename(final String filename) {
         if (filename == null) {
@@ -52,6 +60,8 @@ public class StructuredOutput {
 
     /**
      * Returns two letter message code abbreviation.
+     * @param messageCode messageCode
+     * @return string
      */
     public String abbrev(final String messageCode) {
         if (messageCode == null) {
@@ -70,6 +80,8 @@ public class StructuredOutput {
 
     /**
      * Return the value or an empty string if value is null.
+     * @param value value
+     * @return string
      */
     public String notNull(final String value) {
         if (value == null) {

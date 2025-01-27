@@ -18,6 +18,13 @@ import javanet.staxutils.IndentingXMLStreamWriter;
  */
 public class DefaultCFlintResultMarshaller implements CFLintResultMarshaller {
 
+    
+    /** 
+     * @param bugList bugList
+     * @param writer writer
+     * @param stats stats
+     * @throws MarshallerException MarshallerException
+     */
     @Override
     public void output(final BugList bugList, final Writer writer, final CFLintStats stats) throws MarshallerException {
 

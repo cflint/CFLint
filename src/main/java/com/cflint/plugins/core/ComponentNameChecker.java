@@ -118,6 +118,12 @@ public class ComponentNameChecker extends CFLintScannerAdapter {
      * - Names that are too wordy
      * - Names that look like temporary variables
      * - Names having a prefix or postfix
+     * @param context context
+     * @param component component
+     * @param filename filename
+     * @param line line
+     * @param offset offset
+     * @param bugs bugs
      */
     public void checkNameForBugs(final Context context, final String component, final String filename,
             final int line, final int offset, final BugList bugs) {

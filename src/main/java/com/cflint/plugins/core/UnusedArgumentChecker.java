@@ -35,6 +35,12 @@ public class UnusedArgumentChecker extends CFLintScannerAdapter {
         String casedName;
     }
     
+    
+    /** 
+     * @param element element
+     * @param context context
+     * @param bugs bugs
+     */
     @Override
     public void element(final Element element, final Context context, final BugList bugs) {
         if (element.getName().equals(CF.CFARGUMENT)) {

@@ -6,7 +6,7 @@
 
 A static code analysis tool for CFML.
 
-License: [BSD](http://www.opensource.org/licenses/bsd-license.html)
+License: [BSD](https://opensource.org/licenses/bsd-license.html)
 
 Current Version: 1.5.x
 
@@ -43,15 +43,15 @@ The master branch is considered our stable codebase. Most of the development hap
 
 ## Using CFLint - Quickstart Guide
 
-Get the latest version from [Maven Central](http://search.maven.org/#search%7Cga%7C1%7Ccflint) or the [CFLint GitHub release page](https://github.com/cflint/CFLint/releases) or build the project.
+Get the latest version from [Maven Central](https://search.maven.org/search?q=cflint) or the [CFLint GitHub release page](https://github.com/cflint/CFLint/releases) or build the project.
 
 If you want to use CFLint from within another Maven project, use:
 
 ```xml
 <dependency>
     <groupId>com.github.cflint</groupId>
-    <artifactId>CFLint</artifactId>
-    <version>1.4.0</version>
+    <artifactId>cflint</artifactId>
+    <version>1.4.1</version>
 </dependency>
 ```
 
@@ -60,7 +60,7 @@ Or always use the latest:
 ```xml
 <dependency>
     <groupId>com.github.cflint</groupId>
-    <artifactId>CFLint</artifactId>
+    <artifactId>cflint</artifactId>
     <version>LATEST</version>
 </dependency>
 ```
@@ -69,7 +69,7 @@ With the binaries retrieved one or the other way, you can now use CFLint on the 
 
 ### Use the "-all"-version of the jar-file
 
-    CFLint-1.5.0-all.jar
+CFLint-1.5.0-all.jar
 
 ### Scan a folder with the complete set of rules
 
@@ -234,7 +234,7 @@ The exception is debug mode. In debug mode, CFLint will always ignore user setti
 
 The flag `-html` instructs CFLint to create an HTML document. The full syntax is:
 
-    -html -html <outputFileName>
+    -html -htmlfile <outputFileName>
 
 ### XML
 
@@ -549,7 +549,7 @@ Note: The back slashes must be escaped twice, once for JSON, once for regular ex
 
 Raise issues here on GitHub and we will look at them.
 
-The [CFML Slack team](http://cfml-slack.herokuapp.com/) has a `#cflint` channel you can join and talk to most of the regular contributors and other users.
+The [CFML Slack team](https://cfml-slack.herokuapp.com/) has a `#cflint` channel you can join and talk to most of the regular contributors and other users.
 
 # How to contribute
 

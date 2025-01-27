@@ -12,6 +12,12 @@ import ro.fortsoft.pf4j.Extension;
 public class SelectStarChecker extends CFLintScannerAdapter {
     private static final CharSequence selectStar = "select*";
 
+    
+    /** 
+     * @param element element
+     * @param context context
+     * @param bugs bugs
+     */
     @Override
     public void element(final Element element, final Context context, final BugList bugs) {
         final String tagName = element.getName();

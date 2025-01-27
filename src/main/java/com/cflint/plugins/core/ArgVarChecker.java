@@ -22,6 +22,12 @@ public class ArgVarChecker extends CFLintScannerAdapter {
 	private Set<String> unqualifiedExpression = new HashSet<>();
 	private Set<String> alreadyReportedFullExpression = new HashSet<>();
 
+	
+	/** 
+	 * @param expression expression
+	 * @param context context
+	 * @param bugs bugs
+	 */
 	@Override
 	public void expression(final CFExpression expression, final Context context, final BugList bugs) {
 		if (context.isInAssignmentExpression()){

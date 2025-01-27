@@ -39,6 +39,11 @@ public class ConfigUtils {
         throw new IllegalStateException("ConfigUtils utility class");
     }
 
+    
+    /** 
+     * @return Marshaller
+     * @throws JAXBException JAXBException
+     */
     @Deprecated
     public static Marshaller createMarshaller() throws JAXBException {
         if (CFLintConfigContext == null) {

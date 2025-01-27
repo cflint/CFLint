@@ -16,6 +16,11 @@ public class FileUtil {
     private static final String DEFAULT_ENCODING = "UTF-8";
     private static final int BUF_SIZE = 8192;
 
+    
+    /** 
+     * @param file file
+     * @return String
+     */
     public static String loadFile(final File file) {
         FileInputStream fis = null;
         try {

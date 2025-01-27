@@ -17,6 +17,10 @@ public class TestComponentLengthChecker {
 
     private CFLintAPI cfBugs;
 
+    
+    /** 
+     * @throws Exception Exception
+     */
     @Before
     public void setUp() throws Exception {
         final ConfigBuilder configBuilder = new ConfigBuilder().include("EXCESSIVE_COMPONENT_LENGTH");

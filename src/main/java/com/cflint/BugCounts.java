@@ -10,6 +10,11 @@ public class BugCounts {
     protected Map<String, Integer> codeCounts = new HashMap<>();
     protected int noBugs = 0;
 
+    
+    /** 
+     * @param code code
+     * @param severity severity
+     */
     public void add(final String code, final Levels severity) {
         if (severity == Levels.UNKNOWN) {
             return;

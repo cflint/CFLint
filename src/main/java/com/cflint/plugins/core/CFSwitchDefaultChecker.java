@@ -15,6 +15,12 @@ public class CFSwitchDefaultChecker extends CFLintScannerAdapter {
     private static final String CFSCRIPT_STATEMENT_REQUIRED = CF.DEFAULT;
     private static final String MESSAGE_CODE = "NO_DEFAULT_INSIDE_SWITCH";
 
+    
+    /** 
+     * @param expression expression
+     * @param context context
+     * @param bugs bugs
+     */
     @Override
     public void expression(final CFScriptStatement expression, final Context context, final BugList bugs) {
         // see if expression is cfSwithStatement

@@ -152,6 +152,13 @@ public class CFLintTask extends Task {
         }
     }
 
+    
+    /** 
+     * @param xmlFile2 xmlFile2
+     * @param encoding encoding
+     * @return Writer
+     * @throws IOException IOException
+     */
     private Writer createWriter(final File xmlFile2, final Charset encoding) throws IOException {
         OutputStreamWriter out = null;
         FileOutputStream fos = null;

@@ -10,6 +10,12 @@ import net.htmlparser.jericho.Element;
 
 public class NestedCFOutput extends CFLintScannerAdapter {
 
+    
+    /** 
+     * @param element element
+     * @param context context
+     * @param bugs bugs
+     */
     @Override
     public void element(final Element element, final Context context, final BugList bugs) {
         if (element.getName().equals(CF.CFOUTPUT)) {

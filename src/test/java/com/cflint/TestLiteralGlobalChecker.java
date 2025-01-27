@@ -17,6 +17,10 @@ public class TestLiteralGlobalChecker {
 
     private CFLintAPI cfBugs;
 
+    
+    /** 
+     * @throws Exception Exception
+     */
     @Before
     public void setUp() throws Exception {
         final ConfigBuilder configBuilder = new ConfigBuilder().include("GLOBAL_LITERAL_VALUE_USED_TOO_OFTEN","LOCAL_LITERAL_VALUE_USED_TOO_OFTEN");

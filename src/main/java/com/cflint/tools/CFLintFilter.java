@@ -38,6 +38,10 @@ public class CFLintFilter {
         this.data = data;
     }
 
+    
+    /** 
+     * @param filter filter
+     */
     @Deprecated
     public void addFilter(final Map<String, String> filter) {
         data.add(filter);

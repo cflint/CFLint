@@ -17,6 +17,10 @@ public class TestCFBugs_ArgsUse {
     StackHandler handler = null;
     private CFLintAPI cfBugs;
 
+    
+    /** 
+     * @throws Exception Exception
+     */
     @Before
     public void setUp() throws Exception {
         final ConfigBuilder configBuilder = new ConfigBuilder().include("ARG_VAR_CONFLICT","ARG_VAR_MIXED");

@@ -19,6 +19,11 @@ public class Test_Switch_Default_Checker {
 
     private CFLintAPI cfBugs;
 
+    
+    /** 
+     * @throws IOException IOException
+     * @throws CFLintConfigurationException CFLintConfigurationException
+     */
     @Before
     public void setUp() throws IOException, CFLintConfigurationException {
         final ConfigBuilder configBuilder = new ConfigBuilder().include("NO_DEFAULT_INSIDE_SWITCH");

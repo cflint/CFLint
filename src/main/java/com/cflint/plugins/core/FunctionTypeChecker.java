@@ -11,6 +11,12 @@ import net.htmlparser.jericho.Element;
 
 public class FunctionTypeChecker extends CFLintScannerAdapter {
 
+    
+    /** 
+     * @param expression expression
+     * @param context context
+     * @param bugs bugs
+     */
     @Override
     public void expression(final CFScriptStatement expression, final Context context, final BugList bugs) {
         if (expression instanceof CFFuncDeclStatement) {

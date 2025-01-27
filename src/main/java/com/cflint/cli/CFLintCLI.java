@@ -63,6 +63,11 @@ public class CFLintCLI {
     private boolean strictInclude;
 	private String environmentName;
 
+    
+    /** 
+     * @param args args
+     * @throws Exception Exception
+     */
     public static void main(final String[] args) throws Exception {
         final Options commandOptions = new Options();
         final Options helpOptions = new Options();

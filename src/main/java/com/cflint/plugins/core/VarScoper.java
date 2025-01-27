@@ -32,6 +32,12 @@ public class VarScoper extends CFLintScannerAdapter {
     private final Collection<String> scopes = Arrays.asList(CF.APPLICATION, CF.CGI, CF.COOKIE, CF.FORM, CF.REQUEST,
         CF.SERVER, CF.SESSION, CF.URL, CF.CFTHREAD);
 
+    
+    /** 
+     * @param expression expression
+     * @param context context
+     * @param bugs bugs
+     */
     @Override
     public void expression(final CFExpression expression, final Context context, final BugList bugs) {
         if (expression instanceof CFIdentifier) {

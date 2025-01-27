@@ -24,6 +24,11 @@ public class SimpleComplexityChecker extends CFLintScannerAdapter {
     private int functionLineNo = 1;
     private int functionOffset = 0;
 
+    
+    /** 
+     * @param fileName fileName
+     * @param bugs bugs
+     */
     @Override
     public void startFile(final String fileName, final BugList bugs) {
         complexity = 0;

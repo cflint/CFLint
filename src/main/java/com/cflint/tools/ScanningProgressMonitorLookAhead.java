@@ -13,6 +13,13 @@ public class ScanningProgressMonitorLookAhead {
     private final File folder;
     private List<String> allowedExtensions;
 
+    
+    /** 
+     * @param cflint cflint
+     * @param folderName folderName
+     * @param startNewThread startNewThread
+     * @return ScanningProgressMonitorLookAhead
+     */
     public static ScanningProgressMonitorLookAhead createInstance(CFLint cflint, final String folderName,
             boolean startNewThread) {
         ScanningProgressMonitorLookAhead lookAhead = new ScanningProgressMonitorLookAhead(folderName, startNewThread);

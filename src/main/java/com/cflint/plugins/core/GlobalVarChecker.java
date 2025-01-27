@@ -11,6 +11,12 @@ import cfml.parsing.cfscript.CFIdentifier;
 public class GlobalVarChecker extends CFLintScannerAdapter {
     protected CFScopes scopes = new CFScopes();
 
+    
+    /** 
+     * @param expression expression
+     * @param context context
+     * @param bugs bugs
+     */
     @Override
     public void expression(final CFExpression expression, final Context context, final BugList bugs) {
         if ((context.isInComponent() || context.isInFunction()) && expression instanceof CFFullVarExpression) {

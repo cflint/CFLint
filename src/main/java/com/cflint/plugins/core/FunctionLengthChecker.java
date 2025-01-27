@@ -13,6 +13,12 @@ import ro.fortsoft.pf4j.Extension;
 public class FunctionLengthChecker extends LengthChecker {
     private static final int LENGTH_THRESHOLD = 100;
 
+    
+    /** 
+     * @param expression expression
+     * @param context context
+     * @param bugs bugs
+     */
     @Override
     public void expression(final CFScriptStatement expression, final Context context, final BugList bugs) {
         if (expression instanceof CFFuncDeclStatement) {

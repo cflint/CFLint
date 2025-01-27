@@ -14,6 +14,11 @@ public class AllowedExtensionsLoader {
         throw new IllegalStateException("AllowedExtensionsLoader utility class");
     }
 
+    
+    /** 
+     * @param resourceBundleName resourceBundleName
+     * @return List
+     */
     public static List<String> init(final String resourceBundleName) {
         List<String> allowedExtensions = new ArrayList<>();
         try {

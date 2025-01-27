@@ -20,6 +20,8 @@ public interface CFLintScanner {
 
     void endFile(String fileName, BugList bugs);
 
+    void beforeEndFile(String fileName, Context context, BugList bugs);
+
     void startComponent(Context context, BugList bugs);
 
     void endComponent(Context context, BugList bugs);

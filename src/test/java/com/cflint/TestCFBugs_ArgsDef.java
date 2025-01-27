@@ -17,6 +17,10 @@ public class TestCFBugs_ArgsDef {
 
     private CFLintAPI cfBugs;
 
+    
+    /** 
+     * @throws Exception Exception
+     */
     @Before
     public void setUp() throws Exception {
         final ConfigBuilder configBuilder = new ConfigBuilder().include("ARG_DEFAULT_MISSING");

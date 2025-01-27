@@ -446,6 +446,11 @@ public class CF {
     public static final String CLIENT = "client";
 
     /**
+     * CF scope client.
+     */
+    public static final String FILE = "file";
+
+    /**
      * CF scope arguments.
      */
     public static final String ARGUMENTS = "arguments";
@@ -484,6 +489,17 @@ public class CF {
      * CF scope url.
      */
     public static final String URL = "url";
+
+    /**
+     * CFLocation tag.
+     */
+    public static final String CFLOCATION = "cflocation";
+
+    /**
+     * CF attribute addtoken.
+     */
+    public static final String ADDTOKEN = "addtoken";
+    
 
     private CF() {
       throw new IllegalStateException("CF utility class");

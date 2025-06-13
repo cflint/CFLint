@@ -8,6 +8,10 @@ public class Version {
         throw new IllegalStateException("Version utility class");
     }
 
+    
+    /** 
+     * @return String
+     */
     public static String getVersion() {
 
         String version = CFLintCLI.class.getPackage().getImplementationVersion();

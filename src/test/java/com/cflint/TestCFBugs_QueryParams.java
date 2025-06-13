@@ -17,6 +17,10 @@ public class TestCFBugs_QueryParams {
 
     private CFLintAPI cfBugs;
 
+    
+    /** 
+     * @throws Exception Exception
+     */
     @Before
     public void setUp() throws Exception {
         final ConfigBuilder configBuilder = new ConfigBuilder().include("QUERYPARAM_REQ","CFQUERYPARAM_REQ");
@@ -138,6 +142,9 @@ public class TestCFBugs_QueryParams {
             "                ON C.aID = A.aID\n" + 
             "                AND C.bar = #magicVal# <!--- \n" + 
             "                		@CFLintIgnore CFQUERYPARAM_REQ --->\n" + 
+            "                <!--- @CFLintIgnore CFQUERYPARAM_REQ --->\n" +
+            "                #delim# C.bar = <cfqueryparam\n " +
+            "                   value='#magicVal#' /> \n" + 
             "            WHERE \n" + 
             "            <!---\n" + 
             "        @CFLintIgnore CFQUERYPARAM_REQ\n" + 

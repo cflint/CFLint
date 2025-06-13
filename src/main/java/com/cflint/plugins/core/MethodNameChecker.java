@@ -104,6 +104,9 @@ public class MethodNameChecker extends CFLintScannerAdapter {
      * - Names that are too wordy
      * - Names that look like temporary variables
      * - Names having a prefix or postfix
+     * @param context context
+     * @param line line
+     * @param offset offset
      */
     public void checkNameForBugs(final Context context, final int line, final int offset) {
         final String method = context.getFunctionName();

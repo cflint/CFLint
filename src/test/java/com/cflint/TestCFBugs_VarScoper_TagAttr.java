@@ -30,6 +30,10 @@ public class TestCFBugs_VarScoper_TagAttr {
 
     private CFLintAPI cfBugs;
 
+    
+    /** 
+     * @throws CFLintConfigurationException CFLintConfigurationException
+     */
     @Before
     public void setUp() throws CFLintConfigurationException {
         final ConfigBuilder configBuilder = new ConfigBuilder().include("MISSING_VAR");

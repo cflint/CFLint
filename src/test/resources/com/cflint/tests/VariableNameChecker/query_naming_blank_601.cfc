@@ -1,1 +1,1 @@
-<cfquery dbtype="query" name="">
+<cfquery dbtype="query" name=""></cfquery>

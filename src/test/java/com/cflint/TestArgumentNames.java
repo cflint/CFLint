@@ -17,6 +17,10 @@ public class TestArgumentNames {
 
     private CFLintAPI cfBugs;
 
+    
+    /** 
+     * @throws Exception Exception
+     */
     @Before
     public void setUp() throws Exception {
         final ConfigBuilder configBuilder = new ConfigBuilder().include("ARGUMENT_MISSING_NAME","ARGUMENT_INVALID_NAME","ARGUMENT_ALLCAPS_NAME","ARGUMENT_TOO_SHORT","ARGUMENT_TOO_LONG","ARGUMENT_TOO_WORDY","ARGUMENT_IS_TEMPORARY","ARGUMENT_HAS_PREFIX_OR_POSTFIX");

@@ -24,6 +24,12 @@ public class LiteralChecker extends CFLintScannerAdapter {
     protected Map<String, Integer> globalLiterals = new HashMap<>();
     protected Map<String, Integer> functionListerals = new HashMap<>();
 
+    
+    /** 
+     * @param expression expression
+     * @param context context
+     * @param bugs bugs
+     */
     // May want to consider resetting literal map on new components but this way
     // it detects duplicated literals across files which is useful
 
@@ -95,7 +101,7 @@ public class LiteralChecker extends CFLintScannerAdapter {
     /**
      * Checks if the literal is a special case that should not fire the literal checker rule
      *
-     * @param name
+     * @param name name
      * @return
      */
     private boolean isSpecial(final String name) {

@@ -20,6 +20,12 @@ public class CFCompareVsAssignChecker extends CFLintScannerAdapter {
             CFSCRIPTLexer.XOR, CFSCRIPTLexer.AND, CFSCRIPTLexer.ANDOPERATOR, CFSCRIPTLexer.EQ, CFSCRIPTLexer.NEQ,
             CFSCRIPTLexer.CONTAINS);
 
+    
+    /** 
+     * @param expression expression
+     * @param context context
+     * @param bugs bugs
+     */
     @Override
     public void expression(final CFScriptStatement expression, final Context context, final BugList bugs) {
         if (expression instanceof CFExpressionStatement) {

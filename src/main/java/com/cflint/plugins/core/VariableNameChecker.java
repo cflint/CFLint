@@ -40,6 +40,15 @@ public class VariableNameChecker extends CFLintScannerAdapter {
     private static final List<String> DEFAULT_EXCLUSIONS = Collections.singletonList("rc");
     private static final String PARAM_EXCLUSION_LIST = "ExclusionList";
 
+    
+    /** 
+     * @param element element
+     * @param context context
+     * @param bugs bugs
+     * @param begLine begLine
+     * @param offset offset
+     * @param name name
+     */
     //private final List<String> exclusions = new ArrayList<>();
 
     private void checkCFName(final Element element, final Context context, final BugList bugs, final int begLine, int offset, final String name) {
@@ -186,8 +195,8 @@ public class VariableNameChecker extends CFLintScannerAdapter {
             return;
         }
         
-        final CFScopes scope = new CFScopes();
-        final String varScope = scope.getScope(fullVariable);
+        // final CFScopes scope = new CFScopes();
+        final String varScope = CFScopes.getScope(fullVariable);
         final ValidName name = new ValidName(minVarLength, maxVarLength, maxVarWords);
 
         try {
@@ -198,13 +207,13 @@ public class VariableNameChecker extends CFLintScannerAdapter {
         
         Context parent = context.getParent(ContextType.FUNCTION);
         
-        if (name.isInvalid(scope.descope(variable),context.getConfiguration().getParameter(this, "case"))) {
+        if (name.isInvalid(CFScopes.descope(variable),context.getConfiguration().getParameter(this, "case"))) {
             parent.addUniqueMessage("VAR_INVALID_NAME", variable, this, line, offset, cfExpression);
         }
-        if (!scope.isCFScoped(variable) && name.isUpperCase(variable) && !context.getConfiguration().getParameterNotNull(this,"ignoreAllCapsInScopes").toLowerCase().contains(varScope)) {
+        if (!CFScopes.isCFScoped(variable) && name.isUpperCase(variable) && !context.getConfiguration().getParameterNotNull(this,"ignoreAllCapsInScopes").toLowerCase().contains(varScope)) {
             parent.addUniqueMessage("VAR_ALLCAPS_NAME", variable, this, line, offset, cfExpression);
         }
-        if (scope.isCFScoped(variable) && name.isUpperCase(variable) && !context.getConfiguration().getParameterNotNull(this,"ignoreUpperCaseScopes").contains(variable)) {
+        if (CFScopes.isCFScoped(variable) && name.isUpperCase(variable) && !context.getConfiguration().getParameterNotNull(this,"ignoreUpperCaseScopes").contains(variable)) {
             parent.addUniqueMessage("SCOPE_ALLCAPS_NAME", variable, this, line, offset, cfExpression);
         }
         if (name.tooShort(variable)) {

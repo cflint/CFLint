@@ -59,6 +59,12 @@ public class TestFiles {
         }
     }
 
+    
+    /** 
+     * @throws IOException IOException
+     * @throws CFLintScanException CFLintScanException
+     * @throws CFLintConfigurationException CFLintConfigurationException
+     */
     @Test
     public void test() throws IOException, CFLintScanException, CFLintConfigurationException {
         String inputString = FileUtil.loadFile(sourceFile);
@@ -150,6 +156,7 @@ public class TestFiles {
 
         final InputStream inputStream = new FileInputStream(folder.getPath() + "/.cflintrc.xml");
         try {
+            @SuppressWarnings("deprecation")
             final CFLintConfig retval = ConfigUtils.unmarshal(inputStream, CFLintConfig.class);
             return config.createNestedConfig(retval);
         } catch (final JAXBException e) {

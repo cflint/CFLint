@@ -11,6 +11,10 @@ import com.cflint.tools.CFLintFilter;
 
 public class TestCFBugsFilter {
 
+    
+    /** 
+     * @throws IOException IOException
+     */
     @Test
     public void testExclude1() throws IOException {
         BugInfo bugInfo = new BugInfo.BugInfoBuilder().setFunction("testf").setMessageCode("PARSE_ERROR").build();

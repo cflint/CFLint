@@ -9,6 +9,11 @@ import ro.fortsoft.pf4j.Extension;
 @Extension
 public class FileCaseChecker extends CFLintScannerAdapter {
 
+    
+    /** 
+     * @param fileName fileName
+     * @param bugs bugs
+     */
     @Override
     public void startFile(final String fileName, final BugList bugs) {
         String actualFileName = fileName;

@@ -24,6 +24,10 @@ public class BugInfo implements Comparable<BugInfo> {
     private String component;
     private Levels severity = Levels.UNKNOWN;
 
+    
+    /** 
+     * @return int
+     */
     public int getLine() {
         return line;
     }

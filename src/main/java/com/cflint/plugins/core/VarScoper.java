@@ -10,10 +10,13 @@ import com.cflint.BugList;
 import com.cflint.CF;
 import com.cflint.plugins.CFLintScannerAdapter;
 import com.cflint.plugins.Context;
+import com.cflint.plugins.Context.ContextType;
 
 import cfml.parsing.cfscript.CFExpression;
 import cfml.parsing.cfscript.CFFullVarExpression;
 import cfml.parsing.cfscript.CFIdentifier;
+import cfml.parsing.cfscript.CFLiteral;
+import cfml.parsing.cfscript.CFStringExpression;
 import cfml.parsing.cfscript.script.CFPropertyStatement;
 import cfml.parsing.cfscript.script.CFScriptStatement;
 import net.htmlparser.jericho.Element;
@@ -32,6 +35,12 @@ public class VarScoper extends CFLintScannerAdapter {
     private final Collection<String> scopes = Arrays.asList(CF.APPLICATION, CF.CGI, CF.COOKIE, CF.FORM, CF.REQUEST,
         CF.SERVER, CF.SESSION, CF.URL, CF.CFTHREAD);
 
+    
+    /** 
+     * @param expression expression
+     * @param context context
+     * @param bugs bugs
+     */
     @Override
     public void expression(final CFExpression expression, final Context context, final BugList bugs) {
         if (expression instanceof CFIdentifier) {
@@ -44,7 +53,14 @@ public class VarScoper extends CFLintScannerAdapter {
             }
             final String name = ((CFIdentifier) expression).getName();
             if (context.isInFunction() && context.isInAssignmentExpression()
-                && !context.getCallStack().checkVariable(name) && !isGlobal(name)) {
+                && !context.getCallStack().checkVariable(name) && !isGlobal(name)
+                ) {               
+                boolean isInLocalMode = isInLocalMode(context);
+                if(isInLocalMode) {
+                    // If in local mode, we don't want to report missing variables
+                    return;
+                }
+
                 context.addMessage("MISSING_VAR", name, context.startLine(), context.offset() + expression.getOffset());
             } else if (expression instanceof CFFullVarExpression) {
                 final CFFullVarExpression fullVarExpr = (CFFullVarExpression) expression;
@@ -53,11 +69,51 @@ public class VarScoper extends CFLintScannerAdapter {
         }
     }
 
+    private boolean isInLocalMode(Context curentContext){
+         Context functionContext =  curentContext.getParent(ContextType.FUNCTION);
+         if(functionContext == null){
+                return false;
+         }
+        Map<CFExpression, CFExpression> attributes = functionContext.getFunctionAttributes();
+        if(attributes == null || attributes.isEmpty()){
+            return false;
+        }
+        for( Map.Entry<CFExpression, CFExpression> attr : attributes.entrySet()) {
+            if(! (attr.getKey() instanceof CFIdentifier)){
+                continue;
+            }
+            CFIdentifier identifier = (CFIdentifier) attr.getKey();
+            if(!"localmode".equalsIgnoreCase(identifier.getName())){
+                continue;
+            }
+            String valueString = getValueFromCFExpression(attr.getValue());
+
+            if(valueString == null) {
+                return false;
+            }
+            
+            return "modern".equalsIgnoreCase(valueString) || "true".equalsIgnoreCase(valueString) || "yes".equalsIgnoreCase(valueString);
+        }
+        return false;
+    }
+
+
+    private String getValueFromCFExpression(final CFExpression expression) {
+        if (expression instanceof CFLiteral) {
+            return ((CFLiteral) expression).getImage();
+        } else if (expression instanceof CFStringExpression) {
+            final CFStringExpression stringExpression = (CFStringExpression) expression;
+            if (stringExpression.getSubExpressions().size() == 1 && stringExpression.getSubExpressions().get(0) instanceof CFLiteral) {
+                return getValueFromCFExpression(stringExpression.getSubExpressions().get(0));
+            }
+        }
+        return null;
+    }
+
     @Override
     public void expression(final CFScriptStatement expression, final Context context, final BugList bugs) {
         if (expression instanceof CFPropertyStatement) {
             //final CFPropertyStatement propertyStatement = (CFPropertyStatement)expression;
-            //TODO - handle properties?
         }
     }
 

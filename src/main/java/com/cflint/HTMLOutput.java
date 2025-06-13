@@ -27,6 +27,11 @@ public class HTMLOutput {
 
     /**
      * Output bug list in HTML format.
+     * @param bugList bugList
+     * @param writer writer
+     * @param stats stats
+     * @throws IOException IOException
+     * @throws TransformerException TransformerException
      */
     public void output(final BugList bugList, final Writer writer, final CFLintStats stats)
         throws IOException, TransformerException {

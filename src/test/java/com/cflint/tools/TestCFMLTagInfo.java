@@ -17,6 +17,12 @@ public class TestCFMLTagInfo {
 
     private CFMLTagInfo tagInfo;
 
+    
+    /** 
+     * @throws JsonParseException JsonParseException
+     * @throws JsonMappingException JsonMappingException
+     * @throws IOException IOException
+     */
     @Before
     public void setUp() throws JsonParseException, JsonMappingException, IOException {
         tagInfo = new CFMLTagInfo(new CFMLParser().getDictionary());

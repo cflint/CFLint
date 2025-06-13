@@ -14,6 +14,10 @@ public class TestCFAbortChecker {
 
     private CFLintAPI cfBugs;
 
+    
+    /** 
+     * @throws Exception Exception
+     */
     @Before
     public void setUp() throws Exception {
         final ConfigBuilder configBuilder = new ConfigBuilder().include("AVOID_USING_CFABORT_TAG");

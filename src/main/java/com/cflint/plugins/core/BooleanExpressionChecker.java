@@ -10,6 +10,11 @@ import cfml.parsing.cfscript.CFExpression;
 public class BooleanExpressionChecker extends CFLintScannerAdapter {
     protected int lastLineNo = -1;
 
+    
+    /** 
+     * @param fileName fileName
+     * @param bugs bugs
+     */
     // Reset the last line number
     @Override
     public void startFile(final String fileName, final BugList bugs) {

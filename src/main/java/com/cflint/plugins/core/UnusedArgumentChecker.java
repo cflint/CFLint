@@ -1,6 +1,5 @@
 package com.cflint.plugins.core;
 
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -35,6 +34,12 @@ public class UnusedArgumentChecker extends CFLintScannerAdapter {
         String casedName;
     }
     
+    
+    /** 
+     * @param element element
+     * @param context context
+     * @param bugs bugs
+     */
     @Override
     public void element(final Element element, final Context context, final BugList bugs) {
         if (element.getName().equals(CF.CFARGUMENT)) {

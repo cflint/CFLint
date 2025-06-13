@@ -1,30 +1,50 @@
 buildscript {
     repositories {
         mavenLocal()
-        jcenter {
-            url "https://jcenter.bintray.com/"
+        maven {
+            url = "https://oss.sonatype.org/content/repositories/snapshots/"
         }
         maven {
-            url "https://oss.sonatype.org/content/repositories/snapshots/"
+            url = "https://plugins.gradle.org/m2/"
+        }
+        maven { 
+            url = "https://cfmlprojects.org/artifacts" 
         }
         maven {
-            url "https://plugins.gradle.org/m2/"
-        }
-        maven {
-            url "https://cfmlprojects.org/artifacts"
+            url = "https://maven.pkg.github.com/cfmleditor/cfparser"
+            mavenContent {
+                snapshotsOnly()
+            }
+            credentials {
+                username = project.findProperty("gpr.user") ?: System.getenv("GITHUB_USERNAME")
+                password = project.findProperty("gpr.key") ?: System.getenv("GITHUB_TOKEN")
+            }
         }
     }
     dependencies {
         classpath 'com.bmuschko:gradle-nexus-plugin:2.3.1'
         classpath "io.codearte.gradle.nexus:gradle-nexus-staging-plugin:0.22.0"
         classpath "gradle.plugin.se.bjurr.gitchangelog:git-changelog-gradle-plugin:1.64"
+        // classpath "net.thebugmc.gradle:sonatype-central-portal-publisher:1.2.3"
     }
 }
 
 plugins {
     id 'java'
-    id 'com.github.johnrengelman.shadow' version '5.2.0'
+    id 'com.github.johnrengelman.shadow' version '7.1.1'
     id 'eclipse'
+    id 'signing'
+    // id 'net.thebugmc.gradle.sonatype-central-portal-publisher' version '1.2.3'
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(11)
+        vendor = JvmVendorSpec.ADOPTIUM
+    }
+    
+    withJavadocJar()
+    withSourcesJar()
 }
 
 // Helper functions and constants
@@ -56,25 +76,44 @@ def getLatestTag = { ->
 
 apply plugin: "base"
 apply plugin: "signing"
-apply plugin: "com.bmuschko.nexus"
+//apply plugin: "com.bmuschko.nexus"
 
 apply plugin: 'java'
-apply plugin: 'maven'
+apply plugin: 'maven-publish'
 apply from: 'cobertura.gradle'
-apply from: 'deploy.gradle'
-apply plugin: "se.bjurr.gitchangelog.git-changelog-gradle-plugin"
+//apply from: 'deploy.gradle'
+apply plugin: 'se.bjurr.gitchangelog.git-changelog-gradle-plugin'
+// apply plugin: "net.thebugmc.gradle.sonatype-central-portal-publisher"
 
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
+sourceCompatibility = 1.11
+targetCompatibility = 1.11
 
 repositories {
-    maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
-    maven { url "https://repo.maven.apache.org/maven2" }
-    maven { url "https://oss.sonatype.org/content/repositories/releases" }
-    maven { url "https://cfmlprojects.org/artifacts" }
+    maven { 
+        url = "https://oss.sonatype.org/content/repositories/snapshots" 
+    }
+    maven { 
+        url = "https://repo.maven.apache.org/maven2" 
+    }
+    maven { 
+        url = "https://oss.sonatype.org/content/repositories/releases" 
+    }
+    maven { 
+        url = "https://cfmlprojects.org/artifacts" 
+    }
+    maven {
+        url = "https://maven.pkg.github.com/cfmleditor/cfparser"
+        mavenContent {
+            snapshotsOnly()
+        }
+        credentials {
+            username = project.findProperty("gpr.user") ?: System.getenv("GITHUB_USERNAME")
+            password = project.findProperty("gpr.key") ?: System.getenv("GITHUB_TOKEN")
+        }
+    }
 }
 dependencies {
-    implementation group: 'com.github.cfparser', name: 'cfml.parsing', version: '2.11.0'
+    implementation group: 'com.github.cfmleditor', name: 'cfml.parsing', version: '2.14.0-SNAPSHOT'
     implementation group: 'commons-cli', name: 'commons-cli', version: '1.2'
     implementation group: 'ro.fortsoft.pf4j', name: 'pf4j', version: '0.6'
     implementation group: 'org.apache.ant', name: 'ant', version: '1.10.14'
@@ -94,7 +133,7 @@ dependencies {
 test {
     testLogging {
         exceptionFormat = 'full'
-        showExceptions true
+        showExceptions = true
         events "skipped", "failed", "standardError"
         showStandardStreams = true
     }
@@ -105,9 +144,9 @@ jar {
         attributes(
             'Main-Class': 'com.cflint.cli.CFLintCLI',
             'Implementation-Version': version,
-            'Bundle-Name': 'CFLint',
-            'Bundle-SymbolicName': 'com.cflint.CFLint',
-            'Bundle-Description': 'CFLint',
+            'Bundle-Name': 'cflint',
+            'Bundle-SymbolicName': 'io.cfmleditor.cflint',
+            'Bundle-Description': 'cflint',
             'Bundle-ManifestVersion': 2,
             'Bundle-Version': version
         )
@@ -117,14 +156,15 @@ jar {
 task fatJar(type: Jar) {
 
     manifest.from jar.manifest
-    classifier = 'all'
+    archiveClassifier.set('all')
     from {
-        configurations.runtime.collect { it.isDirectory() ? it : zipTree(it) }
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
     } {
         exclude "META-INF/*.SF"
         exclude "META-INF/*.DSA"
         exclude "META-INF/*.RSA"
     }
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     with jar
 }
 
@@ -133,14 +173,14 @@ artifacts {
 }
 
 task gitChangelog(type: se.bjurr.gitchangelog.plugin.gradle.GitChangelogTask) {
-    group "documentation"
+    group="documentation"
 
     file = new File("CHANGELOG.md");
     templateContent = file('src/main/resources/changelog.mustache').getText('UTF-8');
 }
 
 task githubChangelogGenerator {
-    group "documentation"
+    group="documentation"
 
     doLast {
         def latestTag = getLatestTag()
@@ -154,3 +194,39 @@ task githubChangelogGenerator {
         println p.text
     }
 }
+
+tasks.register('stuffZip', Zip) {
+    archiveBaseName = 'stuff'
+    from 'src/stuff'
+}
+
+// signing {
+//     sign stuffZip
+// }
+
+
+// centralPortal {
+//     pom {
+//         name = 'cfmleditor-cflint'
+//         description = 'cflint'
+//         url = "https://github.com/cfmleditor/CFLint/"
+//         licenses {
+//             license {
+//                 name = "bsd-3-clause"
+//                 url = "https://opensource.org/license/bsd-3-clause"
+//             }
+//         }
+//         developers {
+//             developer {
+//                 name = "Gareth Edwards"
+//                 email = "ghedwards@gmail.com"
+//                 organization = "cfmleditor"
+//                 organizationUrl = "https://github.com/cfmleditor/"
+//             }
+//         }
+//         scm {
+//             url = "https://github.com/cfmleditor/CFLint/"
+//         }
+//     }
+//     publishingType = USER_MANAGED
+// }

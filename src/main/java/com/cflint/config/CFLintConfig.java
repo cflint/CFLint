@@ -25,6 +25,10 @@ public class CFLintConfig extends BaseConfig {
 
     private boolean inheritParent = true;
     
+    
+    /** 
+     * @return HashMap
+     */
     public HashMap<String,Object> getParameters() {
         return parameters;
     }
@@ -71,6 +75,14 @@ public class CFLintConfig extends BaseConfig {
      */
     public List<PluginMessage> getIncludes() {
         return includes;
+    }
+
+    public PluginMessage getInclude(final PluginMessage include) {
+        final int idx = this.includes.indexOf(include);
+        if ( idx >= 0 ) {
+            return this.includes.get(idx);
+        }
+        return null;
     }
 
     @XmlElement(name = "includes")

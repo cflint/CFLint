@@ -1,8 +1,6 @@
 package com.cflint;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-
 import java.util.Collection;
 import java.util.List;
 
@@ -18,6 +16,10 @@ public class TestCFBugs_VariableNames {
 
     private CFLintAPI cfBugs;
 
+    
+    /** 
+     * @throws Exception Exception
+     */
     @Before
     public void setUp() throws Exception {
         final ConfigBuilder configBuilder = new ConfigBuilder().include("VAR_INVALID_NAME","VAR_ALLCAPS_NAME","SCOPE_ALLCAPS_NAME","VAR_TOO_SHORT","VAR_TOO_LONG","VAR_TOO_WORDY","VAR_IS_TEMPORARY","VAR_HAS_PREFIX_OR_POSTFIX");

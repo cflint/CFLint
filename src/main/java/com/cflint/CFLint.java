@@ -118,6 +118,8 @@ public class CFLint implements IErrorReporter {
     private boolean logError = false;
     private boolean quiet = false;
     private boolean debug = false;
+    @SuppressWarnings("unused")
+    private boolean threaded = false;
     private boolean showProgress = false;
     private boolean progressUsesThread = true;
     private CFLintStats stats = new CFLintStats();
@@ -146,6 +148,11 @@ public class CFLint implements IErrorReporter {
         }
     }
 
+    
+    /** 
+     * @param configFile configFile
+     * @throws IOException IOException
+     */
     public void setConfiguration(final CFLintConfiguration configFile) throws IOException {
         configuration = configFile == null ? new CFLintConfig() : configFile;
         extensions.clear();
@@ -154,7 +161,7 @@ public class CFLint implements IErrorReporter {
         exceptionListeners.clear();
         processed.clear();
         for (final PluginInfoRule ruleInfo : configuration.getRules()) {
-            addScanner(ConfigUtils.loadPlugin(ruleInfo));// TODO load them all
+            addScanner(ConfigUtils.loadPlugin(ruleInfo));
         }
         allowedExtensions.addAll(AllowedExtensionsLoader.init(RESOURCE_BUNDLE_NAME));
         bugs.clearBugList();
@@ -210,9 +217,9 @@ public class CFLint implements IErrorReporter {
         fileLoop: while (folder != null && folder.exists()) {
             for (final File file : folder.listFiles()) {
                 if (file.getName().toLowerCase().equals(".cflintrc" + getEnvSuffix())) {
-                    if (verbose) {
-                        System.out.println("read config " + file);
-                    }
+                    // if (verbose) {
+                    //     System.out.println("read config " + file);
+                    // }
                     try {
                         @SuppressWarnings("deprecation")
                         final CFLintConfig newConfig = file.getName().toLowerCase().endsWith(".xml")
@@ -341,6 +348,7 @@ public class CFLint implements IErrorReporter {
                     processStack(elements, " ", filename, null);
                 }
             }
+            beforeEndFile(filename, new Context(filename, null, null, false, handler,configuration));
             fireFinishedProcessing(filename);
         }catch(final Exception e){
             throw new CFLintScanException(e);
@@ -360,8 +368,8 @@ public class CFLint implements IErrorReporter {
     /**
      * 'Detect' if this is a pure cfscript component or interface
      * 
-     * @param src
-     * @param elements
+     * @param src src
+     * @param elements elements
      * @return
      */
     private boolean isComponentOrInterfaceScript(final String src, final List<Element> elements) {
@@ -1018,12 +1026,28 @@ public class CFLint implements IErrorReporter {
         }
     }
 
+    protected void beforeEndFile(final String srcidentifier, final Context context) {
+        for (final CFLintStructureListener structurePlugin : getStructureListeners(extensions)) {
+            try {
+                structurePlugin.beforeEndFile(srcidentifier, context, bugs);
+                for (final ContextMessage message : context.getMessages()) {
+                    reportRule(message.getOriginalContext().getElement(), null, message.getOriginalContext(), (CFLintScanner) structurePlugin, message);
+                }
+                context.getMessages().clear();
+            } catch (final Exception e) {
+                printException(e);
+                final ContextMessage cm = new ContextMessage(PARSE_ERROR, null, null, context.startLine());
+                reportRule(currentElement, null, context, null, cm);
+            }
+        }
+    }
+
     /**
      * Register any overrides from multi-line comments.
      * 
-     * @param context
+     * @param context context
      *            The current context.
-     * @param functionToken
+     * @param functionToken functionToken
      *            A token that points to the current function
      */
     protected void registerRuleOverrides(final Context context, final Token functionToken) {
@@ -1039,9 +1063,9 @@ public class CFLint implements IErrorReporter {
     }
 
     /**
-     * @param context
+     * @param context context
      *            The current context.
-     * @param expression
+     * @param expression expression
      *            The expression statement to check
      */
     protected void registerRuleOverrides(final Context context, final CFExpressionStatement expression) {
@@ -1073,9 +1097,9 @@ public class CFLint implements IErrorReporter {
     /**
      * Register any overrides from comment elements before functions/components.
      *
-     * @param context
+     * @param context context
      *            The current context.
-     * @param commentElement
+     * @param commentElement commentElement
      *            The CFML comment element
      */
     protected void applyRuleOverrides(final Context context, final Element commentElement) {
@@ -1092,13 +1116,14 @@ public class CFLint implements IErrorReporter {
 
     /**
      * 
-     * @param expression
+     * @param expression expression
      *            CF expression
-     * @param elem
+     * @param elem elem
      *            Jericho HTML element
-     * @param oldcontext
+     * @param oldcontext oldcontext
      *            The previous context
      */
+    @SuppressWarnings("unchecked")
     private void process(final CFExpression expression, final Element elem, final Context oldcontext) {
         if (expression != null) {
             final Context context = oldcontext.subContext(elem);
@@ -1141,6 +1166,7 @@ public class CFLint implements IErrorReporter {
                 // Only process function call expressions
             } else if (expression instanceof CFAssignmentExpression && !(expression instanceof CFTernaryExpression)) {
                 final Context assignmentContext = context.subContext(elem);
+                assignmentContext.setFunctionInfo(context.getFunctionInfo());
                 assignmentContext.setInAssignmentExpression(true);
                 process(((CFAssignmentExpression) expression).getLeft(), elem, assignmentContext);
                 // Right hand side is handled below. Left hand side gets a
@@ -1201,6 +1227,8 @@ public class CFLint implements IErrorReporter {
                 for (final CFExpression child : (List<CFExpression>)newExpr.getArgs()) {
                     if(child instanceof CFAssignmentExpression){
                         process(((CFAssignmentExpression)child).getRight(), elem, context.subContextInAssignment(false));
+                    }else {
+                        process(child, elem, context.subContextInAssignment(false));
                     }
                 }
             }
@@ -1218,7 +1246,7 @@ public class CFLint implements IErrorReporter {
     /**
      * Returns the previous sibling of a given element
      * 
-     * @param element
+     * @param element element
      *            The Jericho HTML element object
      * @return the previous sibling of the given element.
      */
@@ -1242,9 +1270,9 @@ public class CFLint implements IErrorReporter {
     /**
      * Check for <!--- CFLINT-DISABLE ---> in the tag hierarchy
      * 
-     * @param element
+     * @param element element
      *            The element to process
-     * @param msgcode
+     * @param msgcode msgcode
      *            The message code to check for
      * @return true if the msgcode is disabled for the given element.
      */
@@ -1322,7 +1350,7 @@ public class CFLint implements IErrorReporter {
         } else if (AVOID_EMPTY_FILES.equals(msgcode)) {
             ruleInfo = new PluginInfoRule();
             final PluginMessage msgInfo = new PluginMessage(AVOID_EMPTY_FILES);
-            msgInfo.setMessageText("CF file is empty: ${file}");
+            msgInfo.setMessageText("CF file is empty: ${filename}");
             msgInfo.setSeverity(Levels.WARNING);
             ruleInfo.getMessages().add(msgInfo);
         } else if (PARSE_ERROR.equals(msgcode)) {
@@ -1350,7 +1378,15 @@ public class CFLint implements IErrorReporter {
         final BugInfoBuilder bldr = new BugInfo.BugInfoBuilder().setMessageCode(msgcode).setVariable(nameVar)
                 .setFunction(context.getFunctionName()).setFilename(context.getFilename())
                 .setComponent(context.getComponentName());
-        bldr.setSeverity(msgInfo.getSeverity());
+
+        final PluginMessage includeMsgInfo = configuration.getInclude(msgInfo);
+
+        if ( includeMsgInfo != null && includeMsgInfo.getSeverity() != null && includeMsgInfo.getSeverity().toString() != "" ) {
+            bldr.setSeverity(includeMsgInfo.getSeverity());
+        } else {
+            bldr.setSeverity(msgInfo.getSeverity());
+        }
+        
         bldr.setMessage(msgInfo.getMessageText());
 
         if (expression instanceof CFStatement) {
@@ -1483,6 +1519,10 @@ public class CFLint implements IErrorReporter {
 
     public void setVerbose(final boolean verbose) {
         this.verbose = verbose;
+    }
+
+    public void setThreaded(final boolean threaded) {
+        this.threaded = threaded;
     }
 
     public void setLogError(final boolean logError) {

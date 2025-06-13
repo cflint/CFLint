@@ -17,6 +17,10 @@ public class TestCFBugs_ComponentName {
 
     private CFLintAPI cfBugs;
 
+    
+    /** 
+     * @throws Exception Exception
+     */
     @Before
     public void setUp() throws Exception {
         final ConfigBuilder configBuilder = new ConfigBuilder().include("USE_DISPLAY_NAME");
@@ -41,7 +45,6 @@ public class TestCFBugs_ComponentName {
         assertEquals(1, result.get(0).getLine());
     }
 
-    // TODO
     public void testDisplayNameScriptBased() throws CFLintScanException {
         final String cfcSrc = "component displayName=\"test\" {}";
         CFLintResult lintresult = cfBugs.scan(cfcSrc, "test");
@@ -49,7 +52,6 @@ public class TestCFBugs_ComponentName {
         assertEquals(0, result.size());
     }
 
-    // TODO
     public void testNameScriptBased() throws CFLintScanException {
         final String cfcSrc = "component name=\"test\" {}";
         CFLintResult lintresult = cfBugs.scan(cfcSrc, "test");

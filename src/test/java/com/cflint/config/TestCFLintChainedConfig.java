@@ -17,10 +17,17 @@ public class TestCFLintChainedConfig {
     private CFLintChainedConfig nestConfig2;
     private CFLintChainedConfig nestConfig2b;
 
+    
+    /** 
+     * @throws Exception Exception
+     */
     @Before
     public void setUp() throws Exception {
+        @SuppressWarnings("deprecation")
         final CFLintConfig config = ConfigUtils.unmarshal(sconfig0, CFLintConfig.class);
+        @SuppressWarnings("deprecation")
         final CFLintConfig config1 = ConfigUtils.unmarshal(sconfig1, CFLintConfig.class);
+        @SuppressWarnings("deprecation")
         final CFLintConfig config2 = ConfigUtils.unmarshal(sconfig2, CFLintConfig.class);
         nestConfig1 = new CFLintChainedConfig(config);
         nestConfig2 = nestConfig1.createNestedConfig(config1);

@@ -39,6 +39,11 @@ public class ConfigUtils {
         throw new IllegalStateException("ConfigUtils utility class");
     }
 
+    
+    /** 
+     * @return Marshaller
+     * @throws JAXBException JAXBException
+     */
     @Deprecated
     public static Marshaller createMarshaller() throws JAXBException {
         if (CFLintConfigContext == null) {
@@ -194,7 +199,7 @@ public class ConfigUtils {
         final String className = PLUGIN_PACKAGE + "." + shortClassName.trim();
         try {
             final Class<?> pluginClass = Class.forName(className);
-            final CFLintScanner plugin = (CFLintScanner) pluginClass.newInstance();
+            final CFLintScanner plugin = (CFLintScanner) pluginClass.getDeclaredConstructor().newInstance();
             for (final PluginParameter param : ruleInfo.getParameters()) {
                 plugin.setParameter(param.getName(), param.getValue());
             }

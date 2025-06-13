@@ -12,6 +12,12 @@ import ro.fortsoft.pf4j.Extension;
 public class CFQueryChecker extends CFLintScannerAdapter {
     private static final String NEVER_USE_QUERY_IN_CFM = "NEVER_USE_QUERY_IN_CFM";
 
+    
+    /** 
+     * @param element element
+     * @param context context
+     * @param bugs bugs
+     */
     // rule: don't allow <cfquery> tag in a .cfm file
     @Override
     public void element(final Element element, final Context context, final BugList bugs) {

@@ -63,6 +63,7 @@ public class CFLintScannerAdapter implements CFLintScanner, CFLintStructureListe
      * This can be overriden with -DcheckerClass.propertyname=value
      *
      * @param name      the name of the parameter
+     * @param infoRules infoRules
      * @return          the value of the parameter
      */
     @Deprecated
@@ -87,6 +88,9 @@ public class CFLintScannerAdapter implements CFLintScanner, CFLintStructureListe
 
     /**
      * @deprecated - Use context.getConfiguration().getParameterNotNull()
+     * @param name name
+     * @param infoRules infoRules
+     * @return string
     */
     @Deprecated
     public String getParameterNotNull(final String name, final PluginInfoRule ... infoRules ) {
@@ -98,6 +102,11 @@ public class CFLintScannerAdapter implements CFLintScanner, CFLintStructureListe
     }
     /**
      * @deprecated - Use context.getConfiguration().getParameter()
+     * @param name name
+     * @param clazz clazz
+     * @param infoRules infoRules
+     * @param <E> E
+     * @return E
     */
     @SuppressWarnings("unchecked")
     @Deprecated
@@ -130,16 +139,27 @@ public class CFLintScannerAdapter implements CFLintScanner, CFLintStructureListe
      * Return parameter split by comma
      *
      * @param name      the name of the parameter
+     * @param infoRules infoRules
      * @return          the value of the parameter as a list of strings
      */
     public List<String> getParameterAsList(final String name, final PluginInfoRule ... infoRules ) {
         return Arrays.asList(getParameterNotNull(name,infoRules).split(","));
     }
 
+    
+    /** 
+     * @param expression expression
+     * @param context context
+     * @return int
+     */
     public int currentLine(final CFExpression expression, final Context context) {
         return expression.getLine() + context.startLine() - 1;
     }
 
+    
+    /** 
+     * @return Map
+     */
     public Map<String, Object> getParams() {
         return params;
     }
@@ -149,6 +169,14 @@ public class CFLintScannerAdapter implements CFLintScanner, CFLintStructureListe
      */
     @Override
     public void startFile(final String fileName, final BugList bugs) {
+        //empty body for Adapter
+    }
+
+    /**
+     * Default implementation does nothing
+     */
+    @Override
+    public void beforeEndFile(final String fileName, final Context context, final BugList bugs) {
         //empty body for Adapter
     }
 

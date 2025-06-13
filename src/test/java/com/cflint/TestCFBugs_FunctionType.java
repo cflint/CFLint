@@ -16,9 +16,13 @@ public class TestCFBugs_FunctionType {
 
     private CFLintAPI cfBugs;
 
+    
+    /** 
+     * @throws Exception Exception
+     */
     @Before
     public void setUp() throws Exception {
-        final ConfigBuilder configBuilder = new ConfigBuilder().include("FUNCTION_TYPE_MISSING","FUNCTION_TYPE_ANY");
+        final ConfigBuilder configBuilder = new ConfigBuilder().include("FUNCTION_TYPE_MISSING","FUNCTION_TYPE_ANY","FUNCTION_ACCESS_REMOTE");
         cfBugs = new CFLintAPI(configBuilder.build());
     }
 
@@ -52,6 +56,18 @@ public class TestCFBugs_FunctionType {
         final List<BugInfo> result = lintresult.getIssues().values().iterator().next();
         assertEquals(1, result.size());
         assertEquals("FUNCTION_TYPE_ANY", result.get(0).getMessageCode());
+        assertEquals(2, result.get(0).getLine());
+    }
+
+    @Test
+    public void testAccessTypeRemote() throws CFLintScanException {
+        final String cfcSrc = "<cfcomponent>\r\n" + "<cffunction name=\"test\" access=\"remote\" returnType=\"string\">\r\n"
+                + "	<cfargument name=\"xyz\" default=\"123\" type=\"any\">\r\n" + "</cffunction>\r\n"
+                + "</cfcomponent>\r\n";
+        CFLintResult lintresult = cfBugs.scan(cfcSrc, "test");
+        final List<BugInfo> result = lintresult.getIssues().values().iterator().next();
+        assertEquals(1, result.size());
+        assertEquals("FUNCTION_ACCESS_REMOTE", result.get(0).getMessageCode());
         assertEquals(2, result.get(0).getLine());
     }
 

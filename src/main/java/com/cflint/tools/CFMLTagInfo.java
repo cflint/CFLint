@@ -15,6 +15,11 @@ public class CFMLTagInfo {
         this.dictionary = dictionary;
     }
     
+    
+    /** 
+     * @param elementName elementName
+     * @return boolean
+     */
     public boolean isTag(String elementName){
         final Tag tag = dictionary.getTag(elementName.toLowerCase());
         return tag != null;

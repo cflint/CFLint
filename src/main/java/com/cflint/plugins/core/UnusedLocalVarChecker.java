@@ -21,6 +21,12 @@ public class UnusedLocalVarChecker extends CFLintScannerAdapter {
     // LinkedHashMap is ordered.
     protected Map<String, VarInfo> localVariables = new LinkedHashMap<>();
 
+    
+    /** 
+     * @param expression expression
+     * @param context context
+     * @param bugs bugs
+     */
     @Override
     public void expression(final CFExpression expression, final Context context, final BugList bugs) {
         if (expression instanceof CFFullVarExpression) {
@@ -50,7 +56,7 @@ public class UnusedLocalVarChecker extends CFLintScannerAdapter {
         final String name = expression.getName();
         final int lineNo = expression.getLine() + context.startLine() - 1;
         final int offset = expression.getOffset() + context.offset() + 4; // 'var ' is 4 chars
-        if (!scopes.isCFScoped(name)) {
+        if (!CFScopes.isCFScoped(name)) {
             addLocalVariable(name, lineNo, offset);
         }
     }
@@ -72,7 +78,7 @@ public class UnusedLocalVarChecker extends CFLintScannerAdapter {
 
     private void checkIdentifier(final CFFullVarExpression fullVarExpression, final CFIdentifier variable) {
         final String name = variable.getName();
-        if (!scopes.isCFScoped(name)) {
+        if (!CFScopes.isCFScoped(name)) {
             localVariables.put(name.toLowerCase(), new VarInfo(name, true));
         } else if ((scopes.isLocalScoped(name) || scopes.isVariablesScoped(name)) && fullVarExpression.getExpressions().size() > 1) {
             final CFExpression variable2 = fullVarExpression.getExpressions().get(1);

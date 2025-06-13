@@ -12,6 +12,10 @@ public class TestValidNames {
 
     private ValidName name;
 
+    
+    /** 
+     * @throws Exception Exception
+     */
     @Before
     public void setUp() throws Exception {
         name = new ValidName(3, 20, 3);

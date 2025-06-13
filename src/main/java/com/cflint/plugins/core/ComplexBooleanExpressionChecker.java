@@ -10,6 +10,12 @@ import cfml.parsing.cfscript.CFExpression;
 public class ComplexBooleanExpressionChecker extends CFLintScannerAdapter {
      protected int complexThreshold = 10;
 
+    
+    /** 
+     * @param expression expression
+     * @param context context
+     * @param bugs bugs
+     */
     @Override
     public void expression(final CFExpression expression, final Context context, final BugList bugs) {
         if (expression instanceof CFBinaryExpression) {

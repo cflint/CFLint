@@ -21,12 +21,10 @@ import org.apache.commons.io.IOUtils;
 import com.cflint.Version;
 import com.cflint.api.CFLintAPI;
 import com.cflint.api.CFLintResult;
-import com.cflint.cli.Settings;
 import com.cflint.config.CFLintConfiguration;
 import com.cflint.config.CFLintPluginInfo;
 import com.cflint.config.CFLintPluginInfo.PluginInfoRule;
 import com.cflint.config.CFLintPluginInfo.PluginInfoRule.PluginMessage;
-import com.cflint.config.CFLintPluginInfo.RuleGroup;
 import com.cflint.config.ConfigBuilder;
 import com.cflint.config.ConfigUtils;
 import com.cflint.exception.CFLintConfigurationException;
@@ -63,6 +61,11 @@ public class CFLintCLI {
     private boolean strictInclude;
 	private String environmentName;
 
+    
+    /** 
+     * @param args args
+     * @throws Exception Exception
+     */
     public static void main(final String[] args) throws Exception {
         final Options commandOptions = new Options();
         final Options helpOptions = new Options();

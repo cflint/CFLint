@@ -25,6 +25,10 @@ public class XMLOutput extends StructuredOutput {
 
     /**
      * Output bug list in XML format.
+     * @param bugList bugList
+     * @param writer writer
+     * @param stats stats
+     * @throws IOException IOException
      */
     public void output(final BugList bugList, final Writer writer, final CFLintStats stats) throws IOException {
         final BugCounts counts = stats.getCounts();
@@ -139,6 +143,11 @@ public class XMLOutput extends StructuredOutput {
 
     /**
      * Output findbugs XML format.
+     * @param bugList bugList
+     * @param writer writer
+     * @param stats stats
+     * @throws IOException IOException
+     * @throws TransformerException TransformerException
      */
     public void outputFindBugs(final BugList bugList, final Writer writer, final CFLintStats stats)
             throws IOException, TransformerException {

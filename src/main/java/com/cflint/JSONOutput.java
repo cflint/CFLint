@@ -21,7 +21,7 @@ public class JSONOutput extends StructuredOutput {
     private boolean prettyPrint = true;
 
     /**
-     * Return true if pretty output.
+     * @return true if pretty output.
      */
     public boolean isPrettyPrint() {
         return prettyPrint;
@@ -29,6 +29,7 @@ public class JSONOutput extends StructuredOutput {
 
     /**
      * Turn on / off pretty print.
+     * @param prettyPrint set prettyPrint boolean
      */
     public void setPrettyPrint(final boolean prettyPrint) {
         this.prettyPrint = prettyPrint;
@@ -36,6 +37,10 @@ public class JSONOutput extends StructuredOutput {
 
     /**
      * Output bug list in JSON format.
+     * @param bugList bugList object
+     * @param writer document writer
+     * @param stats CFLint stats
+     * @throws IOException IOException
      */
     public void output(final BugList bugList, final Writer writer, final CFLintStats stats) throws IOException {
         final BugCounts counts = stats.getCounts();
@@ -81,6 +86,8 @@ public class JSONOutput extends StructuredOutput {
 
     /**
      * Output JSON start of global object and version info.
+     * @param stats stats
+     * @param jg jg
      */
     private void outputStart(final CFLintStats stats, final JsonGenerator jg) throws IOException {
         jg.writeStartObject();
@@ -92,6 +99,7 @@ public class JSONOutput extends StructuredOutput {
 
     /**
      * Output JSON end of global object.
+     * @param jg jg
      */
     private void outputEnd(final JsonGenerator jg) throws IOException {
         // end global object
@@ -102,6 +110,7 @@ public class JSONOutput extends StructuredOutput {
 
     /**
      * Output JSON start of issues.
+     * @param jg jg
      */
     private void outputStartIssues(final JsonGenerator jg) throws IOException {
         // start issues array
@@ -111,6 +120,7 @@ public class JSONOutput extends StructuredOutput {
 
     /**
      * Output JSON end of issues.
+     * @param jg jg
      */
     private void outputCloseIssues(final JsonGenerator jg) throws IOException {
         // end issues array

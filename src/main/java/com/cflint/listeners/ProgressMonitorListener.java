@@ -14,6 +14,10 @@ public class ProgressMonitorListener implements ScanProgressListener {
         progressMonitor = new ProgressMonitor(null, progressLabel, "processing", 0, 1);
     }
 
+    
+    /** 
+     * @param srcidentifier srcidentifier
+     */
     @Override
     public void startedProcessing(final String srcidentifier) {
         if (progressMonitor.isCanceled()) {

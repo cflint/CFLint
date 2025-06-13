@@ -16,6 +16,10 @@ public class TestArrayNewChecker {
 
     private CFLintAPI cfBugs;
 
+    
+    /** 
+     * @throws Exception Exception
+     */
     @Before
     public void setUp() throws Exception {
         final ConfigBuilder configBuilder = new ConfigBuilder().include("AVOID_USING_ARRAYNEW");
@@ -32,7 +36,7 @@ public class TestArrayNewChecker {
         assertEquals("AVOID_USING_ARRAYNEW", result.get(0).getMessageCode());
         assertEquals(4, result.get(0).getLine());
         assertEquals(Levels.INFO, result.get(0).getSeverity());
-        assertEquals("Use implict array construction instead (= []).", result.get(0).getMessage());
+        assertEquals("Use implicit array construction instead (= []).", result.get(0).getMessage());
     }
 
     @Test
@@ -53,7 +57,7 @@ public class TestArrayNewChecker {
         assertEquals("AVOID_USING_ARRAYNEW", result.get(0).getMessageCode());
         assertEquals(2, result.get(0).getLine());
         assertEquals(Levels.INFO, result.get(0).getSeverity());
-        assertEquals("Use implict array construction instead (= []).", result.get(0).getMessage());
+        assertEquals("Use implicit array construction instead (= []).", result.get(0).getMessage());
     }
 
 }

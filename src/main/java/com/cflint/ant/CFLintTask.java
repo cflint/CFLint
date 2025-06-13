@@ -48,6 +48,7 @@ public class CFLintTask extends Task {
     private boolean quiet;
     private final List<FileSet> filesets = new ArrayList<>();
 
+    @SuppressWarnings("deprecation")
     @Override
     public void execute() {
         FileInputStream fis = null;
@@ -75,7 +76,7 @@ public class CFLintTask extends Task {
                     }
                 }
             }
-            // TODO combine configs
+            
             final CFLint cflint = new CFLint(config);
             cflint.setVerbose(verbose);
             cflint.setQuiet(quiet);
@@ -152,6 +153,13 @@ public class CFLintTask extends Task {
         }
     }
 
+    
+    /** 
+     * @param xmlFile2 xmlFile2
+     * @param encoding encoding
+     * @return Writer
+     * @throws IOException IOException
+     */
     private Writer createWriter(final File xmlFile2, final Charset encoding) throws IOException {
         OutputStreamWriter out = null;
         FileOutputStream fos = null;

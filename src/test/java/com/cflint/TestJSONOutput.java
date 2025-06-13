@@ -24,6 +24,10 @@ public class TestJSONOutput {
         writer = new StringWriter();
     }
 
+    
+    /** 
+     * @throws IOException IOException
+     */
     @Test
     public void testOutput() throws IOException {
         BugInfo bugInfo = new BugInfo.BugInfoBuilder().setFunction("testf").setMessageCode("PARSE_ERROR")

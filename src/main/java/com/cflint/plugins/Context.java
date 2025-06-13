@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.NoSuchElementException;
 
 import org.antlr.v4.runtime.CommonTokenStream;
@@ -33,9 +34,14 @@ public class Context {
     private CFFuncDeclStatement functionInfo;
     private ContextType contextType;
     private String functionName;
+    private Map<CFExpression,CFExpression> functionAttributes;
     private boolean inAssignmentExpression;
     private boolean inStructKeyExpression;
 
+    
+    /** 
+     * @return boolean
+     */
     public boolean isInStructKeyExpression() {
 		return inStructKeyExpression;
 	}
@@ -98,6 +104,10 @@ public class Context {
 
     public String getComponentName() {
         return componentName;
+    }
+
+    public Map <CFExpression, CFExpression> getFunctionAttributes() {
+        return functionAttributes;
     }
 
     public String calcComponentName() {
@@ -464,6 +474,8 @@ public class Context {
         this.functionInfo = functionInfo;
         if (this.functionInfo != null) {
             this.functionName = functionInfo.getName() == null ? "" : functionInfo.getName().Decompile(0);
+            this.functionAttributes = functionInfo.getAttributes();
+            
         }
     }
 

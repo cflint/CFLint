@@ -119,6 +119,7 @@ public class ValidName {
      * Is a name valid?.
      *
      * @param name name of variable.
+     * @param caseType equalsIgnoreCase case type
      * @return true if name is valid or false if it is not.
      */
     public boolean isInvalid(final String name,final String caseType) {
@@ -134,13 +135,14 @@ public class ValidName {
      * Is a component name valid?.
      *
      * @param name name of variable.
+     * @param caseType equalsIgnoreCase case type
      * @return true if name is valid or false if it is not.
      */
     public boolean isInvalidComponent(final String name,final String caseType) {
     	if(name == null) {
     		return false;
     	}
-        boolean caseOk = ("PascalCase".equalsIgnoreCase(caseType)? isPascalCase(name) : isCamelCase(name));
+        // boolean caseOk = ("PascalCase".equalsIgnoreCase(caseType)? isPascalCase(name) : isCamelCase(name));
         return !validChars(name) || endsInNumber(name)
                 || !(isUpperCase(name) || isPascalCase(name) || usesUnderscores(name));
     }
@@ -394,12 +396,16 @@ public class ValidName {
     /**
      * Set the required prefixes.
      *
-     * @param prefixes
+     * @param prefixes prefix list
      */
     public void setRequiredPrefixList(final String[] prefixes) {
         this.requiredPrefixes = prefixes;
     }
 
+    
+    /** 
+     * @param minLength minLength
+     */
     public void setMinLength(int minLength) {
         this.minLength = minLength;
     }

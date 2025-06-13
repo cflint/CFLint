@@ -41,6 +41,10 @@ public class StackHandler {
         varStack.push(new Stack(""));
     }
 
+    
+    /** 
+     * @param name name
+     */
     public void addVariable(final String name) {
         varStack.peek().getVariables().add(name.toUpperCase());
     }

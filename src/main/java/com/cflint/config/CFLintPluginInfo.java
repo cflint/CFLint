@@ -24,6 +24,10 @@ public class CFLintPluginInfo {
     private List<PluginInfoRule> rules = new ArrayList<>();
     private List<RuleGroup> ruleGroups = new ArrayList<>();
 
+    
+    /** 
+     * @return List
+     */
     public List<PluginInfoRule> getRules() {
         return rules;
     }

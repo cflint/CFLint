@@ -13,9 +13,15 @@ public class TestCFLintConfig2 {
     final String sconfig2 = "<config><includes code=\"FUNCTION_HINT_MISSING\"/></config>";
     final String sconfig3 = "<config><includes code=\"ARG_HINT_MISSING\"/></config>";
 
+    
+    /** 
+     * @throws Exception Exception
+     */
     @Test
     public void test() throws Exception {
+        @SuppressWarnings("deprecation")
         CFLintConfiguration config = com.cflint.config.ConfigUtils.unmarshal(sconfig0, CFLintConfig.class);
+        @SuppressWarnings("deprecation")
         CFLintConfiguration config1 = com.cflint.config.ConfigUtils.unmarshal(sconfig1, CFLintConfig.class);
 
         assertTrue(config.includes(new PluginMessage("ARG_VAR_CONFLICT")));

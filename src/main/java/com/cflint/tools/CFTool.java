@@ -17,6 +17,12 @@ public class CFTool {
         throw new IllegalStateException("CFTool utility class");
     }
 
+    
+    /** 
+     * @param elem elem
+     * @param tagName tagName
+     * @return Element
+     */
     public static Element getNamedParent(final Element elem, final String tagName) {
     	Element parentElem = elem.getParentElement();
         while (parentElem != null && !parentElem.getName().equals(tagName)) {

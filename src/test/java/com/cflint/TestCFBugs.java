@@ -20,6 +20,11 @@ public class TestCFBugs {
 
     private CFLintAPI cfBugs;
 
+    
+    /** 
+     * @throws IOException IOException
+     * @throws CFLintConfigurationException CFLintConfigurationException
+     */
     @Before
     public void setUp() throws IOException, CFLintConfigurationException {
         final ConfigBuilder configBuilder = new ConfigBuilder().include("MISSING_VAR","GLOBAL_VAR","NESTED_CFOUTPUT","QUERYNEW_DATATYPE","MISSING_SEMI");

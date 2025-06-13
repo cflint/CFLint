@@ -26,6 +26,11 @@ public class CFLintResult {
         this.cflint = cflint;
     }
 
+    
+    /** 
+     * @return String
+     * @throws MarshallerException MarshallerException
+     */
     public String getXml() throws MarshallerException {
         final StringWriter xmlwriter = new StringWriter();
         writeXml(xmlwriter);

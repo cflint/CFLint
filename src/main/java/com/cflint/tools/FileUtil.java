@@ -16,12 +16,17 @@ public class FileUtil {
     private static final String DEFAULT_ENCODING = "UTF-8";
     private static final int BUF_SIZE = 8192;
 
+    
+    /** 
+     * @param file file
+     * @return String
+     */
     public static String loadFile(final File file) {
         FileInputStream fis = null;
         try {
             fis = new FileInputStream(file);
             try {
-                final BOMInputStream bOMInputStream = new BOMInputStream(fis);
+                BOMInputStream bOMInputStream = BOMInputStream.builder().setInputStream(fis).get();
                 final ByteOrderMark bom = bOMInputStream.getBOM();
                 final String charsetName = bom == null ? DEFAULT_ENCODING : bom.getCharsetName();
                 InputStreamReader reader = new InputStreamReader(new BufferedInputStream(bOMInputStream), charsetName);

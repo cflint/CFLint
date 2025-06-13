@@ -15,6 +15,12 @@ public class PrecedingCommentReader {
         throw new IllegalStateException("PrecedingCommentReader utility class");
     }
 
+    
+    /** 
+     * @param context context
+     * @param token token
+     * @return String
+     */
     public static String getMultiLine(final Context context, final Token token) {
         Iterable<Token> tokens = context.beforeTokens(token);
         for (Token currentTok : tokens) {

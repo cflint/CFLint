@@ -17,6 +17,10 @@ public class TestCFBugs_MethodNames {
 
     private CFLintAPI cfBugs;
 
+    
+    /** 
+     * @throws Exception Exception
+     */
     @Before
     public void setUp() throws Exception {
         final ConfigBuilder configBuilder = new ConfigBuilder().include("METHOD_INVALID_NAME","METHOD_ALLCAPS_NAME","METHOD_TOO_SHORT","METHOD_TOO_LONG","METHOD_TOO_WORDY","METHOD_IS_TEMPORARY","METHOD_HAS_PREFIX_OR_POSTFIX");

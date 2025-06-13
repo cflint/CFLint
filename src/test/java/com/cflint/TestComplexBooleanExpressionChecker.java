@@ -16,6 +16,10 @@ public class TestComplexBooleanExpressionChecker {
 
     private CFLintAPI cfBugs;
 
+    
+    /** 
+     * @throws Exception Exception
+     */
     @Before
     public void setUp() throws Exception {
         final ConfigBuilder configBuilder = new ConfigBuilder().include("COMPLEX_BOOLEAN_CHECK");

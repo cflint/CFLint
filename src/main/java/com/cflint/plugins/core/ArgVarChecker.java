@@ -7,11 +7,9 @@ import com.cflint.BugList;
 import com.cflint.plugins.CFLintScannerAdapter;
 import com.cflint.plugins.Context;
 
-import cfml.parsing.cfscript.CFAssignmentExpression;
 import cfml.parsing.cfscript.CFExpression;
 import cfml.parsing.cfscript.CFFullVarExpression;
 import cfml.parsing.cfscript.CFIdentifier;
-import cfml.parsing.cfscript.CFVarDeclExpression;
 
 public class ArgVarChecker extends CFLintScannerAdapter {
 
@@ -22,6 +20,12 @@ public class ArgVarChecker extends CFLintScannerAdapter {
 	private Set<String> unqualifiedExpression = new HashSet<>();
 	private Set<String> alreadyReportedFullExpression = new HashSet<>();
 
+	
+	/** 
+	 * @param expression expression
+	 * @param context context
+	 * @param bugs bugs
+	 */
 	@Override
 	public void expression(final CFExpression expression, final Context context, final BugList bugs) {
 		if (context.isInAssignmentExpression()){

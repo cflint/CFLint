@@ -1,14 +1,23 @@
 ﻿# CHANGE LOG
 
+## [CFLint-1.5.8](https://github.com/cfmleditor/CFLint/tree/CFLint-1.5.8) (2025-06-09)
+
+- RULES_TABLE.md for improved rule readability
+- Add `localmode` checks / support to varscoper
+
+## [CFLint-1.5.7](https://github.com/cfmleditor/CFLint/tree/CFLint-1.5.7) (2025-05-15)
+
+- Create "FUNCTION_ACCESS_REMOTE" Rule for finding use of access="remote" in UDF's
 
 ## [CFLint-1.4.1](https://github.com/cflint/CFLint/tree/CFLint-1.4.1) (2018-09-28)
+
 [Full Changelog](https://github.com/cflint/CFLint/compare/CFLint-1.4.0...CFLint-1.4.1)
 
 **Implemented enhancements:**
 
 - OSGI support [\#588](https://github.com/cflint/CFLint/issues/588)
 - Support for Safe Navigation Operator [\#579](https://github.com/cflint/CFLint/issues/579)
--  command line " -folder .\ " doesn't match any files, " -folder .\views " does [\#576](https://github.com/cflint/CFLint/issues/576)
+- command line " -folder .\ " doesn't match any files, " -folder .\views " does [\#576](https://github.com/cflint/CFLint/issues/576)
 - Add queryExecute to QueryParamChecker [\#554](https://github.com/cflint/CFLint/issues/554)
 - UNUSED\_METHOD\_ARGUMENT: Case not being retained [\#545](https://github.com/cflint/CFLint/issues/545)
 - Inconsistent ALLCAPS  [\#544](https://github.com/cflint/CFLint/issues/544)
@@ -40,6 +49,7 @@
 - Release 1.4.1 b [\#590](https://github.com/cflint/CFLint/pull/590) ([ryaneberly](https://github.com/ryaneberly))
 
 ## [CFLint-1.4.0](https://github.com/cflint/CFLint/tree/1.4.0) (2018-05-27)
+
 [Full Changelog](https://github.com/cflint/CFLint/compare/CFLint-1.3.0...1.4.0)
 
 **Implemented enhancements:**
@@ -54,7 +64,7 @@
 **Fixed bugs:**
 
 - catch variables triggering MISSING\_VAR [\#553](https://github.com/cflint/CFLint/issues/553)
--  UNUSED\_METHOD\_ARGUMENT is triggered with a function argument [\#550](https://github.com/cflint/CFLint/issues/550)
+- UNUSED\_METHOD\_ARGUMENT is triggered with a function argument [\#550](https://github.com/cflint/CFLint/issues/550)
 - Change to CFLintAPI seems to have a negative impact on passing on values for quiet/verbose. [\#524](https://github.com/cflint/CFLint/issues/524)
 - New MISSING\_VAR false positives in 1.3.0 around cfscript/tag syntax [\#517](https://github.com/cflint/CFLint/issues/517)
 - Component path not recognized as valid return type [\#500](https://github.com/cflint/CFLint/issues/500)
@@ -70,6 +80,7 @@
 - Remove inheritPlugins and output [\#368](https://github.com/cflint/CFLint/issues/368)
 
 ## [CFLint-1.3.0-RC2](https://github.com/cflint/CFLint/tree/CFLint-1.3.0-RC2) (2017-12-28)
+
 [Full Changelog](https://github.com/cflint/CFLint/compare/CFLint-1.3.0-RC1...CFLint-1.3.0-RC2)
 
 **Implemented enhancements:**
@@ -91,6 +102,7 @@
 - Improved some issue messages. [\#502](https://github.com/cflint/CFLint/pull/502) ([KamasamaK](https://github.com/KamasamaK))
 
 ## [CFLint-1.3.0-RC1](https://github.com/cflint/CFLint/tree/CFLint-1.3.0-RC1) (2017-12-24)
+
 [Full Changelog](https://github.com/cflint/CFLint/compare/CFLint-1.2.3...CFLint-1.3.0-RC1)
 
 **Implemented enhancements:**
@@ -151,6 +163,7 @@
 - Refactor levels [\#441](https://github.com/cflint/CFLint/pull/441) ([justinmclean](https://github.com/justinmclean))
 
 ## [CFLint-1.2.3](https://github.com/cflint/CFLint/tree/CFLint-1.2.3) (2017-08-12)
+
 [Full Changelog](https://github.com/cflint/CFLint/compare/CFLint-1.2.2...CFLint-1.2.3)
 
 **Closed issues:**
@@ -158,20 +171,21 @@
 - Null pointer Exception [\#408](https://github.com/cflint/CFLint/issues/408)
 
 ## [CFLint-1.2.2](https://github.com/cflint/CFLint/tree/CFLint-1.2.2) (2017-08-10)
+
 [Full Changelog](https://github.com/cflint/CFLint/compare/CFLint1.2.0...CFLint-1.2.2)
 
 ### Overview and major changes in [CFLint 1.2.2](https://github.com/cflint/CFLint/tree/CFLint1.2.2)
 
-#### Linting
+#### Linting Updates
 
-* Bugfixes for rule processing
+- Bugfixes for rule processing
 
-#### Output
+#### Output Details
 
-* Output of some rules has been improved and fixed
-* Internal changes for output processing
-* Timestamp issues in XML output sorted
-* Ducumentation for output schemas
+- Output of some rules has been improved and fixed
+- Internal changes for output processing
+- Timestamp issues in XML output sorted
+- Ducumentation for output schemas
 
 ### Details
 
@@ -216,32 +230,33 @@
 - Merging commit 8a7a538 from dev [\#381](https://github.com/cflint/CFLint/pull/381) ([KamasamaK](https://github.com/KamasamaK))
 - Add .editorconfig [\#379](https://github.com/cflint/CFLint/pull/379) ([mpaluchowski](https://github.com/mpaluchowski))
 - Align Gradle dependencies with Maven ones [\#378](https://github.com/cflint/CFLint/pull/378) ([mpaluchowski](https://github.com/mpaluchowski))
--  Added .cflintrc schema and output schemas for JSON and XML. Tweaked README. [\#377](https://github.com/cflint/CFLint/pull/377) ([KamasamaK](https://github.com/KamasamaK))
+- Added .cflintrc schema and output schemas for JSON and XML. Tweaked README. [\#377](https://github.com/cflint/CFLint/pull/377) ([KamasamaK](https://github.com/KamasamaK))
 
 ## [CFLint1.2.0](https://github.com/cflint/CFLint/tree/CFLint1.2.0) (2017-07-29)
+
 [Full Changelog](https://github.com/cflint/CFLint/compare/CFLint-1.0.1...CFLint1.2.0)
 
 ### Overview and major changes in [CFLint 1.2.0](https://github.com/cflint/CFLint/tree/CFLint1.2.0)
 
 #### Parsing
 
-* Numerous fixes for parsing CFML code, update to CFParser 2.4.10
-* Upgrade to ANTLR 4.7
+- Numerous fixes for parsing CFML code, update to CFParser 2.4.10
+- Upgrade to ANTLR 4.7
 
 #### Linting
 
-* Bugfixes for rule processing
-* Added annotation-based ignoring of rules inline in code.
-* JSON-based configuration has undergone a few changes and configuration properties have been deprecated.
+- Bugfixes for rule processing
+- Added annotation-based ignoring of rules inline in code.
+- JSON-based configuration has undergone a few changes and configuration properties have been deprecated.
 
 #### Output
 
-* Support for -showStats has been removed - scanning statistics are now always produced and displayed/included 
-* Findbugs XML output now matches the requirements for Findbugs' bugcollection.xsd and has undergone major changes from earlier versions.
-* CFLint XML output has some additional attributes for some XML elements in the output structure (no breaking changes)
-* JSON output has undergone a rework of the existing data structure to cater for the output of additional information (breaking changes)
+- Support for -showStats has been removed - scanning statistics are now always produced and displayed/included
+- Findbugs XML output now matches the requirements for Findbugs' bugcollection.xsd and has undergone major changes from earlier versions.
+- CFLint XML output has some additional attributes for some XML elements in the output structure (no breaking changes)
+- JSON output has undergone a rework of the existing data structure to cater for the output of additional information (breaking changes)
 
-### Details
+#### Additional Details
 
 **Implemented enhancements:**
 
@@ -347,6 +362,7 @@
 - Fix for \#271 [\#272](https://github.com/cflint/CFLint/pull/272) ([TheRealAgentK](https://github.com/TheRealAgentK))
 
 ## [CFLint-1.0.1](https://github.com/cflint/CFLint/tree/CFLint-1.0.1) (2017-03-13)
+
 [Full Changelog](https://github.com/cflint/CFLint/compare/CFLint-0.6.1...CFLint-1.0.1)
 
 **Implemented enhancements:**
@@ -470,6 +486,7 @@
 - Fix issue where component name was always 'source' when using -stdin [\#142](https://github.com/cflint/CFLint/pull/142) ([sjmatta](https://github.com/sjmatta))
 
 ## [CFLint-0.6.1](https://github.com/cflint/CFLint/tree/CFLint-0.6.1) (2015-12-19)
+
 [Full Changelog](https://github.com/cflint/CFLint/compare/v0.6.0...CFLint-0.6.1)
 
 **Closed issues:**
@@ -477,6 +494,7 @@
 - some tests fail while building CFLint [\#137](https://github.com/cflint/CFLint/issues/137)
 
 ## [v0.6.0](https://github.com/cflint/CFLint/tree/v0.6.0) (2015-12-15)
+
 [Full Changelog](https://github.com/cflint/CFLint/compare/CFLint0.5.1...v0.6.0)
 
 **Implemented enhancements:**
@@ -535,6 +553,7 @@
 - Rule to check for ArrayNew and suggest using \[\] instead [\#90](https://github.com/cflint/CFLint/pull/90) ([justinmclean](https://github.com/justinmclean))
 
 ## [CFLint0.5.1](https://github.com/cflint/CFLint/tree/CFLint0.5.1) (2015-10-12)
+
 [Full Changelog](https://github.com/cflint/CFLint/compare/v0.5...CFLint0.5.1)
 
 **Implemented enhancements:**
@@ -565,6 +584,7 @@
 - Added simple hint checker [\#70](https://github.com/cflint/CFLint/pull/70) ([justinmclean](https://github.com/justinmclean))
 
 ## [v0.5](https://github.com/cflint/CFLint/tree/v0.5) (2015-06-16)
+
 [Full Changelog](https://github.com/cflint/CFLint/compare/CFLint-0.4-release...v0.5)
 
 **Closed issues:**
@@ -605,21 +625,27 @@
 - link to cflint-syntastic in the README [\#52](https://github.com/cflint/CFLint/pull/52) ([displague](https://github.com/displague))
 
 ## [CFLint-0.4-release](https://github.com/cflint/CFLint/tree/CFLint-0.4-release) (2015-02-10)
+
 [Full Changelog](https://github.com/cflint/CFLint/compare/CFLint-0.3.1...CFLint-0.4-release)
 
 ## [CFLint-0.3.1](https://github.com/cflint/CFLint/tree/CFLint-0.3.1) (2015-02-06)
+
 [Full Changelog](https://github.com/cflint/CFLint/compare/0.4...CFLint-0.3.1)
 
 ## [0.4](https://github.com/cflint/CFLint/tree/0.4) (2015-02-06)
+
 [Full Changelog](https://github.com/cflint/CFLint/compare/CFLint-0.3...0.4)
 
 ## [CFLint-0.3](https://github.com/cflint/CFLint/tree/CFLint-0.3) (2015-02-06)
+
 [Full Changelog](https://github.com/cflint/CFLint/compare/CFLint-0.4...CFLint-0.3)
 
 ## [CFLint-0.4](https://github.com/cflint/CFLint/tree/CFLint-0.4) (2015-02-06)
+
 [Full Changelog](https://github.com/cflint/CFLint/compare/CFLint-0.3.0...CFLint-0.4)
 
 ## [CFLint-0.3.0](https://github.com/cflint/CFLint/tree/CFLint-0.3.0) (2015-02-05)
+
 [Full Changelog](https://github.com/cflint/CFLint/compare/CFLint-0.2.0...CFLint-0.3.0)
 
 **Implemented enhancements:**
@@ -637,7 +663,7 @@
 - Exclude WEB-INF folder [\#29](https://github.com/cflint/CFLint/issues/29)
 - cflint --version returns error [\#28](https://github.com/cflint/CFLint/issues/28)
 - Maven build fails with error. [\#27](https://github.com/cflint/CFLint/issues/27)
--  QUERYPARAM\_REQ message should reflect the cf tag version not the cf script version. [\#26](https://github.com/cflint/CFLint/issues/26)
+- QUERYPARAM\_REQ message should reflect the cf tag version not the cf script version. [\#26](https://github.com/cflint/CFLint/issues/26)
 - Default cflintexclude.json should only ignore MISSING\_VAR's in init\(\) functions, other violations should NOT be ignored [\#25](https://github.com/cflint/CFLint/issues/25)
 - \<cfset/\> on multiple lines does not process [\#21](https://github.com/cflint/CFLint/issues/21)
 - Convert bugs.add\(\) to a plugin format. [\#19](https://github.com/cflint/CFLint/issues/19)
@@ -645,6 +671,7 @@
 - Add the antlr grammar code generation to the maven build. [\#15](https://github.com/cflint/CFLint/issues/15)
 
 ## [CFLint-0.2.0](https://github.com/cflint/CFLint/tree/CFLint-0.2.0) (2014-08-12)
+
 [Full Changelog](https://github.com/cflint/CFLint/compare/CFLint-0.1.7...CFLint-0.2.0)
 
 **Closed issues:**
@@ -661,9 +688,11 @@
 - Specifying -textfile as an argument, implies -text should be set. [\#2](https://github.com/cflint/CFLint/issues/2)
 
 ## [CFLint-0.1.7](https://github.com/cflint/CFLint/tree/CFLint-0.1.7) (2014-04-03)
+
 [Full Changelog](https://github.com/cflint/CFLint/compare/CFLint-0.1.8...CFLint-0.1.7)
 
 ## [CFLint-0.1.8](https://github.com/cflint/CFLint/tree/CFLint-0.1.8) (2014-04-03)
+
 [Full Changelog](https://github.com/cflint/CFLint/compare/CFLint-0.1.6...CFLint-0.1.8)
 
 **Closed issues:**
@@ -671,22 +700,26 @@
 - ignore .cfm~ files [\#1](https://github.com/cflint/CFLint/issues/1)
 
 ## [CFLint-0.1.6](https://github.com/cflint/CFLint/tree/CFLint-0.1.6) (2014-04-01)
+
 [Full Changelog](https://github.com/cflint/CFLint/compare/CFLint-0.1.5...CFLint-0.1.6)
 
 ## [CFLint-0.1.5](https://github.com/cflint/CFLint/tree/CFLint-0.1.5) (2014-02-08)
+
 [Full Changelog](https://github.com/cflint/CFLint/compare/CFLint-0.1.4...CFLint-0.1.5)
 
 ## [CFLint-0.1.4](https://github.com/cflint/CFLint/tree/CFLint-0.1.4) (2013-12-27)
+
 [Full Changelog](https://github.com/cflint/CFLint/compare/CFLint-0.1.3...CFLint-0.1.4)
 
 ## [CFLint-0.1.3](https://github.com/cflint/CFLint/tree/CFLint-0.1.3) (2013-12-19)
+
 [Full Changelog](https://github.com/cflint/CFLint/compare/CFLint-0.1.2...CFLint-0.1.3)
 
 ## [CFLint-0.1.2](https://github.com/cflint/CFLint/tree/CFLint-0.1.2) (2013-12-06)
+
 [Full Changelog](https://github.com/cflint/CFLint/compare/0.1.0...CFLint-0.1.2)
 
 ## [0.1.0](https://github.com/cflint/CFLint/tree/0.1.0) (2013-11-23)
-
 
 \* *This Change Log was automatically generated by [github_changelog_generator](https://github.com/skywinder/Github-Changelog-Generator)*
 

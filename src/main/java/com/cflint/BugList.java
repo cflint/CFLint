@@ -25,6 +25,10 @@ public class BugList implements Iterable<BugInfo> {
         this.filter = filter;
     }
 
+    
+    /** 
+     * @return CFLintFilter
+     */
     public CFLintFilter getFileFilter() {
         return fileFilter;
     }

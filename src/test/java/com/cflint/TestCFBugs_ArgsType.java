@@ -16,6 +16,10 @@ public class TestCFBugs_ArgsType {
 
     private CFLintAPI cfBugs;
 
+    
+    /** 
+     * @throws Exception Exception
+     */
     @Before
     public void setUp() throws Exception {
         final ConfigBuilder configBuilder = new ConfigBuilder().include("ARG_TYPE_MISSING","ARG_TYPE_ANY");

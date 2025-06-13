@@ -15,6 +15,11 @@ import com.cflint.config.CFLintPluginInfo.PluginInfoRule.PluginParameter;
 
 public class CFLintDoc {
 
+    
+    /** 
+     * @param pluginInfo pluginInfo
+     * @param print print
+     */
     public static void generateRuleGroup(final CFLintPluginInfo pluginInfo, final PrintWriter print){
         final Map<String, PluginMessage> allCodes = new LinkedHashMap<>();
         for (final PluginInfoRule rule : pluginInfo.getRules()) {

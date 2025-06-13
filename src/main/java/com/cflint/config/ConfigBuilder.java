@@ -52,6 +52,7 @@ public class ConfigBuilder {
      * @return                  this ConfigBuilder
      * @throws  Exception       exception when configuration fails
      */
+    @SuppressWarnings("deprecation")
     public ConfigBuilder addCustomConfig(final String fileName) throws Exception {
         File file = new File(fileName);
         configFileConfig = file.getName().toLowerCase().endsWith(".xml")

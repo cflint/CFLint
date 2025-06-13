@@ -24,6 +24,11 @@ public class SimpleComplexityChecker extends CFLintScannerAdapter {
     private int functionLineNo = 1;
     private int functionOffset = 0;
 
+    
+    /** 
+     * @param fileName fileName
+     * @param bugs bugs
+     */
     @Override
     public void startFile(final String fileName, final BugList bugs) {
         complexity = 0;
@@ -69,8 +74,7 @@ public class SimpleComplexityChecker extends CFLintScannerAdapter {
         } else {
             if (name.equalsIgnoreCase(CF.CFIF) || name.equalsIgnoreCase(CF.CFELSE) || name.equalsIgnoreCase(CF.CFELSEIF)
                 || name.equalsIgnoreCase(CF.CFLOOP) || name.equalsIgnoreCase(CF.CFWHILE)
-                || name.equalsIgnoreCase(CF.CFOUTPUT) // TODO could check for
-                // query=
+                || name.equalsIgnoreCase(CF.CFOUTPUT) 
                 || name.equalsIgnoreCase(CF.CFCASE) || name.equalsIgnoreCase(CF.CFDEFAULTCASE)
                 || name.equalsIgnoreCase(CF.CFTRY) || name.equalsIgnoreCase(CF.CFCATCH)) {
                 complexity++;

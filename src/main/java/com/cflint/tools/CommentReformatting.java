@@ -11,6 +11,11 @@ public class CommentReformatting {
         throw new IllegalStateException("CommentReformatting utility class");
     }
 
+    
+    /** 
+     * @param value value
+     * @return String
+     */
     public static String wrap(final String value) {
         Stack<Integer> stack = new Stack<>();
         StringBuilder sb = new StringBuilder(value);
